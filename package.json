@@ -1,0 +1,44 @@
+{
+  "name": "dynasty-wars-ga",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Dynasty Wars - Battle of Red Cliffs: a browser beat'em up inspired by classic Three Kingdoms arcade games. All art and audio is original.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "e2e": "playwright test --project=chromium",
+    "signal": "playwright test --project=selfplay",
+    "vision": "playwright test --project=vision --workers=1",
+    "prodbuild": "playwright test --config=playwright.prodbuild.config.ts",
+    "loop": "node scripts/run-loop.mjs",
+    "loop:check": "node scripts/run-loop.mjs --dry-run",
+    "loop:test": "node scripts/test-loop.mjs",
+    "loop:schedule": "node scripts/schedule-loop.mjs",
+    "loop:schedule:test": "node scripts/test-schedule.mjs",
+    "deploy:test": "node scripts/test-deploy.mjs"
+  },
+  "dependencies": {
+    "phaser": "3.90.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@napi-rs/canvas": "1.0.9",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.10.1",
+    "@types/pngjs": "6.0.5",
+    "eslint": "10.10.0",
+    "pngjs": "7.0.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0",
+    "vite": "8.3.0",
+    "vitest": "5.0.0"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dynasty-wars-ga.local/loop/config.schema.json",
+  "title": "Model-neutral loop runner configuration v1",
+  "description": "Default config is shallow-overlaid by optional config.local.json. An explicit --config loads only that file. Adapter settings request policy; they do not enforce a sandbox. A local overlay may omit version; a standalone configuration must include it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version"],
+  "properties": {
+    "version": { "const": 1 },
+    "adapter": { "type": ["string", "null"], "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$", "default": null },
+    "model": { "type": ["string", "null"], "minLength": 1, "default": null },
+    "mode": { "type": "string", "pattern": "^(?:[Aa][Uu][Tt][Oo]|[Cc][Oo][Nn][Ss][Uu][Mm][Ee][Rr]|[Pp][Rr][Oo][Dd][Uu][Cc][Ee][Rr])$", "default": "Auto" },
+    "iterations": { "type": "integer", "minimum": 1, "maximum": 1000, "default": 1 },
+    "intervalSeconds": { "type": "number", "minimum": 0, "maximum": 86400, "default": 0 },
+    "timeoutSeconds": { "type": "number", "minimum": 0.001, "maximum": 86400, "default": 3600 },
+    "delaySeconds": { "type": "number", "minimum": 0, "maximum": 86400 },
+    "startAt": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{1,3})?(?:Z|[+-]\\d\\d:\\d\\d)$", "description": "Explicit offset/Z required; at execution no more than 24 hours ahead. Past times are rejected." },
+    "adapters": {
+      "type": "object",
+      "default": {},
+      "propertyNames": { "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$" },
+      "properties": {
+        "codex": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "executable": { "type": "string", "minLength": 1, "description": "Optional explicit path to actual npm JS entry or native binary, not cmd/bat/ps1 shim." }
+          }
+        }
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["executable", "args"],
+        "properties": {
+          "executable": { "type": "string", "minLength": 1 },
+          "args": { "type": "array", "items": { "type": "string" }, "allOf": [
+            { "contains": { "type": "string", "pattern": "\\{requestFile\\}" } },
+            { "contains": { "type": "string", "pattern": "\\{resultFile\\}" } }
+          ], "description": "Literal argv, never shell syntax. Only {requestFile} and {resultFile} substitutions are supported, both required." },
+          "inheritStdin": { "type": "boolean", "default": false }
+        }
+      }
+    }
+  },
+  "not": { "required": ["delaySeconds", "startAt"] }
+}

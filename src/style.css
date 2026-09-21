@@ -1,0 +1,57 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #0a0a0a;
+  height: 100%;
+}
+
+#game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*
+   * A DEFINITE height, not merely a minimum.
+   *
+   * Phaser's Scale.FIT measures THIS element to decide how big the canvas may
+   * be. Given `min-height` alone the element grows to whatever the canvas
+   * wants, so FIT satisfied the width and let the height run: on a phone in
+   * landscape (863x360) the canvas came out 863x485, anchored at the top, and
+   * a quarter of the game sat below the fold - including the d-pad and two of
+   * the three action buttons, which is the whole of the touch controls bar one.
+   *
+   * Desktop never showed it, because a desktop window is close enough to 16:9
+   * that fitting the width fits the height too, and portrait never showed it
+   * because fitting to width is the right answer there. Only a viewport WIDER
+   * than 16:9 exposes it, which is exactly how a phone is held to play this.
+   *
+   * The `dvh` override is a separate RULE rather than a second declaration
+   * here. Written as two declarations on one selector the production minifier
+   * reads them as a duplicate property and keeps only the last, so the shipped
+   * CSS carried `height:100dvh` alone - and a browser without `dvh` (iOS
+   * Safari 15.3 and earlier) drops that as invalid, leaving no height at all
+   * and restoring the bug described above. An `@supports` block is not a
+   * duplicate property, so it survives.
+   */
+  height: 100vh;
+  /* Letterbox bars around the 16:9 canvas. */
+  background: radial-gradient(circle at 50% 0%, #181018, #000 70%);
+}
+
+/*
+ * The dynamic viewport where it exists, so the box stays right as the mobile
+ * URL bar comes and goes. Kept apart from the rule above deliberately - see
+ * the note there.
+ */
+@supports (height: 100dvh) {
+  #game {
+    height: 100dvh;
+  }
+}
+
+canvas {
+  /* Modern 2D: smooth scaling, no nearest-neighbor blockiness. */
+  image-rendering: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}

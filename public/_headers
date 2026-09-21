@@ -1,0 +1,15 @@
+# Cloudflare Pages header rules.
+#
+# Vite's bundles carry a content hash in their filename, so they are safe to
+# cache hard. Anything the app fetches by a FIXED name is not: if such a file
+# is later changed or removed, a long edge cache keeps serving the old copy
+# long after the deploy.
+#
+# That is what split the deployed game from the local one. `assets/manifest.json`
+# was deleted from the build, but Cloudflare went on serving it with
+# `s-maxage=604800` - seven days - along with the placeholder sprites it named,
+# so the deployed game loaded art the bundle no longer shipped. The build now
+# decides whether baked art exists (see vite.config.ts), and this keeps the
+# manifest itself revalidating for when real baked art does ship.
+/assets/manifest.json
+  Cache-Control: no-cache

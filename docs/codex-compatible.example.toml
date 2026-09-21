@@ -1,0 +1,16 @@
+# OPTIONAL CODEX ADAPTER EXAMPLE ONLY, not GA's canonical configuration.
+# For a compatible Codex version, merge this provider into your USER configuration.
+# Consult your installed CLI's profile documentation; GA does not load this file.
+# Historical CX example location: ~/.codex/compatible.config.toml.
+# Windows: %USERPROFILE%\.codex\compatible.config.toml
+# Replace model ID and URL with values supported by your provider.
+# Set CODEX_COMPATIBLE_API_KEY via your provider's authentication workflow.
+# Never paste a key into this file or any tracked project file.
+model = "REPLACE_WITH_TOOL_CAPABLE_MODEL_ID"
+model_provider = "compatible"
+
+[model_providers.compatible]
+name = "Owner-configured compatible provider"
+base_url = "https://REPLACE_WITH_PROVIDER_HOST/v1"
+env_key = "CODEX_COMPATIBLE_API_KEY"
+wire_api = "responses"

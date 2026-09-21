@@ -1,0 +1,1990 @@
+# Tasks Archive
+
+Oldest DONE tasks, moved out of TASKS.md once the count passed
+20. Never read during an iteration; consult only for completed work detail.
+
+### TASK-001 - Project setup and working verification commands
+
+- Status: DONE
+- Requirement:
+  Make this repository buildable and testable, so that every later iteration has
+  something real to verify against. Every command listed under `Commands` in
+  `PROJECT.md` must actually run. Choose the stack and tooling that suit the
+  requirements in `PROJECT.md`, and update that command list if the names differ
+  from what was guessed before the project existed.
+  If the repository is already scaffolded, confirm each command runs and mark
+  this task `DONE` without further change.
+- Acceptance criteria:
+  - [x] Every command listed under `Commands` in `PROJECT.md` runs and succeeds
+  - [x] A `.gitignore` exists covering dependencies, build output, logs, and
+        environment files, so no commit can capture secrets or generated files
+  - [x] At least one test exists and is executed by the test command, so that a
+        passing test run means something
+  - [x] The project builds, or starts, whichever applies to it
+- Non-goals:
+  - Do not implement any feature requirement here. Feature work starts at `TASK-002`.
+  - Do not add tools the requirements do not call for.
+
+### TASK-002 - Vertical slice: one hero, one field, walk + attack, one enemy type
+
+- Status: DONE
+- Requirement:
+  Build the smallest playable slice of the beat'em up. One fixed hero
+  (Zhao Yun 趙雲); a stage-1 field segment with a side-scrolling camera and a
+  walkable depth band (2.5D: x along stage, y depth, z jump height); 8-way
+  walking clamped to the band; a 3-hit ground attack combo driven by data
+  tables; one enemy type (soldier) that walks in, approaches the player,
+  swings, suffers hitstun, and dies; one wave of 4 soldiers; the camera stays
+  locked until the wave is cleared. Game logic lives in pure `src/core/`
+  modules (entities as plain data, fixed 1/60s tick, seeded RNG); Phaser
+  scenes only render and forward input. Placeholder graphics generated
+  programmatically under a strict texture-key convention.
+- Acceptance criteria:
+  - [x] Unit: wave-1 spawn positions are produced by sim construction from a seed
+  - [x] Unit: scripted attack inputs kill a soldier in exactly ceil(hp/dmg) hits
+  - [x] Unit: a soldier swing damages the player
+  - [x] Unit: twin sims with same seed and identical scripted inputs serialize
+        identically after 600 ticks (determinism keystone)
+  - [x] E2E: Enter starts the game scene; arrow keys move the player (snapshot
+        position delta); attack key puts the player in `attack` state
+  - [x] Signal (`npm run signal`): a deterministic greedy bot clears wave 1
+        within a tick budget with no invariant violations
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No character select, jump, grab, items, or bosses yet (later tasks).
+  - No pixel-art assets; programmatic placeholders only.
+
+### TASK-003 - Jump, jump attack, knockdown/getup i-frames, spearman + archer enemies
+
+- Status: DONE
+- Requirement:
+  Add vertical movement and defensive depth: jump with a z-curve, jump attack
+  that hits only while airborne, knockdown followed by an invulnerable getup
+  window (i-frames), and two new enemy archetypes: spearman (longer reach,
+  slower swing) and archer (fires projectiles across the field).
+- Acceptance criteria:
+  - [x] Unit: jump z-curve rises and lands deterministically; jump attack
+        connects only while z > 0
+  - [x] Unit: knocked-down entity is invulnerable until its getup window ends
+  - [x] Unit: spearman reach exceeds soldier reach; archer projectile travels
+        and can hit the player
+  - [x] E2E: jump key raises the player z value in the debug snapshot
+  - [x] Signal: greedy bot survives through wave 3 with invariants intact
+        (cleared all 3 waves at tick 1680, 46/120 hp, zero violations)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No grab/throw, no special moves, no items yet.
+
+### TASK-004 - Grab/throw, desperation special, crates, food, weapons
+
+- Status: DONE
+- Requirement:
+  Complete the core combat verbs: grab an adjacent enemy and throw it (thrown
+  body damages other enemies); a desperation special attack that costs HP and
+  grants i-frames; breakable crates/barrels that drop loot from a seeded
+  table; food items that heal (capped at max HP); weapon pickups that change
+  attack damage/reach while held.
+- Acceptance criteria:
+  - [x] Unit: grab requires adjacency and correct facing; throw deals damage
+        plus collateral hits on other enemies
+  - [x] Unit: special costs the exact HP amount and grants i-frames
+  - [x] Unit: crate loot table honors the seed; food heal caps at maxHp
+  - [x] Signal: bot demonstrably picks up food when hurt and uses the special
+        when surrounded (cleared 3 waves, foodEaten=2, specialsUsed=1, 69 hp)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No bosses, no stage progression yet.
+
+### TASK-005 - Character select screen with all five heroes
+
+- Status: DONE
+- Requirement:
+  Add a character-select scene between title and stage, offering Guan Yu 關羽,
+  Zhang Fei 張飛, Zhao Yun 趙雲, Huang Zhong 黃忠, and Wei Yan 魏延 (English
+  name plus Chinese characters). Per-character stats and special-move data in
+  `characters.ts`; the HUD shows the selected hero's name.
+- Acceptance criteria:
+  - [x] E2E: selecting each of the 5 heroes boots the game with the correct
+        character id in the debug snapshot
+  - [x] Unit: every character's attack/special data passes a schema sanity
+        check (positive damage, frame counts sum correctly)
+  - [x] Unit: per-character stat differences are reflected in sim (e.g. speed,
+        damage values differ per table)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No unique art per hero beyond distinct placeholder colors/labels.
+
+### TASK-006 - Stage 1 boss Li Dian 李典 and stage-clear flow
+
+- Status: DONE
+- Requirement:
+  Add the stage-1 boss Li Dian 李典 with an original attack-pattern state
+  machine (approach / combo / charge / enrage below 30% HP), a boss HP bar,
+  and the stage-clear flow: boss death -> result screen (score, time) ->
+  return to title.
+- Acceptance criteria:
+  - [x] Unit: boss pattern transitions follow the FSM, including enrage at the
+        HP threshold; boss death emits a `stageclear` event
+  - [x] Signal: greedy bot clears stage 1 end-to-end within a tick budget,
+        invariants intact (3120 ticks, 120/120 hp, score 2300)
+  - [x] E2E: result screen appears after boss defeat and returns to title
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No additional stages; no audio (later enhancements).
+
+## Enhancements
+
+Add future enhancement tasks below this heading.
+
+### TASK-007 - Game-over/continue flow with lives
+
+- Status: DONE
+- Requirement:
+  Player death must not silently stall the game. On death: a CONTINUE?
+  countdown overlay (9 -> 0, arcade style). Enter during the countdown spends
+  one life and revives the player at the current wave with full HP; the
+  countdown expiring (or starting with no lives left) goes to a GAME OVER
+  screen, then title. A run starts with 3 lives. Lives and score persist
+  across stage transitions (a run-state object carried across scenes); game
+  over resets them.
+- Acceptance criteria:
+  - [x] Unit: player death flips sim phase to 'gameover' with an event;
+        revive restores full HP to idle state and decrements lives
+  - [x] Unit: revive with 0 lives remaining is rejected
+  - [x] E2E: idle player dies -> continue screen appears -> Enter revives
+        with full HP; letting the countdown expire reaches game over -> title
+  - [x] Signal: existing stage-1 clear run stays green (bit-identical:
+        3120 ticks, 120 hp, score 2300)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No score persistence beyond the run; no difficulty scaling on continue.
+
+### TASK-008 - Strengthen the producer signal
+
+- Status: DONE
+- Requirement:
+  Widen the self-play harness so the producer keeps finding real issues:
+  (a) a marathon mode that clears stage 1 as EACH of the five heroes (report
+  per-hero ticks/hp); (b) an idle-bot run that must reach the game-over
+  phase (proves the death path); (c) perf invariants checked each poll:
+  live entity count stays bounded, and snapshot serialization stays stable.
+  The signal stays deterministic and reports a consolidated JSON summary.
+- Acceptance criteria:
+  - [x] Signal run includes all five heroes clearing stage 1, each with zero
+        violations (guanyu/zhaoyun/zhangfei/huangzhong/weiyan all clear)
+  - [x] Signal run includes an idle-bot game-over assertion (dies at tick 1380)
+  - [x] Perf invariant: live entity count never exceeds a bound (40)
+  - [x] `npm run signal` reports the consolidated per-hero JSON summary
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No load/stress tooling beyond the bounded invariants above.
+
+### TASK-009 - Stage 2 (Xiahou Dun 夏侯惇) + stage-progression machinery
+
+- Status: DONE
+- Requirement:
+  Add stage 2 and the machinery for progressing between stages: result
+  screen Enter now advances to the NEXT stage (not title) until the final
+  one. Stage 2 (Xinye Fields 新野) gets its own length, wave tables, props,
+  and boss Xiahou Dun 夏侯惇 with a distinct pattern (faster cadence, longer
+  charge). Score and lives carry over via the run state from TASK-007.
+- Acceptance criteria:
+  - [x] Unit: stage-2 spawn tables are deterministic from the seed; Xiahou
+        Dun's data differs from Li Dian's and passes the boss schema checks
+  - [x] E2E: clearing stage 1 -> result -> Enter -> game scene boots stage 2
+        (snapshot stageId) with score carried over
+  - [x] Signal: marathon clears stages 1-2 back to back (all five heroes;
+        zhangfei/huangzhong/weiyan each used 1 continue on stage 2)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No new enemy archetypes; difficulty comes from wave tables and boss data.
+
+### TASK-010 - Stages 3-5 with bosses Xu Chu 許褚, Cao Ren 曹仁, Zhang Liao 張遼
+
+- Status: DONE
+- Requirement:
+  Stages 3, 4, and 5, each with its own stage name (bilingual), length, wave
+  tables, props, and boss. Bosses must differ measurably in pattern data
+  (speed, reach, think cadence, enrage ratio) and at least one signature
+  attack each (new attack defs allowed). Suggested flavor: Xu Chu
+  charge-heavy, Cao Ren defensive with more HP, Zhang Liao fast.
+- Acceptance criteria:
+  - [x] Unit: each new boss's FSM data validates (schema check across all
+        bosses) and enrage ratios differ per boss (0.25/0.30/0.35/0.40/0.45)
+  - [x] Signal: marathon clears stages 1-5 within a bounded budget (zhaoyun
+        5-stage run; all other heroes clear stages 1-2)
+  - [x] E2E: stage 3 boots and plays via the bridge
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No horseback sections yet (separate future enhancement).
+
+### TASK-011 - Stages 6-9, final boss Lu Bu 呂布, game-complete screen
+
+- Status: DONE
+- Requirement:
+  Stages 6-9 with bosses Xu Huang 徐晃, Zhang He 張郃, Cao Cao 曹操, and the
+  final boss Lu Bu 呂布 (highest HP, most aggressive pattern). Clearing
+  stage 9 shows a GAME COMPLETE screen (score, total time) before title,
+  and the run state resets.
+- Acceptance criteria:
+  - [x] Unit: all nine stages have valid, seed-deterministic spawn tables;
+        Lu Bu's HP (400) and heavy damage (20) exceed every other boss
+  - [x] Signal: full 9-stage marathon completes (zhaoyun, 30650 score,
+        continues spent but never exhausted thanks to 1UP milestones)
+  - [x] E2E: clearing stage 9 shows the game-complete screen, then title
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No endings/credits story screens beyond the game-complete screen.
+
+### TASK-012 - Programmatic audio: sfx and music
+
+- Status: DONE
+- Requirement:
+  100% original, programmatically generated audio: WebAudio oscillator sfx
+  (attack swing, hit, KO, pickup, special, jump, throw, boss enrage) driven
+  by the sim's per-tick event stream, plus a simple procedural music loop on
+  title and game scenes. Audio unlocks on the first user gesture (Enter on
+  the title screen). Mute toggle on a key (M).
+- Acceptance criteria:
+  - [x] Unit: event-to-sfx mapping covers the event types and returns
+        deterministic parameters
+  - [x] E2E: after the Enter gesture, scripted combat produces a non-empty
+        sfx event queue (assert the queue, not the audio device)
+  - [x] Signal stays green (audio must not affect determinism; canonical run
+        reports sfxPlayed > 100)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No sampled audio files, no music tracks beyond the procedural loop.
+
+### TASK-013 - Animation and placeholder-art polish
+
+- Status: DONE
+- Requirement:
+  Upgrade the programmatic placeholders without external assets: 2-frame
+  walk cycles, attack lunge poses, lying-down knockdown pose, jump pose,
+  larger boss sprites, and a ground shadow ellipse under each entity. All
+  textures remain generated under the existing key convention so a future
+  pixel-art pass only swaps texture generation.
+- Acceptance criteria:
+  - [x] E2E: walking cycles the walk frames (walk0/walk1 texture keys seen),
+        and a knockdown renders the lying pose (`:down` texture key)
+  - [x] Signal stays green; screenshots show distinct poses per state
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No hand-drawn or AI-generated image files; no sprite sheets yet.
+
+### TASK-014 - Horseback combat
+
+- Status: DONE
+- Requirement:
+  The arcade's signature mount: a horse stands as a prop in stage 2 and
+  stage 6. Walking into it mounts the player. Mounted: faster movement
+  (2.2 px/tick), a long spear-sweep attack replacing the ground combo, no
+  jump/grab/special. Enemy hits while mounted damage the horse (20 hp);
+  at 0 the horse flees off-screen and the player dismounts with i-frames.
+  The self-play bot seeks and uses horses.
+- Acceptance criteria:
+  - [x] Unit: walking into the horse mounts it; mounted speed/attack differ
+        from on-foot; jump/grab/special are disabled while mounted
+  - [x] Unit: hits redirect to the horse; at horse hp 0 the horse flees and
+        the player dismounts with i-frames
+  - [x] E2E: scripted approach mounts the horse (snapshot mounted=true,
+        horseHp=20, mounted speed exceeds on-foot)
+  - [x] Signal: stays green (7/7); bot mounts the stage-2 horse at tick 43
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No mounted special/charge move, no horse for enemies, no horse
+    selection. Stages other than 2 and 6 get no horses.
+
+## Archived 2026-09-15 (finished before and during the UI-FIX series)
+
+### TASK-015 - Pixel-art sprite swap
+
+- Status: DONE
+- Requirement:
+  Replace the generated rectangle placeholders with original pixel-art
+  sprites, hand-authored as typed pixel-map data in code (no image files,
+  nothing copyrighted), loaded as spritesheets under the EXISTING texture
+  keys (`entity:<kind>:<pose>`, `entity:<prop>`). Each of the 5 heroes, 3
+  grunt types, 9 bosses, horse, and props get distinct readable pixel
+  sprites in the existing pose set.
+- Acceptance criteria:
+  - [x] Unit: every kind/pose key used by the game has a pixel-map texture
+        registered (convention check across the full key list; all maps
+        rectangular and palette-covered; every kind visually distinct)
+  - [x] E2E: game boots with the new textures (texture keys unchanged);
+        walk cycle and down pose still asserted (anim spec green)
+  - [x] Signal stays green (7/7)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No external image files, no AI-generated art, no animation-state changes
+    (poses and timing stay as they are).
+
+### TASK-016 - Strengthen producer probes
+
+- Status: DONE
+- Requirement:
+  New probe axes for the saturated signal: (a) multi-seed sweep - the
+  canonical zhaoyun stage-1 clear runs under 3 additional seeds and must
+  pass each; (b) weapon assertion - the bot must pick up and use a sword
+  when one drops (assert player.weapon via snapshot); (c) perf invariant -
+  the harness records wall-clock per 1000 ticks and fails above a budget.
+- Acceptance criteria:
+  - [x] Signal: canonical clear passes under seeds 42, 7, 1337, 2024 (seed
+        sweep spec; all four clear stage 1)
+  - [x] Signal: a run demonstrably picks up and fights with the sword
+        (weapon probe, seed 4: sword in hand at tick 300)
+  - [x] Signal: perf invariant in the JSON summary (ms per 1000 ticks via
+        in-page synchronous bench; 7ms vs 1000ms budget)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No load testing, no new gameplay assertions beyond the three axes.
+
+### TASK-017 - AI art pipeline + BootScene + sample sprite
+
+- Status: DONE
+- Requirement:
+  Build the AI-art asset pipeline: scripts/bake-art.mjs (Node + pngjs)
+  chroma-keys the corner-sniffed backdrop color (magenta/green/blue snapped),
+  despills edges, trims the alpha bbox, downscales into a fixed per-kind frame
+  box (feet bottom-center, never upscale), and writes
+  public/assets/sprites/<kind>/<pose>.png plus public/assets/manifest.json
+  (per-kind atomic: a kind ships only when all its poses exist). Add a
+  BootScene that loads the manifest (relative URL) and preloads images under
+  the existing texture keys before the title screen; missing keys fall back
+  to the pixel-map pipeline (unchanged). Produce one end-to-end sample:
+  zhaoyun idle sprite via the Gemini image tool, baked and shown in-game.
+- Acceptance criteria:
+  - [x] Unit: bake helpers (key-color sniff, alpha ramp, trim, compose-into-
+        box) verified on synthetic pixel arrays; manifest per-kind atomicity
+        enforced
+  - [x] E2E: with the sample manifest present, the game boots and the zhaoyun
+        idle texture is the baked PNG (36x46 vs 30x40 fallback); pixel
+        fallback intact for unbaked kinds
+  - [x] Signal stays green (12/12)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Note: the sample sprites are programmatic stand-ins (scripts/
+  make-sample.mjs) because the Gemini image API quota was exhausted (limit 0
+  on the free tier for the image model). TASK-018/019 generate real art when
+  quota allows; until then they are effectively quota-blocked.
+- Non-goals:
+  - No mass generation yet (that's TASK-018/019); no background art (TASK-020).
+
+### TASK-021 - Game feel: hit-stop, shake, sparks, combo counter, dust
+
+- Status: DONE
+- Requirement:
+  Add hit-stop (sim.freezeTicks: 2 ticks per hit, 5 per KO, 8 on boss KO,
+  max-not-sum, set in stepSim by scanning this tick's events; frozen ticks
+  advance tick but skip world updates). Fix the validated landmine first:
+  replace jumpStartTick with an airTicks counter so frozen ticks can't
+  fast-forward the jump parabola. Add combo counter (sim.stats.comboHits,
+  45-tick window, melee-only attribution, reset when the player is hit).
+  Presentation juice from drained events, gated behind !autopilot, max 6
+  bursts/frame: camera shake (finisher/knockdown 80ms@0.0035, KO
+  120ms@0.005, boss hit 150ms@0.006, stageclear 200ms@0.004), spark bursts
+  on hit, KO burst, landing dust (new 'land' event on jump landing + thud
+  sfx). Combo HUD readout ("n HITS" from 2).
+- Acceptance criteria:
+  - [x] Unit: freeze pauses world updates but advances tick; jump arc is
+        freeze-safe (airTicks); twin-sim determinism with hits stays
+        bit-identical; combo window math
+  - [x] E2E: combo counter registers chained hits (juice.spec); autopilot
+        runs spawn zero live particles
+  - [x] Signal stays green (12/12)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No input buffering changes, no dash move.
+
+### TASK-022 - UI/HUD overhaul
+
+- Status: DONE
+- Requirement:
+  Framed HP/boss bars (border + gradient fill), select-screen portrait
+  images (portrait:<charId> keys from the pipeline, palette-rect fallback),
+  stage-entry banner (stage name EN + 中文, tween in/out ~2s), boss-spawn
+  banner (on boss spawn event), result-screen polish ( framed panel, score
+  count-up tween optional).
+- Acceptance criteria:
+  - [x] E2E: stage banner appears on stage entry; boss banner on boss spawn;
+        select shows portraits when manifest-covered (palette-rect fallback
+        intact - portrait art is quota-blocked with TASK-018)
+  - [x] Signal stays green (12/12)
+  - [x] `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build` pass
+- Non-goals:
+  - No menu restyling beyond the above; no new scenes.
+
+### UI-2 - Readable character rendering (outlines, shading, distinct heroes)
+
+- Status: DONE
+- Requirement:
+  Replace the flat two-tone figure placeholders with readable characters:
+  dark outline pass, armor shading (2-3 tones), per-hero headgear/beard/
+  weapon variants so the five heroes are visually distinct (not just palette
+  swaps), and a drop shadow beneath each combatant in-game. All still
+  programmatic (AI art stays quota-blocked).
+- Acceptance criteria:
+  - [x] Unit: a baked hero sprite contains >= 4 distinct opaque colors
+        (outline + skin + armor + accent) - heroes have 40-62 colors
+  - [x] Unit: the 5 heroes are pairwise visually distinct (24%+ differing
+        pixels between heroes, beyond palette)
+  - [x] Probe: hero figure visible as a readable helmeted warrior in the
+        game scene
+  - [x] e2e + signal stay green; lint/typecheck/build pass
+- Non-goals:
+  - No real AI art (quota-blocked); no new poses.
+
+### UI-3 - Modern HUD panels
+
+- Status: DONE
+- Requirement:
+  Replace flat text-and-rectangle HUD with framed, glassy-gradient panels:
+  HP bar with shine, boss bar, score/lives/weapon chips, combo banner, styled
+  continue overlay; title and select screens get panel/painted look.
+- Acceptance criteria:
+  - [x] Probe (screenshot ASCII check): HUD band shows framed gold/red glass
+        panels + gradient bars, not flat text
+  - [x] e2e (hudpanels.spec) asserts glass panel Graphics + gradient bar
+        textures (bar-green/red/boss) + HP bar Image exist
+  - [x] e2e + unit green; lint/typecheck/build pass
+- Non-goals:
+  - No gameplay changes.
+
+### UI-4 - Polish pass (vignette, stage slabs, result dialog)
+
+- Status: DONE
+- Requirement:
+  Camera framing, vignette overlay, stage-name slabs, styled result/game-over
+  dialogs. Keep the deterministic sim untouched.
+- Acceptance criteria:
+  - [x] e2e (15/15) + signal (12/12) green
+  - [x] Probe (screenshot ASCII check): stage slab + vignette + HUD panels
+        read as a coherent modern 2D frame
+  - [x] lint/typecheck/build pass
+- Non-goals:
+  - No mechanics changes.
+
+### FRAMEWORK-V1 - Visual health gate wired into the producer loop
+
+- Status: DONE
+- Requirement:
+  Close the loop gap: the test/eval step now measures whether the game is
+  playable AND looks right. `npm run vision` screenshots every core screen,
+  computes objective visual-health metrics (coverage, color richness,
+  saturation, region fill) with per-screen thresholds, writes
+  artifacts/vision/{report.json,findings.jsonl} and PNGs for human review.
+  The eval-loop (.claude/eval-loop.md) consumes vision findings to file UI-FIX
+  tasks automatically and honors a human UX_REVIEW.md note channel; the
+  consumer (loop.md) gates UI work on `npm run vision`; PROJECT.md documents
+  the dual-signal design.
+- Acceptance criteria:
+  - [x] `npm run vision` passes on the current render (brand-new baselines:
+        title cov 0.75/380 colors/9 regions; select cov 1.0/247; game_idle &
+        game_combat 300+ colors, 8-9/9 regions) - proves the gate is green on
+        good renders and not noise
+  - [x] Finding -> UI-FIX task path demonstrated (synthetic finding filed into
+        TASKS.md then cleaned up)
+  - [x] Unit tests for the metric math (empty fails, vivid passes, flat-frame
+        guard) in test/selfplay/vision-metrics.test.ts
+  - [x] Full battery green: lint, typecheck, 91 unit, 15 e2e, build
+
+### FRAMEWORK-V2 - Widen the visual net: boss + more heroes + more screens
+
+- Status: DONE
+- Requirement:
+  The FRAMEWORK-V1 vision gate only screenshots 4 moments of one Zhao Yun
+  path (title/select/idle/combat). Widen it so the visual net catches more
+  real render breaks: (a) a boss fight screen (stage-3 arena forced via the
+  debug bridge so it's fast and deterministic), (b) a result screen, and
+  (c) run the game_idle/combat capture for a second hero (e.g. Zhang Fei) so
+  per-hero rendering is watched. Keep vision fast (< ~30s): reuse
+  deterministic autopilot + the startGame bridge, not long bot marathons.
+  Thresholds for the new screens go in vision/thresholds.ts.
+- Acceptance criteria:
+  - [x] `npm run vision` covers boss_fight, game_combat_zhangfei, and all core
+        screens; screenshots written to artifacts/vision/*.png
+  - [x] Baselines for the new screens pass on the current render (boss_fight
+        cov 0.16 / 383 colors on stage 3; Zhang Fei combat 0.16 / 371 colors)
+  - [x] Unit tests green; vision/lint/typecheck/test/build all pass
+- Non-goals:
+  - No longer bot runs; no mechanics changes.
+
+### FRAMEWORK-V3 - Vision net covers result and game-over screens
+
+- Status: DONE
+- Requirement:
+  The vision gate (FRAMEWORK-V2) skips the result and game-over screens
+  because they need a long bot run to reach. Add a small deterministic bridge
+  helper to land on those scenes quickly (e.g. force a stage clear / game
+  over via the debug bridge), extend vision/vision.spec.ts to capture and
+  assert them, and add thresholds in vision/thresholds.ts. This closes the
+  one remaining gap in "the loop actually sees every screen".
+- Acceptance criteria:
+  - [x] `npm run vision` captures result + game_over screenshots; both pass
+        thresholds after the gate caught and drove a fix for their sparse
+        renders (result coverage 0.05 -> 0.81, game_over 0.02 -> 0.57)
+  - [x] Unit tests green; lint/typecheck/test/build pass
+- Non-goals:
+  - No mechanics changes.
+
+### SUPERSEDED 2026-09-15 - TASK-018 / TASK-019 / TASK-020
+
+These three were BLOCKED on Gemini image generation, which is unavailable on
+this account (limit 0 for the image model, so waiting never unblocks it).
+They are superseded by the UI-R series in TASKS.md, which reaches the same
+cel-shaded 2D-fighter look by drawing the art programmatically with canvas-2D
+vector paths instead of generating it.
+
+Nothing is lost by closing them. The bake pipeline (scripts/bake-art.mjs,
+scripts/bake-core.mjs), the __HAS_BAKED_ART__ build flag and the ?bakedart=1
+debug switch all stay in place and stay e2e-covered, so externally produced
+art can still be dropped in later without another redesign. Their original
+text follows.
+
+### TASK-018 - Hero sprite set + select portraits
+
+- Status: BLOCKED
+
+  BLOCKED REASON: Gemini image generation is unavailable on this account's
+  plan. Retested 2026-09-15: HTTP 429 RESOURCE_EXHAUSTED with
+  `limit: 0, model: gemini-3-pro-image` on all three free-tier image
+  quotas. This is NOT a quota that refills - the free-tier allowance for
+  the image model is zero, so waiting will not unblock it. It needs
+  billing enabled on the Google AI Studio project (or a different image
+  provider). The bake pipeline (scripts/bake-art.mjs) is proven end to end
+  and `?bakedart=1` keeps the manifest path e2e-covered, so art can be
+  dropped in whenever that changes. Meanwhile the programmatic pixel art
+  (UI-FIX-2, UI-FIX-6) clears the visual gate on its own, so these tasks
+  are an upgrade rather than a repair. A person resets this to TODO once
+  image generation is actually available.
+- Requirement:
+  Generate and bake the full sprite sets for the five heroes (idle, walk0,
+  walk1, attack, jump, down) plus select-screen bust portraits, via per-kind
+  Gemini image-edit sessions (idle first, chained pose edits) for
+  consistency. Cel-shaded 2D fighter style, original designs.
+- Acceptance criteria:
+  - [ ] All five heroes render from baked PNGs in-game (manifest-covered);
+        walk/attack/down poses visibly distinct
+  - [ ] Select screen shows portraits (palette-rect fallback remains)
+  - [ ] Unit: manifest covers all five heroes x 6 poses + 5 portraits
+  - [ ] E2E + Signal stay green
+  - [ ] Visual review: baked PNGs read as the intended heroes
+- Non-goals:
+  - No new animations beyond the existing pose set.
+
+### TASK-019 - Grunt/boss/horse/prop sprite sets
+
+- Status: BLOCKED
+
+  BLOCKED REASON: Gemini image generation is unavailable on this account's
+  plan. Retested 2026-09-15: HTTP 429 RESOURCE_EXHAUSTED with
+  `limit: 0, model: gemini-3-pro-image` on all three free-tier image
+  quotas. This is NOT a quota that refills - the free-tier allowance for
+  the image model is zero, so waiting will not unblock it. It needs
+  billing enabled on the Google AI Studio project (or a different image
+  provider). The bake pipeline (scripts/bake-art.mjs) is proven end to end
+  and `?bakedart=1` keeps the manifest path e2e-covered, so art can be
+  dropped in whenever that changes. Meanwhile the programmatic pixel art
+  (UI-FIX-2, UI-FIX-6) clears the visual gate on its own, so these tasks
+  are an upgrade rather than a repair. A person resets this to TODO once
+  image generation is actually available.
+- Requirement:
+  Generate and bake sprite sets for soldier/spearman/archer, all 9 bosses,
+  the horse (idle/walk0/walk1; attack/jump/down alias to idle), and props
+  (crate/meat/sword/arrow).
+- Acceptance criteria:
+  - [ ] Manifest covers all enemy kinds, horse, and props
+  - [ ] E2E + Signal stay green; bosses visually larger than grunts
+  - [ ] Visual review of key baked PNGs
+- Non-goals:
+  - No new enemy behaviors.
+
+### TASK-020 - Stage backgrounds + parallax
+
+- Status: BLOCKED
+
+  BLOCKED REASON: Gemini image generation is unavailable on this account's
+  plan. Retested 2026-09-15: HTTP 429 RESOURCE_EXHAUSTED with
+  `limit: 0, model: gemini-3-pro-image` on all three free-tier image
+  quotas. This is NOT a quota that refills - the free-tier allowance for
+  the image model is zero, so waiting will not unblock it. It needs
+  billing enabled on the Google AI Studio project (or a different image
+  provider). The bake pipeline (scripts/bake-art.mjs) is proven end to end
+  and `?bakedart=1` keeps the manifest path e2e-covered, so art can be
+  dropped in whenever that changes. Meanwhile the programmatic pixel art
+  (UI-FIX-2, UI-FIX-6) clears the visual gate on its own, so these tasks
+  are an upgrade rather than a repair. A person resets this to TODO once
+  image generation is actually available.
+- Requirement:
+  Per-stage AI background art: far parallax layer (512x160 tile,
+  scrollFactor 0.4, world-anchored, stage.length+32 wide, depth -10) and
+  floor strip (256x96 tile aligned so the walkable band reads at y 150-196,
+  scrollFactor 1, depth -5). Flat-color rects remain the fallback. Remove
+  `image-rendering: pixelated` from style.css (wrong for cel-shaded art).
+  Backgrounds get an empty lower walkable strip with no characters in-frame.
+- Acceptance criteria:
+  - [ ] All 9 stages have far+floor art loaded via manifest, parallax visible
+        on scroll (e2e: tilePositionX/scrollFactor assertion via scene read)
+  - [ ] E2E + Signal stay green
+  - [ ] Visual review of 2+ stage screenshots
+- Non-goals:
+  - No foreground layers, no animated backgrounds.
+
+### ARCHIVED 2026-09-16 - UI-FIX-1..8 and FRAMEWORK-V4
+
+The visual-gate repair series that preceded the UI redesign, moved out of
+TASKS.md per working rule 11 once the DONE count passed 20. Worth knowing
+they are here: several of them explain WHY a gate is shaped the way it is,
+and the redesign's own notes refer back to them by name - UI-FIX-1 for the
+negative control, UI-FIX-3 for renderer parity, UI-FIX-5 for the baked-art
+flag.
+
+### UI-FIX-1 - Visual gate must actually judge characters (non-vacuous)
+
+- Status: DONE
+- Requirement:
+  The vision gate passed a render in which every character is a stack of
+  flat rectangles with no face, no arms and no visible weapon, and in which
+  every HP bar is invisible. Root causes, all verified:
+  (a) the four frame metrics (coverage/colorRichness/saturation/regionFill)
+      are frame-GLOBAL and dominated by the sky/grass backdrop, so they score
+      ~0.93 coverage / 700 colors no matter what the characters look like;
+  (b) the one character-level check (`regionLegibility`, colorCount>=4,
+      dominantFraction<=0.9) samples a screen box that INCLUDES the
+      background - an empty patch of sky scores 4-17 colors and 0.29-0.47
+      dominance, i.e. it PASSES. The guard cannot fail, so it proved nothing;
+  (c) nothing checked enemies, bosses, weapons or props - only the player;
+  (d) nothing checked that a HUD texture has visible pixels (hudpanels.spec
+      asserts the textures EXIST, not that they render anything).
+  Fix the gate so these failures are caught:
+  - New `vision/sprite-metrics.ts`: structural metrics over the live texture
+    (alpha-masked, so the background cannot contribute) - silhouette
+    complexity, appendage rows, opaque color count/dominance, outline ratio,
+    and a weapon-reach check (attack pose must extend beyond idle).
+  - Assess EVERY kind the game renders (heroes, grunts, bosses, horse, props)
+    and every pose, pulled from the running game's texture manager.
+  - HUD visibility: every `hud:*` bar texture must have opaque pixels.
+  - NEGATIVE CONTROL: the gate asserts its own character check FAILS on an
+    empty background window. A gate that cannot fail is not a gate.
+- Acceptance criteria:
+  - [x] Unit: each new metric verified on synthetic inputs, including a
+        box-stack figure that FAILS and a detailed figure that PASSES
+        (test/selfplay/sprite-metrics.test.ts, 14 cases)
+  - [x] `npm run vision` FAILED on the box art as filed: 116/116 sprites,
+        17/17 weapons, 3/3 HUD bars, findings written to findings.jsonl
+  - [x] Negative control green: the character gate rejects a patch of empty
+        backdrop (silhouetteComplexity 0.031, appendageRatio 0)
+  - [x] lint/typecheck/test/build pass
+- Note: two metric bugs were found by running the gate against real art and
+  fixed rather than tuned around. (a) silhouetteComplexity was resolution-
+  dependent - rendering the same art at 2x halved its score - so it is now
+  measured on a fixed 32-row grid, with x quantized against the height span so
+  a swung weapon cannot squeeze the body's detail away. (b) appendageRatio
+  scanned rows only, which assumes every figure is upright and called every
+  prone `down` pose featureless; it now takes the larger of the row and column
+  readings. Calibration after both fixes: old box art 0.156-0.250, new art
+  0.375-0.469, threshold 0.3.
+- Non-goals:
+  - No art changes in this task (that is UI-FIX-2).
+
+### UI-FIX-2 - Characters and weapons must be readable; HP bars visible
+
+- Status: DONE
+- Requirement:
+  Make the game look playable. Verified problems:
+  (a) `public/assets/sprites/**` holds programmatic STAND-IN art
+      (scripts/make-art.mjs, axis-aligned fillRect boxes) that BootScene loads
+      under `entity:<kind>:<pose>`, shadowing the better hand-authored pixel
+      maps in `src/game/art/pixels.ts`. Lu Bu is a single giant rectangle; the
+      sword pickup is a 1-colour grey rectangle;
+  (b) the pixel maps themselves are only 15x20 and stretched to 92px on
+      screen, with no outline, no face and a 1px weapon - too coarse to read;
+  (c) every HP bar is invisible: `createBarTexture` uses
+      `Graphics.fillGradientStyle` + `generateTexture`, and generateTexture
+      always renders through the CANVAS path, which ignores gradient fills -
+      `hud:bar-green`/`-red`/`-boss` are fully transparent in BOTH renderers.
+  Fix: drop the stand-in art so the pixel maps are authoritative again,
+  author readable higher-resolution pixel art (outline pass, face, per-kind
+  headgear/beard/cape, shaped per-kind weapons, shaped props), and build the
+  bar textures with a canvas 2D gradient (renderer-independent).
+- Acceptance criteria:
+  - [x] `npm run vision` green: 4/4 gates, 112/112 sprites, 17/17 weapons
+  - [x] HP bar and boss bar visibly filled (screenshot-confirmed)
+  - [x] Weapons readable: every armed kind reaches 4px+ past idle
+  - [x] e2e 17/17; lint/typecheck/test(111)/build pass
+- Non-goals:
+  - No AI-generated art (still quota-blocked); no mechanics changes.
+
+### UI-FIX-3 - Deployed (WebGL) UI differed completely from every check
+
+- Status: DONE
+- Requirement:
+  Owner deployed with deploy.bat and got a different UI than local. Not a
+  deploy fault: the deployed bundle hash matched the local build exactly, and
+  local WebGL reproduces the deployed render pixel for pixel. The game ships
+  on `Phaser.AUTO` - WebGL in every real browser - while every automated check
+  runs `?renderer=canvas`, so the gate scored a rendering path no player sees.
+  `Graphics.fillGradientStyle` is WebGL-only: under canvas the fill draws
+  NOTHING. So `drawPanel` produced an empty outline in canvas and an opaque
+  slab in WebGL. Four scenes (title, select, result, game over) passed that
+  panel a depth of 100-1000 while every sprite and label in them sat at the
+  default depth 0, so in WebGL the panel covered its own contents - title text
+  unreadable, heroes hidden, dialogs blank. GameScene was unaffected because
+  its HUD sets explicit depths.
+- Acceptance criteria:
+  - [x] New `vision/renderer-parity.spec.ts` draws every core screen under
+        BOTH renderers and requires the measurements to agree; it FAILED on
+        the shipped code (title 605 vs 256 colours, select 531 vs 74, result
+        and game_over also off on saturation) and passes after the fix
+  - [x] `drawPanel` uses solid fills, so canvas and WebGL agree
+  - [x] Menu/dialog panels drop to depth 0 and rely on insertion order, which
+        already placed them before their content
+  - [x] vision 5/5, e2e 17/17, 110 unit, lint/typecheck/build pass
+- Non-goals:
+  - No redesign of the panels themselves; no deploy-pipeline changes.
+
+### UI-FIX-4 - Buried labels: occlusion gate + dialog layout
+
+- Status: DONE
+- Requirement:
+  Reviewing the WebGL screens by eye turned up labels hidden behind their own
+  plates - a class nothing in the gate could see. The frame metrics are
+  whole-screen averages, the sprite metrics look at textures, and the parity
+  check only asks whether the two renderers AGREE, which they happily do when
+  both draw the same plate over the same label. Add an occlusion check and fix
+  what it finds.
+- Acceptance criteria:
+  - [x] New `e2e/layout.spec.ts` walks the display list of title, select,
+        game, result and game-over and flags any text substantially covered by
+        an opaque object added AFTER it at the same or higher depth. Narrow by
+        design: anything drawn before a label is its background, a translucent
+        overlay is a tint, and a label over its own plate is fine
+  - [x] It FAILED on the shipped code, finding four real bugs: result's SCORE,
+        TIME and LIVES captions 50% buried, and game-over's FINAL SCORE 31%
+  - [x] `drawChip` now owns caption, plate and value so they cannot drift; the
+        caption was centred on `x` while the plate spanned `x..x+w`. Chip
+        widths also brought inside the dialog panel - the TIME plate ran past
+        its right edge
+  - [x] Game-over score plate centred: written for a top-left origin, but
+        `add.rectangle` centres by default
+  - [x] Renderer parity extended to game_combat and boss_fight
+  - [x] 110 unit, 18 e2e, vision 5/5, signal 12/12, lint/typecheck/build pass
+- Non-goals:
+  - No redesign of the dialogs; no new screens.
+
+### UI-FIX-5 - Deployed art came back from a CDN cache
+
+- Status: DONE
+- Requirement:
+  Owner: locally the spear swings on C, on the deployed site it does not.
+  Measured, not guessed: the special itself is identical on both (state goes
+  to `special`, hp 130->114, specialsUsed 1, no page errors). The difference
+  is the ART. The deployed site was still serving `assets/manifest.json` and
+  the placeholder sprite PNGs - `CF-Cache-Status: HIT`, `Age: 49570`,
+  `Cache-Control: public, s-maxage=604800`. They were deleted from the build,
+  but Cloudflare's edge kept serving them for seven days, so BootScene fetched
+  the stale manifest and loaded the box art over the pixel art. The box art's
+  attack pose is 1px NARROWER than its idle pose, so the spear visibly does
+  not move - exactly the reported symptom. The deployed bundle hash matched
+  the local build exactly, so this was never a stale deploy.
+  The real defect is that a build decided how it LOOKS by asking a server what
+  happened to still be lying around.
+- Acceptance criteria:
+  - [x] `vite.config.ts` decides at build time whether baked art ships and
+        freezes it into the bundle as `__HAS_BAKED_ART__`; BootScene with no
+        baked art never requests a manifest (verified in the minified output)
+  - [x] e2e regression guard: with a stale manifest deliberately served, a
+        build that ships no baked art makes zero art requests. Proven able to
+        fail - forcing the flag true makes it fail with 4 requests
+  - [x] `?bakedart=1` keeps the pipeline e2e-testable for when real art lands
+  - [x] `public/_headers` stops `assets/manifest.json` being edge-cached, so
+        this cannot recur once baked art does ship
+  - [x] 110 unit, 19 e2e, vision 5/5, signal 12/12, lint/typecheck/build pass
+- Non-goals:
+  - No change to the deploy script; purging the existing stale cache is not
+    needed because the new bundle never asks for those files.
+
+### FRAMEWORK-V4 - Gate the production build, not just the dev server
+
+- Status: DONE
+- Requirement:
+  Three bugs shipped this week and all three were the same shape: the gate
+  measured something other than what a player gets. Canvas instead of WebGL
+  (UI-FIX-3), a local tree instead of a deployed one (UI-FIX-5), and - still
+  untested - the Vite DEV SERVER instead of `dist/`. That last axis is not
+  cosmetic: `__HAS_BAKED_ART__` is a build-time constant, so what the shipped
+  bundle does cannot be observed from a dev-server run at all.
+- Acceptance criteria:
+  - [x] New `prodbuild` Playwright project runs `npm run build` and serves the
+        real `dist/` through `vite preview`
+  - [x] Asserts the built bundle boots with no page errors and no failed
+        requests (a broken relative `base` shows up as 404s, not a crash),
+        renders the pixel art, and has an attack frame WIDER than idle - the
+        shipped-placeholder symptom was the reverse
+  - [x] Asserts the built bundle makes zero art requests even when a stale
+        manifest is served, and that its HUD bar textures have opaque pixels
+  - [x] Proven able to fail: forcing the build flag true makes the built
+        bundle request art and the gate fails
+  - [x] Dedicated port 4319, never reusing an existing server - Vite's default
+        4173 is occupied by an unrelated app on this machine, and reusing it
+        would have silently tested that instead
+  - [x] 110 unit, 19 e2e, vision 5/5, prodbuild 3/3, lint/typecheck/build pass
+
+### UI-FIX-6 - The parallax hills layer was never on screen
+
+- Status: DONE
+- Requirement:
+  Reviewing the stage backgrounds turned up a whole layer that drew nothing.
+  `bgHills` sat at y=224 with a 100px texture whose silhouette starts at row
+  66, so on a 270px screen only the texture's empty top 46 rows were ever in
+  frame - measured: 0 opaque pixels inside the camera. The ground strip, at a
+  nearer depth, covered that band anyway. The layer was tinted per stage and
+  had its tilePositionX updated every frame, for nothing.
+  No visual metric catches this: a missing background layer does not make a
+  frame dark, flat or empty, so coverage, colour richness and region fill all
+  stay green.
+- Acceptance criteria:
+  - [x] New `e2e/background.spec.ts` asks each named background layer whether
+        any of its opaque pixels land inside the camera; it FAILED on the
+        shipped code with "bgHills: only 0 opaque pixels are inside the camera"
+  - [x] The ridge is anchored to the HORIZON (the top of the ground strip) and
+        roots 10px into it so there is no seam; the texture now carries its
+        silhouette across its full height, so where the sprite is placed is
+        where the hills appear
+  - [x] Two-ridge silhouette, far one lighter for distance, plus a haze line
+  - [x] Clouds redrawn as overlapping lobes - a bare horizontal bar in the sky
+        reads as a placeholder at any alpha
+  - [x] 110 unit, 20 e2e, vision 5/5, prodbuild 3/3, signal 12/12, lint,
+        typecheck, build
+- Non-goals:
+  - No AI background art (TASK-020 stays BLOCKED on the image quota); no new
+    parallax layers.
+
+### UI-FIX-7 - Screens nobody had ever looked at
+
+- Status: DONE
+- Requirement:
+  Three screens a player reaches had never been screenshotted or gated:
+  mounted play, the continue overlay, and the game-complete ending. Looking at
+  them found two defects. (a) While mounted, the horse chip ran from x=120 to
+  x=166 inside a HUD panel that ends at 156, spilling the horse's health out
+  over the battlefield; the occlusion gate cannot see this because nothing
+  COVERS the text - it overflows its frame. (b) The ending was the one screen
+  that never got the framed treatment: plain text on a near-black field, and
+  it is the last thing a player who clears all nine stages sees.
+- Acceptance criteria:
+  - [x] `drawPanel` records the rect it drew as `panelRect` data - a Graphics
+        does not expose its own geometry, so nothing could check containment
+  - [x] New containment check in `e2e/layout.spec.ts`: a label whose centre is
+        inside a panel must fit inside it. FAILED on the shipped code with
+        `"Horse: 20/20" spans x 120..166 but its panel is x 6..156`
+  - [x] HUD panel widened to 168 and the horse chip moved to x=108
+  - [x] Game-complete screen gets the victory panel and the five heroes
+  - [x] Vision gate now captures `game_complete` too - the last uncovered
+        screen (coverage 0.547, 619 colours)
+  - [x] 110 unit, 21 e2e, vision 5/5, prodbuild 3/3, signal 12/12, lint,
+        typecheck, build
+- Non-goals:
+  - No continue-overlay redesign; it renders correctly, it was only unwatched.
+
+### UI-FIX-8 - The game never told the player the controls
+
+- Status: DONE
+- Requirement:
+  A player opening the deployed URL had no way to learn how to play. The only
+  on-screen hint anywhere in the game was "PRESS ENTER"; the key mapping lived
+  in README.md, which nobody opening a game link reads. Reaching the first
+  stage, a new player could move with the arrows by guessing and had no way to
+  discover attack, jump or the special at all. This is the last sense in which
+  the game was "unplayable" - not a render fault, a discoverability one.
+- Acceptance criteria:
+  - [x] The title screen shows the scheme in a framed panel: arrows move,
+        Z attack, X jump, C special, Enter confirm, M mute
+  - [x] The panel-containment and occlusion gates pass on the new block
+  - [x] 111 unit, 21 e2e, vision 5/5, prodbuild 3/3, lint, typecheck, build
+- Non-goals:
+  - No in-stage tutorial; no remappable keys. Grab/throw stays discoverable by
+    walking into an enemy, as the README describes.
+
+## Archived 2026-09-16 (the UI redesign series, its two performance follow-ups,
+and the three pre-redesign enhancements - all DONE and verified)
+
+### UI-R1 - Make the visual gate able to judge smooth art
+
+- Status: DONE
+- Requirement:
+  First phase of the UI redesign. Before any art changes, the gate that judges
+  art has to be capable of judging the art that is coming. Two of its metrics
+  were built around the current pixel maps and would have produced the two worst
+  outcomes between them: one failing correct art, the other passing anything.
+  (a) `outlineRatio` found the silhouette edge with a binary alpha test
+      (`alpha >= 128`). `getImageData` returns un-premultiplied RGBA, so an
+      anti-aliased ink stroke carries the ink colour at partial coverage - which
+      that test discards, putting the measured edge one pixel further in, on the
+      fill. A 1px ink line lives almost entirely in that band, so correctly
+      outlined smooth art would have scored ~0 and been rejected.
+  (b) `minColorCount: 12` was calibrated against a ~14-slot indexed palette.
+      Anti-aliasing alone pushes colorCount into the hundreds, so that floor
+      stops being able to fail at all - a single flat fill with a soft edge
+      clears it. A floor that cannot fail is the exact defect UI-FIX-1 existed
+      to remove.
+  Also: `prodbuild.spec.ts` proved the weapon reaches by comparing Phaser FRAME
+  widths, while its sibling `assessWeaponReach` deliberately measures the drawn
+  silhouette and refuses to credit frame padding. Uniform frame boxes would make
+  the frame widths equal and fail a perfectly good build.
+- Acceptance criteria:
+  - [x] `outlineRatio` locates the edge at a new `EDGE_ALPHA_MIN` (32), chosen
+        above the level where un-premultiplying amplifies rounding error. Proven
+        able to fail: restoring the 128 cutoff rejects an anti-aliased outlined
+        figure, while the un-outlined fixture is still rejected either way - so
+        this discriminates rather than loosens
+  - [x] New `tonalBands` metric: luminance buckets holding >=2% of the drawn
+        area. A band must hold real AREA, so an anti-aliased ring cannot
+        manufacture one - asserted directly. Flat fill scores 1, flat fill with
+        an ink outline scores 2, shaded art 4+
+  - [x] Thresholds set from measurement, not guessed: the 108 current character
+        sprites score 4-10 (histogram 4:6, 6:6, 7:29, 8:27, 9:29, 10:11), props
+        3-5. Floors placed just above the failure mode - characters 3, props 2 -
+        rather than just under the population
+  - [x] SECOND NEGATIVE CONTROL. The existing one feeds the gate a patch of
+        empty sky, which only fails while the sky is flat; a painted cel-shaded
+        backdrop would make it start passing and the proof would evaporate with
+        nothing going red. The new one takes a real sprite out of the running
+        game and flattens it to one colour. Measured: silhouetteComplexity 0.469
+        and appendageRatio 0.588 both PASS - it is a genuine figure - and only
+        `tonalBands 1 < 3` and the other shading metrics catch it
+  - [x] `prodbuild` imports `assessWeaponReach` rather than reimplementing it,
+        so the two gates cannot drift. Proven able to fail: pointing it at a
+        zero-reach pose gives "weapon reach 0px < 4px"
+  - [x] No game art changed, so the whole existing cast must still pass - it
+        does: vision 112/112 sprites, 17/17 weapons, and outlineRatio is still
+        exactly 1.0 across all 112
+  - [x] lint, typecheck, 139 unit, 35 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No art changes and no threshold loosening. `silhouetteComplexity` is left
+    alone deliberately: it may saturate toward 1.0 once anti-aliased art exists,
+    but that cannot be measured until UI-R3 lands, and changing it blind would
+    be tuning rather than fixing. It is a named checkpoint for UI-R3.
+
+### UI-R2 - Render at 2x and split the HUD into its own scene
+
+- Status: DONE
+- Requirement:
+  Cel-shaded art needs more pixels than a 480x270 backing store gives. The
+  Phaser canvas is now 960x540 and every camera is zoomed by `RENDER_SCALE`, so
+  `SCREEN_WIDTH`/`SCREEN_HEIGHT` in `src/core/constants.ts` stay 480x270 WORLD
+  units and the sim's geometry, seeds and determinism are untouched. The HUD
+  moved to a parallel `HudScene`. Deliberately visual-neutral: same art, same
+  layout, twice the pixels.
+- CORRECTION to this task as originally filed. It claimed the HUD had to move
+  because a zoomed camera displaces scrollFactor-0 objects, putting the player
+  panel at `(6-480)*2+480 = -468`. That is true only while the camera keeps its
+  default CENTRED origin. Pinning the origin to the top-left reduces the
+  transform to `(p - scroll * scrollFactor) * RENDER_SCALE`, so every object
+  lands at exactly twice its logical position whatever its scroll factor, and
+  the HUD would have rendered correctly where it was. The split was kept for
+  the two reasons that do hold - GameScene was 951 lines against this project's
+  own 800 limit, and a HUD that cannot see anything but the Sim cannot quietly
+  start owning game state - but the stated reason was wrong and is recorded
+  here rather than left for someone to trip over.
+- Acceptance criteria:
+  - [x] New `src/game/render.ts` (constants) and `src/game/ui/viewport.ts`
+        (camera + text helpers). They are separate files because
+        `adapters/sprites.ts` imports RENDER_SCALE and the Node unit tests
+        import that - a value import of Phaser there fails outside a browser
+  - [x] Camera: `setOrigin(0, 0)` + `setZoom(RENDER_SCALE)`, and `scrollX` is
+        still exactly the sim's. Camera BOUNDS deliberately dropped: `clampX`
+        computes its limits as `bounds.x + (displayWidth - width) / 2`, which
+        assumes a centred origin, and would have clamped the far end of every
+        stage 240 units early. The sim already clamps scrollX and the
+        invariants assert it, so the camera was a duplicate source of truth
+  - [x] Transform verified against the running game with `getWorldPoint`, not
+        by reading Phaser's source: scroll 0 shows world [0,480], scroll 200
+        shows [200,680], scroll 1000 shows [1000,1480], HUD camera [0,480].
+        (Phaser's own `camera.worldView` is WRONG under a non-centred origin -
+        it reports x:240 - but nothing in this repo reads it, checked)
+  - [x] Sprite textures rasterize at device density; `fitSprite` needed no
+        change, since it derives scale from the idle frame's height
+  - [x] `HudScene` owns both HP panels, boss bar, chips, score, objective,
+        combo, banner, continue overlay, down/rejoin prompts, vignette and the
+        on-screen touch controls. It PULLS: everything it draws is derived from
+        the Sim it reads off the bridge, so there is no start-order dependency
+        and no second copy of any state. Player two's panel now appears because
+        the sim says so rather than from two separate call sites
+  - [x] GameScene 951 -> 661 lines, back under the project's limit
+  - [x] `signal` 13/13 unchanged - the seeded nine-stage runs prove the sim did
+        not move while the renderer did
+  - [x] e2e 37/37, including the co-op stage break; camera framing checked by
+        eye at stage start and mid-scroll; WebGL screens checked by eye
+- THREE defects found, one of them mine:
+  1. MINE. `useCrispText` subscribed to `addedtoscene` without unsubscribing.
+     Phaser reuses a scene instance and its emitter survives shutdown, so six
+     stage cycles left six listeners on `game`, `hud` and `result` alike -
+     every object added did six times the work and every label re-rendered six
+     times. It never threw; it just made the game slower the longer it was
+     played, and surfaced as the visual suite running out of time, which reads
+     like flake. Guarded by `e2e/scenerestart.spec.ts`, proven able to fail.
+  2. PHASER, renderer-specific, and the third of this shape in this project.
+     `Text.setResolution()` re-renders the label into a canvas RENDER_SCALE
+     times larger but does NOT update `frame.source.resolution`, which Phaser
+     assigns only in the Text constructor - where it is still 1. The CANVAS
+     renderer divides the frame size by that field to get its draw size, so it
+     drew every label at twice the intended size; WebGL never reads it and was
+     correct throughout. Since every automated suite defaults to
+     `?renderer=canvas`, the gates would have been measuring 2x text no player
+     ever sees. The parity gate caught it - "GAME OVER" overflowing its panel
+     under canvas and fitting under WebGL.
+  3. The result screen's flanking heroes were the one place still using a raw
+     `setScale(1.9)` rather than a display size. A raw scale multiplies
+     whatever the texture measures, so device-density textures doubled them to
+     258px and they swallowed the screen. NO metric caught it: a frame full of
+     hero is not dark, flat, empty or low on colour, nothing was occluded and
+     nothing left its panel. Found by looking at the screenshot. Guarded by
+     `e2e/artscale.spec.ts`, proven able to fail with "result/entity:zhaoyun:
+     idle: 258px".
+- Frame snapshots are now resampled to the LOGICAL size in-page before they
+  cross to Node. Correctness first: the probes that index into a frame - the
+  player-legibility window, the negative control's cutout - are positioned from
+  sim coordinates, which are logical, so measuring a 2x frame with logical
+  coordinates samples the wrong part of the picture, silently. Same principle
+  as silhouetteComplexity's fixed grid: a ruler that changes with the
+  resolution is measuring itself. It also cut the CDP payload 4x, which is most
+  of why the suite fits its budget again.
+- `npm run vision` now pins itself to one worker and the project timeout is
+  300s. Its two specs are the heaviest in the repo and, run together, starved
+  each other past the old budget while each finished comfortably alone - the
+  health gate went from 2.7m under contention to 46s on its own.
+- `e2e/layout.spec.ts` gained a per-scene `minLabels`. It only ever inspects
+  Text, so pointing it at a scene holding none - exactly what happened to
+  `game` when the HUD moved out - made it iterate nothing and pass. Proven able
+  to fail: "game has 0 labels, expected at least 5".
+- Frame metrics before -> after (all still pass; no threshold moved):
+  title 0.689/717/0.151 -> 0.679/493/0.156; select 0.850/541/0.069 ->
+  0.842/480/0.069; game_idle 0.918/1136/0.824 -> 0.911/1003/0.839;
+  game_combat 0.915/1148/0.823 -> 0.906/1010/0.835; boss_fight 0.908/830/0.748
+  -> 0.877/808/0.741; game_combat_zhangfei 0.913/1114/0.817 ->
+  0.904/1026/0.814; result 0.919/1140/0.826 -> 0.661/386/0.499; game_over
+  0.413/170/0.237 -> 0.411/152/0.244; game_complete 0.547/619/0.184 ->
+  0.538/431/0.186.
+- Non-goals:
+  - No visual redesign in this phase; no change to `src/core/`.
+
+### UI-R3 - Cel-shaded figure engine, five heroes on it
+
+- Status: DONE
+- Requirement:
+  Replace the ASCII pixel maps with a 2D rig drawn on a canvas-2D context and
+  put the five heroes on it. Everything else stays on pixel art for one phase -
+  a mixed cast is already a supported state, since that is how baked PNGs shadow
+  generated art per kind.
+- Built: `src/game/art/{palette,rig,poses,figures,draw,registry}.ts`.
+  - A pose is a table of JOINT POSITIONS, not joint angles. Both express the
+    same six poses, but a hand at (62, 30) can be read straight off the number,
+    while an angle chain has to be simulated through four parents before you
+    know where anything ended up. With a fixed pose set the indirection buys
+    nothing.
+  - Poses are authored ONCE and shared by every humanoid. A kind differs by
+    build (height, bulk, shoulders, head), three colours, headgear, beard, cape
+    and weapon. Nineteen fighters therefore cost six pose tables rather than a
+    hundred and fourteen drawings.
+  - The cel pipeline is five passes: ink silhouette, flat fills back to front,
+    one hard shadow polygon `source-atop`, one lit-side polygon, then details.
+    A single terminator across the whole figure is what makes it read as one
+    light source rather than as per-part shading.
+- Acceptance criteria:
+  - [x] `adapters/sprites.ts` keeps its whole public surface - `POSES`,
+        `textureKeyForPose`, the `entity:<kind>:<pose>` convention, the
+        `exists(key)` early-return, texture-swap animation. Four gates are built
+        on those conventions and all four still run
+  - [x] `@napi-rs/canvas` added as a devDependency, so the fast unit gate still
+        rasterizes in Node and `artquality` covers BOTH pipelines through the
+        same metrics
+  - [x] Heroes pass the UI-R1 character thresholds; distinct by build and
+        silhouette, not palette - the distinctness test now compares ALPHA
+        MASKS, so colour cannot contribute to the score at all. The old version
+        compared palette-indexed ASCII, where a recoloured copy would have
+        looked different: it was measuring the storage format, not the picture
+  - [x] Renderer parity green. All shading is baked into canvas-2D textures, so
+        there is nothing for the two renderers to disagree about
+  - [x] lint, typecheck, 143 unit, 37 e2e, vision 5/5 (112/112 sprites),
+        prodbuild 3/3, signal 13/13, build
+- THE FINDING, and the reason this phase took three attempts at one number:
+  every attack pose had its weapon CLIPPED at the frame edge - the blade cut
+  clean off - and `assessWeaponReach` passed all five by 56 pixels. It compares
+  drawn widths, and a weapon truncated at the border still makes the silhouette
+  wider, so it scored the truncation as reach. A metric that measures extent
+  cannot tell reach from clipping; they look identical from outside the frame.
+  Found by looking at the attack pose in the running game, not by any gate.
+  - New `artquality` check: no figure may touch its own border (except the feet,
+    which are meant to sit on the bottom edge). It failed three times on three
+    successive guesses at the margin, naming the pose each time.
+  - The margins are then MEASURED rather than guessed: the art needs 53.5 units
+    right (Zhang Fei's pike thrust), 21.5 left (his dropped weapon when floored)
+    and 19 above (Zhao Yun's crest at the top of his stride).
+  - `GameScene.fitSprite` gained figure-box awareness, because the box is now
+    deliberately larger than the fighter in it: fitting the BOX to the fighter's
+    height would scale the margins in and leave every hero short.
+- CHECKPOINT from UI-R1, answered with measurements (recorded in
+  `vision/thresholds.ts`):
+  - `outlineRatio` scores 0.862-1.0 on anti-aliased ink. That is the UI-R1
+    edge-alpha fix earning its place: under the old binary-alpha rule this art
+    would have scored near zero and been rejected for having no outline.
+  - `minColorCount` and `maxDominantFraction` are now unfailable for smooth art
+    - 225-465 colours against a floor of 12, dominance 0.09 against a ceiling of
+    0.6. Kept anyway, because they still bite on the pixel pipeline that grunts,
+    bosses and props are still drawn with. They go when it does.
+  - `silhouetteComplexity` has partly saturated (top of range pinned at 1.0) but
+    is not vacuous: the population floor is 0.531 against box art's 0.156-0.250.
+    It cannot be RAISED while both pipelines coexist, since pixel art bottoms
+    out at 0.344. Revisit with the same measurement in UI-R4.
+- Two rendering approaches were tried and discarded, recorded so they are not
+  retried: an offset per-shape stroke for the rim light (it draws pale loops
+  INSIDE the figure, because a torso's outline offset by a pixel lands entirely
+  within the silhouette - the cast came out covered in scribble), and limbs as
+  two capsules per arm (each segment gets its own rounded cap and outline, and
+  the joints read as beads).
+- The registry unit tests are now pipeline-agnostic: they assert every kind the
+  game can bind has art in EXACTLY ONE registry, which is the property that
+  matters, rather than asserting everything is in `PIXEL_ART`.
+- Non-goals:
+  - No HUD, menu or background changes; no new poses yet.
+
+### UI-R4 - Rest of the cast, plus hurt and special; retire pixels.ts
+
+- Status: DONE
+- Requirement:
+  Put the 3 grunts, 9 bosses, the horse and the 4 props on the art engine, add
+  the two new poses, and delete `src/game/art/pixels.ts` along with the
+  `make-art.mjs` stand-in generator. One pipeline, one look.
+- Three art types rather than one. A quadruped and a crate are not badly-posed
+  people, so forcing them through the humanoid rig would give a structure that
+  describes none of the three. What they share is the CEL PIPELINE, now
+  extracted as `paintCel`: ink silhouette, flat fills, one shadow band, one lit
+  band, with the light direction expressed as a fraction of the box width. A
+  crate is therefore lit from the same angle as the fighter standing next to
+  it, which is most of what makes a cast look like one cast.
+- Acceptance criteria:
+  - [x] `POSES` and `poseForEntity` extended with `hurt` and `special`. Both
+        used to fall through: the special reused the attack pose, so the move
+        that costs health looked identical to the one that does not, and
+        hitstun showed only as a red tint over a perfectly still idle figure
+  - [x] Bosses visibly heavier. The old check compared map width times scale -
+        a property of the FRAME - and would now pass anything, since every kind
+        shares a box. It counts drawn pixels instead
+  - [x] `artquality` re-derived from the single registry, carrying a
+        NON-VACUITY GUARD on the counts (18 characters, 4 props, 8 poses) and a
+        check that every kind the game can spawn is present. Proven able to
+        fail throughout this phase
+  - [x] `e2e/anim.spec.ts` green - texture-swap animation kept, so the walk
+        cycle still changes texture KEYS
+  - [x] lint, typecheck, 138 unit, 37 e2e, vision 5/5 (148/148 sprites, up from
+        112), prodbuild 3/3, signal 13/13, build
+- Two gates needed real work rather than retuning:
+  - The LEG-COUNT invariant compared each walk frame's leg count against idle.
+    That held while every foot was planted and stopped meaning anything the
+    moment the rig had a real stride - a lifted foot legitimately leaves the
+    sample row, so the check fired on correct art. What it exists to protect is
+    that legs stay SEPARATE, so that is what it now asserts, scanning the lower
+    third rather than one row because which row crosses all the legs depends on
+    the pose. It still catches the horse bug it was written for: a merged pair
+    drops the count below three.
+  - `e2e/artscale.spec.ts` had never seen a boss. Stage 1 has none, so the
+    biggest art in the game went unmeasured - the guard added one phase ago was
+    covering heroes and grunts only. It now forces a boss. Its absolute band
+    also had to loosen, because these are BOX heights and a box carries margin
+    (a 124px boss ships in a 156px box), so it gained a per-SCREEN ratio test
+    that does not care about absolute size. Per screen, because menus draw the
+    cast deliberately smaller than play does and a global comparison measures
+    that intent rather than a defect. Proven able to fail: a boss at 160px
+    stays inside the absolute band and trips the ratio at 1.74x.
+- The clipping check added in UI-R3 found eleven more truncations the moment
+  new art arrived - the horse's ear, the drumstick's bone, the sword's pommel
+  and the arrow's fletching were each sitting on their own border. Fixed with
+  per-type padding rather than by widening the check.
+- `MIN_WEAPON_REACH_PX` was being applied raw in the browser gate while the
+  textures are rasterized at device density, so that check had been half as
+  strict as the unit gate backing it up ever since the renderer moved to 2x.
+  Now scaled by RENDER_SCALE.
+- `art/raw/` was deliberately left in place. It is untracked and gitignored, so
+  deleting it is not recoverable, and it costs nothing; `pixels.ts`,
+  `pixels.test.ts` and `make-art.mjs` went through `git rm` and are recoverable
+  from history. The BAKE pipeline (`bake-art.mjs`, `bake-core.mjs`,
+  `__HAS_BAKED_ART__`, `?bakedart=1`) is untouched and still e2e-covered.
+- Non-goals:
+  - No atlases and no Phaser Animations; they would make `anim.spec` and the
+    sprite gate's per-key iteration vacuous.
+
+### UI-R5 - Fighting-game HUD
+
+- Status: DONE
+- Requirement:
+  Redesign the in-stage HUD: angled plates instead of rounded panels, skewed
+  health bars, a portrait on each plate, a mirrored boss plate, a combo counter
+  that pops, and a SPECIAL-ready marker. Plus the three defects already written
+  down against it.
+- Acceptance criteria:
+  - [x] `drawSlab` and `makeBar` in `panels.ts`: parallelogram plates with a
+        heavy accent edge, and bars that shorten from a slanted leading edge
+        with a bright tip. Solid fills only, so the two renderers agree
+  - [x] Portraits drawn from the SAME figure as the fighter
+        (`drawKindPortrait`), so a portrait can never disagree with the
+        character it labels - which is exactly what the old select screen did,
+        showing flat palette rectangles beside five distinct warriors
+  - [x] A SPECIAL-ready diamond driven by the real `specialCost` against
+        current health. Not a meter: the special SPENDS HEALTH, and drawing a
+        meter would look more like a fighting game while inventing a mechanic
+        the sim does not have
+  - [x] Combo counter pops on each rise, italic, stroked
+  - [x] The continue overlay finally has a dimming backdrop. It had none -
+        CONTINUE? sat straight on the frozen battlefield. Kept under 0.7 alpha
+        so the occlusion gate reads it as a tint rather than as a burial
+  - [x] P1 and P2 health bars are the same height. They were 8px and 6px, which
+        made the second player's health look like a lesser kind of health
+  - [x] `panelRect` still recorded, so the containment gate keeps running
+  - [x] Labels stay Phaser `Text`, so the occlusion gate keeps finding them
+  - [x] lint, typecheck, 138 unit, 37 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Layout, after a first pass that was wrong: plates at 206 wide buried the
+  centre column, and the boss plate sat straight on top of the objective line.
+  They are 168 now, which leaves the stage name, score and objective a clear
+  132px lane of their own. And every plate is drawn before ANY label, so a
+  plate cannot occlude text whatever order it is created in - the boss plate
+  could, because it used to be built after the objective.
+- THREE gates re-aimed from implementation to intent. All three asserted on
+  bar TEXTURES, which no longer exist now the bars are Graphics - but the
+  deeper problem is that they were asserting the wrong thing to begin with:
+  - `e2e/hudpanels.spec.ts` asserted three textures were registered and that
+    the HP bar was an Image using one. Both were true, once, while every bar
+    was completely transparent - which is why a separate gate had to exist to
+    ask whether those textures held any pixels. It now spends health on the
+    special and requires the bar's recorded ratio to match the sim's.
+  - The vision HUD gate asked whether `hud:bar*` textures had pixels. It now
+    samples the rendered FRAME where each bar says it is and requires colour
+    there. Proven able to fail: with the bar fills made invisible it reports
+    "bar 0 at 54,26: only 0% coloured".
+  - `prodbuild` does the same against the shipped canvas, deriving the render
+    scale from the canvas width rather than hard-coding it.
+  Bars record what they drew as `bar` data, the same device `drawPanel` uses
+  for `panelRect` - a Graphics exposes no geometry, so without it nothing can
+  check that the bar on screen agrees with the health in the sim.
+- Note on proving it: my first attempt at falsifying the vision HUD gate was
+  INCONCLUSIVE and I nearly took it as a pass. I zeroed one of the bar's two
+  fills, the other still painted colour, and the gate correctly stayed green -
+  which says nothing about whether it can fail. Zeroing all three fills makes
+  it fail. A green run after a deliberate break is only evidence if the break
+  was complete.
+- Non-goals:
+  - No new gameplay state; the HUD reports what the sim already has.
+
+### UI-R6 - Menu screens
+
+- Status: DONE
+- Requirement:
+  Redesign title, select, result, game-over and game-complete: a treated
+  wordmark instead of a stroked label, angled slabs instead of rounded panels,
+  and a select screen that shows who you are picking.
+- Acceptance criteria:
+  - [x] `src/game/art/logo.ts` builds the DYNASTY WARS wordmark out of
+        canvas-2D text - italic lean, heavy ink shell, metal gradient down the
+        faces, hard drop shadow, highlight band - and bakes it to a texture, so
+        both renderers draw identical pixels. Its box is MEASURED before it is
+        drawn, because the font stack resolves to a different face on every
+        platform and a hard-coded box would clip the logo on whichever machine
+        draws it widest
+  - [x] No bundled font files. The letterforms come from the system stack, the
+        same one that keeps the Chinese names falling back to a face the
+        browser actually has
+  - [x] Select screen shows a large PORTRAIT of the highlighted hero, drawn
+        from the same figure art as the fighter, plus POWER and SPEED bars read
+        straight off `CharacterDef` and normalised across the roster - so the
+        bars compare the five to each other rather than to an invented maximum.
+        This screen used to draw flat palette rectangles, which is why the art
+        gate had to be taught to ask whether the five were "palette swaps"
+  - [x] `drawPanel`, `makeChip` and `createBarTexture` deleted. The first is
+        superseded by `drawSlab`, the second never had a caller, and the third
+        lost its last one when the bars became Graphics
+  - [x] `e2e/title.spec.ts` green - the hero line-up stays
+  - [x] Occlusion and containment gates green on all five screens
+  - [x] lint, typecheck, 138 unit, 37 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Two failures worth recording, because they are opposite kinds:
+  1. MINE, and the gate was right. I added the title and select vignettes AFTER
+     their labels, so a full-screen Image at depth 9000 sat over every line of
+     text and the occlusion gate flagged 23 of them. The vignette's centre is
+     transparent, so it LOOKS fine - but "the middle of my texture happens to
+     be see-through" is not something a gate can verify and not something a
+     label should have to rely on. Moved to the backdrop, where every other
+     scene already puts it.
+  2. NOT a defect in the game: `e2e/touch.spec.ts` tapped a hard-coded screen
+     point, "the middle of the screen", and asserted it picked the third hero.
+     Relaying the select screen moved the cards, so the tap landed on a
+     different one and the test failed for a layout reason while reading like
+     an input bug. It now asks the scene where the cards are and taps the
+     FOURTH - deliberately not the first, since the cursor starts there and
+     tapping it would pass whether or not the tap picked anything.
+- The portraits were re-framed after looking at them: the first pass zoomed
+  1.45x onto the face, which cut the top off every helmet and turned the roster
+  into a row of extreme close-ups - readable as faces, useless for telling five
+  armoured warriors apart. Head AND shoulders carries the headgear, pauldron and
+  collar, which is most of what distinguishes them.
+- Non-goals:
+  - No bundled fonts, no new screens.
+
+### UI-R7 - Stage backgrounds and impact FX
+
+- Status: DONE
+- Requirement:
+  Layered cel backdrops per stage, driven by the six per-stage colours already
+  in `src/core/stage.ts`, with ink-outlined ridges and atmospheric depth. Hit
+  sparks, dust and clouds redrawn to match the cast.
+- New `src/game/art/backdrop.ts` paints sky, ridges, ground and clouds on
+  CANVAS-2D rather than Phaser Graphics. That is what lets them use real
+  gradients: a Graphics gradient is WebGL-only and silently draws nothing under
+  canvas, so the old painters had to work in flat bands to stay honest between
+  the two renderers. Baked to a texture, a gradient is just a bitmap.
+- Every ridge silhouette is PERIODIC over the tile width - three harmonics of
+  the tile period. These are tileSprites, so a ridge whose left edge does not
+  meet its own right edge shows a vertical seam marching across the screen as
+  the stage scrolls: invisible in a screenshot, obvious in motion.
+- Acceptance criteria:
+  - [x] Two ridges, the far one paler and hazier, both ink-lined like the cast;
+        graded sky with a low sun baked into the tile; ground graded from a lit
+        horizon band to a richer floor, with one ink rule along the horizon
+  - [x] Speckle and tufts are placed by a fixed integer walk, not by random, so
+        the texture is identical every run and the vision numbers stay stable
+  - [x] `fx:spark` is a four-point star and `fx:dust` a soft radial puff, both
+        baked at device density. They were a plain square and a plain circle -
+        the last things on screen with no relationship to the art around them
+  - [x] `e2e/background.spec.ts` green with no change: the layers kept their
+        names, because they are the same layers painted better
+  - [x] `e2e/juice.spec.ts` still sees zero particles under autopilot
+  - [x] Renderer parity green
+  - [x] lint, typecheck, 138 unit, 37 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Two things found by looking rather than by a gate:
+  - The first ridge sat so low in its tile that only a 30px sliver was ever on
+    screen - the same way the old hills layer managed to be invisible entirely,
+    which is what `background.spec` was written for. That check passes on a
+    sliver, because a sliver is still opaque pixels inside the camera. Raised
+    the ridge and the tile.
+  - The clouds were stroked, and stroking a path made of overlapping ellipses
+    outlines each one INCLUDING where they overlap, so every cloud carried its
+    own construction lines. An outline would need the UNION of the lobes, which
+    a path of separate ellipses cannot give - the same limitation that made the
+    per-shape rim light fail in UI-R3. Dropped the stroke.
+- WATCH THIS. The vision negative control samples a patch of sky at
+  (0.62w, 0.2h) and requires the character gate to REJECT it. It still does,
+  but its margin has eroded exactly as this task predicted: `outlineRatio` at
+  that patch went from 0.233 to 0.858 and now PASSES its 0.8 threshold, so the
+  rejection rests on two metrics (silhouetteComplexity 0.031, appendageRatio 0)
+  where it used to rest on three. The backdrop is simply richer there now.
+  Recorded rather than acted on, because the control still fails and the
+  SECOND control - a real sprite flattened to one colour, added in UI-R1 - is
+  independent of the backdrop entirely and fails on four metrics. If a future
+  backdrop adds structure to that patch, move the sample; do not weaken the
+  gate.
+- Frame metrics after, all passing with no threshold moved: title 0.503/963,
+  select 0.497/1220, game_idle 0.907/967, game_combat 0.904/1010, boss_fight
+  0.893/965, game_combat_zhangfei 0.902/900, result 0.667/359, game_over
+  0.429/151, game_complete 0.576/688. `boss_fight` saturation fell from 0.742
+  to 0.404 as the darker stage-3 sky gradient took hold; the floor is 0.25.
+- Non-goals:
+  - No animated backgrounds, no foreground layers.
+
+### PERF-1 - Measure what the redesign cost, and reclaim the obvious waste
+
+- Status: DONE
+- Requirement:
+  Nothing in this repo measures rendering or memory - the perf spec budgets SIM
+  stepping only. The redesign quadrupled the pixel count and replaced fillRect
+  pixel maps with vector drawing, so the question "what did that cost" had no
+  answer. Probe it as a new axis rather than re-running the same two signals.
+- FRAME COST: a clean NEGATIVE result, and the control is the whole story.
+  Headless Chromium renders the game at 59.8ms/frame, which reads as 9 FPS and
+  is alarming until you look at what else is true: a blank page in the same
+  browser is 16.6ms, the TITLE screen is as slow as combat, and the canvas-2D
+  renderer at the same 960x540 is 16.9ms. A title screen cannot be 60ms of
+  drawing. Forcing ANGLE onto the real GPU:
+    headless default    59.5ms   SwiftShader (software)
+    headless angle=gl   16.8ms   AMD Radeon RX Vega 11
+    headed, real GPU    31.3ms   AMD Radeon RX Vega 11
+  So the cost is software rasterization in the harness, not the game. On a GPU
+  the redesign runs at a full 60 FPS. Also corrects UI-R2's explanation for the
+  vision timeout bump: it was not "4x the pixels" generally, it was that the
+  parity spec's WebGL half goes through SwiftShader while its canvas half does
+  not.
+- MEMORY: a real finding. 56.9MB of textures, 52.3MB of it `entity:*`, and 22
+  kinds generated for every stage when a stage spawns five or six. GameScene
+  registered `Object.keys(ENEMIES)` - all nine bosses, every stage.
+- Acceptance criteria:
+  - [x] `stageArtKinds(sim)` derives the list from the stage's own spawn tables,
+        props and bossKind, plus the loot and arrows no stage mentions.
+        56.9MB -> 31.8MB, 22 kinds -> 13
+  - [x] Lazy fallback in `syncSprites`: anything reaching the screen without art
+        gets it there rather than rendering blank. Narrowing a registration list
+        should not be able to make an enemy invisible
+  - [x] Unit guard: every kind ANY stage declares must have art. That is the
+        failure the narrowing risks, and it costs nothing to check
+  - [x] lint, typecheck, 140 unit, 37 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- THE REGRESSION THIS CAUSED, and it is the important part. Narrowing
+  registration took the visual sprite gate from 148 sprites to 76 - it reads the
+  LIVE texture manager, so generating less meant gating less - and its own guard
+  (`keys.length > 20`) was far too loose to notice. An optimisation silently
+  halved a gate.
+  - `__DW__.registerAllArt()` lets the gate register the whole cast before
+    assessing, restoring 148/148
+  - The count is now EXACT rather than a floor, because a floor is precisely
+    what let a halving pass. Proven able to fail: without the call it reports
+    "expected the whole cast, got 76 textures"
+- Also locked: figures must STAND where their box says. Sprites anchor
+  bottom-centre, the boxes carry heavy margin, and nothing checked that the feet
+  sit at the centre - a pose drawn off-centre makes the fighter jump sideways
+  for one frame of the walk cycle, which no shape or colour metric can see.
+  Measured -5.5 to +7.5 units, the extremes all on `hurt` where the body
+  deliberately recoils; bound set at 12. Proven able to fail.
+- Non-goals:
+  - No change to how anything looks.
+
+### PERF-2 - Per-pose art boxes
+
+- Status: DONE
+- Requirement:
+  90% of every character texture was transparent margin. The figure box was
+  212x116 because an attack or special thrust needs clearance to the right; the
+  other six poses need nothing like it and were paying for it eight times per
+  character. Give each POSE its own box width, keeping the height and the
+  horizontal centring identical so `fitSprite` and the bottom-centre anchor are
+  unaffected.
+- MEASURED first, per pose, across all eighteen characters - each pose drawn
+  into a deliberately oversized box and the drawn bounds taken relative to the
+  body centre. Units reached beyond the 96-wide pose space:
+    idle 0   walk0 0   walk1 0   hurt 12   jump 22   down 26   special 55   attack 57
+  So a single margin of 58 was right for two poses out of eight.
+- Acceptance criteria:
+  - [x] Box width per pose, from that measurement plus a 5-unit pad. One
+        character's eight boxes go from 1696 units of width to 1192
+  - [x] HEIGHT stays uniform across poses, which is not cosmetic:
+        `GameScene.fitSprite` derives ONE scale from the idle frame's height and
+        applies it to every pose, so heights that disagreed would resize the
+        fighter mid-animation
+  - [x] Margin stays SYMMETRIC. Almost every pose reaches only one way, so an
+        asymmetric box would be tighter still - but sprites anchor
+        bottom-CENTRE, so it would also move the character sideways. A tighter
+        box needs a per-pose anchor offset, and a wrong offset puts a fighter in
+        the wrong place: a worse failure than the memory it saves
+  - [x] Entity texture memory 27.1MB -> 19.1MB, total 31.8MB -> 23.7MB. With
+        PERF-1 that is 56.9MB -> 23.7MB, a 58% cut
+  - [x] Walk cycle checked: the shift across idle/walk0/walk1 measures 0.8
+        units, which is sub-pixel on screen. Screenshot compared against the
+        same frame before the change - visually identical, which is the goal
+  - [x] lint, typecheck, 141 unit, 37 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- The two guards this needed already existed and both still bite at the new
+  margins: the clipping check fails with "guanyu:attack is clipped at right"
+  when the attack margin is cut to 20, and the centring check fails when a
+  pose's feet are shoved sideways.
+- Added a THIRD, tighter one aimed at what this change specifically risked.
+  idle, walk0 and walk1 alternate three times a second, so a few units of
+  disagreement between them reads as a fighter vibrating - where the same offset
+  in a one-off pose like `hurt` reads as recoil, which is why the general
+  centring bound is 12. The cycle bound is 2. It is not redundant: proven able
+  to fail at 6.3 units, which the centring bound passes.
+- Non-goals:
+  - No change to the art itself, only to the box it is drawn into.
+
+### UI-R8 - Close the two follow-ups the redesign left open
+
+- Status: DONE
+- Requirement:
+  The UI-R series left two things written down and not acted on. Both are gate
+  work, and both turned out to be worth doing for reasons other than the ones
+  originally recorded.
+- (a) THE BACKGROUND GATE HAD TWO BUGS, one of them introduced by UI-R2.
+  - UNITS. Textures rasterize at RENDER_SCALE, so `min(src.height, lastRow)`
+    compared a device-pixel row count against a logical one and scanned only
+    the top half of every texture. A layer whose content sits in the lower half
+    was invisible to the check whether or not it was visible to the player.
+  - OCCLUSION. It asked only whether a layer's pixels were inside the CAMERA,
+    never whether anything was drawn in front of them. A ridge sitting entirely
+    behind the ground strip passed. Proven: moving the hills below the ground
+    now reports "bgHills: only 0 of its 24726 drawn pixels survive the camera
+    and whatever is in front of it"; the old check counted all 24726.
+  It now works in texture space and clips each layer against the top of the
+  nearest layer drawn in front of it - with no "only if that layer starts
+  lower" guard, because a nearer layer starting HIGHER covers this one
+  completely, and that is the case worth catching.
+- What it deliberately does NOT do: judge prominence. A first attempt required
+  a FRACTION of each layer's own content to survive, which sounds stricter and
+  is wrong - the sky is deliberately mostly hidden behind the hills and the
+  ground, and measured 16%. It would have failed for working as intended.
+  "Barely visible" is a looking-at-it judgement, and the one real instance of it
+  this project has had was in fact found by looking. "Not visible at all" is
+  what a gate can answer, so the floor stays an absolute count: measured sky
+  35040, hills 7227, ground 55200, floor 1000.
+- (b) THE THRESHOLD NOTES WERE WRONG, and the correction matters more than the
+  numbers. UI-R3 recorded that `minColorCount` and `maxDominantFraction` had
+  "gone unfailable on smooth art" and that they should be deleted once the pixel
+  pipeline went. The pipeline went in UI-R4. Measuring before deleting shows the
+  conclusion was wrong: flattened art scores colorCount 1 and dominantFraction
+  1.000, so both metrics fire. The note reasoned from the margin on GOOD art -
+  147 against a floor of 12 - when the question a floor has to answer is whether
+  the FAILURE MODE trips it. Acting on that note would have deleted two working
+  metrics for the crime of passing comfortably, which is what a floor is for.
+- Acceptance criteria:
+  - [x] Measured over the whole cast AND over the failure mode: 144 character
+        sprites and 4 props, each also flattened to a single tone. Numbers
+        recorded in `vision/thresholds.ts`
+  - [x] `silhouetteComplexity` checkpoint from UI-R3 resolved: measured
+        0.563-1.000 against box art's 0.156-0.250, floor left at 0.3. It COULD
+        now be raised, and should not be - it already sits above the failure
+        mode, and hugging the population would catch nothing new while making
+        the gate brittle against ordinary variation in a pose
+  - [x] Prop shape floors stay at zero, but for a better reason than the old
+        one. It used to be resolution; props are vectors now. It is that
+        flattening a prop leaves silhouette and appendage IDENTICAL - shape is
+        exactly what a flat fill does not change - so for an object with no
+        limbs those metrics can never separate good art from bad
+  - [x] No threshold VALUE changed; the diff in `thresholds.ts` is comments only
+  - [x] lint, typecheck, 138 unit, 37 e2e, vision 5/5, prodbuild 3/3, build.
+        The logic signal was not re-run: no file under `src/` was touched
+- Non-goals:
+  - No art changes, no threshold loosening, no new metrics.
+
+### ENH-3 - Local 2-player co-op (drop-in)
+
+- Status: DONE
+- Requirement:
+  The last enhancement PROJECT.md recorded. Unlike the two input adapters this
+  one changes the deterministic sim, so it is built around player two being
+  ABSENT by default: `player2Id` is null until someone joins, and every
+  multi-player branch reduces to the existing single-player behaviour when it
+  is. That is what lets the whole existing suite, and the determinism it rests
+  on, stay exactly as it was.
+- Design decisions taken from arcade convention and recorded here rather than
+  guessed at silently:
+  - Drop-in join: player two presses one of their own keys mid-stage. There is
+    no second select screen, so they get the first hero player one did NOT
+    pick - two identical figures would be unreadable.
+  - SHARED pool of continues (`sim.lives`), not per-player credits.
+  - The camera follows whoever is furthest into the stage; enemies chase
+    whoever is nearest; the run ends only when BOTH players are down.
+- Acceptance criteria:
+  - [x] `stepSim(sim, input, input2?)` - the second input is optional, so every
+        existing caller, test and harness is untouched
+  - [x] Unit: a busy second input changes NOTHING while nobody has joined
+        (snapshot-identical to a solo run over 240 ticks)
+  - [x] Unit: twin sims stay bit-identical over 600 ticks with two players
+  - [x] Unit: nearest-enemy targeting, lead-player camera, game over only when
+        both are down, either player revivable from the shared pool
+  - [x] E2E: F drops player two in as a DIFFERENT hero, both render, and each
+        player moves only on their own keys
+  - [x] 121 unit, 31 e2e, vision 5/5, prodbuild 3/3, signal 12/12
+  - [x] A player downed while the other fights on spends a continue and gets
+        back up on their own action key, with a prompt saying so. Found by
+        playing the feature rather than by a test: the continue overlay only
+        appears once EVERYONE is down, so a single downed player was out for
+        the rest of the stage with their continues unspent. Guard proven able
+        to fail.
+  - [x] A co-op game survives the stage break: player two's hero is threaded
+        through the result screen into the next stage, by the real path and by
+        the debug bridge alike. That transition also CRASHED - the scene
+        instance is reused and `children.removeAll` destroys the HUD, but the
+        stale references were still used next stage. Both found by playing a
+        transition, not by a test.
+  - [x] Composition with the other input work, which did NOT hold at first:
+        a second controller now drives player two (every pad used to merge into
+        player one, so two people with two pads could not play), and a party
+        wipe revives whichever player answers the continue rather than always
+        player one.
+  - [x] Things the world has only one of: items can be picked up by EITHER
+        player (pickup looped over player one alone, so player two could not
+        eat or arm themselves at all), and two players cannot ride the same
+        horse. Also fixed a bug I introduced in the co-op refactor - looping
+        the horse world-update per player made a fleeing horse bolt at double
+        speed with two players, invisible with one.
+- Non-goals:
+  - No second select screen, no per-player credits, no online play, no
+    co-op-specific balance tuning.
+
+### ENH-2 - Touch input
+
+- Status: DONE
+- Requirement:
+  The game is a public URL and is currently unplayable on any phone or tablet.
+  Measured on iPhone 13, Pixel 7 and iPad: the canvas scales correctly and
+  there are no errors, but a tap does nothing and the scene never leaves the
+  title - there is no input path at all. Add one.
+  Menus confirm on a tap; the character select confirms the hero that was
+  tapped. In a stage, on-screen controls appear - a direction pad on the left,
+  attack/jump/special on the right - feeding the same `InputState` the keyboard
+  and gamepad produce, merged the same way. Controls appear only on devices
+  that actually have touch, so nothing changes on desktop.
+- Acceptance criteria:
+  - [x] `TouchAdapter` mirrors the keyboard/gamepad adapters and merges the
+        same way; actions latch on `pointerdown` so one tap is one action
+  - [x] Multi-touch: `activePointers: 3`, so a thumb can hold a direction while
+        the other taps attack
+  - [x] E2E under Pixel 7 emulation: a tap drives title -> select -> game and
+        picks the hero that was TAPPED; a CDP touch hold on the d-pad moves the
+        player; the special button raises specialsUsed and drops hp, proving
+        the press reaches the sim rather than only the animation
+  - [x] On-screen controls ABSENT on desktop (asserted: zero Zones), so the
+        vision gate is unaffected - confirmed 5/5 unchanged
+  - [x] 111 unit, 27 e2e, vision 5/5, prodbuild 3/3, signal 12/12
+- Note: action buttons latch in the `pointerdown` handler rather than from
+  polled state. Polling dropped any tap that began and ended inside one frame,
+  which is an ordinary fast tap - the e2e caught it.
+- Follow-up found by reviewing the shipped feature: GameScene had NO pointer
+  handler, so the CONTINUE? overlay after a death was unanswerable on a phone
+  and a touch player's run just ended. A tap now continues, and every
+  "PRESS ENTER" prompt reads "TAP ..." on a touchscreen instead of naming a key
+  the device does not have. Guard test proven able to fail.
+- Non-goals:
+  - No gesture controls, no haptics, no layout customisation, no landscape
+    lock. 2P co-op remains a separate future enhancement.
+
+### ENH-1 - Gamepad support
+
+- Status: DONE
+- Requirement:
+  PROJECT.md records gamepad input as a future enhancement; this implements it.
+  A gamepad drives the game exactly as the keyboard does, and the two work at
+  the same time without either blocking the other. Mapping: left stick and
+  D-pad move; A attacks (as Z); B jumps (as X); X or Y fires the special (as
+  C); Start confirms (as Enter) on every menu and on the continue prompt.
+  Input still reaches the sim only as the existing `InputState`, one press per
+  press, so nothing in `src/core` changes and determinism is untouched.
+- Acceptance criteria:
+  - [x] `GamepadAdapter` mirrors `KeyboardAdapter`; the two merge per tick via
+        `mergeInputs`, so neither source blocks the other
+  - [x] Every menu scene confirms on Start as well as Enter
+  - [x] E2E with a synthetic gamepad (stubbed `navigator.getGamepads` plus a
+        `gamepadconnected` event): the pad ALONE drives title -> select ->
+        game, and produces attack, jump and the special in the sim
+  - [x] Edge-triggered: holding a button fires exactly once
+  - [x] No gamepad connected changes nothing: 111 unit, 24 e2e, vision 5/5,
+        prodbuild 3/3, signal 12/12
+- Note: the adapter reads `navigator.getGamepads()` directly rather than
+  Phaser's gamepad plugin. Going through the plugin made confirms land on the
+  button RELEASE instead of the press, because its cached snapshot refreshes on
+  its own schedule relative to scene `update`. The raw API is already a polling
+  API and behaves predictably.
+- Non-goals:
+  - No touch input, no rumble, no remapping UI, no gamepad navigation of the
+    hero cursor beyond the existing left/right (the stick and D-pad feed the
+    same directional input the arrows do).
+
+### FIX-4 - A phone in landscape loses the bottom of the game, controls included
+
+- Status: DONE
+- Requirement:
+  On a Pixel 7 held in LANDSCAPE - the natural way to hold a side-scrolling
+  brawler - the viewport is 863x360 and the canvas is 863x485, anchored at
+  top=0. A quarter of the game is below the fold, and what is down there is the
+  on-screen controls: the d-pad lands at viewport y=403, the A and B buttons at
+  414 and 421, against a 360px window. Only C is reachable. The game is
+  unplayable in the orientation a player would choose.
+
+  Cause is one CSS declaration. `#game` has `min-height: 100vh` and no definite
+  height, and Phaser's `Scale.FIT` measures that element: given a parent that
+  may grow, it fits to WIDTH and lets the parent grow to suit. On a viewport
+  wider than 16:9 that overflows downward. Desktop never showed it because a
+  desktop window is close enough to 16:9 that fitting to width fits the height
+  too; portrait never showed it because fitting to width is correct there.
+
+  I saw this once already and talked myself out of it. A screenshot at 740x360
+  during FIX-1 came out with the bottom cut off and I recorded it as "my
+  viewport override broke the letterboxing". It was this bug.
+- Acceptance criteria:
+  - [x] `#game` gets `height: 100vh` with a `100dvh` override for browsers
+        that understand it, so the box stays right as the mobile URL bar comes
+        and goes. `min-height` removed - a minimum is exactly what let the
+        element grow
+  - [x] Measured before and after in all three configurations. Landscape
+        863x360: canvas 863x485 -> 640x360, and all seven control zones move
+        from below the fold to on screen. Pixel 7 portrait 412x232 and
+        iPhone 13 portrait 390x219 are UNCHANGED, as is desktop - only the
+        orientation that was broken moved
+  - [x] Gate asserts the canvas fits the viewport and every control zone lands
+        inside it, in portrait AND landscape. It checks the ZONES rather than
+        the drawing, because reachability is a property of the hit area.
+        Proven able to fail: restoring `min-height` gives "landscape: the
+        canvas does not fit the screen (viewport 863x360) - canvas is 485px
+        tall in a 360px viewport"
+  - [x] lint, typecheck, 142 unit, 42 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No change to the controls' layout or to the scale mode. FIT is correct; it
+    was being handed a box that could grow.
+
+### GATE-2 - Nothing asserts that a pose looks like the state it stands for
+
+- Status: DONE
+- Requirement:
+  `hurt` and `special` were added as distinct poses in UI-R4, and the criterion
+  "hurt shows on hitstun and special is distinct from attack" was ticked by
+  eye. A pose that quietly reuses another's joint table still produces a
+  texture, still gets a key, and still passes every count, legibility, clipping
+  and centring check in `test/game/artquality.test.ts`. It just tells the
+  player nothing. The only pose comparison in the file is the walk-cycle test,
+  which compares the one pair that differs by construction.
+
+  This is not hypothetical. `src/game/art/poses.ts:204` records that "the
+  special used to reuse the attack pose outright, so the move that costs health
+  looked exactly like the one that does not". That regression already happened
+  once and had no test.
+
+  Found by rendering all eight poses for four kinds into one sheet and looking
+  at it - `hurt` read as `idle` and `special` read as `attack` at thumbnail
+  size, which turned out to be wrong, and the measurement is what settled it.
+- Acceptance criteria:
+  - [x] Every armed kind's `idle`/`hurt` and `attack`/`special` pairs are
+        compared as symmetric difference over union of their silhouettes - a
+        SHAPE comparison, not a pixel-for-pixel one. Boxes differ in width per
+        pose and are symmetric about the figure, so box centres are aligned;
+        heights are uniform by design and that is asserted rather than assumed
+  - [x] `MIN_POSE_DIFFERENCE = 0.15`, placed just above the failure mode (a
+        reused table scores 0) rather than just under the population, whose
+        weakest armed kind is 0.31. Reference point: `idle` against `walk0`,
+        the pair everyone reads as visibly different, scores 0.395
+  - [x] The horse is excluded through the existing `ARMED_KINDS`, whose comment
+        already records that its attack pose aliases idle by design -
+        confirmed at `src/game/art/beasts.ts:76`, not assumed
+  - [x] Proven able to fail by reintroducing the ACTUAL historical regression:
+        `special: ATTACK` in the pose table gives "guanyu: the special pose is
+        the attack pose again: expected 0 to be greater than 0.15"
+  - [x] lint, typecheck, 142 unit, 41 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No art change. Measured across the whole cast, `idle`/`hurt` averages 0.539
+    and `attack`/`special` 0.464, both above the 0.395 that `idle`/`walk0`
+    scores. The poses were already distinct; nothing could have told us.
+
+### GATE-1 - The art-scale gate cannot fail when a boss stops being bigger
+
+- Status: DONE
+- Requirement:
+  `e2e/artscale.spec.ts` bounds the tallest-over-shortest character ratio from
+  ABOVE only (`MAX_CHARACTER_RATIO = 1.7`, which catches a hero drawn at twice
+  its size). Its own comment states the design intent - "Bosses are drawn
+  larger than heroes by design (156 against 116, a ratio of 1.35)" - but
+  nothing asserts it. A boss drawn at the player's height scores 1.0 and sails
+  through, while being exactly the readability failure the size difference
+  exists to prevent: you should be able to tell the boss from the mob at a
+  glance.
+
+  Found by a producer sweep of all nine stages and all nine bosses, which is
+  also what measured the real number: `GameScene.fitSprite` gives a boss 124
+  on-screen units against 92 for everyone else, and boss/player comes out at
+  1.34 on every one of the nine stages.
+- Acceptance criteria:
+  - [x] `MIN_BOSS_RATIO = 1.2` on the boss screen, over posed characters only -
+        props carry their own sizes and would make the ratio meaningless. The
+        floor sits where "visibly larger" stops being true (the failure mode is
+        1.0) rather than just under the measured 1.34
+  - [x] Proven able to fail by shrinking the SUBJECT, not the threshold: set
+        `isBoss ? 92` in `fitSprite` and the gate reports ratio 1 and names
+        `entity:xuchu:idle 116px` beside the grunts
+  - [x] The producer sweep behind it found no defects, which is worth saying
+        plainly: nine stages render in nine distinct palettes with no page
+        errors, all eighteen character kinds have real weapon reach (81-171px,
+        so no boss is weaponless), and boss/player is 1.34 on every stage
+  - [x] lint, typecheck, 141 unit, 41 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No art or sim change. Nothing is wrong with the bosses; the gate simply
+    could not have told us if there were.
+
+### FIX-3 - The title screen teaches a phone player keyboard controls
+
+- Status: DONE
+- Requirement:
+  On a touchscreen the title's control plate reads:
+    ARROWS  MOVE      Z  ATTACK      X  JUMP
+    C  SPECIAL      ENTER  CONFIRM      M  MUTE
+    2P: PRESS F TO JOIN ANY TIME  -  WASD  F/G/H
+  None of that exists on a phone, and the controls that DO exist - the d-pad
+  and the A/B/C buttons the player is about to be given - go unmentioned. It is
+  the first screen every phone player sees.
+
+  The screen already knows it is a touch device: the prompt below this plate
+  says TAP TO START rather than PRESS ENTER. Audited every other screen under
+  Pixel 7 emulation and the title is the ONLY one that gets this wrong - select,
+  result, game over and the continue overlay all adapt their prompts.
+- Acceptance criteria:
+  - [x] On touch the plate reads "D-PAD MOVE / A ATTACK / B JUMP" and
+        "C SPECIAL / TAP CONFIRM". Mute is keyboard-only and is simply not
+        advertised rather than invented as a new button
+  - [x] The 2P line stays truthful rather than disappearing: "2P NEEDS A
+        KEYBOARD OR A SECOND GAMEPAD"
+  - [x] Desktop wording unchanged, and asserted so
+  - [x] A gate that checks BOTH directions, because a touch-only check would
+        be satisfied by deleting the plate outright. Proven able to fail:
+        forcing the desktop wording on a phone names all three offending lines
+  - [x] Every other screen audited under Pixel 7 emulation - select, result,
+        game over and the continue overlay already adapt. The title was the
+        only one that did not
+  - [x] lint, typecheck, 141 unit, 41 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - The in-play "1P DOWN - PRESS Z TO REJOIN" and "2P DOWN - PRESS F TO REJOIN"
+    prompts are left alone DELIBERATELY. Reviving a downed player runs through
+    `keyboardAdapter.wantsToJoin()`, and that state only arises in co-op, which
+    already needs a keyboard or a second gamepad to reach. Rewording a prompt
+    no phone can see would be churn.
+  - No mute button, no new controls, no layout change. The plate is the right
+    size and in the right place; it is saying the wrong thing.
+
+### FIX-2 - The stage banner is drawn over the HUD
+
+- Status: DONE
+- Requirement:
+  The stage-entry banner is a Container at depth 11_000 - the only object in
+  the game above the HUD's 10_000..10_002 band. For the ~1.9s it holds it
+  occupies x 118..362, y 46.5..95.5, and measurement says that costs:
+    - 29% of player two's HP bar, at the start of EVERY co-op stage;
+    - 33% of player two's plate, same;
+    - 64% of the CONTINUE? label, whenever a death lands inside that window.
+  Found by looking at `artifacts/look/coop.png`, where P2's plate reads as
+  truncated rather than as something with a banner in front of it.
+
+  No gate caught it, for two separate reasons:
+    - `e2e/layout.spec.ts` only ever treats a Text as the thing being covered,
+      and it takes bounds from `getBounds()`. Every plate and every bar in the
+      HUD is a `Graphics`, and `Graphics.getBounds()` returns nothing, so the
+      occlusion gate is structurally blind to most of the HUD. `drawSlab` and
+      `makeBar` have recorded their geometry as `panelRect`/`bar` data all
+      along; nothing read it.
+    - The banner lives for under two seconds at stage entry, and no gate
+      samples a co-op HUD inside that window.
+- Acceptance criteria:
+  - [x] The banner moved from depth 11_000 to 9_800: under every plate, still
+        above the vignette (9_000) and the on-screen touch controls (9_500), so
+        it reads as being over the battlefield and under the readouts
+  - [x] `readDisplayList` falls back to the `panelRect`/`bar` data when
+        `getBounds()` gives nothing, so plates and bars are visible to the
+        occlusion gate as both occluder and occludee. Threshold unchanged, so
+        this only widens what the gate can see - and it found nothing new on
+        the existing screens, so the widening cost nothing
+  - [x] CORRECTION to this criterion as filed. I wrote "zero tolerance: the
+        banner may not overlap any HUD plate, bar or label". That gate would
+        FAIL correct art: the banner legitimately overlaps the P1 plate's
+        bottom edge by about 7px, and it is meant to. The property that
+        matters is LAYERING, so the gate asserts the banner is behind
+        everything it meets - guarded by a check that it still MEETS the HUD
+        at all, because a depth assertion about rectangles that no longer
+        touch would be true and worthless
+  - [x] Proven able to fail: restoring depth 11_000 names 11 buried HUD objects
+        ("the stage banner (depth 11000) is drawn over part of the HUD"),
+        including the plates and CONTINUE?. It can only see the plates because
+        of the `panelRect` fallback, so the two halves of this fix are what
+        make each other work
+  - [x] lint, typecheck, 141 unit, 40 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No change to the banner's size, position, timing or animation, and no
+    change to `MAX_COVERED_FRACTION`. The banner was fine; it was in front.
+
+### FIX-1 - The on-screen touch controls are invisible
+
+- Status: DONE
+- Requirement:
+  On a phone the game draws no d-pad and no A/B/C buttons. The controls still
+  WORK - touching the right blank area moves the player - so a player has to
+  find invisible buttons by feel. That is the state ENH-2 existed to end, and
+  the UI-R2 HUD split reintroduced it.
+
+  Cause, and it is an API misreading rather than a logic slip:
+  `Phaser.Structs.List.removeAll(skipCallback)` takes SKIPCALLBACK, not
+  `destroyChild`. `this.children.removeAll(true)` therefore unlinks every object
+  from the display list and destroys nothing. `GameScene.create` builds the
+  touch controls into the `hud` scene, then `HudScene.create` - which runs
+  afterwards, because `scene.launch` is queued - sweeps the list. The Graphics
+  and the three labels are unlinked and stop being drawn, while the seven Zones
+  stay registered with the input plugin and keep working.
+
+  That split is also why no gate caught it: `e2e/touch.spec.ts` drives the
+  controls through the INPUT system, which was never broken, and the only other
+  touch assertion is a desktop one that wants zero zones.
+- Acceptance criteria:
+  - [x] The HUD owns the on-screen controls, because the HUD owns and sweeps the
+        display list they live on. `TouchAdapter` splits into persistent state
+        and a `mount(scene)` that draws the visuals and hit zones, called again
+        at the end of every `HudScene.build`. Re-mounting also releases a
+        direction held across a rebuild, which would otherwise stick forever
+        with nothing left to receive its `pointerup`
+  - [x] `GameScene` reads the HUD's adapter rather than adding objects into a
+        scene it does not own
+  - [x] Both `removeAll(true)` sweeps replaced by `destroyAllChildren`, and the
+        comment claiming `removeAll(true)` "DESTROYS these" corrected
+  - [x] A gate that fails on the shipped build - verified by reverting the fix
+        and watching both new tests go red ("the d-pad is not on the HUD display
+        list", "stage two has no d-pad"). They assert on the DISPLAY LIST and
+        require the drawn zone count to equal the interactive count, so the
+        exact split that shipped cannot recur silently
+  - [x] Two things I predicted and measurement refuted, both left alone: there
+        is NO object leak (0 of 44 stage-1 objects alive after three stage
+        transitions - scene shutdown collects the orphans) and NO zone
+        accumulation (7 at each of stages 1-4). The controls were also NOT in
+        the wrong coordinate space: `useLogicalViewport` pins the HUD camera's
+        origin and zooms it, so the HUD authors in logical units like everything
+        else
+  - [x] lint, typecheck, 141 unit, 39 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No change to the controls' layout, size or behaviour. They were correct;
+    they were simply not on the display list.
+
+
+## Completed tasks archived during ART-15 — 2026-09-20
+
+### FLAKE-1 - The audio e2e measures sim progress with a wall clock
+
+- Status: DONE
+- Requirement:
+  `e2e/audio.spec.ts` failed once during the FIX-4 verification run and passed
+  both on its own and on a full re-run of the suite (42/42). It is a flake, not
+  a breakage, and the mechanism is visible in the test:
+
+      await page.keyboard.press('z')   // swing
+      await page.waitForTimeout(500)   // let the attack finish
+      await page.keyboard.press('x')   // jump
+
+  The 500ms is standing in for "enough sim ticks that the attack has ended",
+  because a jump is refused unless the player is idle or walking. Ticks advance
+  with FRAMES, so under three parallel workers the frame rate drops, 500ms
+  buys fewer ticks, the attack is still running, the jump is refused and only
+  one sfx fires where the test wants two. `playwright.config.ts` already
+  records this class of problem: "too many parallel workers starve each other
+  under contention (recurring flake)".
+- Acceptance criteria:
+  - [x] The test now polls for the player being back to `idle` or `walk`
+        before pressing jump, and polls the sfx counter afterwards
+  - [x] Nothing weakened: same two sfx from the same two actions, same mute
+        toggle, no retry added, no assertion relaxed
+  - [x] Reproduced the flake deterministically before fixing it, by starving
+        frames with `Emulation.setCPUThrottlingRate` rather than hoping to
+        catch it. The 500ms wait bought 57 ticks unthrottled, 9 at 10x and 4
+        at 20x; at both throttled rates the player was still in `attack` when
+        jump was pressed, so it was refused and one sfx fired instead of two.
+        The polling version passes at every rate
+  - [x] CORRECTION to the audit criterion as filed. I wrote that any other
+        `waitForTimeout` standing in for sim progress "should go the same way".
+        Measuring says otherwise, and the real discriminator is sharper than
+        the one I wrote: the danger is not a wall-clock wait, it is an
+        assertion that needs the sim to cross a THRESHOLD inside that window.
+        `touch.spec`'s d-pad hold asserts `x1 > x0` - any progress at all - and
+        at 10x starvation still moved the player 120 -> 130.5. `gamepad.spec`'s
+        button hold is the same shape with a 1200ms margin. `anim.spec` needs a
+        full walk-frame alternation, which is a threshold, but it samples six
+        times and caught both frames at 8 ticks under 20x starvation, twice
+        over. So `audio.spec` was the only genuine instance, and rewriting
+        three working tests on speculation would have been its own risk
+  - [x] lint, typecheck, 142 unit, 42 e2e, build. Vision, prodbuild and signal
+        were not re-run: nothing under `src/` changed, so the game they measure
+        is byte-identical to 03c38be where all three were green
+- Non-goals:
+  - No change to the audio pipeline. The code under test is not implicated;
+    the measurement is.

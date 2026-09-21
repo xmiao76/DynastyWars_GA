@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "adapter": "generic",
+  "model": null,
+  "mode": "Auto",
+  "iterations": 1,
+  "intervalSeconds": 0,
+  "timeoutSeconds": 3600,
+  "adapters": {
+    "generic": {
+      "executable": "node",
+      "args": ["scripts/adapters/example-wrapper.mjs", "{requestFile}", "{resultFile}"],
+      "inheritStdin": false
+    }
+  }
+}
