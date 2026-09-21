@@ -1306,3 +1306,102 @@ Add future enhancement tasks below this heading.
 - Non-goals:
   - No patching of Phaser and no change to the scale mode. One refresh on the
     events that matter is the whole fix.
+
+### ENH-4 - Per-weapon hero moveset data, strike mapping, and unit tests
+
+- Status: TODO
+- Requirement:
+  All five heroes share identical frame data (`defineHeroAttacks` in
+  `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 — only damage/reach
+  numbers differ), so a pike thrust and a blade sweep feel identical. Give
+  each hero weapon-true per-hit frame data (startup/active/recover,
+  knockback/knockdown, reach/arc per jab1, jab2, finisher), keeping the
+  3-hit chain, jumpkick, special, and all enemy defs unchanged:
+    - Guan Yu, glaive (heavy sweeps): slowest chain, wide arc; e.g. jabs
+      8/5/12 arc 12, finisher overhead chop 12/6/20 with knockdown.
+    - Zhang Fei, serpent pike (longest, thrust-first): longest reach, narrow
+      arc; quick thrusts 5/4/9, finisher wide sweeping knockdown 10/6/18.
+    - Zhao Yun, spear (fast agile): fastest chain 5/3/8, lowest damage/hit.
+    - Huang Zhong, bow (veteran archer): compact short-range melee, moderate
+      speed; arrow special untouched.
+    - Wei Yan, dao (chopping blade): slow heavy chops 9/5/14, high damage,
+      long recover; finisher big knockdown chop.
+  Exact numbers are the implementer's within these identities. Replace the
+  `.jab2`-suffix pose rule in `poseForEntity` (`src/game/adapters/sprites.ts`)
+  with a `STRIKE_POSE` table keyed by full attack id, initially mapping to
+  current behavior (jab2→attack2, everything else→attack); per-hero triples
+  land in ENH-5 with the new poses. Fix the self-play bot (`selfplay/bot.ts`,
+  two call sites) to space off the DRIVEN hero's own `combo[0]` def instead
+  of hard-coded `zy.jab1`.
+- Acceptance criteria:
+  - [ ] Before editing, `npm run signal` is recorded in PROGRESS.md as the
+        ENH-4 baseline marathon table (stage times/continues per hero).
+  - [ ] New `test/core` assertions: per-hero frame data differs as designed
+        (e.g. zhaoyun chain total < guanyu; zf.jab1 longest reach); every def
+        keeps `totalFrames > 0`; full-combo DPS per hero within ±10% of its
+        current value, computed in-test (no hand-waving).
+  - [ ] `sprites.test.ts`: table-driven selection proven (mapping decides,
+        not the suffix); phasing boundaries per new frame datum; fallback to
+        `attack`/`special` for enemies, mounted sweep, unknown ids preserved.
+  - [ ] Bot own-def spacing covered by a targeted test; `npm run signal`
+        still 13/13 (bot viable with every hero).
+  - [ ] Each new assertion proven able to fail against the old tables/data.
+  - [ ] lint, typecheck, unit green. No `sim.ts` logic changes (data only).
+- Non-goals:
+  - No new poses or art-gate changes (ENH-5). No jumpkick, special, enemy,
+    or mounted-sweep changes. No DIFF-1 smoothing: record balance deltas,
+    do not chase them.
+
+### ENH-5 - Weapon-true strike poses (thrust/chop/sweep) and art gates
+
+- Status: TODO
+- Dependency: do not start until ENH-4 is DONE. If reached earlier, mark
+  this BLOCKED with reason "waiting on ENH-4" and implement nothing.
+- Requirement:
+  Author at most three new shared strike poses in `src/game/art/poses.ts`:
+  `thrust` (deep lunge, weapon level), `chop` (high-to-low cut on a steep
+  forward diagonal, inside HEADROOM 27 — never truly overhead), `sweep`
+  (low crouched wide swing). Repoint ENH-4's `STRIKE_POSE` table so each
+  hero's (jab1, jab2, finisher) is three distinct poses and no two heroes
+  share the same ordered triple. Register names in `sprites.ts` POSES,
+  calibrate per-pose `POSE_REACH` by measurement (no 57 fallback), extend
+  the hardcoded strike lists and distinctness PAIRS in
+  `test/game/artquality.test.ts`.
+- Acceptance criteria:
+  - [ ] Reach gate: every new strike beats idle by ≥ MIN_WEAPON_REACH_PX
+        for every armed kind. Retract gate: windup/recover strictly narrower
+        than EACH new strike. Distinctness: each new strike vs idle, windup,
+        recover, and sibling strikes, all above the floor. No floor moved.
+  - [ ] Face-clearance (all kinds × poses × facings), no-clip, centering,
+        portrait, tassel, and weapon-identity tests green unmodified in logic.
+  - [ ] `npm run vision` 5/5 including renderer parity and both negative
+        controls; before/after combo sheets for all five heroes captured via
+        the weapon-review/facesheet scripts and judged by eye at gameplay
+        size (desktop + phone attacks); no clipping, no weapon over a face.
+- Non-goals:
+  - No frame-data changes (ENH-4 owns them). No threshold weakening — redraw
+    the pose, never the floor. Enemies keep existing strike mapping.
+
+### ENH-6 - Moveset validation: e2e, signals, balance comparison, eye review
+
+- Status: TODO
+- Dependency: do not start until ENH-5 is DONE. If reached earlier, mark
+  this BLOCKED with reason "waiting on ENH-5" and implement nothing.
+- Requirement:
+  Prove the redesigned movesets end to end. Extend `e2e/anim.spec.ts`
+  strike/withdrawn predicates to the new pose suffixes and add a per-hero
+  combo texture test (Zhang Fei shows thrust-family keys, Guan Yu
+  sweep/chop-family — never the same triple). Run the full gates and compare
+  against the ENH-4 baseline marathon table.
+- Acceptance criteria:
+  - [ ] e2e green including the new per-hero combo test; vision 5/5;
+        prodbuild 4/4; signal 13/13 including all five marathons.
+  - [ ] Marathon before/after table recorded in PROGRESS.md. Any stage mean
+        shifting >15% stops the task: flag to the owner, do not retune toward
+        it. DIFF-1 stays BLOCKED regardless.
+  - [ ] All five heroes' full combos eye-reviewed at gameplay size (desktop +
+        phone); masked attribution check: each combo reads as its weapon.
+  - [ ] lint, typecheck, unit green; no thresholds weakened.
+- Non-goals:
+  - No DIFF-1 smoothing and no new follow-up tasks invented. No deployment,
+    push, or cloud changes.
