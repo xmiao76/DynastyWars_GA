@@ -35,16 +35,21 @@ if (-not (Test-Path -LiteralPath $runner -PathType Leaf)) { throw "Loop runner n
 $node = (Get-Command node.exe -ErrorAction Stop).Source
 
 function Find-DshServer {
+  # The Harness server is node running the dsh launcher (...\dsh\lib\bin.js).
+  # Per-job subprocess runners also contain 'dsh' in their command lines, so a
+  # loose match binds the wrong (short-lived) process. Match the launcher
+  # precisely and keep the outermost match: the server roots this process tree.
+  $match = $null
   $seen = @{}
   $id = $PID
   while ($id -gt 0 -and -not $seen.ContainsKey($id)) {
     $seen[$id] = $true
     $proc = Get-CimInstance Win32_Process -Filter "ProcessId=$id"
-    if ($null -eq $proc) { return $null }
-    if (($proc.Name -eq 'node.exe' -and $proc.CommandLine -like '*dsh*') -or ($proc.Name -like 'dsh*')) { return $proc }
+    if ($null -eq $proc) { break }
+    if (($proc.Name -eq 'node.exe' -and $proc.CommandLine -like '*dsh*lib*bin.js*') -or ($proc.Name -like 'dsh*')) { $match = $proc }
     $id = $proc.ParentProcessId
   }
-  return $null
+  return $match
 }
 
 if ($ServerPid -gt 0) {
