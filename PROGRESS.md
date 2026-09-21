@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-21 02:55 - PRODUCER PASS (signals + frame sweep, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED on an owner decision) + 20
+  DONE. No IN_PROGRESS or TODO. First GA producer pass after MIGRATION-GA.
+- LOGIC signal: 'npm run signal' observed 13/13 ok, zero invariant violations
+  and zero page errors across idle, co-op, seeds, weapon, perf and all five
+  marathons (incl. nine-stage zhaoyun: continues 0,0,2,1,1,0,1,2,2 - the known
+  DIFF-1 standing shape, not a new finding). No regression.
+- VISUAL signal: 'npm run vision' observed 5/5 ok. All 9 screens pass at the
+  same levels as the ART-15 snapshot (game_combat colorRichness 1038, same as
+  prior pass; static screens unchanged). Sprite gate 202/202, weapons 34/34,
+  retracts 68/68, renderer parity clean on all 7 screens, both negative
+  controls still failing correctly (empty-backdrop on shape, flat silhouette
+  on shading), HUD 1/1. 'findings.jsonl' empty (0 bytes). No UX_REVIEW.md.
+- Frame sweep, 8 images covering all 9 screens judged by eye: title lineup,
+  select portraits, idle, both combats, boss night scene, result, game over,
+  complete. NO DEFECT: the five ART-15 weapons read in situ, no clipping, no
+  weapon over a face, HUD readable, portraits distinct. Bounded opportunity
+  review (visual presentation) found no justified gap, so no proposal filed.
+- Limitation, stated plainly: both suites' runner processes did not exit on
+  their own after the last test passed (60-120s of silence, no summary line)
+  and were stopped with Ctrl-C; every individual test result was observed
+  passing first. PowerShell also refuses npm.ps1 under this host's execution
+  policy, so both suites ran via cmd.exe. Neither affects the green verdict.
+- Proposals: none. No scratch file written; TASKS.md untouched.
+- Files changed: 'PROGRESS.md' (uncommitted: local commit denied - the host
+  gives read-only access to '.git', so 'git add' cannot create 'index.lock'.
+  Recorded without weakening host permissions; never pushed.)
+- Result: IDLE - NO NEW FINDINGS. No game source touched.
+- Status after: n/a - producer pass.
+- Remaining work or blocker: DIFF-1 BLOCKED on an owner design decision;
+  standing owner items unchanged (local visual/play test, deploy).
+- Next recommended task: none available without the owner.
+
 ### 2026-09-20 21:04 - MIGRATION-GA (owner-requested infrastructure, attempt 1)
 
 - Status before: copied CX HEAD 707fece; ART-15 DONE, DIFF-1 BLOCKED, no ready task.
