@@ -94,6 +94,10 @@ Wrapper obligations:
 - Write UTF-8 **final assistant report only** at the allocated result path, then
   exit 0. Transport/model failures exit nonzero. Do not extract apparent success
   from streaming tool output or mixed transcripts. Missing/ambiguous reports stop.
+- Optional `transientPatterns` (1–20 case-insensitive regexes): if the wrapper
+  exits nonzero with no report and stderr matches one, the tick skips unpaused
+  (exit 4) so hourly drivers retry after recovery — use it for your host's
+  quota/rate-limit signatures. Without it, every transport failure pauses.
 - Wait for all child writers; never detach a process/background loop. Timeout or
   Ctrl+C is supervised by the parent, but no portable wrapper can make detached
   processes safe automatically. Child cleanup uncertainty retains the lock.
@@ -171,6 +175,7 @@ claimed acceptance results; inspect its evidence and retain the project gates.
 | BLOCKED / REGRESSION | Persist pause; owner review required | 2 |
 | Invalid/missing report, CLI failure, timeout, cancellation | No automatic retry; persist pause after attempted execution | 1 |
 | Existing writer/recovery lock | Do not start a model or queue a backlog | 3 |
+| Transient provider outage (quota/rate-limit signature, no report) | Skip tick unpaused; hourly drivers retry; consecutive skips counted in state | 4 |
 
 The final nonempty line must contain exactly ONE standalone known LOOP_RESULT
 marker; duplicates, unknown values, code-fenced markers and trailing prose fail.

@@ -25,7 +25,8 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "executable": { "type": "string", "minLength": 1, "description": "Optional explicit path to actual npm JS entry or native binary, not cmd/bat/ps1 shim." }
+            "executable": { "type": "string", "minLength": 1, "description": "Optional explicit path to actual npm JS entry or native binary, not cmd/bat/ps1 shim." },
+            "transientPatterns": { "type": "array", "minItems": 1, "maxItems": 20, "items": { "type": "string", "minLength": 1, "maxLength": 200 }, "description": "Extra case-insensitive regexes matching transient provider outages in adapter stderr after a failed call with no report; matched ticks skip without pausing. Merged with built-in quota/rate-limit patterns." }
           }
         }
       },
@@ -39,7 +40,8 @@
             { "contains": { "type": "string", "pattern": "\\{requestFile\\}" } },
             { "contains": { "type": "string", "pattern": "\\{resultFile\\}" } }
           ], "description": "Literal argv, never shell syntax. Only {requestFile} and {resultFile} substitutions are supported, both required." },
-          "inheritStdin": { "type": "boolean", "default": false }
+          "inheritStdin": { "type": "boolean", "default": false },
+          "transientPatterns": { "type": "array", "minItems": 1, "maxItems": 20, "items": { "type": "string", "minLength": 1, "maxLength": 200 }, "description": "Case-insensitive regexes matching transient provider outages in adapter stderr after a failed call with no report; matched ticks skip without pausing. Empty/missing preserves fail-closed behavior." }
         }
       }
     }

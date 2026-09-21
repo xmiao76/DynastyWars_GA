@@ -197,10 +197,12 @@ ticks and nothing survives a reboot. Use `-ValidateOnly` to check the binding
 without running anything, or `-ServerPid <pid>` if the server runs outside
 this process tree. A tick that finds the runner paused (exit 2) ends the loop
 for owner review; a busy lock (exit 3) skips to the next tick and stops after
-3 in a row; any other failure stops immediately. Stopping mid-iteration kills
-only the wrapper — at most one already-running iteration finishes on its own
-bounded timeout. Never combine this with an OS scheduled task on the same
-repository; pick one driver so ticks cannot collide.
+3 in a row; a transient provider skip (exit 4, e.g. quota exhausted) continues
+hourly so work resumes when the quota recovers; any other failure stops
+immediately. Stopping mid-iteration kills only the wrapper — at most one
+already-running iteration finishes on its own bounded timeout. Never combine
+this with an OS scheduled task on the same repository; pick one driver so
+ticks cannot collide.
 
 ## Pause, investigate, then resume
 

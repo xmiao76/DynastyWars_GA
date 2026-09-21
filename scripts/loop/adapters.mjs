@@ -12,6 +12,36 @@ function jsOrNative(executable, args = []) {
     ? { executable: process.execPath, args: [executable, ...args] }
     : { executable, args };
 }
+/**
+ * Built-in transient-outage signatures for the Codex adapter (regex sources,
+ * matched case-insensitively against adapter stderr AFTER a failed call with
+ * no report). Grounded in a real failure:
+ * `ERROR: exceeded retry limit, last status: 429 Too Many Requests`.
+ * A bare "exceeded retry limit" is deliberately NOT matched: without a
+ * quota/rate-limit token it may be a persistent 500-class failure, which must
+ * stay fail-closed. A "quota" token anywhere (provider, billing, disk) skips:
+ * every reading is either transient or self-healing, and skips are bounded by
+ * the driver's finite budget.
+ */
+export const CODEX_TRANSIENT_PATTERNS = [
+  '\\b429\\b',
+  'too many requests',
+  'rate.?limit',
+  'quota',
+  'insufficient.*(credit|balance|funds)',
+];
+
+/**
+ * Compiled transient patterns for the SELECTED adapter. Codex merges builtins
+ * with its optional custom list; generic adapters use only their declared
+ * list (empty = today's behavior: every transport failure is fatal).
+ */
+export function transientPatternsFor(config) {
+  const sources = config.adapter === 'codex' ? [...CODEX_TRANSIENT_PATTERNS] : [];
+  const custom = config.adapter ? config.adapters?.[config.adapter]?.transientPatterns : undefined;
+  if (Array.isArray(custom)) sources.push(...custom);
+  return sources.map((source) => new RegExp(source, 'i'));
+}
 export function resolveCodex(repoRoot, configured, env = process.env) {
   if (configured) {
     const candidate = commandPath(configured, repoRoot);
@@ -40,10 +70,10 @@ export function resolveCodex(repoRoot, configured, env = process.env) {
 }
 export function adapterDescription(config) {
   if (config.adapter === null) return { name: null, configured: false, message: 'Adapter not configured; execution disabled' };
-  if (config.adapter === 'codex') return { name: 'codex', configured: true, sandbox: 'workspace-write', approvalPolicy: 'never', networkAccess: false, model: config.model };
+  if (config.adapter === 'codex') return { name: 'codex', configured: true, sandbox: 'workspace-write', approvalPolicy: 'never', networkAccess: false, model: config.model, transientPatterns: transientPatternsFor(config).length };
   const adapter = config.adapters[config.adapter];
   if (!adapter) throw new Error(`Adapter ${config.adapter} has no definition in adapters`);
-  return { name: config.adapter, configured: true, executable: adapter.executable, argumentCount: adapter.args.length, inheritStdin: adapter.inheritStdin ?? false, model: config.model };
+  return { name: config.adapter, configured: true, executable: adapter.executable, argumentCount: adapter.args.length, inheritStdin: adapter.inheritStdin ?? false, model: config.model, transientPatterns: transientPatternsFor(config).length };
 }
 export function prepareAdapter(config, repoRoot) {
   const description = adapterDescription(config);

@@ -77,3 +77,6 @@ or justified new finding; BLOCKED means missing inputs/access/tools or an
 exhausted retry budget; REGRESSION means a previously passing signal now fails.
 Explain evidence before the marker. The runner ends the batch on IDLE and pauses
 on BLOCKED, REGRESSION, or technical/invalid outcomes until the owner reviews it.
+Narrow exception: if the SOLE blocker is a provider quota/rate-limit error
+likely to recover, end IDLE (not BLOCKED) with first line
+`QUOTA-WAIT: <evidence>` — hourly drivers retry; anything else still BLOCKEDs.

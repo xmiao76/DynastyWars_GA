@@ -12,7 +12,8 @@ import { spawn } from 'node:child_process';
 import { setTimeout } from 'node:timers';
 import { parseArgs, validateConfig, DEFAULTS, loadConfig, waitMilliseconds } from './loop/config.mjs';
 import { parseReport, acquireLock, pathsFor } from './loop/storage.mjs';
-import { prepareAdapter, resolveCodex } from './loop/adapters.mjs';
+import { prepareAdapter, resolveCodex, transientPatternsFor, CODEX_TRANSIENT_PATTERNS } from './loop/adapters.mjs';
+import { matchTransient } from './loop/transient.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const testRoot = path.join(repoRoot, 'artifacts/loop-tests', `${Date.now()}-${randomUUID()}`);
@@ -31,6 +32,7 @@ const outcome = outcomes[Math.min(calls,outcomes.length-1)];
 console.log('Transcript intentionally contains misleading LOOP_RESULT: REGRESSION');
 console.error('Fake stderr only — 中文');
 if(outcome==='EXIT') process.exit(7);
+if(outcome==='QUOTA'){console.error('ERROR: exceeded retry limit, last status: 429 Too Many Requests, request id: fixture');process.exit(7);}
 if(outcome==='MISSING') process.exit(0);
 if(outcome==='HANG' || outcome==='TREE') {
   if(outcome==='TREE') {
@@ -244,6 +246,53 @@ test('nonzero exit/missing report/malformed markers pause without transcript fal
     assert.equal(state(root).lastRun.result, 'UNKNOWN', outcome);
     await run(root, ['--scheduled'], 2);
     assert.equal(calls(root).length, 1, outcome);
+  }
+});
+
+test('quota-classified transport failures skip without pausing (exit 4)', async () => {
+  const root = fixture(['QUOTA', 'COMPLETED']);
+  const configPath = path.join(root, '.loop/config.json');
+  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  config.adapters.fake.transientPatterns = ['429 Too Many Requests'];
+  fs.writeFileSync(configPath, JSON.stringify(config));
+  await run(root, ['--iterations', '4'], 4);
+  assert.equal(calls(root).length, 1);
+  assert.equal(state(root).paused, false);
+  assert.equal(state(root).lastRun.result, 'TRANSIENT_SKIP');
+  assert.equal(state(root).transientSkips, 1);
+  assert.equal(fs.existsSync(pathsFor(root).lock), false);
+  const metadata = JSON.parse(fs.readFileSync(state(root).lastRun.metadataPath, 'utf8'));
+  assert.equal(metadata.status, 'skipped-transient');
+  assert.match(metadata.transientMatch.source, /429/);
+  assert.match(metadata.transientMatch.line, /Too Many Requests/);
+  await run(root);
+  assert.equal(calls(root).length, 2);
+  assert.equal(state(root).lastRun.result, 'COMPLETED');
+  assert.equal(state(root).transientSkips, 0);
+  assert.equal(state(root).paused, false);
+});
+
+test('codex transient patterns match real quota output and nothing else', () => {
+  assert.ok(CODEX_TRANSIENT_PATTERNS.length >= 4);
+  const codex = transientPatternsFor({ adapter: 'codex', adapters: {} });
+  assert.equal(codex.length, CODEX_TRANSIENT_PATTERNS.length);
+  assert.ok(matchTransient('ERROR: exceeded retry limit, last status: 429 Too Many Requests, request id: 4', codex));
+  assert.ok(matchTransient('insufficient_quota: you exceeded your current quota', codex));
+  assert.ok(matchTransient('RateLimitError: slow down', codex));
+  assert.equal(matchTransient('Adapter exploded: disk on fire', codex), null);
+  assert.equal(matchTransient('exit code 7 with no output', codex), null);
+  assert.equal(matchTransient('ERROR: exceeded retry limit, last status: 500', codex), null);
+  const custom = transientPatternsFor({ adapter: 'fake', adapters: { fake: { transientPatterns: ['MYQ-\\d+'] } } });
+  assert.ok(matchTransient('wallet empty: MYQ-7', custom));
+  assert.equal(matchTransient('429 Too Many Requests', transientPatternsFor({ adapter: 'fake', adapters: { fake: {} } })), null);
+});
+
+test('transientPatterns must be small valid regexes on known adapter fields', () => {
+  const base = (patterns) => ({ version: 1, adapter: 'fake', adapters: { fake: { executable: 'node', args: ['{requestFile}', '{resultFile}'], transientPatterns: patterns } } });
+  assert.equal(validateConfig(base(['quota', '\\b429\\b'])).adapters.fake.transientPatterns.length, 2);
+  assert.doesNotThrow(() => validateConfig({ version: 1, adapter: 'codex', adapters: { codex: { transientPatterns: ['x'] } } }));
+  for (const bad of [[...(Array(21).fill('x'))], ['x'.repeat(201)], ['ok', '(['], 'quota', [5], []]) {
+    assert.throws(() => validateConfig(base(bad)), undefined, JSON.stringify(bad).slice(0, 40));
   }
 });
 

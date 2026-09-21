@@ -2,9 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { parseArgs, loadConfig, waitMilliseconds, HELP } from './config.mjs';
-import { adapterDescription, prepareAdapter } from './adapters.mjs';
+import { adapterDescription, prepareAdapter, transientPatternsFor } from './adapters.mjs';
 import { pathsFor, readState, saveState, inspectLock, acquireLock, recoverLock, LockBusy, atomicJson, parseReport, pidMayBeAlive } from './storage.mjs';
 import { delay, execute } from './process.mjs';
+import { matchTransient, readTailSafe } from './transient.mjs';
 
 const PROMPTS = { Auto: 'continue.md', Consumer: 'loop.md', Producer: 'eval-loop.md' };
 function readInputs(repoRoot, mode) {
@@ -141,11 +142,42 @@ export async function main(argv, repoRoot, io = console) {
           cleanupCertain = execution.cleanupCertain;
           metadata.execution = execution;
           if (!cleanupCertain) throw new Error(`${execution.error ?? 'Adapter cleanup failed'}; process-tree cleanup uncertain, retaining lock for manual recovery`);
-          if (execution.error || execution.code !== 0) throw new Error(execution.error ?? `Adapter exited with code ${execution.code} (signal ${execution.signal ?? 'none'})`);
+          if (execution.error || execution.code !== 0) {
+            // Transport failed. Timeouts/cancellations stay fatal (the agent may
+            // have been mid-write); a present report with a failed transport is
+            // contradictory and also stays fatal. Only a missing report plus a
+            // quota/rate-limit signature in stderr skips the tick unpaused, so an
+            // hourly driver retries after the quota recovers. The batch ends on
+            // a skip: hammering a dead provider N times in a row helps nobody.
+            let skip = null;
+            if (!execution.timedOut && !execution.cancelled && !fs.existsSync(reportPath)) {
+              skip = matchTransient(readTailSafe(metadata.stderrPath), transientPatternsFor(config));
+            }
+            if (skip) {
+              const now = new Date().toISOString();
+              metadata.status = 'skipped-transient';
+              metadata.result = 'TRANSIENT_SKIP';
+              metadata.endedAt = now;
+              metadata.transientMatch = skip;
+              atomicJson(metadata.metadataPath, metadata);
+              state.lastRun = runSummary(metadata);
+              state.activeRun = null;
+              state.transientSkips = (state.transientSkips ?? 0) + 1;
+              state.lastSkipAt = now;
+              saveState(paths, state);
+              io.log(`Skipped transient provider outage (${skip.source}); ${state.transientSkips} in a row without pausing. Next scheduled tick retries.`);
+              metadata = undefined;
+              exitCode = 4;
+              break;
+            }
+            throw new Error(execution.error ?? `Adapter exited with code ${execution.code} (signal ${execution.signal ?? 'none'})`);
+          }
           if (controller.signal.aborted) throw new Error('Runner cancelled before result acceptance');
           const info = fs.statSync(reportPath);
           if (!info.isFile() || info.size > 16 * 1024 * 1024) throw new Error('Final report must be a regular file no larger than 16 MiB');
-          // Never parse stdout, stderr, transport events or arbitrary adapter transcripts.
+          // Never parse stdout, transport events, or arbitrary adapter transcripts
+          // for results. The sole exception is above: stderr is scanned for
+          // provider-outage signatures only after a failed call with no report.
           const result = parseReport(fs.readFileSync(reportPath, 'utf8'));
           metadata.status = 'finished';
           metadata.result = result;
@@ -153,6 +185,7 @@ export async function main(argv, repoRoot, io = console) {
           atomicJson(metadata.metadataPath, metadata);
           state.lastRun = runSummary(metadata);
           state.activeRun = null;
+          state.transientSkips = 0;
           state.paused = ['BLOCKED', 'REGRESSION'].includes(result);
           state.pauseReason = state.paused ? result : null;
           saveState(paths, state);
@@ -176,6 +209,7 @@ export async function main(argv, repoRoot, io = console) {
       }
       state.paused = true;
       state.pauseReason = error.message;
+      state.transientSkips = 0;
       // Preserve the active owner record if children may still write.
       if (cleanupCertain) state.activeRun = null;
       try { saveState(paths, state); } catch (writeError) {

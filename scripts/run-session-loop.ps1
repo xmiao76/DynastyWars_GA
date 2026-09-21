@@ -17,7 +17,8 @@
 
   Exit policy per tick: 0 continues; 2 (runner paused: blocked/regression)
   stops cleanly for owner review; 3 (repository busy) skips to the next tick
-  and stops after 3 consecutive busy ticks; anything else stops as an error.
+  and stops after 3 consecutive busy ticks; 4 (transient provider outage)
+  continues hourly; anything else stops as an error.
 #>
 [CmdletBinding()]
 param(
@@ -95,6 +96,7 @@ for ($i = 1; $i -le $Iterations; $i++) {
   & $node $runner --iterations 1
   $code = $LASTEXITCODE
   if ($code -eq 0) { $busyStreak = 0; continue }
+  if ($code -eq 4) { $busyStreak = 0; Write-Output 'Tick skipped (transient provider outage); continuing hourly.'; continue }
   if ($code -eq 2) { Write-Output 'Runner paused (blocked/regression). Session loop stops for owner review.'; exit 0 }
   if ($code -eq 3) {
     $busyStreak++

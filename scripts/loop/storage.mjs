@@ -29,7 +29,7 @@ export function atomicJson(file, data) {
 export function readState(paths) {
   let text;
   try { text = fs.readFileSync(paths.state, 'utf8'); } catch (error) {
-    if (error.code === 'ENOENT') return { version: 1, paused: false, pauseReason: null, activeRun: null, lastRun: null };
+    if (error.code === 'ENOENT') return { version: 1, paused: false, pauseReason: null, activeRun: null, lastRun: null, transientSkips: 0, lastSkipAt: null };
     throw error;
   }
   const state = JSON.parse(text);

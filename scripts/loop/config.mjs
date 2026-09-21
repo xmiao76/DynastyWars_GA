@@ -76,8 +76,17 @@ export function validateConfig(raw) {
   if (!object(config.adapters)) throw new Error('adapters must be an object');
   for (const [name, adapter] of Object.entries(config.adapters)) {
     if (!/^[a-zA-Z][\w-]*$/.test(name) || !object(adapter)) throw new Error(`Invalid adapter definition: ${name}`);
-    const keys = name === 'codex' ? ['executable'] : ['executable', 'args', 'inheritStdin'];
+    const keys = name === 'codex' ? ['executable', 'transientPatterns'] : ['executable', 'args', 'inheritStdin', 'transientPatterns'];
     for (const key of Object.keys(adapter)) if (!keys.includes(key)) throw new Error(`Unknown adapter field ${name}.${key}`);
+    if (adapter.transientPatterns !== undefined) {
+      if (!Array.isArray(adapter.transientPatterns) || adapter.transientPatterns.length === 0 || adapter.transientPatterns.length > 20
+        || adapter.transientPatterns.some((p) => typeof p !== 'string' || p.length === 0 || p.length > 200 || p.includes('\0'))) {
+        throw new Error(`${name}.transientPatterns must be an array of 1-20 regex strings up to 200 chars`);
+      }
+      for (const p of adapter.transientPatterns) {
+        try { new RegExp(p, 'i'); } catch { throw new Error(`Invalid regex in ${name}.transientPatterns: ${p.slice(0, 60)}`); }
+      }
+    }
     if (name === 'codex') { if (adapter.executable !== undefined) text(adapter.executable, 'codex.executable'); continue; }
     text(adapter.executable, `${name}.executable`);
     if (!Array.isArray(adapter.args) || adapter.args.some((arg) => typeof arg !== 'string' || arg.includes('\0'))) throw new Error(`${name}.args must be an array of strings`);
@@ -140,5 +149,5 @@ export const HELP = `Usage: node scripts/run-loop.mjs [options]
   --resume                      clear pause only; never edit/reset tasks or run a model
   --recover-lock --confirm-no-live-writers
                                 explicit recovery only; verify ALL writers stopped
-Exit codes: 0 normal/IDLE; 1 error/unknown; 2 blocked/regression/paused; 3 lock busy.
+Exit codes: 0 normal/IDLE; 1 error/unknown; 2 blocked/regression/paused; 3 lock busy; 4 transient provider skip (no pause, retry later).
 Wrapper settings describe intent, not sandbox enforcement. Trust your configured wrapper.`;
