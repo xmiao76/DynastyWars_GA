@@ -56,6 +56,9 @@ These instructions describe behavior, not a particular model, API, or agent host
 - Never run destructive Git/filesystem commands or bypass sandbox/approval controls.
   Markdown and adapter JSON are not security boundaries: preserve the host's
   permissions. Missing tools/access require BLOCKED, not a full-access fallback.
+- Never terminate processes you did not start. Scope test-server cleanup to
+  ports/PIDs from your own runs; never Stop-Process/taskkill a broad PID list
+  (a previous tick killed its own runner and agent this way, ending the loop).
 - Never edit loop policy, adapters, lock/state files, or scheduler settings to
   circumvent a blocked iteration. Only an explicit owner infrastructure request
   authorizes changes to these controls.
