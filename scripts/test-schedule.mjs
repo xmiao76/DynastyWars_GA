@@ -511,3 +511,20 @@ test('CLI contract launches exactly one stub iteration with absolute paths, no s
   assert.deepEqual(observed.argv, ['--scheduled', '--iterations', '1', '--config', f.configFile])
   assert.equal(observed.cwd, f.repoRoot)
 })
+
+test('session-bound runner validates server binding without running models', { skip: process.platform !== 'win32' ? 'session runner is Windows-only' : false }, async t => {
+  const f = fixture(t)
+  const script = fileURLToPath(new URL('./run-session-loop.ps1', import.meta.url))
+  const powershell = path.win32.join(process.env.SystemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe')
+  const run = args => runFileCommand(powershell, ['-NoProfile', '-File', script, ...args], { cwd: f.dir, tempRoot: f.dir })
+  // Explicit binding to this live test process is deterministic on any topology.
+  const bound = await run(['-ValidateOnly', '-ServerPid', String(process.pid)])
+  assert.equal(bound.code, 0, bound.stderr)
+  assert.match(bound.stdout, new RegExp(`watching PID ${process.pid}`))
+  // Auto-discovery either finds the Harness server or fails closed; never unguarded.
+  const auto = await run(['-ValidateOnly'])
+  if (auto.code === 0) assert.match(auto.stdout, /watching PID \d+/)
+  else assert.match(auto.stderr, /no DeepSeek Harness server ancestor/)
+  // Invalid arguments are rejected without launching anything.
+  assert.notEqual((await run(['-ValidateOnly', '-Iterations', '0'])).code, 0)
+})

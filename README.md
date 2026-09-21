@@ -67,6 +67,8 @@ task after adapter preflight; enabling is deliberate. Recurring schedules requir
 an explicit end time. Errors pause model execution until owner review; jobs never
 self-schedule. See [scheduling and recovery](docs/SCHEDULING.md) before activation.
 No live model job or schedule was started by the migration.
+Prefer no OS persistence? `docs/SCHEDULING.md` also documents a session-bound
+alternative (`scripts/run-session-loop.ps1`) that ends when the Harness quits.
 
 ## Verification
 

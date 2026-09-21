@@ -177,6 +177,31 @@ is active. Disable/remove it using the original installation first. Changed
 paths or manually altered XML fail ownership validation rather than silently
 editing a different task; resolve such cases deliberately in Task Scheduler.
 
+## Session-bound alternative (no OS task)
+
+For a loop that lives and dies with the DeepSeek Harness session instead of
+Task Scheduler, run `scripts/run-session-loop.ps1` (Windows PowerShell 5.1,
+no PowerShell 7 needed) as a foreground job from this repository:
+
+```text
+powershell.exe -NoProfile -File scripts\run-session-loop.ps1 -Iterations 24 -IntervalSeconds 3600 -DelaySeconds 3600
+```
+
+Each tick runs one `node scripts/run-loop.mjs --iterations 1` — the same
+single-iteration contract as an OS trigger — with the lock released between
+ticks. Before every tick the script verifies the Harness server process
+recorded at startup is still the same live process (PID plus start time, so
+PID reuse cannot fool it); if the server is gone it exits with no further
+runs. Nothing is registered in the OS, so quitting the Harness ends future
+ticks and nothing survives a reboot. Use `-ValidateOnly` to check the binding
+without running anything, or `-ServerPid <pid>` if the server runs outside
+this process tree. A tick that finds the runner paused (exit 2) ends the loop
+for owner review; a busy lock (exit 3) skips to the next tick and stops after
+3 in a row; any other failure stops immediately. Stopping mid-iteration kills
+only the wrapper — at most one already-running iteration finishes on its own
+bounded timeout. Never combine this with an OS scheduled task on the same
+repository; pick one driver so ticks cannot collide.
+
 ## Pause, investigate, then resume
 
 The executor owns `artifacts/loop/state.json`, run records, and the repository
