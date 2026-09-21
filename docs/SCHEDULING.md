@@ -153,6 +153,10 @@ unrelated or modified tasks. Installation never uses `/F` replacement; explicit
 remove uses `/Delete /F` **only after** ownership validation. No arbitrary task
 name is accepted. These checks prevent accidental cross-repository edits;
 they are not a security boundary against someone who controls your account.
+Task Scheduler's `/XML` export omits elements holding schema-default values
+(observed live: `RunLevel`, `StartWhenAvailable`, `WakeToRun`, task/trigger
+`Enabled`, `StopAtDurationEnd`); the reader interprets each omission as the
+secure default the installer writes, and still rejects any present insecure value.
 
 The XML principal is the **current user**, `InteractiveToken`, with limited
 privileges (`LeastPrivilege` is XML's spelling of Task Scheduler's **Limited**).

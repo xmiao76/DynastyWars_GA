@@ -419,6 +419,38 @@ test('equivalent exported repetition durations preserve minute bounds', t => {
   assert.throws(() => readOwnedTask(xml.replace(/\s*<EndBoundary>[^<]+<\/EndBoundary>/, ''), f.dependencies), /finite end/)
 })
 
+test('accepts Task Scheduler normalized exports that omit default-valued elements', t => {
+  const f = fixture(t)
+  const plan = makePlan(parseArgs(['--delay-seconds', '60', '--interval-minutes', '60', '--until', '2030-01-05T00:00:00Z']), { ...f.dependencies, now: NOW })
+  // Mirror a live schtasks /XML export: PT60M becomes PT1H, UTC boundaries become
+  // offset timestamps, and default-valued elements are dropped entirely.
+  const xml = buildTaskXml(plan, SID)
+    .replace('PT60M', 'PT1H')
+    .replace('2030-01-02T03:05:05.000Z', '2030-01-01T20:05:05-07:00')
+    .replace('2030-01-05T00:00:00.000Z', '2030-01-04T17:00:00-07:00')
+    .replace(/\s*<RunLevel>LeastPrivilege<\/RunLevel>/, '')
+    .replace(/\s*<StartWhenAvailable>false<\/StartWhenAvailable>/, '')
+    .replace(/\s*<WakeToRun>false<\/WakeToRun>/, '')
+    .replace(/\s*<Enabled>true<\/Enabled>/, '')
+    .replace(/\s*<StopAtDurationEnd>false<\/StopAtDurationEnd>/, '')
+  const owned = readOwnedTask(xml, f.dependencies)
+  assert.equal(owned.intervalMinutes, 60)
+  assert.equal(owned.enabled, false)
+  assert.equal(owned.start, '2030-01-01T20:05:05-07:00')
+  assert.equal(owned.end, '2030-01-04T17:00:00-07:00')
+  // Omitted task-level Enabled means the schema default: enabled.
+  assert.equal(readOwnedTask(xml.replace(/\s*<Enabled>false<\/Enabled>/, ''), f.dependencies).enabled, true)
+  assert.equal(readOwnedTask(xml.replace('<Enabled>false</Enabled>', '<Enabled>true</Enabled>'), f.dependencies).enabled, true)
+  // Present insecure values are still refused even in normalized exports.
+  for (const insecure of [
+    xml.replace('</LogonType>', '</LogonType><RunLevel>HighestAvailable</RunLevel>'),
+    xml.replace('</Settings>', '<StartWhenAvailable>true</StartWhenAvailable></Settings>'),
+    xml.replace('</Settings>', '<WakeToRun>true</WakeToRun></Settings>'),
+    xml.replace('</TimeTrigger>', '<Enabled>false</Enabled></TimeTrigger>'),
+    xml.replace('</Repetition>', '<StopAtDurationEnd>true</StopAtDurationEnd></Repetition>'),
+  ]) assert.throws(() => readOwnedTask(insecure, f.dependencies))
+})
+
 test('installation refuses missing executor and a start elapsed during preflight', async t => {
   const f = fixture(t)
   const fake = fakeTaskRunner()

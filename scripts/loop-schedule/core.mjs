@@ -283,7 +283,12 @@ export function readOwnedTask(xml, { repoRoot, nodePath, sid }) {
   onlyChildren(principal, ['UserId', 'LogonType', 'RunLevel'])
   exact(text(principal, 'UserId'), sid, 'current-user SID')
   exact(text(principal, 'LogonType'), 'InteractiveToken', 'interactive logon')
-  exact(text(principal, 'RunLevel'), 'LeastPrivilege', 'limited privilege')
+  // Task Scheduler's /XML export omits elements that hold schema-default values
+  // (observed live: RunLevel, StartWhenAvailable, WakeToRun, task/trigger Enabled,
+  // StopAtDurationEnd). Each accepted default below equals the secure value our
+  // installer writes, so omission is equivalent to our setting; any present
+  // non-default value is still refused.
+  exact(text(principal, 'RunLevel', true) ?? 'LeastPrivilege', 'LeastPrivilege', 'limited privilege')
   const actions = one(root, 'Actions')
   onlyChildren(actions, ['Exec'])
   exact(principal.attrs.id, 'CurrentUser', 'principal ID')
@@ -308,17 +313,20 @@ export function readOwnedTask(xml, { repoRoot, nodePath, sid }) {
     if (!paths.isAbsolute(configPath) || quoteWindowsArg(configPath) !== quotedPath) throw new Error('Task config path must be absolute and exactly quoted')
   }
   const settings = one(root, 'Settings')
-  for (const [key, expected] of Object.entries({ MultipleInstancesPolicy: 'IgnoreNew', StartWhenAvailable: 'false', WakeToRun: 'false', AllowStartOnDemand: 'false', ExecutionTimeLimit: 'PT0S' })) {
+  for (const [key, expected] of Object.entries({ MultipleInstancesPolicy: 'IgnoreNew', AllowStartOnDemand: 'false', ExecutionTimeLimit: 'PT0S' })) {
     exact(text(settings, key), expected, key)
   }
+  for (const [key, expected] of Object.entries({ StartWhenAvailable: 'false', WakeToRun: 'false' })) {
+    exact(text(settings, key, true) ?? expected, expected, key)
+  }
   if (one(settings, 'RestartOnFailure', true)) throw new Error('Refusing task with automatic failure retries')
-  const enabled = text(settings, 'Enabled')
+  const enabled = text(settings, 'Enabled', true) ?? 'true'
   if (!['true', 'false'].includes(enabled)) throw new Error('Task Enabled must be boolean')
   const triggers = one(root, 'Triggers')
   onlyChildren(triggers, ['TimeTrigger'])
   const trigger = one(triggers, 'TimeTrigger')
   onlyChildren(trigger, ['Repetition', 'StartBoundary', 'EndBoundary', 'Enabled'])
-  exact(text(trigger, 'Enabled'), 'true', 'time trigger enabled')
+  exact(text(trigger, 'Enabled', true) ?? 'true', 'true', 'time trigger enabled')
   const start = text(trigger, 'StartBoundary')
   parseInstant(start, 'Task StartBoundary')
   const end = text(trigger, 'EndBoundary', true)
@@ -330,7 +338,7 @@ export function readOwnedTask(xml, { repoRoot, nodePath, sid }) {
     const interval = /^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/.exec(text(repetition, 'Interval'))
     const minutes = interval ? Number(interval[1] ?? 0) * 1440 + Number(interval[2] ?? 0) * 60 + Number(interval[3] ?? 0) + Number(interval[4] ?? 0) / 60 : 0
     intervalMinutes = boundedInteger(String(minutes), 'Task interval', 1, MAX_INTERVAL_MINUTES)
-    exact(text(repetition, 'StopAtDurationEnd'), 'false', 'repetition stop policy')
+    exact(text(repetition, 'StopAtDurationEnd', true) ?? 'false', 'false', 'repetition stop policy')
     if (!end || parseInstant(end, 'Task EndBoundary') - parseInstant(start) < intervalMinutes * 60_000) throw new Error('Recurring task must have a finite end after at least one interval')
   } else if (end !== null) {
     throw new Error('Unexpected one-shot end boundary')
