@@ -78,9 +78,9 @@ only; never artifacts, logs, or secrets), commit locally ("Loop tick: <result>
 exists), never touch Task Scheduler, never run deploy.bat, never push.
 ```
 
-Retire any previous driver before the first firing lands: only ONE driver may
-run (repo lock makes overlap safe but noisy). Retired 2026-09-21: the
-`run-session-loop.ps1` wrapper job and the watchdog chain.
+Only ONE driver may run (repo lock makes overlap safe but noisy): keep the
+previous driver ticking until the new schedule's first firing is confirmed
+working, then retire the old wrapper job and watchdog chain between ticks.
 
 ## Before installing (Task Scheduler driver)
 
