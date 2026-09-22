@@ -106,7 +106,7 @@ export class TitleScene extends Phaser.Scene {
       .text(
         SCREEN_WIDTH / 2,
         138,
-        touch ? 'C  SPECIAL      TAP  CONFIRM' : 'C  SPECIAL      ENTER  CONFIRM      M  MUTE',
+        touch ? 'C  SPECIAL      TAP  CONFIRM' : 'C  SPECIAL      ENTER  CONFIRM      M  MUTE      P  PAUSE',
         keyLine,
       )
       .setOrigin(0.5)

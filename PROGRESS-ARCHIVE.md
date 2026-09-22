@@ -3,6 +3,141 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-20 13:56 - ART-15 (attempt 1, approved five-hero scope)
+
+- Status before: IN_PROGRESS. The owner approved legend-faithful silhouettes
+  within the existing character style for all five heroes.
+- Work completed: extracted shared weapon paths; redrew guandao, serpent
+  spear, spearhead, dao and recurve bow; added restrained blade facets and a
+  continuous bowstring. Corrected bow/prone grips to keep weapons off faces.
+  Raised shared headroom from 24 to 27 based on measured top reach, retaining
+  standH, displayed character scale, combat data, assignments and timing.
+- Regression evidence: four new checks failed on the original shapes. Exact
+  pre-fix paths remain negative controls. A continuity check also caught and
+  now rejects a disconnected bowstring. All 374 cast/pose/facing combinations
+  keep weapons clear of faces, and existing clipping/reach/tassel gates pass.
+- Visual review: matching baseline 1e5e3f4 and final sheets; all five heroes
+  across 11 poses in both facings; desktop/phone idle and attack sequences.
+  The guandao is pointed and asymmetric, the serpent narrow and undulating,
+  the spear ridged, the dao elongated/angled, and the bow visibly strung.
+  Evidence and reproducible capture commands: docs/WEAPON_ART.md.
+- Verification: lint, typecheck and unit 178/178; e2e 44/44; signal 13/13;
+  vision 5/5 including renderer parity and both negative controls; prodbuild
+  4/4 including the production build. No thresholds weakened. An earlier
+  exploratory browser run was interrupted by a Vite source reload; the full
+  suite was rerun successfully with source held unchanged.
+- Status after: ART-15 DONE. Older completed queue/history entries archived
+  under the repository's size limits. DIFF-1 remains BLOCKED for the owner.
+- Remaining work: owner local visual/play test. No deployment or push occurred.
+- Next recommended action: npm run dev at http://localhost:5174; inspect
+  artifacts/weapon-review/weapon-shapes-after.png and the matching before image.
+
+### 2026-09-20 - MIGRATION-CX (owner-requested framework migration)
+
+- Status before: copied working snapshot from DynastyWars on 2026-09-20 at
+  approximately 12:17 America/Los_Angeles; ART-15 IN_PROGRESS, DIFF-1 BLOCKED.
+- Work completed: replaced the Claude framework with AGENTS.md, Codex project
+  configuration/rules, consumer/producer/continuation prompts, and a bounded
+  manual CLI runner with model/provider options and overlap protection.
+  Deployment remains owner-only through deploy.bat, fixed to dynasty-wars-cx
+  on production branch main. Isolated dev/test/production ports are 5174/5175/4320.
+- Preserved game source and unfinished queue from the copy snapshot. The source
+  loop remained active and changed afterward; no later edits were synchronized.
+  Two inherited temporary art probes received only a concrete context type and
+  output-directory creation so lint and a clean checkout work.
+- Verification: npm ci; lint and typecheck PASS; unit 165/165 (adjusted probes
+  also 2/2 on rerun); e2e 44/44; signal 13/13; vision 5/5 including renderer
+  parity and both negative controls; prodbuild 4/4 including the fresh build;
+  offline runner 15/15 and deployment script 8/8; script syntax and diff checks.
+- Result: copied project and Codex framework ready for owner local testing.
+  A local migration checkpoint is saved after this entry. No push, cloud
+  creation/deployment, scheduler activation, or real model iteration was run.
+- Limitation: Windows sandbox startup returned error 1058 in this host session.
+  Checks used approved host execution. Supervise the first real Codex run before
+  starting repeated unattended iterations; no sandbox bypass was introduced.
+- Status after: ART-15 remains IN_PROGRESS; DIFF-1 remains BLOCKED. Their task
+  content/status and the historical archives are preserved.
+- Next action: owner runs npm run dev and tests http://localhost:5174, then
+  uses FIRST_RUN_PROMPT.md or .codex/continue.md. See docs/MIGRATION.md and
+  docs/LOOP_ENGINEERING.md for provenance, provider setup and verification.
+
+### 2026-09-20 13:05 - PRODUCER PASS (the redrawn silhouettes in situ)
+
+- Status before: ART-14 committed and green. The plates were judged by eye and
+  the swing captures taken, but the vision frames had not been swept since the
+  silhouettes changed.
+- NO DEFECT:
+    boss_fight       Xu Chu's crescent now shows the 偃月 profile at boss scale -
+                     straight back edge, the back spike, the forward-swept
+                     point, red tassel at the socket. The one frame that proves
+                     the asymmetric silhouette reads at the size the game draws
+                     a boss, not just on a plate
+    title            all five heroes read: Guan Yu's asymmetric crescent,
+                     Zhang Fei's serpent undulating above his head, Zhao Yun's
+                     leaf, Huang Zhong's recurve, Wei Yan's broad dao
+    game_combat_zf   the serpent's S-curve is unmistakable in the running game,
+                     tassel hanging
+  No clipping at any frame edge, no weapon over a face, no palette surprises.
+- Files changed: `PROGRESS.md`.
+- Verification run: the sweep itself. No code touched; tree unchanged from
+  d28751c where every suite was green.
+- Result: no defect. The reference silhouettes hold at every size the frames
+  cover, including the boss scale no plate had shown them at.
+- Status after: n/a - producer pass. ART-14 remains DONE.
+- Remaining work or blocker: DIFF-1 BLOCKED on an owner decision; standing
+  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
+- Next recommended task: none available without the owner.
+
+### 2026-09-20 12:30 - ART-14 (attempt 1)
+
+- Status before: ART-13 committed. Owner's THIRD weapons report: the
+  silhouettes are still wrong - naming 张飞's serpent, 关羽's crescent and
+  魏延's dao, plus "all of them roughly equally". They did NOT flag Zhao Yun's
+  spear or Huang Zhong's bow.
+- Diagnosis from reference sources rather than from my own taste: fetched
+  Wikipedia's guandao article and re-rendered all five heroes large plus a
+  weapon-only extraction. Three errors, each a wrong assumption in my own
+  ART-12/13 paths:
+    - crescent: I drew a SYMMETRIC two-pronged crescent - horn and flare both
+      at fore+13, both pointing forward. The reference is a STRAIGHT back edge
+      with a small spike pointing BACK toward the shaft and a convex edge
+      sweeping forward to the point; "a heavy blade with a spike at the back"
+    - serpent: amplitude ~4.5, so it read as a leaf with a kink rather than a
+      snake. Now +-10, and the blade runs fore-6..fore+22
+    - dao: a rounded dome tip and a circular belly. Now a straighter spine to
+      an ANGLED corner point (the first redraw of the tip still read round, so
+      the wedge was sharpened with a straight back segment into the corner)
+  Also redrew the ji's wings as FORWARD crescents (the classic orientation),
+  for the "all of them" half of the report.
+- Measured with the calibrated probe (per-kind dump, so the drivers are known
+  rather than inferred): Zhang Fei's serpent now drives attack (59), attack2
+  (41) and special (59); the others sit below. windup/recover/jump/hurt each
+  came in 1-2 UNDER the previous table because the new crescent's horn is
+  shallower than the old -20. The serpent tip was first drawn to fore+25 and
+  measured 26 units above the pose space in walk0 against a 24-unit HEADROOM -
+  it clipped, so the tip came back to fore+22 and HEADROOM stayed shared.
+  Two clipping failures (zhangfei:attack, zhangfei:special) were exactly the
+  stale-margin case, fixed by setting the table from the measurement.
+- Files changed: src/game/art/draw.ts, registry.ts, TASKS.md, PROGRESS.md.
+- Verification run: lint, typecheck, unit 163/163, e2e 44/44 (gamepad spec
+  failed once under contention, passed 4/4 alone, full re-run clean), vision
+  5/5 (202/202 sprites, 34/34 weapons, 68/68 retracts, parity), prodbuild 4/4,
+  signal 13/13, build. In-situ swing captures at real render size for Guan Yu
+  and Zhang Fei (artifacts/insitu14-*.png): the wavy serpent blade and the
+  asymmetric crescent both read at game size with the tassel hanging. Both
+  falsifications re-proven after the redraw: tassel draw off -> gate fails
+  0-2 px; walk1 rot -1.5 -> head-cross fails on 5+ kinds.
+- Result: all green. The three named silhouettes are redrawn to their
+  reference profiles.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner's call. Stated
+  plainly in the task entry rather than hidden: at in-game size these are
+  still cel cutouts - the reference weapons also carry a butt counterweight, a
+  socket collar and rings, which this round deliberately did not add because
+  the owner identified silhouette, not missing details. If the report comes
+  back a fourth time, the right move is a side-by-side reference-image
+  comparison with the owner, not another guess.
+- Next recommended task: none available without the owner.
+
 ### 2026-09-20 11:10 - PRODUCER PASS (the phased attacks, in situ)
 
 - Status before: ART-11/12/13 all green, and the vision frames swept. But the

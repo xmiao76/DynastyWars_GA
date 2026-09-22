@@ -136,7 +136,11 @@ export class GameScene extends Phaser.Scene {
   private hud!: HudScene
   private gamepadAdapter!: GamepadAdapter
   private gamepad2Adapter!: GamepadAdapter
-  private touchAdapter: { poll: () => void; read: (allow: boolean) => import('../../core/types').InputState } = NO_TOUCH
+  private touchAdapter: {
+    poll: () => void
+    read: (allow: boolean) => import('../../core/types').InputState
+    clear: () => void
+  } = NO_TOUCH
   private pollContinueButton!: () => void
   private sprites = new Map<number, Phaser.GameObjects.Sprite>()
   private shadows = new Map<number, Phaser.GameObjects.Ellipse>()
@@ -149,6 +153,13 @@ export class GameScene extends Phaser.Scene {
    * gates is this scene's, so the state stays here and only the drawing moved.
    */
   continueMsLeft = -1
+  /**
+   * Gameplay pause (P key). Public because HudScene draws the overlay from it,
+   * the same structural read as the continue countdown. While true, update()
+   * polls adapters and clears their buffers but steps nothing: zero sim ticks,
+   * frozen countdown, no joins.
+   */
+  paused = false
   /** Sim ticks accumulated across earlier stages in this run. */
   private runTotalTicks = 0
   private sparkEmitter!: Phaser.GameObjects.Particles.ParticleEmitter
@@ -166,6 +177,8 @@ export class GameScene extends Phaser.Scene {
     this.bridge.scene = 'game'
     this.accumulator = 0
     this.clearScheduled = false
+    // The scene instance is reused across stages: never inherit a pause.
+    this.paused = false
     this.runTotalTicks = data.totalTicks ?? 0
     // Phaser reuses this scene instance across stage restarts: reset the
     // whole display list so backgrounds/HUD/sprites don't stack up.
@@ -275,11 +288,21 @@ export class GameScene extends Phaser.Scene {
     // desktop play and every screenshot the vision gate takes are unchanged.
     this.touchAdapter = this.hud.touch
     const confirmContinue = (): void => {
+      if (this.paused) return
       if (this.sim.phase === 'gameover' && this.continueMsLeft > 0) {
         if (tryRevivePlayer(this.sim)) this.hideContinueOverlay()
       }
     }
     this.input.keyboard?.on('keydown-ENTER', confirmContinue)
+    // Gameplay pause. Clears on both edges: pausing drops anything buffered
+    // but unconsumed, and resuming drops anything pressed since the last
+    // frozen frame cleared - either one would otherwise fire on the next step.
+    // Repeats ignored, or holding P would strobe the game.
+    this.input.keyboard?.on('keydown-P', (event: KeyboardEvent) => {
+      if (event.repeat) return
+      this.paused = !this.paused
+      this.clearInputBuffers()
+    })
     this.pollContinueButton = watchConfirmButton(confirmContinue)
     // A tap continues too. Without this a touch player who died simply could
     // not carry on: the overlay says CONTINUE? and nothing on a phone can
@@ -335,6 +358,13 @@ export class GameScene extends Phaser.Scene {
     this.gamepad2Adapter.poll()
     this.touchAdapter.poll()
     this.pollContinueButton()
+    // Paused: adapters keep polling (so their edge state stays live) but every
+    // buffered press is dropped and nothing steps - zero sim ticks, a frozen
+    // countdown, no joins, no stage transitions until resume.
+    if (this.paused) {
+      this.clearInputBuffers()
+      return
+    }
     // Arcade drop-in: player two joins by pressing any of their own action
     // keys mid-stage. Nothing happens until they do, so a solo run is
     // completely unaffected.
@@ -551,6 +581,15 @@ export class GameScene extends Phaser.Scene {
 
   private hideContinueOverlay(): void {
     this.continueMsLeft = -1
+  }
+
+  /** Drop all buffered action presses; the pause gate's no-leak guarantee. */
+  private clearInputBuffers(): void {
+    this.keyboardAdapter.clear()
+    this.keyboard2Adapter.clear()
+    this.gamepadAdapter.clear()
+    this.gamepad2Adapter.clear()
+    this.touchAdapter.clear()
   }
 
   /** Presentation-only effects driven by sim events (never in autopilot). */

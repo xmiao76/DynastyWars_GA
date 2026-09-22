@@ -910,65 +910,6 @@ Add future enhancement tasks below this heading.
     would change every silhouette and is a design decision rather than a fix.
   - No change to the fight, the stats or the AI.
 
-### ART-2 - The nine bosses are as famous as the heroes and have plainer faces
-
-- Status: DONE
-- Requirement:
-  Optional follow-on to ART-1, not a defect. Rendering the whole cast at once
-  to check the heroes' new faces had not left everyone else looking like a
-  different game shows the cast IS coherent - the twelve non-heroes share the
-  base complexion, which reads correctly as uniformed troops, and the bosses
-  carry distinct headgear that separates them at a glance.
-
-  What it also shows is that the mechanism is now sitting unused for nine
-  characters who are as recognisable as the five heroes, and who the player
-  fights at the end of every stage:
-
-    ﹒吕布 Lu Bu - the strongest warrior in the story. Conventionally pale, with
-      a red-plumed headdress and a sneer.
-    ﹒曹操 Cao Cao - the villain of the piece. Conventionally sharp-featured and
-      cold; often dark-browed.
-    ﹒夏侯惇 Xiahou Dun - who lost an eye to an arrow and ate it. The single most
-      recognisable facial feature in the entire cast, currently not drawn.
-    ﹒典韦 Dian Wei, 許褚 Xu Chu, 曹仁 Cao Ren, 張遼 Zhang Liao, 徐晃 Xu Huang,
-      張郃 Zhang He - the rest, each with a conventional look.
-
-  ART-1 left every kind that says nothing about its face exactly as it was, which
-  is why they are unchanged. This task gives them complexions and face kinds
-  through the same `FigurePlan.skin` / `FigurePlan.face` path the heroes use.
-- Acceptance criteria:
-  - [x] Each of the nine bosses declares a complexion and a face kind:
-        Li Dian calm, Xiahou Dun fierce, Xu Chu fierce, Cao Ren calm, Zhang
-        Liao phoenix, Xu Huang sharp, Zhang He calm, Cao Cao sharp, Lu Bu
-        fierce. The complexions are DELIBERATELY modest variations around the
-        cast base, unlike the heroes' saturated choices - only Xiahou Dun has
-        an iconic colour cue, so inventing strong tones for the rest would be
-        colouring for its own sake
-  - [x] The rank-and-file keep the shared tone, and a gate now enforces that
-        as deliberate rather than accidental: soldier, spearman and archer must
-        declare neither complexion nor face kind
-  - [x] Xiahou Dun's missing eye, no eyepatch - his depictions show the empty
-        socket, not a patch. Drawn in BOTH face passes: a hollow larger than an
-        eye with a pale scar crossing it, where the scar must extend PAST the
-        socket to read as a wound, because at 20px a plain dark oval reads as
-        just another eye. The scar is tinted from the figure's own complexion,
-        so it stays his on any skin. His portrait adds a darker core for depth
-        and a second short scar
-  - [x] A new gate: all nine bosses declare complexion and face kind, no two
-        bosses share a complexion, the rank-and-file declare neither, and
-        xiahoudun's missingEye is true while every other boss's is false.
-        Falsified three ways: two bosses given one complexion fails ("lidian
-        and caoren share a complexion"), removing the wound fails ("xiahoudun
-        is the one-eyed general"), giving a soldier a complexion fails
-        ("soldier is a uniformed troop and keeps the shared tone")
-  - [x] The heroes' face gate untouched and still passing; no hero changed, and
-        no height, build or silhouette changed
-  - [x] lint, typecheck, 144 unit, e2e, vision, prodbuild, signal, build
-- Non-goals:
-  - Not required for correctness. The cast is coherent as it stands and this is
-    an improvement, not a fix.
-  - No change to the boss fights, their stats or their AI. Faces only.
-
 ### GATE-3 - Determinism is documented everywhere and enforced nowhere
 
 - Status: DONE
@@ -1216,7 +1157,7 @@ Add future enhancement tasks below this heading.
 
 ### ENH-7 - Pause the game mid-stage (P key, overlay, deterministic resume)
 
-- Status: TODO
+- Status: DONE
 - Requirement:
   A full run is ~13 minutes of uninterrupted real-time action (ENH-6
   zhaoyun marathon: 47,416 ticks) and the game has no way to stop the
@@ -1225,18 +1166,18 @@ Add future enhancement tasks below this heading.
   gameplay. Add a gameplay pause: one key toggles it, the sim freezes,
   an overlay says so, and resume continues tick-neutrally.
 - Acceptance criteria:
-  - [ ] P pauses and resumes during stage gameplay, co-op included (both
+  - [x] P pauses and resumes during stage gameplay, co-op included (both
         players' sim time freezes; nobody moves while paused).
-  - [ ] While paused the sim advances zero ticks (pinned: tick count
+  - [x] While paused the sim advances zero ticks (pinned: tick count
         frozen across 120 wall frames) and no buffered press leaks through
         on resume.
-  - [ ] A legible overlay (dim + PAUSED + resume hint) renders while
+  - [x] A legible overlay (dim + PAUSED + resume hint) renders while
         paused; the title-screen control list documents the key.
-  - [ ] Resume is neutral: pausing for any length of wall time then
+  - [x] Resume is neutral: pausing for any length of wall time then
         resuming changes nothing in the sim (pinned by comparing pre-pause
         and post-resume sim snapshots, or equal clear-tick counts
         with/without a mid-run pause).
-  - [ ] Full gates green: lint, typecheck, unit, e2e, signal 13/13,
+  - [x] Full gates green: lint, typecheck, unit, e2e, signal 13/13,
         vision 5/5 (overlay judged by eye at gameplay size, no other frame
         regressed).
 - Non-goals:
@@ -1246,3 +1187,9 @@ Add future enhancement tasks below this heading.
     impact: pause changes no frame data, spawns, or tuning.
 - Evidence:
   - artifacts/loop/proposals-20260921-2038-pause.md (this pass's review).
+  - Trial 2026-09-21: e2e/pause.spec.ts (3 tests: 120-frame freeze + full
+    snapshot equality, no-leak/no-join, dim + gold-caption + undim), both
+    mechanisms falsified by revert. Gates: lint/typecheck clean, unit
+    188/188, e2e 48/48, signal 13/13 (marathons tick-identical to ENH-6),
+    vision 5/5, prodbuild 4/4, build. Eye: artifacts/pause/{paused,
+    unpaused,resumed}.png + artifacts/vision/title.png reviewed.

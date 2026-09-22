@@ -97,4 +97,16 @@ export class KeyboardAdapter {
       specialPressed,
     }
   }
+
+  /**
+   * Drop any buffered presses without reporting them. The pause gate calls
+   * this every frozen frame (and on the toggle itself), so a press made while
+   * paused - or still sitting in the buffer when pause lands - cannot leak
+   * through as an action, jump, or co-op join on resume.
+   */
+  clear(): void {
+    this.attackBuffered = false
+    this.jumpBuffered = false
+    this.specialBuffered = false
+  }
 }

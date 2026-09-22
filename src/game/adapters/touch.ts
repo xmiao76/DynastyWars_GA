@@ -187,6 +187,17 @@ export class TouchAdapter {
       specialPressed,
     }
   }
+
+  /**
+   * Drop latched taps without reporting them. Called by the pause gate, so a
+   * tap made while paused cannot fire on resume. Held directions are polled
+   * live and need no clearing: a direction still held at resume keeps working.
+   */
+  clear(): void {
+    this.attackBuffered = false
+    this.jumpBuffered = false
+    this.specialBuffered = false
+  }
 }
 
 /** A neutral-input stand-in for devices with no touchscreen. */
@@ -195,4 +206,5 @@ export const NO_TOUCH = {
   read(): InputState {
     return neutralInput()
   },
+  clear(): void {},
 }

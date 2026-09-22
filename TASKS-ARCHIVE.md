@@ -2185,3 +2185,62 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No change to height, build or silhouette. `fitSprite` derives one scale
     from the idle frame and the art gates bound both absolute height and the
     tallest-to-shortest ratio, so a bigger head is a regression elsewhere.
+
+### ART-2 - The nine bosses are as famous as the heroes and have plainer faces
+
+- Status: DONE
+- Requirement:
+  Optional follow-on to ART-1, not a defect. Rendering the whole cast at once
+  to check the heroes' new faces had not left everyone else looking like a
+  different game shows the cast IS coherent - the twelve non-heroes share the
+  base complexion, which reads correctly as uniformed troops, and the bosses
+  carry distinct headgear that separates them at a glance.
+
+  What it also shows is that the mechanism is now sitting unused for nine
+  characters who are as recognisable as the five heroes, and who the player
+  fights at the end of every stage:
+
+    ﹒吕布 Lu Bu - the strongest warrior in the story. Conventionally pale, with
+      a red-plumed headdress and a sneer.
+    ﹒曹操 Cao Cao - the villain of the piece. Conventionally sharp-featured and
+      cold; often dark-browed.
+    ﹒夏侯惇 Xiahou Dun - who lost an eye to an arrow and ate it. The single most
+      recognisable facial feature in the entire cast, currently not drawn.
+    ﹒典韦 Dian Wei, 許褚 Xu Chu, 曹仁 Cao Ren, 張遼 Zhang Liao, 徐晃 Xu Huang,
+      張郃 Zhang He - the rest, each with a conventional look.
+
+  ART-1 left every kind that says nothing about its face exactly as it was, which
+  is why they are unchanged. This task gives them complexions and face kinds
+  through the same `FigurePlan.skin` / `FigurePlan.face` path the heroes use.
+- Acceptance criteria:
+  - [x] Each of the nine bosses declares a complexion and a face kind:
+        Li Dian calm, Xiahou Dun fierce, Xu Chu fierce, Cao Ren calm, Zhang
+        Liao phoenix, Xu Huang sharp, Zhang He calm, Cao Cao sharp, Lu Bu
+        fierce. The complexions are DELIBERATELY modest variations around the
+        cast base, unlike the heroes' saturated choices - only Xiahou Dun has
+        an iconic colour cue, so inventing strong tones for the rest would be
+        colouring for its own sake
+  - [x] The rank-and-file keep the shared tone, and a gate now enforces that
+        as deliberate rather than accidental: soldier, spearman and archer must
+        declare neither complexion nor face kind
+  - [x] Xiahou Dun's missing eye, no eyepatch - his depictions show the empty
+        socket, not a patch. Drawn in BOTH face passes: a hollow larger than an
+        eye with a pale scar crossing it, where the scar must extend PAST the
+        socket to read as a wound, because at 20px a plain dark oval reads as
+        just another eye. The scar is tinted from the figure's own complexion,
+        so it stays his on any skin. His portrait adds a darker core for depth
+        and a second short scar
+  - [x] A new gate: all nine bosses declare complexion and face kind, no two
+        bosses share a complexion, the rank-and-file declare neither, and
+        xiahoudun's missingEye is true while every other boss's is false.
+        Falsified three ways: two bosses given one complexion fails ("lidian
+        and caoren share a complexion"), removing the wound fails ("xiahoudun
+        is the one-eyed general"), giving a soldier a complexion fails
+        ("soldier is a uniformed troop and keeps the shared tone")
+  - [x] The heroes' face gate untouched and still passing; no hero changed, and
+        no height, build or silhouette changed
+  - [x] lint, typecheck, 144 unit, e2e, vision, prodbuild, signal, build
+- Non-goals:
+  - Not required for correctness. The cast is coherent as it stands and this is
+    an improvement, not a fix.
+  - No change to the boss fights, their stats or their AI. Faces only.

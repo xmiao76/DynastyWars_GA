@@ -142,6 +142,17 @@ export class GamepadAdapter {
       specialPressed,
     }
   }
+
+  /**
+   * Drop latched presses without reporting them. Called by the pause gate;
+   * the release trackers are deliberately left alone, since polling continues
+   * while paused and they still describe the physical pad.
+   */
+  clear(): void {
+    this.attackBuffered = false
+    this.jumpBuffered = false
+    this.specialBuffered = false
+  }
 }
 
 /** Either input source pressing a control counts as that control pressed. */

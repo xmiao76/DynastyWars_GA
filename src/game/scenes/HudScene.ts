@@ -38,8 +38,9 @@ import type { BridgeState } from '../debug/bridge'
  */
 
 /** What this scene needs from `game`, named structurally to avoid a cycle. */
-interface ContinueOwner {
+interface GameReadout {
   continueMsLeft: number
+  paused: boolean
 }
 
 interface PendingBanner {
@@ -92,6 +93,10 @@ export class HudScene extends Phaser.Scene {
   private continueText!: Phaser.GameObjects.Text
   private continueCountdownText!: Phaser.GameObjects.Text
   private continueHintText!: Phaser.GameObjects.Text
+  private pauseDim!: Phaser.GameObjects.Rectangle
+  private pauseSlab!: Phaser.GameObjects.Graphics
+  private pauseText!: Phaser.GameObjects.Text
+  private pauseHintText!: Phaser.GameObjects.Text
   private comboText!: Phaser.GameObjects.Text
   private comboShown = 0
   private bossSlab!: Phaser.GameObjects.Graphics
@@ -164,6 +169,15 @@ export class HudScene extends Phaser.Scene {
       .setVisible(false)
     this.continueSlab = drawSlab(this, SCREEN_WIDTH / 2 - 92, 74, 184, 96, GOLD, 10_001)
     this.continueSlab.setVisible(false)
+    // The pause overlay's backdrop and slab: same depths and dim alpha as the
+    // continue overlay, created after it so a pause during the countdown reads
+    // PAUSED first. Both hidden until their state shows.
+    this.pauseDim = this.add
+      .rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x05040a, 0.62)
+      .setDepth(10_001)
+      .setVisible(false)
+    this.pauseSlab = drawSlab(this, SCREEN_WIDTH / 2 - 88, 100, 176, 70, GOLD, 10_001)
+    this.pauseSlab.setVisible(false)
 
     this.addPortrait(sim.charId, P1.x + 4, P1.y + 4)
     this.hpBar = makeBar(this, P1.x + 38, P1.y + 19, BAR_W, 9, 10_001)
@@ -258,6 +272,25 @@ export class HudScene extends Phaser.Scene {
       .setVisible(false)
     this.continueHintText = this.add
       .text(SCREEN_WIDTH / 2, 154, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', {
+        fontFamily: 'sans-serif',
+        fontSize: '10px',
+        color: '#9ab0c0',
+      })
+      .setOrigin(0.5)
+      .setDepth(10_002)
+      .setVisible(false)
+    this.pauseText = this.add
+      .text(SCREEN_WIDTH / 2, 120, 'PAUSED', {
+        fontFamily: 'sans-serif',
+        fontSize: '22px',
+        fontStyle: 'bold',
+        color: '#ffd700',
+      })
+      .setOrigin(0.5)
+      .setDepth(10_002)
+      .setVisible(false)
+    this.pauseHintText = this.add
+      .text(SCREEN_WIDTH / 2, 148, 'PRESS P TO RESUME', {
         fontFamily: 'sans-serif',
         fontSize: '10px',
         color: '#9ab0c0',
@@ -415,6 +448,7 @@ export class HudScene extends Phaser.Scene {
     }
 
     this.syncContinueOverlay(sim)
+    this.syncPauseOverlay()
 
     const boss = sim.entities.find((e) => e.kind === sim.stage.bossKind)
     if (boss) {
@@ -470,7 +504,7 @@ export class HudScene extends Phaser.Scene {
    * nothing to push and nothing that can fall out of step.
    */
   private syncContinueOverlay(sim: Sim): void {
-    const owner = this.scene.get('game') as unknown as ContinueOwner | undefined
+    const owner = this.scene.get('game') as unknown as GameReadout | undefined
     const msLeft = owner?.continueMsLeft ?? -1
     const showing = msLeft > 0
     this.continueDim.setVisible(showing)
@@ -481,5 +515,18 @@ export class HudScene extends Phaser.Scene {
     if (showing) {
       this.continueCountdownText.setText(String(Math.max(0, Math.ceil(msLeft / 1000))))
     }
+  }
+
+  /**
+   * The pause overlay, derived from `game`'s flag the same way the continue
+   * overlay derives from its countdown: nothing to push, nothing to desync.
+   */
+  private syncPauseOverlay(): void {
+    const owner = this.scene.get('game') as unknown as GameReadout | undefined
+    const showing = owner?.paused === true
+    this.pauseDim.setVisible(showing)
+    this.pauseSlab.setVisible(showing)
+    this.pauseText.setVisible(showing)
+    this.pauseHintText.setVisible(showing)
   }
 }
