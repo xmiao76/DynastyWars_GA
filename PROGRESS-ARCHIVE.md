@@ -3,6 +3,139 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-21 19:15 - ENH-6 (attempt 1)
+
+- Status before: ENH-6 TODO, dependency satisfied (ENH-5 DONE). No prior
+  ENH-6 attempts. Tree clean: owner committed ENH-4/5 as 956e0f4.
+- Work completed: the ENH-6 validation slice in e2e/anim.spec.ts only (no
+  src/, art, threshold, or config change). Part 3 now expects Zhao Yun's full
+  triple (attack, attack2 AND thrust), the strike predicate covers all five
+  strike suffixes (attack/attack2/thrust/chop/sweep) while withdrawn stays
+  windup/recover (still shared), loop budget 200->300 ticks so the finisher
+  is reached. New Part 4 per-hero combo test drives all five heroes
+  tick-dense and asserts each renders its STRIKE_POSE triple (gy
+  sweep/attack/chop, zf thrust/attack2/sweep, zy attack/attack2/thrust, hz
+  thrust/chop/sweep, wy attack/sweep/chop), the five ordered triples pairwise
+  distinct, plus the requirement in words: zhangfei shows thrust, guanyu
+  shows sweep and chop. Marked all four ENH-6 criteria [x] and the task DONE.
+- Marathon before/after (ENH-4 baseline -> this run; ticks/continues):
+  guanyu s1 2640/0c -> 2640/0c, s2 4944/0c -> 4944/0c; zhangfei s1 2640/0c ->
+  2640/0c, s2 2832/0c -> 2832/0c; huangzhong s1 3972/1c -> 3972/1c, s2
+  6588/3c -> 6588/3c; weiyan s1 4056/1c -> 4056/1c, s2 2916/0c -> 2916/0c;
+  zhaoyun 9-stage 3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
+  0,0,1,3,1,0,1,3,2 (total 11) -> identical. Every stage mean shifts 0%,
+  no >15% flag. DIFF-1 stays BLOCKED.
+- Verification run: lint clean; typecheck clean; unit 188/188 (26 files);
+  e2e 45/45 (44 + new per-hero test: 27.4s standalone, 40.8s in full suite;
+  Part 3 retitled, 4.9-6.5s); vision 5/5 - frames 9/9, sprites 256/256,
+  weapons 85/85, retracts 170/170, parity clean all 7 screens, both negative
+  controls failing correctly, HUD 1/1, findings.jsonl 0 bytes; prodbuild
+  4/4; signal 13/13, zero violations/page errors, every marathon above.
+  Runner note: browser suites lingered after the last ok with no summary
+  (known behavior); each stopped with Ctrl-C to its own session only after
+  results observed. Ports verified free afterwards. npm via cmd /c npm.cmd.
+- Eye review (all judged by eye at 1:1 gameplay pixels): one-off capture
+  script (artifacts/loop/enh6-combo-capture.mjs, gitignored) screenshotted
+  each hero's three strikes in situ, desktop 1280x720 + phone 390x844 - 30
+  frames, deterministic ticks identical across devices (e.g. gy 9/36/67, zf
+  6/24/47). Contact sheets combo-sheet-desktop/phone-enh6combo.png tile 1:1
+  crops (5 heroes x 3 strikes). Masked attribution: hiding names, row 1
+  reads crescent glaive (low cut, level cut, overhead chop), row 2 wavy
+  serpent pike (deep thrust-first lunge), row 3 straight spear
+  (all-thrust family), row 4 recurve bow as staff (limbs+string in all
+  three), row 5 broad dao (level, low, overhead chop). Phone size keeps
+  every pose distinguishable, HUD readable. No clipping, no weapon over a
+  face anywhere. Full frames also viewed (zf thrust desktop, gy chop phone).
+- Result: all acceptance criteria met. No DIFF-1 impact - DIFF-1 stays
+  BLOCKED. No thresholds weakened (git diff touches only the e2e spec).
+- Status after: ENH-6 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no TODO
+  or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer pass
+  when driven; standing owner items: visual/play test, deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the 20-task
+  bound, so oldest DONE ART-1 (foundational face task, lowest number of the
+  chronological ART series; completion order by content, archives unread)
+  moved to TASKS-ARCHIVE.md end (DONE now 20); PROGRESS.md would pass 500
+  lines, so oldest two finished entries (Sep-20 10:20 + 11:10 producer
+  passes) moved to PROGRESS-ARCHIVE.md top (now ~460 lines). Latest signal
+  snapshot (this entry) and DIFF-1 BLOCKED evidence (TASKS.md) kept.
+  One-off capture/sheet scripts and 32 PNGs live under gitignored
+  artifacts/ and are not committed.
+  Commit: local commit denied - the host gives read-only access to .git
+  (git add fails: Unable to create index.lock, Permission denied), same as
+  the ENH-4/ENH-5 iterations. This iteration's 5 files verified and left in
+  the working tree uncommitted; no permissions weakened, nothing pushed.
+  Owner commits when ready.
+
+### 2026-09-21 17:30 - ENH-5 (attempt 1)
+
+- Status before: ENH-5 TODO with its ENH-4 dependency satisfied (no prior
+  ENH-5 attempts). Tree holds ENH-4's still-uncommitted changes (commit denied
+  last iteration, read-only .git) plus this task's work.
+- Work completed: three new shared strikes in src/game/art/poses.ts - THRUST
+  (deep lunge, weapon dead level, rot -0.05), CHOP (high-to-low cut on a steep
+  -0.65 diagonal, grip 0.35, hands forward), SWEEP (low crouch, weapon
+  level-low, rot +0.1). STRIKE_POSE repointed to 15 explicit entries; triples:
+  gy (sweep,attack,chop), zf (thrust,attack2,sweep), zy (attack,attack2,thrust),
+  hz (thrust,chop,sweep), wy (attack,sweep,chop) - each internally distinct,
+  all five ordered triples pairwise different. Zhaoyun keeps attack+attack2 so
+  the e2e combo test (which ENH-6 owns, not this task) still observes both.
+  POSE_REACH calibrated by measurement, no fallback: thrust 65, chop 30,
+  sweep 61 (ceil of 64.5/29.5/61.0, Zhang Fei's pike driving all three).
+  Registered in POSES; strike lists extended in artquality AND the vision live
+  gate; 18 new distinctness PAIRS (each new strike vs idle, windup, recover,
+  both historical strikes, both new siblings); counts 11->14 poses
+  (artquality, weapons 17*14*2=476 face cases, vision 18*14+4=256 sprites,
+  reach (18-1)*5, retract (18-1)*5*2). weapon-review pose-sweep covers 14.
+  No frame-data, threshold, floor, HEADROOM, or enemy-mapping change.
+- Calibration story: first run 42/43 focused - zhangfei:thrust clipped right
+  (reach 64.5 vs margin 65, bound pixel exactly on the edge) and lidian:chop
+  touched the frame top at exactly 27.0. Thrust margin set to ceiling 65;
+  chop redrawn (grip 0.32->0.35, hands down 1u) to top 24.5, reach 29.5,
+  margin 30. In-browser geometry confirms: thrust 65, chop 30, sweep 61,
+  headroom 25 (lidian:chop), faceOverlaps [], old reaches byte-identical.
+- Falsification (both reverted after): THRUST aliased to ATTACK joints fails
+  distinctness with "guanyu: the thrust pose is the attack pose again" (0 vs
+  floor 0.15); gy.jab1 pointed at attack fails the triple test. Both gates
+  proven able to fail.
+- Verification run: lint clean; typecheck clean; unit 188/188 (26 files);
+  e2e 44/44 incl. anim Part 3 over the remapped strikes; vision 5/5 -
+  frames 9/9, sprites 256/256, weapons 85/85, retracts 170/170, parity clean
+  all 7 screens, both negative controls failing correctly, HUD 1/1,
+  findings.jsonl 0 bytes; prodbuild 4/4; signal 13/13 with every marathon
+  tick-identical to the ENH-4 table (zero sim impact: guanyu 2640/4944,
+  zhangfei 2640/2832, huangzhong 3972+1c/6588+3c, weiyan 4056+1c/2916,
+  zhaoyun 9-stage as recorded); build ok. Runner note: browser suites' host
+  processes lingered after the last ok with no summary (known behavior);
+  each stopped with Ctrl-C to its own session only after results observed.
+  Ports 5176/5177/4321 verified free afterwards. npm via cmd /c npm.cmd.
+- Eye review (all judged by eye at gameplay size): pose-sweep right+left
+  (5 heroes x 14 poses, both facings), chop zoom plate (all five read as a
+  steep high-to-low cut), desktop sequence + full-size strikes (zf thrust,
+  gy sweep, hz thrust, zf before-vs-after showing the deeper lunge),
+  phone sequence + full-size phone strike, facesheet (portraits unchanged at
+  all sizes). No clipping, no weapon over a face anywhere. Untouched poses
+  render byte-identically (idle/windup/recover/title before/after sizes
+  equal; zy/wy jab1 strikes identical since their mapping keeps attack).
+- Result: all acceptance criteria met. No DIFF-1 impact - DIFF-1 stays BLOCKED.
+- Status after: ENH-5 DONE. ENH-6 dependency ("waiting on ENH-5") now satisfied.
+- Remaining work or blocker: none for this task.
+- Next recommended task: ENH-6 (last TODO; validates the movesets end to end).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the 20-task bound,
+  so oldest DONE FLAKE-2 (completed 2026-09-16 10:30, oldest by PROGRESS
+  dates) moved to TASKS-ARCHIVE.md end (DONE now 20); PROGRESS.md passed 500
+  lines, so oldest two finished entries (ART-13, ART-12) moved to
+  PROGRESS-ARCHIVE.md top (now 408 lines). Latest signal snapshot (this
+  entry's ENH-4-identical marathon tables) and DIFF-1 BLOCKED evidence kept.
+  Commit: local commit denied - the host gives read-only access to .git
+  (git add fails: Unable to create index.lock, Permission denied), same as
+  the ENH-4 iteration. ENH-5's 12 files verified and left in the working
+  tree uncommitted alongside ENH-4's; no permissions weakened, nothing
+  pushed. Owner commits when ready.
+
 ### 2026-09-21 15:35 - ENH-4 (attempt 1)
 
 - Status before: ENH-4 IN_PROGRESS (status flip plus new/updated tests were

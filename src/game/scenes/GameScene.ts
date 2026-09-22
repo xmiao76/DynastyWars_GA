@@ -147,7 +147,13 @@ export class GameScene extends Phaser.Scene {
   private shadows = new Map<number, Phaser.GameObjects.Ellipse>()
   private accumulator = 0
   private cloudLayer!: Phaser.GameObjects.Container
-  private clearScheduled = false
+  /**
+   * Stage-clear beat: ms left before the result scene after the boss falls,
+   * -1 = not counting. Counted in update() rather than a delayedCall so
+   * pause freezes it: ENH-7's "no stage transitions until resume" promise
+   * covers this transition too (ENH-9).
+   */
+  private clearMsLeft = -1
   /**
    * Wall-clock ms left on the continue countdown; -1 = not counting. Public
    * because HudScene draws it. The countdown is wall-clock and the revive it
@@ -177,7 +183,7 @@ export class GameScene extends Phaser.Scene {
     this.bridge = this.registry.get('bridge') as BridgeState
     this.bridge.scene = 'game'
     this.accumulator = 0
-    this.clearScheduled = false
+    this.clearMsLeft = -1
     // The scene instance is reused across stages: never inherit a pause.
     this.paused = false
     this.runTotalTicks = data.totalTicks ?? 0
@@ -381,6 +387,26 @@ export class GameScene extends Phaser.Scene {
       this.scene.start('game', { seed: pending.seed, charId: pending.charId, stageId: pending.stageId })
       return
     }
+    // Stage-clear beat. Wall-clock like the continue countdown, but counted
+    // HERE - below the pause gate - instead of in a time.delayedCall, which
+    // fires straight through a pause and changed scenes under the overlay.
+    if (this.clearMsLeft >= 0) {
+      this.clearMsLeft -= delta
+      if (this.clearMsLeft <= 0) {
+        this.clearMsLeft = -1
+        this.scene.start('result', {
+          score: this.sim.stats.score,
+          ticks: this.sim.tick,
+          charId: this.sim.charId,
+          lives: this.sim.lives,
+          stageId: this.sim.stage.id,
+          seed: this.sim.seed,
+          totalTicks: this.runTotalTicks + this.sim.tick,
+          char2Id: this.sim.char2Id,
+        })
+        return
+      }
+    }
     // Game-over phase: the sim freezes and the continue countdown runs on
     // wall-clock time (arcade style), independent of sim stepping.
     if (this.sim.phase === 'gameover') {
@@ -454,22 +480,10 @@ export class GameScene extends Phaser.Scene {
         const bossDef = enemyByKind(event.kind)
         this.hud.showBanner('WARNING', `${bossDef.nameEn} ${bossDef.nameZh}`, 0xd33a3a)
       }
-      if (event.type === 'stageclear' && !this.clearScheduled) {
-        this.clearScheduled = true
-        // Let the boss's fall play out, then show results (wall-clock: fine
-        // even in autopilot, which only controls sim stepping).
-        this.time.delayedCall(2000, () => {
-          this.scene.start('result', {
-            score: this.sim.stats.score,
-            ticks: this.sim.tick,
-            charId: this.sim.charId,
-            lives: this.sim.lives,
-            stageId: this.sim.stage.id,
-            seed: this.sim.seed,
-            totalTicks: this.runTotalTicks + this.sim.tick,
-            char2Id: this.sim.char2Id,
-          })
-        })
+      if (event.type === 'stageclear' && this.clearMsLeft < 0) {
+        // Let the boss's fall play out, then show results: a 2s wall-clock
+        // beat, frozen by pause (counted at the top of update).
+        this.clearMsLeft = 2000
       }
       if (event.type === 'gameover') this.showContinueOverlay()
     }

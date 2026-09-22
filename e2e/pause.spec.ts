@@ -171,3 +171,57 @@ test('pause overlay dims the frame and clears on resume', async ({ page }) => {
   expect(Math.abs(relit - lit) / lit, 'resumed frame must match live brightness').toBeLessThan(0.15)
   expect(pageErrors).toEqual([])
 })
+
+/**
+ * ENH-9: pause freezes the stage-clear transition too. The clear path used a
+ * wall-clock delayedCall that fired straight through a pause, so the scene
+ * changed under the PAUSED overlay. Both directions pinned: pause inside the
+ * 2s beat holds the game scene indefinitely; resume completes the trip to the
+ * result screen without further input.
+ */
+test('pause freezes the stage-clear transition, resume completes it', async ({ page }) => {
+  const pageErrors: string[] = []
+  page.on('pageerror', (err) => pageErrors.push(String(err)))
+  await startStage(page)
+
+  // Drive the REAL clear path: the stage boss goes down, the stageclear event
+  // arms the 2s wall-clock beat exactly as a player's kill would.
+  await page.evaluate(() => window.__DW__?.forceBoss())
+  await page.evaluate(() => {
+    const scene = window.__DW_GAME__?.scene.getScene('game') as unknown as
+      | { sim: { entities: Array<{ kind: string; hp: number; state: string }>; stage: { bossKind: string } } }
+      | undefined
+    const sim = scene?.sim
+    const boss = sim?.entities.find((e) => e.kind === sim?.stage.bossKind)
+    if (boss) {
+      boss.hp = 0
+      boss.state = 'dying'
+    }
+  })
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.phase), { timeout: 5_000 })
+    .toBe('clear')
+
+  // Pause INSIDE the clear window (the poll lands ~100ms in; the beat is 2s).
+  await page.keyboard.press('p')
+  await waitFrames(page, 180) // 3 wall seconds - past the old 2s beat
+  expect(
+    await page.evaluate(() => window.__DW__?.getSnapshot().scene),
+    'the result scene arrived under the PAUSED overlay',
+  ).toBe('game')
+  const captionUp = await page.evaluate(() => {
+    const hud = window.__DW_GAME__?.scene.getScene('hud')
+    const caption = hud?.children.list.find(
+      (c) => c.type === 'Text' && (c as unknown as { text: string }).text === 'PAUSED',
+    ) as unknown as { visible?: boolean } | undefined
+    return caption?.visible ?? false
+  })
+  expect(captionUp, 'the pause overlay must still be showing').toBe(true)
+
+  // Resume completes the transition with no further input.
+  await page.keyboard.press('p')
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 8_000 })
+    .toBe('result')
+  expect(pageErrors).toEqual([])
+})

@@ -698,49 +698,6 @@ Add future enhancement tasks below this heading.
   - No boss portraits. None exist and none are asked for.
 
 
-### ART-5 - The portrait's curved brows are traced and never filled, so no portrait shows them
-
-- Status: DONE
-- Requirement:
-  ART-4b "wired the unused brow arch" - and built the path without painting it.
-  `curvedBrow` in `drawPortraitDetail` (`src/game/art/draw.ts`) calls
-  `chainPath` and never calls `ctx.fill()`. All four path helpers in
-  `src/game/art/rig.ts` (`chainPath`, `limbPath`, `ovalPath`, `polyPath`) are
-  trace-only - `beginPath` to `closePath`, no fill - and every other `chainPath`
-  call site in `draw.ts` fills via `add()` or an explicit `ctx.fill()`. This is
-  the only bare one. The next path operation (the eye's `ovalPath`) begins a
-  new path and discards the brow, so every portrait shows the coarse STRAIGHT
-  brows underneath while `browArch` is read to no effect.
-
-  Proven by pixel, not just by reading: Guan Yu's near-brow arch-apex
-  crescent, canvas (158, 81) - inside the curved shape (0.29 local units within
-  its edge) and 0.45 units clear of the straight stroke's top edge - is pure
-  skin (168,68,47, exactly his complexion) in BOTH the coarse-only render and
-  the full `drawKindPortrait` render, and 0/81 pixels differ in the 9x9 around
-  it. The curved pass paints nothing.
-
-  Why nothing caught it: portrait art is deliberately invisible to the sprite
-  gates (the isolation that protects them also blinds them), and the
-  eye-verification passed because straight brows still look like brows - the
-  arch is sub-half-width BY DESIGN, so the review compared "straight" against
-  "straight" and called it arched.
-- Acceptance criteria:
-  - [x] The curved brow is filled: one `ctx.fill()` after the `chainPath`, or
-        the trace routed through `add()` like every other site. No endpoint,
-        width or arch value changes - the geometry was verified correct, only
-        the paint is missing
-  - [x] Re-rendered and judged by eye: all five hero portraits and Xiahou Dun,
-        at the sizes the game shows (roster, panel, HUD plate)
-  - [x] A gate that pins the paint, not the geometry: render `drawKindPortrait`
-        against `drawFigure` with the identical transform and require the
-        arch-apex crescent pixels (computed from the kind's FACES row, inside
-        the curved shape and clear of the straight stroke) to differ.
-        Proven able to fail: removing the fill makes the gate fail
-  - [x] lint, typecheck, unit, e2e, vision, prodbuild, signal, build
-- Non-goals:
-  - No brow redesign. Same endpoints, same widths, same arch values.
-  - No change to the coarse in-play face or to any other portrait mark.
-
 ### DIFF-1 - The measured difficulty curve is uneven in three places
 
 - Status: BLOCKED
@@ -1159,7 +1116,7 @@ Add future enhancement tasks below this heading.
 
 ### ENH-9 - Pause does not freeze the stage-clear transition
 
-- Status: TODO
+- Status: DONE
 - Requirement:
   ENH-7's pause gate promises "no stage transitions until resume", and
   the game-over countdown honors it (frozen while paused). The
@@ -1171,23 +1128,37 @@ Add future enhancement tasks below this heading.
   in-repo template: accumulate only on unpaused updates), so pause
   truly freezes every transition.
 - Acceptance criteria:
-  - [ ] Pausing inside the clear window holds the game scene: e2e
-        clears a stage (or drives the clear path the stageclear spec
-        uses), pauses, and asserts scene is still 'game' 3s later
-        with the overlay showing.
-  - [ ] Resume completes the transition: the result scene appears
-        after resume without further input.
-  - [ ] Unpaused clear timing unchanged: existing stageclear e2e and
-        full gates green; no DIFF-1 impact (no frame data, spawn, or
-        tuning change).
-  - [ ] Sweep: every gameplay `scene.start` is pause-gated or its
-        exemption is justified in the entry (this defect was the only
-        escapee; keep it that way).
+  - [x] Pausing inside the clear window holds the game scene: e2e
+        drives the REAL clear path (forceBoss + boss down -> stageclear
+        event), pauses inside the 2s beat, and asserts scene is still
+        'game' 3s later with the PAUSED caption showing.
+  - [x] Resume completes the transition: the result scene appears
+        after resume without further input (same test).
+  - [x] Unpaused clear timing unchanged: the delayedCall became a
+        delta-counted 2000ms beat armed at the same event drain (same
+        payload read at fire time); existing stageclear e2e green
+        (bot-driven full stage clear -> result -> stage 2); no DIFF-1
+        impact (no frame data, spawn, or tuning change).
+  - [x] Sweep done, every gameplay `scene.start` justified: GameScene
+        pending-restart and gameover expiry sit below the pause gate;
+        the clear->result transition now does too (this defect's fix).
+        Menu-scene transitions (result/gameover/select/title) only run
+        after the game scene is gone - no pause exists there. The
+        bridge's forceResult/forceGameOver are harness test aids that
+        deliberately bypass gameplay.
 - Non-goals:
   - No pause menu, settings, or volume. No change to the 2s boss-fall
     beat length. No auto-pause on blur. No touch-input changes.
 - Evidence:
   - artifacts/loop/proposals-clearpause-enh9.md (this pass's review).
+  - Trial: `clearScheduled` + `time.delayedCall(2000)` -> `clearMsLeft`
+    counted in update() below the pause gate (the continue-countdown
+    template). e2e/pause.spec.ts gains the both-directions pin; both
+    mechanisms falsified by probe (old delayedCall restored -> "the
+    result scene arrived under the PAUSED overlay"; transition
+    suppressed -> the resume assert fails). Gates: lint/typecheck
+    clean, unit 196/196, e2e 53/53 (+1), signal 13/13, vision 5/5,
+    prodbuild 4/4, build.
 
 ### ENH-10 - Arrows fly too low and hang in the air (owner request)
 

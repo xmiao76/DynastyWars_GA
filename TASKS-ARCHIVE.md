@@ -2321,3 +2321,46 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Non-goals:
   - In-play fighters unchanged. At a 20px head a human eye is not drawable;
     that would need larger heads and is a design decision.
+
+### ART-5 - The portrait's curved brows are traced and never filled, so no portrait shows them
+
+- Status: DONE
+- Requirement:
+  ART-4b "wired the unused brow arch" - and built the path without painting it.
+  `curvedBrow` in `drawPortraitDetail` (`src/game/art/draw.ts`) calls
+  `chainPath` and never calls `ctx.fill()`. All four path helpers in
+  `src/game/art/rig.ts` (`chainPath`, `limbPath`, `ovalPath`, `polyPath`) are
+  trace-only - `beginPath` to `closePath`, no fill - and every other `chainPath`
+  call site in `draw.ts` fills via `add()` or an explicit `ctx.fill()`. This is
+  the only bare one. The next path operation (the eye's `ovalPath`) begins a
+  new path and discards the brow, so every portrait shows the coarse STRAIGHT
+  brows underneath while `browArch` is read to no effect.
+
+  Proven by pixel, not just by reading: Guan Yu's near-brow arch-apex
+  crescent, canvas (158, 81) - inside the curved shape (0.29 local units within
+  its edge) and 0.45 units clear of the straight stroke's top edge - is pure
+  skin (168,68,47, exactly his complexion) in BOTH the coarse-only render and
+  the full `drawKindPortrait` render, and 0/81 pixels differ in the 9x9 around
+  it. The curved pass paints nothing.
+
+  Why nothing caught it: portrait art is deliberately invisible to the sprite
+  gates (the isolation that protects them also blinds them), and the
+  eye-verification passed because straight brows still look like brows - the
+  arch is sub-half-width BY DESIGN, so the review compared "straight" against
+  "straight" and called it arched.
+- Acceptance criteria:
+  - [x] The curved brow is filled: one `ctx.fill()` after the `chainPath`, or
+        the trace routed through `add()` like every other site. No endpoint,
+        width or arch value changes - the geometry was verified correct, only
+        the paint is missing
+  - [x] Re-rendered and judged by eye: all five hero portraits and Xiahou Dun,
+        at the sizes the game shows (roster, panel, HUD plate)
+  - [x] A gate that pins the paint, not the geometry: render `drawKindPortrait`
+        against `drawFigure` with the identical transform and require the
+        arch-apex crescent pixels (computed from the kind's FACES row, inside
+        the curved shape and clear of the straight stroke) to differ.
+        Proven able to fail: removing the fill makes the gate fail
+  - [x] lint, typecheck, unit, e2e, vision, prodbuild, signal, build
+- Non-goals:
+  - No brow redesign. Same endpoints, same widths, same arch values.
+  - No change to the coarse in-play face or to any other portrait mark.
