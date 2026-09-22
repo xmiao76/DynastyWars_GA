@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-22 15:15 - DIFF-1 CLOSED (owner decision: accept the curve)
+
+- Status before: DIFF-1 BLOCKED on the owner's design decision (the
+  only blocked item in the queue).
+- Work completed (owner review + decision, no code): presented the
+  re-scored evidence - the 2026-09-19 cross-hero check (findings 2 and
+  3 were Zhao-Yun artifacts; only the stage-3 wall survived) and a
+  fresh re-score against today's post-ENH-10 zhaoyun marathon (wall
+  persists at +88% over stage 2; his dip/finale quirks persist in his
+  table only; cause confirmed in source: stage 2 grants a horse at
+  stage.ts:133, stage 3 withdraws it and adds spearmen/archers). The
+  owner chose ACCEPT AND CLOSE: the wall is design-shaped (mount
+  reward ending + intended escalation), hero-texture, not a defect.
+  DIFF-1 -> DONE with the decision recorded; no balance change made.
+- Files changed: TASKS.md (DIFF-1 DONE + decision record), PROGRESS.md.
+- Verification run: none needed (markdown-only owner decision on top
+  of standing green signals: 13/13 logic + 5/5 vision this morning).
+- Result: owner decision recorded; DIFF-1 closed. No task work.
+- Status after: queue holds 20 DONE + ENH-12 TODO; ZERO blocked items
+  remain. Housekeeping (rule 8): 21 DONE -> oldest ART-7 archived (88
+  lines); PROGRESS under 500 with this entry (490).
+- Remaining work or blocker: none. Standing owner items unchanged
+  (deploy is owner-only).
+- Next recommended task: ENH-12 (consumer), then producer passes.
+
 ### 2026-09-22 15:04 - PRODUCER PASS (control-naming review, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after

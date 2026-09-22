@@ -2539,3 +2539,91 @@ and the three pre-redesign enhancements - all DONE and verified)
     aspect would distort every surface.
   - No boss portraits. None exist and none are asked for.
 
+### ART-7 - The in-play face is the one the player looks at, and it has every defect ART-6 just fixed
+
+- Status: DONE
+- Requirement:
+  ART-6 fixed the portraits. The fighter's face was left alone on a stated
+  justification that is WRONG, and the error is repeated in eight places across
+  the codebase and this file:
+
+      "at a ~20px head a human eye is not drawable"
+
+  20 is LOGICAL units. `RENDER_SCALE` is 2 and `GameScene.fitSprite` gives a
+  hero scale of exactly 116/232 = 0.5 against a camera zoom of exactly 2, so
+  the sprite is texel-for-pixel with the 960x540 backing store. Measured:
+
+      guanyu      40.4 x 46.0 device px
+      zhangfei    43.3 x 49.3
+      zhaoyun     41.6 x 47.4
+      huangzhong  42.4 x 48.4
+      weiyan      41.2 x 46.9
+
+  `Scale.FIT` then stretches that canvas to the window, so on a 1080p display
+  the head a player watches for the entire game is about 83 REAL screen pixels
+  across. That is not a face that cannot be drawn; the portrait's face window
+  before ART-6 was not much bigger.
+
+  Rendered at 6x (`artifacts/look/inplay-heads.png`), the in-play face has the
+  same defects ART-6 found in the portrait:
+    1. THE EYES ARE ON THE HEADGEAR, and worse here than in the portrait
+       because the gear is a contrasting colour: the helmet's lower edge at the
+       near-eye column is +0.342R and a turban's is +0.196R, while the eye sits
+       at +0.20R. Zhao Yun's eyes are painted on grey steel, Wei Yan's on
+       purple cloth.
+    2. THE EYES ARE SOLID DOTS - `m.eye` ovals at roughly 1:1, no lid, no
+       structure. The same "cartoon, not human" signal the portrait had.
+    3. THE FACE IS CRAMMED INTO THE BOTTOM THIRD of the head.
+    4. Stray `skinForm` marks read as dirt rather than structure.
+- Constraint that shapes the whole fix: NO SILHOUETTE CHANGE. `drawDetails`
+  runs after `paintCel` and draws inside the head, so face marks cannot move
+  the outline - but RAISING THE HEADGEAR would, and the headgear is a `shapes`
+  entry. So the face must come DOWN to meet the gear rather than the gear going
+  up, and only by as much as each gear kind actually requires (helmet the most,
+  band and hood not at all).
+- CORRECTION to the non-goals as filed. I wrote "no change to any silhouette"
+  and then changed one, deliberately: the face CANNOT duck under a helmet that
+  reaches +0.342R without landing on the chin, so the brim had to come up. The
+  change is bounded and measured rather than waved at - each bowl keeps its TOP
+  (cy - ry) and its WIDTH (rx) exactly, so the two points that define its
+  outline do not move, and only the vertical profile shallows:
+      helmet  ry 0.86 -> 0.5197, cy -0.42 -> -0.7603, edge +0.342 -> -0.300
+      crown   ry 0.70 -> 0.4796, cy -0.50 -> -0.7204, edge +0.114 -> -0.300
+      turban  ry 0.82 -> 0.5604, cy -0.55 -> -0.8096, edge +0.196 -> -0.300
+  Measured over all 176 sprite textures: 85 are silhouette-IDENTICAL and 91
+  moved, the worst by 1.68% of its own area (soldier:down). The gates that care
+  are thresholded at 10% (hero distinctness) and 15% (pose distinctness).
+- Acceptance criteria:
+  - [x] Every face mark lands on SKIN. `gearFaceEdge` computes each headgear's
+        lower edge at the eye column from the same table `addHeadgear` draws
+        from, and `faceLayout` moves the face down by exactly what that kind
+        needs - which is now nothing for helmet, turban, crown and hood, and
+        0.11R for a band
+  - [x] The eye is an almond, not a dot: 0.17 x 0.095 against the old
+        0.14 x 0.15. About 2:1, which reads even at seven pixels wide
+  - [x] A gate that would have caught it, in `artquality.test.ts`: probe just
+        above the brow in the near-eye column for all 17 humanoid kinds and
+        require skin. Probed per kind, because the band of skin between brim
+        and brow sits at a different height for every headgear - the position
+        comes from `faceLayout`, not from a copy of its arithmetic. Proven able
+        to fail by restoring the old bowls: "zhaoyun: the brow has 134,138,150
+        above it, not skin - the face is painted on the headgear"
+  - [x] The silhouette change measured, not assumed - see the correction above
+  - [x] The hero complexion-pair gate still passes, as do silhouette
+        complexity, appendage ratio, colorCount, dominantFraction, outlineRatio,
+        tonalBands, weapon reach, clipping, centring, walk cycle, pose
+        distinctness and boss weight
+  - [x] The three stale "20px" comments in `src/game/art/` corrected to the
+        measured 40-43 device px. The figure is logical units; RENDER_SCALE is 2
+  - [x] Judged by eye magnified (`artifacts/look/inplay-heads.png` before,
+        `inplay-after.png` after) and at play scale
+        (`artifacts/vision/game_combat.png`)
+  - [x] lint, typecheck, 154 unit, 43 e2e, vision 5/5, prodbuild 4/4,
+        signal 13/13, build
+- Non-goals:
+  - No change to head SIZE or build. `fitSprite` derives one scale from the
+    idle frame and the art gates bound both absolute height and the
+    tallest-to-shortest ratio. The headgear PROFILE did change - see the
+    correction above.
+  - No portrait change. ART-6 is done and its gates stay as they are.
+  - Not photorealism. Flat cel, same as everything else.
