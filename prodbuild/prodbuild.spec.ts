@@ -234,7 +234,8 @@ test('the shipped page fits a phone, fallback included', async ({ browser }) => 
       }
     })
     expect(report, `${label}: could not read the shipped game`).not.toBeNull()
-    expect(report?.zoneCount, `${label}: the shipped build drew no on-screen controls`).toBe(7)
+    // Eight since ENH-8: the d-pad, A/B/C, and the pause button.
+    expect(report?.zoneCount, `${label}: the shipped build drew no on-screen controls`).toBe(8)
     expect(report?.overflows, `${label}: the shipped canvas does not fit - ${report?.note}`).toBe(false)
     expect(
       report?.offscreen,

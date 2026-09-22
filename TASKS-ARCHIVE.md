@@ -2244,3 +2244,47 @@ and the three pre-redesign enhancements - all DONE and verified)
   - Not required for correctness. The cast is coherent as it stands and this is
     an improvement, not a fix.
   - No change to the boss fights, their stats or their AI. Faces only.
+
+### ART-3 - The portraits were the in-play head magnified, so they had no detail to show
+
+- Status: DONE
+- Requirement:
+  The owner looked at the game after ART-1 and ART-1b and said the faces were
+  still not faces - "still just some shapes and objects". They were right, and
+  the diagnosis is arithmetic rather than taste:
+
+    `PORTRAIT_BOX` 36x40 logical at `RENDER_SCALE` 2 = a **72x80 texture**, in
+    which the whole face was about **28x24 pixels**, then upscaled ~1.9x to the
+    136x152 the portrait is displayed at.
+
+  Four marks is all that fits in 28x24, which is why the portraits read as blobs
+  with dots however carefully those marks were placed. And `drawKindPortrait`
+  called the same `drawFigure` as the fighter, so the portrait was the in-play
+  head MAGNIFIED - there was no portrait-specific art anywhere in the game.
+
+  Worse, ART-1b had raised `PORTRAIT_ZOOM` 1.02 -> 1.3 and reported it as giving
+  "the face more pixels to be seen in". That was wrong: zoom magnifies, it does
+  not add resolution, so it made the same 28x24 of face bigger and softer.
+- Acceptance criteria:
+  - [x] Portraits render at their own scale, `PORTRAIT_SCALE = 6`, for a
+        216x240 texture and a face of roughly 84x72 pixels - nine times the
+        area. `PORTRAIT_TEXTURE` is exported so the canvas allocation and the
+        drawing cannot disagree
+  - [x] `drawPortraitDetail` draws the things that need those pixels and exist
+        nowhere else: an ear with an inner curve, a cheekbone shade, an upper
+        lid over each eye, a catchlight in each eye, a nostril, and a lower lip
+  - [x] Called ONLY from `drawKindPortrait`, so the in-play sprites keep the
+        coarse face and no sprite gate sees any of it
+  - [x] Everything is a fraction of `headR` and shares the landmarks
+        `drawDetails` uses, so the two face passes cannot drift apart
+  - [x] Memory measured: 203KB per portrait, +0.9MB for the five heroes the
+        select screen generates (113KB -> 1.0MB). The project's whole art budget
+        is 23.7MB, so this is affordable and worth stating rather than assuming
+  - [x] Verified by eye at the sizes the game actually shows: the select roster
+        thumbnails, the big portrait panel, and the HUD plate
+  - [x] lint, typecheck, 143 unit, e2e, vision, prodbuild, signal, build
+- Non-goals:
+  - No change to the in-play figures. At 20px a fighter's face still reads as
+    two eyes and a mouth, and that is not fixable without larger heads, which
+    would change every silhouette and is a design decision rather than a fix.
+  - No change to the fight, the stats or the AI.

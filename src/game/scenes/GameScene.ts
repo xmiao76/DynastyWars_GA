@@ -140,6 +140,7 @@ export class GameScene extends Phaser.Scene {
     poll: () => void
     read: (allow: boolean) => import('../../core/types').InputState
     clear: () => void
+    onPauseRequest: (() => void) | null
   } = NO_TOUCH
   private pollContinueButton!: () => void
   private sprites = new Map<number, Phaser.GameObjects.Sprite>()
@@ -287,6 +288,9 @@ export class GameScene extends Phaser.Scene {
     // has not mounted - a device with no touchscreen - reports neutral, so
     // desktop play and every screenshot the vision gate takes are unchanged.
     this.touchAdapter = this.hud.touch
+    // The touch pause button writes through here: one shared toggle, owned by
+    // this scene, no matter which input asked for it.
+    this.touchAdapter.onPauseRequest = () => this.togglePause()
     const confirmContinue = (): void => {
       if (this.paused) return
       if (this.sim.phase === 'gameover' && this.continueMsLeft > 0) {
@@ -294,14 +298,11 @@ export class GameScene extends Phaser.Scene {
       }
     }
     this.input.keyboard?.on('keydown-ENTER', confirmContinue)
-    // Gameplay pause. Clears on both edges: pausing drops anything buffered
-    // but unconsumed, and resuming drops anything pressed since the last
-    // frozen frame cleared - either one would otherwise fire on the next step.
-    // Repeats ignored, or holding P would strobe the game.
+    // Gameplay pause from the P key. Repeats ignored, or holding P would
+    // strobe the game. The touch pause button shares togglePause below.
     this.input.keyboard?.on('keydown-P', (event: KeyboardEvent) => {
       if (event.repeat) return
-      this.paused = !this.paused
-      this.clearInputBuffers()
+      this.togglePause()
     })
     this.pollContinueButton = watchConfirmButton(confirmContinue)
     // A tap continues too. Without this a touch player who died simply could
@@ -581,6 +582,17 @@ export class GameScene extends Phaser.Scene {
 
   private hideContinueOverlay(): void {
     this.continueMsLeft = -1
+  }
+
+  /**
+   * Flip the pause flag. Shared by the P key and the touch pause button.
+   * Clears on both edges: pausing drops anything buffered but unconsumed,
+   * and resuming drops anything pressed since the last frozen frame cleared -
+   * either one would otherwise fire on the next step.
+   */
+  private togglePause(): void {
+    this.paused = !this.paused
+    this.clearInputBuffers()
   }
 
   /** Drop all buffered action presses; the pause gate's no-leak guarantee. */

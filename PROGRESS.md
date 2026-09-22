@@ -22,6 +22,63 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-22 00:13 - ENH-8 (attempt 1)
+
+- Status before: ENH-8 TODO (no prior attempts). Consumer iteration under
+  run `2026-09-22T06-49-10Z-e7ded175`.
+- Work completed: touch pause button at bottom-centre (240,248), clear of
+  plates/bars/banners/down-texts in all HUD states. Circled-II glyph drawn
+  into the shared pad Graphics (no new named objects, so the pads==1 /
+  labels==3 visibility assertions cover it unchanged); named `touchPause`
+  zone on pointerup calling back into a shared `togglePause()` (P key
+  refactored onto it). pointerup is load-bearing, not stylistic: within
+  one input dispatch, game-object handlers run before scene-level
+  pointerdown (verified in the Phaser bundle), so a pointerdown toggle
+  could unpause and then immediately revive inside one tap during a
+  paused countdown; separating down/up makes the order irrelevant.
+  Overlay hint branches on `hasTouch()` (TAP TO RESUME vs PRESS P) -
+  caught by eye review (below), mirroring the continue hint. Zone
+  counts 7->8 in `TOUCH_ZONE_COUNT`, touch.spec and the prodbuild
+  phone-fit gate (the pause button is the 8th control).
+- Files changed: `src/game/adapters/touch.ts`,
+  `src/game/scenes/GameScene.ts`, `src/game/scenes/HudScene.ts`,
+  `e2e/touchpause.spec.ts` (new), `e2e/touch.spec.ts`,
+  `prodbuild/prodbuild.spec.ts`, `TASKS.md`, `PROGRESS.md`.
+- Tests (new, Pixel 7 emulation, real play): zone discovered by name
+  (never hard-coded); tap freezes 60 wall frames with full-snapshot
+  `toEqual`; PAUSED caption visibility pinned both directions; tap
+  resumes with tick advance. Falsified: zone unwired -> test fails.
+  Desktop absence (zero zones) covers the new zone with no change.
+- Verification run: lint clean; typecheck clean; unit 188/188; e2e
+  49/49 (48 + touchpause); signal 13/13 with marathons tick-identical
+  to ENH-6 (no core changes); vision 5/5 (9/9 frames, 256/256 sprites,
+  85/85 weapons, 170/170 retracts, parity clean, both negative
+  controls correct, HUD 1/1); prodbuild 4/4 (8 zones, portrait +
+  landscape on-screen); build ok. The one-line hint change landed
+  after the full pass and was re-verified on every path it touches
+  (pause/touchpause/touch/hud specs, 14/14); desktop vision, autopilot
+  signal, zone-count prodbuild and unit cannot observe a touch-only
+  text string, so those suites were not re-run (same reasoning as
+  GATE-3's config-only change).
+- Eye review (phone portrait capture): PAUSED slab + TAP TO RESUME
+  legible, pause glyph visible bottom-centre, d-pad + A/B/C + HUD all
+  clear, game fits the viewport. Desktop: vision metrics unchanged
+  (hasTouch-gated) + pause.spec overlay pins green.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
+- Status after: ENH-8 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
+  TODO or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer
+  pass when driven; standing owner items: deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound,
+  so oldest DONE ART-3 (lowest number of the chronological ART arc)
+  spliced to TASKS-ARCHIVE.md end (DONE now 20). PROGRESS.md reached
+  594 lines, so the oldest four finished entries (ENH-4, 02:55 producer,
+  MIGRATION-GA, 18:44 producer) moved to PROGRESS-ARCHIVE.md top (now
+  424 lines). Latest signal snapshot (this entry) and DIFF-1 BLOCKED
+  evidence kept.
+
 ### 2026-09-21 23:03 - PRODUCER PASS (first scheduled tick, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after the
@@ -368,173 +425,3 @@ history slowly crowds out the work it is supposed to support.
   the ENH-4 iteration. ENH-5's 12 files verified and left in the working
   tree uncommitted alongside ENH-4's; no permissions weakened, nothing
   pushed. Owner commits when ready.
-
-### 2026-09-21 15:35 - ENH-4 (attempt 1)
-
-- Status before: ENH-4 IN_PROGRESS (status flip plus new/updated tests were
-  pre-existing uncommitted working-tree state; no prior ENH-4 PROGRESS entry,
-  so this is attempt 1). src/ still on the old shared frame tables.
-- Work completed: implemented the three ENH-4 source changes the staged tests
-  pin down. (1) `src/core/attacks.ts`: replaced the shared-frame
-  `defineHeroAttacks` (jabs 6/4/10, finisher 8/5/16) with per-hero
-  weapon-true combo hits — gy slow wide 8/5/14 + 12/6/22 knockdown finisher,
-  zf long narrow 5/4/9 thrusts (reach 32/34/36) + 10/6/18 sweep, zy fastest
-  5/3/8 + 7/4/13, hz compact 6/4/10 + 8/5/14, wy heavy 9/5/14 + 13/6/18.
-  Jump kicks, specials (incl. hz inert draw), mounted sweep and all enemy
-  defs byte-identical. (2) `src/game/adapters/sprites.ts`: new exported
-  `STRIKE_POSE` table keyed by full attack id (five jab2→attack2, matching
-  old behavior); `poseForEntity` looks the table up instead of the
-  `.jab2`-suffix test, enemies/mounted/unknown still fall back to attack.
-  (3) `selfplay/bot.ts`: new `spacingDef(charId, mounted)` helper; both
-  call sites (enemy + crate spacing) now use the DRIVEN hero's own
-  `combo[0]` def instead of hard-coded `zy.jab1`; mounted still uses the
-  spear sweep. Marked all six ENH-4 criteria [x] and the task DONE.
-- Files changed: `src/core/attacks.ts`, `src/game/adapters/sprites.ts`,
-  `selfplay/bot.ts`, `TASKS.md` (criteria + DONE), `PROGRESS.md`.
-  Adopted (not authored here) the staged tests: new
-  `test/core/movesets.test.ts` (6 tests incl. live ±10% DPS check),
-  `test/core/bot-spacing.test.ts` (3), plus updated characters/items/
-  mobility/sim/sprites expectations. No `sim.ts` changes (data only).
-- Verification run:
-  - Fail-proof on OLD src (before editing): new tests failed 5/9
-    (movesets pin/chain/reach, bot guanyu/huangzhong spacing) and updated
-    tests failed 7/32 (characters, items 12-vs-10, mobility [12,8]-vs-[10,10],
-    sim 3-vs-4 hits, sprites phasing x2 + missing STRIKE_POSE) — every new
-    assertion proven able to fail.
-  - BASELINE `npm run signal` on old src, 13/13 ok, zero violations/errors:
-    guanyu s1 2556t/0c s2 2964t/0c; zhangfei s1 2496t/0c s2 3240t/0c;
-    huangzhong s1 3432t/0c s2 5472t/2c; weiyan s1 2544t/0c s2 3024t/0c;
-    zhaoyun 9-stage ticks 3540,3756,5508,5400,4308,5172,5148,7956,6708 with
-    continues 0,0,2,1,1,0,1,2,2 (total 9, the known DIFF-1 shape).
-  - AFTER fix: `npx.cmd vitest run` 188/188 (26 files); `npm.cmd run
-    lint` clean; `npm.cmd run typecheck` clean; `npm run signal` again
-    13/13 ok, zero violations/errors: guanyu s1 2640t/0c s2 4944t/0c;
-    zhangfei s1 2640t/0c s2 2832t/0c; huangzhong s1 3972t/1c s2 6588t/3c;
-    weiyan s1 4056t/1c s2 2916t/0c; zhaoyun 9-stage ticks
-    3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
-    0,0,1,3,1,0,1,3,2 (total 11).
-  - Balance deltas RECORDED, not chased (ENH-4 non-goal; ENH-6 owns the
-    >15% gate): guanyu s2 +67% ticks, weiyan s1 +59% ticks +1c, huangzhong
-    +1c/+1c, zhaoyun s4 5400→8988t (1→3c) but s3 faster 5508→4224t (2→1c).
-    Every marathon still completes; bot viable with all five heroes.
-  - Runner note: both signal runs' processes stayed alive after the 13th
-    "ok" with no summary line (known host behavior); each was stopped with
-    Ctrl-C to its own session only, after all results were observed. Port
-    5177 afterwards shows TIME_WAIT only, no listener. npm run via
-    `cmd /c npm.cmd` (PowerShell blocks npm.ps1 on this host).
-  - Extra diligence (not in ENH-4 acceptance, which ENH-6 re-gates): e2e
-    44/44 ok incl. the timing-sensitive anim combo test; the new frame
-    data did not break combat timing gates. Vision/prodbuild left for ENH-6
-    (no art, rendering, or build-config change here).
-- Result: all acceptance criteria met. No new poses/art gates (ENH-5),
-  no DIFF-1 retuning — DIFF-1 stays BLOCKED.
-- Status after: ENH-4 DONE. ENH-5 dependency ("waiting on ENH-4") now
-  satisfied; ENH-6 still waits on ENH-5.
-- Remaining work or blocker: none for this task.
-- Next recommended task: ENH-5 (first TODO; consumer implements the three
-  strike poses + art gates in a later iteration).
-
-- Housekeeping (same iteration, rule 8): 21 DONE exceeded the 20-task bound,
-  so oldest DONE FIX-5 moved to TASKS-ARCHIVE.md (DONE now 20); PROGRESS.md
-  exceeded 500 lines (584), so oldest three finished entries (ART-11, ART-10,
-  Sep-19 producer pass) moved to PROGRESS-ARCHIVE.md top (now 474 lines).
-  DIFF-1 stays BLOCKED in TASKS.md; the ART-10 "src/core unchanged" note is
-  superseded by this task's attacks.ts data change and ENH-6 will re-measure.
-  Commit: local commit denied — the host gives read-only access to .git
-  (git add fails: Unable to create index.lock, Permission denied). All 14
-  iteration files verified and left in the working tree uncommitted; no
-  permissions weakened, nothing pushed. Owner commits when ready.
-
-### 2026-09-21 02:55 - PRODUCER PASS (signals + frame sweep, attempt 1)
-
-- Status before: queue holds only DIFF-1 (BLOCKED on an owner decision) + 20
-  DONE. No IN_PROGRESS or TODO. First GA producer pass after MIGRATION-GA.
-- LOGIC signal: 'npm run signal' observed 13/13 ok, zero invariant violations
-  and zero page errors across idle, co-op, seeds, weapon, perf and all five
-  marathons (incl. nine-stage zhaoyun: continues 0,0,2,1,1,0,1,2,2 - the known
-  DIFF-1 standing shape, not a new finding). No regression.
-- VISUAL signal: 'npm run vision' observed 5/5 ok. All 9 screens pass at the
-  same levels as the ART-15 snapshot (game_combat colorRichness 1038, same as
-  prior pass; static screens unchanged). Sprite gate 202/202, weapons 34/34,
-  retracts 68/68, renderer parity clean on all 7 screens, both negative
-  controls still failing correctly (empty-backdrop on shape, flat silhouette
-  on shading), HUD 1/1. 'findings.jsonl' empty (0 bytes). No UX_REVIEW.md.
-- Frame sweep, 8 images covering all 9 screens judged by eye: title lineup,
-  select portraits, idle, both combats, boss night scene, result, game over,
-  complete. NO DEFECT: the five ART-15 weapons read in situ, no clipping, no
-  weapon over a face, HUD readable, portraits distinct. Bounded opportunity
-  review (visual presentation) found no justified gap, so no proposal filed.
-- Limitation, stated plainly: both suites' runner processes did not exit on
-  their own after the last test passed (60-120s of silence, no summary line)
-  and were stopped with Ctrl-C; every individual test result was observed
-  passing first. PowerShell also refuses npm.ps1 under this host's execution
-  policy, so both suites ran via cmd.exe. Neither affects the green verdict.
-- Proposals: none. No scratch file written; TASKS.md untouched.
-- Files changed: 'PROGRESS.md' (uncommitted: local commit denied - the host
-  gives read-only access to '.git', so 'git add' cannot create 'index.lock'.
-  Recorded without weakening host permissions; never pushed.)
-- Result: IDLE - NO NEW FINDINGS. No game source touched.
-- Status after: n/a - producer pass.
-- Remaining work or blocker: DIFF-1 BLOCKED on an owner design decision;
-  standing owner items unchanged (local visual/play test, deploy).
-- Next recommended task: none available without the owner.
-
-### 2026-09-20 21:04 - MIGRATION-GA (owner-requested infrastructure, attempt 1)
-
-- Status before: copied CX HEAD 707fece; ART-15 DONE, DIFF-1 BLOCKED, no ready task.
-- Work completed: verified 493 copied files; preserved independent GA Git and
-  unchanged game/queue/archives. Moved canonical instructions to AGENTS.md/.loop;
-  added model-neutral Node adapters/runner, strict final results, crash locks,
-  persistent error pause, bounded delays, and opt-in finite Windows scheduling.
-- Owner approved at most one evidence-backed proactive enhancement per producer
-  pass within PROJECT.md; separate consumers implement it. DIFF-1 remains blocked.
-- Isolation: GA dev/browser/production ports 5176/5177/4321; owner-only deployment
-  targets dynasty-wars-ga/main. No source project, game behavior, or gate weakened.
-- Verification: npm ci PASS (140 packages), lint/typecheck PASS, unit 178/178,
-  e2e 44/44, logic signal 13/13 (all five marathons including nine-stage Zhao Yun),
-  visual 5/5 (nine frames, sprites 202/202, weapons 34/34, retracts 68/68,
-  seven-screen Canvas/WebGL parity, both negative controls, HUD 1/1), prodbuild 4/4.
-- Offline tooling: runner 20/20, scheduler 35/35, deployment 11/11; runner timeout
-  and cancellation tree cleanup verified; all fake processes collected. Windows
-  COM accepted scheduler XML and normalized ownership parsing in memory only.
-- Reviewed regenerated WebGL title/combat screenshots: content and HUD visible;
-  this is a limited migration spot-check, not a new all-frame gameplay review.
-- Limitations: confined npm-cache and Vite/Playwright process access needed approved
-  execution. Unattended provider/host permissions require supervised validation.
-- Result: GA migration verified. No real model job, schedule installation, cloud
-  action, deployment, push, or migration commit. Default adapter remains unset.
-- Status after: original task statuses unchanged; 229 game/queue/archive files
-  hash-identical; source 493-file snapshot and HEAD unchanged. Details:
-  docs/MIGRATION-GA.md; setup docs/LOOP_ENGINEERING.md; docs/SCHEDULING.md.
-- Next action: owner reviews/checkpoints migration, then manual .loop/continue.md
-  or configures a trusted adapter and supervises one iteration before scheduling.
-
-### 2026-09-20 18:44 - PRODUCER PASS (post-ART-15 signals + frame sweep)
-
-- Status before: queue holds only DIFF-1 (BLOCKED on an owner decision) + 20
-  DONE. ART-15 committed and green.
-- LOGIC signal: `npm run signal` 13/13 green, zero invariant violations and
-  zero page errors across idle, co-op, seeds, weapon, perf and all five
-  marathons. No regression. The zhaoyun 9-stage marathon (continues
-  0,0,2,1,1,0,1,2,2) reproduces DIFF-1's standing shape, which is the known
-  blocked item, not a new finding.
-- VISUAL signal: `npm run vision` 5/5 green. All 9 screens pass at the same
-  levels as the ART-15 snapshot (static screens byte-identical; combat/idle
-  colorRichness within run-to-run jitter, e.g. game_combat 1021->1038).
-  Sprite gate 202/202, weapons 34/34, retracts 68/68, renderer parity clean
-  on all 7 screens, both negative controls still failing correctly
-  (empty-backdrop on shape, flat silhouette on shading), HUD 1/1.
-  `findings.jsonl` empty (0 bytes). No UX_REVIEW.md note on file.
-- Frame sweep, all 9 judged by eye: title lineup, select portraits, idle,
-  both combats, boss night scene, result, game over, complete. NO DEFECT:
-  the five ART-15 weapons read in situ (crescent asymmetric, serpent
-  S-curved with hanging tassel, spear towering, dao broad, bow strung), no
-  clipping, no weapon over a face, no palette surprises.
-- Proposals: none. No scratch file written; TASKS.md untouched.
-- Files changed: `PROGRESS.md`.
-- Result: IDLE - NO NEW FINDINGS. No code touched; tree unchanged from
-  c2b3753 where every suite was green.
-- Status after: n/a - producer pass.
-- Remaining work or blocker: DIFF-1 BLOCKED on an owner design decision;
-  standing owner items unchanged (local visual/play test, deploy).
-- Next recommended task: none available without the owner.

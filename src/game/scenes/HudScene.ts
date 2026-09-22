@@ -290,7 +290,7 @@ export class HudScene extends Phaser.Scene {
       .setDepth(10_002)
       .setVisible(false)
     this.pauseHintText = this.add
-      .text(SCREEN_WIDTH / 2, 148, 'PRESS P TO RESUME', {
+      .text(SCREEN_WIDTH / 2, 148, hasTouch() ? 'TAP TO RESUME' : 'PRESS P TO RESUME', {
         fontFamily: 'sans-serif',
         fontSize: '10px',
         color: '#9ab0c0',

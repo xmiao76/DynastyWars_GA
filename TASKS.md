@@ -866,50 +866,6 @@ Add future enhancement tasks below this heading.
   - In-play fighters unchanged. At a 20px head a human eye is not drawable;
     that would need larger heads and is a design decision.
 
-### ART-3 - The portraits were the in-play head magnified, so they had no detail to show
-
-- Status: DONE
-- Requirement:
-  The owner looked at the game after ART-1 and ART-1b and said the faces were
-  still not faces - "still just some shapes and objects". They were right, and
-  the diagnosis is arithmetic rather than taste:
-
-    `PORTRAIT_BOX` 36x40 logical at `RENDER_SCALE` 2 = a **72x80 texture**, in
-    which the whole face was about **28x24 pixels**, then upscaled ~1.9x to the
-    136x152 the portrait is displayed at.
-
-  Four marks is all that fits in 28x24, which is why the portraits read as blobs
-  with dots however carefully those marks were placed. And `drawKindPortrait`
-  called the same `drawFigure` as the fighter, so the portrait was the in-play
-  head MAGNIFIED - there was no portrait-specific art anywhere in the game.
-
-  Worse, ART-1b had raised `PORTRAIT_ZOOM` 1.02 -> 1.3 and reported it as giving
-  "the face more pixels to be seen in". That was wrong: zoom magnifies, it does
-  not add resolution, so it made the same 28x24 of face bigger and softer.
-- Acceptance criteria:
-  - [x] Portraits render at their own scale, `PORTRAIT_SCALE = 6`, for a
-        216x240 texture and a face of roughly 84x72 pixels - nine times the
-        area. `PORTRAIT_TEXTURE` is exported so the canvas allocation and the
-        drawing cannot disagree
-  - [x] `drawPortraitDetail` draws the things that need those pixels and exist
-        nowhere else: an ear with an inner curve, a cheekbone shade, an upper
-        lid over each eye, a catchlight in each eye, a nostril, and a lower lip
-  - [x] Called ONLY from `drawKindPortrait`, so the in-play sprites keep the
-        coarse face and no sprite gate sees any of it
-  - [x] Everything is a fraction of `headR` and shares the landmarks
-        `drawDetails` uses, so the two face passes cannot drift apart
-  - [x] Memory measured: 203KB per portrait, +0.9MB for the five heroes the
-        select screen generates (113KB -> 1.0MB). The project's whole art budget
-        is 23.7MB, so this is affordable and worth stating rather than assuming
-  - [x] Verified by eye at the sizes the game actually shows: the select roster
-        thumbnails, the big portrait panel, and the HUD plate
-  - [x] lint, typecheck, 143 unit, e2e, vision, prodbuild, signal, build
-- Non-goals:
-  - No change to the in-play figures. At 20px a fighter's face still reads as
-    two eyes and a mouth, and that is not fixable without larger heads, which
-    would change every silhouette and is a design decision rather than a fix.
-  - No change to the fight, the stats or the AI.
-
 ### GATE-3 - Determinism is documented everywhere and enforced nowhere
 
 - Status: DONE
@@ -1196,7 +1152,7 @@ Add future enhancement tasks below this heading.
 
 ### ENH-8 - Touch pause button (mobile parity for the P key)
 
-- Status: TODO
+- Status: DONE
 - Requirement:
   ENH-7 gave keyboard players P; a touch device has no P key and no other
   pause path, so a phone player cannot pause a ~13-minute run. Add one
@@ -1207,17 +1163,17 @@ Add future enhancement tasks below this heading.
   in every HUD state (boss plate and P2 plate included); legible glyph at
   phone size.
 - Acceptance criteria:
-  - [ ] One new touch zone + visible glyph, HUD-owned and mounted with the
+  - [x] One new touch zone + visible glyph, HUD-owned and mounted with the
         existing controls (survives display-list rebuilds), shown only
         when `hasTouch()`.
-  - [ ] Tap pauses (sim tick frozen across 60 wall frames) and tap resumes
+  - [x] Tap pauses (sim tick frozen across 60 wall frames) and tap resumes
         (tick advances), pinned by a Pixel-7-emulation e2e reusing the
         `tapGamePoint` + `touchscreen.tap` patterns.
-  - [ ] The pause overlay shows/hides with touch toggles (dim pin or HUD
+  - [x] The pause overlay shows/hides with touch toggles (dim pin or HUD
         visibility assertion).
-  - [ ] Occlusion and label-fit gates still green; desktop shows no new
+  - [x] Occlusion and label-fit gates still green; desktop shows no new
         control (extend the desktop-absence coverage).
-  - [ ] Full gates green (lint, typecheck, unit, e2e, signal, vision,
+  - [x] Full gates green (lint, typecheck, unit, e2e, signal, vision,
         prodbuild, build); phone-size capture eye-reviewed.
 - Non-goals:
   - No new pause semantics, menu, settings, or volume. No auto-pause on
@@ -1225,3 +1181,11 @@ Add future enhancement tasks below this heading.
     change. No DIFF-1 impact.
 - Evidence:
   - artifacts/loop/proposals-touchpause-enh8.md (this pass's review).
+  - Trial: circled-II glyph in the shared pad Graphics + named touchPause
+    zone (pointerup, Phaser order hazard documented); shared togglePause().
+    e2e/touchpause.spec.ts (Pixel 7): tap freezes 60 frames with full
+    snapshot equality, caption visibility both directions, tap resumes;
+    falsified by unwiring the zone. Touch hint TAP TO RESUME (eye-caught).
+    Gates: lint/typecheck clean, unit 188/188, e2e 49/49, signal 13/13
+    (identical marathons), vision 5/5, prodbuild 4/4 (8 zones both
+    orientations), build. Zone counts 7->8 in touch/prodbuild specs.

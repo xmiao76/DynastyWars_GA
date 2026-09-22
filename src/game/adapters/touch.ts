@@ -35,14 +35,22 @@ const PAD_CX = 46
 const PAD_CY = SCREEN_HEIGHT - 46
 const PAD_ARM = 17
 const BTN_R = 15
+/**
+ * Pause button anchor, bottom-centre. Clear of the plates, bars, banners and
+ * down-texts in every HUD state (boss and P2 plates included) and of the
+ * d-pad and face buttons; the pause slab ends 58px above it.
+ */
+const PAUSE_CX = SCREEN_WIDTH / 2
+const PAUSE_CY = SCREEN_HEIGHT - 22
+const PAUSE_R = 12
 const FACE = 0xf0e6d2
 const EDGE = 0x140f14
 
 /** Names the visibility gate looks for. A control you can touch you can see. */
 export const TOUCH_PAD_NAME = 'touchPad'
 export const TOUCH_LABEL_NAME = 'touchLabel'
-/** Four directions plus three action buttons. */
-export const TOUCH_ZONE_COUNT = 7
+/** Four directions plus three action buttons plus the pause button. */
+export const TOUCH_ZONE_COUNT = 8
 
 interface Held {
   down: boolean
@@ -57,6 +65,12 @@ export class TouchAdapter {
   private attackBuffered = false
   private jumpBuffered = false
   private specialBuffered = false
+  /**
+   * Pause requests from the touch pause button. Wiring, not state: set by the
+   * scene that owns the pause flag (GameScene) and never cleared by mount, so
+   * HUD rebuilds keep working without re-registration.
+   */
+  onPauseRequest: (() => void) | null = null
 
   /**
    * Draw the controls into `scene` and wire them to this adapter's state.
@@ -108,6 +122,16 @@ export class TouchAdapter {
     face(bx, by, 'A')
     face(bx - 38, by + 4, 'B')
     face(bx - 16, by - 34, 'C')
+    // Pause button: a circled twin-bar glyph drawn into the shared pad
+    // Graphics, so the visibility gate's single-pad assertion covers it with
+    // no new named objects to count.
+    g.fillStyle(FACE, 1)
+    g.fillCircle(PAUSE_CX, PAUSE_CY, PAUSE_R)
+    g.lineStyle(1, EDGE, 0.8)
+    g.strokeCircle(PAUSE_CX, PAUSE_CY, PAUSE_R)
+    g.fillStyle(EDGE, 1)
+    g.fillRect(PAUSE_CX - 5, PAUSE_CY - 6, 4, 12)
+    g.fillRect(PAUSE_CX + 1, PAUSE_CY - 6, 4, 12)
 
     // Hit areas are generous - larger than the drawn control - because a thumb
     // is not a mouse pointer and a miss mid-fight reads as the game ignoring
@@ -154,6 +178,21 @@ export class TouchAdapter {
     tapZone(bx - 16, by - 34, r, r, () => {
       this.specialBuffered = true
     })
+    // The pause button's zone, named so tests tap where the scene put it
+    // rather than hard-coding a screen point.
+    //
+    // pointerup, not pointerdown: within one input dispatch, game-object
+    // handlers run before the scene-level 'pointerdown' that drives
+    // tap-to-continue, and HUD and game scenes each dispatch the same tap. A
+    // pointerdown toggle could unpause and then immediately revive inside one
+    // tap during a paused countdown. Separating the phases (down sees paused,
+    // up toggles) makes the order irrelevant; ~100ms of tap latency is
+    // nothing on a pause button.
+    makeZone(PAUSE_CX, PAUSE_CY, 44, 44)
+      .setName('touchPause')
+      .on('pointerup', () => {
+        this.onPauseRequest?.()
+      })
   }
 
   /**
@@ -207,4 +246,5 @@ export const NO_TOUCH = {
     return neutralInput()
   },
   clear(): void {},
+  onPauseRequest: null as (() => void) | null,
 }

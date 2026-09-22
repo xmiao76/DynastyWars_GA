@@ -181,11 +181,12 @@ test('a touch player can continue after dying', async ({ page }) => {
 })
 
 /**
- * Four directions plus three action buttons. Hard-coded rather than imported
- * from the adapter: that module imports Phaser at the top level, which does not
- * survive being loaded into the Node process the spec runs in.
+ * Four directions plus three action buttons plus the pause button. Hard-coded
+ * rather than imported from the adapter: that module imports Phaser at the top
+ * level, which does not survive being loaded into the Node process the spec
+ * runs in.
  */
-const TOUCH_ZONES = 7
+const TOUCH_ZONES = 8
 
 /** What the HUD scene is actually drawing of the on-screen controls. */
 async function readControls(page: import('@playwright/test').Page): Promise<{
