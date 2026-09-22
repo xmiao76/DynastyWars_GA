@@ -78,7 +78,9 @@ test('walk cycle alternates frames and knockdown renders the down pose', async (
 // combo link, so the texture must cycle windup -> strike -> recover with a
 // withdrawn frame between consecutive strikes - the weapon visibly comes back
 // instead of sitting extended through the whole combo.
-test('a ground combo cycles windup, both strikes and recover with a retract between hits', async ({
+// ENH-6: Zhao Yun's triple is attack -> attack2 -> thrust, so all three
+// strikes must appear; the strike predicate covers the ENH-5 poses too.
+test('a ground combo cycles windup, all three strikes and recover with a retract between hits', async ({
   page,
 }) => {
   test.setTimeout(120_000)
@@ -112,7 +114,7 @@ test('a ground combo cycles windup, both strikes and recover with a retract betw
   }
   const seen = new Set<string>()
   const seq: string[] = []
-  for (let i = 0; i < 200; i += 1) {
+  for (let i = 0; i < 300; i += 1) {
     const before = await page.evaluate(() => window.__DW__?.getSnapshot()?.tick ?? -1)
     await page.evaluate((input) => window.__DW__?.run([input]), press)
     await expect
@@ -128,6 +130,7 @@ test('a ground combo cycles windup, both strikes and recover with a retract betw
       seen.has('entity:zhaoyun:windup') &&
       seen.has('entity:zhaoyun:attack') &&
       seen.has('entity:zhaoyun:attack2') &&
+      seen.has('entity:zhaoyun:thrust') &&
       seen.has('entity:zhaoyun:recover')
     ) {
       break
@@ -137,13 +140,20 @@ test('a ground combo cycles windup, both strikes and recover with a retract betw
   expect(seen.has('entity:zhaoyun:windup')).toBe(true)
   expect(seen.has('entity:zhaoyun:attack')).toBe(true)
   expect(seen.has('entity:zhaoyun:attack2')).toBe(true)
+  expect(seen.has('entity:zhaoyun:thrust')).toBe(true)
   expect(seen.has('entity:zhaoyun:recover')).toBe(true)
 
   // The combo-retract assertion: somewhere in the sampled order, two strikes
   // are separated by withdrawn frames and nothing else - one uninterrupted
   // combo link. Interruptions (hurt, down, idle between combos) break the
-  // run and simply do not count.
-  const strike = (key: string): boolean => key.endsWith(':attack') || key.endsWith(':attack2')
+  // run and simply do not count. Withdrawn is still windup/recover (shared);
+  // strike covers both historical poses and the ENH-5 thrust/chop/sweep.
+  const strike = (key: string): boolean =>
+    key.endsWith(':attack') ||
+    key.endsWith(':attack2') ||
+    key.endsWith(':thrust') ||
+    key.endsWith(':chop') ||
+    key.endsWith(':sweep')
   const withdrawn = (key: string): boolean => key.endsWith(':windup') || key.endsWith(':recover')
   let linked = false
   for (let i = 0; i < seq.length && !linked; i += 1) {
@@ -160,5 +170,80 @@ test('a ground combo cycles windup, both strikes and recover with a retract betw
     }
   }
   expect(linked).toBe(true)
+  expect(pageErrors).toEqual([])
+})
+
+// Part 4 (ENH-6, autopilot, tick-dense): each hero's full combo renders its
+// own STRIKE_POSE triple end to end - Zhang Fei thrust-first, Guan Yu
+// sweep/chop - and no two heroes share the same ordered triple.
+test('each hero combo shows its own strike triple (ZF thrust, GY sweep/chop)', async ({
+  page,
+}) => {
+  test.setTimeout(300_000)
+  const pageErrors: string[] = []
+  page.on('pageerror', (err) => pageErrors.push(String(err)))
+
+  // Mirrors STRIKE_POSE in src/game/adapters/sprites.ts (unit-pinned); the
+  // dynamic part below proves each triple actually renders in the game.
+  const EXPECTED: Record<string, [string, string, string]> = {
+    guanyu: ['sweep', 'attack', 'chop'],
+    zhangfei: ['thrust', 'attack2', 'sweep'],
+    zhaoyun: ['attack', 'attack2', 'thrust'],
+    huangzhong: ['thrust', 'chop', 'sweep'],
+    weiyan: ['attack', 'sweep', 'chop'],
+  }
+  // Never the same triple: five heroes, five ordered triples.
+  expect(new Set(Object.values(EXPECTED).map((t) => t.join(','))).size).toBe(5)
+
+  const press = {
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+    attackPressed: true,
+    jumpPressed: false,
+    specialPressed: false,
+  }
+
+  const observed: Record<string, string[]> = {}
+  for (const [hero, triple] of Object.entries(EXPECTED)) {
+    await page.goto('/?renderer=canvas&autopilot=1')
+    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
+    await page.evaluate((id) => window.__DW__?.startGame(id, 42), hero)
+    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+
+    const seen = new Set<string>()
+    for (let i = 0; i < 350; i += 1) {
+      const before = await page.evaluate(() => window.__DW__?.getSnapshot()?.tick ?? -1)
+      await page.evaluate((input) => window.__DW__?.run([input]), press)
+      await expect
+        .poll(() => page.evaluate(() => window.__DW__?.getSnapshot()?.tick ?? -1), { timeout: 5000 })
+        .toBeGreaterThan(before)
+      const snap = await page.evaluate(() => window.__DW__?.getSnapshot())
+      if (!snap?.sim || snap.sim.player.hp <= 0) break
+      const keys: string[] = await page.evaluate((h) => {
+        const game = window.__DW_GAME__
+        const scene = game?.scene.getScene('game')
+        if (!scene) return []
+        return scene.children.list
+          .filter((child): child is Phaser.GameObjects.Sprite => child.type === 'Sprite')
+          .map((child) => child.texture.key)
+          .filter((key) => key.startsWith('entity:' + h + ':'))
+      }, hero)
+      for (const key of keys) seen.add(key)
+      if (triple.every((pose) => seen.has('entity:' + hero + ':' + pose))) break
+    }
+    for (const pose of triple) {
+      expect(seen.has('entity:' + hero + ':' + pose), hero + ' shows ' + pose).toBe(true)
+    }
+    observed[hero] = triple.filter((pose) => seen.has('entity:' + hero + ':' + pose))
+  }
+
+  // Requirement in words: Zhang Fei shows thrust-family keys, Guan Yu
+  // sweep/chop-family - and the five rendered triples are all distinct.
+  expect(observed['zhangfei'] ?? []).toContain('thrust')
+  expect(observed['guanyu'] ?? []).toContain('sweep')
+  expect(observed['guanyu'] ?? []).toContain('chop')
+  expect(new Set(Object.values(observed).map((t) => t.join(','))).size).toBe(5)
   expect(pageErrors).toEqual([])
 })

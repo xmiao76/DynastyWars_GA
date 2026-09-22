@@ -2089,3 +2089,99 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No change to `e2e/game.spec.ts`. The line I originally accused is fine, and
     changing it would have been a fix aimed at the wrong thing.
   - No retries. A retry would hide exactly this kind of finding.
+
+### ART-1 - The characters have no real faces
+
+- Status: DONE
+- Requirement:
+  The figures read as bodies with a marker where a face should be. Requested by
+  the owner: make them look like human faces, and make the five heroes match
+  their well-known appearances. Two concrete things are missing, both measured
+  in the code rather than guessed:
+
+  1. The face is two marks. `drawDetails` in `src/game/art/draw.ts` draws one
+     brow stroke and one eye dot, and says so in its own comment - "A face is
+     two marks and a brow". There is no second eye, no nose, no mouth, no ear,
+     no cheek or jaw structure. A head is an oval in a skin tone with a brow
+     and a dot on it.
+
+  2. There is ONE skin tone for the whole cast. `SKIN = 0xf0c8a0` in
+     `src/game/art/palette.ts` is a module constant, and `materials()` writes
+     `skin: css(SKIN)` with no parameter. `FigurePlan` carries body, trim,
+     gear, headgear, weapon, beard, beardColour and cape - and no complexion,
+     so all eighteen humanoids are the same shade. Guan Yu's 面如重枣 ("face
+     like a dark red date") and Zhang Fei's 黑脸 (dark face) are the two most
+     recognisable conventions for those characters, and neither is currently
+     expressible at all.
+
+  Worth knowing before designing: the head is small. A figure is drawn 92px
+  tall with `headR = 10.4`, so the head is about 20px across, and the portrait
+  is not a close-up - `drawKindPortrait` magnifies the same figure by
+  `PORTRAIT_ZOOM = 1.02` inside a 36x40 box. So the face has to read at roughly
+  20 logical pixels. Enlarging the portrait into an actual head close-up is
+  part of this, because otherwise there is nowhere the detail can be seen.
+
+  "Exactly like their typical appearance" is read here as the standard
+  public-domain literary and opera conventions, which are what "typical" means
+  for these figures, and which the game already draws on for Guan Yu's green
+  and Zhao Yun's silver:
+    - 关羽 Guan Yu: dark-red complexion, a very long flowing beard (美髯公,
+      "Lord of the Beautiful Beard"), long slanted phoenix eyes with heavy
+      silkworm brows, green robe.
+    - 张飞 Zhang Fei: dark complexion, large round glaring eyes, a coarse
+      bristling beard (豹头环眼, 燕颔虎须).
+    - 赵云 Zhao Yun: young, fair, clean-shaven, strong level brows, the
+      handsome look the character is known for.
+    - 魏延 Wei Yan: sallow, hard, sharp-featured, severe expression.
+    - 黄忠 Huang Zhong: the old general - weathered lined face, white beard
+      and hair, heavy brows, still vigorous.
+- Acceptance criteria:
+  - [x] `FigurePlan.skin` carries a complexion and `materials()` takes it as a
+        fifth argument defaulting to the old `SKIN` constant, so a kind that
+        says nothing about its face draws exactly what it drew before. Every
+        other kind in the cast is therefore unchanged
+  - [x] The five heroes have the complexions above: Guan Yu 0xa8442f (面如重枣),
+        Zhang Fei 0x8a5a3c, Zhao Yun 0xf4d0ac, Huang Zhong 0xd9ad86, Wei Yan
+        0xc79a63. Zhang Fei's is deliberately dark-but-not-black: his beard is
+        already 0x181410 and `drawBeard` records that a dark beard meeting a
+        dark head once "came out as one black mass with no face in it"
+  - [x] The face pass now draws a pair of eyes, a pair of brows, a nose that
+        reaches the silhouette, and a mouth, plus a new `skinForm` material for
+        the form marks - because `skinShade` (22% down) came out BRIGHTER than
+        the cel shadow band (a 34% overlay) and rendered them as pale blobs
+  - [x] CORRECTION to this criterion as filed. It asked for an ear and a
+        cheek/jaw shade step as well, and both were drawn and then REMOVED: at
+        this size they rendered as scattered dark blemishes rather than
+        structure, which is worse than not having them. The clear face window
+        is about one head radius tall - hair covers to -0.04R and the beard
+        starts at +0.85R - so four features fit and six do not
+  - [x] The portrait is a head close-up now: `PORTRAIT_ZOOM` 1.02 -> 1.3 and
+        `PORTRAIT_HEAD_Y` 14 -> 18. At 1.02 it was almost exactly the
+        play-scale head, so a face with structure had no more pixels there than
+        it did in a fight
+  - [x] A gate that can fail, though NOT the one this criterion specified. A
+        "the face has marks on it" metric was attempted five ways and none
+        could fail when the marks were removed, so it was dropped rather than
+        shipped - see the note in the test file. What does gate is the pair
+        difference, proven against the real negative control: giving all five
+        one complexion fails both parts, the declared-skin check with "guanyu
+        and zhangfei were given the same complexion" and the rendered
+        comparison at 11.2 against a floor of 18
+  - [x] `dominantFraction`, `colorCount`, `tonalBands`, silhouette, weapon
+        reach, clipping, centring, walk cycle, boss weight and pose distinctness
+        all still pass - checked, not assumed
+  - [x] lint, typecheck, 143 unit, 43 e2e, vision 5/5, prodbuild 4/4,
+        signal 13/13, build
+- Non-goals:
+  - Not photorealism, and this is a real limit rather than a disclaimer. The
+    pipeline is flat cel shading: ink silhouette, flat fills, one hard shadow
+    band, one lit band. "Real human faces" here means faces with recognisable
+    human structure and each hero's own features, which is what makes a
+    character read. It does not mean photographic skin.
+  - No existing game's art. These are public-domain literary and opera
+    conventions drawn in this game's own pipeline. Nothing traced, copied or
+    loaded from any other title - the same rule that already governs the rest
+    of the cast.
+  - No change to height, build or silhouette. `fitSprite` derives one scale
+    from the idle frame and the art gates bound both absolute height and the
+    tallest-to-shortest ratio, so a bigger head is a regression elsewhere.

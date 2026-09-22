@@ -22,6 +22,72 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-21 19:15 - ENH-6 (attempt 1)
+
+- Status before: ENH-6 TODO, dependency satisfied (ENH-5 DONE). No prior
+  ENH-6 attempts. Tree clean: owner committed ENH-4/5 as 956e0f4.
+- Work completed: the ENH-6 validation slice in e2e/anim.spec.ts only (no
+  src/, art, threshold, or config change). Part 3 now expects Zhao Yun's full
+  triple (attack, attack2 AND thrust), the strike predicate covers all five
+  strike suffixes (attack/attack2/thrust/chop/sweep) while withdrawn stays
+  windup/recover (still shared), loop budget 200->300 ticks so the finisher
+  is reached. New Part 4 per-hero combo test drives all five heroes
+  tick-dense and asserts each renders its STRIKE_POSE triple (gy
+  sweep/attack/chop, zf thrust/attack2/sweep, zy attack/attack2/thrust, hz
+  thrust/chop/sweep, wy attack/sweep/chop), the five ordered triples pairwise
+  distinct, plus the requirement in words: zhangfei shows thrust, guanyu
+  shows sweep and chop. Marked all four ENH-6 criteria [x] and the task DONE.
+- Marathon before/after (ENH-4 baseline -> this run; ticks/continues):
+  guanyu s1 2640/0c -> 2640/0c, s2 4944/0c -> 4944/0c; zhangfei s1 2640/0c ->
+  2640/0c, s2 2832/0c -> 2832/0c; huangzhong s1 3972/1c -> 3972/1c, s2
+  6588/3c -> 6588/3c; weiyan s1 4056/1c -> 4056/1c, s2 2916/0c -> 2916/0c;
+  zhaoyun 9-stage 3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
+  0,0,1,3,1,0,1,3,2 (total 11) -> identical. Every stage mean shifts 0%,
+  no >15% flag. DIFF-1 stays BLOCKED.
+- Verification run: lint clean; typecheck clean; unit 188/188 (26 files);
+  e2e 45/45 (44 + new per-hero test: 27.4s standalone, 40.8s in full suite;
+  Part 3 retitled, 4.9-6.5s); vision 5/5 - frames 9/9, sprites 256/256,
+  weapons 85/85, retracts 170/170, parity clean all 7 screens, both negative
+  controls failing correctly, HUD 1/1, findings.jsonl 0 bytes; prodbuild
+  4/4; signal 13/13, zero violations/page errors, every marathon above.
+  Runner note: browser suites lingered after the last ok with no summary
+  (known behavior); each stopped with Ctrl-C to its own session only after
+  results observed. Ports verified free afterwards. npm via cmd /c npm.cmd.
+- Eye review (all judged by eye at 1:1 gameplay pixels): one-off capture
+  script (artifacts/loop/enh6-combo-capture.mjs, gitignored) screenshotted
+  each hero's three strikes in situ, desktop 1280x720 + phone 390x844 - 30
+  frames, deterministic ticks identical across devices (e.g. gy 9/36/67, zf
+  6/24/47). Contact sheets combo-sheet-desktop/phone-enh6combo.png tile 1:1
+  crops (5 heroes x 3 strikes). Masked attribution: hiding names, row 1
+  reads crescent glaive (low cut, level cut, overhead chop), row 2 wavy
+  serpent pike (deep thrust-first lunge), row 3 straight spear
+  (all-thrust family), row 4 recurve bow as staff (limbs+string in all
+  three), row 5 broad dao (level, low, overhead chop). Phone size keeps
+  every pose distinguishable, HUD readable. No clipping, no weapon over a
+  face anywhere. Full frames also viewed (zf thrust desktop, gy chop phone).
+- Result: all acceptance criteria met. No DIFF-1 impact - DIFF-1 stays
+  BLOCKED. No thresholds weakened (git diff touches only the e2e spec).
+- Status after: ENH-6 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no TODO
+  or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer pass
+  when driven; standing owner items: visual/play test, deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the 20-task
+  bound, so oldest DONE ART-1 (foundational face task, lowest number of the
+  chronological ART series; completion order by content, archives unread)
+  moved to TASKS-ARCHIVE.md end (DONE now 20); PROGRESS.md would pass 500
+  lines, so oldest two finished entries (Sep-20 10:20 + 11:10 producer
+  passes) moved to PROGRESS-ARCHIVE.md top (now ~460 lines). Latest signal
+  snapshot (this entry) and DIFF-1 BLOCKED evidence (TASKS.md) kept.
+  One-off capture/sheet scripts and 32 PNGs live under gitignored
+  artifacts/ and are not committed.
+  Commit: local commit denied - the host gives read-only access to .git
+  (git add fails: Unable to create index.lock, Permission denied), same as
+  the ENH-4/ENH-5 iterations. This iteration's 5 files verified and left in
+  the working tree uncommitted; no permissions weakened, nothing pushed.
+  Owner commits when ready.
+
 ### 2026-09-21 17:30 - ENH-5 (attempt 1)
 
 - Status before: ENH-5 TODO with its ENH-4 dependency satisfied (no prior
@@ -392,58 +458,4 @@ history slowly crowds out the work it is supposed to support.
   the owner identified silhouette, not missing details. If the report comes
   back a fourth time, the right move is a side-by-side reference-image
   comparison with the owner, not another guess.
-- Next recommended task: none available without the owner.
-
-### 2026-09-20 11:10 - PRODUCER PASS (the phased attacks, in situ)
-
-- Status before: ART-11/12/13 all green, and the vision frames swept. But the
-  one view nobody had taken was the ATTACK ANIMATION IN MOTION in the running
-  game: ART-11's phases were verified by texture-key sampling plus static
-  sheets, and the weapons changed shape afterwards - no frame had ever shown
-  windup/strike/recover with the ART-13 spear and dao.
-- Captured all four phases mid-swing in the live game (temp spec: mash attack
-  one tick at a time, screenshot when the player's texture key reaches each
-  new phase; deleted after). 8 frames, two heroes:
-  NO DEFECT:
-    zhaoyun  windup cocked with the point towering / attack driven forward /
-             attack2 high thrust / recover visibly retracted - the whole
-             ART-11 cycle readable in the game the owner plays
-    weiyan   same cycle with the broad dao; the tassel hangs at the socket in
-             every phase
-  No clipping at any frame edge, no weapon over the face, no unreadable mass.
-- Two selector notes from building the probe: the hero must be found by
-  `entity:<hero>:` prefix - taking the first `entity:` sprite finds a soldier -
-  and the pass had to be driven a tick at a time because `run()` queues every
-  input before the frame renders.
-- Files changed: `PROGRESS.md`.
-- Verification run: the capture itself. No code touched, tree unchanged from
-  00a682f where every suite was green.
-- Result: no defect. The attack animation and the new weapons work together
-  in situ.
-- Status after: n/a - producer pass.
-- Remaining work or blocker: DIFF-1 BLOCKED on an owner decision; standing
-  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
-- Next recommended task: none available without the owner.
-
-### 2026-09-20 10:20 - PRODUCER PASS (the new weapons in situ)
-
-- Status before: ART-13 committed and green. The weapon sheets were judged by
-  eye, but no frame of the RUNNING game had been looked at since.
-- Swept the fresh vision frames (all regenerated post-ART-13):
-  NO DEFECT:
-    title            all five heroes' new weapons read on the line-up
-    game_combat      Zhao Yun's pointed leaf towers, tassel hanging - the exact
-                     frame the owner's complaint screenshot came from, now
-                     fixed in situ
-    game_combat_zf   the serpent tip reads above Zhang Fei's head, tassel down
-    boss_fight       Xu Chu's crescent + tassel reads at boss scale; soldier
-                     jians' disc guards visible
-  No clipping, no face overlap, no palette surprises in any frame.
-- Files changed: `PROGRESS.md`.
-- Verification run: the sweep itself; no code touched, tree unchanged from
-  749fda9 where every suite was green.
-- Result: no defect. The weapons work at every size the frames cover.
-- Status after: n/a - producer pass. ART-13 remains DONE.
-- Remaining work or blocker: DIFF-1 BLOCKED on an owner decision; standing
-  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
 - Next recommended task: none available without the owner.

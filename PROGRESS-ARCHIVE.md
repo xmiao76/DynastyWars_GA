@@ -3,6 +3,60 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-20 11:10 - PRODUCER PASS (the phased attacks, in situ)
+
+- Status before: ART-11/12/13 all green, and the vision frames swept. But the
+  one view nobody had taken was the ATTACK ANIMATION IN MOTION in the running
+  game: ART-11's phases were verified by texture-key sampling plus static
+  sheets, and the weapons changed shape afterwards - no frame had ever shown
+  windup/strike/recover with the ART-13 spear and dao.
+- Captured all four phases mid-swing in the live game (temp spec: mash attack
+  one tick at a time, screenshot when the player's texture key reaches each
+  new phase; deleted after). 8 frames, two heroes:
+  NO DEFECT:
+    zhaoyun  windup cocked with the point towering / attack driven forward /
+             attack2 high thrust / recover visibly retracted - the whole
+             ART-11 cycle readable in the game the owner plays
+    weiyan   same cycle with the broad dao; the tassel hangs at the socket in
+             every phase
+  No clipping at any frame edge, no weapon over the face, no unreadable mass.
+- Two selector notes from building the probe: the hero must be found by
+  `entity:<hero>:` prefix - taking the first `entity:` sprite finds a soldier -
+  and the pass had to be driven a tick at a time because `run()` queues every
+  input before the frame renders.
+- Files changed: `PROGRESS.md`.
+- Verification run: the capture itself. No code touched, tree unchanged from
+  00a682f where every suite was green.
+- Result: no defect. The attack animation and the new weapons work together
+  in situ.
+- Status after: n/a - producer pass.
+- Remaining work or blocker: DIFF-1 BLOCKED on an owner decision; standing
+  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
+- Next recommended task: none available without the owner.
+
+### 2026-09-20 10:20 - PRODUCER PASS (the new weapons in situ)
+
+- Status before: ART-13 committed and green. The weapon sheets were judged by
+  eye, but no frame of the RUNNING game had been looked at since.
+- Swept the fresh vision frames (all regenerated post-ART-13):
+  NO DEFECT:
+    title            all five heroes' new weapons read on the line-up
+    game_combat      Zhao Yun's pointed leaf towers, tassel hanging - the exact
+                     frame the owner's complaint screenshot came from, now
+                     fixed in situ
+    game_combat_zf   the serpent tip reads above Zhang Fei's head, tassel down
+    boss_fight       Xu Chu's crescent + tassel reads at boss scale; soldier
+                     jians' disc guards visible
+  No clipping, no face overlap, no palette surprises in any frame.
+- Files changed: `PROGRESS.md`.
+- Verification run: the sweep itself; no code touched, tree unchanged from
+  749fda9 where every suite was green.
+- Result: no defect. The weapons work at every size the frames cover.
+- Status after: n/a - producer pass. ART-13 remains DONE.
+- Remaining work or blocker: DIFF-1 BLOCKED on an owner decision; standing
+  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
+- Next recommended task: none available without the owner.
+
 ### 2026-09-20 09:40 - ART-13 (attempt 1)
 
 - Status before: ART-12 committed. Owner re-tested: the spear and the big
