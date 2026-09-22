@@ -483,3 +483,93 @@ test('Codex is optional, safe flags fixed, actual npm JS resolved without shell 
   assert.throws(() => resolveCodex(root, path.join(bin, 'codex.cmd')), /Shell shims/);
   assert.throws(() => prepareAdapter({ ...DEFAULTS, adapter: 'x', adapters: { x: { executable: 'x.cmd', args: ['{requestFile}', '{resultFile}'] } } }, root)({ reportPath: 'result' }, 'request'), /Shell shims/);
 });
+
+test('manual protocol runs a full begin/report/finish cycle without any adapter', async () => {
+  const root = fixture(['COMPLETED'], { adapter: null, adapters: {} });
+  const begun = JSON.parse((await run(root, ['--begin-manual'])).output);
+  assert.ok(begun.runId);
+  assert.equal(begun.mode, 'Auto');
+  for (const key of ['reportPath', 'inputFile', 'requestFile', 'metadataPath']) assert.ok(begun[key], key);
+  const p = pathsFor(root);
+  const lock = JSON.parse(fs.readFileSync(p.lock, 'utf8'));
+  assert.equal(lock.worker, 'manual');
+  assert.equal(lock.runId, begun.runId);
+  assert.equal(state(root).activeRun.runId, begun.runId);
+  assert.equal(state(root).activeRun.worker, 'manual');
+  assert.equal(state(root).activeRun.pid, null);
+  assert.match(fs.readFileSync(begun.inputFile, 'utf8'), /Selected prompt continue.md/);
+  assert.equal(fs.existsSync(begun.reportPath), false);
+  const metadata = JSON.parse(fs.readFileSync(begun.metadataPath, 'utf8'));
+  assert.equal(metadata.worker, 'manual');
+  assert.equal(metadata.adapter, 'manual');
+  assert.equal(metadata.status, 'manual-begun');
+  fs.writeFileSync(begun.reportPath, 'Fixture evidence\nLOOP_RESULT: COMPLETED\n');
+  const finished = await run(root, ['--finish-manual']);
+  assert.match(finished.output, /Result: COMPLETED/);
+  assert.equal(state(root).lastRun.result, 'COMPLETED');
+  assert.equal(state(root).lastRun.worker, 'manual');
+  assert.equal(state(root).activeRun, null);
+  assert.equal(state(root).paused, false);
+  assert.equal(fs.existsSync(p.lock), false);
+  assert.equal(calls(root).length, 0);
+});
+
+test('manual finish applies the pause policy per result', async () => {
+  for (const [marker, code, paused] of [['BLOCKED', 2, true], ['REGRESSION', 2, true], ['IDLE', 0, false], ['IN_PROGRESS', 0, false]]) {
+    const root = fixture(['COMPLETED'], { adapter: null, adapters: {} });
+    const begun = JSON.parse((await run(root, ['--begin-manual'])).output);
+    fs.writeFileSync(begun.reportPath, `Evidence\nLOOP_RESULT: ${marker}\n`);
+    await run(root, ['--finish-manual'], code);
+    assert.equal(state(root).lastRun.result, marker);
+    assert.equal(state(root).paused, paused);
+    assert.equal(state(root).pauseReason, paused ? marker : null);
+    assert.equal(state(root).activeRun, null);
+    assert.equal(fs.existsSync(pathsFor(root).lock), false);
+  }
+});
+
+test('manual begin refuses paused/busy runs and finish rejects bad reports', async () => {
+  const root = fixture(['COMPLETED'], { adapter: null, adapters: {} });
+  const p = pathsFor(root);
+  await run(root, ['--finish-manual'], 1);
+  assert.equal(fs.existsSync(p.state), false);
+  assert.equal(fs.existsSync(p.lock), false);
+  const begun = JSON.parse((await run(root, ['--begin-manual'])).output);
+  await run(root, ['--begin-manual'], 3);
+  fs.writeFileSync(begun.reportPath, 'No marker here\n');
+  const bad = await run(root, ['--finish-manual'], 1);
+  assert.match(bad.output, /exactly one LOOP_RESULT marker/);
+  assert.equal(state(root).lastRun.result, 'UNKNOWN');
+  assert.equal(state(root).paused, true);
+  assert.equal(fs.existsSync(p.lock), false);
+  await run(root, ['--begin-manual'], 2);
+  assert.equal(fs.existsSync(p.lock), false);
+  await run(root, ['--resume']);
+  const begun2 = JSON.parse((await run(root, ['--begin-manual'])).output);
+  assert.equal(fs.existsSync(begun2.reportPath), false);
+  await run(root, ['--finish-manual'], 1);
+  assert.equal(state(root).lastRun.result, 'UNKNOWN');
+  assert.equal(state(root).paused, true);
+  assert.equal(fs.existsSync(p.lock), false);
+});
+
+test('manual protocol ignores adapter configuration and binds lock to run', async () => {
+  const root = fixture(['COMPLETED'], { adapter: 'missing', adapters: {} });
+  await run(root, [], 1);
+  assert.match(state(root).pauseReason, /has no definition/);
+  await run(root, ['--resume']);
+  const begun = JSON.parse((await run(root, ['--begin-manual', '--mode', 'Producer'])).output);
+  assert.equal(begun.mode, 'Producer');
+  assert.match(fs.readFileSync(begun.inputFile, 'utf8'), /Selected prompt eval-loop.md/);
+  const p = pathsFor(root);
+  fs.writeFileSync(p.lock, JSON.stringify({ version: 1, nonce: 'auto-style', pid: 2147483647, hostname: os.hostname() }));
+  await run(root, ['--finish-manual'], 1);
+  assert.equal(state(root).activeRun.runId, begun.runId);
+  assert.equal(state(root).paused, false);
+});
+
+test('manual flags reject ambiguous combinations', () => {
+  for (const argv of [['--begin-manual', '--finish-manual'], ['--begin-manual', '--status'], ['--begin-manual', '--iterations', '2'], ['--begin-manual', '--adapter', 'x'], ['--begin-manual', '--scheduled'], ['--finish-manual', '--mode', 'Auto'], ['--finish-manual', '--config', 'x']]) assert.throws(() => parseArgs(argv));
+  assert.equal(parseArgs(['--begin-manual', '--mode', 'Producer']).mode, 'Producer');
+  assert.equal(parseArgs(['--finish-manual']).finishManual, true);
+});

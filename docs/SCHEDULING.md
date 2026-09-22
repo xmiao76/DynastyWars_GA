@@ -16,11 +16,20 @@ hibernation, or shutdown can skip occurrences. This is deliberately not a
 
 Instead of OS tasks or background jobs, the loop can run as a DSH repeating
 reminder: every hour the schedule package posts a follow-up turn into one
-dedicated session, that turn runs a single `npm run loop` iteration through
-the configured worker (Codex CLI here), then reports a digest in chat. There
-are no Task Scheduler entries, no watchdog jobs, and no silent gaps: every
-firing IS a visible turn. This is the closest equivalent of
-`claude /loop 1h continue`.
+dedicated session, that turn opens one manual run (`--begin-manual`), executes
+the iteration itself following `.loop/continue.md`, closes it
+(`--finish-manual`), then reports a digest in chat. The session IS the worker:
+no subprocess is spawned. There are no Task Scheduler entries, no watchdog
+jobs, and no silent gaps: every firing IS a visible turn. This is the closest
+equivalent of `claude /loop 1h continue`.
+
+Why no worker subprocess: a sandboxed driver session cannot spawn external
+CLIs — on 2026-09-22 the Codex worker died at startup with `Access is denied
+(os error 5)` writing outside the workspace, while the identical invocation
+worked from an unsandboxed context. All iteration work (repo files, test
+suites) stays inside the workspace, so the session executes it directly; the
+runner keeps locks, state, report validation and pause policy. Auto mode with
+a configured adapter remains available from an unsandboxed owner terminal.
 
 How it behaves (per `@deepseek-ai/dsh-schedule`): fixed 1-hour interval,
 creation-anchored (the first firing lands within minutes of creation, which
@@ -45,12 +54,13 @@ retry — start least-privilege, escalate only on evidence.
 BOOTSTRAP (paste into the new session):
 
 ```text
-This session is the hourly driver for the DynastyWars_GA game loop (repo:
-C:\GitHub\DynastyWars_GA). Standing orders for this session:
+This session is the hourly driver AND worker for the DynastyWars_GA game loop
+(repo: C:\GitHub\DynastyWars_GA). Standing orders for this session:
 - The loop framework is documented in the repo: AGENTS.md, .loop/continue.md,
   docs/LOOP_ENGINEERING.md, docs/SCHEDULING.md. Each iteration is executed by
-  the Codex worker via `npm run loop -- --iterations 1` (preconfigured
-  machine-local; supervised and verified).
+  THIS session via the manual protocol: `--begin-manual`, do the work per
+  `.loop/continue.md`, `--finish-manual`. No worker subprocess is spawned; the
+  runner keeps locks, state, report validation and pause policy only.
 - First: run schedule_list (there must be no reminder yet — never create
   duplicates), read runner state (`node scripts/run-loop.mjs --status`, only
   proceed when unpaused and idle), and confirm this session runs repo commands
@@ -62,20 +72,24 @@ C:\GitHub\DynastyWars_GA). Standing orders for this session:
   digest in chat. Never push, deploy, or run deploy.bat.
 
 TICK RUNBOOK (use verbatim as the reminder prompt):
-DynastyWars hourly loop tick (repo C:\GitHub\DynastyWars_GA). 1. Read runner
-state: `node scripts/run-loop.mjs --status`. If paused, post ALERT with
-pauseReason plus last report path and STOP (never resume; owner reviews). If
-activeRun or a lock exists, post one line "previous tick still active,
-skipping" and STOP. 2. Else run ONE iteration: `npm run loop -- --iterations 1`
-as a background job and collect it; bounded by the runner's own 60-minute
-timeout. Never start a second iteration. 3. On completion read the tick report,
-`git status --short`, and queue statuses, then post a short digest (result,
-task progress, quota skips, blockers). 4. If the report claims full-green
-verification and the diff matches the report exactly (game/queue/history files
-only; never artifacts, logs, or secrets), commit locally ("Loop tick: <result>
-<task> (verified)") — never push. On any mismatch skip committing and flag it.
-5. Never create, modify, or delete schedules (exactly one hourly reminder
-exists), never touch Task Scheduler, never run deploy.bat, never push.
+DynastyWars hourly loop tick — DSH-session worker (repo C:\GitHub\DynastyWars_GA).
+1. Read runner state: `node scripts/run-loop.mjs --status`. If paused, post ALERT
+with pauseReason plus last report path and STOP (never resume; owner reviews). If
+activeRun or a lock exists, post one line "previous tick still active, skipping" and
+STOP. 2. Else begin ONE manual iteration: `node scripts/run-loop.mjs --begin-manual`.
+It prints runId, inputFile and reportPath. Never begin twice. 3. Execute the iteration
+YOURSELF as the worker: read the printed inputFile, then follow .loop/continue.md
+(live AGENTS.md/PROJECT.md/TASKS.md/PROGRESS.md) with repo tools only. Timebox ~50
+minutes; if unfinished, record IN_PROGRESS honestly. Write the final report (evidence
+plus exactly one LOOP_RESULT marker) to reportPath. 4. Finish: `node
+scripts/run-loop.mjs --finish-manual`. It validates the report and applies the pause
+policy (BLOCKED/REGRESSION/invalid pauses for owner review). 5. Post a short digest
+(result, task progress, quota notes, blockers) after reading `git status --short` and
+queue statuses. 6. If the report claims full-green verification and the diff matches
+the report exactly (game/queue/history files only; never artifacts, logs, or secrets),
+commit locally ("Loop tick: <result> <task> (verified)") — never push. On any mismatch
+skip committing and flag it. 7. Never create, modify, or delete schedules (exactly one
+hourly reminder exists), never touch Task Scheduler, never run deploy.bat, never push.
 ```
 
 Only ONE driver may run (repo lock makes overlap safe but noisy): keep the

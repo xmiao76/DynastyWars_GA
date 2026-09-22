@@ -138,6 +138,12 @@ adapter, modify harness compositions, or assume this Web session's model is the
 headless default. Future unattended integration requires separate provisioning,
 protocol adaptation, and supervised permission/model validation.
 
+Resolved for the hourly driver on 2026-09-22 without a headless adapter: the
+manual protocol (`--begin-manual` / `--finish-manual`) made the driver session
+itself the worker after sandboxed sessions proved unable to spawn the Codex
+CLI (startup `Access is denied` outside the workspace). No DSH composition
+change was needed; the runner still owns locks, state, validation and pause.
+
 ## Run and inspect
 
 ```text
@@ -149,6 +155,8 @@ npm run loop -- --delay-seconds 3600 --iterations 3
 npm run loop -- --start-at "2026-10-01T20:00:00-07:00"
 npm run loop -- --timeout-seconds 5400
 npm run loop -- --status
+node scripts/run-loop.mjs --begin-manual   # DSH-session worker: open one run
+node scripts/run-loop.mjs --finish-manual  # ... do the work ... then close it
 ```
 
 Use a future timestamp within 24 hours for foreground `--start-at`; the date
@@ -176,10 +184,38 @@ claimed acceptance results; inspect its evidence and retain the project gates.
 | Invalid/missing report, CLI failure, timeout, cancellation | No automatic retry; persist pause after attempted execution | 1 |
 | Existing writer/recovery lock | Do not start a model or queue a backlog | 3 |
 | Transient provider outage (quota/rate-limit signature, no report) | Skip tick unpaused; hourly drivers retry; consecutive skips counted in state | 4 |
+| Manual finish with no begun run, or a foreign lock | No state change; fix the operator sequence | 1 |
 
 The final nonempty line must contain exactly ONE standalone known LOOP_RESULT
 marker; duplicates, unknown values, code-fenced markers and trailing prose fail.
 A nonzero transport exit cannot be overridden by a report claiming COMPLETED.
+
+### Manual protocol — the DSH session is the worker
+
+`--begin-manual` opens one run without resolving or launching any adapter, so
+it needs no adapter configuration: it refuses paused/busy state like auto
+mode, writes the same request/input/metadata artifacts, records the active
+run, binds `run.lock` to the runId, prints the run JSON, and exits holding the
+lock. The driver session then executes `.loop/continue.md` itself with repo
+tools only and writes the final report to the printed report path.
+`--finish-manual` validates that report with the same strict parser, records
+the result, applies the pause policy, and releases the lock. A missing or
+invalid report pauses like any invalid auto result, because the worker ran;
+a finish with no begun run (or a non-manual lock) changes nothing.
+
+Preserved from auto mode: exclusive lock, active-run bookkeeping, the
+BLOCKED/REGRESSION pause policy, exit codes, and crash posture (a dead turn
+leaves lock plus active run; ticks skip; the owner verifies no live turn in
+chat before explicit recovery). Not preserved: the runner cannot time-box an
+agent turn, so the tick runbook carries a ~50-minute timebox instead, and a
+worker that cannot finish records IN_PROGRESS honestly for the next tick.
+`npm run loop:test` covers begin/finish paths without any provider.
+
+UI iterations need an image-capable worker: the consumer prompt requires
+screenshots judged by eye at gameplay size. A worker whose model cannot take
+image input must record that limitation and leave eye review to the owner
+(artifacts stay under `artifacts/` for inspection); it must never invent a
+review. Gates still run in full either way.
 
 ## Scheduling and recovery
 

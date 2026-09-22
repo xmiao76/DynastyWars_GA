@@ -3,7 +3,7 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { parseArgs, loadConfig, waitMilliseconds, HELP } from './config.mjs';
 import { adapterDescription, prepareAdapter, transientPatternsFor } from './adapters.mjs';
-import { pathsFor, readState, saveState, inspectLock, acquireLock, recoverLock, LockBusy, atomicJson, parseReport, pidMayBeAlive } from './storage.mjs';
+import { pathsFor, readState, saveState, inspectLock, acquireLock, releaseManualLock, recoverLock, LockBusy, atomicJson, parseReport, pidMayBeAlive } from './storage.mjs';
 import { delay, execute } from './process.mjs';
 import { matchTransient, readTailSafe } from './transient.mjs';
 
@@ -19,7 +19,7 @@ function readInputs(repoRoot, mode) {
   return { promptFile, instructionsFile, input };
 }
 function runSummary(metadata) {
-  return { runId: metadata.runId, mode: metadata.mode, startedAt: metadata.startedAt, endedAt: metadata.endedAt ?? null, result: metadata.result ?? null, reportPath: metadata.reportPath, metadataPath: metadata.metadataPath, pid: metadata.pid ?? null };
+  return { runId: metadata.runId, mode: metadata.mode, startedAt: metadata.startedAt, endedAt: metadata.endedAt ?? null, result: metadata.result ?? null, reportPath: metadata.reportPath, metadataPath: metadata.metadataPath, pid: metadata.pid ?? null, worker: metadata.worker ?? 'adapter' };
 }
 export async function main(argv, repoRoot, io = console) {
   let options;
@@ -53,6 +53,133 @@ export async function main(argv, repoRoot, io = console) {
     } catch (error) { io.error(error.message); return 1; }
   }
 
+  if (options.beginManual) {
+    // Split-phase manual protocol: the DSH driver session itself is the worker.
+    // No adapter is resolved or launched, so no adapter configuration is needed.
+    // A begin failure never pauses: the worker has not started, so the repo is
+    // untouched and the next tick can simply retry. Partial files are inert
+    // without an active run; the lock is always unwound on failure.
+    let lock;
+    let state;
+    let metadata;
+    try {
+      const { config, configFile } = loadConfig(repoRoot, options);
+      const inputs = readInputs(repoRoot, config.mode);
+      const runId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${randomUUID()}`;
+      const base = path.join(paths.directory, runId);
+      const requestFile = `${base}.request.json`;
+      const reportPath = `${base}.report.md`;
+      const inputFile = `${base}.input.md`;
+      const request = {
+        version: 1, repoRoot, mode: config.mode, model: config.model,
+        promptFile: inputs.promptFile, instructionsFile: inputs.instructionsFile,
+        inputFile, reportPath, runId, iteration: 1, scheduled: false,
+        createdAt: new Date().toISOString(),
+        workspaceFiles: ['AGENTS.md', 'PROJECT.md', 'TASKS.md', 'PROGRESS.md'],
+        policy: { sandbox: 'workspace-write', approvalPolicy: 'never', networkAccess: false },
+      };
+      lock = acquireLock(paths, repoRoot, { runId });
+      state = readState(paths);
+      if (state.activeRun) {
+        state.paused = true;
+        state.pauseReason = 'Interrupted/unknown active run remains in state; review evidence and use --resume';
+        saveState(paths, state);
+        lock.release(); lock = undefined;
+        io.error(`Runner paused: ${state.pauseReason}. Review evidence, then use --resume (does not reset tasks).`);
+        return 2;
+      }
+      if (state.paused) {
+        lock.release(); lock = undefined;
+        io.error(`Runner paused: ${state.pauseReason}. Review evidence, then use --resume (does not reset tasks).`);
+        return 2;
+      }
+      metadata = {
+        version: 1, runId, mode: config.mode, iteration: 1, scheduled: false,
+        adapter: 'manual', worker: 'manual', model: config.model, configFile, startedAt: request.createdAt,
+        status: 'manual-begun', reportPath, requestFile, inputFile, metadataPath: `${base}.metadata.json`,
+        stdoutPath: `${base}.stdout.log`, stderrPath: `${base}.stderr.log`,
+        executable: null, argumentCount: 0, timeoutSeconds: null, pid: null,
+      };
+      state.activeRun = runSummary(metadata);
+      saveState(paths, state);
+      atomicJson(requestFile, request);
+      fs.writeFileSync(inputFile, inputs.input, { encoding: 'utf8', flag: 'wx', mode: 0o600 });
+      fs.writeFileSync(metadata.stdoutPath, '', { encoding: 'utf8', flag: 'wx' });
+      fs.writeFileSync(metadata.stderrPath, '', { encoding: 'utf8', flag: 'wx' });
+      atomicJson(metadata.metadataPath, metadata);
+      io.log(JSON.stringify({ runId, mode: config.mode, reportPath, inputFile, requestFile, metadataPath: metadata.metadataPath }, null, 2));
+      return 0;
+    } catch (error) {
+      io.error(error.message);
+      if (lock) {
+        try {
+          if (state?.activeRun && metadata && state.activeRun.runId === metadata.runId) {
+            state.activeRun = null;
+            saveState(paths, state);
+          }
+        } catch (unwindError) { io.error(`State unwind failed; retaining lock: ${unwindError.message}`); return error instanceof LockBusy ? 3 : 1; }
+        try { lock.release(); } catch (unwindError) { io.error(`Lock release failed: ${unwindError.message}`); }
+      }
+      return error instanceof LockBusy ? 3 : 1;
+    }
+  }
+  if (options.finishManual) {
+    // Close a begun manual run: validate the worker-written report with the
+    // same strict parser, record the result, apply the pause policy, release
+    // the lock. Protocol errors (no begun run, foreign lock) change nothing;
+    // a missing/invalid report pauses like any invalid auto result, because
+    // the worker ran and the repo may be half-written.
+    try {
+      const state = readState(paths);
+      const inspected = inspectLock(paths);
+      const runId = state.activeRun?.runId ?? inspected?.owner?.runId ?? null;
+      if (!runId || !inspected?.owner || inspected.owner.worker !== 'manual' || inspected.owner.runId !== runId) {
+        throw new Error('No begun manual run holds the lock; refusing to finish (no state changed)');
+      }
+      const metadataPath = state.activeRun?.metadataPath ?? path.join(paths.directory, `${runId}.metadata.json`);
+      let metadata;
+      try {
+        metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+      } catch { throw new Error('Manual run metadata is missing or unreadable; refusing to finish (no state changed)'); }
+      if (!metadata || metadata.runId !== runId || metadata.worker !== 'manual') throw new Error('Manual run metadata mismatch; refusing to finish (no state changed)');
+      try {
+        let info = null;
+        try { info = fs.statSync(metadata.reportPath); } catch { info = null; }
+        if (!info || !info.isFile() || info.size > 16 * 1024 * 1024) throw new Error(`Manual report missing or oversized at ${metadata.reportPath}; the worker must write the final report before --finish-manual`);
+        const result = parseReport(fs.readFileSync(metadata.reportPath, 'utf8'));
+        metadata.status = 'finished';
+        metadata.result = result;
+        metadata.endedAt = new Date().toISOString();
+        atomicJson(metadata.metadataPath, metadata);
+        state.lastRun = runSummary(metadata);
+        state.activeRun = null;
+        state.transientSkips = 0;
+        state.paused = ['BLOCKED', 'REGRESSION'].includes(result);
+        state.pauseReason = state.paused ? result : null;
+        saveState(paths, state);
+        releaseManualLock(paths, runId);
+        io.log(`Result: ${result}`);
+        return state.paused ? 2 : 0;
+      } catch (reportError) {
+        metadata.status = 'error'; metadata.result = 'UNKNOWN'; metadata.error = reportError.message;
+        metadata.endedAt = new Date().toISOString();
+        try { atomicJson(metadata.metadataPath, metadata); } catch (writeError) { io.error(`Metadata write failed: ${writeError.message}`); }
+        state.lastRun = runSummary(metadata);
+        state.activeRun = null;
+        state.transientSkips = 0;
+        state.paused = true;
+        state.pauseReason = reportError.message;
+        try { saveState(paths, state); } catch (writeError) {
+          io.error(`State write failed; retaining lock: ${writeError.message}`);
+          io.error(reportError.message);
+          return 1;
+        }
+        try { releaseManualLock(paths, runId); } catch (writeError) { io.error(`Lock release failed: ${writeError.message}`); }
+        io.error(reportError.message);
+        return 1;
+      }
+    } catch (error) { io.error(error.message); return 1; }
+  }
   let lock;
   let state;
   let metadata;

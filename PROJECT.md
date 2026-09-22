@@ -139,6 +139,9 @@ loop stays inert.
 - Production gate: http://localhost:4321, owned by Playwright; no server reuse.
 - Runner runtime: Node 20.19+ (current LTS recommended); no PowerShell 7 requirement.
 - Loop preview: `npm run loop:check`; configured execution: `npm run loop`.
+- DSH-driver execution: `node scripts/run-loop.mjs --begin-manual`, do the
+  `.loop/continue.md` iteration in-session, `node scripts/run-loop.mjs
+  --finish-manual`. The session is the worker; no subprocess is spawned.
 - Offline tooling: `npm run loop:test`, `npm run loop:schedule:test`, `npm run deploy:test`.
 - Owner scheduling: `npm run loop:schedule -- preview --delay-seconds 3600`.
   Preview installs nothing. See `docs/SCHEDULING.md` for deliberate activation.

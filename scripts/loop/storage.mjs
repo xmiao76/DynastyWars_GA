@@ -45,10 +45,10 @@ export function inspectLock(paths) {
   if (raw === null) return null;
   try { return { exists: true, owner: JSON.parse(raw) }; } catch { return { exists: true, malformed: true }; }
 }
-export function acquireLock(paths, repoRoot) {
+export function acquireLock(paths, repoRoot, binding) {
   fs.mkdirSync(paths.directory, { recursive: true });
   if (fs.existsSync(paths.recovery)) throw new LockBusy('Lock recovery is in progress (or its guard remains); inspect recovery.lock');
-  const owner = { version: 1, nonce: randomUUID(), pid: process.pid, hostname: os.hostname(), repoRoot, createdAt: new Date().toISOString() };
+  const owner = { version: 1, nonce: randomUUID(), pid: process.pid, hostname: os.hostname(), repoRoot, createdAt: new Date().toISOString(), ...(binding?.runId ? { worker: 'manual', runId: binding.runId } : {}) };
   let fd;
   try { fd = fs.openSync(paths.lock, 'wx', 0o600); } catch (error) {
     if (error.code === 'EEXIST') throw new LockBusy('Loop lock exists; never auto-stealing by age or PID. Inspect --status and recover explicitly only after all writers stop.');
@@ -65,6 +65,14 @@ export function acquireLock(paths, repoRoot) {
   } };
   if (fs.existsSync(paths.recovery)) { lock.release(); throw new LockBusy('Concurrent lock recovery; try again only after recovery completes'); }
   return lock;
+}
+export function releaseManualLock(paths, runId) {
+  const raw = lockText(paths.lock);
+  if (raw === null) throw new Error('Manual run lock disappeared; refusing to assume ownership');
+  let current;
+  try { current = JSON.parse(raw); } catch { throw new Error('Loop lock became malformed; retained for recovery'); }
+  if (current.worker !== 'manual' || current.runId !== runId) throw new Error('Loop lock is not the begun manual run; refusing to remove it');
+  fs.unlinkSync(paths.lock);
 }
 export function pidMayBeAlive(pid) {
   if (!Number.isSafeInteger(pid) || pid <= 0) return false;

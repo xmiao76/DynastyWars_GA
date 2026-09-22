@@ -10,6 +10,7 @@ const valueFlags = new Map([
 const boolFlags = new Map([
   ['--dry-run', 'dryRun'], ['--scheduled', 'scheduled'], ['--status', 'status'],
   ['--resume', 'resume'], ['--recover-lock', 'recoverLock'], ['--confirm-no-live-writers', 'confirmNoLiveWriters'],
+  ['--begin-manual', 'beginManual'], ['--finish-manual', 'finishManual'],
   ['--help', 'help'],
 ]);
 const configKeys = new Set([...Object.keys(DEFAULTS), 'delaySeconds', 'startAt']);
@@ -37,9 +38,15 @@ export function parseArgs(argv) {
         ? (/^(?:\d+\.?\d*|\.\d+)$/.test(value) ? Number(value) : NaN) : value;
     }
   }
-  const admin = ['status', 'resume', 'recoverLock'].filter((key) => options[key]);
-  if (admin.length > 1) throw new Error('Choose only one of --status, --resume, --recover-lock');
-  if (admin.length && Object.keys(options).some((key) => ![...admin, 'config', 'confirmNoLiveWriters'].includes(key))) {
+  const admin = ['status', 'resume', 'recoverLock', 'beginManual', 'finishManual'].filter((key) => options[key]);
+  if (admin.length > 1) throw new Error('Choose only one of --status, --resume, --recover-lock, --begin-manual, --finish-manual');
+  if (options.beginManual && Object.keys(options).some((key) => !['beginManual', 'config', 'mode'].includes(key))) {
+    throw new Error('--begin-manual only combines with --config and --mode');
+  }
+  if (options.finishManual && Object.keys(options).some((key) => !['finishManual'].includes(key))) {
+    throw new Error('--finish-manual takes no other options');
+  }
+  if (admin.length && !options.beginManual && !options.finishManual && Object.keys(options).some((key) => ![...admin, 'config', 'confirmNoLiveWriters'].includes(key))) {
     throw new Error('Administrative commands cannot be combined with execution options');
   }
   if (options.confirmNoLiveWriters && !options.recoverLock) throw new Error('--confirm-no-live-writers requires --recover-lock');
@@ -149,5 +156,8 @@ export const HELP = `Usage: node scripts/run-loop.mjs [options]
   --resume                      clear pause only; never edit/reset tasks or run a model
   --recover-lock --confirm-no-live-writers
                                 explicit recovery only; verify ALL writers stopped
+  --begin-manual [--mode M] [--config P]
+                                 open one DSH-session-worker run; prints run JSON, holds lock
+  --finish-manual              validate its report, record result, release lock
 Exit codes: 0 normal/IDLE; 1 error/unknown; 2 blocked/regression/paused; 3 lock busy; 4 transient provider skip (no pause, retry later).
 Wrapper settings describe intent, not sandbox enforcement. Trust your configured wrapper.`;
