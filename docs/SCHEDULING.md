@@ -12,7 +12,77 @@ An OS schedule can outlive the terminal that installed it. It still requires
 hibernation, or shutdown can skip occurrences. This is deliberately not a
 24/7 service, wake alarm, catch-up queue, or guaranteed exact-time execution.
 
-## Before installing
+## Recommended driver: dsh-schedule (Claude-Code-/loop-style)
+
+Instead of OS tasks or background jobs, the loop can run as a DSH repeating
+reminder: every hour the schedule package posts a follow-up turn into one
+dedicated session, that turn runs a single `npm run loop` iteration through
+the configured worker (Codex CLI here), then reports a digest in chat. There
+are no Task Scheduler entries, no watchdog jobs, and no silent gaps: every
+firing IS a visible turn. This is the closest equivalent of
+`claude /loop 1h continue`.
+
+How it behaves (per `@deepseek-ai/dsh-schedule`): fixed 1-hour interval,
+creation-anchored (the first firing lands within minutes of creation, which
+validates the chain immediately); firings never interrupt a running turn;
+missed intervals while the Harness is closed collapse to ONE latest-only
+catch-up on reopen — never a backlog, never anything running while closed.
+Only sessions created AFTER the overlay loads receive the schedule tools.
+
+One-time host setup (done on this machine 2026-09-21): two rows in the web
+profile's user layer `$DSH_HOME/profiles/web/cordis.patch.yml` (live-reloaded,
+verified with boot-free `dsh web --dump-config`): `ui-schedule` set
+`disabled: false`, plus a root `schedule` row naming
+`@deepseek-ai/dsh-schedule`. No shipped files were touched. Refresh the
+browser tab once so the schedule panel appears.
+
+To start (or restart) the loop: open a NEW session, paste the bootstrap
+message below as its first message, and let it create the reminder. Fresh
+sessions default to workspace-write/ask; if the bootstrap agent reports an
+approval block, raise that session's permission preset (Settings) and let it
+retry — start least-privilege, escalate only on evidence.
+
+BOOTSTRAP (paste into the new session):
+
+```text
+This session is the hourly driver for the DynastyWars_GA game loop (repo:
+C:\GitHub\DynastyWars_GA). Standing orders for this session:
+- The loop framework is documented in the repo: AGENTS.md, .loop/continue.md,
+  docs/LOOP_ENGINEERING.md, docs/SCHEDULING.md. Each iteration is executed by
+  the Codex worker via `npm run loop -- --iterations 1` (preconfigured
+  machine-local; supervised and verified).
+- First: run schedule_list (there must be no reminder yet — never create
+  duplicates), read runner state (`node scripts/run-loop.mjs --status`, only
+  proceed when unpaused and idle), and confirm this session runs repo commands
+  non-interactively. If an approval prompt blocks you, STOP and report exactly
+  what was gated; do not work around it.
+- Then create exactly one repeating reminder with every_seconds 3600 and the
+  TICK RUNBOOK below as its prompt. Report the reminder id and first target.
+- On every hourly firing: follow the runbook verbatim, then post a short
+  digest in chat. Never push, deploy, or run deploy.bat.
+
+TICK RUNBOOK (use verbatim as the reminder prompt):
+DynastyWars hourly loop tick (repo C:\GitHub\DynastyWars_GA). 1. Read runner
+state: `node scripts/run-loop.mjs --status`. If paused, post ALERT with
+pauseReason plus last report path and STOP (never resume; owner reviews). If
+activeRun or a lock exists, post one line "previous tick still active,
+skipping" and STOP. 2. Else run ONE iteration: `npm run loop -- --iterations 1`
+as a background job and collect it; bounded by the runner's own 60-minute
+timeout. Never start a second iteration. 3. On completion read the tick report,
+`git status --short`, and queue statuses, then post a short digest (result,
+task progress, quota skips, blockers). 4. If the report claims full-green
+verification and the diff matches the report exactly (game/queue/history files
+only; never artifacts, logs, or secrets), commit locally ("Loop tick: <result>
+<task> (verified)") — never push. On any mismatch skip committing and flag it.
+5. Never create, modify, or delete schedules (exactly one hourly reminder
+exists), never touch Task Scheduler, never run deploy.bat, never push.
+```
+
+Retire any previous driver before the first firing lands: only ONE driver may
+run (repo lock makes overlap safe but noisy). Retired 2026-09-21: the
+`run-session-loop.ps1` wrapper job and the watchdog chain.
+
+## Before installing (Task Scheduler driver)
 
 1. Read `docs/LOOP_ENGINEERING.md` and select a trusted, noninteractive adapter.
    The checked-in `.loop/config.json` has `version: 1` and `adapter: null`, so
