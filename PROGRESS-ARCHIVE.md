@@ -3,6 +3,65 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-21 20:38 - PRODUCER PASS (signals + pause-area review, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED on an owner design
+  decision) + 20 DONE. No IN_PROGRESS or TODO. Tree clean at 001fa42
+  (owner committed ENH-6).
+- LOGIC signal: `npm run signal` 13/13 ok, zero invariant violations and
+  zero page errors. Every marathon tick/continue count identical to the
+  ENH-6 snapshot: guanyu 2640/0c + 4944/0c; zhangfei 2640/0c + 2832/0c;
+  huangzhong 3972/1c + 6588/3c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
+  3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
+  0,0,1,3,1,0,1,3,2 (total 11). No regression; the DIFF-1 standing shape
+  is unchanged (known blocked item, not a new finding).
+- VISUAL signal: `npm run vision` 5/5. Frames 9/9 pass (game_combat
+  colorRichness 1038, same as ART-15/ENH-6); sprites 256/256, weapons
+  85/85, retracts 170/170; renderer parity clean on all 7 screens; both
+  negative controls failing correctly (empty-backdrop on shape:
+  silhouetteComplexity 0.031, appendageRatio 0; flat silhouette on
+  shading: 1 color, 1 tonal band); HUD 1/1; findings.jsonl 0 bytes.
+  No UX_REVIEW.md.
+- Frame sweep: all 9 screens judged by eye at gameplay size (title,
+  select, idle, both combats, boss night scene, result, game over,
+  complete). NO DEFECT: the five ART-15 weapons read in situ, no
+  clipping, no weapon over a face, HUD readable, portraits distinct.
+- Opportunity review (ONE area: in-game pause, usability): evidence of a
+  real gap. `pause` has zero matches in src/selfplay/test/e2e; the title
+  screen's key list names no pause key; the only blur/suspend/hidden
+  hits in src are touch-control naming, portrait shading alpha, and
+  AudioContext resume - no gameplay handling. A full run is ~13 minutes
+  of uninterrupted real-time action (47,416 zhaoyun ticks), so an
+  unpausable session is a concrete gap. No prior pause task or rejection
+  in TASKS.md/PROGRESS.md. Filed ENH-7 (TODO, P key + overlay +
+  tick-neutral resume, full gates). Non-goals exclude a pause menu,
+  auto-pause on tab blur (owner behavior decision), a touch button
+  (stated follow-up), and any DIFF-1 impact.
+- Rejected/not pursued: no defect proposals (signals green, frames
+  clean); one-area budget spent, no second area inspected.
+- Files changed: TASKS.md (ENH-7 TODO), PROGRESS.md,
+  artifacts/loop/proposals-20260921-2038-pause.md (gitignored scratch).
+- Commit: local commit denied - the host gives read-only access to .git
+  (git add fails: Unable to create index.lock, Permission denied), same
+  as the ENH-4/5/6 iterations. Both files verified and left uncommitted
+  in the working tree; no permissions weakened, nothing pushed. Owner
+  commits when ready.
+- Verification run: both suites via cmd /c npm.cmd (PowerShell blocks
+  npm.ps1 on this host). Both runners lingered after the final ok with
+  no summary line (known host behavior); each stopped with Ctrl-C to its
+  own session only after all results were observed. Port 5177 free
+  afterwards (no listener). No game source touched in this pass.
+- Result: COMPLETED - one accepted proactive proposal, no regression.
+- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-7 TODO.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
+  standing owner items unchanged (visual/play test, deploy).
+- Next recommended task: ENH-7 (a later consumer implements it).
+
+- Housekeeping (same iteration, rule 8): none needed. DONE count is 20
+  (at the bound, ENH-7 is TODO); PROGRESS.md was 432 lines, stays under
+  500 with this entry.
+
 ### 2026-09-21 19:15 - ENH-6 (attempt 1)
 
 - Status before: ENH-6 TODO, dependency satisfied (ENH-5 DONE). No prior

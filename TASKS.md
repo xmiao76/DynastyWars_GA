@@ -1215,3 +1215,36 @@ Add future enhancement tasks below this heading.
     verified by pixel arbiter (HUD-plate hashes pair tests 1+3 (HZ) vs
     test 2 (ZY) exactly as designed) - see the PROGRESS entry on the
     read_image display caveat before trusting eyeballed captures.
+
+### ENH-11 - Gamepad players cannot pause (input parity for pause)
+
+- Status: TODO
+- Requirement:
+  Pause shipped keyboard-only (ENH-7, P) and gained touch parity (ENH-8,
+  HUD button), but the third first-class input class - gamepad
+  (PROJECT.md: "Keyboard, gamepad and touch are all supported") - has no
+  pause path: a pad player cannot stop a ~13-minute run. Start (button 9)
+  is the natural slot: GameScene polls it through watchConfirmButton and
+  confirmContinue no-ops outside the game-over countdown (and returns
+  early while paused), so Start does nothing during gameplay today.
+  Bind Start to the shared togglePause() during stage gameplay, either
+  pad (pads 0 and 1, so player two can pause too).
+- Acceptance criteria:
+  - [ ] Start toggles pause during stage gameplay on either connected
+        pad; the same freeze/overlay/clear/resume semantics as P and the
+        touch button (shared togglePause) - no new pause state.
+  - [ ] Held Start does not strobe: one press pauses once (the
+        release-seen edge pattern of watchConfirmButton applies).
+  - [ ] Menus unchanged: Start stays confirm on title/select/result and
+        still revives on the game-over countdown (its existing role).
+  - [ ] Pinned with the existing synthetic-pad harness
+        (gamepad.spec.ts patterns, __PAD__/__PAD2__ button surface):
+        pad Start freezes (tick count flat across 60 wall frames +
+        overlay), second press resumes; second pad can toggle too.
+  - [ ] Full gates green (lint, typecheck, unit, e2e, signal, vision,
+        prodbuild, build).
+- Non-goals:
+  - No remapping UI, no pause menu, no auto-pause on blur (owner
+    decision). No touch or keyboard changes. No DIFF-1 impact.
+- Evidence:
+  - artifacts/loop/proposals-gamepadpause-enh11.md (this pass's review).
