@@ -22,6 +22,55 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-22 14:15 - ENH-11 (attempt 1)
+
+- Status before: ENH-11 TODO (no prior attempts), first TODO in the
+  queue. Run `2026-09-22T20-49-50Z-9a20eaba`.
+- Work completed: Start (button 9) is now the gamepad pause toggle on
+  EITHER pad (pads 0 and 1) via the shared togglePause() - the third
+  input class to get pause parity (P: ENH-7, touch button: ENH-8).
+  watchConfirmButton gained a padIndex (default 0: every menu call site
+  is byte-identical); GameScene routes ONE watcher per pad through an
+  action: paused -> resume first (no revive can leak through the
+  freeze), game-over countdown -> the existing confirmContinue revive,
+  otherwise -> toggle. Self-review caught and removed a composed
+  double-watcher on pad 0 (it could resume AND revive in a single
+  poll - exactly the leak class ENH-7 forbids).
+- Files changed: `src/game/adapters/gamepad.ts` (pad-indexed watcher;
+  firstPad removed as unused), `src/game/scenes/GameScene.ts` (routed
+  Start action on both pads; pollContinueButton renamed
+  pollStartButton), `e2e/gamepad.spec.ts` (+1 test), `TASKS.md`,
+  `PROGRESS.md`.
+- Tests (new, synthetic-pad harness): pad 1 Start freezes (tick flat
+  across ~60 wall frames), pad 2 Start resumes (either pad toggles),
+  held Start does not strobe (paused sampled 6x across a 600ms hold),
+  and Start keeps its game-over revive role (party down -> countdown ->
+  Start revives, and the revive is not a toggle). Both mechanisms
+  falsified by probe: binding removed -> the pause pins fail; game-over
+  routed to toggle -> the revive pin fails (".not.toBe('dead')").
+  Restored green.
+- Verification run: lint clean; typecheck clean; unit 196/196; e2e
+  54/54 (+1; menus/continue/pause specs green untouched - the routing
+  kept those roles); signal 13/13, marathons identical to the standing
+  post-arrow snapshot (input-layer change only, zero sim impact);
+  vision 5/5, prodbuild 4/4, build ok.
+- Known cosmetic gap, consciously out of scope: the pause overlay hint
+  still names "PRESS P TO RESUME" (which does resume) and does not
+  mention Start. No remapping UI per non-goals.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
+- Status after: ENH-11 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
+  TODO or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer
+  pass when driven; standing owner items: deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
+  oldest DONE ART-6 spliced to TASKS-ARCHIVE.md end (DONE now 20).
+  PROGRESS.md crossed 500 lines with this entry, so the oldest entry
+  (2026-09-21 21:19 MANUAL-WORKER REDESIGN, 44 finished lines) moved to
+  PROGRESS-ARCHIVE.md top. Latest signal snapshot
+  (this entry) and DIFF-1 evidence kept.
+
 ### 2026-09-22 13:09 - PRODUCER PASS (input-parity review, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after
@@ -418,48 +467,3 @@ history slowly crowds out the work it is supposed to support.
   PROGRESS-ARCHIVE.md top (below this entry's count). Latest signal
   snapshot (this entry's ENH-6-identical marathon tables) and DIFF-1
   BLOCKED evidence kept.
-
-### 2026-09-21 21:19 - MANUAL-WORKER REDESIGN (owner-requested infrastructure, attempt 1)
-
-- Status before: runner PAUSED (`UNKNOWN`: Codex worker died at startup, exit 1
-  in 0.5s). Queue: ENH-7 TODO, DIFF-1 BLOCKED, 20 DONE. Tree clean.
-- Root cause (proven, not guessed): the new DSH-schedule driver session runs
-  under an OS-enforced file sandbox (writes allowed only under the repo
-  workspace + session-private `%TEMP%\dsh-*`; token stripped to
-  SeChangeNotifyPrivilege alone). Proof: workspace and session-TEMP writes
-  succeed, while writes to `~\.codex\tmp\...` AND to the home root (whose ACL
-  grants qiyu0 FullControl with zero denies) fail with raw os error 5 — so the
-  denial is an external filter, not DACL-based. The runner spawns the worker
-  as a child, the child inherits the sandbox, Codex cannot init `~/.codex`
-  (PATH aliases + app-server client) and exits. The identical invocation
-  worked 25 min earlier from an unsandboxed context (same binary v0.153.1,
-  same 15 args). The 60-SID DENY wall on `.codex` has zero intersection with
-  the session token and is a red herring; untouched.
-- Owner decision: eliminate the Codex worker; the DSH driver session executes
-  iterations itself (process gap, not a game defect: the schedule redesign
-  replaced the TIMER, never the WORKER).
-- Work completed: split-phase manual protocol in the runner. `--begin-manual`
-  (no adapter resolution) guards paused/busy like auto mode, writes the same
-  request/input/metadata artifacts, binds `run.lock` to the runId, prints run
-  JSON, exits holding the lock. `--finish-manual` reuses `parseReport`
-  byte-for-byte, records lastRun, applies the BLOCKED/REGRESSION pause
-  policy, releases the lock; missing/invalid reports pause (worker ran),
-  protocol errors (no begun run, foreign lock) change nothing. Timeouts move
-  to the runbook (~50-min timebox, IN_PROGRESS fallback); crash posture
-  unchanged (dead turn leaves lock+activeRun, ticks skip, owner recovers).
-- Files changed: `scripts/loop/runner.mjs` (+131), `scripts/loop/config.mjs`
-  (flags + HELP), `scripts/loop/storage.mjs` (lock binding + manual release),
-  `scripts/test-loop.mjs` (+5 tests), `docs/SCHEDULING.md` (driver + bootstrap
-  runbook rewritten), `docs/LOOP_ENGINEERING.md` (protocol section, exit row,
-  DSH-limitation resolution), `PROJECT.md` (execution bullets).
-  `config.local.json` keeps `adapter: codex` as the unsandboxed owner-terminal
-  escape hatch; auto mode untouched.
-- Verification run: `node scripts/test-loop.mjs` 28/28 (23 existing + 5 new),
-  eslint on all touched script files clean. Full game gates untouched by this
-  change (scripts/docs only); the trial iteration below is the end-to-end proof.
-- Result: infra implemented and offline-green. Trial authorized next.
-- Status after: runner still paused; resume authorized by the owner for one
-  ENH-7 trial under the new protocol.
-- Remaining work or blocker: trial tick (begin, implement ENH-7 as worker,
-  finish), then swap schedule-1 to the new runbook, then verify + commit.
-- Next recommended task: ENH-7 trial (same session).

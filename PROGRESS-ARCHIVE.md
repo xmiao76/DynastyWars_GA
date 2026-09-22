@@ -3,6 +3,51 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-21 21:19 - MANUAL-WORKER REDESIGN (owner-requested infrastructure, attempt 1)
+
+- Status before: runner PAUSED (`UNKNOWN`: Codex worker died at startup, exit 1
+  in 0.5s). Queue: ENH-7 TODO, DIFF-1 BLOCKED, 20 DONE. Tree clean.
+- Root cause (proven, not guessed): the new DSH-schedule driver session runs
+  under an OS-enforced file sandbox (writes allowed only under the repo
+  workspace + session-private `%TEMP%\dsh-*`; token stripped to
+  SeChangeNotifyPrivilege alone). Proof: workspace and session-TEMP writes
+  succeed, while writes to `~\.codex\tmp\...` AND to the home root (whose ACL
+  grants qiyu0 FullControl with zero denies) fail with raw os error 5 — so the
+  denial is an external filter, not DACL-based. The runner spawns the worker
+  as a child, the child inherits the sandbox, Codex cannot init `~/.codex`
+  (PATH aliases + app-server client) and exits. The identical invocation
+  worked 25 min earlier from an unsandboxed context (same binary v0.153.1,
+  same 15 args). The 60-SID DENY wall on `.codex` has zero intersection with
+  the session token and is a red herring; untouched.
+- Owner decision: eliminate the Codex worker; the DSH driver session executes
+  iterations itself (process gap, not a game defect: the schedule redesign
+  replaced the TIMER, never the WORKER).
+- Work completed: split-phase manual protocol in the runner. `--begin-manual`
+  (no adapter resolution) guards paused/busy like auto mode, writes the same
+  request/input/metadata artifacts, binds `run.lock` to the runId, prints run
+  JSON, exits holding the lock. `--finish-manual` reuses `parseReport`
+  byte-for-byte, records lastRun, applies the BLOCKED/REGRESSION pause
+  policy, releases the lock; missing/invalid reports pause (worker ran),
+  protocol errors (no begun run, foreign lock) change nothing. Timeouts move
+  to the runbook (~50-min timebox, IN_PROGRESS fallback); crash posture
+  unchanged (dead turn leaves lock+activeRun, ticks skip, owner recovers).
+- Files changed: `scripts/loop/runner.mjs` (+131), `scripts/loop/config.mjs`
+  (flags + HELP), `scripts/loop/storage.mjs` (lock binding + manual release),
+  `scripts/test-loop.mjs` (+5 tests), `docs/SCHEDULING.md` (driver + bootstrap
+  runbook rewritten), `docs/LOOP_ENGINEERING.md` (protocol section, exit row,
+  DSH-limitation resolution), `PROJECT.md` (execution bullets).
+  `config.local.json` keeps `adapter: codex` as the unsandboxed owner-terminal
+  escape hatch; auto mode untouched.
+- Verification run: `node scripts/test-loop.mjs` 28/28 (23 existing + 5 new),
+  eslint on all touched script files clean. Full game gates untouched by this
+  change (scripts/docs only); the trial iteration below is the end-to-end proof.
+- Result: infra implemented and offline-green. Trial authorized next.
+- Status after: runner still paused; resume authorized by the owner for one
+  ENH-7 trial under the new protocol.
+- Remaining work or blocker: trial tick (begin, implement ENH-7 as worker,
+  finish), then swap schedule-1 to the new runbook, then verify + commit.
+- Next recommended task: ENH-7 trial (same session).
+
 ### 2026-09-21 20:38 - PRODUCER PASS (signals + pause-area review, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED on an owner design

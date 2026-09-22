@@ -142,7 +142,7 @@ export class GameScene extends Phaser.Scene {
     clear: () => void
     onPauseRequest: (() => void) | null
   } = NO_TOUCH
-  private pollContinueButton!: () => void
+  private pollStartButton!: () => void
   private sprites = new Map<number, Phaser.GameObjects.Sprite>()
   private shadows = new Map<number, Phaser.GameObjects.Ellipse>()
   private accumulator = 0
@@ -310,7 +310,29 @@ export class GameScene extends Phaser.Scene {
       if (event.repeat) return
       this.togglePause()
     })
-    this.pollContinueButton = watchConfirmButton(confirmContinue)
+    // Start is the GAMEPAD pause toggle on EITHER pad (ENH-11, the third
+    // input class to get pause parity) - and still the game-over revive it
+    // always was, routed here rather than stacked as a second pad-0 watcher
+    // (two watchers on one button could resume AND revive in a single poll).
+    // While paused the toggle RESUMES first so no revive can leak through the
+    // freeze. Menus own their own Start watchers and are unchanged.
+    const startAction = (): void => {
+      if (this.paused) {
+        this.togglePause()
+        return
+      }
+      if (this.sim.phase === 'gameover') {
+        confirmContinue()
+        return
+      }
+      this.togglePause()
+    }
+    const pollPadOneStart = watchConfirmButton(startAction, 0)
+    const pollPadTwoStart = watchConfirmButton(startAction, 1)
+    this.pollStartButton = () => {
+      pollPadOneStart()
+      pollPadTwoStart()
+    }
     // A tap continues too. Without this a touch player who died simply could
     // not carry on: the overlay says CONTINUE? and nothing on a phone can
     // answer it. `confirmContinue` already no-ops outside the game-over phase,
@@ -364,7 +386,7 @@ export class GameScene extends Phaser.Scene {
     this.gamepadAdapter.poll()
     this.gamepad2Adapter.poll()
     this.touchAdapter.poll()
-    this.pollContinueButton()
+    this.pollStartButton()
     // Paused: adapters keep polling (so their edge state stays live) but every
     // buffered press is dropped and nothing steps - zero sim ticks, a frozen
     // countdown, no joins, no stage transitions until resume.

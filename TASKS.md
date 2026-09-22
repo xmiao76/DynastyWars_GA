@@ -523,181 +523,6 @@ Add future enhancement tasks below this heading.
   - No portrait change. ART-6 is done and its gates stay as they are.
   - Not photorealism. Flat cel, same as everything else.
 
-### ART-6 - The portrait face is built on the wrong geometry, not on too few marks
-
-- Status: DONE
-- Requirement:
-  The owner has said five times that the heroes do not look human. Five prior
-  attempts (ART-1, ART-1b, ART-3, ART-4, ART-4b, ART-5) each ADDED a mark or
-  tuned a scalar - a second eye, a nostril, a catchlight, a lower lip, a curved
-  brow, then the missing `fill()` for that brow. None changed the head shape,
-  where the features sit on the head, the headgear occlusion, or the framing.
-  The marks were never the problem. Measured causes:
-
-  1. THE EYES ARE DISCS. `humanEye` (`src/game/art/draw.ts:566`) draws the
-     sclera at `rx*1.2 x ry*1.14` where `rx = 0.14R*eyeW`, `ry = 0.15R*eyeH`.
-     For Zhao Yun (`calm`) that is 0.188R x 0.180R - an aspect of 1.04:1, a
-     CIRCLE - with a circular iris of `ry*0.6` floating inside it, so white
-     shows above, below AND both sides. A human aperture is about 2:1 wide and
-     the upper lid always cuts the top of the iris. This is the strongest
-     remaining cartoon signal and it affects all five heroes.
-
-  2. TWO HEROES HAVE THEIR FACE PAINTED ON THEIR HAT. Headgear is a `shapes`
-     entry filled in `paintCel`; the face is painted after. At the near-eye
-     column (x = 0.52R) the headgear's lower edge computes to:
-       Zhao Yun  helmet  +0.342R   eye spans 0.02-0.38R   eyes AND brows on gear
-       Wei Yan   turban  +0.196R   eye spans 0.055-0.345R brows + upper eyes
-       Guan Yu   hood    -0.285R   clears - on skin
-       Zhang Fei band    -0.165R   clears by 0.02R
-       Huang Zhong band  -0.165R   clears by 0.02R
-     Zhao Yun's visible skin is only y in [0.34R, 1.14R] - the bottom third of
-     his head. He reads as a helmet with eyes stuck on it.
-
-  3. THE HEAD IS ONE ELLIPSE WITH NO CHIN. `ovalPath(p.head, headR, headR*1.14)`
-     (`draw.ts:219`) - no cranium/jaw split, no taper. ART-4's "jaw shading" is
-     a single `limbPath` stroke laid on an egg, which is why the heads still
-     read as eggs.
-
-  4. A STRAIGHT CEL BAND CUTS A SEAM THROUGH EVERY FACE. `bandPath`
-     (`draw.ts:83-101`) lays one straight-edged quad across the whole figure; on
-     the head the shadow edge lands at x ~ 56.1 figure units, between the near
-     eye (54.4) and the nose tip (58.9). At portrait size that reads as a
-     rendering artifact, not as light.
-
-  5. THE FRAMING IS A BUST. `PORTRAIT_ZOOM 1.3` / `PORTRAIT_HEAD_Y 18` put the
-     head centre 45% down the box; the face is ~43% of frame height and the
-     bottom ~30% is shoulder, robe and a large round shield.
-
-  6. TWO HEROES HAVE NO HAIR AT ALL. The hair cap (`draw.ts:223-235`) is drawn
-     only for `band`/`turban`/`crown`. Guan Yu (hood) and Zhao Yun (helmet) get
-     no hair shape - no hairline, no sideburns, nothing framing the face.
-
-  Owner's scope decisions for this round: PORTRAITS ONLY (in-play fighters
-  untouched), REFRAME to a head close-up, FLAT CEL KEPT - fix the proportions,
-  no gradients.
-- CORRECTION to the fix as filed. This task was written around a portrait-only
-  "face plate": clip a face-shaped mask over the head, refill it with skin to
-  erase the cel seam and the coarse marks, and draw the features on that. A
-  design review measured the idea against the real geometry and it does not
-  work, for two reasons worth keeping:
-    1. There is no room under the headgear to put a face. The gear's LOWEST
-       point over the face is +0.44R for a helmet and +0.27R for a turban,
-       while the eye line sat at +0.20R. A plate that stays below the gear
-       starts below the eyes; a plate that does not is redrawing the headgear,
-       and should say so.
-    2. A plate cannot make a chin. The silhouette comes from the head PATH; a
-       plate only repaints the interior. That is exactly what ART-4's "jaw and
-       chin" shading already did across three commits, and the head's measured
-       half-width still matched the bare ellipse to three decimals (0.887-0.897
-       against a closed form of 0.889).
-  So the plate would have been a sixth round of marks on unchanged structure.
-  What shipped instead: the PORTRAIT GETS ITS OWN HEAD, headgear, hair and
-  light, run through the same `paintCel` as everything else - so it is the same
-  art style, drawn from the same `FigurePlan`, and the fighter is untouched.
-- Also found by that review and fixed here, not in the original diagnosis:
-    3. THE FACE WAS ON THE SHADOWED SIDE OF EVERY HEAD. The cel terminator sits
-       at x~53.8 while a head spans 38.6..59.4 and the figure faces RIGHT, so
-       every feature landed in the shadow band and the lit band (x < 38.7)
-       never reached the head at all. Measured: the near cheek was 25-29%
-       DARKER than the back of the skull on all five heroes. You cannot read
-       form that is uniformly in shadow.
-    4. THE PORTRAIT ANCHORED ON THE WRONG HEAD. `drawKindPortrait` translated
-       by `POSE_TABLE.idle.head.y` - the RAW pose - while `applyBuild` moves
-       the head by the hero's height (12.69 for Guan Yu, 18.08 for Zhang Fei).
-       Each portrait was therefore slid by its own build: a 42px spread in a
-       240px frame, with four of the five clipped at the top edge. Live since
-       ART-1b and never noticed.
-- Acceptance criteria:
-  - [x] The portrait draws its own head: a jaw-tapered 3/4 outline with a nose
-        profile, at a half-width of 0.82R so height:width is 1.39 (human) rather
-        than the sprite ellipse's 1.14
-  - [x] Headgear derived from that outline - "the top of this head, thickened" -
-        so a helmet, turban, band, hood and crown all SIT on the head instead of
-        overhanging it, with every brim raised to `L.gearEdge` = -0.58R, above
-        the brow. Zhao Yun's forehead goes from 1.1% skin to a full brow's
-        worth; Wei Yan's from 0.0%
-  - [x] The portrait has its own light: shadow on the far side of the head,
-        light on the face. Near cheek / far temple goes from 0.71-0.75 to >= 1.0
-  - [x] The eye is an ALMOND aperture with the iris CLIPPED by the lid, so white
-        can only show left and right of it. Measured sclera width:height goes
-        from 0.92-1.24 (taller than wide) to 1.8-3.2. New `FACES.eyeAspect`
-        carries the historical shapes: 2.9 for Guan Yu's 丹凤眼, 1.55 for Zhang
-        Fei's 环眼
-  - [x] Features on human canon: brow -0.22R, eye +0.04R, nose base +0.36R,
-        mouth +0.58R, chin +1.12R - the eye line at the middle of the head
-        rather than 58% down it
-  - [x] Beards wrap the jaw and carry a moustache, painted in the face pass
-        because `figureShapes` draws the arm and weapon after the head - as a
-        shape, Guan Yu's 美髯 came out behind his own glaive
-  - [x] Framing: anchored on the BUILT head, `PORTRAIT_ZOOM` 1.3 -> 1.33 and
-        `PORTRAIT_HEAD_Y` 18 -> 21. Head-centre spread 42px -> 0px. 1.33 is a
-        ceiling, not a preference: the tallest head-plus-headgear is 2.44 headR
-        and the box holds no more
-  - [x] `src/game/art/portrait.ts` (new) and `src/game/art/faces.ts` (new);
-        `draw.ts` 893 -> 713 lines, back under the project's own 800
-  - [x] Eight gates in `test/game/portrait.test.ts`, ALL of them proven able to
-        fail by reverting the mechanism - never by moving a threshold:
-          headgear back over the brow  -> "the face is painted on the headgear"
-          aperture back to a disc      -> "the eye is a disc (w:h 0.60)"
-          historical shapes swapped    -> 环眼 not rounder than 丹凤眼
-          sprite bands on the portrait -> "the face is darker than the back"
-          head back to an ellipse      -> "no nasion"
-          raw-pose anchor restored     -> heads at different heights
-          zoom past the frame          -> "the headgear is cropped"
-          face pass traced, not filled -> "it is tracing without painting"
-  - [x] A NINTH gate was designed, measured and DROPPED rather than shipped: a
-        "no straight seam crosses the face" metric returned 0-15% on art a seam
-        demonstrably ran through, because the per-row argmax is captured by the
-        eye, brow and lip marks instead of the band. Any threshold that failed
-        the old art would have failed correct art too. The lit-face gate covers
-        the same defect, so this is recorded rather than shipped - the same
-        judgement `artquality.test.ts` already records for five other metrics
-  - [x] A gate that could not fail, caught and fixed DURING falsification: the
-        first framing gate recomputed the expected head position with the same
-        arithmetic the fixed code uses, so reverting the anchor bug moved the
-        prediction along with the drawing. It now locates the head from the
-        RENDERED eye line
-  - [x] No sprite moved, PROVEN rather than argued: all 176 sprite textures
-        rendered before and after digest to the same SHA-256,
-        154bc54d7e152520d2284fa7e6d00b50f9529d57bc2163fdf4fd24de6155b975. Both
-        new parameters (`paintCel` bands, `figureShapes` head parts) default to
-        exactly the previous behaviour
-  - [x] Five stale `art/raw/*-portrait.png` placeholders removed from this
-        working copy. CORRECTED SCOPE: `art/raw/` is gitignored, so these were
-        never committed and this is not a repo change - but on any checkout
-        that has them, `scripts/bake-art.mjs` would bake them into
-        `public/assets/portraits/` and `BootScene` prefers the manifest over
-        procedural art, which would silently revert this entire fix. Worth
-        knowing before anyone runs the bake pipeline
-  - [x] `scripts/facesheet.mjs` (new, tracked): renders the five portraits at
-        native size AND at all three display sizes, pulling the real textures
-        out of the running game. Every earlier round judged the face at texture
-        size while the game never shows one above 63% of it, and no sheet script
-        survived in the tree
-  - [x] FOLLOW-UP, found by a producer pass over my own commit: the portrait
-        left 夏侯惇 Xiahou Dun with a socket and NO OTHER EYE. `drawDetails`
-        draws the far eye before branching on `missingEye`; the portrait had
-        both eyes inside the else, so losing one eye removed both. Pre-existing
-        in `drawPortraitDetail` and faithfully carried over by me. This is the
-        same branch mistake ART-4b caught when the lips and jaw were nested
-        under "has eyes". Fixed, plus a ninth gate that renders him and
-        requires sclera at the good eye and none at the socket - proven able to
-        fail by restoring the nesting ("the good eye is missing"). Nothing
-        displays a boss portrait, so that branch had no other exercise
-  - [x] The five hero portraits are byte-identical across that follow-up
-        (SHA-256 584e6145...c069), so only a figure no screen shows changed
-  - [x] lint, typecheck, 153 unit, 43 e2e, vision 5/5 (incl. renderer parity),
-        prodbuild 4/4, signal 13/13, build
-- Non-goals:
-  - No change to the in-play fighters, poses, silhouettes or builds. At a ~20px
-    head a human eye is not drawable; that is a rig redesign, not a fix.
-  - No gradients, no soft shading, no restyle. Flat cel throughout.
-  - No change to `PORTRAIT_BOX`, `PORTRAIT_TEXTURE` or any scene's display
-    sizes - those are fixed numbers in SelectScene/HudScene and changing the box
-    aspect would distort every surface.
-  - No boss portraits. None exist and none are asked for.
-
-
 ### DIFF-1 - The measured difficulty curve is uneven in three places
 
 - Status: BLOCKED
@@ -1218,7 +1043,7 @@ Add future enhancement tasks below this heading.
 
 ### ENH-11 - Gamepad players cannot pause (input parity for pause)
 
-- Status: TODO
+- Status: DONE
 - Requirement:
   Pause shipped keyboard-only (ENH-7, P) and gained touch parity (ENH-8,
   HUD button), but the third first-class input class - gamepad
@@ -1230,21 +1055,37 @@ Add future enhancement tasks below this heading.
   Bind Start to the shared togglePause() during stage gameplay, either
   pad (pads 0 and 1, so player two can pause too).
 - Acceptance criteria:
-  - [ ] Start toggles pause during stage gameplay on either connected
-        pad; the same freeze/overlay/clear/resume semantics as P and the
-        touch button (shared togglePause) - no new pause state.
-  - [ ] Held Start does not strobe: one press pauses once (the
-        release-seen edge pattern of watchConfirmButton applies).
-  - [ ] Menus unchanged: Start stays confirm on title/select/result and
-        still revives on the game-over countdown (its existing role).
-  - [ ] Pinned with the existing synthetic-pad harness
-        (gamepad.spec.ts patterns, __PAD__/__PAD2__ button surface):
-        pad Start freezes (tick count flat across 60 wall frames +
-        overlay), second press resumes; second pad can toggle too.
-  - [ ] Full gates green (lint, typecheck, unit, e2e, signal, vision,
-        prodbuild, build).
+  - [x] Start toggles pause during stage gameplay on EITHER connected
+        pad (pads 0 and 1), sharing togglePause() with P and the touch
+        button - same freeze/overlay/clear/resume semantics, no new
+        pause state.
+  - [x] Held Start does not strobe: the release-seen edge pattern of
+        watchConfirmButton (now pad-indexed) gives exactly one toggle
+        per press - pinned by sampling paused 6x across a 600ms hold.
+  - [x] Menus unchanged: Start stays confirm on title/select/result
+        (existing menu tests green untouched) and still revives on the
+        game-over countdown - ROUTED in one watcher per pad rather than
+        stacked: a second pad-0 watcher could resume AND revive in a
+        single poll (caught in self-review before testing). While
+        paused the toggle RESUMES first, so no revive leaks through.
+  - [x] Pinned with the synthetic-pad harness (gamepad.spec.ts): pad 1
+        Start freezes (tick flat across ~60 wall frames), pad 2 Start
+        resumes, held Start no-strobe, game-over Start revives and is
+        not a toggle. Both mechanisms falsified by probe (binding
+        removed -> pause pins fail; gameover routed to toggle -> the
+        revive pin fails).
+  - [x] Full gates green: lint, typecheck, unit 196/196, e2e 54/54
+        (+1), signal 13/13 (marathons identical to the standing
+        post-arrow snapshot - input-layer change only), vision 5/5,
+        prodbuild 4/4, build.
 - Non-goals:
   - No remapping UI, no pause menu, no auto-pause on blur (owner
     decision). No touch or keyboard changes. No DIFF-1 impact.
 - Evidence:
   - artifacts/loop/proposals-gamepadpause-enh11.md (this pass's review).
+  - Trial: watchConfirmButton gained a padIndex (default 0, menu call
+    sites byte-identical); GameScene's Start handling became one routed
+    action per pad (pause toggle / game-over confirmContinue). The
+    overlay hint text is unchanged (it names P, which still resumes) -
+    a cosmetic asymmetry for pad players, deliberately out of the
+    stated scope.

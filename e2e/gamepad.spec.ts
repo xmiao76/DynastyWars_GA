@@ -187,3 +187,85 @@ test('a second controller drives player two', async ({ page }) => {
   expect(after?.player2?.x ?? 0).toBeGreaterThan(before?.player2?.x ?? 0)
   expect(after?.player.x).toBe(before?.player.x)
 })
+
+/**
+ * ENH-11: Start is the gamepad pause toggle on EITHER pad - the third input
+ * class to get pause parity (keyboard P: ENH-7, touch button: ENH-8) - while
+ * keeping its game-over revive role. The freeze/resume come from the shared
+ * togglePause, so the semantics are pinned here at the pad surface.
+ */
+test('Start pauses and resumes gameplay on either pad, and still revives', async ({ page }) => {
+  const pageErrors: string[] = []
+  page.on('pageerror', (err) => pageErrors.push(String(err)))
+  await attachGamepad(page, 2)
+  await page.goto('/?renderer=canvas')
+  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
+  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
+  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.tick ?? 0))
+    .toBeGreaterThan(30)
+
+  const paused = async (): Promise<boolean> =>
+    page.evaluate(() => {
+      const scene = window.__DW_GAME__?.scene.getScene('game') as unknown as { paused?: boolean } | undefined
+      return scene?.paused === true
+    })
+  const tick = async (): Promise<number> =>
+    page.evaluate(() => window.__DW__?.getSnapshot().sim?.tick ?? 0)
+
+  // Pad one's Start pauses; the sim freezes across ~60 wall frames.
+  await tapButton(page, BTN.start)
+  await expect.poll(paused, { timeout: 4_000 }).toBe(true)
+  const frozen = await tick()
+  await page.waitForTimeout(1_000)
+  expect(await tick(), 'the sim kept stepping while paused').toBe(frozen)
+
+  // Pad two's Start resumes: either pad toggles.
+  await page.evaluate(() => {
+    ;(window as unknown as { __PAD2__: { buttons: number[] } }).__PAD2__.buttons[9] = 1
+  })
+  await page.waitForTimeout(140)
+  await page.evaluate(() => {
+    ;(window as unknown as { __PAD2__: { buttons: number[] } }).__PAD2__.buttons[9] = 0
+  })
+  await expect.poll(paused, { timeout: 4_000 }).toBe(false)
+  await expect.poll(tick, { timeout: 4_000 }).toBeGreaterThan(frozen)
+
+  // A held Start must not strobe: exactly one toggle for the press edge.
+  await page.evaluate(() => {
+    ;(window as unknown as { __PAD__: { buttons: number[] } }).__PAD__.buttons[9] = 1
+  })
+  for (let i = 0; i < 6; i += 1) {
+    await page.waitForTimeout(100)
+    expect(await paused(), 'holding Start strobed the pause toggle').toBe(true)
+  }
+  await page.evaluate(() => {
+    ;(window as unknown as { __PAD__: { buttons: number[] } }).__PAD__.buttons[9] = 0
+  })
+  await page.waitForTimeout(120)
+
+  // Start keeps its game-over revive role, and the revive is not a toggle.
+  await tapButton(page, BTN.start) // resume from the hold's pause
+  await expect.poll(paused, { timeout: 4_000 }).toBe(false)
+  await page.evaluate(() => {
+    const scene = window.__DW_GAME__?.scene.getScene('game') as unknown as
+      | { sim: { entities: Array<{ side: string; hp: number; state: string }> } }
+      | undefined
+    for (const e of scene?.sim.entities ?? []) {
+      if (e.side === 'hero') {
+        e.hp = 0
+        e.state = 'dead'
+      }
+    }
+  })
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.phase), { timeout: 5_000 })
+    .toBe('gameover')
+  await tapButton(page, BTN.start)
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.player.state), { timeout: 5_000 })
+    .not.toBe('dead')
+  expect(await paused(), 'the revive must not be a pause toggle').toBe(false)
+  expect(pageErrors).toEqual([])
+})

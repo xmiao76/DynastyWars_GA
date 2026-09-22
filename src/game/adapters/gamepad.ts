@@ -32,10 +32,6 @@ function padAt(index: number): Gamepad | null {
   return null
 }
 
-function firstPad(): Gamepad | null {
-  return padAt(0)
-}
-
 function isPressed(pad: Gamepad, index: number): boolean {
   return pad.buttons[index]?.pressed === true
 }
@@ -171,9 +167,10 @@ export function mergeInputs(a: InputState, b: InputState): InputState {
 /**
  * Run `onConfirm` when Start is pressed, for menu scenes that otherwise only
  * listen for Enter. Returns a per-frame poll function the scene calls in
- * `update`; it edge-detects so holding Start does not retrigger.
+ * `update`; it edge-detects so holding Start does not retrigger. `padIndex`
+ * selects which connected pad's Start it watches (0 = player one).
  */
-export function watchConfirmButton(onConfirm: () => void): () => void {
+export function watchConfirmButton(onConfirm: () => void, padIndex = 0): () => void {
   // The watcher must SEE A RELEASE before it accepts a press. Tracking only
   // "down and it wasn't last frame" is not enough across a scene change: the
   // confirm that leaves one menu starts the next one with the button still
@@ -182,7 +179,7 @@ export function watchConfirmButton(onConfirm: () => void): () => void {
   // game. Requiring a release makes a held button inert until it is let go.
   let seenRelease = false
   return () => {
-    const pad = firstPad()
+    const pad = padAt(padIndex)
     const down = pad !== null && isPressed(pad, BUTTON.start)
     if (!down) {
       seenRelease = true
