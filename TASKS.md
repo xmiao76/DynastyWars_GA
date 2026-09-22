@@ -1189,3 +1189,35 @@ Add future enhancement tasks below this heading.
     Gates: lint/typecheck clean, unit 188/188, e2e 49/49, signal 13/13
     (identical marathons), vision 5/5, prodbuild 4/4 (8 zones both
     orientations), build. Zone counts 7->8 in touch/prodbuild specs.
+
+### ENH-9 - Pause does not freeze the stage-clear transition
+
+- Status: TODO
+- Requirement:
+  ENH-7's pause gate promises "no stage transitions until resume", and
+  the game-over countdown honors it (frozen while paused). The
+  stage-clear path does not: once the `stageclear` event drains,
+  GameScene arms a wall-clock `delayedCall(2000)` to the result scene,
+  which fires straight through a pause - the scene changes under the
+  PAUSED overlay when pause lands inside the 2s clear window. Freeze
+  the clear countdown while paused (the continue countdown is the
+  in-repo template: accumulate only on unpaused updates), so pause
+  truly freezes every transition.
+- Acceptance criteria:
+  - [ ] Pausing inside the clear window holds the game scene: e2e
+        clears a stage (or drives the clear path the stageclear spec
+        uses), pauses, and asserts scene is still 'game' 3s later
+        with the overlay showing.
+  - [ ] Resume completes the transition: the result scene appears
+        after resume without further input.
+  - [ ] Unpaused clear timing unchanged: existing stageclear e2e and
+        full gates green; no DIFF-1 impact (no frame data, spawn, or
+        tuning change).
+  - [ ] Sweep: every gameplay `scene.start` is pause-gated or its
+        exemption is justified in the entry (this defect was the only
+        escapee; keep it that way).
+- Non-goals:
+  - No pause menu, settings, or volume. No change to the 2s boss-fall
+    beat length. No auto-pause on blur. No touch-input changes.
+- Evidence:
+  - artifacts/loop/proposals-clearpause-enh9.md (this pass's review).
