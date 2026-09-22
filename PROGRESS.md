@@ -22,6 +22,55 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-22 15:04 - PRODUCER PASS (control-naming review, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after
+  ENH-11. Tree clean at 6308fed. Run `2026-09-22T21-49-44Z-2650b0df`.
+- LOGIC signal: 13/13 ok, exit 0, zero invariant violations and zero
+  page errors. Marathons identical to the standing post-arrow snapshot:
+  guanyu 2640/0c + 3144/0c; zhangfei 2640/0c + 2832/0c; huangzhong
+  3768/1c + 4524/1c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
+  3324,3576,6720,5988,4548,4440,5484,8196,6324 with continues
+  0,0,2,1,1,0,2,3,2. DIFF-1 shape unchanged (known blocked item). No
+  regression.
+- VISUAL signal: 5/5 ok, exit 0. Frames 9/9 pass; sprites 256/256,
+  weapons 85/85, retracts 170/170; renderer parity clean all 7 screens;
+  both negative controls failing correctly; HUD 1/1; findings.jsonl 0
+  bytes. No UX_REVIEW.md. Frame signatures (pixel arbiter) identical to
+  the standing profiles - no drift. Subjective eye review NOT performed
+  (the image-display defect stands, as recorded 13:09); programmatic
+  coverage is the ground truth.
+- Opportunity review (ONE area: control naming per input class): the
+  title plate names keyboard and touch controls but never the GAMEPAD -
+  a first-class input class per PROJECT.md. A pad-only player is told
+  ARROWS/Z/X/C/ENTER/M/P, the exact defect TitleScene's own comment
+  fixed for phones ("naming the controls THIS device has"). ENH-11
+  compounded it (Start gained pause, unnamed) and left the hint gap as
+  an intended follow-up. Precedent gate exists (touch.spec "the title
+  names the controls the device actually has"). Filed ENH-12 (TODO):
+  title gamepad line + pad-actionable pause hint + the title-labels
+  test family extended to the third class. One-area budget spent, no
+  second area inspected.
+- Rejected/not pursued: none beyond the standing list (touch-mute: see
+  13:09; image tooling: harness-level, out of repo).
+- Files changed: TASKS.md (ENH-12 TODO), PROGRESS.md,
+  artifacts/loop/proposals-gamepadnaming-enh12.md (gitignored scratch).
+- Verification run: both suites via direct node Playwright CLIs with
+  full logs to artifacts/loop/signal-tick.log + vision-tick.log
+  (gitignored). No game source touched in this pass.
+- Result: COMPLETED - one accepted proactive proposal, no regression.
+- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-12 TODO.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
+  standing owner items unchanged (deploy).
+- Next recommended task: ENH-12 (a later consumer implements it).
+
+- Housekeeping (same iteration, rule 8): DONE count is 20 (at the
+  bound, ENH-12 is TODO). PROGRESS.md crossed 500 lines with this
+  entry, so the oldest entry (2026-09-21 21:46 ENH-7, 55 finished
+  lines) moved to PROGRESS-ARCHIVE.md top; now 465 lines. Latest
+  signal snapshot (this entry) and DIFF-1 evidence kept.
+
 ### 2026-09-22 14:15 - ENH-11 (attempt 1)
 
 - Status before: ENH-11 TODO (no prior attempts), first TODO in the
@@ -411,59 +460,3 @@ history slowly crowds out the work it is supposed to support.
 - Housekeeping (same iteration, rule 8): none needed. DONE count is 20
   (at the bound, ENH-8 is TODO); PROGRESS.md was 486 lines, stays under
   500 with this entry.
-
-### 2026-09-21 21:46 - ENH-7 (attempt 1, first manual-worker trial)
-
-- Status before: ENH-7 TODO (no prior attempts), first iteration executed by
-  the DSH session itself under the new `--begin-manual`/`--finish-manual`
-  protocol (run `2026-09-22T04-19-16Z-2520ed20`).
-- Work completed: P toggles gameplay pause in GameScene (repeats ignored,
-  flag reset on scene create). While paused, update() polls adapters but
-  steps nothing: zero sim ticks, frozen continue countdown, no joins, no
-  stage transitions; confirmContinue (Enter/Start/tap) is pause-guarded.
-  New `clear()` on all three input adapters (+ NO_TOUCH), called on both
-  toggle edges and every frozen frame, so pause-time presses cannot leak as
-  actions or co-op joins on resume. HUD pause overlay (dim + gold slab +
-  PAUSED + PRESS P TO RESUME) mirrors the continue overlay's depths/alpha
-  and reads `game.paused` structurally. Title desktop key line gains
-  P PAUSE (touch line unchanged: keyboard-only, like mute).
-- Files changed: `src/game/scenes/GameScene.ts`, `HudScene.ts`,
-  `TitleScene.ts`, `src/game/adapters/{keyboard,gamepad,touch}.ts`,
-  `e2e/pause.spec.ts` (new), `TASKS.md`, `PROGRESS.md`.
-- Tests (new, all in e2e/pause.spec.ts, real play): (1) P freezes a live
-  co-op game: full-sim-snapshot `toEqual` across 120 counted wall frames,
-  then tick advance + P2 retained on resume. (2) Z/X/C/F mashed while
-  paused: 10 post-resume samples show no input state, P2 never joins.
-  (3) Overlay: paused mean luma < 85% of lit (lit floor guards vacuous
-  black), 2707 gold caption pixels vs 0 unpaused/resumed (floor 500),
-  resumed brightness restored. Falsified by revert: gate disabled -> tests
-  1+2 fail; clearing stubbed -> test 2 alone fails; restored green.
-- Verification run: lint clean; typecheck clean; unit 188/188 (first run
-  flaked 187/188 on an unidentified test, green twice after - recorded,
-  not chased); e2e 48/48 (45 + 3 new) incl. occlusion gates and title
-  controls spec; signal 13/13, zero violations/page errors, every marathon
-  tick-identical to the ENH-6 snapshot (zero sim impact, no core changes);
-  vision 5/5 - frames 9/9 (game_combat richness 1038, as before), sprites
-  256/256, weapons 85/85, retracts 170/170, parity clean all 7 screens,
-  both negative controls failing correctly, HUD 1/1; prodbuild 4/4;
-  build ok. Direct node CLIs used throughout (documented npm scripts are
-  equivalent; earlier npm.ps1 notes are host-specific).
-- Eye review (by me, image input restored mid-trial): paused.png (dim,
-  slab, PAUSED + hint all legible), title.png (P PAUSE fits plate with
-  margin; measured 250px vs 308px plate), game_combat.png + unpaused.png
-  + resumed.png (no overlay when live, overlay fully cleared on resume,
-  enemies advanced after resume, frozen while paused). No regressions.
-- Result: all acceptance criteria met. DIFF-1 stays BLOCKED (untouched).
-- Status after: ENH-7 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no TODO
-  or IN_PROGRESS remains.
-- Remaining work or blocker: none for this task.
-- Next recommended task: none available without the owner (producer pass
-  when driven; standing owner items: deploy).
-
-- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
-  oldest DONE ART-2 (lowest number of the chronological ART arc, same rule
-  as the ART-1 move) spliced to TASKS-ARCHIVE.md end (DONE now 20).
-  PROGRESS.md passed 500 lines, so oldest finished entries moved to
-  PROGRESS-ARCHIVE.md top (below this entry's count). Latest signal
-  snapshot (this entry's ENH-6-identical marathon tables) and DIFF-1
-  BLOCKED evidence kept.

@@ -3,6 +3,62 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-21 21:46 - ENH-7 (attempt 1, first manual-worker trial)
+
+- Status before: ENH-7 TODO (no prior attempts), first iteration executed by
+  the DSH session itself under the new `--begin-manual`/`--finish-manual`
+  protocol (run `2026-09-22T04-19-16Z-2520ed20`).
+- Work completed: P toggles gameplay pause in GameScene (repeats ignored,
+  flag reset on scene create). While paused, update() polls adapters but
+  steps nothing: zero sim ticks, frozen continue countdown, no joins, no
+  stage transitions; confirmContinue (Enter/Start/tap) is pause-guarded.
+  New `clear()` on all three input adapters (+ NO_TOUCH), called on both
+  toggle edges and every frozen frame, so pause-time presses cannot leak as
+  actions or co-op joins on resume. HUD pause overlay (dim + gold slab +
+  PAUSED + PRESS P TO RESUME) mirrors the continue overlay's depths/alpha
+  and reads `game.paused` structurally. Title desktop key line gains
+  P PAUSE (touch line unchanged: keyboard-only, like mute).
+- Files changed: `src/game/scenes/GameScene.ts`, `HudScene.ts`,
+  `TitleScene.ts`, `src/game/adapters/{keyboard,gamepad,touch}.ts`,
+  `e2e/pause.spec.ts` (new), `TASKS.md`, `PROGRESS.md`.
+- Tests (new, all in e2e/pause.spec.ts, real play): (1) P freezes a live
+  co-op game: full-sim-snapshot `toEqual` across 120 counted wall frames,
+  then tick advance + P2 retained on resume. (2) Z/X/C/F mashed while
+  paused: 10 post-resume samples show no input state, P2 never joins.
+  (3) Overlay: paused mean luma < 85% of lit (lit floor guards vacuous
+  black), 2707 gold caption pixels vs 0 unpaused/resumed (floor 500),
+  resumed brightness restored. Falsified by revert: gate disabled -> tests
+  1+2 fail; clearing stubbed -> test 2 alone fails; restored green.
+- Verification run: lint clean; typecheck clean; unit 188/188 (first run
+  flaked 187/188 on an unidentified test, green twice after - recorded,
+  not chased); e2e 48/48 (45 + 3 new) incl. occlusion gates and title
+  controls spec; signal 13/13, zero violations/page errors, every marathon
+  tick-identical to the ENH-6 snapshot (zero sim impact, no core changes);
+  vision 5/5 - frames 9/9 (game_combat richness 1038, as before), sprites
+  256/256, weapons 85/85, retracts 170/170, parity clean all 7 screens,
+  both negative controls failing correctly, HUD 1/1; prodbuild 4/4;
+  build ok. Direct node CLIs used throughout (documented npm scripts are
+  equivalent; earlier npm.ps1 notes are host-specific).
+- Eye review (by me, image input restored mid-trial): paused.png (dim,
+  slab, PAUSED + hint all legible), title.png (P PAUSE fits plate with
+  margin; measured 250px vs 308px plate), game_combat.png + unpaused.png
+  + resumed.png (no overlay when live, overlay fully cleared on resume,
+  enemies advanced after resume, frozen while paused). No regressions.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED (untouched).
+- Status after: ENH-7 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no TODO
+  or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer pass
+  when driven; standing owner items: deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
+  oldest DONE ART-2 (lowest number of the chronological ART arc, same rule
+  as the ART-1 move) spliced to TASKS-ARCHIVE.md end (DONE now 20).
+  PROGRESS.md passed 500 lines, so oldest finished entries moved to
+  PROGRESS-ARCHIVE.md top (below this entry's count). Latest signal
+  snapshot (this entry's ENH-6-identical marathon tables) and DIFF-1
+  BLOCKED evidence kept.
+
 ### 2026-09-21 21:19 - MANUAL-WORKER REDESIGN (owner-requested infrastructure, attempt 1)
 
 - Status before: runner PAUSED (`UNKNOWN`: Codex worker died at startup, exit 1
