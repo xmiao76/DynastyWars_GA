@@ -833,39 +833,6 @@ Add future enhancement tasks below this heading.
   - No change to heroes, enemies' stats in isolation, or AI - stage content
     (`waves`, `bossKind`, mounts) is the lever this data points at.
 
-### ART-4 - The portraits had nine times the pixels and the same cartoon eyes
-
-- Status: DONE
-- Requirement:
-  The owner looked again after ART-1/1b/3 and said the heroes still do not look
-  human. Right again, and the specific cause: ART-3 raised the portrait budget
-  to roughly 84x72 pixels of face, but the detail pass layered refinements
-  ON TOP of the old face instead of using the budget. The eyes were still
-  solid near-black ovals with a catchlight - the single strongest "cartoon, not
-  human" signal there is.
-- Fix, in the portrait pass only:
-  - A human eye replaces the dot: warm-white sclera large enough to swallow the
-    coarse oval, a dark-brown iris offset toward the nose (a centred gaze reads
-    as a stare), a pupil, a catchlight, and the lid line over the top. Eye
-    colours are constants - warm whites and brown irises, because the cast is
-    Chinese and paper-blue would read as a different art style
-  - `FACES` gains `eyeTilt` (丹凤眼 slants, 环眼 stares straight, age droops)
-    and `browArch` for portrait brow curvature
-  - Lips: shadowed upper lip, lighter lower lip, over the coarse ink line
-  - Jaw shading down both sides and a chin light, so the head tapers toward a
-    chin instead of running on as an egg
-- Acceptance criteria:
-  - [x] The five heroes' portraits read as faces with real eyes - verified by
-        eye against the render, `artifacts/look/faces-human.png`
-  - [x] Xiahou Dun's socket keeps its scar and gains depth, and correctly gets
-        NO sclera, iris or catchlight
-  - [x] Portrait-only: the in-play coarse face is untouched, so no sprite gate
-        is affected
-  - [x] lint, typecheck, 144 unit, e2e, vision, prodbuild, signal, build
-- Non-goals:
-  - In-play fighters unchanged. At a 20px head a human eye is not drawable;
-    that would need larger heads and is a design decision.
-
 ### GATE-3 - Determinism is documented everywhere and enforced nowhere
 
 - Status: DONE
@@ -1221,3 +1188,59 @@ Add future enhancement tasks below this heading.
     beat length. No auto-pause on blur. No touch-input changes.
 - Evidence:
   - artifacts/loop/proposals-clearpause-enh9.md (this pass's review).
+
+### ENH-10 - Arrows fly too low and hang in the air (owner request)
+
+- Status: DONE
+- Requirement (owner, 2026-09-22): (1) hero and NPC arrows hit the LOWER
+  body - raise the flight so they hit the MIDDLE of the body; (2) after
+  the arrow falls toward the ground it stays hanging in the air - make it
+  fall all the way to the ground or disappear at its farthest range.
+  Worked directly in the consumer iteration under an explicit owner
+  request (priority over queue selection); ENH-9 stays TODO.
+- Root causes found - the "hang" had THREE mechanisms:
+  - both spawn sites flew arrows at z = 10 against a ~92-unit fighter
+    (the legs, measured in-game at 0.15 of body height)
+  - `updateDeaths` removed dead entities only when side !== 'hero', so
+    DEAD HERO ARROWS were never removed and rendered frozen forever
+  - `applyPhysics` x-clamped every side==='hero' entity to the screen, so
+    hero arrows pinned at the screen edge forever; and projectiles had no
+    flight envelope at all (flat flight to the stage bound)
+- Acceptance criteria:
+  - [x] Arrows cross at mid-body: ARROW_Z = 40 on both spawn paths (hero
+        special + archer AI); e2e band pin 0.3-0.7 of the REAL sprite
+        heights (measured 0.48; reverting z=10 reads 0.15 = the owner's
+        "lower body" verbatim and fails the pin)
+  - [x] Fall + despawn: level flight ARROW_LEVEL_TRAVEL = 240 px (beyond
+        any fire range), then ARROW_FALL = 2/tick down to the ground,
+        gone at contact; ARROW_MAX_TRAVEL = 360 cap for anything still
+        airborne; dead projectiles removed on BOTH sides; hero arrows no
+        longer screen-clamped
+  - [x] Gameplay identity preserved by construction: the hit test moved
+        to the target's chest (ARROW_CHEST_Z = 30), so ARROW_Z -
+        ARROW_CHEST_Z = 10 reproduces the old feet-level hit/jump-dodge
+        sets EXACTLY (grounded-hit and airborne-dodge pins; dropping the
+        offset fails both)
+  - [x] 8 new unit tests (test/core/arrows.test.ts) + 3 e2e in-situ pins
+        (e2e/arrows.spec.ts, band + fall + no-lingering, real sprites and
+        display list); every mechanism falsified by revert - 6
+        falsifications total incl. the renderer band
+  - [x] Full gates green: lint, typecheck, unit 196/196 (+8), e2e 52/52
+        (+3), signal 13/13, vision 5/5, prodbuild 4/4, build
+- Marathon deltas (recorded, NOT chased - the range change is the
+  requested behavior; no tuning touched; every marathon still completes):
+  guanyu s2 4944->3144t (-37%), zhaoyun s3 4224->6720t (+59%), s4
+  8988->5988t (-33%), huangzhong s2 6588->4524t (-31%); zhangfei and
+  weiyan tables identical. Long-range arrow chip hits beyond 240px are
+  gone by design.
+- Non-goals:
+  - No arrow rotation while falling and no stuck-in-ground prop (the
+    arrow falls to the ground and is gone at contact; the farthest-range
+    cap is the owner's other accepted option and is also implemented).
+  - No archer AI, fire cadence, damage or loot changes. No DIFF-1 impact
+    (stage data untouched).
+- Evidence:
+  - artifacts/arrows/{hero-midflight,npc-midflight,hero-falling}.png,
+    verified by pixel arbiter (HUD-plate hashes pair tests 1+3 (HZ) vs
+    test 2 (ZY) exactly as designed) - see the PROGRESS entry on the
+    read_image display caveat before trusting eyeballed captures.

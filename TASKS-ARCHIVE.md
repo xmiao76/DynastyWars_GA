@@ -2288,3 +2288,36 @@ and the three pre-redesign enhancements - all DONE and verified)
     two eyes and a mouth, and that is not fixable without larger heads, which
     would change every silhouette and is a design decision rather than a fix.
   - No change to the fight, the stats or the AI.
+
+### ART-4 - The portraits had nine times the pixels and the same cartoon eyes
+
+- Status: DONE
+- Requirement:
+  The owner looked again after ART-1/1b/3 and said the heroes still do not look
+  human. Right again, and the specific cause: ART-3 raised the portrait budget
+  to roughly 84x72 pixels of face, but the detail pass layered refinements
+  ON TOP of the old face instead of using the budget. The eyes were still
+  solid near-black ovals with a catchlight - the single strongest "cartoon, not
+  human" signal there is.
+- Fix, in the portrait pass only:
+  - A human eye replaces the dot: warm-white sclera large enough to swallow the
+    coarse oval, a dark-brown iris offset toward the nose (a centred gaze reads
+    as a stare), a pupil, a catchlight, and the lid line over the top. Eye
+    colours are constants - warm whites and brown irises, because the cast is
+    Chinese and paper-blue would read as a different art style
+  - `FACES` gains `eyeTilt` (丹凤眼 slants, 环眼 stares straight, age droops)
+    and `browArch` for portrait brow curvature
+  - Lips: shadowed upper lip, lighter lower lip, over the coarse ink line
+  - Jaw shading down both sides and a chin light, so the head tapers toward a
+    chin instead of running on as an egg
+- Acceptance criteria:
+  - [x] The five heroes' portraits read as faces with real eyes - verified by
+        eye against the render, `artifacts/look/faces-human.png`
+  - [x] Xiahou Dun's socket keeps its scar and gains depth, and correctly gets
+        NO sclera, iris or catchlight
+  - [x] Portrait-only: the in-play coarse face is untouched, so no sprite gate
+        is affected
+  - [x] lint, typecheck, 144 unit, e2e, vision, prodbuild, signal, build
+- Non-goals:
+  - In-play fighters unchanged. At a 20px head a human eye is not drawable;
+    that would need larger heads and is a design decision.

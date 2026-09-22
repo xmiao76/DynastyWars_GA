@@ -53,6 +53,28 @@ export const THROW_SPEED = 3.5
 export const THROW_TRAVEL = 90
 export const THROWN_Z = 10
 
+/**
+ * Arrow flight. An arrow crosses the fight at CHEST height - the middle of
+ * a standing fighter (~92 units tall) - instead of at ankle height, and past
+ * its level range it falls to the ground and is gone rather than hanging in
+ * the air. The hit test measures against ARROW_CHEST_Z above the target's
+ * feet, so level-flight hits and jump-dodges are EXACTLY the set the old
+ * feet-level arrows (flying at z = 10, tested against target.z) had:
+ * ARROW_Z - ARROW_CHEST_Z reproduces the old 10-unit offset.
+ */
+export const ARROW_Z = 40
+export const ARROW_CHEST_Z = 30
+/**
+ * px of level flight before the arrow starts falling. Beyond every fire
+ * range (ARCHER_FIRE_RANGE is 220 and arrows spawn 10 from the bow), so
+ * combat at honest distance happens at chest height.
+ */
+export const ARROW_LEVEL_TRAVEL = 240
+/** Height lost per tick while falling. */
+export const ARROW_FALL = 2
+/** Farthest range: an arrow still airborne here disappears. */
+export const ARROW_MAX_TRAVEL = 360
+
 /** Ground items despawn after this many ticks. */
 export const ITEM_LIFETIME_TICKS = 600
 

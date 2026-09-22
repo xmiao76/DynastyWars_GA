@@ -3,6 +3,11 @@ import { stepEnemy } from './ai'
 import { characterById, nextComboAttack } from './characters'
 import { applyHitWithAttack, canBeHit, requireAttackId, resolveAttacks } from './combat'
 import {
+  ARROW_CHEST_Z,
+  ARROW_FALL,
+  ARROW_LEVEL_TRAVEL,
+  ARROW_MAX_TRAVEL,
+  ARROW_Z,
   BOSS_TRIGGER_DISTANCE,
   COMBO_WINDOW_TICKS,
   DYING_TICKS,
@@ -353,7 +358,7 @@ function stepPlayer(sim: Sim, player: Entity, input: InputState): void {
             'hero',
             player.x + dir * 10,
             player.y,
-            10,
+            ARROW_Z,
             dir * HERO_ARROW_SPEED,
             player.facing,
           )
@@ -385,13 +390,26 @@ function stepPlayer(sim: Sim, player: Entity, input: InputState): void {
   }
 }
 
-/** Projectiles fly straight, hit the first opposing combatant they touch,
- * and die at the stage edges. */
+/**
+ * Projectiles fly at chest height, fall to the ground past their level range,
+ * hit the first opposing combatant they touch, and die at the stage edges or
+ * at their farthest range. `stateTick` counts flight ticks (nothing else reads
+ * it on a projectile), so travelled distance is exact and deterministic.
+ */
 function stepProjectiles(sim: Sim): void {
   for (const projectile of sim.entities) {
     if (!isProjectile(projectile) || projectile.state === 'dead') continue
+    projectile.stateTick += 1
     projectile.x += projectile.vx
+    const traveled = projectile.stateTick * Math.abs(projectile.vx)
     if (projectile.x < 0 || projectile.x > sim.stage.length) {
+      projectile.state = 'dead'
+      continue
+    }
+    // Past its level range the arrow drops toward the ground and is gone at
+    // contact; the travel cap catches anything still airborne at max range.
+    if (traveled >= ARROW_LEVEL_TRAVEL) projectile.z -= ARROW_FALL
+    if (projectile.z <= 0 || traveled >= ARROW_MAX_TRAVEL) {
       projectile.state = 'dead'
       continue
     }
@@ -402,7 +420,13 @@ function stepProjectiles(sim: Sim): void {
       const inRange =
         Math.abs(target.x - projectile.x) <= 8 &&
         Math.abs(target.y - projectile.y) <= 10 &&
-        Math.abs(target.z - projectile.z) <= 16
+        // Chest-band z. The arrow flies at ARROW_Z and is tested against
+        // ARROW_CHEST_Z above the target's feet, so grounded targets are hit
+        // and jumps clear the arrow exactly as when arrows flew at z = 10
+        // against target.z (ARROW_Z - ARROW_CHEST_Z is that old offset). As
+        // the arrow falls, the band slides down with it - a dying arrow skims
+        // low, which is what a falling arrow should hit.
+        Math.abs(target.z + ARROW_CHEST_Z - projectile.z) <= 16
       if (inRange) {
         const impact = attackById(projectile.side === 'hero' ? 'heroarrow.hit' : 'arrow.hit')
         applyHitWithAttack(projectile, target, impact, sim.events, sim.entities)
@@ -601,7 +625,10 @@ function applyPhysics(sim: Sim): void {
       entity.x += entity.vx // constant flight speed, no decay
       entity.y = clamp(entity.y, sim.stage.walkBandTop, sim.stage.walkBandBottom)
     }
-    if (entity.side === 'hero') {
+    // Projectiles fly unclamped on either side: the hero clamp used to pin a
+    // hero arrow to the screen edge, where it hovered forever (stateTick kept
+    // counting, x could not advance). They die by travel instead.
+    if (entity.side === 'hero' && !isProjectile(entity)) {
       const minX = sim.scrollX + EDGE_MARGIN
       const maxX = Math.min(sim.scrollX + SCREEN_WIDTH - EDGE_MARGIN, sim.stage.length - EDGE_MARGIN)
       entity.x = clamp(entity.x, minX, maxX)
@@ -618,8 +645,11 @@ function updateDeaths(sim: Sim): void {
       entity.state = 'dead'
     }
   }
+  // Dead heroes stay in the list (revive reads them); everything else that is
+  // dead goes now, projectiles included. Hero arrows used to survive this
+  // filter and hang in the air forever - the exact defect the fall fixes.
   sim.entities = sim.entities.filter(
-    (e) => !(e.side !== 'hero' && e.state === 'dead'),
+    (e) => !((e.side !== 'hero' || isProjectile(e)) && e.state === 'dead'),
   )
 }
 

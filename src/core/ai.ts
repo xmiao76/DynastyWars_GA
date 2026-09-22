@@ -10,7 +10,7 @@ import {
   type EnemyDef,
 } from './enemies'
 import { makeProjectile } from './entities'
-import { GETUP_TICKS, KNOCKDOWN_TICKS, SCREEN_WIDTH } from './constants'
+import { ARROW_Z, GETUP_TICKS, KNOCKDOWN_TICKS, SCREEN_WIDTH } from './constants'
 import type { Sim } from './sim'
 import type { Entity } from './types'
 
@@ -196,7 +196,7 @@ function stepArcher(sim: Sim, enemy: Entity, def: EnemyDef, player: Entity): voi
         'enemy',
         enemy.x + direction * 10,
         enemy.y,
-        10,
+        ARROW_Z,
         direction * ARROW_SPEED,
         enemy.facing,
       )
