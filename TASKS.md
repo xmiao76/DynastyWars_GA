@@ -1213,3 +1213,36 @@ Add future enhancement tasks below this heading.
 - Non-goals:
   - No DIFF-1 smoothing and no new follow-up tasks invented. No deployment,
     push, or cloud changes.
+
+### ENH-7 - Pause the game mid-stage (P key, overlay, deterministic resume)
+
+- Status: TODO
+- Requirement:
+  A full run is ~13 minutes of uninterrupted real-time action (ENH-6
+  zhaoyun marathon: 47,416 ticks) and the game has no way to stop the
+  clock: zero matches for "pause" in src/selfplay/test/e2e, no pause key
+  on the title screen's control list, no suspend/blur handling in
+  gameplay. Add a gameplay pause: one key toggles it, the sim freezes,
+  an overlay says so, and resume continues tick-neutrally.
+- Acceptance criteria:
+  - [ ] P pauses and resumes during stage gameplay, co-op included (both
+        players' sim time freezes; nobody moves while paused).
+  - [ ] While paused the sim advances zero ticks (pinned: tick count
+        frozen across 120 wall frames) and no buffered press leaks through
+        on resume.
+  - [ ] A legible overlay (dim + PAUSED + resume hint) renders while
+        paused; the title-screen control list documents the key.
+  - [ ] Resume is neutral: pausing for any length of wall time then
+        resuming changes nothing in the sim (pinned by comparing pre-pause
+        and post-resume sim snapshots, or equal clear-tick counts
+        with/without a mid-run pause).
+  - [ ] Full gates green: lint, typecheck, unit, e2e, signal 13/13,
+        vision 5/5 (overlay judged by eye at gameplay size, no other frame
+        regressed).
+- Non-goals:
+  - No pause menu, settings, volume, or stage-select. No auto-pause on tab
+    blur/hidden (a behavior decision for the owner). No touch pause button
+    (stated follow-up if the owner wants mobile parity). No DIFF-1
+    impact: pause changes no frame data, spawns, or tuning.
+- Evidence:
+  - artifacts/loop/proposals-20260921-2038-pause.md (this pass's review).
