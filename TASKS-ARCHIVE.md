@@ -1988,3 +1988,104 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Non-goals:
   - No change to the audio pipeline. The code under test is not implicated;
     the measurement is.
+
+### FIX-5 - Rotating the phone leaves the canvas at the old orientation's size
+
+- Status: DONE
+- Requirement:
+  Turn the handset and the game does not re-fit. Measured on a Pixel 7 profile
+  with a real device-metrics rotation (CDP `setDeviceMetricsOverride` with
+  `screenOrientation`, which is what Chrome sends a page when the phone turns):
+
+      portrait          win 412x839   #game 412x839   canvas 412x232   correct
+      rotated landscape win 915x412   #game 915x412   canvas 412x232   STALE
+      rotated back      win 492x1093                  canvas 732x412   STALE, 4
+                        of the 7 control zones off screen
+
+  The second rotation is the damaging one: a canvas still sized for landscape
+  inside a portrait viewport overflows, and the overflow is what drags the
+  reported viewport out to 492x1093 in the first place.
+
+  Cause is an ordering bug in Phaser's own ScaleManager, and the evidence is
+  unambiguous: after the rotation `scale.parentSize` is CORRECT at 915x412
+  while `scale.displaySize` is still 412x232, and calling `scale.refresh()` by
+  hand immediately produces 732x412. `listeners.windowResize` calls
+  `updateBounds()` and THEN sets `dirty`; `step()` reacts to `dirty` by calling
+  `getParentBounds()` again, which now finds the recorded bounds already equal,
+  returns false, and so never calls `refresh()`. The bounds get recorded
+  without the canvas being refitted.
+- Evidence limits, stated plainly: this is reproduced under Chromium device
+  emulation, which is the closest thing available here to a handset. A plain
+  DESKTOP window resize is unaffected - measured across 1200x800, 800x600,
+  1600x500 and 640x480, every one refits exactly - so this is specific to the
+  mobile path.
+- Acceptance criteria:
+  - [x] `resize`, `orientationchange` and `screen.orientation`'s own change
+        event all call `game.scale.refresh()`, deferred one frame so it reads
+        settled layout instead of mid-reflow
+  - [x] After: rotated landscape 732x412 against an expected 732x412, rotated
+        back 412x232 against 412x232, no control off screen in either. The
+        reported viewport on the way back is now a clean 412x915 rather than
+        492x1093, because nothing overflows to drag it out any more
+  - [x] Desktop resize re-measured at 1200x800, 800x600, 1600x500, 640x480 and
+        back: every one still exact, so the path that already worked is
+        undisturbed
+  - [x] Proven able to fail by removing the listeners: "landscape: the canvas
+        kept the previous orientation's size - viewport 915x412, canvas
+        412x232, expected 732x412"
+  - [x] lint, typecheck, 142 unit, 43 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No patching of Phaser and no change to the scale mode. One refresh on the
+    events that matter is the whole fix.
+
+### FLAKE-2 - Boot polls give the game five seconds to start
+
+- Status: DONE
+- REWRITTEN. I filed this against `e2e/game.spec.ts:23`, the 400ms ArrowRight
+  hold, on the theory that a hard assertion gated on wall-clock time was what
+  failed under contention. Measurement says that theory was wrong, twice over:
+    - CPU starvation does not break it. At 20x and even 50x throttling the
+      400ms hold still moved the player (2 ticks, 120.0 -> 121.4), so the
+      assertion survives conditions far harsher than a busy machine.
+    - Reproducing the actual failure under real over-subscription shows a
+      different line entirely. Every failure, across `game`, `finalstage`,
+      `horse` and `coop`, is
+      `Timeout 5000ms exceeded while waiting on the predicate` on
+      `expect.poll(...).toBe('title')` - the poll waiting for the game to BOOT.
+  So the fragile thing is not how the test measures movement. It is that the
+  whole suite gives the game five seconds to reach its title screen, and boot
+  generates the entire cast's art before it gets there.
+- Requirement:
+  39 boot-to-title polls across 23 files all run on Playwright's default
+  `expect` timeout of 5000ms. Under a loaded machine that is not enough, and
+  the failure reads as a game defect when it is a budget. `touch.spec` already
+  passes `{ timeout: 8_000 }` explicitly for its transitions, so a longer
+  explicit budget is established practice here rather than a new idea.
+- Acceptance criteria:
+  - [x] `expect: { timeout: 15_000 }` in `playwright.config.ts`, one place
+        instead of 39 call sites
+  - [x] Nothing weakened: a game that never boots still fails, just later; no
+        assertion changed, no retry added, specs with their own timeout keep it
+  - [x] A/B measured at four workers, which is the realistic "machine is busy"
+        case rather than an artificial one:
+            5s budget  -> 2 failed (game.spec, horse.spec)
+            15s budget -> 11 passed
+        So the change earns its place rather than being a plausible-sounding
+        tidy-up
+  - [x] CORRECTION to the criterion as filed. I wrote that the specs failing at
+        SIX workers should pass at six afterwards. They do not, and no timeout
+        could make them: with the 15s budget the failure simply moves from
+        "Timeout 5000ms exceeded" to the 30s TEST timeout, because six Chromium
+        instances each generating the whole cast's art against one dev server
+        genuinely cannot boot in fifteen seconds. Six workers is past what this
+        machine can do, which is why the config says three. Claiming this fixed
+        contention would have been false
+  - [x] Still green at the configured three workers - 43 e2e in 1.7m, the same
+        as before - because a timeout is a ceiling, not a wait
+  - [x] lint, typecheck, 142 unit, 43 e2e, vision 5/5, prodbuild 3/3,
+        signal 13/13, build
+- Non-goals:
+  - No change to `e2e/game.spec.ts`. The line I originally accused is fine, and
+    changing it would have been a fix aimed at the wrong thing.
+  - No retries. A retry would hide exactly this kind of finding.

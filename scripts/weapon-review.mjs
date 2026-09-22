@@ -139,7 +139,7 @@ try {
   }
   await sheet(['idle', 'attack', 'attack2'], 'right', 'weapon-shapes-' + tag + '.png')
   for (const facing of ['right', 'left']) {
-    await sheet(['idle', 'walk0', 'walk1', 'windup', 'attack', 'attack2', 'recover', 'jump', 'hurt', 'down', 'special'], facing, 'pose-sweep-' + facing + '-' + tag + '.png', true)
+    await sheet(['idle', 'walk0', 'walk1', 'windup', 'attack', 'attack2', 'thrust', 'chop', 'sweep', 'recover', 'jump', 'hurt', 'down', 'special'], facing, 'pose-sweep-' + facing + '-' + tag + '.png', true)
   }
   await page.close()
 

@@ -109,7 +109,9 @@ describe('knockdown i-frames', () => {
       }
     }
 
-    expect(damages).toEqual([12, 8])
+    // Zhao Yun's faster cycle means the jabs after the knockdown whiff on
+    // i-frames: the second LANDED hit is the next cycle's finisher, not a jab.
+    expect(damages).toEqual([10, 10])
     expect(hitTicks).toHaveLength(2)
     const downedWindow = KNOCKDOWN_TICKS + GETUP_TICKS
     expect((hitTicks[1] ?? 0) - (hitTicks[0] ?? 0)).toBeGreaterThanOrEqual(downedWindow)

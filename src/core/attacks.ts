@@ -25,39 +25,55 @@ export interface AttackDef {
   aoe: boolean
 }
 
-interface HeroAttackNumbers {
-  jabDamage: number
-  finisherDamage: number
+/** One grounded combo hit: damage, geometry, frame data, knockback. */
+interface ComboHitNumbers {
+  damage: number
   reach: number
   arc: number
+  startup: number
+  active: number
+  recover: number
+  knockback: number
+  knockdown: boolean
+}
+
+interface HeroAttackNumbers {
+  jab1: ComboHitNumbers
+  jab2: ComboHitNumbers
+  finisher: ComboHitNumbers
   kickDamage: number
+  kickReach: number
+  kickArc: number
   specialDamage: number
 }
 
-/** Build the standard hero moveset: 3-hit combo, jump kick, aoe special. */
+/** Build one hero moveset: weapon-true 3-hit combo, jump kick, aoe special. */
 function defineHeroAttacks(prefix: string, n: HeroAttackNumbers): Record<string, AttackDef> {
-  const jab = { reach: n.reach, arc: n.arc, startup: 6, active: 4, recover: 10, knockback: 1 }
-  return {
-    [`${prefix}.jab1`]: { id: `${prefix}.jab1`, damage: n.jabDamage, ...jab, knockdown: false, aerial: false, aoe: false },
-    [`${prefix}.jab2`]: { id: `${prefix}.jab2`, damage: n.jabDamage, ...jab, knockdown: false, aerial: false, aoe: false },
-    [`${prefix}.finisher`]: {
-      id: `${prefix}.finisher`,
-      damage: n.finisherDamage,
-      reach: n.reach + 4,
-      arc: n.arc + 2,
-      startup: 8,
-      active: 5,
-      recover: 16,
-      knockback: 4,
-      knockdown: true,
+  const combo = (name: 'jab1' | 'jab2' | 'finisher'): AttackDef => {
+    const hit = n[name]
+    return {
+      id: `${prefix}.${name}`,
+      damage: hit.damage,
+      reach: hit.reach,
+      arc: hit.arc,
+      startup: hit.startup,
+      active: hit.active,
+      recover: hit.recover,
+      knockback: hit.knockback,
+      knockdown: hit.knockdown,
       aerial: false,
       aoe: false,
-    },
+    }
+  }
+  return {
+    [`${prefix}.jab1`]: combo('jab1'),
+    [`${prefix}.jab2`]: combo('jab2'),
+    [`${prefix}.finisher`]: combo('finisher'),
     [`${prefix}.jumpkick`]: {
       id: `${prefix}.jumpkick`,
       damage: n.kickDamage,
-      reach: n.reach + 2,
-      arc: n.arc + 4,
+      reach: n.kickReach,
+      arc: n.kickArc,
       startup: 4,
       active: 20,
       recover: 0,
@@ -83,15 +99,48 @@ function defineHeroAttacks(prefix: string, n: HeroAttackNumbers): Record<string,
 }
 
 export const ATTACKS: Record<string, AttackDef> = {
-  // Hero movesets. Numbers differ per hero; frame data is shared.
-  ...defineHeroAttacks('gy', { jabDamage: 9, finisherDamage: 13, reach: 28, arc: 10, kickDamage: 10, specialDamage: 22 }),
-  ...defineHeroAttacks('zf', { jabDamage: 10, finisherDamage: 15, reach: 26, arc: 10, kickDamage: 11, specialDamage: 24 }),
-  ...defineHeroAttacks('zy', { jabDamage: 8, finisherDamage: 12, reach: 26, arc: 10, kickDamage: 10, specialDamage: 20 }),
-  ...defineHeroAttacks('hz', { jabDamage: 7, finisherDamage: 10, reach: 24, arc: 10, kickDamage: 9, specialDamage: 0 }),
+  // Hero movesets (ENH-4): every combo hit carries its own weapon-true
+  // damage/geometry/frame/knockback data. Jump kicks, specials and all
+  // enemy defs below are byte-identical to the old tables.
+  ...defineHeroAttacks('gy', {
+    // Guan Yu, glaive: slowest chain, wide arc, heavy overhead-chop finisher.
+    jab1: { damage: 11, reach: 30, arc: 12, startup: 8, active: 5, recover: 14, knockback: 2, knockdown: false },
+    jab2: { damage: 11, reach: 32, arc: 12, startup: 8, active: 5, recover: 14, knockback: 2, knockdown: false },
+    finisher: { damage: 20, reach: 34, arc: 14, startup: 12, active: 6, recover: 22, knockback: 5, knockdown: true },
+    kickDamage: 10, kickReach: 30, kickArc: 14, specialDamage: 22,
+  }),
+  ...defineHeroAttacks('zf', {
+    // Zhang Fei, serpent pike: longest reach, narrow arc, quick thrusts,
+    // wide sweeping-knockdown finisher.
+    jab1: { damage: 10, reach: 32, arc: 8, startup: 5, active: 4, recover: 9, knockback: 1, knockdown: false },
+    jab2: { damage: 10, reach: 34, arc: 8, startup: 5, active: 4, recover: 9, knockback: 1, knockdown: false },
+    finisher: { damage: 15, reach: 36, arc: 14, startup: 10, active: 6, recover: 18, knockback: 4, knockdown: true },
+    kickDamage: 11, kickReach: 28, kickArc: 14, specialDamage: 24,
+  }),
+  ...defineHeroAttacks('zy', {
+    // Zhao Yun, spear: fastest chain, lowest damage per hit.
+    jab1: { damage: 6, reach: 26, arc: 10, startup: 5, active: 3, recover: 8, knockback: 1, knockdown: false },
+    jab2: { damage: 6, reach: 28, arc: 10, startup: 5, active: 3, recover: 8, knockback: 1, knockdown: false },
+    finisher: { damage: 10, reach: 30, arc: 12, startup: 7, active: 4, recover: 13, knockback: 3, knockdown: true },
+    kickDamage: 10, kickReach: 28, kickArc: 14, specialDamage: 20,
+  }),
+  ...defineHeroAttacks('hz', {
+    // Huang Zhong, bow: compact short-range melee, moderate speed.
+    jab1: { damage: 7, reach: 22, arc: 10, startup: 6, active: 4, recover: 10, knockback: 1, knockdown: false },
+    jab2: { damage: 7, reach: 24, arc: 10, startup: 6, active: 4, recover: 10, knockback: 1, knockdown: false },
+    finisher: { damage: 10, reach: 26, arc: 12, startup: 8, active: 5, recover: 14, knockback: 3, knockdown: true },
+    kickDamage: 9, kickReach: 26, kickArc: 14, specialDamage: 0,
+  }),
   // Huang Zhong's special is his bow shot: the swing itself is inert
   // (zero-length active window); the hero arrow projectile does the work.
   'hz.special': { id: 'hz.special', damage: 0, reach: 0, arc: 0, startup: 4, active: 0, recover: 14, knockback: 0, knockdown: false, aerial: false, aoe: true },
-  ...defineHeroAttacks('wy', { jabDamage: 9, finisherDamage: 12, reach: 26, arc: 10, kickDamage: 10, specialDamage: 20 }),
+  ...defineHeroAttacks('wy', {
+    // Wei Yan, dao: slow heavy chops, high damage, long recover, big finisher.
+    jab1: { damage: 12, reach: 26, arc: 10, startup: 9, active: 5, recover: 14, knockback: 2, knockdown: false },
+    jab2: { damage: 12, reach: 28, arc: 10, startup: 9, active: 5, recover: 14, knockback: 2, knockdown: false },
+    finisher: { damage: 17, reach: 30, arc: 14, startup: 13, active: 6, recover: 18, knockback: 5, knockdown: true },
+    kickDamage: 10, kickReach: 28, kickArc: 14, specialDamage: 20,
+  }),
 
   // Mounted spear sweep: long reach, knockdown; replaces the ground combo
   // on horseback (every press swings once - no chain).

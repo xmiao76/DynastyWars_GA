@@ -40,7 +40,7 @@ describe('combo data', () => {
 })
 
 describe('combat', () => {
-  it('kills a soldier in exactly ceil(hp/dmg) = 3 hits', () => {
+  it('kills a soldier in 4 hits: the full combo plus the next jab', () => {
     const sim = createSim(42)
     const player = playerOf(sim)
     const soldier = firstSoldier(sim)
@@ -68,11 +68,11 @@ describe('combat', () => {
         }
       }
     }
-    expect(hits).toBe(3)
-    // Deterministic trace for seed 42 with this staging: the full combo
-    // lands in order - jab1, jab2, finisher.
-    expect(damages).toEqual([8, 8, 12])
-    expect(hpAfterTwoHits).toBe(8)
+    expect(hits).toBe(4)
+    // Deterministic trace for seed 42 with this staging: Zhao Yun's 6/6/10
+    // combo deals 22 to a 24-hp soldier, so the next cycle's jab1 finishes it.
+    expect(damages).toEqual([6, 6, 10, 6])
+    expect(hpAfterTwoHits).toBe(12)
     expect(['dying', 'dead']).toContain(soldier.state)
   })
 

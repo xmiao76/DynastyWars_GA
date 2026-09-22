@@ -103,7 +103,7 @@ describe('the art gate has art to judge', () => {
   it('covers the whole cast', () => {
     expect(CHARACTER_KINDS.length, 'characters including the horse').toBe(18)
     expect(PROP_KINDS.length, 'props').toBe(4)
-    expect(POSES.length, 'poses per character').toBe(11)
+    expect(POSES.length, 'poses per character').toBe(14)
     // Every kind the game can spawn must be drawable, or it renders nothing.
     for (const kind of [...CHARACTER_ORDER, ...Object.keys(ENEMIES), 'horse']) {
       expect(ALL_KINDS, `no art for ${kind}`).toContain(kind)
@@ -188,14 +188,14 @@ describe('character art reads as characters', () => {
   })
 
   it('every armed character shows its weapon in the attack pose', () => {
-    // BOTH strike poses reach: `attack` (jab1, finishers, enemies) and
-    // `attack2` (the jab2 backhand). `windup` and `recover` are retracted BY
+    // ALL FIVE strike poses reach: the historical `attack`/`attack2` plus the
+    // ENH-5 thrust, chop and sweep. `windup` and `recover` are retracted BY
     // DESIGN and must never be added here - they are gated the other way
     // (strictly narrower than the strikes) in the test below, and a reach
     // floor on them would forbid the retract this task exists for.
     const failures: string[] = []
     for (const kind of ARMED_KINDS) {
-      for (const strike of ['attack', 'attack2'] as const) {
+      for (const strike of ['attack', 'attack2', 'thrust', 'chop', 'sweep'] as const) {
         const r = assessWeaponReach(
           raster(kind, 'idle'),
           raster(kind, strike),
@@ -216,7 +216,7 @@ describe('character art reads as characters', () => {
     // consecutive hits still read as one held pose.
     const failures: string[] = []
     for (const kind of ARMED_KINDS) {
-      for (const strike of ['attack', 'attack2'] as const) {
+      for (const strike of ['attack', 'attack2', 'thrust', 'chop', 'sweep'] as const) {
         const strikeImg = raster(kind, strike)
         for (const withdrawn of ['windup', 'recover'] as const) {
           const r = assessWeaponReach(
@@ -571,6 +571,11 @@ describe('character art reads as characters', () => {
     // than as one held pose. `windup` against `idle` is the dangerous pair
     // (both withdrawn): if the pose does not clear the floor, the POSE is
     // redrawn, never the floor.
+    //
+    // ENH-5 extends the strike family to five. Each new strike is paired
+    // against idle, both withdrawn phases, both historical strikes, and its
+    // new siblings: a thrust that is the attack again, or a chop the windup
+    // again, tells the player nothing and fails here.
     const PAIRS: Array<[PoseName, PoseName]> = [
       ['idle', 'hurt'],
       ['attack', 'special'],
@@ -579,6 +584,24 @@ describe('character art reads as characters', () => {
       ['windup', 'recover'],
       ['attack', 'attack2'],
       ['windup', 'idle'],
+      ['idle', 'thrust'],
+      ['idle', 'chop'],
+      ['idle', 'sweep'],
+      ['windup', 'thrust'],
+      ['windup', 'chop'],
+      ['windup', 'sweep'],
+      ['thrust', 'recover'],
+      ['chop', 'recover'],
+      ['sweep', 'recover'],
+      ['attack', 'thrust'],
+      ['attack', 'chop'],
+      ['attack', 'sweep'],
+      ['attack2', 'thrust'],
+      ['attack2', 'chop'],
+      ['attack2', 'sweep'],
+      ['thrust', 'chop'],
+      ['thrust', 'sweep'],
+      ['chop', 'sweep'],
     ]
     const scores: string[] = []
     for (const kind of ARMED_KINDS) {

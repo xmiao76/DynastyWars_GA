@@ -22,10 +22,10 @@ import {
 // colors in its body window (armor, skin/helm, weapon, trim) - not a 1-color
 // flat blob, and not 95% one dominant color.
 export /**
- * Sprites the whole cast comes to: 18 posed characters x 11 poses, plus 4
+ * Sprites the whole cast comes to: 18 posed characters x 14 poses, plus 4
  * pose-less props. Exact on purpose - see the note at the call site.
  */
-const EXPECTED_SPRITES = 18 * 11 + 4
+const EXPECTED_SPRITES = 18 * 14 + 4
 const MIN_CHARACTER_COLORS = 4
 export const MAX_CHARACTER_DOMINANCE = 0.9
 
@@ -404,9 +404,9 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
   const combatantKinds = [
     ...new Set(keys.filter((k) => k.endsWith(':idle')).map((k) => k.split(':')[1] ?? '')),
   ].filter((kind) => kind !== '' && !propKinds.has(kind) && byKindPose.has(`entity:${kind}:attack`))
-  // Both strike poses reach: `attack` (jab1, finishers, enemies) and `attack2`
-  // (the jab2 backhand). Mirrors the unit reach gate.
-  const STRIKE_POSES = ['attack', 'attack2'] as const
+  // All five strike poses reach: the historical attack/attack2 plus the ENH-5
+  // thrust, chop and sweep. Mirrors the unit reach gate.
+  const STRIKE_POSES = ['attack', 'attack2', 'thrust', 'chop', 'sweep'] as const
   const reach = combatantKinds
     .flatMap((kind) => {
       const idle = byKindPose.get(`entity:${kind}:idle`)
@@ -443,8 +443,8 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
     .filter((r) => !r.label.startsWith('horse:'))
   // Exact counts, same reasoning as EXPECTED_SPRITES above: an emptied list
   // would otherwise pass over zero comparisons. Minus the horse in both.
-  expect(reach.length, 'strike reach comparisons').toBe((18 - 1) * 2)
-  expect(retract.length, 'retract comparisons').toBe((18 - 1) * 2 * 2)
+  expect(reach.length, 'strike reach comparisons').toBe((18 - 1) * 5)
+  expect(retract.length, 'retract comparisons').toBe((18 - 1) * 5 * 2)
 
   writeFileSync(
     join(OUT_DIR, 'sprite-report.json'),

@@ -34,10 +34,14 @@ describe('character data schema', () => {
     }
   })
 
-  it('heroes differ in stats: Zhang Fei hits hardest, Zhao Yun is fastest', () => {
+  it('heroes differ in stats: Wei Yan hits hardest per swing, Zhao Yun is fastest', () => {
     const zhangfei = characterById('zhangfei')
     const zhaoyun = characterById('zhaoyun')
     const gyu = characterById('guanyu')
+    const weiyan = characterById('weiyan')
+    expect(attackById(weiyan.combo[0] ?? '').damage).toBeGreaterThan(
+      attackById(zhangfei.combo[0] ?? '').damage,
+    )
     expect(attackById(zhangfei.combo[0] ?? '').damage).toBeGreaterThan(
       attackById(zhaoyun.combo[0] ?? '').damage,
     )

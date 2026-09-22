@@ -172,10 +172,11 @@ export const WINDUP: Skeleton = {
  * A downward cut was the first sketch and it failed on paper: a cut's reach is
  * modest (~25 units past the pose space), and the retract gate requires the
  * recover to sit strictly narrower than EACH strike - there was no room. A
- * high thrust keeps strike-class reach (40 units past the pose space) while the body, the blade angle
- * and the hand height all differ from `attack`, which is what the
- * attack/attack2 distinctness pair measures.
- */
+  * high thrust keeps strike-class reach (40 units past the pose space) while the body, the blade angle
+  * and the hand height all differ from `attack`, which is what the
+  * attack/attack2 distinctness pair measures. ENH-5 adds three further
+  * strikes below; the shared table now holds fourteen poses.
+  */
 export const ATTACK2: Skeleton = {
   ...IDLE,
   hip: { x: 48, y: 52 },
@@ -197,6 +198,101 @@ export const ATTACK2: Skeleton = {
   weaponRot: -0.45,
   weaponGrip: 0.3,
   headRot: 0.02,
+}
+
+/**
+ * The deep thrust: a full lunge with the weapon dead level, for pike and
+ * spear jabs. Deeper than ATTACK in every joint - hips lower and further
+ * forward, front foot planted a full stride out, both hands driving down the
+ * weapon line - so the two level strikes read as different commits rather
+ * than one pose repeated. The off hand sits on the haft line, as in ATTACK.
+ */
+export const THRUST: Skeleton = {
+  ...IDLE,
+  hip: { x: 44, y: 56 },
+  chest: { x: 47, y: 33 },
+  neck: { x: 48, y: 28 },
+  head: { x: 50, y: 18 },
+  shoulderF: { x: 43, y: 34 },
+  elbowF: { x: 51, y: 40 },
+  handF: { x: 60, y: 38 },
+  shoulderN: { x: 53, y: 33 },
+  elbowN: { x: 64, y: 36 },
+  handN: { x: 77, y: 36 },
+  hipF: { x: 40, y: 57 },
+  kneeF: { x: 33, y: 72 },
+  footF: { x: 26, y: GROUND },
+  hipN: { x: 49, y: 57 },
+  kneeN: { x: 60, y: 71 },
+  footN: { x: 70, y: GROUND },
+  weaponRot: -0.05,
+  weaponGrip: 0.3,
+  headRot: 0.08,
+}
+
+/**
+ * The chop: a high-to-low cut frozen on a steep forward diagonal. Steep, but
+ * never truly overhead: a raised polearm leaves the top of the frame, and the
+  * shared HEADROOM is 27 units for every pose. At -0.65 with the hands held
+ * forward rather than up, the longest head in the cast stays inside it - the
+ * first sketch gripped at 0.32 and touched the frame top at exactly 27.0 for
+ * the tallest build, so the grip moved to 0.35 and the hands came down one
+ * unit. The cut still reads as coming DOWN rather than across: the hands are
+ * higher and further forward than the windup's, and the body lunges where the
+ * windup coils back, which is what keeps the two apart for the distinctness
+ * gate.
+  */
+export const CHOP: Skeleton = {
+  ...IDLE,
+  hip: { x: 45, y: 55 },
+  chest: { x: 46, y: 32 },
+  neck: { x: 47, y: 27 },
+  head: { x: 49, y: 17 },
+  shoulderF: { x: 42, y: 33 },
+  elbowF: { x: 45, y: 40 },
+  handF: { x: 53, y: 36 },
+  shoulderN: { x: 52, y: 32 },
+  elbowN: { x: 58, y: 34 },
+  handN: { x: 63, y: 29 },
+  hipF: { x: 41, y: 56 },
+  kneeF: { x: 35, y: 71 },
+  footF: { x: 29, y: GROUND },
+  hipN: { x: 50, y: 56 },
+  kneeN: { x: 59, y: 71 },
+  footN: { x: 66, y: GROUND },
+  weaponRot: -0.65,
+  weaponGrip: 0.35,
+  headRot: 0.05,
+}
+
+/**
+ * The sweep: a low crouched wide swing at knee height, for glaive and dao
+ * work. Crouched lower than the special's dropped stance, with the feet wider
+ * and the weapon level-low rather than angled down-forward, so the two low
+ * poses read as different swings. Strike-class reach comes from the level
+ * weapon and the forward hands, not from standing tall.
+ */
+export const SWEEP: Skeleton = {
+  ...IDLE,
+  hip: { x: 44, y: 61 },
+  chest: { x: 45, y: 39 },
+  neck: { x: 46, y: 34 },
+  head: { x: 48, y: 24 },
+  shoulderF: { x: 41, y: 40 },
+  elbowF: { x: 49, y: 45 },
+  handF: { x: 57, y: 43 },
+  shoulderN: { x: 51, y: 39 },
+  elbowN: { x: 62, y: 42 },
+  handN: { x: 74, y: 44 },
+  hipF: { x: 40, y: 62 },
+  kneeF: { x: 32, y: 74 },
+  footF: { x: 24, y: GROUND },
+  hipN: { x: 49, y: 62 },
+  kneeN: { x: 61, y: 74 },
+  footN: { x: 72, y: GROUND },
+  weaponRot: 0.1,
+  weaponGrip: 0.3,
+  headRot: 0.12,
 }
 
 /**
@@ -353,6 +449,9 @@ export const POSE_TABLE = {
   walk1: WALK1,
   attack: ATTACK,
   attack2: ATTACK2,
+  thrust: THRUST,
+  chop: CHOP,
+  sweep: SWEEP,
   windup: WINDUP,
   recover: RECOVER,
   jump: JUMP,

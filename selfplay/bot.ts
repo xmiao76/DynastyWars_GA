@@ -1,4 +1,5 @@
-import { attackById } from '../src/core/attacks'
+import { attackById, type AttackDef } from '../src/core/attacks'
+import { characterById } from '../src/core/characters'
 import type { EnemySnapshot } from '../src/core/sim'
 import { STAGE_1 } from '../src/core/stage'
 import { neutralInput, type InputState } from '../src/core/types'
@@ -9,6 +10,15 @@ import type { GameSnapshot } from '../src/game/debug/bridge'
  * one input per tick; entries without presses are neutral movement.
  */
 export const BOT_STEP_BATCH = 12
+
+/**
+ * Spacing def for the bot's swings: mounted riders use the long spear sweep,
+ * on foot the DRIVEN hero's own opening combo hit (ENH-4: per-hero reach).
+ */
+function spacingDef(charId: string, mounted: boolean): AttackDef {
+  if (mounted) return attackById('mounted.sweep')
+  return attackById(characterById(charId).combo[0] ?? 'zy.jab1')
+}
 
 /**
  * Greedy deterministic autopilot:
@@ -152,7 +162,7 @@ export function decideBotScript(snapshot: GameSnapshot): InputState[] {
     if (crate) {
       const cdx = crate.x - player.x
       const cdy = crate.y - player.y
-      const reachDef = attackById(player.mounted ? 'mounted.sweep' : 'zy.jab1')
+      const reachDef = spacingDef(sim.charId, player.mounted)
       if (Math.abs(cdx) <= reachDef.reach - 4 && Math.abs(cdy) <= reachDef.arc - 2) {
         const face = script[0]
         if (face) {
@@ -184,8 +194,9 @@ export function decideBotScript(snapshot: GameSnapshot): InputState[] {
 
   const dx = goal.x - player.x
   const dy = goal.y - player.y
-  // Mounted riders swing the long spear sweep; on foot it's the jab.
-  const reachDef = attackById(player.mounted ? 'mounted.sweep' : 'zy.jab1')
+  // Mounted riders swing the long spear sweep; on foot it's the driven
+  // hero's own jab.
+  const reachDef = spacingDef(sim.charId, player.mounted)
   const dist = Math.abs(dx) + Math.abs(dy)
   const aligned = Math.abs(dy) <= 12
 

@@ -26,6 +26,9 @@ export const POSES = [
   'walk1',
   'attack',
   'attack2',
+  'thrust',
+  'chop',
+  'sweep',
   'windup',
   'recover',
   'jump',
@@ -43,6 +46,36 @@ export function textureKeyForPose(kind: string, pose: Pose): string {
   return `entity:${kind}:${pose}`
 }
 
+/**
+ * Strike-pose selection, keyed by full attack id. Every hero's combo reads as
+ * its weapon (ENH-5): three distinct poses per (jab1, jab2, finisher), and no
+ * two heroes share the same ordered triple. Enemies, the mounted sweep and
+ * unknown ids fall through to the standard strike pose.
+ *
+ *   guanyu glaive:     sweep -> attack -> chop    (wide cuts, chop finisher)
+ *   zhangfei pike:     thrust -> attack2 -> sweep (thrust-first, sweep finisher)
+ *   zhaoyun spear:     attack -> attack2 -> thrust (all thrust-family)
+ *   huangzhong bow:    thrust -> chop -> sweep    (compact staff-work)
+ *   weiyan dao:        attack -> sweep -> chop    (cuts, big chop finisher)
+ */
+export const STRIKE_POSE: Record<string, Pose> = {
+  'gy.jab1': 'sweep',
+  'gy.jab2': 'attack',
+  'gy.finisher': 'chop',
+  'zf.jab1': 'thrust',
+  'zf.jab2': 'attack2',
+  'zf.finisher': 'sweep',
+  'zy.jab1': 'attack',
+  'zy.jab2': 'attack2',
+  'zy.finisher': 'thrust',
+  'hz.jab1': 'thrust',
+  'hz.jab2': 'chop',
+  'hz.finisher': 'sweep',
+  'wy.jab1': 'attack',
+  'wy.jab2': 'sweep',
+  'wy.finisher': 'chop',
+}
+
 /** Frame data for the entity's current attack, if it has one we know. */
 function attackDefOf(attackId: string | null): AttackDef | undefined {
   if (attackId === null) return undefined
@@ -58,12 +91,12 @@ function attackDefOf(attackId: string | null): AttackDef | undefined {
  * through windup / strike / recover by `stateTick` against the attack's own
  * frame data, so every swing visibly extends AND retracts.
  *
- * The second hit of the hero combo (`*.jab2`) uses the alternate strike pose,
- * so jab1 and jab2 read as different swings. Specials strike with their own
- * pose - the move that costs health keeps the distinct look it was given for
+ * Each hero combo hit maps through STRIKE_POSE to its own strike pose, so a
+ * full combo shows three distinct swings. Specials strike with their own pose
+ * - the move that costs health keeps the distinct look it was given for
  * exactly that reason.
- *
- * Zero-length windows need no special-casing: Huang Zhong's special has an
+  *
+  * Zero-length windows need no special-casing: Huang Zhong's special has an
  * active window of 0, so it phases windup -> recover and never shows a strike,
  * which is correct for an archer loosing an arrow. A null or unknown attack id
  * falls back to the state's old single pose, which is also what renders while
@@ -86,7 +119,8 @@ export function poseForEntity(entity: {
       if (entity.stateTick < def.startup) return 'windup'
       if (entity.stateTick < def.startup + def.active) {
         if (entity.state === 'special') return 'special'
-        return entity.attackId !== null && entity.attackId.endsWith('.jab2') ? 'attack2' : 'attack'
+        if (entity.attackId !== null) return STRIKE_POSE[entity.attackId] ?? 'attack'
+        return 'attack'
       }
       return 'recover'
     }

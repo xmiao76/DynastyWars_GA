@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { attackById } from '../../src/core/attacks'
 import {
+  STRIKE_POSE,
   isPropKind,
   poseForEntity,
   textureKeyFor,
@@ -32,22 +34,36 @@ describe('sprite key conventions', () => {
   })
 
   it('attacks phase through windup, strike and recover by frame window', () => {
-    // zy.jab1: 6 startup / 4 active / 10 recover. Boundaries are exact: the
+    // zy.jab1: 5 startup / 3 active / 8 recover. Boundaries are exact: the
     // tick the hitbox goes live is the tick the strike pose appears.
     const jab1 = { state: 'attack', attackId: 'zy.jab1' } as const
     expect(poseForEntity({ ...jab1, stateTick: 0 })).toBe('windup')
-    expect(poseForEntity({ ...jab1, stateTick: 5 })).toBe('windup')
-    expect(poseForEntity({ ...jab1, stateTick: 6 })).toBe('attack')
-    expect(poseForEntity({ ...jab1, stateTick: 9 })).toBe('attack')
-    expect(poseForEntity({ ...jab1, stateTick: 10 })).toBe('recover')
-    expect(poseForEntity({ ...jab1, stateTick: 19 })).toBe('recover')
-    // The finisher runs longer (8/5/16) and phases by its own windows.
+    expect(poseForEntity({ ...jab1, stateTick: 4 })).toBe('windup')
+    expect(poseForEntity({ ...jab1, stateTick: 5 })).toBe('attack')
+    expect(poseForEntity({ ...jab1, stateTick: 7 })).toBe('attack')
+    expect(poseForEntity({ ...jab1, stateTick: 8 })).toBe('recover')
+    expect(poseForEntity({ ...jab1, stateTick: 15 })).toBe('recover')
+    // The finisher runs longer (7/4/13) and phases by its own windows, striking
+    // with Zhao Yun's mapped pose (thrust).
     const fin = { state: 'attack', attackId: 'zy.finisher' } as const
-    expect(poseForEntity({ ...fin, stateTick: 7 })).toBe('windup')
-    expect(poseForEntity({ ...fin, stateTick: 8 })).toBe('attack')
-    expect(poseForEntity({ ...fin, stateTick: 12 })).toBe('attack')
-    expect(poseForEntity({ ...fin, stateTick: 13 })).toBe('recover')
-    expect(poseForEntity({ ...fin, stateTick: 28 })).toBe('recover')
+    expect(poseForEntity({ ...fin, stateTick: 6 })).toBe('windup')
+    expect(poseForEntity({ ...fin, stateTick: 7 })).toBe('thrust')
+    expect(poseForEntity({ ...fin, stateTick: 10 })).toBe('thrust')
+    expect(poseForEntity({ ...fin, stateTick: 11 })).toBe('recover')
+    expect(poseForEntity({ ...fin, stateTick: 23 })).toBe('recover')
+    // Per-hero frame data drives phasing: Guan Yu's heavy jab (8/5/14)
+    // telegraphs longer, Zhang Fei's sweeping finisher (10/6/18) longer still.
+    // Each strikes with its own mapped pose (sweep in both cases here).
+    const gy = { state: 'attack', attackId: 'gy.jab1' } as const
+    expect(poseForEntity({ ...gy, stateTick: 7 })).toBe('windup')
+    expect(poseForEntity({ ...gy, stateTick: 8 })).toBe('sweep')
+    expect(poseForEntity({ ...gy, stateTick: 12 })).toBe('sweep')
+    expect(poseForEntity({ ...gy, stateTick: 13 })).toBe('recover')
+    const zf = { state: 'attack', attackId: 'zf.finisher' } as const
+    expect(poseForEntity({ ...zf, stateTick: 9 })).toBe('windup')
+    expect(poseForEntity({ ...zf, stateTick: 10 })).toBe('sweep')
+    expect(poseForEntity({ ...zf, stateTick: 15 })).toBe('sweep')
+    expect(poseForEntity({ ...zf, stateTick: 16 })).toBe('recover')
     // Enemies phase by the same rule: the soldier telegraphs for 14 ticks.
     const sol = { state: 'attack', attackId: 'soldier.swing' } as const
     expect(poseForEntity({ ...sol, stateTick: 0 })).toBe('windup')
@@ -70,20 +86,70 @@ describe('sprite key conventions', () => {
     expect(poseForEntity({ ...sp, stateTick: 18 })).toBe('recover')
   })
 
-  it('the second combo hit strikes with the alternate pose', () => {
-    // jab1 thrusts low and level; jab2 answers with the high backhand, so the
-    // two read as different swings. Windup and recover are shared.
-    const jab2 = { state: 'attack', attackId: 'zy.jab2' } as const
-    expect(poseForEntity({ ...jab2, stateTick: 0 })).toBe('windup')
-    expect(poseForEntity({ ...jab2, stateTick: 6 })).toBe('attack2')
-    expect(poseForEntity({ ...jab2, stateTick: 9 })).toBe('attack2')
-    expect(poseForEntity({ ...jab2, stateTick: 10 })).toBe('recover')
-    // Every other strike in the game uses the standard pose, including the
-    // finisher, the mounted sweep and the enemy swings.
-    expect(poseForEntity({ state: 'attack', stateTick: 8, attackId: 'zy.finisher' })).toBe('attack')
+  it('every hero combo hit strikes with its mapped pose', () => {
+    // Each hero's (jab1, jab2, finisher) is three distinct poses, and no two
+    // heroes share the same ordered triple - the ENH-5 weapon-true mapping.
+    // Windup and recover are still shared.
+    const TRIPLES: Record<string, [string, string, string]> = {
+      gy: ['sweep', 'attack', 'chop'],
+      zf: ['thrust', 'attack2', 'sweep'],
+      zy: ['attack', 'attack2', 'thrust'],
+      hz: ['thrust', 'chop', 'sweep'],
+      wy: ['attack', 'sweep', 'chop'],
+    }
+    for (const [hero, triple] of Object.entries(TRIPLES)) {
+      // Distinct within the hero.
+      expect(new Set(triple).size, `${hero} combo repeats a pose`).toBe(3)
+      for (const [i, hit] of ['jab1', 'jab2', 'finisher'].entries()) {
+        const id = `${hero}.${hit}`
+        const def = attackById(id)
+        expect(
+          poseForEntity({ state: 'attack', stateTick: def.startup, attackId: id }),
+          `${id} strike pose`,
+        ).toBe(triple[i])
+        expect(poseForEntity({ state: 'attack', stateTick: 0, attackId: id })).toBe('windup')
+        expect(
+          poseForEntity({ state: 'attack', stateTick: def.startup + def.active, attackId: id }),
+        ).toBe('recover')
+      }
+    }
+    // Distinct across heroes: no two ordered triples agree.
+    const seen = new Set(Object.values(TRIPLES).map((t) => t.join(',')))
+    expect(seen.size, 'two heroes share a combo triple').toBe(5)
+    // Enemies and the mounted sweep keep the standard strike pose.
     expect(poseForEntity({ state: 'attack', stateTick: 8, attackId: 'mounted.sweep' })).toBe('attack')
     expect(poseForEntity({ state: 'attack', stateTick: 14, attackId: 'soldier.swing' })).toBe('attack')
     expect(poseForEntity({ state: 'attack', stateTick: 20, attackId: 'spear.thrust' })).toBe('attack')
+  })
+
+  it('strike-pose selection is table-driven by full attack id, not the suffix', () => {
+    expect(STRIKE_POSE).toEqual({
+      'gy.jab1': 'sweep',
+      'gy.jab2': 'attack',
+      'gy.finisher': 'chop',
+      'zf.jab1': 'thrust',
+      'zf.jab2': 'attack2',
+      'zf.finisher': 'sweep',
+      'zy.jab1': 'attack',
+      'zy.jab2': 'attack2',
+      'zy.finisher': 'thrust',
+      'hz.jab1': 'thrust',
+      'hz.jab2': 'chop',
+      'hz.finisher': 'sweep',
+      'wy.jab1': 'attack',
+      'wy.jab2': 'sweep',
+      'wy.finisher': 'chop',
+    })
+    // The mapping decides: repointing one entry moves its strike pose even
+    // though the id suffix never changed. Restored before returning.
+    const saved = STRIKE_POSE['zy.jab1']
+    STRIKE_POSE['zy.jab1'] = 'attack2'
+    try {
+      expect(poseForEntity({ state: 'attack', stateTick: 5, attackId: 'zy.jab1' })).toBe('attack2')
+    } finally {
+      if (saved !== undefined) STRIKE_POSE['zy.jab1'] = saved
+    }
+    expect(poseForEntity({ state: 'attack', stateTick: 5, attackId: 'zy.jab1' })).toBe('attack')
   })
 
   it('zero-length windows skip phases without special-casing', () => {

@@ -41,10 +41,18 @@ export type ArtEntry =
  * 1-2 UNDER the ART-12 numbers, because the new crescent's horn is shallower
  * than the old -20.
  *
- * A single margin sized for the worst of those - a pike thrust - was being paid
- * eight times per character, and 89% of every texture came out transparent.
- * Sizing per pose takes one character's eight boxes from 1696 units of width to
- * 1192.
+ * ENH-5 adds three strikes, measured the same way (oversized box, all figure
+ * kinds, max beyond the pose space): thrust 64.5, chop 29.5, sweep 61.0, all
+ * driven by Zhang Fei's pike. The table holds the ceiling of each (65/30/61),
+ * so the uniform +5 pad sits on top of the true reach. The thrust
+ * out-reaches the level attack it extends (61.0) by a hand; the chop's steep
+ * diagonal keeps it under the shared HEADROOM while still clearing the
+ * recover it must beat.
+  *
+  * A single margin sized for the worst of those - a pike thrust - was being paid
+  * eight times per character, and 89% of every texture came out transparent.
+  * Sizing per pose takes one character's eight boxes from 1696 units of width to
+  * 1192.
  *
  * The margin stays SYMMETRIC even though almost every pose reaches only one
  * way. Sprites anchor bottom-CENTRE, so an asymmetric box would move the
@@ -64,6 +72,9 @@ const POSE_REACH: Record<PoseName, number> = {
   walk1: 0,
   attack: 59,
   attack2: 41,
+  thrust: 65,
+  chop: 30,
+  sweep: 61,
   windup: 8,
   recover: 18,
   jump: 18,

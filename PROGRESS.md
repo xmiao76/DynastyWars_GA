@@ -22,6 +22,149 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-21 17:30 - ENH-5 (attempt 1)
+
+- Status before: ENH-5 TODO with its ENH-4 dependency satisfied (no prior
+  ENH-5 attempts). Tree holds ENH-4's still-uncommitted changes (commit denied
+  last iteration, read-only .git) plus this task's work.
+- Work completed: three new shared strikes in src/game/art/poses.ts - THRUST
+  (deep lunge, weapon dead level, rot -0.05), CHOP (high-to-low cut on a steep
+  -0.65 diagonal, grip 0.35, hands forward), SWEEP (low crouch, weapon
+  level-low, rot +0.1). STRIKE_POSE repointed to 15 explicit entries; triples:
+  gy (sweep,attack,chop), zf (thrust,attack2,sweep), zy (attack,attack2,thrust),
+  hz (thrust,chop,sweep), wy (attack,sweep,chop) - each internally distinct,
+  all five ordered triples pairwise different. Zhaoyun keeps attack+attack2 so
+  the e2e combo test (which ENH-6 owns, not this task) still observes both.
+  POSE_REACH calibrated by measurement, no fallback: thrust 65, chop 30,
+  sweep 61 (ceil of 64.5/29.5/61.0, Zhang Fei's pike driving all three).
+  Registered in POSES; strike lists extended in artquality AND the vision live
+  gate; 18 new distinctness PAIRS (each new strike vs idle, windup, recover,
+  both historical strikes, both new siblings); counts 11->14 poses
+  (artquality, weapons 17*14*2=476 face cases, vision 18*14+4=256 sprites,
+  reach (18-1)*5, retract (18-1)*5*2). weapon-review pose-sweep covers 14.
+  No frame-data, threshold, floor, HEADROOM, or enemy-mapping change.
+- Calibration story: first run 42/43 focused - zhangfei:thrust clipped right
+  (reach 64.5 vs margin 65, bound pixel exactly on the edge) and lidian:chop
+  touched the frame top at exactly 27.0. Thrust margin set to ceiling 65;
+  chop redrawn (grip 0.32->0.35, hands down 1u) to top 24.5, reach 29.5,
+  margin 30. In-browser geometry confirms: thrust 65, chop 30, sweep 61,
+  headroom 25 (lidian:chop), faceOverlaps [], old reaches byte-identical.
+- Falsification (both reverted after): THRUST aliased to ATTACK joints fails
+  distinctness with "guanyu: the thrust pose is the attack pose again" (0 vs
+  floor 0.15); gy.jab1 pointed at attack fails the triple test. Both gates
+  proven able to fail.
+- Verification run: lint clean; typecheck clean; unit 188/188 (26 files);
+  e2e 44/44 incl. anim Part 3 over the remapped strikes; vision 5/5 -
+  frames 9/9, sprites 256/256, weapons 85/85, retracts 170/170, parity clean
+  all 7 screens, both negative controls failing correctly, HUD 1/1,
+  findings.jsonl 0 bytes; prodbuild 4/4; signal 13/13 with every marathon
+  tick-identical to the ENH-4 table (zero sim impact: guanyu 2640/4944,
+  zhangfei 2640/2832, huangzhong 3972+1c/6588+3c, weiyan 4056+1c/2916,
+  zhaoyun 9-stage as recorded); build ok. Runner note: browser suites' host
+  processes lingered after the last ok with no summary (known behavior);
+  each stopped with Ctrl-C to its own session only after results observed.
+  Ports 5176/5177/4321 verified free afterwards. npm via cmd /c npm.cmd.
+- Eye review (all judged by eye at gameplay size): pose-sweep right+left
+  (5 heroes x 14 poses, both facings), chop zoom plate (all five read as a
+  steep high-to-low cut), desktop sequence + full-size strikes (zf thrust,
+  gy sweep, hz thrust, zf before-vs-after showing the deeper lunge),
+  phone sequence + full-size phone strike, facesheet (portraits unchanged at
+  all sizes). No clipping, no weapon over a face anywhere. Untouched poses
+  render byte-identically (idle/windup/recover/title before/after sizes
+  equal; zy/wy jab1 strikes identical since their mapping keeps attack).
+- Result: all acceptance criteria met. No DIFF-1 impact - DIFF-1 stays BLOCKED.
+- Status after: ENH-5 DONE. ENH-6 dependency ("waiting on ENH-5") now satisfied.
+- Remaining work or blocker: none for this task.
+- Next recommended task: ENH-6 (last TODO; validates the movesets end to end).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the 20-task bound,
+  so oldest DONE FLAKE-2 (completed 2026-09-16 10:30, oldest by PROGRESS
+  dates) moved to TASKS-ARCHIVE.md end (DONE now 20); PROGRESS.md passed 500
+  lines, so oldest two finished entries (ART-13, ART-12) moved to
+  PROGRESS-ARCHIVE.md top (now 408 lines). Latest signal snapshot (this
+  entry's ENH-4-identical marathon tables) and DIFF-1 BLOCKED evidence kept.
+  Commit: local commit denied - the host gives read-only access to .git
+  (git add fails: Unable to create index.lock, Permission denied), same as
+  the ENH-4 iteration. ENH-5's 12 files verified and left in the working
+  tree uncommitted alongside ENH-4's; no permissions weakened, nothing
+  pushed. Owner commits when ready.
+
+### 2026-09-21 15:35 - ENH-4 (attempt 1)
+
+- Status before: ENH-4 IN_PROGRESS (status flip plus new/updated tests were
+  pre-existing uncommitted working-tree state; no prior ENH-4 PROGRESS entry,
+  so this is attempt 1). src/ still on the old shared frame tables.
+- Work completed: implemented the three ENH-4 source changes the staged tests
+  pin down. (1) `src/core/attacks.ts`: replaced the shared-frame
+  `defineHeroAttacks` (jabs 6/4/10, finisher 8/5/16) with per-hero
+  weapon-true combo hits — gy slow wide 8/5/14 + 12/6/22 knockdown finisher,
+  zf long narrow 5/4/9 thrusts (reach 32/34/36) + 10/6/18 sweep, zy fastest
+  5/3/8 + 7/4/13, hz compact 6/4/10 + 8/5/14, wy heavy 9/5/14 + 13/6/18.
+  Jump kicks, specials (incl. hz inert draw), mounted sweep and all enemy
+  defs byte-identical. (2) `src/game/adapters/sprites.ts`: new exported
+  `STRIKE_POSE` table keyed by full attack id (five jab2→attack2, matching
+  old behavior); `poseForEntity` looks the table up instead of the
+  `.jab2`-suffix test, enemies/mounted/unknown still fall back to attack.
+  (3) `selfplay/bot.ts`: new `spacingDef(charId, mounted)` helper; both
+  call sites (enemy + crate spacing) now use the DRIVEN hero's own
+  `combo[0]` def instead of hard-coded `zy.jab1`; mounted still uses the
+  spear sweep. Marked all six ENH-4 criteria [x] and the task DONE.
+- Files changed: `src/core/attacks.ts`, `src/game/adapters/sprites.ts`,
+  `selfplay/bot.ts`, `TASKS.md` (criteria + DONE), `PROGRESS.md`.
+  Adopted (not authored here) the staged tests: new
+  `test/core/movesets.test.ts` (6 tests incl. live ±10% DPS check),
+  `test/core/bot-spacing.test.ts` (3), plus updated characters/items/
+  mobility/sim/sprites expectations. No `sim.ts` changes (data only).
+- Verification run:
+  - Fail-proof on OLD src (before editing): new tests failed 5/9
+    (movesets pin/chain/reach, bot guanyu/huangzhong spacing) and updated
+    tests failed 7/32 (characters, items 12-vs-10, mobility [12,8]-vs-[10,10],
+    sim 3-vs-4 hits, sprites phasing x2 + missing STRIKE_POSE) — every new
+    assertion proven able to fail.
+  - BASELINE `npm run signal` on old src, 13/13 ok, zero violations/errors:
+    guanyu s1 2556t/0c s2 2964t/0c; zhangfei s1 2496t/0c s2 3240t/0c;
+    huangzhong s1 3432t/0c s2 5472t/2c; weiyan s1 2544t/0c s2 3024t/0c;
+    zhaoyun 9-stage ticks 3540,3756,5508,5400,4308,5172,5148,7956,6708 with
+    continues 0,0,2,1,1,0,1,2,2 (total 9, the known DIFF-1 shape).
+  - AFTER fix: `npx.cmd vitest run` 188/188 (26 files); `npm.cmd run
+    lint` clean; `npm.cmd run typecheck` clean; `npm run signal` again
+    13/13 ok, zero violations/errors: guanyu s1 2640t/0c s2 4944t/0c;
+    zhangfei s1 2640t/0c s2 2832t/0c; huangzhong s1 3972t/1c s2 6588t/3c;
+    weiyan s1 4056t/1c s2 2916t/0c; zhaoyun 9-stage ticks
+    3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
+    0,0,1,3,1,0,1,3,2 (total 11).
+  - Balance deltas RECORDED, not chased (ENH-4 non-goal; ENH-6 owns the
+    >15% gate): guanyu s2 +67% ticks, weiyan s1 +59% ticks +1c, huangzhong
+    +1c/+1c, zhaoyun s4 5400→8988t (1→3c) but s3 faster 5508→4224t (2→1c).
+    Every marathon still completes; bot viable with all five heroes.
+  - Runner note: both signal runs' processes stayed alive after the 13th
+    "ok" with no summary line (known host behavior); each was stopped with
+    Ctrl-C to its own session only, after all results were observed. Port
+    5177 afterwards shows TIME_WAIT only, no listener. npm run via
+    `cmd /c npm.cmd` (PowerShell blocks npm.ps1 on this host).
+  - Extra diligence (not in ENH-4 acceptance, which ENH-6 re-gates): e2e
+    44/44 ok incl. the timing-sensitive anim combo test; the new frame
+    data did not break combat timing gates. Vision/prodbuild left for ENH-6
+    (no art, rendering, or build-config change here).
+- Result: all acceptance criteria met. No new poses/art gates (ENH-5),
+  no DIFF-1 retuning — DIFF-1 stays BLOCKED.
+- Status after: ENH-4 DONE. ENH-5 dependency ("waiting on ENH-4") now
+  satisfied; ENH-6 still waits on ENH-5.
+- Remaining work or blocker: none for this task.
+- Next recommended task: ENH-5 (first TODO; consumer implements the three
+  strike poses + art gates in a later iteration).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the 20-task bound,
+  so oldest DONE FIX-5 moved to TASKS-ARCHIVE.md (DONE now 20); PROGRESS.md
+  exceeded 500 lines (584), so oldest three finished entries (ART-11, ART-10,
+  Sep-19 producer pass) moved to PROGRESS-ARCHIVE.md top (now 474 lines).
+  DIFF-1 stays BLOCKED in TASKS.md; the ART-10 "src/core unchanged" note is
+  superseded by this task's attacks.ts data change and ENH-6 will re-measure.
+  Commit: local commit denied — the host gives read-only access to .git
+  (git add fails: Unable to create index.lock, Permission denied). All 14
+  iteration files verified and left in the working tree uncommitted; no
+  permissions weakened, nothing pushed. Owner commits when ready.
+
 ### 2026-09-21 02:55 - PRODUCER PASS (signals + frame sweep, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED on an owner decision) + 20
@@ -304,220 +447,3 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker: DIFF-1 BLOCKED on an owner decision; standing
   owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
 - Next recommended task: none available without the owner.
-
-### 2026-09-20 09:40 - ART-13 (attempt 1)
-
-- Status before: ART-12 committed. Owner re-tested: the spear and the big
-  knife STILL do not read as real weapons.
-- Diagnosis on the owner's own evidence (the in-game combat frame): the
-  spearhead was a symmetric pale OVAL - an ellipse has no point anywhere, so
-  it read as a spoon on a stick - and its tip sat at Zhao Yun's CHIN in idle
-  carry, where a real spear towers over its wielder. The dao was a small
-  rounded paddle, under two thirds of the crescent's visual weight. And the
-  tassels pointed wherever the weapon pointed, because they were drawn in the
-  weapon's rotated frame - at idle carry the 红缨 stuck out sideways-forward.
-- Work completed: Willow-leaf spearhead (pointed both ends, 26x8, midrib
-  crease 2.6 wide because the ink stroke eats 0.85 per side), ending at
-  fore+22 so the point towers ~10 units above the pose space in idle. Dao
-  broadened to a 26-span single-edged blade. Dao gained the 红缨 (tassel gate
-  count 11 -> 12; folk 大刀 carry it). Tassel now drawn in a gravity-aligned
-  frame - translate to socket, counter-rotate by -weaponRot, hang +y - so it
-  droops along the haft at idle and swings below the shaft at thrust, at every
-  pose, mirror-safe under flipX.
-- THE GATE THAT EARNED ITS KEEP: the first broadened dao failed the ART-7-era
-  face-on-skin gate - "weiyan:idle: the brow has 140,143,156 above it, not
-  skin". The spine curve's quadratic control point had pulled the blade
-  across Wei Yan's forehead at idle carry. Fixed by the crescent's own rule
-  (visible in its geometry all along): keep the DEEP span at the tip end,
-  where the shaft has already leaned clear of the head; shallow spine heel.
-  A rendering defect no eye pass had caught in ART-12's sheets, caught by a
-  gate in 7 seconds.
-- Files changed: src/game/art/draw.ts, figures.ts (one line),
-  test/game/artquality.test.ts (count 12 + dao joins the tassel loop),
-  TASKS.md, PROGRESS.md.
-- Verification run: lint, typecheck, unit 163/163, e2e 44/44 (gamepad spec
-  failed once under contention, 4/4 alone - the documented flake), vision 5/5
-  (202/202 sprites, 34/34 weapons, 68/68 retracts, parity), prodbuild 4/4,
-  signal 13/13 (weapon spec failed once under contention, passed alone, then
-  the full suite re-run clean 13/13), build. Calibrated POSE_REACH probe: the
-  ART-12 table holds EXACTLY (attack 55, attack2 39, windup 9, recover 19,
-  jump 20, down 27, hurt 9, special 54; tops unchanged) - the spear tip and
-  dao span extensions fit inside every existing margin, as computed. Sheets +
-  zoom plates judged by eye (artifacts/weaponsheet13.png, zoom13.png): spear
-  reads as a pointed blade towering over its wielder, dao reads single-edged,
-  tassels hang, Guan Yu regression row unchanged, portrait slivers read as
-  intentional framing. Falsified by disabling the tassel draw: gate fails
-  0-2 px against the 30 floor.
-- Result: all green. Queue: only DIFF-1 BLOCKED + 19 DONE.
-- Remaining work or blocker: DIFF-1 still needs the owner's call; standing
-  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
-- Next recommended task: none available without the owner.
-
-### 2026-09-20 06:40 - ART-12 (attempt 1)
-
-- Status before: Queue held only DIFF-1 (BLOCKED). Owner: the heroes' weapons
-  are not the weapons history describes.
-- Work completed: Every weapon head redrawn to its novel/folk shape (owner
-  chose the standard, and Wei Yan's 大刀, Huang Zhong keeping the bow, and Lu
-  Bu's 方天画戟, by question). The old 'blade' head was a EUROPEAN CROSSGUARD -
-  wrong for the setting on every wielder - now a jian with a Chinese disc
-  guard. New kinds 'dao' (Wei Yan) and 'ji' (Lu Bu). Length ladder made
-  story-true: the old table had Zhang Fei's pike (74) SHORTER than Zhao Yun's
-  spear (78), backwards for 丈八蛇矛; now pike 82 > ji 78 > glaive 76 >
-  spear 72 > dao 69 > sword 46 > bow 42. 红缨 tassels on all 11 polearm
-  wielders, one fixed TASSEL red (per-character trim would have given Zhang
-  Fei a gray tuft). Recurve bow with tips pinned at +/-fore - the bow carries
-  the game's tightest retract margin (8.5u) and a tip drawn past the old arc
-  would have shrunk it.
-- The design agent's audit caught one error in my plan before any code:
-  portraits DO show a weapon sliver (Guan Yu's crescent crosses his frame,
-  and portrait.test.ts SAYS so), so portrait gates were in scope, not
-  invisible. It also predicted hurt/down/special margins would grow ~3 from
-  horn corners at positive weaponRot; measured, every pose came in at or
-  UNDER the old margins instead - the old attack driver was the spear tip at
-  length 78, and length 72 plus tighter envelopes beat the prediction. Also
-  found recover's 26 was stale (measured before the ART-11 pose was
-  finalised); now an honest 19.
-- Sheets judged by eye (vision-analysed) before and after, at display size:
-  after sheet v1 read well except Zhang Fei's tassel sank into his dark-red
-  armour and Lu Bu's ji wings were thin - tassel brightened 0xb03028 ->
-  0xc43830, wings fattened; v2 verified both fixes. Lu Bu's "asymmetric"
-  wings are pose foreshortening of a mirror-symmetric local frame, not a
-  defect. Sheets: artifacts/weaponsheet12.png (+ -before.png from HEAD).
-- Files changed: src/game/art/figures.ts, draw.ts, palette.ts, registry.ts,
-  test/game/artquality.test.ts (3 new gates), TASKS.md, PROGRESS.md.
-- Verification run: lint, typecheck, unit 163/163 (the durable suite; a temp
-  sheet probe briefly made it 164 and was deleted after judgment), e2e 44/44,
-  vision 5/5
-  (202/202 sprites, 34/34 weapons, 68/68 retracts, renderer parity),
-  prodbuild 4/4, signal 13/13, build.
-- Falsifications, each by reverting the mechanism: tassel draw disabled ->
-  gate fails 0-1 px against floor 30 (measured 109-151 when drawn; Zhao Yun's
-  red trim 0xc84a4a sits 32 from the tassel, outside the 24 tolerance, so his
-  sash cannot satisfy it). walk1 weaponRot back to -1.5 -> head-cross gate
-  fails on 7+ kinds (guanyu 420 vs idle 148). lubu -> 'glaive' and pike -> 74
-  each fail the named-weapons gate. Probe coordinates were validated by
-  printing counts before trusting the gates - the first draft probed 120px
-  left of the socket (ignored the box margin/headroom translate) and PASSED
-  over empty pixels; fixed and re-proven before keeping it.
-- The head-cross gate is ART-8 made permanent and EXTENDED: the tassel is red,
-  not steel, and a red tuft over the face is the same defect the old
-  steel-only probe was blind to. Per-kind idle baselines (0-441; Zhao Yun's is
-  his own steel helmet) are why it keys on each kind's own delta, and the 60px
-  slack covers pose noise, not defects.
-- Result: all green. Queue: only DIFF-1 BLOCKED + 18 DONE.
-- Remaining work or blocker: DIFF-1 still needs the owner's call; standing
-  owner items unchanged (look at the game, delete node_modules.stuck/, deploy).
-- Next recommended task: none available without the owner.
-
-### 2026-09-19 19:30 - ART-11 (attempt 1)
-
-- Status before: Queue held only DIFF-1 (BLOCKED, owner decision). Owner
-  reported continuous attacks look static - the weapon never retracts.
-- Work completed: Phased every attack into windup / strike / recover, selected
-  by `stateTick` against the attack's own frame data; jab2 strikes with a new
-  alternate pose. Root cause was threefold: one `attack` pose covered the whole
-  20-tick jab, `poseForEntity` ignored `stateTick`/`attackId`, and combo
-  chaining never leaves state `'attack'`, so the texture key never changed
-  between hits. New poses: WINDUP (cocked -0.8, grip 0.4), ATTACK2 (jab2 high
-  thrust -0.45), RECOVER (settling -0.75, pulled in from the -0.7 sketch after
-  the margin probe showed recover-vs-attack2 at 5.0u against a 4u floor; now
-  8.5u). POSE_REACH measured across all 17 figure kinds: windup 11, attack2
-  40, recover 26; windup top 20 vs headroom 24. A downward-cut sketch for
-  ATTACK2 was rejected on paper (reach ~25 left no room for the retract gate).
-  Jumpattack and special phase by the same generic rule (hz.special's
-  zero-active window skips the strike with no special-casing); enemies ride
-  free and their long startups read as telegraphs. No `src/core` change.
-- Files changed: src/game/art/poses.ts, src/game/art/registry.ts,
-  src/game/adapters/sprites.ts, test/game/sprites.test.ts,
-  test/game/artquality.test.ts, e2e/anim.spec.ts, vision/vision.spec.ts,
-  TASKS.md.
-- Verification run: lint, typecheck, unit 160/160, e2e 44/44 (new combo Part 3
-  observes all four poses + a withdrawn frame between strikes), vision 5/5
-  (202/202 sprites, 34/34 weapons over both strikes, 68/68 retracts, renderer
-  parity), prodbuild 4/4, signal 13/13, build. Combo strips judged by eye at
-  artifacts/combo11.png (display size) and combo11b.png (2x boundary + Guan Yu
-  / Huang Zhong plates): retract visible, no head occlusion, no clipping.
-  Falsification, each by reverting the mechanism: RECOVER=ATTACK fails the
-  retract gate (19 hits); WINDUP=ATTACK and ATTACK2=ATTACK fail distinctness
-  (0.001 vs 0.15); attack=IDLE and attack2=IDLE fail reach on all 17 kinds
-  (the planned handN-20 narrowing did NOT fail - reach min is 40u, so it was
-  replaced, not the threshold); stubbed selection fails 5 selection tests and
-  the new e2e. Live texture count 148 -> 202 (+3 poses x 18 chars; stage-scoped
-  in real play, no suite slowed).
-- Result: All green. Code-reviewer agent failed to launch (API 400, model
-  group error); did a careful self-review of the diff instead - one comment
-  nit fixed (attack2 reach 37 -> measured 40), no findings.
-- Status after: ART-11 DONE. Queue holds only DIFF-1 (BLOCKED) + 17 DONE.
-- Remaining work or blocker: DIFF-1 still needs the owner's smooth-vs-accept
-  call; standing owner items (look at faces, delete node_modules.stuck/,
-  deploy) unchanged.
-- Next recommended task: None available - BLOCKED DIFF-1 needs a person.
-
-### 2026-09-19 15:10 - ART-10 (attempt 1) + a DIFF-1 finding
-
-- Status before: only DIFF-1 in the queue, blocked. Rather than make an unasked
-  balance change, went back to the fourth defect the owner confirmed in ART-9 -
-  "they don't look like the specific heroes" - which is the one that round
-  addressed least.
-- ONE CLEAR ERROR, live since ART-1: 关羽 Guan Yu is named for 面如重枣, 美髯
-  and 卧蚕眉 - "reclining silkworm" brows, meaning THICK and curved. The
-  `phoenix` row gave him `browWeight: 0.95`, the SECOND LIGHTEST of the six
-  face kinds. One of the three features the sources name him for was drawn
-  backwards. Now 1.32, with the steep -0.55 angle softened to -0.36 because a
-  silkworm brow curves rather than slants.
-- One mismatch, and labelled honestly as a judgement call rather than a
-  citation: `sharp` - severe and hard - carried the lightest brow of the six at
-  0.8, which reads as delicate. Now 1.06. No source describes those brows.
-- Checked the other three and LEFT THEM ALONE, which is worth recording because
-  the temptation was to tune all five: 张飞's 豹头环眼 already has the round
-  glare and the largest head, 赵云's 浓眉大眼 already has thick brows and big
-  eyes, and 黄忠 already has the heaviest brows and hooded eyes.
-- A DIFF-1 FINDING, free and worth having: `git log src/core` since the
-  measurements were filed is EMPTY. The sim is deterministic and nothing under
-  it has changed in fifty-odd commits, so the difficulty numbers in DIFF-1
-  still stand exactly as measured - the owner's decision rests on current data
-  and does not need re-measuring first.
-- Files changed: `src/game/art/faces.ts`, `TASKS.md`, `PROGRESS.md`.
-- Verification: lint, typecheck, unit 155/155, e2e 43/43, vision 5/5 with the
-  sprite gate 148/148 and renderer parity, prodbuild 4/4, signal 13/13, build.
-  `FACES` is shared with the in-play face, so the sprite gates were the ones
-  that mattered here. One signal contention flake (guanyu's 2-stage marathon),
-  which passed alone in 36s with no violations and then passed in a full
-  re-run - signal guards this project's load-bearing property, so it was
-  re-run rather than reasoned away.
-- Result: the five read as five specific people rather than five complexions.
-- Status after: ART-10 DONE. Queue has only DIFF-1 BLOCKED.
-- Remaining work or blocker: DIFF-1 needs a person. Nothing else is ready.
-- Next recommended task: none exists.
-
-### 2026-09-19 14:25 - PRODUCER PASS (verifying ART-9 where I had not looked)
-
-- Status before: ART-9 rewrote the portrait system wholesale and ART-8 moved
-  the walk poses. Two verification gaps left over from that: I had eyeballed
-  only 7 of the 17 figure kinds, and had not looked at the new portraits on a
-  phone at all - a surface this project has had four separate defects on
-  (FIX-3, FIX-4, FIX-5 and the landscape crop).
-- Swept all 17 figure kinds as portraits. NO DEFECT: every one renders, Xiahou
-  Dun keeps one good eye beside his socket, the crown kinds (Cao Cao, Lu Bu)
-  draw correctly, and the three grunts read as plain uniformed troops - which
-  is ART-2's deliberate design rather than an oversight.
-  `artifacts/look/art9-cast.png`.
-- Swept both phone orientations under Pixel 7 emulation. NO DEFECT: portrait
-  canvas 412x232, landscape 732x412, no page errors in either, and all five
-  faces stay readable and distinguishable at the ~58px the select panel gets
-  there. `artifacts/look/phone-select-{portrait,landscape}.png`.
-- Recorded because the whole series keeps turning on "judged it bigger than the
-  game shows it", and a frontal face with soft shading had not been checked at
-  the smallest size it ships at.
-- Files changed: `PROGRESS.md`.
-- Verification run: the sweeps themselves. No code touched, so the tree is
-  unchanged from e1558ee where all eight suites were green.
-- Result: no defect. The face work holds at every size and on every device the
-  game runs on.
-- Status after: n/a - producer pass.
-- Remaining work or blocker: DIFF-1 is the ONLY item left in the queue and it
-  is blocked on an owner design decision, not on anything measurable. The live
-  build is behind by the owner's manual deploy, and `node_modules.stuck/` still
-  needs deleting from Windows.
-- Next recommended task: none exists. DIFF-1 needs a person.

@@ -102,7 +102,7 @@ describe('weapons', () => {
         if (event.type === 'hit' && event.targetId === far.id) firstDamage = event.damage
       }
     }
-    expect(firstDamage).toBe(8 + 4)
+    expect(firstDamage).toBe(6 + 4)
 
     for (let t = 0; t < 620; t += 1) stepSim(sim, neutralInput())
     expect(player.weapon).toBeNull()

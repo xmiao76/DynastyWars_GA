@@ -1206,110 +1206,9 @@ Add future enhancement tasks below this heading.
   - No minifier configuration. The fix is to write CSS the minifier cannot
     misread, not to argue with it.
 
-### FLAKE-2 - Boot polls give the game five seconds to start
-
-- Status: DONE
-- REWRITTEN. I filed this against `e2e/game.spec.ts:23`, the 400ms ArrowRight
-  hold, on the theory that a hard assertion gated on wall-clock time was what
-  failed under contention. Measurement says that theory was wrong, twice over:
-    - CPU starvation does not break it. At 20x and even 50x throttling the
-      400ms hold still moved the player (2 ticks, 120.0 -> 121.4), so the
-      assertion survives conditions far harsher than a busy machine.
-    - Reproducing the actual failure under real over-subscription shows a
-      different line entirely. Every failure, across `game`, `finalstage`,
-      `horse` and `coop`, is
-      `Timeout 5000ms exceeded while waiting on the predicate` on
-      `expect.poll(...).toBe('title')` - the poll waiting for the game to BOOT.
-  So the fragile thing is not how the test measures movement. It is that the
-  whole suite gives the game five seconds to reach its title screen, and boot
-  generates the entire cast's art before it gets there.
-- Requirement:
-  39 boot-to-title polls across 23 files all run on Playwright's default
-  `expect` timeout of 5000ms. Under a loaded machine that is not enough, and
-  the failure reads as a game defect when it is a budget. `touch.spec` already
-  passes `{ timeout: 8_000 }` explicitly for its transitions, so a longer
-  explicit budget is established practice here rather than a new idea.
-- Acceptance criteria:
-  - [x] `expect: { timeout: 15_000 }` in `playwright.config.ts`, one place
-        instead of 39 call sites
-  - [x] Nothing weakened: a game that never boots still fails, just later; no
-        assertion changed, no retry added, specs with their own timeout keep it
-  - [x] A/B measured at four workers, which is the realistic "machine is busy"
-        case rather than an artificial one:
-            5s budget  -> 2 failed (game.spec, horse.spec)
-            15s budget -> 11 passed
-        So the change earns its place rather than being a plausible-sounding
-        tidy-up
-  - [x] CORRECTION to the criterion as filed. I wrote that the specs failing at
-        SIX workers should pass at six afterwards. They do not, and no timeout
-        could make them: with the 15s budget the failure simply moves from
-        "Timeout 5000ms exceeded" to the 30s TEST timeout, because six Chromium
-        instances each generating the whole cast's art against one dev server
-        genuinely cannot boot in fifteen seconds. Six workers is past what this
-        machine can do, which is why the config says three. Claiming this fixed
-        contention would have been false
-  - [x] Still green at the configured three workers - 43 e2e in 1.7m, the same
-        as before - because a timeout is a ceiling, not a wait
-  - [x] lint, typecheck, 142 unit, 43 e2e, vision 5/5, prodbuild 3/3,
-        signal 13/13, build
-- Non-goals:
-  - No change to `e2e/game.spec.ts`. The line I originally accused is fine, and
-    changing it would have been a fix aimed at the wrong thing.
-  - No retries. A retry would hide exactly this kind of finding.
-
-### FIX-5 - Rotating the phone leaves the canvas at the old orientation's size
-
-- Status: DONE
-- Requirement:
-  Turn the handset and the game does not re-fit. Measured on a Pixel 7 profile
-  with a real device-metrics rotation (CDP `setDeviceMetricsOverride` with
-  `screenOrientation`, which is what Chrome sends a page when the phone turns):
-
-      portrait          win 412x839   #game 412x839   canvas 412x232   correct
-      rotated landscape win 915x412   #game 915x412   canvas 412x232   STALE
-      rotated back      win 492x1093                  canvas 732x412   STALE, 4
-                        of the 7 control zones off screen
-
-  The second rotation is the damaging one: a canvas still sized for landscape
-  inside a portrait viewport overflows, and the overflow is what drags the
-  reported viewport out to 492x1093 in the first place.
-
-  Cause is an ordering bug in Phaser's own ScaleManager, and the evidence is
-  unambiguous: after the rotation `scale.parentSize` is CORRECT at 915x412
-  while `scale.displaySize` is still 412x232, and calling `scale.refresh()` by
-  hand immediately produces 732x412. `listeners.windowResize` calls
-  `updateBounds()` and THEN sets `dirty`; `step()` reacts to `dirty` by calling
-  `getParentBounds()` again, which now finds the recorded bounds already equal,
-  returns false, and so never calls `refresh()`. The bounds get recorded
-  without the canvas being refitted.
-- Evidence limits, stated plainly: this is reproduced under Chromium device
-  emulation, which is the closest thing available here to a handset. A plain
-  DESKTOP window resize is unaffected - measured across 1200x800, 800x600,
-  1600x500 and 640x480, every one refits exactly - so this is specific to the
-  mobile path.
-- Acceptance criteria:
-  - [x] `resize`, `orientationchange` and `screen.orientation`'s own change
-        event all call `game.scale.refresh()`, deferred one frame so it reads
-        settled layout instead of mid-reflow
-  - [x] After: rotated landscape 732x412 against an expected 732x412, rotated
-        back 412x232 against 412x232, no control off screen in either. The
-        reported viewport on the way back is now a clean 412x915 rather than
-        492x1093, because nothing overflows to drag it out any more
-  - [x] Desktop resize re-measured at 1200x800, 800x600, 1600x500, 640x480 and
-        back: every one still exact, so the path that already worked is
-        undisturbed
-  - [x] Proven able to fail by removing the listeners: "landscape: the canvas
-        kept the previous orientation's size - viewport 915x412, canvas
-        412x232, expected 732x412"
-  - [x] lint, typecheck, 142 unit, 43 e2e, vision 5/5, prodbuild 3/3,
-        signal 13/13, build
-- Non-goals:
-  - No patching of Phaser and no change to the scale mode. One refresh on the
-    events that matter is the whole fix.
-
 ### ENH-4 - Per-weapon hero moveset data, strike mapping, and unit tests
 
-- Status: TODO
+- Status: DONE
 - Requirement:
   All five heroes share identical frame data (`defineHeroAttacks` in
   `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 — only damage/reach
@@ -1334,19 +1233,19 @@ Add future enhancement tasks below this heading.
   two call sites) to space off the DRIVEN hero's own `combo[0]` def instead
   of hard-coded `zy.jab1`.
 - Acceptance criteria:
-  - [ ] Before editing, `npm run signal` is recorded in PROGRESS.md as the
+  - [x] Before editing, `npm run signal` is recorded in PROGRESS.md as the
         ENH-4 baseline marathon table (stage times/continues per hero).
-  - [ ] New `test/core` assertions: per-hero frame data differs as designed
+  - [x] New `test/core` assertions: per-hero frame data differs as designed
         (e.g. zhaoyun chain total < guanyu; zf.jab1 longest reach); every def
         keeps `totalFrames > 0`; full-combo DPS per hero within ±10% of its
         current value, computed in-test (no hand-waving).
-  - [ ] `sprites.test.ts`: table-driven selection proven (mapping decides,
+  - [x] `sprites.test.ts`: table-driven selection proven (mapping decides,
         not the suffix); phasing boundaries per new frame datum; fallback to
         `attack`/`special` for enemies, mounted sweep, unknown ids preserved.
-  - [ ] Bot own-def spacing covered by a targeted test; `npm run signal`
+  - [x] Bot own-def spacing covered by a targeted test; `npm run signal`
         still 13/13 (bot viable with every hero).
-  - [ ] Each new assertion proven able to fail against the old tables/data.
-  - [ ] lint, typecheck, unit green. No `sim.ts` logic changes (data only).
+  - [x] Each new assertion proven able to fail against the old tables/data.
+  - [x] lint, typecheck, unit green. No `sim.ts` logic changes (data only).
 - Non-goals:
   - No new poses or art-gate changes (ENH-5). No jumpkick, special, enemy,
     or mounted-sweep changes. No DIFF-1 smoothing: record balance deltas,
@@ -1354,7 +1253,7 @@ Add future enhancement tasks below this heading.
 
 ### ENH-5 - Weapon-true strike poses (thrust/chop/sweep) and art gates
 
-- Status: TODO
+- Status: DONE
 - Dependency: do not start until ENH-4 is DONE. If reached earlier, mark
   this BLOCKED with reason "waiting on ENH-4" and implement nothing.
 - Requirement:
@@ -1368,16 +1267,22 @@ Add future enhancement tasks below this heading.
   the hardcoded strike lists and distinctness PAIRS in
   `test/game/artquality.test.ts`.
 - Acceptance criteria:
-  - [ ] Reach gate: every new strike beats idle by ≥ MIN_WEAPON_REACH_PX
+  - [x] Reach gate: every new strike beats idle by ≥ MIN_WEAPON_REACH_PX
         for every armed kind. Retract gate: windup/recover strictly narrower
         than EACH new strike. Distinctness: each new strike vs idle, windup,
         recover, and sibling strikes, all above the floor. No floor moved.
-  - [ ] Face-clearance (all kinds × poses × facings), no-clip, centering,
+  - [x] Face-clearance (all kinds × poses × facings), no-clip, centering,
         portrait, tassel, and weapon-identity tests green unmodified in logic.
-  - [ ] `npm run vision` 5/5 including renderer parity and both negative
+  - [x] `npm run vision` 5/5 including renderer parity and both negative
         controls; before/after combo sheets for all five heroes captured via
         the weapon-review/facesheet scripts and judged by eye at gameplay
         size (desktop + phone attacks); no clipping, no weapon over a face.
+- Evidence:
+  - Triples: gy (sweep,attack,chop), zf (thrust,attack2,sweep),
+    zy (attack,attack2,thrust), hz (thrust,chop,sweep), wy (attack,sweep,chop).
+  - artifacts/weapon-review/{pose-sweep,sequence-desktop,sequence-phone}-*-enh5after.png
+    vs enh5before; geometry-enh5after.json (thrust 65, chop 30, sweep 61,
+    headroom 25, zero face overlaps); artifacts/look/facesheet.png.
 - Non-goals:
   - No frame-data changes (ENH-4 owns them). No threshold weakening — redraw
     the pose, never the floor. Enemies keep existing strike mapping.
