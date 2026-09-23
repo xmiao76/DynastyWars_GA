@@ -3,6 +3,60 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-21 23:03 - PRODUCER PASS (first scheduled tick, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after the
+  ENH-7 trial. Tree clean at 6f25535. First firing of schedule-2 (new
+  DSH-session-worker runbook); run `2026-09-22T05-49-08Z-e0194047`.
+- LOGIC signal: 13/13 ok, exit 0, zero invariant violations and zero page
+  errors. Every marathon tick/continue count identical to the ENH-6/ENH-7
+  snapshot: guanyu 2640/0c + 4944/0c; zhangfei 2640/0c + 2832/0c;
+  huangzhong 3972/1c + 6588/3c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
+  3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
+  0,0,1,3,1,0,1,3,2 (total 11). DIFF-1 standing shape unchanged (known
+  blocked item, not a new finding). No regression.
+- VISUAL signal: 5/5 ok, exit 0. Frames 9/9 pass (game_combat richness
+  1021, within run-to-run jitter of 1038); sprites 256/256, weapons
+  85/85, retracts 170/170; renderer parity clean on all 7 screens; both
+  negative controls failing correctly (empty-backdrop on shape:
+  silhouetteComplexity 0.031, appendageRatio 0; flat silhouette on
+  shading: 1 color, 1 tonal band); HUD 1/1; findings.jsonl 0 bytes.
+  No UX_REVIEW.md.
+- Frame sweep: all 9 screens judged by eye at gameplay size (title with
+  the P PAUSE line fitting its plate, select, idle, both combats incl.
+  Zhang Fei's serpent pike, boss night scene, result, game over,
+  complete). NO DEFECT.
+- Opportunity review (ONE area: touch controls vs pause, usability):
+  ENH-7 gave keyboard players P; a touch device has no P key and no
+  other pause path, so a phone player cannot pause a ~13-minute run.
+  Touch is first-class here (7 HUD-owned zones, 8 touch e2e tests,
+  tapGamePoint patterns); the toggle writes the existing paused flag,
+  so a zone inherits all semantics; free anchors exist. No duplicate
+  task or rejection (ENH-7 named it as follow-up). Filed ENH-8 (TODO).
+  Not filed: pause menu/volume (ENH-7 non-goals), auto-pause on blur
+  (owner behavior decision), marathon-scale pause neutrality in the
+  signal (test-only gap for a test-only mode - too weak).
+- Rejected/not pursued: no defect proposals (signals green, frames
+  clean); one-area budget spent, no second area inspected.
+- Files changed: TASKS.md (ENH-8 TODO), PROGRESS.md,
+  artifacts/loop/proposals-touchpause-enh8.md (gitignored scratch).
+- Verification run: both suites via direct node Playwright CLIs with
+  full logs to artifacts/loop/signal-tick.log + vision-tick.log
+  (gitignored). Note: the first signal launch piped output through a
+  tail and was restarted with file logging so marathon tables stay
+  comparable - lesson recorded for future ticks. No game source
+  touched in this pass.
+- Result: COMPLETED - one accepted proactive proposal, no regression.
+- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-8 TODO.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
+  standing owner items unchanged (deploy).
+- Next recommended task: ENH-8 (a later consumer implements it).
+
+- Housekeeping (same iteration, rule 8): none needed. DONE count is 20
+  (at the bound, ENH-8 is TODO); PROGRESS.md was 486 lines, stays under
+  500 with this entry.
+
 ### 2026-09-21 21:46 - ENH-7 (attempt 1, first manual-worker trial)
 
 - Status before: ENH-7 TODO (no prior attempts), first iteration executed by

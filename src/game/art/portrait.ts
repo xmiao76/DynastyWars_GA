@@ -580,24 +580,47 @@ function paintSkin(
   g.addColorStop(1, css(shade(skin, 0.32)))
   fillAll(g)
 
+  // EVERY fade below ends in a transparent copy of its OWN colour, never in
+  // 'rgba(0,0,0,0)'. Canvas interpolates gradient stops unpremultiplied, so a
+  // stop at transparent BLACK drags the colour toward black as the alpha
+  // falls: halfway out, the bridge HIGHLIGHT was a translucent grey-brown
+  // ring. That ring - round both eyes, between them and down the nose - was
+  // the grey smudge on every portrait in the cast, and it read as dirt.
   const jaw = ctx.createLinearGradient(0, 0.4 * R, 0, 1.16 * R)
-  jaw.addColorStop(0, 'rgba(0,0,0,0)')
+  jaw.addColorStop(0, clear(shade(skin, 0.36)))
   jaw.addColorStop(1, css(shade(skin, 0.36)))
   fillAll(jaw, 0.6)
 
+  // The eye socket: shadow under the brow ridge, faint and off the eye
+  // itself, where a disc centred ON the eye read as a bruise.
   for (const side of [1, -1]) {
-    const e = q(side * L.eyeX, L.eyeY - 0.05)
-    const soc = ctx.createRadialGradient(e.x, e.y, 0.02 * R, e.x, e.y, 0.36 * R)
-    soc.addColorStop(0, css(shade(skin, 0.26)))
-    soc.addColorStop(1, 'rgba(0,0,0,0)')
-    fillAll(soc, 0.5)
+    const e = q(side * L.eyeX, L.eyeY - 0.12)
+    const soc = ctx.createRadialGradient(e.x, e.y, 0.02 * R, e.x, e.y, 0.3 * R)
+    soc.addColorStop(0, css(shade(skin, 0.2)))
+    soc.addColorStop(1, clear(shade(skin, 0.2)))
+    fillAll(soc, 0.35)
   }
+
+  // The frontal bone catches the light: a soft lift high on the forehead. It
+  // is FORM - a lit plane - where the old smudge was an artefact, and it is
+  // what keeps the forehead from reading as one flat field once the grey ring
+  // that used to cross it is gone.
+  const brow = q(0, -0.5)
+  const fh = ctx.createRadialGradient(brow.x, brow.y, 0.02 * R, brow.x, brow.y, 0.5 * R)
+  fh.addColorStop(0, css(tint(skin, 0.2)))
+  fh.addColorStop(1, clear(tint(skin, 0.2)))
+  fillAll(fh, 0.8)
 
   const bridge = q(0, 0.1)
   const br = ctx.createRadialGradient(bridge.x, bridge.y, 0.01 * R, bridge.x, bridge.y, 0.32 * R)
   br.addColorStop(0, css(tint(skin, 0.22)))
-  br.addColorStop(1, 'rgba(0,0,0,0)')
+  br.addColorStop(1, clear(tint(skin, 0.22)))
   fillAll(br, 0.7)
+}
+
+/** A packed RGB at zero alpha: the end stop for a fade OF that colour. */
+function clear(rgb: number): string {
+  return `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0)`
 }
 
 /**
@@ -639,19 +662,26 @@ function drawPortraitFace(
 
   // --- nose: wings and nostrils, INSIDE the face. The 3/4 head carried the
   // nose as a point on the SILHOUETTE, which is what read as a beak.
-  ctx.fillStyle = css(shade(skin, 0.2))
+  // The wings used to start at noseBase - 0.28, level with the eyes, so the
+  // two of them drew one long inverted V from the brow to the lip: a paper
+  // triangle rather than a nose. A nose shows as the alae and the shadow under
+  // the tip; the bridge is carried by the highlight in `paintSkin`.
+  ctx.fillStyle = css(shade(skin, 0.16))
   for (const side of [1, -1]) {
     smoothClosedPath(ctx, [
-      q(side * 0.06, L.noseBase - 0.28),
-      q(side * 0.23, L.noseBase - 0.04),
-      q(side * 0.2, L.noseBase + 0.07),
-      q(side * 0.04, L.noseBase + 0.02),
+      q(side * 0.07, L.noseBase - 0.16),
+      q(side * 0.19, L.noseBase - 0.01),
+      q(side * 0.16, L.noseBase + 0.06),
+      q(side * 0.09, L.noseBase + 0.03),
     ])
     ctx.fill()
   }
-  ctx.fillStyle = css(shade(skin, 0.5))
+  ctx.fillStyle = css(tint(skin, 0.24))
+  ovalPath(ctx, q(0, L.noseBase - 0.04), headR * 0.06, headR * 0.045, 0)
+  ctx.fill()
+  ctx.fillStyle = css(shade(skin, 0.4))
   for (const side of [1, -1]) {
-    ovalPath(ctx, q(side * 0.11, L.noseBase + 0.02), headR * 0.045, headR * 0.03, side * 0.3)
+    ovalPath(ctx, q(side * 0.1, L.noseBase + 0.04), headR * 0.036, headR * 0.02, side * 0.35)
     ctx.fill()
   }
 

@@ -306,6 +306,40 @@ describe('portrait structure', () => {
     }
   })
 
+  it('keeps the bridge between the eyes lit, not smudged', () => {
+    // ART-16. Every gradient in `paintSkin` faded to 'rgba(0,0,0,0)', and
+    // canvas interpolates stops unpremultiplied - so the fading edge of the
+    // bridge HIGHLIGHT, and of both eye sockets, was translucent near-black.
+    // The result was a grey-brown ring round the eyes and across the bridge
+    // on all seventeen portraits, which read as dirt. On a lit frontal face
+    // the bridge between the eyes is a raised plane and at least as bright as
+    // the forehead; with the smudge it measured 0.81 to 0.91 of it, and after
+    // the fix 1.005 to 1.05. Troops and bosses too: the smudge was cast-wide.
+    const MIN_RATIO = 0.96
+    const mean = (s: Shot, x0: number, y0: number, x1: number, y1: number): number => {
+      const [a, b] = s.tex(x0, y0)
+      const [c, d] = s.tex(x1, y1)
+      let sum = 0
+      let n = 0
+      for (let y = b; y <= d; y += 1) {
+        for (let x = a; x <= c; x += 1) {
+          sum += luma(s.px(x, y))
+          n += 1
+        }
+      }
+      return sum / n
+    }
+    for (const kind of [...HEROES, ...Object.keys(ENEMY_FIGURES)]) {
+      const s = shoot(kind)
+      const bridge = mean(s, -0.08, PORTRAIT_EYE_Y - 0.08, 0.08, PORTRAIT_EYE_Y + 0.06)
+      const forehead = mean(s, -0.24, PORTRAIT_BROW_Y - 0.22, 0.24, PORTRAIT_BROW_Y - 0.12)
+      expect(
+        bridge / forehead,
+        `${kind}: the bridge between the eyes is ${(bridge / forehead).toFixed(3)} of the forehead - a smudge`,
+      ).toBeGreaterThan(MIN_RATIO)
+    }
+  })
+
   it('gives every hero a visible mouth', () => {
     // Three of five had none: the beard swallowed it. Looks for the dark
     // horizontal run of the ink lip separation on the mouth line.

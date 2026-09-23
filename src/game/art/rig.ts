@@ -108,6 +108,15 @@ export function applyBuild(pose: Skeleton, build: Build): Skeleton {
  * Rounded rather than square because the ink pass strokes these paths with a
  * fat line: square corners on a thin limb turn into spikes at the joints, and
  * a chain of them reads as a lightning bolt rather than an arm.
+ *
+ * The side lines run a-minus-normal to b-minus-normal and back on the plus
+ * side, because that is where the first arc ENDS: angle+90deg to angle-90deg
+ * leaves the pen at a - n*wA/2. From the first commit until ART-16 they ran to
+ * b PLUS the normal instead, so each limb was a bow-tie: the two sides crossed
+ * in the middle and the nonzero fill left the crossing empty. That hollowed
+ * every torso, limb, sash, belt, haft and the horse, and it turned every
+ * in-play brow, mouth and nose - all limb paths - into a broken comma.
+ * `rig.test.ts` fills one and counts its middle.
  */
 export function limbPath(
   ctx: CanvasRenderingContext2D,
@@ -124,9 +133,9 @@ export function limbPath(
   const angle = Math.atan2(dy, dx)
   ctx.beginPath()
   ctx.arc(a.x, a.y, wA / 2, angle + Math.PI / 2, angle - Math.PI / 2)
-  ctx.lineTo(b.x + nx * (wB / 2), b.y + ny * (wB / 2))
+  ctx.lineTo(b.x - nx * (wB / 2), b.y - ny * (wB / 2))
   ctx.arc(b.x, b.y, wB / 2, angle - Math.PI / 2, angle + Math.PI / 2)
-  ctx.lineTo(a.x - nx * (wA / 2), a.y - ny * (wA / 2))
+  ctx.lineTo(a.x + nx * (wA / 2), a.y + ny * (wA / 2))
   ctx.closePath()
 }
 
@@ -140,7 +149,9 @@ export function limbPath(
  * how a limb is drawn.
  *
  * The offset at the middle joint uses the bisector of the two segment normals,
- * so the outline turns the corner instead of crossing itself.
+ * so the outline turns the corner instead of crossing itself. The outbound
+ * side is the MINUS side for the same reason as in `limbPath`, which had the
+ * same crossed sides until ART-16.
  */
 export function chainPath(
   ctx: CanvasRenderingContext2D,
@@ -170,14 +181,14 @@ export function chainPath(
 
   ctx.beginPath()
   ctx.arc(pts[0].x, pts[0].y, widths[0] / 2, startAngle + Math.PI / 2, startAngle - Math.PI / 2)
-  const a1 = off(pts[1], bis, widths[1], 1)
+  const a1 = off(pts[1], bis, widths[1], -1)
   ctx.lineTo(a1.x, a1.y)
-  const a2 = off(pts[2], n12, widths[2], 1)
+  const a2 = off(pts[2], n12, widths[2], -1)
   ctx.lineTo(a2.x, a2.y)
   ctx.arc(pts[2].x, pts[2].y, widths[2] / 2, endAngle - Math.PI / 2, endAngle + Math.PI / 2)
-  const b1 = off(pts[1], bis, widths[1], -1)
+  const b1 = off(pts[1], bis, widths[1], 1)
   ctx.lineTo(b1.x, b1.y)
-  const b0 = off(pts[0], n01, widths[0], -1)
+  const b0 = off(pts[0], n01, widths[0], 1)
   ctx.lineTo(b0.x, b0.y)
   ctx.closePath()
 }

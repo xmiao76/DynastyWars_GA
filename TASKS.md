@@ -12,6 +12,88 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
+### ART-17 - Heroes and bosses do not yet look as the histories describe them (owner request, part 2)
+
+- Status: TODO
+- Requirement:
+  Second half of the 2026-09-22 owner request ("for every hero and boss,
+  enhance their appearance to make them look just like they were described in
+  the legendary history"). ART-16 fixed what made every face unnatural; the
+  per-character likeness is still mostly colour. Measured on
+  `artifacts/look/faces-final-portraits.png` and `closeup-final.png`:
+  lidian, caoren, zhangliao and zhanghe share one face and differ only in hat
+  colour; Cao Cao and Lu Bu wear the identical `crown` shape; the in-play head
+  shows every character the same brow/eye/mouth marks. Bosses have NO portrait
+  in play, so boss likeness must land on the in-play sprite.
+- Sources (三国演义 descriptions, to cite per change):
+  Guan Yu 身长九尺, 髯长二尺, 面如重枣, 唇若涂脂, 丹凤眼, 卧蚕眉;
+  Zhang Fei 身长八尺, 豹头环眼, 燕颔虎须; Zhao Yun 身长八尺, 浓眉大眼, 阔面重颐;
+  Huang Zhong aged, white-haired; Cao Cao 身长七尺, 细眼长髯;
+  Lu Bu 头戴三叉束发紫金冠 (with 雉尾 plumes), 西川红锦百花袍;
+  Xu Chu 身长八尺余, 腰大十围; Xiahou Dun lost his left eye.
+- Acceptance criteria (each a falsified gate or a before/after sheet):
+  - [ ] Lu Bu's headgear is its own shape (三叉紫金冠 with two plumes), and its
+        portrait/sprite silhouette differs from Cao Cao's crown by a measured margin.
+  - [ ] Zhang Fei's beard is bristling (虎须: jagged outline), not the smooth wedge.
+  - [ ] Guan Yu's lips read red (唇若涂脂) and his beard reaches the chest.
+  - [ ] Zhao Yun's brows are the heaviest of the fair-skinned cast (浓眉) and his
+        eyes the largest non-fierce eyes (大眼), with a broader jaw.
+  - [ ] Cao Cao's eyes are the narrowest in the cast (细眼, eyeAspect gate).
+  - [ ] The four "generic" bosses are pairwise distinct on the in-play head by a
+        measured face-region difference, not by hat colour alone.
+  - [ ] Troops keep the plain face and shared skin; all existing gates green.
+- Non-goals:
+  - No combat, reach, damage, collision or timing change. No new animation states.
+  - No PORTRAIT_BOX/TEXTURE or display-size change; no gradients on sprites.
+  - Wei Yan's complexion stays owner-decided (see ART-16).
+
+### ART-16 - Every face looked unnatural: hollow shapes and a grey smudge (owner request, part 1)
+
+- Status: DONE
+- Requirement:
+  Owner request 2026-09-22: "Review all the character faces ... enhance them
+  to make every face look natural." Reviewed every portrait and in-play head
+  (17 kinds) against a human face rather than against the previous art. Two
+  cast-wide ROOT CAUSES, both pre-existing since the first commit 7d574d2:
+  1. `limbPath` and `chainPath` (rig.ts) traced their two sides CROSSED - the
+     first arc ends at a - n*w/2, and the path then ran to b + n*w/2 - so every
+     shape was a bow-tie and the nonzero fill left its middle empty. Measured on
+     a 60->40 limb, the middle column filled 0 px (now 50); a bent chain 19/40/20
+     (now 46/40/36). Every in-play brow, mouth and nose is a limb path, which is
+     why they rendered as broken commas; it also hollowed torsos, limbs, sashes,
+     belts, hafts and the horse. The ink stroke hid most of it.
+  2. Every portrait gradient faded to 'rgba(0,0,0,0)'. Canvas interpolates
+     stops unpremultiplied, so the fading edge of the bridge HIGHLIGHT and of
+     both eye sockets was translucent near-black: a grey-brown ring round the
+     eyes and down the nose on all 17 portraits. Bridge/forehead luma ratio was
+     0.81-0.91 (a smudge); now 1.005-1.05.
+- Changes:
+  - rig.ts: the side lines fixed in both primitives.
+  - portrait.ts: fades end in a transparent copy of their own colour; the socket
+    moved up under the brow ridge and softened; a forehead-lift gradient (lit
+    frontal bone) keeps the forehead from reading flat; the nose wings no longer
+    run from eye level (they drew a paper triangle), plus a tip highlight.
+  - poses.ts `DOWN.weaponRot` 0.16 -> -0.34: with SOLID hafts the dropped weapon
+    lay across the prone body (caoren/caocao/lubu legibility 0.087-0.137 <
+    0.15); now the weapon falls clear as the pose comment already said (0.372+).
+  - figures.ts Guan Yu `TALL.height` 1.03 -> 1.06 (身长九尺, a head above
+    Zhang Fei/Zhao Yun's 八尺). With filled bodies guanyu/weiyan silhouettes
+    were only 9.4% apart (< 0.1 gate); the old 15.8% came from hollow torsos.
+    Now 11.8%. Visual only: combat lives in src/core and is untouched.
+- Acceptance criteria:
+  - [x] New `test/game/rig.test.ts` fails on the original rig.ts (0, 0, 16 px)
+        and passes with the fix.
+  - [x] New portrait gate "keeps the bridge between the eyes lit" fails on HEAD
+        portrait.ts (guanyu 0.914 < 0.96) and passes on all 17 kinds.
+  - [x] No gate threshold weakened; forehead-range gate kept at 5 and met by
+        real form (the smudge had been supplying its variation).
+  - [x] Before/after sheets reviewed: `artifacts/look/faces-before-portraits.png`
+        vs `faces-final-portraits.png`, `closeup-before*.png` vs `closeup-final.png`.
+  - [x] lint, tsc, unit 200/200, e2e 54, vision 5/5 (256/256 sprites, 85/85
+        weapons, 170/170 retracts), selfplay 13, prodbuild 4, build.
+- Non-goals: per-character likeness (ART-17); no PORTRAIT_BOX/TEXTURE,
+  display-size, in-play gradient, combat or troop-face change.
+
 ### ART-15 - Legend-faithful silhouettes for all five heroes
 
 - Status: DONE
@@ -362,77 +444,6 @@ Add future enhancement tasks below this heading.
   - No change to in-play head size, build or silhouette.
   - No gradients on the in-play sprites.
   - No change to `PORTRAIT_BOX`/`PORTRAIT_TEXTURE` or any scene's display sizes.
-
-### ART-8 - The weapon crosses the head in the walk1 frame
-
-- Status: DONE
-- Requirement:
-  Found by ART-7's face gate when it was briefly run over all eight poses. In
-  `walk1` the weapon is rotated such that its blade passes ABOVE THE BROW and
-  over the top of the head. Measured at the near-eye column, just above the
-  brow, the probe lands on steel rather than skin for six kinds:
-
-      guanyu     154,148,157      weiyan     140,143,156
-      soldier    140,143,156      spearman    99, 86,127
-      lidian     182,189,201      zhanghe    182,189,201
-      caocao     140,143,156
-
-  Rendered at 2x (`artifacts/look/guanyu-walk.png`), Guan Yu's glaive blade
-  sits on top of his hood in `walk1` while clearing it entirely in `idle` and
-  `walk0`. The weapon is drawn last in `figureShapes`, so it is in FRONT of the
-  head rather than behind it.
-
-  This matters more than a single frame sounds like: `walk1` is half the walk
-  cycle, and walking is the state a player sees most.
-
-  PRE-EXISTING. Nothing in ART-6 or ART-7 moved the weapon; those tasks only
-  made it visible, because until then no gate looked at the area above the brow
-  at all.
-- CORRECTION to my own recommendation. I filed this saying it was a judgement
-  call and recommended ACCEPTING it, on the reasoning that any fix would cost
-  animation swing or risk the clipping gate, since walk poses carry
-  `POSE_REACH` 0. Measuring says that was wrong, and the mistake was assuming
-  the only lever was the swing's AMPLITUDE.
-
-  The real driver is not the rotation alone but WHERE THE HAND IS. In `walk1`
-  the near hand swings in to x=54 against a head at x=50, so a near-vertical
-  weapon passes straight over it; in `walk0` the hand is out at x=60 and clears
-  the head at any angle. So the fix is to move the vertical extreme to the
-  half of the stride where the hand is out - a change of PHASE, not amplitude.
-- Measured, before and after, as steel-coloured pixels inside the head oval:
-
-      kind        before    after       (baseline in other poses)
-      guanyu        1034        0                            0
-      lidian        1072       48                           48
-      caoren         649        0                           44
-      lubu           657        0                           44
-      xuchu          633        0                            0
-      xuhuang        625        0                            0
-      weiyan         604        0                            0
-      soldier        591        0                            0
-      zhanghe        603        0                           48
-      zhangfei       436        0                           50
-      caocao         317        0                            0
-      zhangliao      201        0                            0
-
-  Zhao Yun and Huang Zhong read high in EVERY pose and are not in this table:
-  their own gear is silver, so they trip a steel probe wherever it looks. The
-  signal that matters is the walk1 SPIKE against the same kind's other poses.
-- Acceptance criteria:
-  - [x] `walk0` -1.28 -> -1.44 and `walk1` -1.50 -> -1.22. The swing is
-        unchanged in amplitude at 0.22 radians; only its phase moved
-  - [x] No pose clips its frame box - checked across all 17 kinds and 8 poses,
-        before and after, and the answer was none either way
-  - [x] The walk still reads as a swing, judged by eye across the whole cycle
-        rather than one frame (`artifacts/look/walkcycle.png`)
-  - [x] Every sprite gate still green, including the two this could have
-        broken: walk frames must differ by more than 0.008 of the frame, and
-        the walk-cycle foot shift must stay under 2 units
-  - [x] lint, typecheck, 155 unit, 43 e2e, vision 5/5 including renderer
-        parity, prodbuild 4/4, signal 13/13, build
-- Non-goals:
-  - No change to the face pass. ART-7 is done and its gate stays scoped to
-    `idle`, where the claim it makes is the one it can measure.
 
 ### DIFF-1 - The measured difficulty curve is uneven in three places
 

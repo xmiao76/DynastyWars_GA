@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-23 00:24 - ART-16 (attempt 1, owner request: natural faces)
+
+- Status before: owner request (takes priority over ENH-12): review every
+  hero and NPC face, make each look natural, and make heroes/bosses look as
+  the histories describe. Filed as ART-16 (natural faces) + ART-17 (likeness).
+- Work completed: reviewed all 17 portraits and in-play heads at device and
+  vector resolution against a human face. Found two cast-wide root causes,
+  both present since the first commit:
+  1. rig.ts `limbPath`/`chainPath` traced crossed sides (bow-tie paths, empty
+     middles): every in-play brow/mouth/nose rendered as a broken comma, and
+     torsos, limbs, hafts and the horse were hollow under the ink. Fixed.
+  2. portrait.ts gradients faded to transparent BLACK (unpremultiplied
+     interpolation), so the bridge highlight drew a grey ring round the eyes
+     and down the nose on every portrait. Fixed (own-colour fades), socket
+     moved under the brow, forehead lift added, nose wings shortened.
+  Two gates had been calibrated on the hollow art and failed honestly after
+  the fix; resolved by art, not thresholds: DOWN.weaponRot 0.16 -> -0.34 (the
+  now-solid weapon lay across the prone body) and Guan Yu height 1.03 -> 1.06
+  (身长九尺; guanyu/weiyan silhouettes 0.094 -> 0.118 > 0.1).
+- Files changed: src/game/art/rig.ts, portrait.ts, poses.ts, figures.ts;
+  test/game/rig.test.ts (new), test/game/portrait.test.ts (bridge gate);
+  TASKS.md (ART-16 DONE, ART-17 TODO, ART-8 archived), TASKS-ARCHIVE.md,
+  PROGRESS.md, PROGRESS-ARCHIVE.md.
+- Verification run (serial, logs artifacts/loop/*-tick.log): lint 0, tsc 0,
+  unit 200/200 (28 files), e2e 54 passed, vision 5/5 (SPRITE GATE 256/256
+  sprites, 85/85 weapons, 170/170 retracts), selfplay 13 passed, prodbuild 4
+  passed, build ok. Falsified: rig.test.ts 3/3 fail on the original rig.ts
+  (0/0/16 px); the bridge gate fails on HEAD portrait.ts (guanyu 0.914).
+  Sheets reviewed by eye: faces-before-portraits.png vs
+  faces-final-portraits.png, closeup-before.png vs closeup-final.png.
+- Result: COMPLETED (ART-16). The smudge is gone and in-play features are
+  solid; faces now read as clean skin with a lit forehead and nose.
+- Status after: 20 DONE, ART-17 + ENH-12 TODO, 0 BLOCKED. Housekeeping:
+  ART-8 archived (21 -> 20 DONE); the 2026-09-21 23:03 producer entry moved to
+  PROGRESS-ARCHIVE.md (487 -> 433 lines before this entry).
+- Remaining work or blocker: ART-17, the per-character likeness (Lu Bu's
+  紫金冠 vs Cao Cao's identical crown, Zhang Fei's 虎须, four same-faced
+  bosses, Zhao Yun's 浓眉大眼, Cao Cao's 细眼). Guan Yu's hood still covers
+  his in-play forehead (hood shape is ART-15 silhouette territory).
+- Next recommended task: ART-17 (continues the owner request), then ENH-12.
+
 ### 2026-09-22 15:15 - DIFF-1 CLOSED (owner decision: accept the curve)
 
 - Status before: DIFF-1 BLOCKED on the owner's design decision (the
@@ -431,57 +472,3 @@ history slowly crowds out the work it is supposed to support.
   MIGRATION-GA, 18:44 producer) moved to PROGRESS-ARCHIVE.md top (now
   424 lines). Latest signal snapshot (this entry) and DIFF-1 BLOCKED
   evidence kept.
-
-### 2026-09-21 23:03 - PRODUCER PASS (first scheduled tick, attempt 1)
-
-- Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after the
-  ENH-7 trial. Tree clean at 6f25535. First firing of schedule-2 (new
-  DSH-session-worker runbook); run `2026-09-22T05-49-08Z-e0194047`.
-- LOGIC signal: 13/13 ok, exit 0, zero invariant violations and zero page
-  errors. Every marathon tick/continue count identical to the ENH-6/ENH-7
-  snapshot: guanyu 2640/0c + 4944/0c; zhangfei 2640/0c + 2832/0c;
-  huangzhong 3972/1c + 6588/3c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
-  3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
-  0,0,1,3,1,0,1,3,2 (total 11). DIFF-1 standing shape unchanged (known
-  blocked item, not a new finding). No regression.
-- VISUAL signal: 5/5 ok, exit 0. Frames 9/9 pass (game_combat richness
-  1021, within run-to-run jitter of 1038); sprites 256/256, weapons
-  85/85, retracts 170/170; renderer parity clean on all 7 screens; both
-  negative controls failing correctly (empty-backdrop on shape:
-  silhouetteComplexity 0.031, appendageRatio 0; flat silhouette on
-  shading: 1 color, 1 tonal band); HUD 1/1; findings.jsonl 0 bytes.
-  No UX_REVIEW.md.
-- Frame sweep: all 9 screens judged by eye at gameplay size (title with
-  the P PAUSE line fitting its plate, select, idle, both combats incl.
-  Zhang Fei's serpent pike, boss night scene, result, game over,
-  complete). NO DEFECT.
-- Opportunity review (ONE area: touch controls vs pause, usability):
-  ENH-7 gave keyboard players P; a touch device has no P key and no
-  other pause path, so a phone player cannot pause a ~13-minute run.
-  Touch is first-class here (7 HUD-owned zones, 8 touch e2e tests,
-  tapGamePoint patterns); the toggle writes the existing paused flag,
-  so a zone inherits all semantics; free anchors exist. No duplicate
-  task or rejection (ENH-7 named it as follow-up). Filed ENH-8 (TODO).
-  Not filed: pause menu/volume (ENH-7 non-goals), auto-pause on blur
-  (owner behavior decision), marathon-scale pause neutrality in the
-  signal (test-only gap for a test-only mode - too weak).
-- Rejected/not pursued: no defect proposals (signals green, frames
-  clean); one-area budget spent, no second area inspected.
-- Files changed: TASKS.md (ENH-8 TODO), PROGRESS.md,
-  artifacts/loop/proposals-touchpause-enh8.md (gitignored scratch).
-- Verification run: both suites via direct node Playwright CLIs with
-  full logs to artifacts/loop/signal-tick.log + vision-tick.log
-  (gitignored). Note: the first signal launch piped output through a
-  tail and was restarted with file logging so marathon tables stay
-  comparable - lesson recorded for future ticks. No game source
-  touched in this pass.
-- Result: COMPLETED - one accepted proactive proposal, no regression.
-- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
-  ENH-8 TODO.
-- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
-  standing owner items unchanged (deploy).
-- Next recommended task: ENH-8 (a later consumer implements it).
-
-- Housekeeping (same iteration, rule 8): none needed. DONE count is 20
-  (at the bound, ENH-8 is TODO); PROGRESS.md was 486 lines, stays under
-  500 with this entry.

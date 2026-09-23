@@ -380,7 +380,7 @@ export const DOWN: Skeleton = {
   hipN: { x: 50, y: 79 },
   kneeN: { x: 63, y: 78 },
   footN: { x: 75, y: 82 },
-  weaponRot: 0.16,
+  weaponRot: -0.34,
   weaponGrip: 0.5,
   headRot: -0.5,
   lying: true,

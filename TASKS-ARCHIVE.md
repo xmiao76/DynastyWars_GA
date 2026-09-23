@@ -2627,3 +2627,74 @@ and the three pre-redesign enhancements - all DONE and verified)
     correction above.
   - No portrait change. ART-6 is done and its gates stay as they are.
   - Not photorealism. Flat cel, same as everything else.
+
+### ART-8 - The weapon crosses the head in the walk1 frame
+
+- Status: DONE
+- Requirement:
+  Found by ART-7's face gate when it was briefly run over all eight poses. In
+  `walk1` the weapon is rotated such that its blade passes ABOVE THE BROW and
+  over the top of the head. Measured at the near-eye column, just above the
+  brow, the probe lands on steel rather than skin for six kinds:
+
+      guanyu     154,148,157      weiyan     140,143,156
+      soldier    140,143,156      spearman    99, 86,127
+      lidian     182,189,201      zhanghe    182,189,201
+      caocao     140,143,156
+
+  Rendered at 2x (`artifacts/look/guanyu-walk.png`), Guan Yu's glaive blade
+  sits on top of his hood in `walk1` while clearing it entirely in `idle` and
+  `walk0`. The weapon is drawn last in `figureShapes`, so it is in FRONT of the
+  head rather than behind it.
+
+  This matters more than a single frame sounds like: `walk1` is half the walk
+  cycle, and walking is the state a player sees most.
+
+  PRE-EXISTING. Nothing in ART-6 or ART-7 moved the weapon; those tasks only
+  made it visible, because until then no gate looked at the area above the brow
+  at all.
+- CORRECTION to my own recommendation. I filed this saying it was a judgement
+  call and recommended ACCEPTING it, on the reasoning that any fix would cost
+  animation swing or risk the clipping gate, since walk poses carry
+  `POSE_REACH` 0. Measuring says that was wrong, and the mistake was assuming
+  the only lever was the swing's AMPLITUDE.
+
+  The real driver is not the rotation alone but WHERE THE HAND IS. In `walk1`
+  the near hand swings in to x=54 against a head at x=50, so a near-vertical
+  weapon passes straight over it; in `walk0` the hand is out at x=60 and clears
+  the head at any angle. So the fix is to move the vertical extreme to the
+  half of the stride where the hand is out - a change of PHASE, not amplitude.
+- Measured, before and after, as steel-coloured pixels inside the head oval:
+
+      kind        before    after       (baseline in other poses)
+      guanyu        1034        0                            0
+      lidian        1072       48                           48
+      caoren         649        0                           44
+      lubu           657        0                           44
+      xuchu          633        0                            0
+      xuhuang        625        0                            0
+      weiyan         604        0                            0
+      soldier        591        0                            0
+      zhanghe        603        0                           48
+      zhangfei       436        0                           50
+      caocao         317        0                            0
+      zhangliao      201        0                            0
+
+  Zhao Yun and Huang Zhong read high in EVERY pose and are not in this table:
+  their own gear is silver, so they trip a steel probe wherever it looks. The
+  signal that matters is the walk1 SPIKE against the same kind's other poses.
+- Acceptance criteria:
+  - [x] `walk0` -1.28 -> -1.44 and `walk1` -1.50 -> -1.22. The swing is
+        unchanged in amplitude at 0.22 radians; only its phase moved
+  - [x] No pose clips its frame box - checked across all 17 kinds and 8 poses,
+        before and after, and the answer was none either way
+  - [x] The walk still reads as a swing, judged by eye across the whole cycle
+        rather than one frame (`artifacts/look/walkcycle.png`)
+  - [x] Every sprite gate still green, including the two this could have
+        broken: walk frames must differ by more than 0.008 of the frame, and
+        the walk-cycle foot shift must stay under 2 units
+  - [x] lint, typecheck, 155 unit, 43 e2e, vision 5/5 including renderer
+        parity, prodbuild 4/4, signal 13/13, build
+- Non-goals:
+  - No change to the face pass. ART-7 is done and its gate stays scoped to
+    `idle`, where the claim it makes is the one it can measure.

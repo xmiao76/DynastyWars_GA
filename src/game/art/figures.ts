@@ -131,7 +131,12 @@ const SKIN_ZHAOYUN = 0xf4d0ac     // young and fair
 const SKIN_HUANGZHONG = 0xd9ad86  // the old general, weathered
 const SKIN_WEIYAN = 0xc79a63      // sallow and hard
 
-const TALL: Build = { height: 1.03, bulk: 1.02, shoulders: 1.03, head: 0.97 }
+// 身长九尺 - Guan Yu is the one hero the novel makes a head taller than the
+// rest (Zhang Fei and Zhao Yun are 八尺). 1.03 was barely taller than Wei Yan's
+// 1.0, and it only read as different while `limbPath` was hollowing every
+// torso: with filled bodies the two silhouettes were 9% apart. 1.06 is the
+// story's proportion within what the frames and weapon-reach margins allow.
+const TALL: Build = { height: 1.06, bulk: 1.02, shoulders: 1.03, head: 0.97 }
 const HEAVY: Build = { height: 0.96, bulk: 1.18, shoulders: 1.14, head: 1.04 }
 const LEAN: Build = { height: 1.0, bulk: 0.93, shoulders: 0.97, head: 1 }
 const VETERAN: Build = { height: 0.96, bulk: 1.0, shoulders: 1.0, head: 1.02 }
