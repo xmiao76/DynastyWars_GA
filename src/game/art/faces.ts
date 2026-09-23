@@ -83,4 +83,11 @@ export const FACES: Record<FaceKind, FaceShape> = {
   // brow of the six, which reads as delicate rather than severe - a judgement
   // call rather than a source citation, unlike the silkworm brows above.
   sharp: { browAngle: -0.5, browWeight: 1.06, browLength: 1.1, eyeW: 0.88, eyeH: 0.85, eyeTilt: -0.12, eyeAspect: 2.45, browArch: 0.12 },
+  // 细眼 - Cao Cao, "narrow eyes", the one physical detail the novel gives him
+  // besides his long beard and his modest height. He shared `sharp` with Wei
+  // Yan and Xu Huang, whose eyes are wider than Guan Yu's phoenix eyes, so the
+  // man the sources single out for narrow eyes had some of the widest in the
+  // cast. The narrowest aperture of every kind, in both passes; brows level
+  // and hard rather than scowling - he is cold, not hot-tempered.
+  narrow: { browAngle: -0.26, browWeight: 1.08, browLength: 1.08, eyeW: 0.92, eyeH: 0.66, eyeTilt: -0.06, eyeAspect: 3.4, browArch: 0.08 },
 }

@@ -207,7 +207,12 @@ export const spriteHeadParts: HeadParts = (add, plan, p, m, headR) => {
   add((c) => ovalPath(c, p.head, headR, headR * 1.14, p.headRot), m.skin)
   // Hair before the headgear. A band or a turban leaves the crown bare, and a
   // bare crown on a flat fill reads as a billiard ball rather than a head.
-  if (plan.headgear === 'band' || plan.headgear === 'turban' || plan.headgear === 'crown') {
+  if (
+    plan.headgear === 'band' ||
+    plan.headgear === 'turban' ||
+    plan.headgear === 'crown' ||
+    plan.headgear === 'plumed'
+  ) {
     add(
       (c) =>
         ovalPath(
@@ -318,6 +323,10 @@ function addBeard(
   // It starts AT the jaw, not part-way up the face. Drawn higher, a dark beard
   // met the hair and Zhang Fei's head came out as one black mass with no face
   // in it - the same defect as the old cast, where the beard sat on the eyes.
+  if (plan.beard === 'bristle') {
+    add((c) => polyPath(c, bristleOutline(chin, headR)), m.hair)
+    return
+  }
   add(
     (c) =>
       polyPath(c, [
@@ -328,6 +337,87 @@ function addBeard(
       ]),
     m.hair,
   )
+}
+
+/**
+ * 虎须 - Zhang Fei's "tiger whiskers", the beard of 燕颔虎须.
+ *
+ * The same top edge as the smooth `full` beard - along the jaw, clear of the
+ * mouth - and the difference is all in the lower edge: the whiskers stand OUT
+ * from the jaw in spikes, forward, down and back, where the wedge they replace
+ * was a four-cornered block that read as the same beard Xu Chu wears. Exported
+ * so the gate that checks the spikes reads the shape the sprite draws.
+ */
+export function bristleOutline(chin: Pt, headR: number): Pt[] {
+  const r = headR
+  const at = (dx: number, dy: number): Pt => ({ x: chin.x + dx * r, y: chin.y + dy * r })
+  return [
+    at(-0.72, -0.1), // jaw, behind
+    at(0.5, -0.19), // jaw, front - the top edge the smooth beard has
+    at(0.86, 0.08), // spike forward
+    at(0.5, 0.36),
+    at(0.64, 0.78), // spike forward and down
+    at(0.26, 0.7),
+    at(0.14, 1.22), // spike down, the longest
+    at(-0.14, 0.82),
+    at(-0.42, 1.1), // spike down and back
+    at(-0.56, 0.66),
+    at(-1.0, 0.72), // spike back
+    at(-0.78, 0.28),
+  ]
+}
+
+/**
+ * 三叉束发紫金冠 with 雉尾 - Lu Bu's crown and pheasant-tail plumes.
+ *
+ * A small hair-binding crown with THREE prongs, the middle one tallest, and two
+ * long tail feathers sweeping up and back from it. `crown`, which he wore
+ * before, is Cao Cao's: a two-peaked zigzag on a bowl. In head-local units
+ * (x forward, y down, headR), so both the sprite and the gate derive the same
+ * shape; the plumes are centreline curves the drawing thickens.
+ */
+export const PLUMED = {
+  prongs: [
+    [-0.62, -1.02],
+    [-0.52, -1.52], // back prong
+    [-0.3, -1.12],
+    [-0.1, -1.72], // middle prong, tallest
+    [0.12, -1.12],
+    [0.34, -1.5], // front prong
+    [0.5, -1.0],
+  ] as ReadonlyArray<readonly [number, number]>,
+  /** base, control, tip of each plume's centreline. Near plume first. */
+  plumes: [
+    [[-0.26, -1.4], [-0.9, -3.4], [-2.6, -3.0]],
+    [[-0.1, -1.5], [0.1, -3.6], [-1.5, -3.5]],
+  ] as ReadonlyArray<readonly [readonly [number, number], readonly [number, number], readonly [number, number]]>,
+  /** Plume width at the base, in headR. It tapers to a point at the tip. */
+  plumeW: 0.3,
+}
+
+/** 雉尾 pheasant tail: rufous barred brown, fixed like the tassel red. */
+export const PLUME = 0xa8602c
+
+/** A tapered feather along a quadratic centreline, as a closed polygon.
+ * Shared with the portrait, which draws the same feathers frontally. */
+export function plumePolygon(base: Pt, ctrl: Pt, tip: Pt, w: number): Pt[] {
+  const N = 10
+  const left: Pt[] = []
+  const right: Pt[] = []
+  for (let i = 0; i <= N; i += 1) {
+    const t = i / N
+    const u = 1 - t
+    const x = u * u * base.x + 2 * u * t * ctrl.x + t * t * tip.x
+    const y = u * u * base.y + 2 * u * t * ctrl.y + t * t * tip.y
+    const dx = 2 * u * (ctrl.x - base.x) + 2 * t * (tip.x - ctrl.x)
+    const dy = 2 * u * (ctrl.y - base.y) + 2 * t * (tip.y - ctrl.y)
+    const len = Math.hypot(dx, dy) || 1
+    // Full width for the first third, then a taper to the point.
+    const half = (w / 2) * Math.min(1, (1 - t) * 1.5)
+    left.push({ x: x - (dy / len) * half, y: y + (dx / len) * half })
+    right.push({ x: x + (dy / len) * half, y: y - (dx / len) * half })
+  }
+  return [...left, ...right.reverse()]
 }
 
 /**
@@ -350,6 +440,9 @@ const GEAR_BOWL: Record<string, { cy: number; rx: number; ry: number }> = {
   // to MEASURE, and at a 40px head 0.09R of extra clearance is about 2 pixels.
   helmet: { cy: -0.7603, rx: 1.12, ry: 0.5197 },
   crown: { cy: -0.7204, rx: 1.08, ry: 0.4796 },
+  // Lu Bu's crown binds the hair on the same bowl as Cao Cao's, so the brim -
+  // and the face under it - do not move; what differs is everything above it.
+  plumed: { cy: -0.7204, rx: 1.08, ry: 0.4796 },
   turban: { cy: -0.8096, rx: 1.25, ry: 0.5604 },
 }
 
@@ -474,6 +567,21 @@ function addHeadgear(
         m.trim,
       )
       break
+    case 'plumed': {
+      const cos = Math.cos(p.headRot)
+      const sin = Math.sin(p.headRot)
+      const at = ([lx, ly]: readonly [number, number]): Pt => ({
+        x: h.x + headR * (lx * cos - ly * sin),
+        y: h.y + headR * (lx * sin + ly * cos),
+      })
+      // Plumes first, so the crown's prongs sit over their roots.
+      for (const [b, c0, t] of [...PLUMED.plumes].reverse()) {
+        add((c) => polyPath(c, plumePolygon(at(b), at(c0), at(t), headR * PLUMED.plumeW)), css(PLUME))
+      }
+      addBowl('plumed')
+      add((c) => polyPath(c, PLUMED.prongs.map(at)), m.trim)
+      break
+    }
     case 'band':
       add(
         (c) =>

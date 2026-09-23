@@ -3,6 +3,63 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-22 00:13 - ENH-8 (attempt 1)
+
+- Status before: ENH-8 TODO (no prior attempts). Consumer iteration under
+  run `2026-09-22T06-49-10Z-e7ded175`.
+- Work completed: touch pause button at bottom-centre (240,248), clear of
+  plates/bars/banners/down-texts in all HUD states. Circled-II glyph drawn
+  into the shared pad Graphics (no new named objects, so the pads==1 /
+  labels==3 visibility assertions cover it unchanged); named `touchPause`
+  zone on pointerup calling back into a shared `togglePause()` (P key
+  refactored onto it). pointerup is load-bearing, not stylistic: within
+  one input dispatch, game-object handlers run before scene-level
+  pointerdown (verified in the Phaser bundle), so a pointerdown toggle
+  could unpause and then immediately revive inside one tap during a
+  paused countdown; separating down/up makes the order irrelevant.
+  Overlay hint branches on `hasTouch()` (TAP TO RESUME vs PRESS P) -
+  caught by eye review (below), mirroring the continue hint. Zone
+  counts 7->8 in `TOUCH_ZONE_COUNT`, touch.spec and the prodbuild
+  phone-fit gate (the pause button is the 8th control).
+- Files changed: `src/game/adapters/touch.ts`,
+  `src/game/scenes/GameScene.ts`, `src/game/scenes/HudScene.ts`,
+  `e2e/touchpause.spec.ts` (new), `e2e/touch.spec.ts`,
+  `prodbuild/prodbuild.spec.ts`, `TASKS.md`, `PROGRESS.md`.
+- Tests (new, Pixel 7 emulation, real play): zone discovered by name
+  (never hard-coded); tap freezes 60 wall frames with full-snapshot
+  `toEqual`; PAUSED caption visibility pinned both directions; tap
+  resumes with tick advance. Falsified: zone unwired -> test fails.
+  Desktop absence (zero zones) covers the new zone with no change.
+- Verification run: lint clean; typecheck clean; unit 188/188; e2e
+  49/49 (48 + touchpause); signal 13/13 with marathons tick-identical
+  to ENH-6 (no core changes); vision 5/5 (9/9 frames, 256/256 sprites,
+  85/85 weapons, 170/170 retracts, parity clean, both negative
+  controls correct, HUD 1/1); prodbuild 4/4 (8 zones, portrait +
+  landscape on-screen); build ok. The one-line hint change landed
+  after the full pass and was re-verified on every path it touches
+  (pause/touchpause/touch/hud specs, 14/14); desktop vision, autopilot
+  signal, zone-count prodbuild and unit cannot observe a touch-only
+  text string, so those suites were not re-run (same reasoning as
+  GATE-3's config-only change).
+- Eye review (phone portrait capture): PAUSED slab + TAP TO RESUME
+  legible, pause glyph visible bottom-centre, d-pad + A/B/C + HUD all
+  clear, game fits the viewport. Desktop: vision metrics unchanged
+  (hasTouch-gated) + pause.spec overlay pins green.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
+- Status after: ENH-8 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
+  TODO or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer
+  pass when driven; standing owner items: deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound,
+  so oldest DONE ART-3 (lowest number of the chronological ART arc)
+  spliced to TASKS-ARCHIVE.md end (DONE now 20). PROGRESS.md reached
+  594 lines, so the oldest four finished entries (ENH-4, 02:55 producer,
+  MIGRATION-GA, 18:44 producer) moved to PROGRESS-ARCHIVE.md top (now
+  424 lines). Latest signal snapshot (this entry) and DIFF-1 BLOCKED
+  evidence kept.
+
 ### 2026-09-21 23:03 - PRODUCER PASS (first scheduled tick, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after the

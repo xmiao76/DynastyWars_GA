@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-23 01:15 - ART-17 (attempt 1, owner request: likeness)
+
+- Status before: TODO (second half of the 2026-09-22 owner request). Before
+  sheet `artifacts/look/closeup-a17before.png`: Cao Cao and Lu Bu wore the
+  identical `crown`; Zhang Fei's beard was the same smooth wedge as Xu Chu's;
+  Cao Cao shared `sharp` (eyeAspect 2.45) with Wei Yan/Xu Huang, rounder than
+  Guan Yu's phoenix eye (2.9).
+- Work completed (3 of 7 criteria):
+  1. Lu Bu 头戴三叉束发紫金冠 + 雉尾: new headgear `plumed` - three prongs (the
+     middle tallest) on the crown's bowl, so the brim and face-on-skin probe
+     are unchanged, plus two tapered pheasant plumes (PLUME 0xa8602c) sweeping
+     up and back on the sprite and parting to either side on the portrait.
+  2. Zhang Fei 燕颔虎须: new beard `bristle` - same upper edge as `full`, a
+     spiked lower edge on the sprite (`bristleOutline`) and a mirrored spiked
+     portrait beard with bristling moustache (`bristlePortraitOutline`).
+  3. Cao Cao 细眼: new face `narrow` (eyeAspect 3.4, eyeH 0.66) - both the
+     narrowest portrait aperture and the lowest in-play eye in the cast.
+- Files changed: src/game/art/figures.ts (kinds + zhangfei/caocao/lubu plans),
+  faces.ts (`narrow`), draw.ts (plumed/bristle sprite), portrait.ts
+  (plumed/bristle portrait); test/game/likeness.test.ts (new, 3 gates);
+  TASKS.md (ART-17 IN_PROGRESS, 3 boxes ticked); PROGRESS.md.
+- Verification run (serial): lint 0, tsc 0, unit 203/203 (29 files), vision
+  5/5 (SPRITE GATE 256/256 sprites, 85/85 weapons, 170/170 retracts), e2e 54
+  passed, selfplay 13 passed, prodbuild 4 passed, build ok.
+  Falsified on the pre-ART-17 cast data (figures.ts reverted in place, then
+  restored): all 3 likeness gates fail - Lu Bu reach margin 0.03R (2.08R vs
+  2.05R, gate > 1R), Zhang Fei beard-edge reversals 0 (gate >= 4), Cao Cao
+  eyeAspect 2.45 < Guan Yu 2.9. After: 3.63R vs 2.05R, >= 4, 3.4 max.
+  Sheets reviewed by eye: one-a17v3.png, closeup-a17v3.png, body-a17v1/v2.png.
+- Result: IN_PROGRESS (ART-17).
+- Status after: ART-17 IN_PROGRESS (3/7), ENH-12 TODO, 20 DONE, 0 BLOCKED.
+  Housekeeping: PROGRESS.md reached 513 lines with this entry; the oldest
+  entry (2026-09-22 00:13 ENH-8) moved to PROGRESS-ARCHIVE.md (-> 458 lines).
+- Remaining work or blocker: Guan Yu 唇若涂脂 red lips + chest-length beard;
+  Zhao Yun 浓眉大眼 heaviest brows / largest non-fierce eyes / broader jaw;
+  lidian/caoren/zhangliao/zhanghe pairwise distinct in-play faces (measured
+  face-region difference); final full-gate pass. The in-play sprite still draws
+  one mark set per face kind at ~2px scale - at device resolution the bristle
+  beard mostly sits behind Zhang Fei's near arm (the portrait carries it).
+- Next recommended task: ART-17 attempt 2 (Guan Yu lips/beard, Zhao Yun).
+
 ### 2026-09-23 00:24 - ART-16 (attempt 1, owner request: natural faces)
 
 - Status before: owner request (takes priority over ENH-12): review every
@@ -415,60 +456,3 @@ history slowly crowds out the work it is supposed to support.
 - Housekeeping (same iteration, rule 8): none needed. DONE count is 20
   (at the bound, ENH-9 is TODO); PROGRESS.md was 427 lines, stays under
   500 with this entry.
-
-### 2026-09-22 00:13 - ENH-8 (attempt 1)
-
-- Status before: ENH-8 TODO (no prior attempts). Consumer iteration under
-  run `2026-09-22T06-49-10Z-e7ded175`.
-- Work completed: touch pause button at bottom-centre (240,248), clear of
-  plates/bars/banners/down-texts in all HUD states. Circled-II glyph drawn
-  into the shared pad Graphics (no new named objects, so the pads==1 /
-  labels==3 visibility assertions cover it unchanged); named `touchPause`
-  zone on pointerup calling back into a shared `togglePause()` (P key
-  refactored onto it). pointerup is load-bearing, not stylistic: within
-  one input dispatch, game-object handlers run before scene-level
-  pointerdown (verified in the Phaser bundle), so a pointerdown toggle
-  could unpause and then immediately revive inside one tap during a
-  paused countdown; separating down/up makes the order irrelevant.
-  Overlay hint branches on `hasTouch()` (TAP TO RESUME vs PRESS P) -
-  caught by eye review (below), mirroring the continue hint. Zone
-  counts 7->8 in `TOUCH_ZONE_COUNT`, touch.spec and the prodbuild
-  phone-fit gate (the pause button is the 8th control).
-- Files changed: `src/game/adapters/touch.ts`,
-  `src/game/scenes/GameScene.ts`, `src/game/scenes/HudScene.ts`,
-  `e2e/touchpause.spec.ts` (new), `e2e/touch.spec.ts`,
-  `prodbuild/prodbuild.spec.ts`, `TASKS.md`, `PROGRESS.md`.
-- Tests (new, Pixel 7 emulation, real play): zone discovered by name
-  (never hard-coded); tap freezes 60 wall frames with full-snapshot
-  `toEqual`; PAUSED caption visibility pinned both directions; tap
-  resumes with tick advance. Falsified: zone unwired -> test fails.
-  Desktop absence (zero zones) covers the new zone with no change.
-- Verification run: lint clean; typecheck clean; unit 188/188; e2e
-  49/49 (48 + touchpause); signal 13/13 with marathons tick-identical
-  to ENH-6 (no core changes); vision 5/5 (9/9 frames, 256/256 sprites,
-  85/85 weapons, 170/170 retracts, parity clean, both negative
-  controls correct, HUD 1/1); prodbuild 4/4 (8 zones, portrait +
-  landscape on-screen); build ok. The one-line hint change landed
-  after the full pass and was re-verified on every path it touches
-  (pause/touchpause/touch/hud specs, 14/14); desktop vision, autopilot
-  signal, zone-count prodbuild and unit cannot observe a touch-only
-  text string, so those suites were not re-run (same reasoning as
-  GATE-3's config-only change).
-- Eye review (phone portrait capture): PAUSED slab + TAP TO RESUME
-  legible, pause glyph visible bottom-centre, d-pad + A/B/C + HUD all
-  clear, game fits the viewport. Desktop: vision metrics unchanged
-  (hasTouch-gated) + pause.spec overlay pins green.
-- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
-- Status after: ENH-8 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
-  TODO or IN_PROGRESS remains.
-- Remaining work or blocker: none for this task.
-- Next recommended task: none available without the owner (producer
-  pass when driven; standing owner items: deploy).
-
-- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound,
-  so oldest DONE ART-3 (lowest number of the chronological ART arc)
-  spliced to TASKS-ARCHIVE.md end (DONE now 20). PROGRESS.md reached
-  594 lines, so the oldest four finished entries (ENH-4, 02:55 producer,
-  MIGRATION-GA, 18:44 producer) moved to PROGRESS-ARCHIVE.md top (now
-  424 lines). Latest signal snapshot (this entry) and DIFF-1 BLOCKED
-  evidence kept.

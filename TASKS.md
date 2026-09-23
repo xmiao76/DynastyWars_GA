@@ -14,7 +14,7 @@ Add future enhancement tasks below this heading.
 
 ### ART-17 - Heroes and bosses do not yet look as the histories describe them (owner request, part 2)
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1: 3 of 7 criteria met - Lu Bu, Zhang Fei, Cao Cao)
 - Requirement:
   Second half of the 2026-09-22 owner request ("for every hero and boss,
   enhance their appearance to make them look just like they were described in
@@ -32,13 +32,16 @@ Add future enhancement tasks below this heading.
   Lu Bu 头戴三叉束发紫金冠 (with 雉尾 plumes), 西川红锦百花袍;
   Xu Chu 身长八尺余, 腰大十围; Xiahou Dun lost his left eye.
 - Acceptance criteria (each a falsified gate or a before/after sheet):
-  - [ ] Lu Bu's headgear is its own shape (三叉紫金冠 with two plumes), and its
+  - [x] Lu Bu's headgear is its own shape (三叉紫金冠 with two plumes), and its
         portrait/sprite silhouette differs from Cao Cao's crown by a measured margin.
-  - [ ] Zhang Fei's beard is bristling (虎须: jagged outline), not the smooth wedge.
+        (`plumed`; likeness.test.ts: sprite reach 2.08R -> 3.63R vs Cao Cao 2.05R, gate > 1R.)
+  - [x] Zhang Fei's beard is bristling (虎须: jagged outline), not the smooth wedge.
+        (`bristle`; likeness.test.ts: portrait beard edge reversals 0 -> >= 4.)
   - [ ] Guan Yu's lips read red (唇若涂脂) and his beard reaches the chest.
   - [ ] Zhao Yun's brows are the heaviest of the fair-skinned cast (浓眉) and his
         eyes the largest non-fierce eyes (大眼), with a broader jaw.
-  - [ ] Cao Cao's eyes are the narrowest in the cast (细眼, eyeAspect gate).
+  - [x] Cao Cao's eyes are the narrowest in the cast (细眼, eyeAspect gate).
+        (`narrow` face: eyeAspect 3.4 / eyeH 0.66, both extremes of the cast.)
   - [ ] The four "generic" bosses are pairwise distinct on the in-play head by a
         measured face-region difference, not by hat colour alone.
   - [ ] Troops keep the plain face and shared skin; all existing gates green.

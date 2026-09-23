@@ -1,4 +1,13 @@
-import { DEFAULT_BANDS, figureShapes, headRadius, paintCel, type CelBand, type HeadParts } from './draw'
+import {
+  DEFAULT_BANDS,
+  PLUME,
+  figureShapes,
+  headRadius,
+  paintCel,
+  plumePolygon,
+  type CelBand,
+  type HeadParts,
+} from './draw'
 import { CATCHLIGHT, EYE_BASE_W, FACES, IRIS, PUPIL, SCLERA } from './faces'
 import type { FigurePlan } from './figures'
 import { INK, SKIN, css, materials, shade, tint, type Materials } from './palette'
@@ -116,6 +125,7 @@ const GEAR: Record<string, { thickness: number; top: number }> = {
   helmet: { thickness: 0.1, top: -1.36 }, // top = the crest tip
   turban: { thickness: 0.22, top: -1.35 }, // top = the knot
   crown: { thickness: 0.08, top: -1.42 }, // top = the zigzag peaks
+  plumed: { thickness: 0.08, top: -1.72 }, // top = the middle prong; the plumes run out of frame
   band: { thickness: 0, top: -1.1 },
   hood: { thickness: 0, top: -1.24 },
 }
@@ -321,6 +331,26 @@ function portraitBeard(
   // is what the first pass did, worst of all on Huang Zhong's white one.
   const drop = long ? 2.3 : 1.9
   const hang = long ? 0.4 : 0.48
+  if (plan.beard === 'bristle') {
+    // 虎须: the same upper edge - sideburns, under the lip - and a lower edge
+    // that stands out in spikes rather than hanging as one smooth wedge. The
+    // spikes reach past the jaw on BOTH sides, which is what "whiskers like a
+    // tiger's" means on a frontal face. Still runs off the bottom of the frame
+    // in the middle, so it never ends in a flat line.
+    paint(bristlePortraitOutline(), m.hair)
+    ctx.fillStyle = css(shade(plan.beardColor ?? 0x3a2a18, 0.3))
+    for (const side of [1, -1]) {
+      limbPath(ctx, p(side * 0.3, 1.0), p(side * 0.62, 1.52), headR * 0.08, headR * 0.04)
+      ctx.fill()
+    }
+    ctx.fillStyle = m.hair
+    for (const side of [1, -1]) {
+      // The moustache bristles too: out and slightly up at the ends.
+      limbPath(ctx, p(side * 0.04, 0.5), p(side * 0.46, 0.44), headR * 0.08, headR * 0.04)
+      ctx.fill()
+    }
+    return
+  }
   paint(
     [
       [-0.72, 0.3], // sideburn
@@ -361,6 +391,33 @@ function portraitBeard(
     limbPath(ctx, p(side * 0.04, 0.5), p(side * 0.36, 0.56), headR * 0.07, headR * 0.05)
     ctx.fill()
   }
+}
+
+/**
+ * 虎须 on the frontal head, in (HW, headR) units. Exported so the gate that
+ * counts the spikes measures the shape the portrait paints.
+ */
+export function bristlePortraitOutline(): Array<[number, number]> {
+  const right: Array<[number, number]> = [
+    [0.0, 0.92], // clear of the lower lip, as the smooth beard is
+    [0.5, 0.74],
+    [0.72, 0.3], // sideburn
+    [0.8, 0.62],
+    [1.06, 0.74], // spike out, just past the jaw
+    [0.82, 0.86],
+    [1.06, 1.02], // spike out and down
+    [0.76, 1.08],
+    [0.94, 1.3], // spike down and out
+    [0.6, 1.3],
+    // The frame ends about 1.4R below the eye line: the spikes live above it,
+    // where the player sees them, and the middle runs off the bottom.
+    [0.6, 1.62],
+    [0.3, 1.56],
+  ]
+  // Down the right side, across the bottom, and back up the mirrored left -
+  // one centre point at the top (under the lip), one at the bottom.
+  const left = right.slice(1).reverse().map(([x, y]): [number, number] => [-x, y])
+  return [...right, [0.0, 2.0], ...left]
 }
 
 /**
@@ -422,6 +479,40 @@ const portraitHeadParts: HeadParts = (add, plan, p, m, headR) => {
             at(-0.06, -1.12),
             at(0.42, GEAR.crown?.top ?? -1.42),
             at(0.88, -1.02),
+          ]),
+        m.trim,
+      )
+      break
+    case 'plumed':
+      // 三叉紫金冠 with 雉尾, frontal: the plumes rise from behind the crown and
+      // part to either side, and three prongs stand over the bowl, the middle
+      // tallest. Symmetric, like everything else on the frontal head.
+      for (const side of [1, -1]) {
+        add(
+          (c) =>
+            polyPath(
+              c,
+              plumePolygon(
+                at(side * 0.18, -1.3),
+                at(side * 0.7, -2.1),
+                at(side * 2.1, -1.9),
+                headR * 0.26,
+              ),
+            ),
+          css(PLUME),
+        )
+      }
+      add((c) => capPath(c, at, GEAR.plumed?.thickness ?? 0.08), m.gear)
+      add(
+        (c) =>
+          polyPath(c, [
+            at(-0.9, -1.04),
+            at(-0.62, -1.48),
+            at(-0.36, -1.12),
+            at(0, GEAR.plumed?.top ?? -1.72),
+            at(0.36, -1.12),
+            at(0.62, -1.48),
+            at(0.9, -1.04),
           ]),
         m.trim,
       )

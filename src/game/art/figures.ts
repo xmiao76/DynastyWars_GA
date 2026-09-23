@@ -16,19 +16,30 @@ import type { Build } from './rig'
  * stripped out, which is the standard a fighting-game roster is held to.
  */
 
-export type HeadgearKind = 'helmet' | 'hood' | 'crown' | 'band' | 'turban'
+/**
+ * `plumed` is Lu Bu's 三叉束发紫金冠 - the three-pronged hair-binding crown of
+ * purple gold, worn with two 雉尾 pheasant-tail plumes. It was the same
+ * `crown` Cao Cao wears, so the two most famous villains in the novel shared a
+ * hat; the plumes are what every depiction of Lu Bu gives him.
+ */
+export type HeadgearKind = 'helmet' | 'hood' | 'crown' | 'plumed' | 'band' | 'turban'
 /**
  * `dao` (Wei Yan's 大刀) and `ji` (Lu Bu's 方天画戟) joined the original five.
  * The ladder is story-true and monotonic - see WEAPONS.
  */
 export type WeaponKind = 'glaive' | 'pike' | 'spear' | 'sword' | 'dao' | 'ji' | 'bow'
-export type BeardKind = 'long' | 'full' | 'none'
+/**
+ * `bristle` is Zhang Fei's 虎须, "tiger whiskers": the novel's 燕颔虎须 is a
+ * beard that stands out from the jaw in spikes. Drawn with the `full` beard's
+ * smooth wedge it read as the same beard Xu Chu wears.
+ */
+export type BeardKind = 'long' | 'full' | 'bristle' | 'none'
 /**
  * Brow and eye shaping. Colour alone makes five faces distinguishable; this is
  * what makes each one read as THAT character - Guan Yu's slanted phoenix eyes,
  * Zhang Fei's round glare, Huang Zhong's hooded age.
  */
-export type FaceKind = 'plain' | 'phoenix' | 'fierce' | 'calm' | 'aged' | 'sharp'
+export type FaceKind = 'plain' | 'phoenix' | 'fierce' | 'calm' | 'aged' | 'sharp' | 'narrow'
 
 export interface FigurePlan {
   build: Build
@@ -160,7 +171,7 @@ const BOSS_HUGE: Build = { height: 1.02, bulk: 1.34, shoulders: 1.26, head: 0.9 
  */
 export const HERO_FIGURES: Record<string, FigurePlan> = {
   guanyu: plan(0x2a7a2a, 0xd8c060, 0x1a5a1a, 'hood', 'glaive', TALL, 'long', 0x3a2a18, true, SKIN_GUANYU, 'phoenix'),
-  zhangfei: plan(0x8e3520, 0x3a3a3a, 0x1a1a1a, 'band', 'pike', HEAVY, 'full', 0x181410, false, SKIN_ZHANGFEI, 'fierce'),
+  zhangfei: plan(0x8e3520, 0x3a3a3a, 0x1a1a1a, 'band', 'pike', HEAVY, 'bristle', 0x181410, false, SKIN_ZHANGFEI, 'fierce'),
   zhaoyun: plan(0x2f5fb3, 0xc84a4a, 0xc0c8d4, 'helmet', 'spear', LEAN, 'none', undefined, true, SKIN_ZHAOYUN, 'calm'),
   huangzhong: plan(0xb8860b, 0xe0c060, 0x6a5a1a, 'band', 'bow', VETERAN, 'long', 0xb0b0b0, false, SKIN_HUANGZHONG, 'aged'),
   weiyan: plan(0x6a3a8b, 0xb080d0, 0x4a2a6a, 'turban', 'dao', SOLID, 'none', undefined, false, SKIN_WEIYAN, 'sharp'),
@@ -187,8 +198,13 @@ export const ENEMY_FIGURES: Record<string, FigurePlan> = {
    *   張遼 Zhang Liao   the dashing awe-inspiring one     phoenix
    *   徐晃 Xu Huang     the disciplined veteran           sharp
    *   張郃 Zhang He     the refined one                   calm
-   *   曹操 Cao Cao      the cold, suspicious villain      sharp
+   *   曹操 Cao Cao      the cold, suspicious villain      narrow (细眼)
    *   呂布 Lu Bu        the mightiest, and the baseline   fierce
+   *
+   * ART-17 gave the two most famous of them what the novel names them by:
+   * Cao Cao is 身长七尺, 细眼长髯 - narrow eyes and a long beard - and Lu Bu
+   * wears the 三叉束发紫金冠 with 雉尾 plumes, where he used to wear Cao Cao's
+   * own crown.
    */
   lidian: plan(0x27275e, 0x6a6ab0, 0x14143a, 'helmet', 'glaive', BOSS_LEAN, 'none', undefined, false, 0xe4c09a, 'calm'),
   xiahoudun: plan(0x5e2247, 0xb05a8a, 0x2a0a1a, 'band', 'spear', BOSS, 'full', 0x201018, false, 0xcfa87e, 'fierce', true),
@@ -197,6 +213,6 @@ export const ENEMY_FIGURES: Record<string, FigurePlan> = {
   zhangliao: plan(0x1f4a33, 0x5aa87e, 0x0a2a1a, 'helmet', 'spear', BOSS_LEAN, 'none', undefined, true, 0xe0bc94, 'phoenix'),
   xuhuang: plan(0x5e3620, 0xb8864a, 0x2a1a0a, 'band', 'glaive', BOSS, 'long', 0x2a1a10, false, 0xd2a87c, 'sharp'),
   zhanghe: plan(0x2d5a49, 0x6ec0a0, 0x1a2a2a, 'helmet', 'sword', BOSS_LEAN, 'none', undefined, true, 0xe8c4a0, 'calm'),
-  caocao: plan(0x452073, 0xc8a828, 0xb8860b, 'crown', 'sword', BOSS, 'long', 0x241a18, true, 0xd8b48c, 'sharp'),
-  lubu: plan(0xa82222, 0xe8c828, 0xd0b01a, 'crown', 'ji', BOSS_HUGE, 'none', undefined, true, 0xf0c8a0, 'fierce'),
+  caocao: plan(0x452073, 0xc8a828, 0xb8860b, 'crown', 'sword', BOSS, 'long', 0x241a18, true, 0xd8b48c, 'narrow'),
+  lubu: plan(0xa82222, 0xe8c828, 0xd0b01a, 'plumed', 'ji', BOSS_HUGE, 'none', undefined, true, 0xf0c8a0, 'fierce'),
 }
