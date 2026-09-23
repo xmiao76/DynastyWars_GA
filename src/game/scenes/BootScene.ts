@@ -3,6 +3,7 @@ import { RENDER_SCALE } from '../render'
 import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
 import { loadDisplayFont } from '../ui/type'
 import displayFontUrl from '../assets/fonts/zcool-qingke-huangyou-subset.woff2?url'
+import titleKeyartUrl from '../assets/title/keyart-backdrop.jpg?url'
 
 interface ArtManifest {
   sprites?: Record<string, string[]>
@@ -43,6 +44,9 @@ export class BootScene extends Phaser.Scene {
 
   preload(): void {
     queueHeroArt(this)
+    // Title key art: a missing file only costs the photo backdrop - TitleScene
+    // paints the procedural dusk battle instead (same atomic-art philosophy).
+    this.load.image('ui:keyart-photo', titleKeyartUrl)
   }
 
   create(): void {
@@ -55,12 +59,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   private enterTitle(): void {
-    // Temporary UI-1 style-frame mock (removed in UI-2): same debug-switch
-    // family as ?bakedart=1 and ?autopilot=1; nothing in normal play sets it.
-    if (new URLSearchParams(window.location.search).get('styleframe') === '1') {
-      this.scene.start('styleframe')
-      return
-    }
     // A build that ships no baked art never asks the server for a manifest.
     // This used to be decided by fetching and seeing what came back, which
     // made the game's appearance depend on a file being ABSENT: after

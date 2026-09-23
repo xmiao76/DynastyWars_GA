@@ -3,6 +3,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { audio } from '../audio/sfx'
 import { addVignette, drawSlab } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
+import { browserStorage, writeHiScore } from '../ui/hiscore'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
@@ -31,6 +32,8 @@ export class GameOverScene extends Phaser.Scene {
     this.bridge.scene = 'gameover'
     this.bridge.sim = null
     audio.stopMusic()
+    // A finished run's final score is the only thing the hi-score records.
+    writeHiScore(browserStorage(), data.score ?? 0)
 
     // Dark battlefield backdrop with a dying red glow.
     this.add.rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x12080a)

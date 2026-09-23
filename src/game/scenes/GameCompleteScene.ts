@@ -9,6 +9,7 @@ import { CHARACTER_ORDER } from '../../core/characters'
 import { ensureEntityTextures } from '../adapters/sprites'
 import { addVignette, drawSlab } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
+import { browserStorage, writeHiScore } from '../ui/hiscore'
 import { useLogicalViewport } from '../ui/viewport'
 
 export interface GameCompleteSceneData {
@@ -35,6 +36,7 @@ export class GameCompleteScene extends Phaser.Scene {
 
     const score = data.score ?? 0
     const totalSeconds = ((data.totalTicks ?? 0) / 60).toFixed(1)
+    writeHiScore(browserStorage(), score)
 
     // The ending was the one screen that never got the framed treatment the
     // rest of the game uses: plain text on a near-black field. It is the last

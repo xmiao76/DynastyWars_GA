@@ -2921,3 +2921,44 @@ and the three pre-redesign enhancements - all DONE and verified)
     overlay hint text is unchanged (it names P, which still resumes) -
     a cosmetic asymmetry for pad players, deliberately out of the
     stated scope.
+
+### ART-10 - Guan Yu's defining brows were the second-lightest in the cast
+
+- Status: DONE
+- Requirement:
+  The fourth of the four defects the owner confirmed in ART-9 was "they don't
+  look like the specific heroes", and it is the one that round addressed least
+  - it fixed the eye SHAPES but not much else. Auditing `FACES` against the
+  standard descriptions found one clear error and one mismatch.
+
+  关羽 Guan Yu is named for three things: 面如重枣 the date-red face, 美髯 the
+  beard, and 卧蚕眉 - "reclining silkworm" brows, which means THICK and gently
+  curved. The `phoenix` row gave him `browWeight: 0.95`, the SECOND LIGHTEST of
+  the six face kinds. The one feature of his the sources name alongside the
+  beard and the complexion was drawn backwards, and had been since ART-1.
+- Acceptance criteria:
+  - [x] `phoenix` brows made heavy and curved: `browWeight` 0.95 -> 1.32,
+        `browArch` 0.14 -> 0.17, and the steep `browAngle` -0.55 -> -0.36,
+        because a silkworm brow CURVES rather than slants. Guan Yu now reads
+        with the heaviest brows in the cast bar one, which is what 卧蚕眉 means
+  - [x] `sharp` brows 0.8 -> 1.06. STATED AS A JUDGEMENT CALL rather than a
+        citation, unlike the above: no source describes Wei Yan's, Xu Huang's
+        or Cao Cao's brow weight, but "severe and hard" carrying the LIGHTEST
+        brow of the six read as delicate instead
+  - [x] Checked the other three against the sources and left them alone:
+        张飞 豹头环眼 has the round glare (`eyeAspect` 1.55) and the largest
+        head (`build.head` 1.04); 赵云 浓眉大眼 has thick brows (1.18) and big
+        eyes (`eyeW` 1.12); 黄忠 the old general has the heaviest brows (1.35)
+        and hooded eyes. All three already matched
+  - [x] `FACES` is shared, so this moves the IN-PLAY faces too - intended, and
+        every sprite gate re-run
+  - [x] lint, typecheck, 155 unit, 43 e2e, vision 5/5 including renderer parity
+        and the sprite gate at 148/148, prodbuild 4/4, signal 13/13, build
+- Flagged, unchanged, and the owner's call:
+  魏延 WEI YAN IS 面如重枣 IN THE NOVEL - the same date-red face as Guan Yu
+  (ch. 41, 面如重枣，目若朗星). This repo deliberately made him sallow instead,
+  because Guan Yu's red face is his signature and the hero complexion-pair gate
+  requires every pair to differ by more than 18 mean luma. Recorded here rather
+  than changed, for the third time, so the deviation stays visible.
+- Non-goals:
+  - No new face kinds, no silhouette change, no complexion change.

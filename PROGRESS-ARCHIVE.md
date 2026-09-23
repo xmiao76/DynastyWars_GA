@@ -3,6 +3,116 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-22 13:09 - PRODUCER PASS (input-parity review, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after
+  ENH-9. Tree clean at 3cf53af. Run `2026-09-22T19-49-05Z-e88de4a6`.
+- LOGIC signal: 13/13 ok, exit 0, zero invariant violations and zero
+  page errors. Marathons identical to the standing post-arrow snapshot:
+  guanyu 2640/0c + 3144/0c; zhangfei 2640/0c + 2832/0c; huangzhong
+  3768/1c + 4524/1c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
+  3324,3576,6720,5988,4548,4440,5484,8196,6324 with continues
+  0,0,2,1,1,0,2,3,2. DIFF-1 shape unchanged (known blocked item). No
+  regression.
+- VISUAL signal: 5/5 ok, exit 0. Frames 9/9 pass; sprites 256/256,
+  weapons 85/85, retracts 170/170; renderer parity clean all 7 screens;
+  both negative controls failing correctly; HUD 1/1; findings.jsonl 0
+  bytes. No UX_REVIEW.md.
+- Frame sweep: SUBJECTED TO THE IMAGE-DISPLAY DEFECT, recorded as a
+  limitation rather than a review. The read_image display served
+  mismatched content in batched reads, in isolated reads, and in a
+  set-based 9-frame batch (duplicates + foreign captures), while a
+  pixel arbiter (@napi-rs/canvas signature scan) confirmed all nine
+  files are correct and mutually distinct (title holds its 4029px gold
+  logo band, game_over 0 gold, gameplay frames luma ~95, etc).
+  PER EVAL-LOOP STEP 3: no reliable subjective image review was
+  performed this pass. Partial unattributable views seen across the
+  attempts showed no defects. Note for future passes: earlier sweeps'
+  eye verdicts may have been partially mis-served too; programmatic
+  evidence (vision metrics on the real pixels + arbiter) is the ground
+  truth until the display pipeline is fixed.
+- Opportunity review (ONE area: input parity of pause): pause shipped
+  keyboard-only (ENH-7) and gained touch parity (ENH-8), but GAMEPAD
+  players (first-class input per PROJECT.md) have no pause path at all,
+  and Start (button 9) is provably inert during gameplay
+  (watchConfirmButton -> confirmContinue no-ops outside game-over).
+  Same evidential shape as ENH-8; fix is a binding to the shared
+  togglePause(), testable with the existing synthetic-pad harness.
+  Filed ENH-11 (TODO). One-area budget spent, no second area inspected.
+- Rejected/not pursued: touch-mute parity (M keyboard-only is real but
+  mitigated by device hardware volume - weaker than the pause cases);
+  anything in the image-display tooling (harness-level, outside this
+  repository).
+- Files changed: TASKS.md (ENH-11 TODO), PROGRESS.md,
+  artifacts/loop/proposals-gamepadpause-enh11.md (gitignored scratch).
+- Verification run: both suites via direct node Playwright CLIs with
+  full logs to artifacts/loop/signal-tick.log + vision-tick.log
+  (gitignored). No game source touched in this pass.
+- Result: COMPLETED - one accepted proactive proposal; the frame sweep
+  is reported as unreviewed-by-eye with programmatic coverage instead.
+- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-11 TODO.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
+  standing owner items unchanged (deploy).
+- Next recommended task: ENH-11 (a later consumer implements it).
+
+- Housekeeping (same iteration, rule 8): DONE count is 20 (at the
+  bound, ENH-11 is TODO). PROGRESS.md crossed 500 lines with this
+  entry, so the oldest entry (2026-09-21 20:38 producer pass, 58
+  finished lines) moved to PROGRESS-ARCHIVE.md top; now 463 lines.
+  Latest signal snapshot (this entry) and DIFF-1 evidence kept.
+
+### 2026-09-22 12:35 - ENH-9 (attempt 1)
+
+- Status before: ENH-9 TODO (no prior attempts); first TODO after the
+  owner's ENH-10 took priority last iteration. Run
+  `2026-09-22T18-52-08Z-2914ec9e`.
+- Work completed: the stage-clear beat now counts in update() below the
+  pause gate (`clearMsLeft`, the continue-countdown template) instead of
+  `time.delayedCall(2000)`, which fired straight through a pause and
+  moved to the result scene under the PAUSED overlay. Same 2000ms beat,
+  armed at the same event drain, same payload read at fire time - only
+  the clock source changed (Phaser time plugin -> update delta).
+- Files changed: `src/game/scenes/GameScene.ts`, `e2e/pause.spec.ts`
+  (+1 test), `TASKS.md`, `PROGRESS.md`.
+- Tests (new, real play): drives the REAL clear path (forceBoss, boss
+  down -> stageclear event -> 2s beat), pauses inside the window, then:
+  scene still 'game' after 3 wall seconds + PAUSED caption visible
+  (the old code flips to 'result' at ~2s); resume completes the trip to
+  the result scene with no further input. Both mechanisms falsified by
+  probe: restoring the old delayedCall -> "the result scene arrived
+  under the PAUSED overlay"; suppressing the transition -> the resume
+  assert fails. Restored green.
+- Sweep (acceptance): every gameplay scene.start now pause-gated -
+  pending-restart, gameover expiry, clear->result (this fix). Menu
+  transitions run only after the game scene is gone (no pause exists
+  there); bridge forceResult/forceGameOver are harness aids by design.
+- Verification run: lint clean; typecheck clean; unit 196/196; e2e
+  53/53 (+1; pause 4/4 and the bot-driven stageclear spec green on the
+  unpaused path), signal 13/13 (marathons identical to the ENH-10
+  post-arrow tables - zero sim impact, as expected for a scene-layer
+  change), vision 5/5, prodbuild 4/4, build ok.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
+- Status after: ENH-9 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
+  TODO or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer
+  pass when driven; standing owner items: deploy).
+
+- Housekeeping (same iteration, rule 8): DONE count hit 21, so oldest
+  DONE ART-5 spliced to TASKS-ARCHIVE.md (20 held). A splice mishap is
+  recorded rather than hidden: the first attempt bounded the block by
+  the ENH-9 header instead of the NEXT `### ` header and swept ART-5
+  through ENH-8 (458 lines, including BLOCKED DIFF-1) into the archive.
+  Uncommitted state only; fully repaired before any commit by reinserting
+  the 10-entry block with content-anchored asserts, then re-splicing
+  ART-5 alone (42 lines, bounded by DIFF-1's header). Verified after
+  repair: DONE 20 / BLOCKED 1 / TODO 0, DIFF-1 back in TASKS.md,
+  archive tail chronological (ART-3, ART-4, ART-5). PROGRESS.md passed
+  500 lines, so the oldest two finished entries (ENH-5, ENH-6) moved to
+  PROGRESS-ARCHIVE.md top (now 464 lines); latest signal snapshot and
+  DIFF-1 evidence kept.
+
 ### 2026-09-22 11:49 - ENH-10 (attempt 1, explicit owner request)
 
 - Status before: owner requested two arrow fixes (hit height + hanging

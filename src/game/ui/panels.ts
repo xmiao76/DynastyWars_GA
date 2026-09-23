@@ -284,6 +284,71 @@ export function ensureDisplayTextTexture(
 }
 
 /**
+ * Bake a light-sweep ("sheen") strip for an already-baked heading and return
+ * its key. The strip stacks `frames + 1` copies of the heading vertically:
+ * frame `f0` is the plain heading, `f1..fN` carry a soft diagonal glint at
+ * successive positions. The glint is weighted by each pixel's own brightness,
+ * so it lights the foil faces and leaves the dark outline and drop shadow
+ * dark (a flat `source-atop` wash greyed the halo). Cycling frames is how the
+ * glint moves - no mask, no WebGL-only blend - so canvas and WebGL draw
+ * exactly the same pixels. Idempotent.
+ */
+export function ensureSheenStrip(scene: Phaser.Scene, baseKey: string, frames = 12): string {
+  const key = `${baseKey}:sheen${frames}`
+  if (scene.textures.exists(key) || !scene.textures.exists(baseKey)) return key
+  const source = scene.textures.get(baseKey).getSourceImage() as CanvasImageSource & {
+    width: number
+    height: number
+  }
+  const w = source.width
+  const h = source.height
+  const canvas = document.createElement('canvas')
+  canvas.width = w
+  canvas.height = h * (frames + 1)
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return key
+  ctx.drawImage(source, 0, 0)
+  const base = ctx.getImageData(0, 0, w, h).data
+  const half = Math.max(6, h * 0.45)
+  // The band leans: its centre sits `lean` px further right at the bottom.
+  const lean = h * 0.5
+  for (let i = 1; i <= frames; i += 1) {
+    // Travel from fully left of the heading to fully right of it.
+    const cx = -half - lean + ((w + (half + lean) * 2) * (i - 1)) / Math.max(1, frames - 1)
+    const out = ctx.createImageData(w, h)
+    const px = out.data
+    for (let y = 0; y < h; y += 1) {
+      const centre = cx + (lean * y) / h
+      for (let x = 0; x < w; x += 1) {
+        const o = (y * w + x) * 4
+        const r = base[o] ?? 0
+        const g = base[o + 1] ?? 0
+        const b = base[o + 2] ?? 0
+        const a = base[o + 3] ?? 0
+        px[o] = r
+        px[o + 1] = g
+        px[o + 2] = b
+        px[o + 3] = a
+        const d = Math.abs(x - centre) / half
+        if (d >= 1 || a === 0) continue
+        const lum = (r * 0.3 + g * 0.55 + b * 0.15) / 255
+        // Only lit faces catch the glint; below ~0.35 luminance stays put.
+        const catchLight = Math.max(0, (lum - 0.35) / 0.65)
+        const k = (1 - d * d) * catchLight * 0.85
+        px[o] = Math.min(255, r + (255 - r) * k)
+        px[o + 1] = Math.min(255, g + (250 - g) * k)
+        px[o + 2] = Math.min(255, b + (225 - b) * k)
+      }
+    }
+    ctx.putImageData(out, 0, i * h)
+  }
+  const texture = scene.textures.addCanvas(key, canvas)
+  if (!texture) return key
+  for (let i = 0; i <= frames; i += 1) texture.add(`f${i}`, 0, 0, i * h, w, h)
+  return key
+}
+
+/**
  * Register the wordmark texture and return its key. Idempotent.
  *
  * Measured before it is drawn, because the font stack resolves differently on

@@ -342,47 +342,6 @@ Add future enhancement tasks below this heading.
   - The dormant bake pipeline's literal pose lists (`scripts/bake-core.mjs`,
     `scripts/make-sample.mjs`) stay as they are - that pipeline ships nothing.
 
-### ART-10 - Guan Yu's defining brows were the second-lightest in the cast
-
-- Status: DONE
-- Requirement:
-  The fourth of the four defects the owner confirmed in ART-9 was "they don't
-  look like the specific heroes", and it is the one that round addressed least
-  - it fixed the eye SHAPES but not much else. Auditing `FACES` against the
-  standard descriptions found one clear error and one mismatch.
-
-  关羽 Guan Yu is named for three things: 面如重枣 the date-red face, 美髯 the
-  beard, and 卧蚕眉 - "reclining silkworm" brows, which means THICK and gently
-  curved. The `phoenix` row gave him `browWeight: 0.95`, the SECOND LIGHTEST of
-  the six face kinds. The one feature of his the sources name alongside the
-  beard and the complexion was drawn backwards, and had been since ART-1.
-- Acceptance criteria:
-  - [x] `phoenix` brows made heavy and curved: `browWeight` 0.95 -> 1.32,
-        `browArch` 0.14 -> 0.17, and the steep `browAngle` -0.55 -> -0.36,
-        because a silkworm brow CURVES rather than slants. Guan Yu now reads
-        with the heaviest brows in the cast bar one, which is what 卧蚕眉 means
-  - [x] `sharp` brows 0.8 -> 1.06. STATED AS A JUDGEMENT CALL rather than a
-        citation, unlike the above: no source describes Wei Yan's, Xu Huang's
-        or Cao Cao's brow weight, but "severe and hard" carrying the LIGHTEST
-        brow of the six read as delicate instead
-  - [x] Checked the other three against the sources and left them alone:
-        张飞 豹头环眼 has the round glare (`eyeAspect` 1.55) and the largest
-        head (`build.head` 1.04); 赵云 浓眉大眼 has thick brows (1.18) and big
-        eyes (`eyeW` 1.12); 黄忠 the old general has the heaviest brows (1.35)
-        and hooded eyes. All three already matched
-  - [x] `FACES` is shared, so this moves the IN-PLAY faces too - intended, and
-        every sprite gate re-run
-  - [x] lint, typecheck, 155 unit, 43 e2e, vision 5/5 including renderer parity
-        and the sprite gate at 148/148, prodbuild 4/4, signal 13/13, build
-- Flagged, unchanged, and the owner's call:
-  魏延 WEI YAN IS 面如重枣 IN THE NOVEL - the same date-red face as Guan Yu
-  (ch. 41, 面如重枣，目若朗星). This repo deliberately made him sallow instead,
-  because Guan Yu's red face is his signature and the hero complexion-pair gate
-  requires every pair to differ by more than 18 mean luma. Recorded here rather
-  than changed, for the third time, so the deviation stays visible.
-- Non-goals:
-  - No new face kinds, no silhouette change, no complexion change.
-
 ### DIFF-1 - The measured difficulty curve is uneven in three places
 
 - Status: DONE
@@ -887,22 +846,39 @@ Add future enhancement tasks below this heading.
 
 ### UI-2 - Title screen: arcade attract screen (overhaul phase 2)
 
-- Status: TODO
+- Status: DONE (attempt 1)
 - Dependency: UI-1 DONE + owner sign-off on the style frame.
 - Requirement: title backdrop: generated key art preferred, procedural dusk
   battle (`src/game/art/keyart.ts`, UI-1 style frame) as the committed fallback.
-  NOTE 2026-09-23: image providers quota-exhausted (resets ~Sep 30); if still
-  out, ship the refined procedural backdrop + hero lineup and log the deferral.
+  NOTE 2026-09-23: GPT image quota exhausted; owner logged into Grok the same
+  day and the key art was generated with the grok provider.
   Original painted key art backdrop (Five-Tigers homage, Red-Cliff
   fire/ship motif, provenance-logged like ART-18); baked gold-foil logo lockup
   with 『赤壁之战』 subtitle; blinking PRESS START; presentation-only hi-score
   line (`localStorage`, guarded); control plate as bronze plaque with the same
   device-specific strings; ember-drift + logo-sheen animation (visual-only).
 - Acceptance criteria:
-  - [ ] Title reads as an arcade attract screen at desktop + phone sizes (reviewed).
-  - [ ] Control-name assertions keep passing (touch.spec family, same strings).
-  - [ ] Hi-score hidden (not erroring) when storage unavailable.
-  - [ ] vision title frame + parity green; full gates green.
+  - [x] Title reads as an arcade attract screen at desktop + phone sizes (reviewed).
+  - [x] Control-name assertions keep passing (touch.spec family, same strings).
+  - [x] Hi-score hidden (not erroring) when storage unavailable.
+  - [x] vision title frame + parity green; full gates green.
+- Evidence: art/ui-title/{keyart-master.jpg,PROVENANCE.md} (grok provider,
+  hashes logged), scripts/prepare-title-art.mjs ->
+  src/game/assets/title/keyart-backdrop.jpg (960x540, 119 KB); BootScene
+  preloads `ui:keyart-photo`, TitleScene falls back to keyart.ts when absent;
+  `ensureSheenStrip` (panels.ts) 12 baked glint frames on the lockup;
+  src/game/ui/hiscore.ts (+ GameOver/GameComplete writes), StyleFrameScene
+  removed. Prompt kept as the device strings PRESS ENTER / TAP TO START
+  (touch-parity wording) rather than a generic PRESS START.
+  Tests: e2e/title.spec.ts (key art shown + blocked-art fallback),
+  e2e/uifont.spec.ts (textures, sheen cycles, hi-score shown/denied),
+  test/game/uihiscore.test.ts (5). Reviewed
+  artifacts/look/ui2-title-{desktop,phone,sheen}.png +
+  artifacts/vision/parity-webgl-title.png.
+  Full gates 2026-09-23 (serial, final code): lint + typecheck pass; unit
+  300/300; e2e 62/62; vision 5/5 (title coverage 0.664 / richness 2441,
+  parity clean, sprites 256/256); selfplay 13/13, marathons identical to
+  the standing snapshot; build pass (+119 KB jpg); prodbuild 4/4.
 - Non-goals: no flow changes; no sim changes.
 
 ### UI-3 - Character select: WoF-style warrior roster (overhaul phase 3)
@@ -980,7 +956,7 @@ Add future enhancement tasks below this heading.
 
 - Status: IN_PROGRESS (attempt 1 interrupted; source restored, unverified draft saved)
 - Owner priority: deferred again - first ART-18 (now DONE), now the approved
-  UI/art overhaul (UI-1 DONE, UI-2..5 + ART-19/20 next). Draft:
+  UI/art overhaul (UI-1/UI-2 DONE, UI-3..5 + ART-19/20 next). Draft:
   artifacts/loop/enh12-attempt1-partial.patch.
 - Requirement:
   The title plate names keyboard and touch controls but never the
