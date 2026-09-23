@@ -1,5 +1,6 @@
 import { HORSE_H, HORSE_W, HORSE_PLAN, drawHorse, type HorsePlan } from './beasts'
 import { drawFigure } from './draw'
+import type { ArtResources } from './hero-resources'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
 import { drawPortraitFigure } from './portrait'
@@ -251,9 +252,15 @@ export function drawKindPortrait(
   kind: string,
   scale: number,
   detail = true,
+  resources?: ArtResources,
 ): boolean {
   const entry = VECTOR_ART[kind]
   if (entry?.type !== 'figure') return false
+  const painted = resources?.heroes[kind]
+  if (painted) {
+    ctx.drawImage(painted.portrait, 0, 0, PORTRAIT_BOX.width * scale, PORTRAIT_BOX.height * scale)
+    return true
+  }
   ctx.save()
   ctx.scale(scale, scale)
   // Frame on the head: scale up about the portrait's centre, then slide the
@@ -281,6 +288,7 @@ export function drawKindPose(
   kind: string,
   pose: PoseName,
   scale: number,
+  resources?: ArtResources,
 ): boolean {
   const entry = VECTOR_ART[kind]
   if (!entry) return false
@@ -290,7 +298,8 @@ export function drawKindPose(
   switch (entry.type) {
     case 'figure':
       ctx.translate(marginFor(pose), HEADROOM)
-      drawFigure(ctx, entry.plan, POSE_TABLE[pose])
+      drawFigure(ctx, entry.plan, POSE_TABLE[pose], resources?.heroes[kind]
+        ? { art: resources.heroes[kind], poseName: pose } : undefined)
       break
     case 'horse':
       ctx.translate(0, HORSE_HEADROOM)

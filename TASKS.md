@@ -12,6 +12,37 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
+### ART-18 - Natural painted hero faces faithful to the legend (renewed owner request)
+
+- Status: IN_PROGRESS (attempt 1; approved redesign, owner priority over ENH-12)
+- Requirement: replace the five heroes' mask-like portraits AND compressed
+  gameplay heads with original semi-realistic painted warriors. Existing art
+  geometry/shading is not a constraint. See docs/HERO_FACE_REFERENCE.md and
+  docs/HERO_FACE_REDESIGN_PLAN.md. ART-16/17 were incremental fixes, not owner
+  acceptance of convincing natural likeness.
+- Confirmed owner choices (2026-09-23): semi-realistic painted warriors;
+  Wei Yan follows the novel's 面如重枣, superseding the old tan exception.
+- Acceptance criteria:
+  - [ ] Source-backed reference brief separating quotations from interpretations.
+  - [ ] Guan Yu/Zhao Yun pilot reviewed at real select/HUD/gameplay sizes.
+  - [ ] Original, coherent portraits and neutral/exertion/hurt gameplay heads
+        for Guan Yu, Zhang Fei, Zhao Yun, Huang Zhong and Wei Yan; natural anatomy,
+        distinct ages and identities, matching headgear, skin and facial hair.
+  - [ ] Typed, versioned assets, deterministic preparation, safe head/neck pivots,
+        ordered rear/head/front-beard layers and unchanged 14-pose rig semantics.
+  - [ ] Atomic per-hero fallback; no legacy manifest/stale asset overwrite;
+        optimized committed assets really load in production.
+  - [ ] Shipping-path tests plus negative controls (missing/blank/swapped faces,
+        erased features, displaced pivots); no weakened regression gates.
+  - [ ] Native-size before/after sheets and motion review in both facings,
+        including attacks/down/mounted/co-op, desktop and mobile.
+  - [ ] Full lint/typecheck/unit/e2e/signal/vision/prodbuild/build green; report
+        size/memory/performance. Do not equate green tests with visual approval.
+- Non-goals: no combat/balance/weapon/control/animation-state changes; no boss,
+  NPC, environment or full-body redesign; no push/deploy/schedule/control edits.
+- Checkpoints: pilot first, remaining heroes next, technical + visual verification
+  last. If unfinished, retain IN_PROGRESS and exact evidence; don't auto-complete.
+
 ### ART-17 - Heroes and bosses do not yet look as the histories describe them (owner request, part 2)
 
 - Status: DONE
@@ -915,7 +946,9 @@ Add future enhancement tasks below this heading.
 
 ### ENH-12 - Name the gamepad where the UI names controls
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1 interrupted; source restored, unverified draft saved)
+- Owner priority: ART-18 takes precedence; do not continue gamepad work until the
+  approved hero-face redesign is finished. Draft: artifacts/loop/enh12-attempt1-partial.patch.
 - Requirement:
   The title plate names keyboard and touch controls but never the
   GAMEPAD - a first-class input class per PROJECT.md. A pad-only player

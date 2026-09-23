@@ -12,6 +12,7 @@ import {
 } from '../art/registry'
 import type { PoseName } from '../art/poses'
 import { RENDER_SCALE } from '../render'
+import { heroArtResources } from './hero-art'
 
 /**
  * Texture generation from the art engine (art/registry.ts) and
@@ -179,11 +180,13 @@ export function ensurePortraitTextures(scene: Phaser.Scene, kinds: string[]): vo
     const key = portraitKeyFor(kind)
     if (scene.textures.exists(key)) continue
     const canvas = document.createElement('canvas')
-    canvas.width = PORTRAIT_TEXTURE.width
-    canvas.height = PORTRAIT_TEXTURE.height
+    const resources = heroArtResources(scene)
+    const scale = resources?.heroes[kind] ? PORTRAIT_SCALE * 2 : PORTRAIT_SCALE
+    canvas.width = PORTRAIT_TEXTURE.width * (scale / PORTRAIT_SCALE)
+    canvas.height = PORTRAIT_TEXTURE.height * (scale / PORTRAIT_SCALE)
     const ctx = canvas.getContext('2d')
     if (!ctx) continue
-    if (!drawKindPortrait(ctx, kind, PORTRAIT_SCALE)) continue
+    if (!drawKindPortrait(ctx, kind, scale, true, resources)) continue
     scene.textures.addCanvas(key, canvas)
   }
 }
@@ -198,6 +201,6 @@ function ensureVectorKey(scene: Phaser.Scene, kind: string, key: string, pose: P
   canvas.height = Math.round(box.height * RENDER_SCALE)
   const ctx = canvas.getContext('2d')
   if (!ctx) return
-  if (!drawKindPose(ctx, kind, pose as PoseName, RENDER_SCALE)) return
+  if (!drawKindPose(ctx, kind, pose as PoseName, RENDER_SCALE, heroArtResources(scene))) return
   scene.textures.addCanvas(key, canvas)
 }

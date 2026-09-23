@@ -1,0 +1,57 @@
+{
+  "revision": "art18-refine2",
+  "portrait": { "width": 432, "height": 480 },
+  "cell": { "width": 160, "height": 224, "pixelsPerUnit": 3, "pivot": [100, 80] },
+  "heroes": {
+    "guanyu": {
+      "portrait": "guanyu-portrait-master.png",
+      "heads": "guanyu-heads-master.png",
+      "frames": [
+        { "eye": [436, 233], "chin": [446, 398], "frontY": 372, "frontX": 330 },
+        { "eye": [1003, 245], "chin": [1002, 410], "frontY": 388, "frontX": 876 },
+        { "eye": [1574, 273], "chin": [1570, 437], "frontY": 407, "frontX": 1450 }
+      ],
+      "skin": "#b96c51"
+    },
+    "zhaoyun": {
+      "portrait": "zhaoyun-portrait-master.png",
+      "heads": "zhaoyun-heads-master.png",
+      "frames": [
+        { "eye": [503, 365], "chin": [504, 587] },
+        { "eye": [1182, 365], "chin": [1187, 592] },
+        { "eye": [1926, 370], "chin": [1928, 601] }
+      ],
+      "skin": "#ddb48c"
+    },
+    "zhangfei": {
+      "portrait": "zhangfei-portrait-master.png",
+      "heads": "zhangfei-heads-master.png",
+      "frames": [
+        { "eye": [493, 333], "chin": [507, 519], "frontY": 497, "frontX": 326 },
+        { "eye": [1131, 335], "chin": [1142, 522], "frontY": 500, "frontX": 961 },
+        { "eye": [1813, 403], "chin": [1801, 592], "frontY": 568, "frontX": 1623 }
+      ],
+      "skin": "#9b6045"
+    },
+    "huangzhong": {
+      "portrait": "huangzhong-portrait-master.png",
+      "heads": "huangzhong-heads-master.png",
+      "frames": [
+        { "eye": [460, 266], "chin": [463, 439], "frontY": 416, "frontX": 304 },
+        { "eye": [1069, 271], "chin": [1076, 448], "frontY": 425, "frontX": 923 },
+        { "eye": [1651, 305], "chin": [1655, 480], "frontY": 457, "frontX": 1512 }
+      ],
+      "skin": "#c58c66"
+    },
+    "weiyan": {
+      "portrait": "weiyan-portrait-master.png",
+      "heads": "weiyan-heads-master.png",
+      "frames": [
+        { "eye": [524, 390], "chin": [480, 677] },
+        { "eye": [1194, 395], "chin": [1144, 689] },
+        { "eye": [1890, 442], "chin": [1815, 716] }
+      ],
+      "skin": "#b16c51"
+    }
+  }
+}

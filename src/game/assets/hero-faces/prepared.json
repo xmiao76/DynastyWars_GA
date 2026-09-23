@@ -1,0 +1,127 @@
+{
+  "guanyu": {
+    "revision": "art18-pilot1",
+    "skin": "#b96c51",
+    "cell": {
+      "width": 320,
+      "height": 448
+    },
+    "pivot": [
+      200,
+      160
+    ],
+    "bounds": {
+      "x": -33.333333333333336,
+      "y": -26.666666666666668,
+      "width": 53.333333333333336,
+      "height": 74.66666666666667
+    },
+    "sha256": {
+      "portrait": "469c495ec65bbb0c93c7f70e81c7af4367ac27944758fd59f76c7eb2514d941f",
+      "head": "015d04cd00c8dac39101c9d4a50cc04299b70fe267a985f71f476a5c0b21d233",
+      "front": "3560c3ade9d3a7be57e6847a130cd6c99f2ed2da89a45ed6e8a2455b7fd3d1c4",
+      "rear": "af6dda2c4a802e963d4ba0ba1a36ca0e9a459307cca0607e7e07cc444c9b1533"
+    },
+    "bytes": 676575
+  },
+  "zhaoyun": {
+    "revision": "art18-pilot1",
+    "skin": "#ddb48c",
+    "cell": {
+      "width": 320,
+      "height": 448
+    },
+    "pivot": [
+      200,
+      160
+    ],
+    "bounds": {
+      "x": -33.333333333333336,
+      "y": -26.666666666666668,
+      "width": 53.333333333333336,
+      "height": 74.66666666666667
+    },
+    "sha256": {
+      "portrait": "309b3ac97a30f4de34efaa2701a340b72f2d15500f6d07bc0a96b91d8f1a2c77",
+      "head": "8e401e00576c42abaf359c7e11992364aa25b74ba6a8b28a532728ab84545a29",
+      "front": "4f707541fe115a27a41f98afbbdac49c601fb4e3ac204a431e7767e786f8a865",
+      "rear": "cd69504a0e8c5d798f074f90d291133b3e1813115aec8ab87c2575ee0f791616"
+    },
+    "bytes": 561966
+  },
+  "zhangfei": {
+    "revision": "art18-pilot1",
+    "skin": "#9b6045",
+    "cell": {
+      "width": 320,
+      "height": 448
+    },
+    "pivot": [
+      200,
+      160
+    ],
+    "bounds": {
+      "x": -33.333333333333336,
+      "y": -26.666666666666668,
+      "width": 53.333333333333336,
+      "height": 74.66666666666667
+    },
+    "sha256": {
+      "portrait": "fb21bb43655be95b179d8953a2daf6ba9412de4db8db2c93700e0bfda3560eea",
+      "head": "216b956d3adbebc21637e747a52ef57c2c5393aeb5bd82c0cb3ca3797e6a15a5",
+      "front": "472ed37559fe80c225cad369272b705db1b63b0e8abaf949e5743db0045dcf23",
+      "rear": "a1aaa182b26ae8973ce2576fd1a8392d43c43ca5b2b8e11b70db11488c5f0145"
+    },
+    "bytes": 753362
+  },
+  "huangzhong": {
+    "revision": "art18-pilot1",
+    "skin": "#c58c66",
+    "cell": {
+      "width": 320,
+      "height": 448
+    },
+    "pivot": [
+      200,
+      160
+    ],
+    "bounds": {
+      "x": -33.333333333333336,
+      "y": -26.666666666666668,
+      "width": 53.333333333333336,
+      "height": 74.66666666666667
+    },
+    "sha256": {
+      "portrait": "7e9e958203f4cedcf1c487f889ab422c1ea99bddba3bdec28901f519c0838586",
+      "head": "02d81d1a3b7994dd4feea1ae50eb9bdd7f5ecabcb774c39bc144c07d7bf8f9df",
+      "front": "b1e524443497b5648501c2c34b70d10920163a0f3eb3f09a8d1cb0c53d8c4ce7",
+      "rear": "4fd13c1ccd01924771d9fc7d43d520aba80723ef6dfa9d4e961d369ff296a19a"
+    },
+    "bytes": 796712
+  },
+  "weiyan": {
+    "revision": "art18-pilot1",
+    "skin": "#b16c51",
+    "cell": {
+      "width": 320,
+      "height": 448
+    },
+    "pivot": [
+      200,
+      160
+    ],
+    "bounds": {
+      "x": -33.333333333333336,
+      "y": -26.666666666666668,
+      "width": 53.333333333333336,
+      "height": 74.66666666666667
+    },
+    "sha256": {
+      "portrait": "e2d6a047b46c2d5ff2605a97dd5f9dd794e5cbdf6a70b9cd51d254a173028a1c",
+      "head": "b26e47507267add389df877a52862d3e9300a6efaeca1908286784965f8db659",
+      "front": "4f707541fe115a27a41f98afbbdac49c601fb4e3ac204a431e7767e786f8a865",
+      "rear": "14329f3ecfaad9023043f262605c9f547f56722b509aa2809cafa2fe80159d94"
+    },
+    "bytes": 474076
+  }
+}

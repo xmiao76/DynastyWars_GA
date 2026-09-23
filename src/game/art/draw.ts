@@ -1,4 +1,6 @@
 import { FACES, SCLERA } from './faces'
+import { headPainter, type HeroArt, type HeadPainter, type HeadLayer } from './hero-resources'
+import type { PoseName } from './poses'
 import type { FigurePlan } from './figures'
 import { addWeapon, weaponPose } from './weapons'
 import { INK, SKIN, css, materials, tint, type Materials } from './palette'
@@ -58,6 +60,10 @@ export interface Shape {
   fill: string
   /** Interior material facets must not acquire a second black outline. */
   outline?: boolean
+  /** A paint boundary, not a shape: cel groups on either side shade once. */
+  headLayer?: HeadLayer
+  /** Soft local transition on the painted head's near shoulder only. */
+  shoulder?: { x: number; y: number; radius: number }
 }
 
 /**
@@ -168,14 +174,68 @@ export function drawFigure(
   ctx: CanvasRenderingContext2D,
   plan: FigurePlan,
   rawPose: Skeleton,
+  painted?: { art: HeroArt; poseName: PoseName },
 ): void {
   const pose = weaponPose(plan, applyBuild(rawPose, plan.build))
-  const m = materials(plan.body, plan.trim, plan.gear, plan.beardColor ?? 0x3a2a18, plan.skin)
-  const shapes = figureShapes(plan, pose, m)
-  paintCel(ctx, shapes, FIG_W, GROUND)
+  const m = materials(plan.body, plan.trim, plan.gear, plan.beardColor ?? 0x3a2a18, painted?.art.skin ?? plan.skin)
+  const shapes = figureShapes(plan, pose, m, painted ? emptyHeadParts : spriteHeadParts, painted !== undefined)
+  if (painted) {
+    paintWithHead(ctx, shapes, headPainter(painted.art, painted.poseName, pose, plan.build.head),
+      () => drawBodyDetails(ctx, plan, pose, m))
+  } else {
+    paintCel(ctx, shapes, FIG_W, GROUND)
+  }
 
-  // Details that must not be shaded flat: eyes, belt, seams.
-  drawDetails(ctx, plan, pose, m)
+  // A painted head owns its face. Retain only the body details in that path.
+  if (!painted) drawDetails(ctx, plan, pose, m)
+}
+
+const emptyHeadParts: HeadParts = () => {}
+
+/** Keep body cel shading inside each shape, never over a painted head. All
+ * layers use the same global lighting bands and existing ordered geometry. */
+function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], painter: HeadPainter, bodyDetails: () => void): void {
+  let group: Shape[] = []
+  const flush = (): void => {
+    if (group.length === 0) return
+    // Clip shading to the current group's paths; otherwise source-atop shades
+    // every previously drawn pixel too. Fill each shape in ordered cel bands
+    // using its own clip, with no overlay outside that shape.
+    for (const shape of group) {
+      ctx.save()
+      shape.trace(ctx)
+      if (shape.outline !== false) {
+        ctx.lineWidth = INK_W * 2
+        ctx.lineJoin = 'round'; ctx.lineCap = 'round'
+        ctx.strokeStyle = INK; ctx.stroke()
+      }
+      ctx.fillStyle = shape.fill; ctx.fill()
+      ctx.clip()
+      if (shape.shoulder) {
+        const { x, y, radius } = shape.shoulder
+        const light = ctx.createRadialGradient(x - radius * 0.5, y - radius * 0.5, 0, x, y, radius * 1.2)
+        light.addColorStop(0, 'rgba(255,237,195,0.32)')
+        light.addColorStop(0.45, 'rgba(45,32,25,0.08)')
+        light.addColorStop(1, 'rgba(22,19,22,0.6)')
+        ctx.fillStyle = light; ctx.fillRect(x - radius * 2, y - radius * 2, radius * 4, radius * 4)
+      }
+      for (const band of DEFAULT_BANDS) {
+        bandPath(ctx, FIG_W, GROUND, band.split, band.toward)
+        ctx.fillStyle = band.fill; ctx.fill()
+      }
+      ctx.restore()
+    }
+    group = []
+  }
+  for (const shape of shapes) {
+    if (shape.headLayer) {
+      flush()
+      if (shape.headLayer === 'front') bodyDetails()
+      painter(ctx, shape.headLayer)
+    }
+    else group.push(shape)
+  }
+  flush()
 }
 
 /** The head's radius in canonical figure units. One definition, because the
@@ -234,12 +294,17 @@ export function figureShapes(
   p: Skeleton,
   m: Materials,
   headParts: HeadParts = spriteHeadParts,
+  painted = false,
 ): Shape[] {
   const b = plan.build.bulk
   const shapes: Shape[] = []
   const add = (trace: Shape['trace'], fill: string, outline = true): void => {
     shapes.push({ trace, fill, outline })
   }
+
+  // A dropped weapon rests behind the prone body, not across the eyes. Its
+  // geometry/reach remains identical; only the painted down-pose occlusion changes.
+  if (painted && p.lying) addWeapon(add, plan, p, m)
 
   // Cape first: it sits behind everything and is most of what makes a
   // silhouette recognisable at a distance.
@@ -256,6 +321,8 @@ export function figureShapes(
       m.clothShade,
     )
   }
+
+  if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'rear' })
 
   // Far side of the body, drawn behind the torso.
   add(
@@ -287,10 +354,17 @@ export function figureShapes(
   // Neck and head.
   add((c) => limbPath(c, p.neck, p.chest, 9 * b, 14 * b), m.skinShade)
   headParts(add, plan, p, m, headRadius(plan))
+  if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'head' })
 
   // Pauldron, then the near arm over it.
   add((c) => ovalPath(c, p.shoulderN, 7.8 * b, 6.4 * b, -0.2), m.trim)
   add((c) => chainPath(c, [p.shoulderN, p.elbowN, p.handN], [9.5 * b, 7.4 * b, 5.6 * b]), m.cloth)
+  if (painted) {
+    // A fitted shoulder cap bridges the painted neck and the existing sleeve.
+    // It does not alter the arm endpoints or any weapon/hand geometry.
+    add(c => ovalPath(c, p.shoulderN, 6.8 * b, 5.4 * b, -0.2), m.cloth)
+    shapes[shapes.length - 1]!.shoulder = { x: p.shoulderN.x, y: p.shoulderN.y, radius: 7 * b }
+  }
   // 髯长二尺 - a long beard falls OVER the chest, in front of the pauldron and
   // sleeve. Drawn only in the head's place in the order, the pauldron and near
   // arm covered all of it below the jaw, and Guan Yu's beard - the thing he is
@@ -299,10 +373,11 @@ export function figureShapes(
   if (plan.beard === 'long' && headParts === spriteHeadParts && p.lying !== true) {
     addBeardFront(add, p, m, headRadius(plan))
   }
+  if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'front' })
   // Forearm and hand in skin, over the sleeve, so the arm is not one tube.
   add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
 
-  addWeapon(add, plan, p, m)
+  if (!painted || !p.lying) addWeapon(add, plan, p, m)
   return shapes
 }
 
@@ -676,7 +751,13 @@ function drawDetails(
   plan: FigurePlan,
   p: Skeleton,
   m: Materials,
+  includeFace = true,
 ): void {
+  if (includeFace) drawFaceDetails(ctx, plan, p, m)
+  drawBodyDetails(ctx, plan, p, m)
+}
+
+function drawFaceDetails(ctx: CanvasRenderingContext2D, plan: FigurePlan, p: Skeleton, m: Materials): void {
   const headR = 10.4 * plan.build.head
   const hidden = plan.headgear === 'hood' ? 0.06 : 0
   ctx.save()
@@ -840,6 +921,9 @@ function drawDetails(
   ctx.fill()
   ctx.restore()
 
+}
+
+function drawBodyDetails(ctx: CanvasRenderingContext2D, plan: FigurePlan, p: Skeleton, m: Materials): void {
   // Sash across the chest: the accent that keeps the torso from being one flat
   // field, and the thing that tells two similarly-coloured fighters apart.
   const a = lerpPt(p.chest, p.hip, 0.18)

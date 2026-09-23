@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { RENDER_SCALE } from '../render'
+import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
 
 interface ArtManifest {
   sprites?: Record<string, string[]>
@@ -38,7 +39,12 @@ export class BootScene extends Phaser.Scene {
     super('boot')
   }
 
+  preload(): void {
+    queueHeroArt(this)
+  }
+
   create(): void {
+    publishHeroArt(this)
     this.generateFxTextures()
     // A build that ships no baked art never asks the server for a manifest.
     // This used to be decided by fetching and seeing what came back, which

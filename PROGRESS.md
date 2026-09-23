@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-23 07:58 UTC - ART-18 (attempt 1, painted pilot implementation)
+
+- Status before: owner-approved redesign; ENH-12 closed IN_PROGRESS and deferred.
+- Added literary briefs/plan, ten original masters + provenance, deterministic five-hero prep, typed decoded resources, Vite imports/Boot preload, atomic missing-layer fallback, ordered painted rig heads/portraits, expression mapping and 432x480 portraits. Bodies/core/poses/weapons unchanged; painted prone attachment is render-only.
+- Files: docs/HERO_FACE_*.md, art/hero-faces/, scripts/prepare-hero-faces.mjs, src/game/assets/hero-faces/, new hero-art/hero-resources modules; draw/registry/sprites/BootScene; test/game/hero-faces.test.ts and e2e/hero-faces.spec.ts.
+- Verification: full lint + typecheck PASS; original 207 unit tests PASS before cast expansion; latest shipping-head suite 75/75 PASS (all 70 hero poses, displaced-pivot negative); pilot browser 3/3 PASS Canvas/WebGL and aborted-layer atomic fallback; Vite build PASS. Full current unit/e2e/signal/vision/prodbuild still required.
+- Fix evidence: initial head clipping guard caught all prone heads; explicit prone rotation/lift fixed them without relaxing bounds. Test fixture initially aborted Vite's JS image import too; now aborts only image fetches. Split long parameterized probe; Buffer.equals replaced slow deep comparison, no assertions removed.
+- Reviewed: artifacts/look/art18-pilot-sheet.png (five heroes old/new, idle/attack/down/native); Canvas/WebGL select and Guan Yu/Zhao Yun gameplay captures. Better anatomy, but NOT final visual acceptance: visible pasted-on neck/shoulder seams, weapon-obscured elevated prone heads, Wei Yan portrait too tan; white-hair fringe needs inspection.
+- Runtime images total 3,262,691 bytes; decoded sources ~29.8 MB decimal before generated textures. PNG optimization and measured boot/render costs remain. Masters not shipped.
+- Remaining: refine attachment/transition/complexions and alpha, add blank/swapped/erased-feature negatives + production checks, both facings/mounted/co-op/mobile/motion, all full gates and owner review. No commit because incomplete/unverified overall.
+- Result/status after: IN_PROGRESS, substantive pilot checkpoint; no push/deploy/scheduler/core changes. Next: ART-18 refinement and verification, not ENH-12. Exact run/report: 2026-09-23T07-10-04-129Z-b64aecff-dcdf-4809-b4d3-13ed63aa1db5.
+
+### 2026-09-23 07:06 UTC - ENH-12 (attempt 1, interrupted)
+
+- Status before: TODO; manual run began 01:59:06 UTC, last source edit 02:14:47.
+- Work completed: inspected labels/pad harness; measured candidate line widths.
+  Drafted a hasGamepad helper and title-plate declarations, not their integration.
+  At 06:51 the same run remained active, far past its 50-minute timebox. Saved
+  artifacts/loop/enh12-attempt1-partial.patch, then restored only those two source
+  files; tracked tree was clean at ee80721 before these bookkeeping edits.
+- Files changed: TASKS.md, PROGRESS.md; ignored draft patch and manual report.
+- Verification run: no full gates for this attempt; browser text measurement only.
+  No claim that the unfinished patch typechecks or works. No quota error observed.
+- Result: IN_PROGRESS, no shipped gamepad change and no verified commit.
+- Status after: ENH-12 IN_PROGRESS, deferred by the explicit ART-18 owner request.
+- Remaining work or blocker: all integration, behavior tests and full verification.
+- Next recommended task: ART-18 approved painted hero-face redesign, not ENH-12.
+
 ### 2026-09-23 02:00 - ART-17 (attempt 2, owner request: likeness)
 
 - Status before: IN_PROGRESS (attempt 1: 3 of 7 criteria - Lu Bu, Zhang Fei,
