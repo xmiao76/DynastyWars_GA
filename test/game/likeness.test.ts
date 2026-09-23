@@ -1,6 +1,6 @@
 import { createCanvas } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
-import { headRadius } from '../../src/game/art/draw'
+import { drawFigure, headRadius } from '../../src/game/art/draw'
 import { FACES } from '../../src/game/art/faces'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
 import { POSE_TABLE } from '../../src/game/art/poses'
@@ -163,5 +163,195 @@ describe('the cast looks as the histories describe it', () => {
       expect(cao.eyeH, `${kind}'s in-play eye is as narrow as Cao Cao's`).toBeLessThan(f.eyeH)
     }
     expect(planOf('caocao').beard, 'Cao Cao is 长髯, long-bearded').toBe('long')
+  })
+
+  it('the four generic bosses have distinct in-play faces, not just hats', () => {
+    // Li Dian, Cao Ren, Zhang Liao and Zhang He: three wore `calm`, three the
+    // same helmet on the same build, so under the hat colour they were one
+    // face. Bosses have no portrait in play - this is the only face they have.
+    // Every COLOUR is set to one value and the weapon and cape to one kind, so
+    // only shape can differ; the head is aligned and cropped from the brow to
+    // below the chin, over the whole face width.
+    const S = 6
+    const SIZE = 40 * S
+    const face = (kind: string): Uint8ClampedArray => {
+      const plan = planOf(kind)
+      const shapeOnly: FigurePlan = {
+        ...plan,
+        body: 0x506070, trim: 0x807050, gear: 0x404850, skin: 0xd8b48c,
+        beardColor: 0x2a2018, weapon: 'sword', cape: false,
+      }
+      const built = applyBuild(POSE_TABLE.idle, plan.build)
+      const R = headRadius(plan)
+      const canvas = createCanvas(SIZE, SIZE)
+      const ctx = canvas.getContext('2d')
+      ctx.scale(S, S)
+      ctx.translate(20 - built.head.x, 12 - built.head.y)
+      drawFigure(ctx as unknown as CanvasRenderingContext2D, shapeOnly, POSE_TABLE.idle)
+      // Brow (-0.2R) to below the chin (+1.6R), 1.2R either side.
+      const x0 = Math.round((20 - 1.2 * R) * S)
+      const x1 = Math.round((20 + 1.2 * R) * S)
+      const y0 = Math.round((12 - 0.2 * R) * S)
+      const y1 = Math.round((12 + 1.6 * R) * S)
+      const img = ctx.getImageData(x0, y0, x1 - x0, y1 - y0).data
+      return new Uint8ClampedArray(img)
+    }
+    const kinds = ['lidian', 'caoren', 'zhangliao', 'zhanghe']
+    const faces = kinds.map(face)
+    for (let a = 0; a < kinds.length; a += 1) {
+      for (let b = a + 1; b < kinds.length; b += 1) {
+        const fa = faces[a] ?? new Uint8ClampedArray()
+        const fb = faces[b] ?? new Uint8ClampedArray()
+        let diff = 0
+        for (let i = 0; i < fa.length; i += 4) {
+          const d =
+            Math.abs((fa[i] ?? 0) - (fb[i] ?? 0)) +
+            Math.abs((fa[i + 1] ?? 0) - (fb[i + 1] ?? 0)) +
+            Math.abs((fa[i + 2] ?? 0) - (fb[i + 2] ?? 0))
+          if (d > 60) diff += 1
+        }
+        const frac = diff / (fa.length / 4)
+        expect(
+          frac,
+          `${kinds[a]} and ${kinds[b]} differ on ${(frac * 100).toFixed(1)}% of the face region by shape`,
+        ).toBeGreaterThan(0.025)
+      }
+    }
+    // 'plain' + shared skin for the rank and file, and no likeness fields.
+    for (const kind of ['soldier', 'spearman', 'archer']) {
+      const t = planOf(kind)
+      expect([t.face, t.skin, t.lips, t.jaw], `${kind} gained a likeness`).toEqual([
+        undefined, undefined, undefined, undefined,
+      ])
+    }
+  })
+
+  it("Guan Yu's beard reaches his chest on the in-play sprite", () => {
+    // 髯长二尺 - a beard two feet long. The portrait runs it off the frame; on
+    // the sprite it hangs behind the near arm, so what counts is how far down
+    // the VISIBLE beard reaches: the render with his beard against the same
+    // figure without one, lowest differing row, in figure units below the
+    // chest joint.
+    const S = 4
+    const W = 120
+    const H = 130
+    const OY = 20
+    const draw = (p: FigurePlan): Uint8ClampedArray => {
+      const canvas = createCanvas(W * S, H * S)
+      const ctx = canvas.getContext('2d')
+      ctx.scale(S, S)
+      ctx.translate(10, OY)
+      drawFigure(ctx as unknown as CanvasRenderingContext2D, p, POSE_TABLE.idle)
+      return ctx.getImageData(0, 0, W * S, H * S).data
+    }
+    const plan = planOf('guanyu')
+    const a = draw(plan)
+    const b = draw({ ...plan, beard: 'none' })
+    let lowest = -1
+    for (let i = 0; i < W * S * H * S; i += 1) {
+      const d =
+        Math.abs((a[i * 4] ?? 0) - (b[i * 4] ?? 0)) +
+        Math.abs((a[i * 4 + 1] ?? 0) - (b[i * 4 + 1] ?? 0)) +
+        Math.abs((a[i * 4 + 2] ?? 0) - (b[i * 4 + 2] ?? 0))
+      if (d > 40) lowest = Math.max(lowest, Math.floor(i / (W * S)))
+    }
+    const below = lowest / S - OY - applyBuild(POSE_TABLE.idle, plan.build).chest.y
+    expect(
+      below,
+      `Guan Yu's visible beard ends ${below.toFixed(1)} units below his chest joint - not down the chest`,
+    ).toBeGreaterThan(14)
+  })
+
+  it("Guan Yu's lips are rouge-red against his red face", () => {
+    // 唇若涂脂 - "lips as if painted with rouge". On a face already 面如重枣, a
+    // lip toned from the complexion comes out BROWNER than the skin round it:
+    // measured before ART-17 the lower lip was less saturated red than the
+    // cheek beside it. Rouge is the reverse - clearly redder than the face.
+    const plan = planOf('guanyu')
+    const W = PORTRAIT_BOX.width * PORTRAIT_SCALE
+    const H = PORTRAIT_BOX.height * PORTRAIT_SCALE
+    const canvas = createCanvas(W, H)
+    const ctx = canvas.getContext('2d')
+    drawKindPortrait(ctx as unknown as CanvasRenderingContext2D, 'guanyu', PORTRAIT_SCALE)
+    const img = ctx.getImageData(0, 0, W, H).data
+    const built = applyBuild(POSE_TABLE.idle, plan.build)
+    const R = headRadius(plan)
+    const tex = (lx: number, ly: number): number => {
+      const x = Math.round(
+        (PORTRAIT_ZOOM * (built.head.x + lx * PORTRAIT_HW * R - BODY_X) + PORTRAIT_BOX.width / 2) * PORTRAIT_SCALE,
+      )
+      const y = Math.round((PORTRAIT_ZOOM * ly * R + PORTRAIT_HEAD_Y) * PORTRAIT_SCALE)
+      return (y * W + x) * 4
+    }
+    // Redness: how far red stands above the other two channels.
+    const redness = (i: number): number => (img[i] ?? 0) - ((img[i + 1] ?? 0) + (img[i + 2] ?? 0)) / 2
+    // The lower lip's lit centre (mouthY + 0.1) and the cheek beside the mouth.
+    const lip = redness(tex(0, 0.72))
+    const cheek = redness(tex(0.55, 0.4))
+    expect(
+      lip - cheek,
+      `Guan Yu's lip (redness ${lip.toFixed(0)}) is not redder than his cheek (${cheek.toFixed(0)})`,
+    ).toBeGreaterThan(40)
+  })
+
+  it('Zhao Yun has the heaviest brows, largest calm eyes and broadest jaw', () => {
+    // 浓眉大眼, 阔面重颐 - thick brows, large eyes, a broad face and full jaw.
+    // He shared `calm` with three bosses: lighter brows than Guan Yu (1.32) or
+    // Huang Zhong (1.35), and the default head outline.
+    const zy = planOf('zhaoyun')
+    const f = FACES[zy.face ?? 'plain']
+    const fair = (p: FigurePlan): boolean => {
+      const s = p.skin ?? 0
+      const l = 0.299 * ((s >> 16) & 255) + 0.587 * ((s >> 8) & 255) + 0.114 * (s & 255)
+      return p.skin !== undefined && l > 180
+    }
+    for (const [kind, plan] of Object.entries(plans)) {
+      if (kind === 'zhaoyun') continue
+      const g = FACES[plan.face ?? 'plain']
+      // 浓眉: the heaviest brow in the WHOLE cast, not only the fair-skinned.
+      expect(f.browWeight, `${kind}'s brows are as heavy as Zhao Yun's`).toBeGreaterThan(g.browWeight)
+      // 大眼: the largest eye of every face that is not the round 环眼 glare.
+      if (plan.face !== 'fierce') {
+        expect(f.eyeW * f.eyeH, `${kind}'s in-play eye is as large as Zhao Yun's`).toBeGreaterThan(g.eyeW * g.eyeH)
+        expect(f.eyeW, `${kind}'s portrait eye is as wide as Zhao Yun's`).toBeGreaterThan(g.eyeW)
+      }
+    }
+    expect(fair(zy), 'Zhao Yun should be one of the fair-skinned cast').toBe(true)
+
+    // 阔面: the jaw, measured on the rendered portrait - the width of the skin
+    // at the jaw angle's row, against Wei Yan, who has the default outline and
+    // an almost identical head radius (0.99 vs 1.0).
+    const jawWidth = (kind: string): number => {
+      const plan = planOf(kind)
+      const W = PORTRAIT_BOX.width * PORTRAIT_SCALE
+      const H = PORTRAIT_BOX.height * PORTRAIT_SCALE
+      const render = (detail: boolean): Uint8ClampedArray => {
+        const canvas = createCanvas(W, H)
+        const ctx = canvas.getContext('2d')
+        drawKindPortrait(ctx as unknown as CanvasRenderingContext2D, kind, PORTRAIT_SCALE, detail)
+        return ctx.getImageData(0, 0, W, H).data
+      }
+      const face = render(false)
+      const R = headRadius(plan)
+      const y = Math.round((PORTRAIT_ZOOM * 0.7 * R + PORTRAIT_HEAD_Y) * PORTRAIT_SCALE)
+      const s = plan.skin ?? 0
+      let n = 0
+      for (let x = 0; x < W; x += 1) {
+        const i = (y * W + x) * 4
+        const d = Math.hypot(
+          (face[i] ?? 0) - ((s >> 16) & 255),
+          (face[i + 1] ?? 0) - ((s >> 8) & 255),
+          (face[i + 2] ?? 0) - (s & 255),
+        )
+        if ((face[i + 3] ?? 0) >= 200 && d < 40) n += 1
+      }
+      return n / (R * PORTRAIT_ZOOM * PORTRAIT_SCALE)
+    }
+    const zyJaw = jawWidth('zhaoyun')
+    const wyJaw = jawWidth('weiyan')
+    expect(
+      zyJaw / wyJaw,
+      `Zhao Yun's jaw (${zyJaw.toFixed(2)}R) should be clearly broader than Wei Yan's (${wyJaw.toFixed(2)}R)`,
+    ).toBeGreaterThan(1.06)
   })
 })

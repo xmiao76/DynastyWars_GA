@@ -3,6 +3,49 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-22 03:14 - PRODUCER PASS (pause-completeness review, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after the
+  ENH-8 trial. Tree clean at 64f1e73. Run `2026-09-22T07-49-14Z-d00c5eb7`.
+- LOGIC signal: 13/13 ok, exit 0, zero invariant violations and zero page
+  errors. Every marathon tick/continue count identical to the ENH-6
+  snapshot: guanyu 2640/0c + 4944/0c; zhangfei 2640/0c + 2832/0c;
+  huangzhong 3972/1c + 6588/3c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
+  3324,3576,4224,8988,4956,4440,5136,8100,6672 with continues
+  0,0,1,3,1,0,1,3,2 (total 11). DIFF-1 standing shape unchanged (known
+  blocked item). No regression.
+- VISUAL signal: 5/5 ok, exit 0. Frames 9/9 pass (game_combat richness
+  1038, exactly the snapshot); sprites 256/256, weapons 85/85, retracts
+  170/170; renderer parity clean on all 7 screens; both negative
+  controls failing correctly; HUD 1/1; findings.jsonl 0 bytes. No
+  UX_REVIEW.md.
+- Frame sweep: all 9 screens judged by eye at gameplay size. NO DEFECT.
+- Opportunity review (ONE area: pause-feature completeness): audited
+  every gameplay `scene.start` against ENH-7's documented "no stage
+  transitions until resume" promise. Pending-start restart and the
+  game-over countdown honor it (gated/frozen); the stage-clear path
+  does not - its wall-clock `delayedCall(2000)` fires through a pause,
+  changing scenes under the PAUSED overlay. Real defect, sole
+  escapee, no duplicate task. Filed ENH-9 (TODO) with both-direction
+  e2e pins. One-area budget spent, no second area inspected.
+- Rejected/not pursued: no other defect proposals (signals green,
+  frames clean).
+- Files changed: TASKS.md (ENH-9 TODO), PROGRESS.md,
+  artifacts/loop/proposals-clearpause-enh9.md (gitignored scratch).
+- Verification run: both suites via direct node Playwright CLIs with
+  full logs to artifacts/loop/signal-tick.log + vision-tick.log
+  (gitignored). No game source touched in this pass.
+- Result: COMPLETED - one accepted defect proposal, no regression.
+- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-9 TODO.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
+  standing owner items unchanged (deploy).
+- Next recommended task: ENH-9 (a later consumer implements it).
+
+- Housekeeping (same iteration, rule 8): none needed. DONE count is 20
+  (at the bound, ENH-9 is TODO); PROGRESS.md was 427 lines, stays under
+  500 with this entry.
+
 ### 2026-09-22 00:13 - ENH-8 (attempt 1)
 
 - Status before: ENH-8 TODO (no prior attempts). Consumer iteration under

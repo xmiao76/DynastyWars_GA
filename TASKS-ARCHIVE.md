@@ -2698,3 +2698,121 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Non-goals:
   - No change to the face pass. ART-7 is done and its gate stays scoped to
     `idle`, where the claim it makes is the one it can measure.
+
+### ART-9 - The faces were still not human: the portrait was a 3/4 view with the face squashed onto one side
+
+- Status: DONE
+- Requirement:
+  The SEVENTH round of "the heroes do not look human". ART-6 rebuilt the
+  portrait's head, headgear and lighting; ART-7 found the in-play face painted
+  on the headgear. The owner looked again and said they were still weird, and
+  they were.
+
+  MY LAST TWO VERDICTS WERE WRONG IN A SPECIFIC WAY, worth recording because it
+  is the reason this took seven rounds: I graded each round against THE STATE
+  BEFORE IT ("the eyes are no longer discs", "the brow is on skin now") rather
+  than against a human face. Every one of those statements was true and the
+  faces were still not human.
+
+  So this round the owner confirmed the defects and chose the look from
+  rendered candidates BEFORE it was built out. All four of these are theirs,
+  not mine:
+    1. THE FACE WAS SQUASHED ONTO ONE SIDE. The portrait was a 3/4 view: both
+       eyes in the right half, the nose protruding PAST the silhouette as a
+       pointed beak (`HEAD_OUTLINE` put the tip at 1.16 HW against a head
+       half-width of 1.02), and the whole left half empty skull.
+    2. NO MOUTH, AND SPECKS ON THE CHEEKS. Three of five heroes had no visible
+       mouth - the beard covered it. In play the two dark dashes were not the
+       eyes at all but the NOSE (11.1px) and the NEAR BROW (10.4-12.1px), and
+       every other feature was sub-2px and anti-aliased into a speck: mouth
+       2.02-2.16px, the nose's narrow end 1.82-1.95px, two heroes' far eyes
+       2.4-2.5px.
+    3. THE STYLE WAS TOO FLAT AND GEOMETRIC. One straight cel-band edge cut
+       every face. Measured: the band's light edge crosses the head at
+       head-local x = +0.09 headR, within a tenth of a radius of dead centre.
+    4. THEY WERE NOT RECOGNISABLY THE HISTORICAL FIGURES beyond complexion.
+- Owner's decisions: SOFT SHADING allowed on portraits (in-play stays flat cel,
+  so the game still reads as one piece); THREE CANDIDATES rendered and shown
+  before anything was built out. They picked A - soft - and asked for a leaner
+  head, smaller beards and less headgear.
+- Acceptance criteria:
+  - [x] The portrait head is FRONTAL and symmetric, authored as named landmarks
+        of one side and mirrored. Height:width 1.47, the lean end of the human
+        range. The six outline points that existed only to describe a profile -
+        nasion, nose tip, nose base, upper lip, lip, mentolabial sulcus - are
+        gone: a frontal nose is structure INSIDE the face
+  - [x] Everything two-sided is MIRRORED rather than copied. `aperturePath`,
+        the lash line, `eyeTilt` and `browAngle` were all applied with one sign
+        to both sides - invisible on a 3/4 face, but on a frontal one that is
+        two right eyes and a single raised brow
+  - [x] Soft shading: gradients for the cheek/brow/jaw falloff, eye sockets and
+        nose bridge, painted inside a clip of (skull, below the hairline). The
+        clip is what removes the band seam, and it is the "face plate" ART-6
+        rejected - right NOW for the reason it was wrong THEN, because the head
+        path already supplies the jaw and chin
+  - [x] A mouth that is always visible, with beards reshaped to frame it and to
+        run off the bottom of the frame rather than ending in a flat line
+        inside it, which read as a bib
+  - [x] Every stray mark gone: the single nostril, the one-sided cheek streak,
+        the single ear and the nose-on-the-silhouette streak are replaced by
+        mirrored pairs that belong to named features
+  - [x] In play: the nose shortened and thickened past the anti-alias floor,
+        the mouth from 2.08px to ~2.9px, the far eye from 2.4px to ~2.9px.
+        Silhouette untouched
+  - [x] `artquality.test.ts`'s complexion-pair crop RE-REGISTERED onto the
+        build-applied head. It took its centre from the raw pose, so Guan Yu's
+        crop missed his eyes entirely and reached into his beard while Zhang
+        Fei's and Huang Zhong's excluded the mouth - and it passed throughout,
+        which is the point: it was comparing different parts of different faces
+  - [x] Ten portrait gates, EVERY one proven able to fail by reverting the
+        mechanism: hairline over the brow, sclera unpainted, the two historical
+        eye shapes swapped, the cel band let back across the face, the skin
+        painted flat, the lip line removed, the raw-pose anchor restored, the
+        zoom pushed past the frame, both eyes nested under "has eyes", and the
+        face pass skipped
+  - [x] TWO METRICS DESIGNED, MEASURED AND DROPPED rather than shipped:
+        - "count sclera directly above the iris" to catch the googly disc. On
+          correct art it returns 2, 4, 6, 4, 2 - anti-aliasing along the lid on
+          an eye 6.7px tall - so a disc would have to score below that to be
+          rejected. What makes the disc impossible is structural instead: the
+          iris is drawn inside a CLIP of the aperture.
+        - "count tones across the face" for flatness. The eyes, brows, lips and
+          age lines are all skin-family tones and carry the count on their own,
+          so flattening the skin entirely still scored above any usable
+          threshold. Replaced by the FOREHEAD luma range, the one sizeable
+          patch with no feature on it, where the separation is absolute:
+          10.3-12.3 with the gradient, exactly 0.0 flat
+  - [x] lint, typecheck, 155 unit, 43 e2e, vision 5/5 including renderer
+        parity, prodbuild 4/4, signal 13/13, build
+- FOLLOW-UP, after the owner asked to continue with the in-play faces:
+  - [x] The near eye gets a SCLERA. At a 41.6px head it is about 8x5 device
+        pixels - enough for a dark iris with roughly 1.5px of white either
+        side, which is what stops it reading as one more dark speck among the
+        brow, nose and mouth. The iris fills the aperture's HEIGHT, so white
+        can only show left and right of it: the same construction the portrait
+        uses, and the reason neither is a googly disc. A first attempt sized it
+        0.19 x 0.115 and reintroduced exactly the white ring ART-6 removed;
+        pulled back to 0.17 x 0.098 so the white is a hint rather than a ring
+  - [x] The far eye at 5x3 device px stays a plain dark mark. A 1px sliver of
+        white there would be a flicker, not an eye
+  - [x] The brows thinned from 0.16/0.13 to 0.125/0.10. They were the two
+        longest and heaviest marks on the face and dominated the eyes, which is
+        backwards - a face is read from its eyes
+  - [x] `faceLayout`'s `browHalf` and `eyeRy` brought back into step with what
+        is actually drawn, so the clearance it computes describes the real
+        geometry
+  - [x] Re-verified: lint, typecheck, 155 unit (including the complexion-pair
+        gate, which the added white could have diluted), e2e 43/43, vision 5/5
+        with the sprite gate 148/148 and both negative controls still failing
+        correctly, prodbuild 4/4, signal 13/13, build
+- Honest limit, stated rather than glossed:
+  THE IN-PLAY FACE IS BETTER, NOT TRANSFORMED. The near eye now reads as an eye
+  and the marks no longer scatter, but at a 41px head in flat cel it is still a
+  handful of marks rather than a face. The portrait work cannot transfer: a
+  fighter faces its direction of travel, so it cannot go frontal, and soft
+  shading is scoped out of the sprites deliberately so the game reads as one
+  piece.
+- Non-goals:
+  - No change to in-play head size, build or silhouette.
+  - No gradients on the in-play sprites.
+  - No change to `PORTRAIT_BOX`/`PORTRAIT_TEXTURE` or any scene's display sizes.

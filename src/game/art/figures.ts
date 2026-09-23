@@ -39,7 +39,7 @@ export type BeardKind = 'long' | 'full' | 'bristle' | 'none'
  * what makes each one read as THAT character - Guan Yu's slanted phoenix eyes,
  * Zhang Fei's round glare, Huang Zhong's hooded age.
  */
-export type FaceKind = 'plain' | 'phoenix' | 'fierce' | 'calm' | 'aged' | 'sharp' | 'narrow'
+export type FaceKind = 'plain' | 'phoenix' | 'fierce' | 'calm' | 'aged' | 'sharp' | 'narrow' | 'bold'
 
 export interface FigurePlan {
   build: Build
@@ -67,6 +67,18 @@ export interface FigurePlan {
    * scar crossing it, in both face passes.
    */
   missingEye?: boolean
+  /**
+   * Lip colour, where the sources name one. Absent means lips toned from the
+   * complexion, as every face had. Guan Yu only: 唇若涂脂, "lips as if painted
+   * with rouge" - on a face already the red of a date, so the lips have to be
+   * a deeper crimson than the skin, not a shade of it.
+   */
+  lips?: number
+  /**
+   * Portrait jaw width, as a factor on the lower head's half-width. Absent is
+   * 1. Zhao Yun only: 阔面重颐, "a broad face and a full jaw".
+   */
+  jaw?: number
   /** A cape widens the silhouette and reads at any distance. */
   cape: boolean
 }
@@ -141,6 +153,8 @@ const SKIN_ZHANGFEI = 0x8a5a3c    // 黑脸, lifted clear of a near-black beard
 const SKIN_ZHAOYUN = 0xf4d0ac     // young and fair
 const SKIN_HUANGZHONG = 0xd9ad86  // the old general, weathered
 const SKIN_WEIYAN = 0xc79a63      // sallow and hard
+const LIPS_GUANYU = 0xc81e30      // 唇若涂脂 - rouge crimson, deeper than his skin
+const JAW_ZHAOYUN = 1.1           // 阔面重颐 - broad face, full jaw
 
 // 身长九尺 - Guan Yu is the one hero the novel makes a head taller than the
 // rest (Zhang Fei and Zhao Yun are 八尺). 1.03 was barely taller than Wei Yan's
@@ -170,9 +184,15 @@ const BOSS_HUGE: Build = { height: 1.02, bulk: 1.34, shoulders: 1.26, head: 0.9 
  * who is green and who is purple.
  */
 export const HERO_FIGURES: Record<string, FigurePlan> = {
-  guanyu: plan(0x2a7a2a, 0xd8c060, 0x1a5a1a, 'hood', 'glaive', TALL, 'long', 0x3a2a18, true, SKIN_GUANYU, 'phoenix'),
+  guanyu: {
+    ...plan(0x2a7a2a, 0xd8c060, 0x1a5a1a, 'hood', 'glaive', TALL, 'long', 0x3a2a18, true, SKIN_GUANYU, 'phoenix'),
+    lips: LIPS_GUANYU,
+  },
   zhangfei: plan(0x8e3520, 0x3a3a3a, 0x1a1a1a, 'band', 'pike', HEAVY, 'bristle', 0x181410, false, SKIN_ZHANGFEI, 'fierce'),
-  zhaoyun: plan(0x2f5fb3, 0xc84a4a, 0xc0c8d4, 'helmet', 'spear', LEAN, 'none', undefined, true, SKIN_ZHAOYUN, 'calm'),
+  zhaoyun: {
+    ...plan(0x2f5fb3, 0xc84a4a, 0xc0c8d4, 'helmet', 'spear', LEAN, 'none', undefined, true, SKIN_ZHAOYUN, 'bold'),
+    jaw: JAW_ZHAOYUN,
+  },
   huangzhong: plan(0xb8860b, 0xe0c060, 0x6a5a1a, 'band', 'bow', VETERAN, 'long', 0xb0b0b0, false, SKIN_HUANGZHONG, 'aged'),
   weiyan: plan(0x6a3a8b, 0xb080d0, 0x4a2a6a, 'turban', 'dao', SOLID, 'none', undefined, false, SKIN_WEIYAN, 'sharp'),
 }
@@ -209,10 +229,21 @@ export const ENEMY_FIGURES: Record<string, FigurePlan> = {
   lidian: plan(0x27275e, 0x6a6ab0, 0x14143a, 'helmet', 'glaive', BOSS_LEAN, 'none', undefined, false, 0xe4c09a, 'calm'),
   xiahoudun: plan(0x5e2247, 0xb05a8a, 0x2a0a1a, 'band', 'spear', BOSS, 'full', 0x201018, false, 0xcfa87e, 'fierce', true),
   xuchu: plan(0x6e5a1e, 0xd8bc50, 0x3a2a0a, 'helmet', 'glaive', BOSS_HUGE, 'full', 0x3a2a12, false, 0xc08a68, 'fierce'),
-  caoren: plan(0x2f4459, 0x7aa0c0, 0x1a2a3a, 'turban', 'glaive', BOSS, 'none', undefined, false, 0xd4ac84, 'calm'),
-  zhangliao: plan(0x1f4a33, 0x5aa87e, 0x0a2a1a, 'helmet', 'spear', BOSS_LEAN, 'none', undefined, true, 0xe0bc94, 'phoenix'),
+  // Cao Ren, Cao Cao's elder cousin and the veteran who held Fan: bearded, as
+  // every depiction gives him. He had Li Dian's clean-shaven `calm` face, so
+  // under the hat the two were the same man.
+  caoren: plan(0x2f4459, 0x7aa0c0, 0x1a2a3a, 'turban', 'glaive', BOSS, 'full', 0x2a2018, false, 0xd4ac84, 'calm'),
+  // Zhang Liao, the mature commander of Hefei, bearded in the stage and
+  // painted tradition; Zhang He beside him stays the clean-shaven refined one.
+  // Both wore the same helmet on the same build, so without it their faces
+  // differed by 1.4% of the face region - two brow angles.
+  zhangliao: plan(0x1f4a33, 0x5aa87e, 0x0a2a1a, 'helmet', 'spear', BOSS_LEAN, 'full', 0x1e1810, true, 0xe0bc94, 'phoenix'),
   xuhuang: plan(0x5e3620, 0xb8864a, 0x2a1a0a, 'band', 'glaive', BOSS, 'long', 0x2a1a10, false, 0xd2a87c, 'sharp'),
-  zhanghe: plan(0x2d5a49, 0x6ec0a0, 0x1a2a2a, 'helmet', 'sword', BOSS_LEAN, 'none', undefined, true, 0xe8c4a0, 'calm'),
+  // 郃识变数 - Zhang He "understood the shifts of battle", the one Wei general
+  // Zhuge Liang is said to have feared: the shrewd tactician's severe face. He
+  // wore Li Dian's `calm` face under the same helmet on the same build, so on
+  // the in-play head the two were one man in two colours.
+  zhanghe: plan(0x2d5a49, 0x6ec0a0, 0x1a2a2a, 'helmet', 'sword', BOSS_LEAN, 'none', undefined, true, 0xe8c4a0, 'sharp'),
   caocao: plan(0x452073, 0xc8a828, 0xb8860b, 'crown', 'sword', BOSS, 'long', 0x241a18, true, 0xd8b48c, 'narrow'),
   lubu: plan(0xa82222, 0xe8c828, 0xd0b01a, 'plumed', 'ji', BOSS_HUGE, 'none', undefined, true, 0xf0c8a0, 'fierce'),
 }

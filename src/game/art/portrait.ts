@@ -166,23 +166,32 @@ const SKULL = {
 
 const mirrored = ([x, y]: readonly [number, number]): [number, number] => [-x, y]
 
-/** The closed outline: down the right side, then back up the mirrored left. */
-const HEAD_OUTLINE: ReadonlyArray<readonly [number, number]> = [
-  SKULL.crown,
-  SKULL.upperTemple,
-  SKULL.temple,
-  SKULL.cheekbone,
-  SKULL.cheek,
-  SKULL.jawAngle,
-  SKULL.jaw,
-  SKULL.chin,
-  mirrored(SKULL.jaw),
-  mirrored(SKULL.jawAngle),
-  mirrored(SKULL.cheek),
-  mirrored(SKULL.cheekbone),
-  mirrored(SKULL.temple),
-  mirrored(SKULL.upperTemple),
-]
+/**
+ * The closed outline: down the right side, then back up the mirrored left.
+ *
+ * `jaw` widens the LOWER head only - cheek, jaw angle and jaw - so a broad
+ * face (Zhao Yun's 阔面重颐) squares off below the cheekbone while the crown,
+ * temples and cheekbones, which every headgear and the frame are fitted to,
+ * stay exactly where they are.
+ */
+function headOutline(jaw = 1): Array<readonly [number, number]> {
+  const wide = ([x, y]: readonly [number, number]): [number, number] => [x * jaw, y]
+  const right = [SKULL.cheek, SKULL.jawAngle, SKULL.jaw].map(wide)
+  return [
+    SKULL.crown,
+    SKULL.upperTemple,
+    SKULL.temple,
+    SKULL.cheekbone,
+    ...right,
+    SKULL.chin,
+    ...right.slice().reverse().map(mirrored),
+    mirrored(SKULL.cheekbone),
+    mirrored(SKULL.temple),
+    mirrored(SKULL.upperTemple),
+  ]
+}
+
+const HEAD_OUTLINE = headOutline()
 
 /**
  * A smooth closed path through the points, Catmull-Rom converted to cubics.
@@ -224,10 +233,16 @@ function headPt(head: Pt, headR: number, rot: number, lx: number, ly: number): P
   return { x: head.x + x * cos - y * sin, y: head.y + x * sin + y * cos }
 }
 
-function portraitHeadPath(ctx: CanvasRenderingContext2D, head: Pt, headR: number, rot: number): void {
+function portraitHeadPath(
+  ctx: CanvasRenderingContext2D,
+  head: Pt,
+  headR: number,
+  rot: number,
+  jaw = 1,
+): void {
   smoothClosedPath(
     ctx,
-    HEAD_OUTLINE.map(([lx, ly]) => headPt(head, headR, rot, lx, ly)),
+    headOutline(jaw).map(([lx, ly]) => headPt(head, headR, rot, lx, ly)),
   )
 }
 
@@ -434,7 +449,7 @@ const portraitHeadParts: HeadParts = (add, plan, p, m, headR) => {
   const rot = p.headRot
   const at = (lx: number, ly: number): Pt => headPt(head, headR, rot, lx, ly)
 
-  add((c) => portraitHeadPath(c, head, headR, rot), m.skin)
+  add((c) => portraitHeadPath(c, head, headR, rot, plan.jaw), m.skin)
 
   // Hair, under the gear, showing as a band between brim and forehead. Every
   // kind gets it here: on the sprite, `hood` and `helmet` get no hair shape at
@@ -628,10 +643,10 @@ function portraitEye(
 }
 
 /** The head outline in HEAD-LOCAL coordinates, for clipping. */
-function headLocalPath(ctx: CanvasRenderingContext2D, headR: number): void {
+function headLocalPath(ctx: CanvasRenderingContext2D, headR: number, jaw = 1): void {
   smoothClosedPath(
     ctx,
-    HEAD_OUTLINE.map(([lx, ly]) => ({ x: lx * HW * headR, y: ly * headR })),
+    headOutline(jaw).map(([lx, ly]) => ({ x: lx * HW * headR, y: ly * headR })),
   )
 }
 
@@ -731,7 +746,7 @@ function drawPortraitFace(
 ): void {
   const face = FACES[plan.face ?? 'plain']
   const skin = plan.skin ?? SKIN
-  const lipLight = css(tint(skin, 0.2))
+  const lipLight = css(plan.lips === undefined ? tint(skin, 0.2) : plan.lips)
 
   ctx.save()
   ctx.translate(p.head.x, p.head.y)
@@ -742,7 +757,7 @@ function drawPortraitFace(
   // INTERSECT, which is exactly what is wanted and avoids hand-building the
   // intersection as a path that could bow into the hair.
   ctx.save()
-  headLocalPath(ctx, headR)
+  headLocalPath(ctx, headR, plan.jaw)
   ctx.clip()
   ctx.beginPath()
   ctx.rect(-2 * HW * headR, L.hairEdge * headR, 4 * HW * headR, 3 * headR)
@@ -779,7 +794,11 @@ function drawPortraitFace(
   // --- mouth, centred and ALWAYS visible. Three of five heroes had none: the
   // beard swallowed it.
   const mw = L.mouthHalfW
-  ctx.fillStyle = css(shade(skin, 0.24))
+  // 唇若涂脂 - where the plan names a lip colour, both lips are painted in it
+  // (the upper a shade deeper) instead of being toned from the complexion. On
+  // Guan Yu's date-red face a skin-toned lip was LESS red than the face round
+  // it, the opposite of rouge.
+  ctx.fillStyle = css(plan.lips === undefined ? shade(skin, 0.24) : shade(plan.lips, 0.2))
   smoothClosedPath(ctx, [
     q(-mw, L.mouthY - 0.02),
     q(-0.1, L.mouthY - 0.1),

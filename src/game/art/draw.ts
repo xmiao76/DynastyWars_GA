@@ -291,6 +291,14 @@ export function figureShapes(
   // Pauldron, then the near arm over it.
   add((c) => ovalPath(c, p.shoulderN, 7.8 * b, 6.4 * b, -0.2), m.trim)
   add((c) => chainPath(c, [p.shoulderN, p.elbowN, p.handN], [9.5 * b, 7.4 * b, 5.6 * b]), m.cloth)
+  // 髯长二尺 - a long beard falls OVER the chest, in front of the pauldron and
+  // sleeve. Drawn only in the head's place in the order, the pauldron and near
+  // arm covered all of it below the jaw, and Guan Yu's beard - the thing he is
+  // named for - showed as a chin patch. The portrait paints its own beard in
+  // the face pass, and a lying figure's "down" is along the ground.
+  if (plan.beard === 'long' && headParts === spriteHeadParts && p.lying !== true) {
+    addBeardFront(add, p, m, headRadius(plan))
+  }
   // Forearm and hand in skin, over the sleeve, so the arm is not one tube.
   add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
 
@@ -334,6 +342,30 @@ function addBeard(
         { x: chin.x + headR * 0.5, y: chin.y - 2 },
         { x: chin.x + headR * 0.2, y: chin.y + len },
         { x: chin.x - headR * 0.58, y: chin.y + len * 0.75 },
+      ]),
+    m.hair,
+  )
+}
+
+/** The hanging length of a long beard below the jaw, in canonical units. */
+const LONG_BEARD_FALL = 27
+
+/** The front fall of a long beard: a tapering strand from the jaw down the chest. */
+function addBeardFront(
+  add: (t: Shape['trace'], f: string) => void,
+  p: Skeleton,
+  m: Materials,
+  headR: number,
+): void {
+  const chin = { x: p.head.x + headR * 0.25, y: p.head.y + headR * 0.95 }
+  add(
+    (c) =>
+      polyPath(c, [
+        { x: chin.x - headR * 0.5, y: chin.y + 2 },
+        { x: chin.x + headR * 0.42, y: chin.y + 1 },
+        { x: chin.x + headR * 0.22, y: chin.y + LONG_BEARD_FALL * 0.8 },
+        { x: chin.x - headR * 0.02, y: chin.y + LONG_BEARD_FALL },
+        { x: chin.x - headR * 0.34, y: chin.y + LONG_BEARD_FALL * 0.7 },
       ]),
     m.hair,
   )

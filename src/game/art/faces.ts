@@ -76,6 +76,12 @@ export const FACES: Record<FaceKind, FaceShape> = {
   // 环眼 - the round glare. Zhang Fei, and the one kind that should stay close
   // to round: this is the shape the sources name him for.
   fierce: { browAngle: -0.42, browWeight: 1.3, browLength: 1.05, eyeW: 1.2, eyeH: 1.25, eyeTilt: -0.06, eyeAspect: 1.55, browArch: 0.04 },
+  // 浓眉大眼 - Zhao Yun: "thick brows, large eyes". The heaviest brow in the
+  // cast and the largest eye short of Zhang Fei's round glare, level and open
+  // rather than slanted. He shared `calm` with three bosses, whose brows were
+  // lighter than Guan Yu's and Huang Zhong's - the one man the sources name for
+  // his brows had neither the heaviest nor the largest-eyed face.
+  bold: { browAngle: 0.02, browWeight: 1.5, browLength: 1.12, eyeW: 1.18, eyeH: 1.14, eyeTilt: 0, eyeAspect: 2.0, browArch: 0.07 },
   calm: { browAngle: 0.05, browWeight: 1.18, browLength: 1.05, eyeW: 1.12, eyeH: 1.05, eyeTilt: 0.02, eyeAspect: 2.15, browArch: 0.09 },
   // Hooded and drooping. Huang Zhong, the old general.
   aged: { browAngle: 0.3, browWeight: 1.35, browLength: 1, eyeW: 0.95, eyeH: 0.78, eyeTilt: 0.14, eyeAspect: 2.5, browArch: 0.02 },
