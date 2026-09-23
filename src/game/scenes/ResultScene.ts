@@ -4,6 +4,7 @@ import { nextStageId, STAGES } from '../../core/stage'
 import { audio } from '../audio/sfx'
 import { TITLE_THEME } from '../audio/music'
 import { addVignette, drawSlab } from '../ui/panels'
+import { liveStyle } from '../ui/theme'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
@@ -90,20 +91,13 @@ export class ResultScene extends Phaser.Scene {
     // Title with a second accent line.
     this.add
       .text(SCREEN_WIDTH / 2, 84, 'STAGE CLEAR!', {
-        fontFamily: 'sans-serif',
-        fontSize: '28px',
-        fontStyle: 'bold',
-        color: '#ffd700',
-        stroke: '#8b6a00',
-        strokeThickness: 3,
+        ...liveStyle(28, { color: '#ffd700', bold: true, stroke: '#8b6a00', strokeThickness: 3 }),
       })
       .setOrigin(0.5)
     if (stage) {
       this.add
         .text(SCREEN_WIDTH / 2, 116, `${stage.nameEn} · ${stage.nameZh}`, {
-          fontFamily: 'sans-serif',
-          fontSize: '12px',
-          color: '#f5e6c8',
+          ...liveStyle(12, { color: '#f5e6c8' }),
         })
         .setOrigin(0.5)
     }
@@ -131,7 +125,7 @@ export class ResultScene extends Phaser.Scene {
           : hasTouch()
             ? 'TAP TO CONTINUE'
             : 'PRESS ENTER',
-        { fontFamily: 'sans-serif', fontSize: '10px', color: '#ffffff' },
+        { ...liveStyle(10, { color: '#ffffff' }) },
       )
       .setOrigin(0.5)
 
@@ -187,18 +181,13 @@ function drawChip(
   const cx = x + w / 2
   scene.add
     .text(cx, y - h / 2 - 10, label.toUpperCase(), {
-      fontFamily: 'sans-serif',
-      fontSize: '7px',
-      color: '#c8b07a',
+      ...liveStyle(7, { color: '#c8b07a' }),
     })
     .setOrigin(0.5, 0)
   scene.add.rectangle(cx, y, w, h, 0x0c0c12, 0.85).setStrokeStyle(1, 0x9a7a2a)
   return scene.add
     .text(cx, y, value, {
-      fontFamily: 'sans-serif',
-      fontSize: '16px',
-      fontStyle: 'bold',
-      color: '#ffffff',
+      ...liveStyle(16, { color: '#ffffff', bold: true }),
     })
     .setOrigin(0.5)
 }

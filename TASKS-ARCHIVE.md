@@ -2816,3 +2816,108 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No change to in-play head size, build or silhouette.
   - No gradients on the in-play sprites.
   - No change to `PORTRAIT_BOX`/`PORTRAIT_TEXTURE` or any scene's display sizes.
+
+### ENH-10 - Arrows fly too low and hang in the air (owner request)
+
+- Status: DONE
+- Requirement (owner, 2026-09-22): (1) hero and NPC arrows hit the LOWER
+  body - raise the flight so they hit the MIDDLE of the body; (2) after
+  the arrow falls toward the ground it stays hanging in the air - make it
+  fall all the way to the ground or disappear at its farthest range.
+  Worked directly in the consumer iteration under an explicit owner
+  request (priority over queue selection); ENH-9 stays TODO.
+- Root causes found - the "hang" had THREE mechanisms:
+  - both spawn sites flew arrows at z = 10 against a ~92-unit fighter
+    (the legs, measured in-game at 0.15 of body height)
+  - `updateDeaths` removed dead entities only when side !== 'hero', so
+    DEAD HERO ARROWS were never removed and rendered frozen forever
+  - `applyPhysics` x-clamped every side==='hero' entity to the screen, so
+    hero arrows pinned at the screen edge forever; and projectiles had no
+    flight envelope at all (flat flight to the stage bound)
+- Acceptance criteria:
+  - [x] Arrows cross at mid-body: ARROW_Z = 40 on both spawn paths (hero
+        special + archer AI); e2e band pin 0.3-0.7 of the REAL sprite
+        heights (measured 0.48; reverting z=10 reads 0.15 = the owner's
+        "lower body" verbatim and fails the pin)
+  - [x] Fall + despawn: level flight ARROW_LEVEL_TRAVEL = 240 px (beyond
+        any fire range), then ARROW_FALL = 2/tick down to the ground,
+        gone at contact; ARROW_MAX_TRAVEL = 360 cap for anything still
+        airborne; dead projectiles removed on BOTH sides; hero arrows no
+        longer screen-clamped
+  - [x] Gameplay identity preserved by construction: the hit test moved
+        to the target's chest (ARROW_CHEST_Z = 30), so ARROW_Z -
+        ARROW_CHEST_Z = 10 reproduces the old feet-level hit/jump-dodge
+        sets EXACTLY (grounded-hit and airborne-dodge pins; dropping the
+        offset fails both)
+  - [x] 8 new unit tests (test/core/arrows.test.ts) + 3 e2e in-situ pins
+        (e2e/arrows.spec.ts, band + fall + no-lingering, real sprites and
+        display list); every mechanism falsified by revert - 6
+        falsifications total incl. the renderer band
+  - [x] Full gates green: lint, typecheck, unit 196/196 (+8), e2e 52/52
+        (+3), signal 13/13, vision 5/5, prodbuild 4/4, build
+- Marathon deltas (recorded, NOT chased - the range change is the
+  requested behavior; no tuning touched; every marathon still completes):
+  guanyu s2 4944->3144t (-37%), zhaoyun s3 4224->6720t (+59%), s4
+  8988->5988t (-33%), huangzhong s2 6588->4524t (-31%); zhangfei and
+  weiyan tables identical. Long-range arrow chip hits beyond 240px are
+  gone by design.
+- Non-goals:
+  - No arrow rotation while falling and no stuck-in-ground prop (the
+    arrow falls to the ground and is gone at contact; the farthest-range
+    cap is the owner's other accepted option and is also implemented).
+  - No archer AI, fire cadence, damage or loot changes. No DIFF-1 impact
+    (stage data untouched).
+- Evidence:
+  - artifacts/arrows/{hero-midflight,npc-midflight,hero-falling}.png,
+    verified by pixel arbiter (HUD-plate hashes pair tests 1+3 (HZ) vs
+    test 2 (ZY) exactly as designed) - see the PROGRESS entry on the
+    read_image display caveat before trusting eyeballed captures.
+
+### ENH-11 - Gamepad players cannot pause (input parity for pause)
+
+- Status: DONE
+- Requirement:
+  Pause shipped keyboard-only (ENH-7, P) and gained touch parity (ENH-8,
+  HUD button), but the third first-class input class - gamepad
+  (PROJECT.md: "Keyboard, gamepad and touch are all supported") - has no
+  pause path: a pad player cannot stop a ~13-minute run. Start (button 9)
+  is the natural slot: GameScene polls it through watchConfirmButton and
+  confirmContinue no-ops outside the game-over countdown (and returns
+  early while paused), so Start does nothing during gameplay today.
+  Bind Start to the shared togglePause() during stage gameplay, either
+  pad (pads 0 and 1, so player two can pause too).
+- Acceptance criteria:
+  - [x] Start toggles pause during stage gameplay on EITHER connected
+        pad (pads 0 and 1), sharing togglePause() with P and the touch
+        button - same freeze/overlay/clear/resume semantics, no new
+        pause state.
+  - [x] Held Start does not strobe: the release-seen edge pattern of
+        watchConfirmButton (now pad-indexed) gives exactly one toggle
+        per press - pinned by sampling paused 6x across a 600ms hold.
+  - [x] Menus unchanged: Start stays confirm on title/select/result
+        (existing menu tests green untouched) and still revives on the
+        game-over countdown - ROUTED in one watcher per pad rather than
+        stacked: a second pad-0 watcher could resume AND revive in a
+        single poll (caught in self-review before testing). While
+        paused the toggle RESUMES first, so no revive leaks through.
+  - [x] Pinned with the synthetic-pad harness (gamepad.spec.ts): pad 1
+        Start freezes (tick flat across ~60 wall frames), pad 2 Start
+        resumes, held Start no-strobe, game-over Start revives and is
+        not a toggle. Both mechanisms falsified by probe (binding
+        removed -> pause pins fail; gameover routed to toggle -> the
+        revive pin fails).
+  - [x] Full gates green: lint, typecheck, unit 196/196, e2e 54/54
+        (+1), signal 13/13 (marathons identical to the standing
+        post-arrow snapshot - input-layer change only), vision 5/5,
+        prodbuild 4/4, build.
+- Non-goals:
+  - No remapping UI, no pause menu, no auto-pause on blur (owner
+    decision). No touch or keyboard changes. No DIFF-1 impact.
+- Evidence:
+  - artifacts/loop/proposals-gamepadpause-enh11.md (this pass's review).
+  - Trial: watchConfirmButton gained a padIndex (default 0, menu call
+    sites byte-identical); GameScene's Start handling became one routed
+    action per pad (pause toggle / game-over confirmContinue). The
+    overlay hint text is unchanged (it names P, which still resumes) -
+    a cosmetic asymmetry for pad players, deliberately out of the
+    stated scope.

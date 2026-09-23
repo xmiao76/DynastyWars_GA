@@ -11,6 +11,7 @@ import { GameOverScene } from './scenes/GameOverScene'
 import { ResultScene } from './scenes/ResultScene'
 import { SelectScene } from './scenes/SelectScene'
 import { TitleScene } from './scenes/TitleScene'
+import { StyleFrameScene } from './scenes/StyleFrameScene'
 
 const params = new URLSearchParams(window.location.search)
 
@@ -37,7 +38,7 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   // HudScene runs in parallel with GameScene and must be listed after it so it
   // renders on top; it is launched by GameScene, never started on its own.
-  scene: [BootScene, TitleScene, SelectScene, GameScene, HudScene, ResultScene, GameOverScene, GameCompleteScene],
+  scene: [BootScene, TitleScene, SelectScene, GameScene, HudScene, ResultScene, GameOverScene, GameCompleteScene, StyleFrameScene],
 }
 
 const game = new Phaser.Game(config)

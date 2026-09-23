@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { neutralInput, type InputState } from '../../core/types'
+import { liveStyle } from '../ui/theme'
 
 /**
  * Touch adapter: on-screen controls -> core InputState, mirroring the keyboard
@@ -110,7 +111,7 @@ export class TouchAdapter {
       g.lineStyle(1, EDGE, 0.8)
       g.strokeCircle(x, y, BTN_R)
       scene.add
-        .text(x, y, label, { fontFamily: 'sans-serif', fontSize: '10px', fontStyle: 'bold', color: '#140f14' })
+        .text(x, y, label, { ...liveStyle(10, { color: '#140f14', bold: true }) })
         .setOrigin(0.5)
         .setScrollFactor(0)
         .setDepth(depth)

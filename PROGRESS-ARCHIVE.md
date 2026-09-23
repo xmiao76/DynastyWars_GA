@@ -3,6 +3,83 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-22 11:49 - ENH-10 (attempt 1, explicit owner request)
+
+- Status before: owner requested two arrow fixes (hit height + hanging
+  arrows) and to continue the loop with the new model (mimo-v2.6-pro).
+  Queue held ENH-9 (TODO) + DIFF-1 (BLOCKED) + 20 DONE; an explicit owner
+  request takes priority over queue selection, so ENH-10 was filed and
+  worked in this consumer iteration. ENH-9 stays TODO. Run
+  `2026-09-22T17-39-18Z-bd9a78cf`.
+- Root causes (the hang had THREE mechanisms, not one):
+  1. both spawn sites flew arrows at z = 10 against a ~92-unit fighter -
+     the legs. Measured in-game: 0.15 of body height (the owner's "lower
+     body" verbatim).
+  2. `updateDeaths` removed dead entities only when side !== 'hero' - a
+     DEAD HERO ARROW survived the filter and rendered frozen forever.
+  3. `applyPhysics` x-clamped every side === 'hero' entity to the screen,
+     pinning hero arrows at the screen edge forever; projectiles also had
+     no flight envelope (flat flight to the stage bound).
+- Work completed: ARROW_Z = 40 (mid-body) on both spawn paths; hit test
+  shifted to the target's CHEST (ARROW_CHEST_Z = 30) so ARROW_Z -
+  ARROW_CHEST_Z = 10 reproduces the old feet-level hit/jump-dodge sets
+  EXACTLY (by construction, then pinned); flight envelope - level 240px
+  (beyond any fire range), then ARROW_FALL 2/tick to the ground, gone at
+  contact, ARROW_MAX_TRAVEL 360 cap; dead projectiles removed on BOTH
+  sides; hero arrows exempt from the screen clamp.
+- Files changed: `src/core/constants.ts` (arrow flight block), `src/core/
+  sim.ts` (spawn z, stepProjectiles envelope + chest hit, applyPhysics
+  clamp exemption, updateDeaths), `src/core/ai.ts` (spawn z), `test/core/
+  arrows.test.ts` (new, 8 tests), `e2e/arrows.spec.ts` (new, 3 tests),
+  `TASKS.md`, `PROGRESS.md`.
+- Tests: 8 unit (both spawn paths at ARROW_Z; level-then-fall envelope
+  with exact boundary; fall-to-ground removal; max-travel cap; hero-arrow
+  removal; screen-edge no-pin; grounded-hit and airborne-dodge identity
+  with explicit constant-math preconditions) + 3 e2e in-situ (band pin
+  0.3-0.7 of REAL sprite heights vs the display list; fall + removal;
+  NPC archer AI in situ). Falsified 6 mechanisms by revert: z=10 (hit-set
+  tests fail + e2e band reads 0.15), chest offset dropped (both identity
+  tests fail), no fall (both fall tests fail), removal reverted (both
+  hero tests fail), clamp restored (edge test fails). All restored green.
+- Verification run: lint clean; typecheck clean; unit 196/196 (+8); e2e
+  52/52 (+3; full suite with final src, arrows spec green repeatedly
+  after); signal 13/13, zero violations/page errors; vision 5/5 (9/9
+  frames, 256/256 sprites, 85/85 weapons, 170/170 retracts, parity
+  clean, both negative controls correct, HUD 1/1); prodbuild 4/4; build
+  ok. Marathon deltas RECORDED, not chased (the range change is the
+  requested behavior; no tuning touched; all marathons still complete):
+  guanyu s2 -37% ticks, zhaoyun s3 +59% / s4 -33%, huangzhong s2 -31%;
+  zhangfei and weiyan identical. Long-range chip hits beyond 240px are
+  gone by design. DIFF-1 measurement note: its stage-shape analysis
+  predates this arrow behavior; the anomaly it tracks (stage 3 wall)
+  remains the standing item.
+- Eye review (captures at gameplay size, artifacts/arrows/): mid-flight
+  frames show the arrow at chest/torso height for both hero and NPC
+  shots; the fall frame shows the arrow low and descending before it
+  vanishes at the ground. TWO TOOL CAVEATS recorded for future passes:
+  (1) batched read_image calls can mis-associate images with paths, and
+  an isolated read also glitched once - captures were verified with a
+  pixel arbiter instead (@napi-rs/canvas HUD-plate hashes: tests 1+3
+  (huangzhong) share one hash, test 2 (zhao yun) differs, exactly as
+  designed). Verify eye-critical evidence programmatically when reads
+  look contradictory; never trust a suspicious attachment over the
+  asserts. (2) Never overlap Playwright runs: a timed-out invocation can
+  leave orphaned suites that race later runs for port 5177 and artifact
+  filenames. (An early 'orphan' theory for the image weirdness was
+  WRONG and is retracted - the arbiter showed the files were always
+  correct; the display pipeline was the gremlin.)
+- Timing: overrun - ~70 min vs the 50-min timebox, spent on the
+  read_image forensics. Work itself complete and verified.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
+- Status after: ENH-10 DONE. Queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-9 TODO.
+- Remaining work or blocker: none for this task.
+- Next recommended task: ENH-9 (pause vs stage-clear transition).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
+  oldest DONE ART-4 spliced to TASKS-ARCHIVE.md end (DONE now 20).
+  PROGRESS.md was 470 lines, stays under 500 with this entry.
+
 ### 2026-09-22 03:14 - PRODUCER PASS (pause-completeness review, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after the

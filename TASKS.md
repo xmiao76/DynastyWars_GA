@@ -851,116 +851,137 @@ Add future enhancement tasks below this heading.
     clean, unit 196/196, e2e 53/53 (+1), signal 13/13, vision 5/5,
     prodbuild 4/4, build.
 
-### ENH-10 - Arrows fly too low and hang in the air (owner request)
+### UI-1 - Design-system foundation: theme, type, panel kit (overhaul phase 1)
 
-- Status: DONE
-- Requirement (owner, 2026-09-22): (1) hero and NPC arrows hit the LOWER
-  body - raise the flight so they hit the MIDDLE of the body; (2) after
-  the arrow falls toward the ground it stays hanging in the air - make it
-  fall all the way to the ground or disappear at its farthest range.
-  Worked directly in the consumer iteration under an explicit owner
-  request (priority over queue selection); ENH-9 stays TODO.
-- Root causes found - the "hang" had THREE mechanisms:
-  - both spawn sites flew arrows at z = 10 against a ~92-unit fighter
-    (the legs, measured in-game at 0.15 of body height)
-  - `updateDeaths` removed dead entities only when side !== 'hero', so
-    DEAD HERO ARROWS were never removed and rendered frozen forever
-  - `applyPhysics` x-clamped every side==='hero' entity to the screen, so
-    hero arrows pinned at the screen edge forever; and projectiles had no
-    flight envelope at all (flat flight to the stage bound)
+- Status: DONE (attempt 1)
+- Requirement: approved UI/art-overhaul plan phase 1 (owner request 2026-09-23,
+  "not limited by current design"). Add `src/game/ui/theme.ts` (WoF-inspired
+  palette, type scale, panel specs) and `src/game/ui/type.ts` (FontFace loader
+  + baked display-text baker + live-text presets). Bundle an OFL arcade CJK
+  display font (first choice ZCOOL QingKe HuangYou) under
+  `src/game/assets/fonts/` with its license; BootScene loads it with a bounded
+  timeout and sans-serif fallback. Extend `panels.ts` with `drawCard`,
+  `drawLacquerBar`, `makeArcadeBar` (segmented HP + presentation-only white
+  damage ghost); keep `drawSlab`/`makeBar` signatures and `panelRect`/`bar`
+  data tags. Migrate all ~73 sans-serif call sites to theme presets.
+  Produce a title style-frame mock for owner sign-off before UI-2..5 scale it.
 - Acceptance criteria:
-  - [x] Arrows cross at mid-body: ARROW_Z = 40 on both spawn paths (hero
-        special + archer AI); e2e band pin 0.3-0.7 of the REAL sprite
-        heights (measured 0.48; reverting z=10 reads 0.15 = the owner's
-        "lower body" verbatim and fails the pin)
-  - [x] Fall + despawn: level flight ARROW_LEVEL_TRAVEL = 240 px (beyond
-        any fire range), then ARROW_FALL = 2/tick down to the ground,
-        gone at contact; ARROW_MAX_TRAVEL = 360 cap for anything still
-        airborne; dead projectiles removed on BOTH sides; hero arrows no
-        longer screen-clamped
-  - [x] Gameplay identity preserved by construction: the hit test moved
-        to the target's chest (ARROW_CHEST_Z = 30), so ARROW_Z -
-        ARROW_CHEST_Z = 10 reproduces the old feet-level hit/jump-dodge
-        sets EXACTLY (grounded-hit and airborne-dodge pins; dropping the
-        offset fails both)
-  - [x] 8 new unit tests (test/core/arrows.test.ts) + 3 e2e in-situ pins
-        (e2e/arrows.spec.ts, band + fall + no-lingering, real sprites and
-        display list); every mechanism falsified by revert - 6
-        falsifications total incl. the renderer band
-  - [x] Full gates green: lint, typecheck, unit 196/196 (+8), e2e 52/52
-        (+3), signal 13/13, vision 5/5, prodbuild 4/4, build
-- Marathon deltas (recorded, NOT chased - the range change is the
-  requested behavior; no tuning touched; every marathon still completes):
-  guanyu s2 4944->3144t (-37%), zhaoyun s3 4224->6720t (+59%), s4
-  8988->5988t (-33%), huangzhong s2 6588->4524t (-31%); zhangfei and
-  weiyan tables identical. Long-range arrow chip hits beyond 240px are
-  gone by design.
-- Non-goals:
-  - No arrow rotation while falling and no stuck-in-ground prop (the
-    arrow falls to the ground and is gone at contact; the farthest-range
-    cap is the owner's other accepted option and is also implemented).
-  - No archer AI, fire cadence, damage or loot changes. No DIFF-1 impact
-    (stage data untouched).
-- Evidence:
-  - artifacts/arrows/{hero-midflight,npc-midflight,hero-falling}.png,
-    verified by pixel arbiter (HUD-plate hashes pair tests 1+3 (HZ) vs
-    test 2 (ZY) exactly as designed) - see the PROGRESS entry on the
-    read_image display caveat before trusting eyeballed captures.
+  - [x] theme.ts + type.ts exist; font + OFL license committed; boot loads font
+        with timeout and falls back silently when blocked (e2e route-abort test).
+  - [x] Baked-text baker handles every display string in the game (CJK + Latin)
+        with no clipping (unit test over the string table); deterministic output.
+  - [x] New panel builders emit `panelRect`/`bar` tags; layout/occlusion gates pass.
+  - [x] Title style-frame screenshot reviewed at desktop + phone sizes.
+  - [x] lint, typecheck, unit, e2e, signal, vision (incl. parity), prodbuild, build.
+- Evidence: src/game/ui/{theme,type}.ts, src/game/assets/fonts/ (29.6 KB subset
+  woff2 + OFL + subset + PROVENANCE.md), scripts/fetch-display-font.mjs,
+  src/game/art/keyart.ts, StyleFrameScene (?styleframe=1, removed in UI-2),
+  test/game/{uitheme,uitype}.test.ts (11), e2e/uifont.spec.ts (3),
+  artifacts/look/ui1-styleframe-{desktop,phone}.png.
+  Full gates 2026-09-23: lint + typecheck pass; unit 295/295; e2e 60/60;
+  vision 5/5 (256/256 sprites, parity clean); selfplay 13/13, marathons
+  identical; prodbuild 4/4; build pass (font +29.6 KB in dist).
+  Image providers quota-exhausted during UI-1 (reset ~Sep 30): style frame is
+  fully procedural; UI-2 carries the key-art generation retry + fallback.
+- Non-goals: no scene restyles yet (UI-2..5); no sim/core changes; no push/deploy.
 
-### ENH-11 - Gamepad players cannot pause (input parity for pause)
+### UI-2 - Title screen: arcade attract screen (overhaul phase 2)
 
-- Status: DONE
-- Requirement:
-  Pause shipped keyboard-only (ENH-7, P) and gained touch parity (ENH-8,
-  HUD button), but the third first-class input class - gamepad
-  (PROJECT.md: "Keyboard, gamepad and touch are all supported") - has no
-  pause path: a pad player cannot stop a ~13-minute run. Start (button 9)
-  is the natural slot: GameScene polls it through watchConfirmButton and
-  confirmContinue no-ops outside the game-over countdown (and returns
-  early while paused), so Start does nothing during gameplay today.
-  Bind Start to the shared togglePause() during stage gameplay, either
-  pad (pads 0 and 1, so player two can pause too).
+- Status: TODO
+- Dependency: UI-1 DONE + owner sign-off on the style frame.
+- Requirement: title backdrop: generated key art preferred, procedural dusk
+  battle (`src/game/art/keyart.ts`, UI-1 style frame) as the committed fallback.
+  NOTE 2026-09-23: image providers quota-exhausted (resets ~Sep 30); if still
+  out, ship the refined procedural backdrop + hero lineup and log the deferral.
+  Original painted key art backdrop (Five-Tigers homage, Red-Cliff
+  fire/ship motif, provenance-logged like ART-18); baked gold-foil logo lockup
+  with 『赤壁之战』 subtitle; blinking PRESS START; presentation-only hi-score
+  line (`localStorage`, guarded); control plate as bronze plaque with the same
+  device-specific strings; ember-drift + logo-sheen animation (visual-only).
 - Acceptance criteria:
-  - [x] Start toggles pause during stage gameplay on EITHER connected
-        pad (pads 0 and 1), sharing togglePause() with P and the touch
-        button - same freeze/overlay/clear/resume semantics, no new
-        pause state.
-  - [x] Held Start does not strobe: the release-seen edge pattern of
-        watchConfirmButton (now pad-indexed) gives exactly one toggle
-        per press - pinned by sampling paused 6x across a 600ms hold.
-  - [x] Menus unchanged: Start stays confirm on title/select/result
-        (existing menu tests green untouched) and still revives on the
-        game-over countdown - ROUTED in one watcher per pad rather than
-        stacked: a second pad-0 watcher could resume AND revive in a
-        single poll (caught in self-review before testing). While
-        paused the toggle RESUMES first, so no revive leaks through.
-  - [x] Pinned with the synthetic-pad harness (gamepad.spec.ts): pad 1
-        Start freezes (tick flat across ~60 wall frames), pad 2 Start
-        resumes, held Start no-strobe, game-over Start revives and is
-        not a toggle. Both mechanisms falsified by probe (binding
-        removed -> pause pins fail; gameover routed to toggle -> the
-        revive pin fails).
-  - [x] Full gates green: lint, typecheck, unit 196/196, e2e 54/54
-        (+1), signal 13/13 (marathons identical to the standing
-        post-arrow snapshot - input-layer change only), vision 5/5,
-        prodbuild 4/4, build.
-- Non-goals:
-  - No remapping UI, no pause menu, no auto-pause on blur (owner
-    decision). No touch or keyboard changes. No DIFF-1 impact.
-- Evidence:
-  - artifacts/loop/proposals-gamepadpause-enh11.md (this pass's review).
-  - Trial: watchConfirmButton gained a padIndex (default 0, menu call
-    sites byte-identical); GameScene's Start handling became one routed
-    action per pad (pause toggle / game-over confirmContinue). The
-    overlay hint text is unchanged (it names P, which still resumes) -
-    a cosmetic asymmetry for pad players, deliberately out of the
-    stated scope.
+  - [ ] Title reads as an arcade attract screen at desktop + phone sizes (reviewed).
+  - [ ] Control-name assertions keep passing (touch.spec family, same strings).
+  - [ ] Hi-score hidden (not erroring) when storage unavailable.
+  - [ ] vision title frame + parity green; full gates green.
+- Non-goals: no flow changes; no sim changes.
+
+### UI-3 - Character select: WoF-style warrior roster (overhaul phase 3)
+
+- Status: TODO
+- Dependency: UI-1 DONE.
+- Requirement: parchment/ink-wash backdrop, faction-blue frame, five large baked
+  portrait cards (ART-18 portraits) with display-type names + bronze stat pips,
+  P1 gold / P2 blue cursors, bottom lacquer command strip. Keep tap-a-card,
+  cursor wrap, autopilot skip.
+- Acceptance criteria:
+  - [ ] Reviewed at desktop + phone sizes; select.spec behavior preserved.
+  - [ ] Full gates green.
+- Non-goals: no roster/stat changes (sim data untouched).
+
+### UI-4 - In-game HUD: WoF top-bar language (overhaul phase 4)
+
+- Status: TODO
+- Dependency: UI-1 DONE.
+- Requirement: arcade top band (P1 medallion + name + segmented HP + score +
+  lives pips); full-width boss rail on boss waves; "GO →" advance cue;
+  "WAVE n" chip; restyled combo + flaming-pearl special pip (same hp>cost rule);
+  1.2s boss-name banner via existing `showBanner` queue; touch controls
+  restyled as bronze lacquer buttons with identical hit zones/protocol.
+- Acceptance criteria:
+  - [ ] HUD/layout/pause/touch/prodbuild-HUD specs pass (geometry updated,
+        intent preserved; every deleted assertion justified + replaced).
+  - [ ] Reviewed desktop + mobile portrait/landscape in combat, boss, co-op.
+  - [ ] Full gates green.
+- Non-goals: no sim/HUD-data changes; damage ghost is presentation-only.
+
+### UI-5 - Flow screens: scene cards, result, game over, complete, pause/continue (overhaul phase 5)
+
+- Status: TODO
+- Dependency: UI-1 DONE.
+- Requirement: new skippable scene-intro parchment card as a HudScene overlay
+  (no new scene; tick-based autopilot auto-skip; `STAGE_LORE` copy table in the
+  game layer); victory tally / game-over / game-complete / continue / pause
+  cards in the new kit. Same scene keys + bridge fields.
+- Acceptance criteria:
+  - [ ] Autopilot/selfplay/marathon never hang on the card (new e2e test).
+  - [ ] stageclear/continue/scenerestart specs preserved; vision captures reviewed.
+  - [ ] Full gates green.
+- Non-goals: no flow/state-machine changes; no new scenes.
+
+### ART-19 - Painted per-stage backdrops (overhaul phase 6)
+
+- Status: TODO
+- Dependency: UI-1 DONE.
+- Requirement: extend `backdrop.ts` with per-stage landmark mid-layers and
+  palettes from the theme (rivers/bridges/temples for early stages, burning
+  warships + red cliffs + ember sky for the finale), periodic-tile Canvas2D
+  technique, optional visual-only animated overlays (smoke/embers). Ground
+  line and scroll geometry identical.
+- Acceptance criteria:
+  - [ ] All 9 stages visually distinct, reviewed in screenshots + motion.
+  - [ ] Tile-seam unit test per layer; background/probe specs pass.
+  - [ ] Full gates green.
+- Non-goals: no parallax/camera/ground-geometry changes.
+
+### ART-20 - Props, pickups & combat-feedback pass (overhaul phase 7)
+
+- Status: TODO
+- Dependency: UI-1 DONE.
+- Requirement: restyle crates/jars/meat/sword/chest + hit spark/KO burst/
+  stage-clear flash to the painted arcade style via the existing `fx:` texture
+  pipeline; unify boss-warning flash with the banner kit.
+- Acceptance criteria:
+  - [ ] Sprite gate stays 256/256 in unit + vision (regression = art defect).
+  - [ ] weapon/probe/juice specs preserved; reviewed in combat screenshots.
+  - [ ] Full gates green.
+- Non-goals: no loot/drop-rate/combat changes.
 
 ### ENH-12 - Name the gamepad where the UI names controls
 
 - Status: IN_PROGRESS (attempt 1 interrupted; source restored, unverified draft saved)
-- Owner priority: ART-18 takes precedence; do not continue gamepad work until the
-  approved hero-face redesign is finished. Draft: artifacts/loop/enh12-attempt1-partial.patch.
+- Owner priority: deferred again - first ART-18 (now DONE), now the approved
+  UI/art overhaul (UI-1 DONE, UI-2..5 + ART-19/20 next). Draft:
+  artifacts/loop/enh12-attempt1-partial.patch.
 - Requirement:
   The title plate names keyboard and touch controls but never the
   GAMEPAD - a first-class input class per PROJECT.md. A pad-only player

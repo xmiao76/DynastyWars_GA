@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import { TITLE_LOGO, drawLogo, logoBox, type LogoSpec } from '../art/logo'
 import { RENDER_SCALE } from '../render'
+import { THEME } from './theme'
+import { bakeBox, bakeDisplayText, type BakeSpec } from './type'
 
 /**
  * Shared HUD chrome: glassy gradient panels and gradient bar textures. All
@@ -75,6 +77,72 @@ export function drawSlab(
 }
 
 /**
+ * A parchment card: the scene-intro / result / select-plate surface. Cream
+ * fill, gold outer frame, bronze inner rule, corner rivets - all solid fills,
+ * so canvas and WebGL agree. Records `panelRect` like `drawSlab` so the
+ * containment gate keeps working.
+ */
+export function drawCard(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  depth = 10_000,
+): Phaser.GameObjects.Graphics {
+  const g = scene.add.graphics().setScrollFactor(0).setDepth(depth)
+  g.fillStyle(THEME.plate, 0.94)
+  g.fillRect(x - 3, y - 3, w + 6, h + 6)
+  g.fillStyle(THEME.parchment, 0.97)
+  g.fillRect(x, y, w, h)
+  g.fillStyle(THEME.parchmentDeep, 0.55)
+  g.fillRect(x + 3, y + h * 0.62, w - 6, h * 0.38 - 3)
+  g.lineStyle(2, THEME.gold, 1)
+  g.strokeRect(x - 3, y - 3, w + 6, h + 6)
+  g.lineStyle(1, THEME.bronze, 0.9)
+  g.strokeRect(x + 4, y + 4, w - 8, h - 8)
+  g.fillStyle(THEME.bronze, 1)
+  const corners: Array<[number, number]> = [
+    [x, y],
+    [x + w, y],
+    [x, y + h],
+    [x + w, y + h],
+  ]
+  for (const [rx, ry] of corners) {
+    g.fillCircle(rx, ry, 2.2)
+  }
+  g.setData('panelRect', { x, y, w, h })
+  return g
+}
+
+/**
+ * A lacquer bar: the HUD top-band / title command-strip surface. Deep blue
+ * fill with gold rails top and bottom and a faint upper sheen. Solid fills
+ * only; records `panelRect`.
+ */
+export function drawLacquerBar(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  depth = 10_000,
+): Phaser.GameObjects.Graphics {
+  const g = scene.add.graphics().setScrollFactor(0).setDepth(depth)
+  g.fillStyle(THEME.lacquerDeep, 0.95)
+  g.fillRect(x, y, w, h)
+  g.fillStyle(THEME.lacquer, 0.6)
+  g.fillRect(x, y, w, Math.max(1, Math.round(h * 0.34)))
+  g.fillStyle(THEME.gold, 0.95)
+  g.fillRect(x, y, w, 2)
+  g.fillRect(x, y + h - 2, w, 2)
+  g.lineStyle(1, THEME.ink, 0.8)
+  g.strokeRect(x, y, w, h)
+  g.setData('panelRect', { x, y, w, h })
+  return g
+}
+
+/**
  * A slanted health bar: a dark trough with a coloured fill that shortens from
  * the leading edge, plus a bright tip so the current value has an edge you can
  * see moving. `set(ratio)` is the whole interface.
@@ -120,6 +188,99 @@ export function makeBar(
   }
   set(1, false)
   return { set, graphics: g }
+}
+
+/**
+ * The arcade HP bar: `makeBar` plus segment ticks and a white "recent damage"
+ * ghost. The ghost is presentation-only - the caller passes the last-seen
+ * ratio and decays it toward the live one; the sim never sees it. `set` keeps
+ * the `(ratio, danger)` prefix so existing call sites migrate by adding one
+ * argument. The recorded `bar` tag gains the ghost for the HUD-colour gate.
+ */
+export function makeArcadeBar(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  depth: number,
+  segments = 5,
+): {
+  set: (ratio: number, danger: boolean, ghost?: number) => void
+  graphics: Phaser.GameObjects.Graphics
+} {
+  const g = scene.add.graphics().setScrollFactor(0).setDepth(depth)
+  const skew = Math.round(h * 0.7)
+  const set = (ratio: number, danger: boolean, ghost: number = ratio): void => {
+    const clamped = Math.max(0, Math.min(1, ratio))
+    const ghostClamped = Math.max(clamped, Math.min(1, ghost))
+    g.setData('bar', { x, y, w, h, ratio: clamped, danger, ghost: ghostClamped })
+    g.clear()
+    g.fillStyle(0x08070c, 0.85)
+    g.fillRect(x - 1, y - 1, w + 2, h + 2)
+    const ghostW = Math.round(w * ghostClamped)
+    if (ghostW > 0) {
+      g.fillStyle(0xffffff, 0.55)
+      g.beginPath()
+      g.moveTo(x, y)
+      g.lineTo(x + ghostW, y)
+      g.lineTo(x + ghostW - skew, y + h)
+      g.lineTo(x - skew, y + h)
+      g.closePath()
+      g.fillPath()
+    }
+    const fillW = Math.round(w * clamped)
+    if (fillW > 0) {
+      const top = danger ? THEME.danger : THEME.life
+      const bottom = danger ? THEME.dangerDeep : THEME.lifeDeep
+      g.fillStyle(top, 1)
+      g.beginPath()
+      g.moveTo(x, y)
+      g.lineTo(x + fillW, y)
+      g.lineTo(x + fillW - skew, y + h)
+      g.lineTo(x - skew, y + h)
+      g.closePath()
+      g.fillPath()
+      g.fillStyle(bottom, 1)
+      g.fillRect(x - skew + 1, y + h * 0.55, Math.max(0, fillW - 2), h * 0.45)
+      g.fillStyle(0xffffff, 0.75)
+      g.fillRect(Math.max(x, x + fillW - 2), y, 2, h)
+    }
+    // Segment ticks over the trough, so partial bars read in chunks.
+    g.fillStyle(0x08070c, 0.9)
+    for (let i = 1; i < segments; i += 1) {
+      const tx = Math.round(x + (w * i) / segments)
+      g.fillRect(tx, y, 1, h)
+    }
+  }
+  set(1, false)
+  return { set, graphics: g }
+}
+
+/**
+ * Bake a display heading to a cached canvas texture and return its key.
+ * Idempotent per (variant, size, text). Falls back to whatever font resolved
+ * if the display face failed to load - headings render plainer, never absent.
+ */
+export function ensureDisplayTextTexture(
+  scene: Phaser.Scene,
+  text: string,
+  opts: { variant: BakeSpec['variant']; size: number },
+): string {
+  const key = `dtype:${opts.variant}:${opts.size}:${text}`
+  if (scene.textures.exists(key)) return key
+  const measure = document.createElement('canvas').getContext('2d')
+  if (!measure) return key
+  const spec: BakeSpec = { text, size: opts.size, variant: opts.variant }
+  const box = bakeBox(measure, spec)
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.max(1, Math.round(box.width * RENDER_SCALE))
+  canvas.height = Math.max(1, Math.round(box.height * RENDER_SCALE))
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return key
+  bakeDisplayText(ctx, spec, RENDER_SCALE, box)
+  scene.textures.addCanvas(key, canvas)
+  return key
 }
 
 /**

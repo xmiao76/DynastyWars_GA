@@ -7,6 +7,7 @@ import { hasTouch } from '../adapters/touch'
 import { ensureEntityTextures } from '../adapters/sprites'
 import { useLogicalViewport } from '../ui/viewport'
 import { addVignette, drawSlab, ensureLogoTexture } from '../ui/panels'
+import { liveStyle } from '../ui/theme'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
 
 /**
@@ -74,9 +75,7 @@ export class TitleScene extends Phaser.Scene {
       .setDisplaySize((logoFrame.width / Math.max(1, logoFrame.height)) * logoH, logoH)
     this.add
       .text(SCREEN_WIDTH / 2, 88, 'Battle of Red Cliffs · 赤壁之战', {
-        fontFamily: 'sans-serif',
-        fontSize: '13px',
-        color: '#f0d8a8',
+        ...liveStyle(13, { color: '#f0d8a8' }),
       })
       .setOrigin(0.5)
 
@@ -91,7 +90,7 @@ export class TitleScene extends Phaser.Scene {
     // gamepad, and saying so is more use to a phone player than "PRESS F".
     const touch = hasTouch()
     drawSlab(this, 86, 112, 308, 52, 0x8a3030, 0, { skew: 14 })
-    const keyLine = { fontFamily: 'sans-serif', fontSize: '9px', color: '#f5e6c8' }
+    const keyLine = liveStyle(9, { color: '#f5e6c8' })
     this.add
       .text(
         SCREEN_WIDTH / 2,
@@ -114,18 +113,13 @@ export class TitleScene extends Phaser.Scene {
       .text(SCREEN_WIDTH / 2, 153, touch
         ? '2P NEEDS A KEYBOARD OR A SECOND GAMEPAD'
         : '2P: PRESS F TO JOIN ANY TIME  -  WASD  F/G/H', {
-        fontFamily: 'sans-serif',
-        fontSize: '8px',
-        color: '#cfe8ff',
+        ...liveStyle(8, { color: '#cfe8ff' }),
       })
       .setOrigin(0.5)
 
     const prompt = this.add
       .text(SCREEN_WIDTH / 2, 176, hasTouch() ? 'TAP TO START' : 'PRESS ENTER', {
-        fontFamily: 'sans-serif',
-        fontSize: '13px',
-        fontStyle: 'bold',
-        color: '#ffffff',
+        ...liveStyle(13, { color: '#ffffff', bold: true }),
       })
       .setOrigin(0.5)
     this.tweens.add({ targets: prompt, alpha: 0.2, duration: 600, yoyo: true, repeat: -1 })

@@ -13,6 +13,7 @@ import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
 import { addVignette, drawSlab } from '../ui/panels'
+import { liveStyle } from '../ui/theme'
 import { useLogicalViewport } from '../ui/viewport'
 
 /**
@@ -69,10 +70,7 @@ export class SelectScene extends Phaser.Scene {
 
     this.add
       .text(SCREEN_WIDTH / 2, 18, 'CHOOSE YOUR WARRIOR', {
-        fontFamily: 'sans-serif',
-        fontSize: '15px',
-        fontStyle: 'bold italic',
-        color: '#ffd700',
+        ...liveStyle(15, { color: '#ffd700', bold: true, italic: true }),
       })
       .setOrigin(0.5)
 
@@ -83,14 +81,14 @@ export class SelectScene extends Phaser.Scene {
     this.heroArt = this.add.image(62, 62, portraitKeyFor(CHARACTER_ORDER[0] ?? 'guanyu')).setOrigin(0.5, 0)
     this.heroArt.setDisplaySize(68, 76)
     this.heroNameEn = this.add
-      .text(62, 146, '', { fontFamily: 'sans-serif', fontSize: '10px', fontStyle: 'bold', color: '#ffffff' })
+      .text(62, 146, '', { ...liveStyle(10, { color: '#ffffff', bold: true }) })
       .setOrigin(0.5)
     this.heroNameZh = this.add
-      .text(62, 161, '', { fontFamily: 'sans-serif', fontSize: '14px', color: '#f5e6c8' })
+      .text(62, 161, '', { ...liveStyle(14, { color: '#f5e6c8' }) })
       .setOrigin(0.5)
     this.statLabels = ['POWER', 'SPEED'].map((label, i) =>
       this.add
-        .text(20, 180 + i * 12, label, { fontFamily: 'sans-serif', fontSize: '7px', color: '#9ab0c0' })
+        .text(20, 180 + i * 12, label, { ...liveStyle(7, { color: '#9ab0c0' }) })
         .setOrigin(0, 0.5),
     )
     this.statBars = this.add.graphics().setDepth(1)
@@ -106,10 +104,10 @@ export class SelectScene extends Phaser.Scene {
         this.add.image(x, 100, portraitKey).setDisplaySize(44, 48)
       }
       this.add
-        .text(x, 134, character.nameEn, { fontFamily: 'sans-serif', fontSize: '8px', color: '#ffffff' })
+        .text(x, 134, character.nameEn, { ...liveStyle(8, { color: '#ffffff' }) })
         .setOrigin(0.5)
       this.add
-        .text(x, 148, character.nameZh, { fontFamily: 'sans-serif', fontSize: '12px', color: '#f5e6c8' })
+        .text(x, 148, character.nameZh, { ...liveStyle(12, { color: '#f5e6c8' }) })
         .setOrigin(0.5)
       // Tapping a card picks THAT hero. A blanket tap-to-confirm would just
       // lock in whoever the cursor happened to be on, which on a touch device
@@ -131,9 +129,7 @@ export class SelectScene extends Phaser.Scene {
     this.moveCursor(0)
     this.add
       .text(SCREEN_WIDTH / 2, 206, hasTouch() ? 'TAP A WARRIOR TO FIGHT' : 'LEFT / RIGHT to choose - ENTER to fight', {
-        fontFamily: 'sans-serif',
-        fontSize: '10px',
-        color: '#9ab0c0',
+        ...liveStyle(10, { color: '#9ab0c0' }),
       })
       .setOrigin(0.5)
 

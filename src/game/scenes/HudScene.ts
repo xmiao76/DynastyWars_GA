@@ -10,6 +10,7 @@ import { ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
 import { destroyAllChildren } from '../ui/display'
 import { useLogicalViewport } from '../ui/viewport'
 import { addVignette, drawSlab, makeBar } from '../ui/panels'
+import { liveStyle } from '../ui/theme'
 import type { BridgeState } from '../debug/bridge'
 
 /**
@@ -188,112 +189,83 @@ export class HudScene extends Phaser.Scene {
     // --- Labels -----------------------------------------------------------
     this.add
       .text(P1.x + 36, P1.y + 4, `${character.nameEn} ${character.nameZh}`, {
-        fontFamily: 'sans-serif',
-        fontSize: '9px',
-        fontStyle: 'bold',
-        color: '#ffffff',
+        ...liveStyle(9, { color: '#ffffff', bold: true }),
       })
       .setDepth(10_002)
     this.weaponText = this.add
-      .text(P1.x + 34, P1.y + 33, '', { fontFamily: 'sans-serif', fontSize: '7px', color: '#c0c0c0' })
+      .text(P1.x + 34, P1.y + 33, '', { ...liveStyle(7, { color: '#c0c0c0' }) })
       .setDepth(10_002)
     this.livesText = this.add
-      .text(P1.x + 84, P1.y + 33, '', { fontFamily: 'sans-serif', fontSize: '7px', color: '#ffd700' })
+      .text(P1.x + 84, P1.y + 33, '', { ...liveStyle(7, { color: '#ffd700' }) })
       .setDepth(10_002)
     this.horseText = this.add
-      .text(P1.x + 118, P1.y + 33, '', { fontFamily: 'sans-serif', fontSize: '7px', color: '#d8a868' })
+      .text(P1.x + 118, P1.y + 33, '', { ...liveStyle(7, { color: '#d8a868' }) })
       .setDepth(10_002)
     this.bossNameText = this.add
       .text(BOSS.x + 28, BOSS.y + 5, '', {
-        fontFamily: 'sans-serif',
-        fontSize: '9px',
-        fontStyle: 'bold',
-        color: '#ffb0a0',
+        ...liveStyle(9, { color: '#ffb0a0', bold: true }),
       })
       .setDepth(10_002)
       .setVisible(false)
 
     this.add
       .text(SCREEN_WIDTH / 2, 8, `${stage.nameEn} · ${stage.nameZh}`, {
-        fontFamily: 'sans-serif',
-        fontSize: '9px',
-        color: '#d8c8a0',
+        ...liveStyle(9, { color: '#d8c8a0' }),
       })
       .setOrigin(0.5, 0)
       .setDepth(10_000)
     this.scoreText = this.add
-      .text(SCREEN_WIDTH / 2, 22, 'SCORE 0', { fontFamily: 'sans-serif', fontSize: '9px', color: '#ffd700' })
+      .text(SCREEN_WIDTH / 2, 22, 'SCORE 0', { ...liveStyle(9, { color: '#ffd700' }) })
       .setOrigin(0.5)
       .setDepth(10_000)
     this.objectiveText = this.add
-      .text(SCREEN_WIDTH / 2, 38, '', { fontFamily: 'sans-serif', fontSize: '10px', color: '#ffd700' })
+      .text(SCREEN_WIDTH / 2, 38, '', { ...liveStyle(10, { color: '#ffd700' }) })
       .setOrigin(0.5)
       .setDepth(10_000)
     this.comboText = this.add
       .text(SCREEN_WIDTH / 2, 60, '', {
-        fontFamily: 'sans-serif',
-        fontSize: '17px',
-        fontStyle: 'bold italic',
-        color: '#ffd700',
-        stroke: '#5a3a00',
-        strokeThickness: 3,
+        ...liveStyle(17, { color: '#ffd700', bold: true, italic: true, stroke: '#5a3a00', strokeThickness: 3 }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
     this.p1DownText = this.add
       .text(SCREEN_WIDTH / 2, 100, '', {
-        fontFamily: 'sans-serif',
-        fontSize: '10px',
-        fontStyle: 'bold',
-        color: '#ffd700',
+        ...liveStyle(10, { color: '#ffd700', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
 
     this.continueText = this.add
       .text(SCREEN_WIDTH / 2, 92, 'CONTINUE?', {
-        fontFamily: 'sans-serif',
-        fontSize: '22px',
-        fontStyle: 'bold',
-        color: '#ffd700',
+        ...liveStyle(22, { color: '#ffd700', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.continueCountdownText = this.add
       .text(SCREEN_WIDTH / 2, 126, '9', {
-        fontFamily: 'sans-serif',
-        fontSize: '30px',
-        fontStyle: 'bold',
-        color: '#ffffff',
+        ...liveStyle(30, { color: '#ffffff', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.continueHintText = this.add
       .text(SCREEN_WIDTH / 2, 154, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', {
-        fontFamily: 'sans-serif',
-        fontSize: '10px',
-        color: '#9ab0c0',
+        ...liveStyle(10, { color: '#9ab0c0' }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.pauseText = this.add
       .text(SCREEN_WIDTH / 2, 120, 'PAUSED', {
-        fontFamily: 'sans-serif',
-        fontSize: '22px',
-        fontStyle: 'bold',
-        color: '#ffd700',
+        ...liveStyle(22, { color: '#ffd700', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.pauseHintText = this.add
       .text(SCREEN_WIDTH / 2, 148, hasTouch() ? 'TAP TO RESUME' : 'PRESS P TO RESUME', {
-        fontFamily: 'sans-serif',
-        fontSize: '10px',
-        color: '#9ab0c0',
+        ...liveStyle(10, { color: '#9ab0c0' }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
@@ -339,10 +311,7 @@ export class HudScene extends Phaser.Scene {
     this.p2Portrait = this.addPortrait(charId, P2.x + 4, P2.y + 1)
     this.p2NameText = this.add
       .text(P2.x + 36, P2.y + 3, `2P ${character.nameEn} ${character.nameZh}`, {
-        fontFamily: 'sans-serif',
-        fontSize: '9px',
-        fontStyle: 'bold',
-        color: '#cfe8ff',
+        ...liveStyle(9, { color: '#cfe8ff', bold: true }),
       })
       .setDepth(10_002)
     // Same bar height as player one. They used to be 8px and 6px, which made
@@ -350,10 +319,7 @@ export class HudScene extends Phaser.Scene {
     this.p2Bar = makeBar(this, P2.x + 38, P2.y + 17, BAR_W, 9, 10_001)
     this.p2DownText = this.add
       .text(SCREEN_WIDTH / 2, 114, '', {
-        fontFamily: 'sans-serif',
-        fontSize: '10px',
-        fontStyle: 'bold',
-        color: '#cfe8ff',
+        ...liveStyle(10, { color: '#cfe8ff', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
@@ -389,14 +355,11 @@ export class HudScene extends Phaser.Scene {
     const capR = this.add.rectangle(w / 2, 2, 4, 32, color)
     const titleText = this.add
       .text(0, -7, title, {
-        fontFamily: 'sans-serif',
-        fontSize: '17px',
-        fontStyle: 'bold italic',
-        color: '#ffffff',
+        ...liveStyle(17, { color: '#ffffff', bold: true, italic: true }),
       })
       .setOrigin(0.5)
     const subText = this.add
-      .text(0, 11, subtitle, { fontFamily: 'sans-serif', fontSize: '10px', color: '#f5e6c8' })
+      .text(0, 11, subtitle, { ...liveStyle(10, { color: '#f5e6c8' }) })
       .setOrigin(0.5)
     container.add([bg, railTop, railBot, capL, capR, titleText, subText])
     container.setScale(0.3, 1).setX(SCREEN_WIDTH / 2)

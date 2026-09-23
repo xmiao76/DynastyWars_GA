@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { audio } from '../audio/sfx'
 import { addVignette, drawSlab } from '../ui/panels'
+import { liveStyle } from '../ui/theme'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
@@ -45,12 +46,7 @@ export class GameOverScene extends Phaser.Scene {
 
     this.add
       .text(SCREEN_WIDTH / 2, 88, 'GAME OVER', {
-        fontFamily: 'sans-serif',
-        fontSize: '30px',
-        fontStyle: 'bold',
-        color: '#ff6a5a',
-        stroke: '#4a0000',
-        strokeThickness: 4,
+        ...liveStyle(30, { color: '#ff6a5a', bold: true, stroke: '#4a0000', strokeThickness: 4 }),
       })
       .setOrigin(0.5)
 
@@ -59,21 +55,18 @@ export class GameOverScene extends Phaser.Scene {
     // centres by default, so it rendered half a width to the left and cut
     // through the caption above it.
     this.add
-      .text(SCREEN_WIDTH / 2, 126, 'FINAL SCORE', { fontFamily: 'sans-serif', fontSize: '8px', color: '#c8a0a0' })
+      .text(SCREEN_WIDTH / 2, 126, 'FINAL SCORE', { ...liveStyle(8, { color: '#c8a0a0' }) })
       .setOrigin(0.5)
     this.add
       .rectangle(SCREEN_WIDTH / 2, 150, 140, 28, 0x0c0c14, 0.9)
       .setStrokeStyle(1, 0x7a3a3a)
     this.add
       .text(SCREEN_WIDTH / 2, 150, `${data.score ?? 0}`, {
-        fontFamily: 'sans-serif',
-        fontSize: '18px',
-        fontStyle: 'bold',
-        color: '#ffffff',
+        ...liveStyle(18, { color: '#ffffff', bold: true }),
       })
       .setOrigin(0.5)
     this.add
-      .text(SCREEN_WIDTH / 2, 188, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', { fontFamily: 'sans-serif', fontSize: '10px', color: '#9ab0c0' })
+      .text(SCREEN_WIDTH / 2, 188, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', { ...liveStyle(10, { color: '#9ab0c0' }) })
       .setOrigin(0.5)
 
     const confirm = (): void => {

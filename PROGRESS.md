@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-23 10:05 UTC - UI-1 (attempt 1, design-system foundation)
+
+- Status before: overhaul plan approved; UI-1..ART-20 filed; no display font,
+  73 scattered sans-serif call sites, one generic slab/panel kit.
+- Work completed: bundled OFL ZCOOL QingKe HuangYou subset (176 glyphs, 29.6 KB,
+  coverage-verified incl. Traditional CJK) + reproducible fetch script; theme.ts
+  (palette/type-scale/liveStyle) + type.ts (FontFace loader w/ injectable
+  timeout deps, 4-variant baked-text baker with CJK-upright rule, core-derived
+  display-string table); panels.ts gains drawCard/drawLacquerBar/makeArcadeBar
+  (segment ticks + presentation-only damage ghost) + display-text texture baker;
+  all live-text sites migrated (sizes/colours byte-identical); BootScene gates
+  title entry on bounded font load; procedural dusk-battle keyart.ts +
+  temporary ?styleframe=1 StyleFrameScene (removed in UI-2) for the sign-off mock.
+- Fix evidence: baker unit test caught a wrong CJK regex range (radicals block
+  instead of U+3400-9FFF - lean padding misapplied, 5px box error); cliff
+  painter revised after the mock read as flagpoles (now jagged rock, reviewed).
+- Files changed: TASKS.md, PROGRESS.md (+archives), eslint.config.js (fetch
+  global for scripts), src/game/ui/{theme,type}.ts, src/game/ui/panels.ts,
+  src/game/art/keyart.ts, src/game/scenes/{BootScene,StyleFrameScene,Title,
+  Select,Hud,Result,GameOver,GameComplete}.ts, src/game/main.ts,
+  src/game/adapters/touch.ts, src/game/assets/fonts/*,
+  scripts/{fetch-display-font}.mjs, test/game/{uitheme,uitype}.test.ts,
+  e2e/uifont.spec.ts.
+- Verification run: lint + typecheck pass; unit 295/295 (+11); e2e 60/60 (+3:
+  font loads, blocked-font fallback boots, style frame); vision 5/5 (256/256
+  sprites, parity clean, negatives correct); selfplay 13/13, marathons
+  identical; build pass (dist +29.6 KB font); prodbuild 4/4.
+- Reviewed: ui1-styleframe-{desktop,phone}.png (gold-foil lockup, CJK subtitle,
+  bronze plaque, ember backdrop, blinking prompt) + vision title/combat with
+  new letterforms. QUOTA NOTE: image providers exhausted (reset ~Sep 30), so
+  the mock is fully procedural; UI-2 retries key-art generation with this
+  backdrop as the committed fallback.
+- Result: DONE. Status after: UI-1 DONE; queue 20 DONE + UI-2..5/ART-19/20 TODO
+  + ENH-12 IN_PROGRESS (deferred again under the overhaul request).
+- Remaining work or blocker: owner sign-off on the style-frame direction; then UI-2.
+- Next recommended task: UI-2 (title attract screen).
+- Run/report: 2026-09-23T09-19-33-414Z-bfcb1de5-b7cc-4dd0-af45-c376c5f9f14a.
+
+- Housekeeping (same iteration, rule 8): PROGRESS.md was 528 lines, so oldest
+  finished entry (ENH-10) moved to PROGRESS-ARCHIVE.md top; 22 DONE exceeded
+  the bound, so oldest ENH-10 + ENH-11 spliced to TASKS-ARCHIVE.md end (20
+  held). Both splices anchor-verified (archive tails + DONE recount).
+
 ### 2026-09-23 09:10 UTC - ART-18 (attempt 2, refinement + full verification)
 
 - Status before: IN_PROGRESS pilot; all five heroes painted but seams/prone/Wei Yan
@@ -449,80 +492,3 @@ history slowly crowds out the work it is supposed to support.
   500 lines, so the oldest two finished entries (ENH-5, ENH-6) moved to
   PROGRESS-ARCHIVE.md top (now 464 lines); latest signal snapshot and
   DIFF-1 evidence kept.
-
-### 2026-09-22 11:49 - ENH-10 (attempt 1, explicit owner request)
-
-- Status before: owner requested two arrow fixes (hit height + hanging
-  arrows) and to continue the loop with the new model (mimo-v2.6-pro).
-  Queue held ENH-9 (TODO) + DIFF-1 (BLOCKED) + 20 DONE; an explicit owner
-  request takes priority over queue selection, so ENH-10 was filed and
-  worked in this consumer iteration. ENH-9 stays TODO. Run
-  `2026-09-22T17-39-18Z-bd9a78cf`.
-- Root causes (the hang had THREE mechanisms, not one):
-  1. both spawn sites flew arrows at z = 10 against a ~92-unit fighter -
-     the legs. Measured in-game: 0.15 of body height (the owner's "lower
-     body" verbatim).
-  2. `updateDeaths` removed dead entities only when side !== 'hero' - a
-     DEAD HERO ARROW survived the filter and rendered frozen forever.
-  3. `applyPhysics` x-clamped every side === 'hero' entity to the screen,
-     pinning hero arrows at the screen edge forever; projectiles also had
-     no flight envelope (flat flight to the stage bound).
-- Work completed: ARROW_Z = 40 (mid-body) on both spawn paths; hit test
-  shifted to the target's CHEST (ARROW_CHEST_Z = 30) so ARROW_Z -
-  ARROW_CHEST_Z = 10 reproduces the old feet-level hit/jump-dodge sets
-  EXACTLY (by construction, then pinned); flight envelope - level 240px
-  (beyond any fire range), then ARROW_FALL 2/tick to the ground, gone at
-  contact, ARROW_MAX_TRAVEL 360 cap; dead projectiles removed on BOTH
-  sides; hero arrows exempt from the screen clamp.
-- Files changed: `src/core/constants.ts` (arrow flight block), `src/core/
-  sim.ts` (spawn z, stepProjectiles envelope + chest hit, applyPhysics
-  clamp exemption, updateDeaths), `src/core/ai.ts` (spawn z), `test/core/
-  arrows.test.ts` (new, 8 tests), `e2e/arrows.spec.ts` (new, 3 tests),
-  `TASKS.md`, `PROGRESS.md`.
-- Tests: 8 unit (both spawn paths at ARROW_Z; level-then-fall envelope
-  with exact boundary; fall-to-ground removal; max-travel cap; hero-arrow
-  removal; screen-edge no-pin; grounded-hit and airborne-dodge identity
-  with explicit constant-math preconditions) + 3 e2e in-situ (band pin
-  0.3-0.7 of REAL sprite heights vs the display list; fall + removal;
-  NPC archer AI in situ). Falsified 6 mechanisms by revert: z=10 (hit-set
-  tests fail + e2e band reads 0.15), chest offset dropped (both identity
-  tests fail), no fall (both fall tests fail), removal reverted (both
-  hero tests fail), clamp restored (edge test fails). All restored green.
-- Verification run: lint clean; typecheck clean; unit 196/196 (+8); e2e
-  52/52 (+3; full suite with final src, arrows spec green repeatedly
-  after); signal 13/13, zero violations/page errors; vision 5/5 (9/9
-  frames, 256/256 sprites, 85/85 weapons, 170/170 retracts, parity
-  clean, both negative controls correct, HUD 1/1); prodbuild 4/4; build
-  ok. Marathon deltas RECORDED, not chased (the range change is the
-  requested behavior; no tuning touched; all marathons still complete):
-  guanyu s2 -37% ticks, zhaoyun s3 +59% / s4 -33%, huangzhong s2 -31%;
-  zhangfei and weiyan identical. Long-range chip hits beyond 240px are
-  gone by design. DIFF-1 measurement note: its stage-shape analysis
-  predates this arrow behavior; the anomaly it tracks (stage 3 wall)
-  remains the standing item.
-- Eye review (captures at gameplay size, artifacts/arrows/): mid-flight
-  frames show the arrow at chest/torso height for both hero and NPC
-  shots; the fall frame shows the arrow low and descending before it
-  vanishes at the ground. TWO TOOL CAVEATS recorded for future passes:
-  (1) batched read_image calls can mis-associate images with paths, and
-  an isolated read also glitched once - captures were verified with a
-  pixel arbiter instead (@napi-rs/canvas HUD-plate hashes: tests 1+3
-  (huangzhong) share one hash, test 2 (zhao yun) differs, exactly as
-  designed). Verify eye-critical evidence programmatically when reads
-  look contradictory; never trust a suspicious attachment over the
-  asserts. (2) Never overlap Playwright runs: a timed-out invocation can
-  leave orphaned suites that race later runs for port 5177 and artifact
-  filenames. (An early 'orphan' theory for the image weirdness was
-  WRONG and is retracted - the arbiter showed the files were always
-  correct; the display pipeline was the gremlin.)
-- Timing: overrun - ~70 min vs the 50-min timebox, spent on the
-  read_image forensics. Work itself complete and verified.
-- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
-- Status after: ENH-10 DONE. Queue now 20 DONE + DIFF-1 BLOCKED +
-  ENH-9 TODO.
-- Remaining work or blocker: none for this task.
-- Next recommended task: ENH-9 (pause vs stage-clear transition).
-
-- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
-  oldest DONE ART-4 spliced to TASKS-ARCHIVE.md end (DONE now 20).
-  PROGRESS.md was 470 lines, stays under 500 with this entry.

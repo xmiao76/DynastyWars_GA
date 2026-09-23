@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import { RENDER_SCALE } from '../render'
 import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
+import { loadDisplayFont } from '../ui/type'
+import displayFontUrl from '../assets/fonts/zcool-qingke-huangyou-subset.woff2?url'
 
 interface ArtManifest {
   sprites?: Record<string, string[]>
@@ -46,6 +48,19 @@ export class BootScene extends Phaser.Scene {
   create(): void {
     publishHeroArt(this)
     this.generateFxTextures()
+    // Display face before the first text-bearing scene. Bounded and silent on
+    // failure: every live style already names the system fallback, so a
+    // blocked font only costs the letterforms, never the boot.
+    void loadDisplayFont(displayFontUrl, 2500).then(() => this.enterTitle())
+  }
+
+  private enterTitle(): void {
+    // Temporary UI-1 style-frame mock (removed in UI-2): same debug-switch
+    // family as ?bakedart=1 and ?autopilot=1; nothing in normal play sets it.
+    if (new URLSearchParams(window.location.search).get('styleframe') === '1') {
+      this.scene.start('styleframe')
+      return
+    }
     // A build that ships no baked art never asks the server for a manifest.
     // This used to be decided by fetching and seeing what came back, which
     // made the game's appearance depend on a file being ABSENT: after
