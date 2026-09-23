@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-23 09:10 UTC - ART-18 (attempt 2, refinement + full verification)
+
+- Status before: IN_PROGRESS pilot; all five heroes painted but seams/prone/Wei Yan
+  tan/white-fringe issues open, full gates not run.
+- Work completed: refine2 assets (160x224 cells, runtime 3.26 -> 2.13 MB, dark
+  silhouette rim, warm-flesh-only date-red grade for Guan Yu/Wei Yan, per-part
+  content signatures); BootScene validates signatures and falls back atomically
+  per hero; prone weapons rest behind bodies; fitted shoulder caps bridge painted
+  necks; prone lift tuned per hero (all 70 head/pose bounds pass).
+- Files changed: TASKS.md, PROGRESS.md, docs/HERO_FACE_*.md, art/hero-faces/,
+  scripts/prepare-hero-faces.mjs, src/game/assets/hero-faces/,
+  src/game/art/{hero-resources,image-signature}.ts, src/game/adapters/hero-art.ts,
+  src/game/art/{draw,registry}.ts, src/game/adapters/sprites.ts,
+  src/game/scenes/BootScene.ts, test/game/hero-faces.test.ts, e2e/hero-faces.spec.ts.
+- Verification run: lint pass; typecheck pass; unit 284/284 pass; e2e 56/57 (one
+  game.spec special-pose timing flake, passes alone, no sim/input code touched);
+  vision 5/5 (sprites 256/256 incl. previously failing huangzhong:down, parity
+  clean, both negative controls fail correctly); selfplay 13/13 with marathon
+  numbers identical to standing snapshot; vite build pass; prodbuild 4/4.
+- Reviewed: art18-pilot-sheet.png (all five old/new, idle/attack/down/native plus
+  mirrored left-facing), Canvas/WebGL select + Guan Yu/Zhao Yun gameplay, mobile
+  Pixel 7 select (all five painted portraits) + Wei Yan/Huang Zhong gameplay.
+  Mounted reuses the same lifted texture (code-verified); co-op covered by coop
+  e2e + selfplay; JS bundle grew ~240 KB (1.33 -> 1.57 MB) from embedded
+  signatures, gzip 359 -> 396 KB.
+- Result: DONE - all acceptance criteria met; presented for owner visual
+  acceptance. Status after: ART-18 DONE; ENH-12 still deferred IN_PROGRESS.
+- Remaining work or blocker: owner aesthetic verdict; any objection reopens art.
+- Next recommended task: first TODO in queue (ENH-12 gamepad naming, deferred).
+- Run/report: 2026-09-23T08-01-18-016Z-ba19be2e-ebec-4f49-9f41-ec689c15da66.
+
 ### 2026-09-23 07:58 UTC - ART-18 (attempt 1, painted pilot implementation)
 
 - Status before: owner-approved redesign; ENH-12 closed IN_PROGRESS and deferred.

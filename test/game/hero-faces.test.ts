@@ -9,6 +9,7 @@ import { HERO_FIGURES } from '../../src/game/art/figures'
 import { applyBuild, FIG_H, FIG_W } from '../../src/game/art/rig'
 import { POSE_TABLE } from '../../src/game/art/poses'
 import { POSES } from '../../src/game/adapters/sprites'
+import { imageSignature, signatureMatches } from '../../src/game/art/image-signature'
 import prepared from '../../src/game/assets/hero-faces/prepared.json'
 
 const resources: ArtResources = { heroes: {} }
@@ -62,6 +63,40 @@ describe('painted hero pilot shipping resources', () => {
       const data = readFileSync(`${root}/${id}-${part}.png`)
       expect(createHash('sha256').update(data).digest('hex')).toBe(prepared[id].sha256[part])
     }
+  })
+
+  it('decoded shipping images match their committed content signatures', async () => {
+    for (const id of IDS) for (const part of ['portrait', 'head', 'front', 'rear'] as const) {
+      const img = await loadImage(`${root}/${id}-${part}.png`)
+      const cv = createCanvas(img.width, img.height)
+      const c = cv.getContext('2d')
+      c.drawImage(img, 0, 0)
+      const sig = imageSignature(c.getImageData(0, 0, cv.width, cv.height))
+      expect(signatureMatches(sig, prepared[id].signatures[part]), `${id}:${part} content drifted`).toBe(true)
+    }
+  })
+
+  it('signatures reject blank, swapped and erased art', async () => {
+    const meta = prepared.guanyu
+    const blank = createCanvas(meta.cell.width * 3, meta.cell.height)
+    const blankSig = imageSignature(blank.getContext('2d').getImageData(0, 0, blank.width, blank.height))
+    expect(signatureMatches(blankSig, meta.signatures.head), 'blank head accepted').toBe(false)
+
+    const zy = await loadImage(`${root}/zhaoyun-head.png`)
+    const cv = createCanvas(zy.width, zy.height)
+    const c = cv.getContext('2d')
+    c.drawImage(zy, 0, 0)
+    const swapped = imageSignature(c.getImageData(0, 0, cv.width, cv.height))
+    expect(signatureMatches(swapped, meta.signatures.head), 'swapped hero head accepted').toBe(false)
+
+    const gy = await loadImage(`${root}/guanyu-head.png`)
+    const erased = createCanvas(gy.width, gy.height)
+    const ec = erased.getContext('2d')
+    ec.drawImage(gy, 0, 0)
+    // Erase the facial-feature band of the neutral frame (eyes through mouth).
+    ec.clearRect(40, 55, 80, 45)
+    const erasedSig = imageSignature(ec.getImageData(0, 0, erased.width, erased.height))
+    expect(signatureMatches(erasedSig, meta.signatures.head), 'erased features accepted').toBe(false)
   })
 
   it('maps exertion and hurt without changing pose timing', () => {

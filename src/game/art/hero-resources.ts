@@ -35,7 +35,7 @@ export function headPainter(art: HeroArt, poseName: PoseName, pose: Skeleton, he
     ctx.save()
     // Prone face sits above the floor, not centered on the old near-ground
     // ellipse. Standing attachment is unchanged; this is a render-only offset.
-    ctx.translate(pose.head.x - (pose.lying ? 6 : 0), pose.head.y - (pose.lying ? (art.id === 'zhangfei' ? 20 : art.id === 'huangzhong' ? 13 : 12) * headScale : 0))
+    ctx.translate(pose.head.x - (pose.lying ? 6 : 0), pose.head.y - (pose.lying ? (art.id === 'zhangfei' ? 20 : art.id === 'huangzhong' ? 14.5 : 13.5) * headScale : 0))
     // The old elliptical head tolerated DOWN's small tilt; an anatomical neck
     // and long beard must lie along the chest axis rather than below the floor.
     const rotation = pose.lying

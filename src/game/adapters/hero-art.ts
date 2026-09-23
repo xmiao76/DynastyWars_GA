@@ -1,5 +1,6 @@
 import type Phaser from 'phaser'
 import type { ArtResources, HeroArt } from '../art/hero-resources'
+import { imageSignature, signatureMatches } from '../art/image-signature'
 import prepared from '../assets/hero-faces/prepared.json'
 import gyPortrait from '../assets/hero-faces/guanyu-portrait.png'
 import gyHead from '../assets/hero-faces/guanyu-head.png'
@@ -40,8 +41,24 @@ export function queueHeroArt(scene: Phaser.Scene): void {
   }
 }
 
+/** Decode pixels once at boot to prove identity: a correctly sized but blank,
+ * swapped or corrupt image is rejected here, and that hero falls back whole. */
+function decodedSignature(src: CanvasImageSource & { width: number; height: number }): string | null {
+  const cv = document.createElement('canvas')
+  cv.width = src.width; cv.height = src.height
+  const ctx = cv.getContext('2d', { willReadFrequently: true })
+  if (!ctx) return null
+  ctx.drawImage(src, 0, 0)
+  try {
+    return imageSignature(ctx.getImageData(0, 0, cv.width, cv.height))
+  } catch {
+    return null
+  }
+}
+
 /** Partial load never produces half-painted characters. Resources are only
- * published when every image has decoded at its expected dimensions. */
+ * published when every image has decoded at its expected dimensions AND its
+ * content signature matches the committed preparation record. */
 export function publishHeroArt(scene: Phaser.Scene): void {
   const heroes: Record<string, HeroArt> = {}
   for (const id of Object.keys(HERO_ART_CATALOG) as Array<keyof typeof HERO_ART_CATALOG>) {
@@ -52,7 +69,9 @@ export function publishHeroArt(scene: Phaser.Scene): void {
       if (!scene.textures.exists(key)) continue
       const src = scene.textures.get(key).getSourceImage() as HTMLImageElement
       const expected = part === 'portrait' ? [432, 480] : [meta.cell.width * 3, meta.cell.height]
-      if (src.width === expected[0] && src.height === expected[1]) images[part] = src
+      if (src.width !== expected[0] || src.height !== expected[1]) continue
+      const sig = decodedSignature(src)
+      if (sig && signatureMatches(sig, meta.signatures[part])) images[part] = src
     }
     if (images.portrait && images.head && images.front && images.rear) {
       heroes[id] = { id, revision: meta.revision, portrait: images.portrait, head: images.head,

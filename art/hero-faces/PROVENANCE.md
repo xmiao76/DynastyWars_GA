@@ -55,13 +55,25 @@ consistently with its head; inspect white-hair alpha edges against multiple
 backgrounds; painted heads versus flat existing bodies need transition review.
 These are not claimed owner-approved final assets.
 
-## Reproduction
+## Refinement pass (revision art18-refine2)
 
-`node scripts/prepare-hero-faces.mjs` reads committed masters + preparation.json,
-writes src/game/assets/hero-faces/*.png and prepared.json. No generation service
-or network is needed to reproduce derivatives or run the game. Master dimensions
-are provider-returned dimensions, not the requested image size.
+Post-processing in `scripts/prepare-hero-faces.mjs`, applied identically to all
+five heroes from the same committed masters (no new generation involved):
+
+- Head cells halved to 160x224 (pixelsPerUnit 3); runtime byte total fell from
+  ~3.26 MB to ~2.13 MB. Bounds in figure units are unchanged, so rig attachment
+  and world scale are unaffected.
+- Restraint-first dark silhouette rim (computed on the combined head, never along
+  layer seams) keeps pale beards/hair legible against sky and ground.
+- Warm-flesh-only complexion grade deepens the date-red faces (Guan Yu, Wei Yan)
+  toward 面如重枣 without touching eye whites, hair, cloth or armor.
+- Per-part premultiplied 48x32 block signatures recorded in prepared.json;
+  BootScene rejects blank/swapped/corrupt decodes and falls back per hero.
+  The same algorithm exists in TS (`src/game/art/image-signature.ts`) and is
+  cross-checked by unit tests against the committed records.
 
 Pilot review found a down-pose attachment problem (long beard dropped below the
 floor); the painted path now aligns a prone head's vertical axis to its chest.
+Render-only prone tuning (rotation + lift + left shift) keeps every expression
+inside its frame, and dropped weapons now rest behind prone bodies.
 These assets remain pilot artwork pending native-size/in-motion acceptance.
