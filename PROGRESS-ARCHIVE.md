@@ -3,6 +3,96 @@
 Oldest iteration entries, moved out of PROGRESS.md once it passed 500
 lines. Never read during an iteration; consult only for deep history.
 
+### 2026-09-23 00:24 - ART-16 (attempt 1, owner request: natural faces)
+
+- Status before: owner request (takes priority over ENH-12): review every
+  hero and NPC face, make each look natural, and make heroes/bosses look as
+  the histories describe. Filed as ART-16 (natural faces) + ART-17 (likeness).
+- Work completed: reviewed all 17 portraits and in-play heads at device and
+  vector resolution against a human face. Found two cast-wide root causes,
+  both present since the first commit:
+  1. rig.ts `limbPath`/`chainPath` traced crossed sides (bow-tie paths, empty
+     middles): every in-play brow/mouth/nose rendered as a broken comma, and
+     torsos, limbs, hafts and the horse were hollow under the ink. Fixed.
+  2. portrait.ts gradients faded to transparent BLACK (unpremultiplied
+     interpolation), so the bridge highlight drew a grey ring round the eyes
+     and down the nose on every portrait. Fixed (own-colour fades), socket
+     moved under the brow, forehead lift added, nose wings shortened.
+  Two gates had been calibrated on the hollow art and failed honestly after
+  the fix; resolved by art, not thresholds: DOWN.weaponRot 0.16 -> -0.34 (the
+  now-solid weapon lay across the prone body) and Guan Yu height 1.03 -> 1.06
+  (身长九尺; guanyu/weiyan silhouettes 0.094 -> 0.118 > 0.1).
+- Files changed: src/game/art/rig.ts, portrait.ts, poses.ts, figures.ts;
+  test/game/rig.test.ts (new), test/game/portrait.test.ts (bridge gate);
+  TASKS.md (ART-16 DONE, ART-17 TODO, ART-8 archived), TASKS-ARCHIVE.md,
+  PROGRESS.md, PROGRESS-ARCHIVE.md.
+- Verification run (serial, logs artifacts/loop/*-tick.log): lint 0, tsc 0,
+  unit 200/200 (28 files), e2e 54 passed, vision 5/5 (SPRITE GATE 256/256
+  sprites, 85/85 weapons, 170/170 retracts), selfplay 13 passed, prodbuild 4
+  passed, build ok. Falsified: rig.test.ts 3/3 fail on the original rig.ts
+  (0/0/16 px); the bridge gate fails on HEAD portrait.ts (guanyu 0.914).
+  Sheets reviewed by eye: faces-before-portraits.png vs
+  faces-final-portraits.png, closeup-before.png vs closeup-final.png.
+- Result: COMPLETED (ART-16). The smudge is gone and in-play features are
+  solid; faces now read as clean skin with a lit forehead and nose.
+- Status after: 20 DONE, ART-17 + ENH-12 TODO, 0 BLOCKED. Housekeeping:
+  ART-8 archived (21 -> 20 DONE); the 2026-09-21 23:03 producer entry moved to
+  PROGRESS-ARCHIVE.md (487 -> 433 lines before this entry).
+- Remaining work or blocker: ART-17, the per-character likeness (Lu Bu's
+  紫金冠 vs Cao Cao's identical crown, Zhang Fei's 虎须, four same-faced
+  bosses, Zhao Yun's 浓眉大眼, Cao Cao's 细眼). Guan Yu's hood still covers
+  his in-play forehead (hood shape is ART-15 silhouette territory).
+- Next recommended task: ART-17 (continues the owner request), then ENH-12.
+
+### 2026-09-22 14:15 - ENH-11 (attempt 1)
+
+- Status before: ENH-11 TODO (no prior attempts), first TODO in the
+  queue. Run `2026-09-22T20-49-50Z-9a20eaba`.
+- Work completed: Start (button 9) is now the gamepad pause toggle on
+  EITHER pad (pads 0 and 1) via the shared togglePause() - the third
+  input class to get pause parity (P: ENH-7, touch button: ENH-8).
+  watchConfirmButton gained a padIndex (default 0: every menu call site
+  is byte-identical); GameScene routes ONE watcher per pad through an
+  action: paused -> resume first (no revive can leak through the
+  freeze), game-over countdown -> the existing confirmContinue revive,
+  otherwise -> toggle. Self-review caught and removed a composed
+  double-watcher on pad 0 (it could resume AND revive in a single
+  poll - exactly the leak class ENH-7 forbids).
+- Files changed: `src/game/adapters/gamepad.ts` (pad-indexed watcher;
+  firstPad removed as unused), `src/game/scenes/GameScene.ts` (routed
+  Start action on both pads; pollContinueButton renamed
+  pollStartButton), `e2e/gamepad.spec.ts` (+1 test), `TASKS.md`,
+  `PROGRESS.md`.
+- Tests (new, synthetic-pad harness): pad 1 Start freezes (tick flat
+  across ~60 wall frames), pad 2 Start resumes (either pad toggles),
+  held Start does not strobe (paused sampled 6x across a 600ms hold),
+  and Start keeps its game-over revive role (party down -> countdown ->
+  Start revives, and the revive is not a toggle). Both mechanisms
+  falsified by probe: binding removed -> the pause pins fail; game-over
+  routed to toggle -> the revive pin fails (".not.toBe('dead')").
+  Restored green.
+- Verification run: lint clean; typecheck clean; unit 196/196; e2e
+  54/54 (+1; menus/continue/pause specs green untouched - the routing
+  kept those roles); signal 13/13, marathons identical to the standing
+  post-arrow snapshot (input-layer change only, zero sim impact);
+  vision 5/5, prodbuild 4/4, build ok.
+- Known cosmetic gap, consciously out of scope: the pause overlay hint
+  still names "PRESS P TO RESUME" (which does resume) and does not
+  mention Start. No remapping UI per non-goals.
+- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
+- Status after: ENH-11 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
+  TODO or IN_PROGRESS remains.
+- Remaining work or blocker: none for this task.
+- Next recommended task: none available without the owner (producer
+  pass when driven; standing owner items: deploy).
+
+- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
+  oldest DONE ART-6 spliced to TASKS-ARCHIVE.md end (DONE now 20).
+  PROGRESS.md crossed 500 lines with this entry, so the oldest entry
+  (2026-09-21 21:19 MANUAL-WORKER REDESIGN, 44 finished lines) moved to
+  PROGRESS-ARCHIVE.md top. Latest signal snapshot
+  (this entry) and DIFF-1 evidence kept.
+
 ### 2026-09-22 13:09 - PRODUCER PASS (input-parity review, attempt 1)
 
 - Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after

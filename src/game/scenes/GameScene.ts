@@ -16,8 +16,8 @@ import {
   type Sim,
 } from '../../core/sim'
 import { enemyByKind, ENEMIES } from '../../core/enemies'
-import { CHARACTER_ORDER } from '../../core/characters'
 import { STAGE_ORDER } from '../../core/stage'
+import { secondPlayerCharacter } from '../players'
 import { audio, sfxForEvent } from '../audio/sfx'
 import { GAME_THEME } from '../audio/music'
 import type { SimEvent } from '../../core/events'
@@ -53,16 +53,6 @@ const CLOUDS: ReadonlyArray<readonly [number, number, number, number]> = [
   [44, 68, 0.9, 0.12],
   [232, 92, 0.6, 0.10],
 ]
-
-/**
- * Who player two plays as. A drop-in join has no select screen of its own, so
- * it takes the first hero player one did NOT pick. Handing them the same hero
- * would put two identical figures on the screen, which is exactly the problem
- * the distinct headgear, beards and weapons exist to avoid.
- */
-function secondPlayerCharacter(firstCharId: string): string {
-  return CHARACTER_ORDER.find((id) => id !== firstCharId) ?? CHARACTER_ORDER[0] ?? 'guanyu'
-}
 
 /** Height of the distant-hill ridge texture, in logical px. */
 const HILL_HEIGHT = RIDGE_H

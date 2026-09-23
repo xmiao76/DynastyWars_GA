@@ -22,6 +22,142 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-23 18:40 UTC - UI-3 (attempt 3, full verification, DONE)
+
+- Status before: UI-3 BLOCKED (environment, attempt 2): no browser launched,
+  complete implementation uncommitted. The runner is paused on that BLOCKED
+  (untouched here). This round came from the owner's standing overhaul goal
+  in the DSH session, not a runner tick.
+- Blocker cleared: at 18:03 UTC the same probe that hung at 16:00-17:00
+  (`chrome-headless-shell --dump-dom data:` with a fresh profile) exited in
+  1 s with the DOM. No change on my side, so the cause was environmental and
+  transient. Probe profile removed.
+- Work completed: no source change to the attempt-1 draft. Ran every serial
+  gate on it:
+  - lint PASS, typecheck PASS, unit 306/306 PASS (earlier this session)
+  - e2e 63/63 in 3.6 min (+1 select-look; select, touch, layout,
+    hero-faces and hud unchanged and green)
+  - vision 5/5 (SPRITE GATE 256/256 sprites, 85/85 weapons, 170/170
+    retracts; renderer parity includes the new select)
+  - selfplay 13/13 in 8.5 min; marathons identical to the standing
+    snapshot: guanyu 2640/0c+3144/0c, zhangfei 2640+2832, huangzhong
+    3768/1c+4524/1c, weiyan 4056/1c+2916/0c, zhaoyun 9 stages
+    3324,3576,6720,5988,4548,4440,5484,8196,6324 with continues
+    0,0,2,1,1,0,2,3,2 (the select screen does not touch the sim)
+  - build PASS; the process exited normally this time, 48 s
+  - prodbuild 4/4
+- Reviewed: artifacts/vision/parity-webgl-select.png. WebGL draws the baked
+  roster identically to canvas: gold 1P on Guan Yu, blue 2P on Zhang Fei,
+  pips, strip prompt. Plus the attempt-1 captures ui3-select-{desktop,
+  zhaoyun,phone}.png. Also captured the current HUD
+  (artifacts/vision/boss_fight.png) as the UI-4 "before".
+- Housekeeping (rule 8): UI-3 DONE would make 21, so the oldest DONE in
+  completion order (ART-11, 43 lines, bounded by DIFF-1's header,
+  anchor-asserted) moved to the TASKS-ARCHIVE.md tail after ART-10; 20 DONE
+  held. This entry pushed PROGRESS.md past 500, so the oldest finished,
+  unprotected entry (2026-09-23 00:24 ART-16) moved to the
+  PROGRESS-ARCHIVE.md top. The latest signal snapshot (now this entry) and
+  the DIFF-1 closure stay.
+- Files changed: the UI-3 source set (see the 16:45 entry), TASKS.md,
+  TASKS-ARCHIVE.md, PROGRESS.md, PROGRESS-ARCHIVE.md.
+- Result: DONE, committed locally.
+- Status after: UI-3 DONE; queue 20 DONE + UI-4/UI-5/ART-19/ART-20 TODO +
+  ENH-12 IN_PROGRESS (deferred under the overhaul). The runner stays paused
+  (BLOCKED from attempt 2) until the owner resumes it.
+- Next recommended task: UI-4 (arcade HUD top band).
+
+### 2026-09-23 17:00 UTC - UI-3 (attempt 2, verification blocked by environment)
+
+- Status before: UI-3 IN_PROGRESS (attempt 1 left a complete, uncommitted
+  implementation; full browser gates never ran because Chromium launches
+  hang). Run `2026-09-23T16-54-11-532Z-17a495a1`.
+- Work completed: no code change. Re-verified the draft without a browser:
+  lint PASS, typecheck PASS, unit 306/306 PASS. Probed browser launch again
+  before starting the gates:
+  - chrome-headless-shell 1243, `--dump-dom data:` with a fresh profile: hung
+    at 30 s, no output (hanging since about 16:00 UTC)
+  - Playwright Firefox 1543, `--headless --screenshot` with a fresh profile:
+    hung at 40 s, no screenshot
+  - (attempt 1: system Edge headless hung the same way)
+  Three independent browser engines hanging at startup points to a
+  system-level fault (graphics/desktop session or a system service), not to
+  this repository or one browser build. `--version`, node, named pipes and
+  child spawns still work. FontCache is running. Only my own probe
+  processes and profiles were stopped/removed.
+- Files changed: TASKS.md (UI-3 -> BLOCKED with the exact blocker),
+  PROGRESS.md. The attempt-1 draft stays uncommitted in the working tree
+  (backup artifacts/loop/ui3-attempt1.patch).
+- Verification run: lint, typecheck, unit only. e2e/vision/selfplay/prodbuild
+  cannot run without a browser, so they were not attempted this tick.
+- Result: BLOCKED - a missing tool (a launchable browser), not a quota
+  error, so the QUOTA-WAIT exception does not apply.
+- Status after: UI-3 BLOCKED (environment). Runner will pause for owner
+  review. DONE count 20.
+- Remaining work or blocker: owner restores browser launch (reboot likely),
+  resumes the runner and resets UI-3 to IN_PROGRESS. Then one iteration runs
+  the serial full gates on the draft, marks DONE and commits.
+- Next recommended task: UI-3 verification once browsers launch.
+
+### 2026-09-23 16:45 UTC - UI-3 (attempt 1, warrior roster select)
+
+- Status before: UI-3 TODO (no prior attempts); UI-1/UI-2 DONE. Run
+  `2026-09-23T13-14-32-125Z-a80a939e`, far past its 50-minute timebox.
+- Work completed: SelectScene rewritten as a roster screen. One baked backdrop
+  (selectart.ts): parchment with ink-wash mountains, a vermilion sun, grain
+  and burnt edges, a faction-blue lacquer roster frame (gold double rim,
+  fretwork, corner bosses) and a pointed lacquer command strip. Five 84x160
+  baked cards: 76x84 portrait recess (ART-18 portraits), parchment name
+  plate (nameZh 16 + nameEn caps 8), stat tray with LIFE/SPEED bronze pips
+  (1..5, normalised across the roster from maxHp/walkSpeed; sim data
+  untouched). Gold 1P halo (denser, white-hot core, slow alpha breath) and
+  blue 2P halo, both behind the cards, with 1P/2P pennants; non-picked
+  portraits dimmed. 2P marks the hero a drop-in P2 actually gets:
+  `secondPlayerCharacter` moved from GameScene to src/game/players.ts and is
+  used by both, so the preview cannot drift from the join (presentation only).
+  Kept: cursor starts 0, LEFT/RIGHT wrap, Enter + watchConfirmButton,
+  consumePendingStart, exactly five tap Zones in CHARACTER_ORDER that pick
+  that hero, the confirm seed, portrait:* textures, byte-identical device
+  prompts. All chrome canvas-baked (no Graphics gradients).
+- Tests: test/game/roster.test.ts (6: cards + halos fit the frame, row
+  centred, card sections stacked, pips span 1..5 and order like the stats,
+  2P never equals 1P). e2e/select-look.spec.ts: kit textures, portraits and
+  bilingual labels per card, 1P/2P halos on cards 0/1, ArrowLeft wraps to
+  4/0, three ArrowRight lands 2/0, phone shows TAP A WARRIOR TO FIGHT;
+  writes the review captures. PASSED twice (before and after the halo tune).
+- Reviewed: artifacts/look/ui3-select-desktop.png, ui3-select-zhaoyun.png,
+  ui3-select-phone.png. First capture: the gold 1P halo was lost against
+  the gold card rims -> made denser with a white core and dimmed idle
+  portraits (0.5, 2P 0.72); re-captured and confirmed.
+- Verification run: lint PASS, typecheck PASS, unit 306/306 PASS. NOT run:
+  chromium e2e (a full attempt ran 25/63 with the first ~10 failing
+  `browserType.launch: Timeout 180000ms`; stopped), selfplay, vision,
+  prodbuild. Vite build wrote dist ("built in 1.2s") but the process never
+  exited, twice.
+- Environment blocker (not code): from ~16:00 UTC every Chromium launch
+  hangs at startup - Playwright's headless shell, a bare
+  `chrome-headless-shell --dump-dom data:` probe, and system Edge headless
+  all stall with zero output and ~0 CPU (threads parked; only a gpu-process
+  child spawns). `--version`, plain node, named pipes and child spawns are
+  fine; disk 11 GB free, RAM 8 GB free, no display-driver events. The same
+  binary launched normally earlier in this run (select-look.spec). Only my
+  own probe processes were stopped.
+- Files changed (uncommitted draft): src/game/{players.ts, art/selectart.ts,
+  ui/roster.ts, ui/type.ts, scenes/SelectScene.ts, scenes/GameScene.ts},
+  e2e/select-look.spec.ts, test/game/roster.test.ts; backup
+  artifacts/loop/ui3-attempt1.patch. TASKS.md, PROGRESS.md.
+- Result: IN_PROGRESS, no commit (full gates unverified).
+- Status after: UI-3 IN_PROGRESS attempt 1. DONE count 20 (no task
+  archive). Housekeeping (rule 8): this entry pushed PROGRESS.md to 504, so
+  the oldest finished entry (2026-09-22 14:15 ENH-11, 48 lines,
+  anchor-asserted) moved to the PROGRESS-ARCHIVE.md top above the 13:09
+  producer pass; now ~460 lines. The latest signal snapshot (15:04 producer
+  pass) stays here.
+- Remaining work: once Chromium launches again (likely needs a reboot or the
+  owner clearing whatever holds it), run the serial full gates on this draft
+  (e2e incl. select/touch/layout/hero-faces, selfplay, vision incl. select
+  parity, build, prodbuild), then mark DONE and commit.
+- Next recommended task: UI-3 verification (continue IN_PROGRESS).
+
 ### 2026-09-23 12:30 UTC - UI-2 (attempt 1, title attract screen)
 
 - Status before: UI-2 TODO -> IN_PROGRESS; UI-1 DONE. Run
@@ -284,47 +420,6 @@ history slowly crowds out the work it is supposed to support.
   beard mostly sits behind Zhang Fei's near arm (the portrait carries it).
 - Next recommended task: ART-17 attempt 2 (Guan Yu lips/beard, Zhao Yun).
 
-### 2026-09-23 00:24 - ART-16 (attempt 1, owner request: natural faces)
-
-- Status before: owner request (takes priority over ENH-12): review every
-  hero and NPC face, make each look natural, and make heroes/bosses look as
-  the histories describe. Filed as ART-16 (natural faces) + ART-17 (likeness).
-- Work completed: reviewed all 17 portraits and in-play heads at device and
-  vector resolution against a human face. Found two cast-wide root causes,
-  both present since the first commit:
-  1. rig.ts `limbPath`/`chainPath` traced crossed sides (bow-tie paths, empty
-     middles): every in-play brow/mouth/nose rendered as a broken comma, and
-     torsos, limbs, hafts and the horse were hollow under the ink. Fixed.
-  2. portrait.ts gradients faded to transparent BLACK (unpremultiplied
-     interpolation), so the bridge highlight drew a grey ring round the eyes
-     and down the nose on every portrait. Fixed (own-colour fades), socket
-     moved under the brow, forehead lift added, nose wings shortened.
-  Two gates had been calibrated on the hollow art and failed honestly after
-  the fix; resolved by art, not thresholds: DOWN.weaponRot 0.16 -> -0.34 (the
-  now-solid weapon lay across the prone body) and Guan Yu height 1.03 -> 1.06
-  (身长九尺; guanyu/weiyan silhouettes 0.094 -> 0.118 > 0.1).
-- Files changed: src/game/art/rig.ts, portrait.ts, poses.ts, figures.ts;
-  test/game/rig.test.ts (new), test/game/portrait.test.ts (bridge gate);
-  TASKS.md (ART-16 DONE, ART-17 TODO, ART-8 archived), TASKS-ARCHIVE.md,
-  PROGRESS.md, PROGRESS-ARCHIVE.md.
-- Verification run (serial, logs artifacts/loop/*-tick.log): lint 0, tsc 0,
-  unit 200/200 (28 files), e2e 54 passed, vision 5/5 (SPRITE GATE 256/256
-  sprites, 85/85 weapons, 170/170 retracts), selfplay 13 passed, prodbuild 4
-  passed, build ok. Falsified: rig.test.ts 3/3 fail on the original rig.ts
-  (0/0/16 px); the bridge gate fails on HEAD portrait.ts (guanyu 0.914).
-  Sheets reviewed by eye: faces-before-portraits.png vs
-  faces-final-portraits.png, closeup-before.png vs closeup-final.png.
-- Result: COMPLETED (ART-16). The smudge is gone and in-play features are
-  solid; faces now read as clean skin with a lit forehead and nose.
-- Status after: 20 DONE, ART-17 + ENH-12 TODO, 0 BLOCKED. Housekeeping:
-  ART-8 archived (21 -> 20 DONE); the 2026-09-21 23:03 producer entry moved to
-  PROGRESS-ARCHIVE.md (487 -> 433 lines before this entry).
-- Remaining work or blocker: ART-17, the per-character likeness (Lu Bu's
-  紫金冠 vs Cao Cao's identical crown, Zhang Fei's 虎须, four same-faced
-  bosses, Zhao Yun's 浓眉大眼, Cao Cao's 细眼). Guan Yu's hood still covers
-  his in-play forehead (hood shape is ART-15 silhouette territory).
-- Next recommended task: ART-17 (continues the owner request), then ENH-12.
-
 ### 2026-09-22 15:15 - DIFF-1 CLOSED (owner decision: accept the curve)
 
 - Status before: DIFF-1 BLOCKED on the owner's design decision (the
@@ -398,52 +493,3 @@ history slowly crowds out the work it is supposed to support.
   entry, so the oldest entry (2026-09-21 21:46 ENH-7, 55 finished
   lines) moved to PROGRESS-ARCHIVE.md top; now 465 lines. Latest
   signal snapshot (this entry) and DIFF-1 evidence kept.
-
-### 2026-09-22 14:15 - ENH-11 (attempt 1)
-
-- Status before: ENH-11 TODO (no prior attempts), first TODO in the
-  queue. Run `2026-09-22T20-49-50Z-9a20eaba`.
-- Work completed: Start (button 9) is now the gamepad pause toggle on
-  EITHER pad (pads 0 and 1) via the shared togglePause() - the third
-  input class to get pause parity (P: ENH-7, touch button: ENH-8).
-  watchConfirmButton gained a padIndex (default 0: every menu call site
-  is byte-identical); GameScene routes ONE watcher per pad through an
-  action: paused -> resume first (no revive can leak through the
-  freeze), game-over countdown -> the existing confirmContinue revive,
-  otherwise -> toggle. Self-review caught and removed a composed
-  double-watcher on pad 0 (it could resume AND revive in a single
-  poll - exactly the leak class ENH-7 forbids).
-- Files changed: `src/game/adapters/gamepad.ts` (pad-indexed watcher;
-  firstPad removed as unused), `src/game/scenes/GameScene.ts` (routed
-  Start action on both pads; pollContinueButton renamed
-  pollStartButton), `e2e/gamepad.spec.ts` (+1 test), `TASKS.md`,
-  `PROGRESS.md`.
-- Tests (new, synthetic-pad harness): pad 1 Start freezes (tick flat
-  across ~60 wall frames), pad 2 Start resumes (either pad toggles),
-  held Start does not strobe (paused sampled 6x across a 600ms hold),
-  and Start keeps its game-over revive role (party down -> countdown ->
-  Start revives, and the revive is not a toggle). Both mechanisms
-  falsified by probe: binding removed -> the pause pins fail; game-over
-  routed to toggle -> the revive pin fails (".not.toBe('dead')").
-  Restored green.
-- Verification run: lint clean; typecheck clean; unit 196/196; e2e
-  54/54 (+1; menus/continue/pause specs green untouched - the routing
-  kept those roles); signal 13/13, marathons identical to the standing
-  post-arrow snapshot (input-layer change only, zero sim impact);
-  vision 5/5, prodbuild 4/4, build ok.
-- Known cosmetic gap, consciously out of scope: the pause overlay hint
-  still names "PRESS P TO RESUME" (which does resume) and does not
-  mention Start. No remapping UI per non-goals.
-- Result: all acceptance criteria met. DIFF-1 stays BLOCKED.
-- Status after: ENH-11 DONE. Queue holds 20 DONE + DIFF-1 BLOCKED; no
-  TODO or IN_PROGRESS remains.
-- Remaining work or blocker: none for this task.
-- Next recommended task: none available without the owner (producer
-  pass when driven; standing owner items: deploy).
-
-- Housekeeping (same iteration, rule 8): 21 DONE exceeded the bound, so
-  oldest DONE ART-6 spliced to TASKS-ARCHIVE.md end (DONE now 20).
-  PROGRESS.md crossed 500 lines with this entry, so the oldest entry
-  (2026-09-21 21:19 MANUAL-WORKER REDESIGN, 44 finished lines) moved to
-  PROGRESS-ARCHIVE.md top. Latest signal snapshot
-  (this entry) and DIFF-1 evidence kept.

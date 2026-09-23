@@ -267,7 +267,10 @@ export function displayStringTable(): string[] {
     'SCORE',
     'LIVES',
     'POWER',
+    'LIFE',
     'SPEED',
+    '1P',
+    '2P',
     'HIT',
     'DOWN',
     'BOSS',
@@ -275,6 +278,7 @@ export function displayStringTable(): string[] {
   for (const id of CHARACTER_ORDER) {
     const c = characterById(id)
     strings.add(c.nameEn)
+    strings.add(c.nameEn.toUpperCase())
     strings.add(c.nameZh)
     strings.add(`${c.nameEn} ${c.nameZh}`)
   }
