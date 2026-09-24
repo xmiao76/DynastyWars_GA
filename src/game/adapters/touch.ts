@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { neutralInput, type InputState } from '../../core/types'
 import { liveStyle } from '../ui/theme'
+import { RENDER_SCALE } from '../render'
+import { TOUCH_TEX, paintTouchControls, type TouchGeometry } from '../art/hudart'
 
 /**
  * Touch adapter: on-screen controls -> core InputState, mirroring the keyboard
@@ -44,8 +46,29 @@ const BTN_R = 15
 const PAUSE_CX = SCREEN_WIDTH / 2
 const PAUSE_CY = SCREEN_HEIGHT - 22
 const PAUSE_R = 12
-const FACE = 0xf0e6d2
-const EDGE = 0x140f14
+/**
+ * Face-button layout, shared by the hit zones and the painted sheet so art
+ * and input can never drift apart. A = attack, B = jump, C = special.
+ */
+export const TOUCH_BUTTONS = [
+  { label: 'A', x: SCREEN_WIDTH - 40, y: SCREEN_HEIGHT - 40 },
+  { label: 'B', x: SCREEN_WIDTH - 78, y: SCREEN_HEIGHT - 36 },
+  { label: 'C', x: SCREEN_WIDTH - 56, y: SCREEN_HEIGHT - 74 },
+] as const
+
+/** The painter's copy of the hit-zone geometry. */
+function touchGeometry(): TouchGeometry {
+  return {
+    padCx: PAD_CX,
+    padCy: PAD_CY,
+    padArm: PAD_ARM,
+    btnR: BTN_R,
+    buttons: TOUCH_BUTTONS,
+    pauseCx: PAUSE_CX,
+    pauseCy: PAUSE_CY,
+    pauseR: PAUSE_R,
+  }
+}
 
 /** Names the visibility gate looks for. A control you can touch you can see. */
 export const TOUCH_PAD_NAME = 'touchPad'
@@ -87,52 +110,41 @@ export class TouchAdapter {
     this.jumpBuffered = false
     this.specialBuffered = false
 
-    const g = scene.add
-      .graphics()
+    // The controls are one baked bronze-lacquer sheet: cross pad with gold
+    // chevrons, three face buttons, the pause coin. Painted to a canvas
+    // texture so canvas and WebGL render identical pixels, and named as a
+    // single 'touchPad' object so the visibility gate's count is unchanged.
+    const sheetKey = 'touch:controls'
+    if (!scene.textures.exists(sheetKey)) {
+      const canvas = document.createElement('canvas')
+      canvas.width = Math.max(1, Math.round(TOUCH_TEX.width * RENDER_SCALE))
+      canvas.height = Math.max(1, Math.round(TOUCH_TEX.height * RENDER_SCALE))
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        paintTouchControls(ctx, RENDER_SCALE, touchGeometry())
+        scene.textures.addCanvas(sheetKey, canvas)
+      }
+    }
+    scene.add
+      .image(0, 0, sheetKey)
+      .setOrigin(0, 0)
+      // The sheet bakes at RENDER_SCALE; show it at logical size or the
+      // controls land off the bottom of the screen.
+      .setDisplaySize(SCREEN_WIDTH, SCREEN_HEIGHT)
       .setScrollFactor(0)
       .setDepth(depth)
-      .setAlpha(0.32)
+      .setAlpha(0.55)
       .setName(TOUCH_PAD_NAME)
 
-    const cross = (dx: number, dy: number): void => {
-      g.fillStyle(FACE, 1)
-      g.fillRoundedRect(PAD_CX + dx - PAD_ARM / 2, PAD_CY + dy - PAD_ARM / 2, PAD_ARM, PAD_ARM, 3)
-      g.lineStyle(1, EDGE, 0.8)
-      g.strokeRoundedRect(PAD_CX + dx - PAD_ARM / 2, PAD_CY + dy - PAD_ARM / 2, PAD_ARM, PAD_ARM, 3)
-    }
-    cross(0, -PAD_ARM)
-    cross(0, PAD_ARM)
-    cross(-PAD_ARM, 0)
-    cross(PAD_ARM, 0)
-
-    const face = (x: number, y: number, label: string): void => {
-      g.fillStyle(FACE, 1)
-      g.fillCircle(x, y, BTN_R)
-      g.lineStyle(1, EDGE, 0.8)
-      g.strokeCircle(x, y, BTN_R)
+    for (const b of TOUCH_BUTTONS) {
       scene.add
-        .text(x, y, label, { ...liveStyle(10, { color: '#140f14', bold: true }) })
+        .text(b.x, b.y, b.label, { ...liveStyle(10, { color: '#f5e6c8', bold: true, stroke: '#140f14', strokeThickness: 2 }) })
         .setOrigin(0.5)
         .setScrollFactor(0)
         .setDepth(depth)
-        .setAlpha(0.42)
+        .setAlpha(0.8)
         .setName(TOUCH_LABEL_NAME)
     }
-    const bx = SCREEN_WIDTH - 40
-    const by = SCREEN_HEIGHT - 40
-    face(bx, by, 'A')
-    face(bx - 38, by + 4, 'B')
-    face(bx - 16, by - 34, 'C')
-    // Pause button: a circled twin-bar glyph drawn into the shared pad
-    // Graphics, so the visibility gate's single-pad assertion covers it with
-    // no new named objects to count.
-    g.fillStyle(FACE, 1)
-    g.fillCircle(PAUSE_CX, PAUSE_CY, PAUSE_R)
-    g.lineStyle(1, EDGE, 0.8)
-    g.strokeCircle(PAUSE_CX, PAUSE_CY, PAUSE_R)
-    g.fillStyle(EDGE, 1)
-    g.fillRect(PAUSE_CX - 5, PAUSE_CY - 6, 4, 12)
-    g.fillRect(PAUSE_CX + 1, PAUSE_CY - 6, 4, 12)
 
     // Hit areas are generous - larger than the drawn control - because a thumb
     // is not a mouse pointer and a miss mid-fight reads as the game ignoring
@@ -170,13 +182,14 @@ export class TouchAdapter {
       right: holdZone(PAD_CX + PAD_ARM, PAD_CY, arm, arm),
     }
     const r = BTN_R * 2.2
-    tapZone(bx, by, r, r, () => {
+    const [btnA, btnB, btnC] = TOUCH_BUTTONS
+    if (btnA) tapZone(btnA.x, btnA.y, r, r, () => {
       this.attackBuffered = true
     })
-    tapZone(bx - 38, by + 4, r, r, () => {
+    if (btnB) tapZone(btnB.x, btnB.y, r, r, () => {
       this.jumpBuffered = true
     })
-    tapZone(bx - 16, by - 34, r, r, () => {
+    if (btnC) tapZone(btnC.x, btnC.y, r, r, () => {
       this.specialBuffered = true
     })
     // The pause button's zone, named so tests tap where the scene put it

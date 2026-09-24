@@ -3006,3 +3006,51 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No `src/core` change of any kind.
   - The dormant bake pipeline's literal pose lists (`scripts/bake-core.mjs`,
     `scripts/make-sample.mjs`) stay as they are - that pipeline ships nothing.
+
+### ART-12 - The heroes' weapons do not read as their historical weapons
+
+- Status: DONE
+- Requirement:
+  Each hero carries roughly the right KIND of weapon but the drawings do not
+  read as the famous ones, and two assignments are wrong: Zhang Fei's pike (74)
+  is SHORTER than Zhao Yun's spear (78) - backwards for 丈八蛇矛, the longest
+  weapon in the novel - and Wei Yan carries a jian with a EUROPEAN CROSSGUARD.
+  Guan Yu's glaive head is a chunky polygon, not a 月牙 crescent; the 蛇矛 head
+  is a jagged zigzag, not a sinuous snake; the spear has no 红缨 tassel; the
+  bow is a plain D-arc, not a recurve; Lu Bu holds a plain glaive instead of
+  the 方天画戟. Owner decisions: novel/folk standard; Wei Yan gets the
+  long-handled 大刀; Huang Zhong keeps the bow (reshaped recurve); Lu Bu's
+  halberd included.
+- Acceptance criteria:
+  - [x] WEAPONS ladder pike 82 > ji 78 > glaive 76 > spear 72 > dao 69 >
+        sword 46 > bow 42; weiyan -> dao, lubu -> ji; 'blade' renamed 'jian'
+        with a disc guard
+  - [x] Crescent, serpent, dao, ji, recurve-bow heads redrawn as quadratics;
+        TASSEL tuft on all 11 polearm wielders. Tassel brightened
+        0xb03028 -> 0xc43830 and ji wings fattened after the first sheet
+        showed the tassel sinking into Zhang Fei's dark armour and the wings
+        thin at display size
+  - [x] POSE_REACH re-measured with a probe calibrated against HEAD first:
+        EVERY pose came in at or under the old margins (the old attack/windup
+        driver was the spear at 78; it is now 72, and the new envelopes are
+        tighter than the angular polygons) - attack 55, attack2 39, windup 9,
+        recover 19 (was a stale 26), jump 20, hurt 9, down 27, special 54
+  - [x] Three new gates, each falsified by reverting its mechanism: named
+        weapons + ladder (lubu->glaive and pike->74 both fail it), tassel
+        presence at the socket (disabling the draw fails it 0-1 px vs floor
+        30; measured 109-151; Zhao Yun's red trim excluded by tolerance),
+        ART-8 head-cross made PERMANENT over steel AND tassel families
+        (walk1 -1.5 fails it on 7+ kinds; per-kind idle baselines 0-441 -
+        Zhao Yun's is his own steel helmet, which is why the gate keys on
+        deltas)
+  - [x] Weapon sheets at display size judged by eye, before AND after
+        (artifacts/weaponsheet12.png, weaponsheet12-before.png): crescent
+        reads as a moon blade, serpent undulates, tassels visible on all
+        wielders, recurve reads, jian disc guard reads, portraits' weapon
+        sliver intact
+  - [x] lint, typecheck, unit 163/163 (+3 gates, durable suite), e2e 44/44,
+        vision 5/5 (202/202 sprites, 34/34 weapons, 68/68 retracts, parity),
+        prodbuild 4/4, signal 13/13, build
+- Non-goals:
+  - No pose, POSES-list, sprite-binding, scene, or core changes; no strict-Han
+    weapons; no second weapon for Huang Zhong; the sword pickup prop untouched.

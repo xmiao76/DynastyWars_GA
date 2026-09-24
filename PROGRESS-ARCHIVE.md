@@ -5304,3 +5304,172 @@ lines. Never read during an iteration; consult only for deep history.
 - Remaining work or blocker: DIFF-1 needs an owner design decision, and it is
   now the only item left.
 - Next recommended task: none ready.
+
+### 2026-09-23 02:00 - ART-17 (attempt 2, owner request: likeness)
+
+- Status before: IN_PROGRESS (attempt 1: 3 of 7 criteria - Lu Bu, Zhang Fei,
+  Cao Cao). Before sheets `artifacts/look/one-a17b.png`, `body-a17b.png`,
+  `closeup-a17b.png`: Guan Yu's lips were toned from his skin, so on his
+  date-red face they were LESS red than the cheek; his long sprite beard sat
+  behind the pauldron and near arm (a chin patch); Zhao Yun shared `calm`
+  (browWeight 1.18, below Guan Yu 1.32 / Huang Zhong 1.35) and the default
+  head outline; Li Dian and Zhang He were the identical face (same helmet,
+  build and `calm`), Zhang Liao/Zhang He differed by two brow angles.
+- Work completed (the remaining 4 of 7 criteria):
+  1. Guan Yu å”‡è‹¥æ¶‚è„‚: plan field `lips` (0xc81e30), painted on both portrait
+     lips instead of the skin tone. é«¯é•¿äºŒå°º: `addBeardFront` draws the long
+     beard's front fall (27 units) after the near arm on the sprite, standing
+     poses only; the portrait keeps its own face-pass beard.
+  2. Zhao Yun æµ“çœ‰å¤§çœ¼, é˜”é¢é‡é¢: new face `bold` (browWeight 1.5, eyeW 1.18,
+     eyeH 1.14, eyeAspect 2.0, level) and plan field `jaw` (1.1): `headOutline`
+     widens only cheek/jaw-angle/jaw, so crown, temples, cheekbones and every
+     headgear fit are unchanged.
+  3. Bosses: Zhang He `sharp` (the shrewd tactician), Cao Ren `full` beard
+     (0x2a2018), Zhang Liao `full` beard (0x1e1810); Li Dian stays the
+     clean-shaven `calm` one, Zhang He the clean-shaven severe one.
+  4. Troops untouched (plain face, shared skin, no lips/jaw), now asserted.
+- Files changed: src/game/art/figures.ts (FigurePlan `lips`/`jaw`, FaceKind
+  `bold`, guanyu/zhaoyun/caoren/zhangliao/zhanghe plans), faces.ts (`bold`),
+  portrait.ts (`headOutline(jaw)`, plan lip colour), draw.ts
+  (`addBeardFront`); test/game/likeness.test.ts (+4 gates, 7 total);
+  TASKS.md (ART-17 DONE, ART-9 archived); TASKS-ARCHIVE.md; PROGRESS.md.
+- Verification run (serial): lint 0, tsc 0, unit 207/207 (29 files), e2e 54
+  passed, vision 5/5, selfplay 13 passed, prodbuild 4 passed,
+  build ok.
+  Falsified on the pre-attempt-2 data (figures.ts / draw.ts reverted in place,
+  restored by copy, hashes checked): Guan Yu lip-minus-cheek redness -19.5
+  (gate > 40; after +53.5); visible sprite beard 8.72 units below the chest
+  joint (gate > 14; after 18.47); Zhao Yun brows 1.18 < Guan Yu 1.32, and with
+  `bold` kept but `jaw` removed the jaw row is 1.014x Wei Yan's (gate > 1.06;
+  after 1.108x); boss shape-only face-region difference lidian/zhanghe 0.00%
+  (gate > 2.5%; after min pair 3.64%, zhangliao/zhanghe 1.39% -> 10.64%).
+  Sheets reviewed by eye: one-a17c.png (crimson lips, Zhao Yun's brows and
+  jaw), body-a17c.png (beard down the chest in idle and attack, Huang Zhong,
+  Cao Cao and Xu Huang long beards also now in front), closeup-a17c.png
+  (bosses, troops unchanged).
+- Result: COMPLETED (ART-17; the owner request's two halves are ART-16 and
+  ART-17, both now DONE).
+- Status after: ART-17 DONE, ENH-12 TODO, 20 DONE (ART-9 moved to
+  TASKS-ARCHIVE.md), 0 BLOCKED. Housekeeping: PROGRESS.md reached 510 lines
+  with this entry; the oldest (2026-09-22 03:14 producer pass) moved to the
+  top of PROGRESS-ARCHIVE.md (-> 469 lines).
+- Remaining work or blocker: none for ART-17. Known, out of its criteria:
+  Guan Yu's hood still covers his in-play forehead; the in-play marks are
+  ~2px, so boss likeness at device scale is carried mostly by beard and brow
+  silhouette.
+- Next recommended task: ENH-12 (name the gamepad where the UI names controls).
+
+### 2026-09-23 01:15 - ART-17 (attempt 1, owner request: likeness)
+
+- Status before: TODO (second half of the 2026-09-22 owner request). Before
+  sheet `artifacts/look/closeup-a17before.png`: Cao Cao and Lu Bu wore the
+  identical `crown`; Zhang Fei's beard was the same smooth wedge as Xu Chu's;
+  Cao Cao shared `sharp` (eyeAspect 2.45) with Wei Yan/Xu Huang, rounder than
+  Guan Yu's phoenix eye (2.9).
+- Work completed (3 of 7 criteria):
+  1. Lu Bu å¤´æˆ´ä¸‰å‰æŸå‘ç´«é‡‘å†  + é›‰å°¾: new headgear `plumed` - three prongs (the
+     middle tallest) on the crown's bowl, so the brim and face-on-skin probe
+     are unchanged, plus two tapered pheasant plumes (PLUME 0xa8602c) sweeping
+     up and back on the sprite and parting to either side on the portrait.
+  2. Zhang Fei ç‡•é¢”è™Žé¡»: new beard `bristle` - same upper edge as `full`, a
+     spiked lower edge on the sprite (`bristleOutline`) and a mirrored spiked
+     portrait beard with bristling moustache (`bristlePortraitOutline`).
+  3. Cao Cao ç»†çœ¼: new face `narrow` (eyeAspect 3.4, eyeH 0.66) - both the
+     narrowest portrait aperture and the lowest in-play eye in the cast.
+- Files changed: src/game/art/figures.ts (kinds + zhangfei/caocao/lubu plans),
+  faces.ts (`narrow`), draw.ts (plumed/bristle sprite), portrait.ts
+  (plumed/bristle portrait); test/game/likeness.test.ts (new, 3 gates);
+  TASKS.md (ART-17 IN_PROGRESS, 3 boxes ticked); PROGRESS.md.
+- Verification run (serial): lint 0, tsc 0, unit 203/203 (29 files), vision
+  5/5 (SPRITE GATE 256/256 sprites, 85/85 weapons, 170/170 retracts), e2e 54
+  passed, selfplay 13 passed, prodbuild 4 passed, build ok.
+  Falsified on the pre-ART-17 cast data (figures.ts reverted in place, then
+  restored): all 3 likeness gates fail - Lu Bu reach margin 0.03R (2.08R vs
+  2.05R, gate > 1R), Zhang Fei beard-edge reversals 0 (gate >= 4), Cao Cao
+  eyeAspect 2.45 < Guan Yu 2.9. After: 3.63R vs 2.05R, >= 4, 3.4 max.
+  Sheets reviewed by eye: one-a17v3.png, closeup-a17v3.png, body-a17v1/v2.png.
+- Result: IN_PROGRESS (ART-17).
+- Status after: ART-17 IN_PROGRESS (3/7), ENH-12 TODO, 20 DONE, 0 BLOCKED.
+  Housekeeping: PROGRESS.md reached 513 lines with this entry; the oldest
+  entry (2026-09-22 00:13 ENH-8) moved to PROGRESS-ARCHIVE.md (-> 458 lines).
+- Remaining work or blocker: Guan Yu å”‡è‹¥æ¶‚è„‚ red lips + chest-length beard;
+  Zhao Yun æµ“çœ‰å¤§çœ¼ heaviest brows / largest non-fierce eyes / broader jaw;
+  lidian/caoren/zhangliao/zhanghe pairwise distinct in-play faces (measured
+  face-region difference); final full-gate pass. The in-play sprite still draws
+  one mark set per face kind at ~2px scale - at device resolution the bristle
+  beard mostly sits behind Zhang Fei's near arm (the portrait carries it).
+- Next recommended task: ART-17 attempt 2 (Guan Yu lips/beard, Zhao Yun).
+
+### 2026-09-22 15:15 - DIFF-1 CLOSED (owner decision: accept the curve)
+
+- Status before: DIFF-1 BLOCKED on the owner's design decision (the
+  only blocked item in the queue).
+- Work completed (owner review + decision, no code): presented the
+  re-scored evidence - the 2026-09-19 cross-hero check (findings 2 and
+  3 were Zhao-Yun artifacts; only the stage-3 wall survived) and a
+  fresh re-score against today's post-ENH-10 zhaoyun marathon (wall
+  persists at +88% over stage 2; his dip/finale quirks persist in his
+  table only; cause confirmed in source: stage 2 grants a horse at
+  stage.ts:133, stage 3 withdraws it and adds spearmen/archers). The
+  owner chose ACCEPT AND CLOSE: the wall is design-shaped (mount
+  reward ending + intended escalation), hero-texture, not a defect.
+  DIFF-1 -> DONE with the decision recorded; no balance change made.
+- Files changed: TASKS.md (DIFF-1 DONE + decision record), PROGRESS.md.
+- Verification run: none needed (markdown-only owner decision on top
+  of standing green signals: 13/13 logic + 5/5 vision this morning).
+- Result: owner decision recorded; DIFF-1 closed. No task work.
+- Status after: queue holds 20 DONE + ENH-12 TODO; ZERO blocked items
+  remain. Housekeeping (rule 8): 21 DONE -> oldest ART-7 archived (88
+  lines); PROGRESS under 500 with this entry (490).
+- Remaining work or blocker: none. Standing owner items unchanged
+  (deploy is owner-only).
+- Next recommended task: ENH-12 (consumer), then producer passes.
+
+### 2026-09-22 15:04 - PRODUCER PASS (control-naming review, attempt 1)
+
+- Status before: queue holds only DIFF-1 (BLOCKED) + 20 DONE after
+  ENH-11. Tree clean at 6308fed. Run `2026-09-22T21-49-44Z-2650b0df`.
+- LOGIC signal: 13/13 ok, exit 0, zero invariant violations and zero
+  page errors. Marathons identical to the standing post-arrow snapshot:
+  guanyu 2640/0c + 3144/0c; zhangfei 2640/0c + 2832/0c; huangzhong
+  3768/1c + 4524/1c; weiyan 4056/1c + 2916/0c; zhaoyun 9-stage
+  3324,3576,6720,5988,4548,4440,5484,8196,6324 with continues
+  0,0,2,1,1,0,2,3,2. DIFF-1 shape unchanged (known blocked item). No
+  regression.
+- VISUAL signal: 5/5 ok, exit 0. Frames 9/9 pass; sprites 256/256,
+  weapons 85/85, retracts 170/170; renderer parity clean all 7 screens;
+  both negative controls failing correctly; HUD 1/1; findings.jsonl 0
+  bytes. No UX_REVIEW.md. Frame signatures (pixel arbiter) identical to
+  the standing profiles - no drift. Subjective eye review NOT performed
+  (the image-display defect stands, as recorded 13:09); programmatic
+  coverage is the ground truth.
+- Opportunity review (ONE area: control naming per input class): the
+  title plate names keyboard and touch controls but never the GAMEPAD -
+  a first-class input class per PROJECT.md. A pad-only player is told
+  ARROWS/Z/X/C/ENTER/M/P, the exact defect TitleScene's own comment
+  fixed for phones ("naming the controls THIS device has"). ENH-11
+  compounded it (Start gained pause, unnamed) and left the hint gap as
+  an intended follow-up. Precedent gate exists (touch.spec "the title
+  names the controls the device actually has"). Filed ENH-12 (TODO):
+  title gamepad line + pad-actionable pause hint + the title-labels
+  test family extended to the third class. One-area budget spent, no
+  second area inspected.
+- Rejected/not pursued: none beyond the standing list (touch-mute: see
+  13:09; image tooling: harness-level, out of repo).
+- Files changed: TASKS.md (ENH-12 TODO), PROGRESS.md,
+  artifacts/loop/proposals-gamepadnaming-enh12.md (gitignored scratch).
+- Verification run: both suites via direct node Playwright CLIs with
+  full logs to artifacts/loop/signal-tick.log + vision-tick.log
+  (gitignored). No game source touched in this pass.
+- Result: COMPLETED - one accepted proactive proposal, no regression.
+- Status after: producer pass; queue now 20 DONE + DIFF-1 BLOCKED +
+  ENH-12 TODO.
+- Remaining work or blocker: DIFF-1 still BLOCKED on the owner;
+  standing owner items unchanged (deploy).
+- Next recommended task: ENH-12 (a later consumer implements it).
+
+- Housekeeping (same iteration, rule 8): DONE count is 20 (at the
+  bound, ENH-12 is TODO). PROGRESS.md crossed 500 lines with this
+  entry, so the oldest entry (2026-09-21 21:46 ENH-7, 55 finished
+  lines) moved to PROGRESS-ARCHIVE.md top; now 465 lines. Latest
+  signal snapshot (this entry) and DIFF-1 evidence kept.

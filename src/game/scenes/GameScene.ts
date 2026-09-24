@@ -487,10 +487,11 @@ export class GameScene extends Phaser.Scene {
       // Juice is real-play only: autopilot batches would spawn hundreds of
       // bursts per frame.
       if (!this.bridge.autopilot) this.applyJuice(event)
-      // Boss-spawn warning banner.
+      // Boss-spawn warning banner: 1.2s, just long enough to read the name,
+      // then hands the fight back before the first exchange.
       if (event.type === 'spawn' && event.kind === this.sim.stage.bossKind) {
         const bossDef = enemyByKind(event.kind)
-        this.hud.showBanner('WARNING', `${bossDef.nameEn} ${bossDef.nameZh}`, 0xd33a3a)
+        this.hud.showBanner('WARNING', `${bossDef.nameEn} ${bossDef.nameZh}`, 0xd33a3a, 1_200)
       }
       if (event.type === 'stageclear' && this.clearMsLeft < 0) {
         // Let the boss's fall play out, then show results: a 2s wall-clock

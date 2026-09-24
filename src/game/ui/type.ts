@@ -264,6 +264,7 @@ export function displayStringTable(): string[] {
     'SCENE',
     'WAVE',
     'GO!',
+    'GO →',
     'SCORE',
     'LIVES',
     'POWER',

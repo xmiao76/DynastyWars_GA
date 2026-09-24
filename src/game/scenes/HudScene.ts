@@ -4,38 +4,63 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { isProjectile } from '../../core/entities'
 import { enemyByKind } from '../../core/enemies'
 import { playerOf, type Sim } from '../../core/sim'
+import { RENDER_SCALE } from '../render'
 import { audio } from '../audio/sfx'
 import { hasTouch, TouchAdapter } from '../adapters/touch'
 import { ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
 import { destroyAllChildren } from '../ui/display'
 import { useLogicalViewport } from '../ui/viewport'
-import { addVignette, drawSlab, makeBar } from '../ui/panels'
+import { addVignette, drawSlab, ensureDisplayTextTexture, makeArcadeBar } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
 import type { BridgeState } from '../debug/bridge'
+import * as L from '../ui/hudlayout'
+import {
+  BANNER_TEX,
+  CHIP_TEX,
+  GO_TEX,
+  MEDAL_TEX,
+  PEARL_TEX,
+  PIP_TEX,
+  PLATE_TEX,
+  RAIL_TEX,
+  paintBanner,
+  paintChip,
+  paintGoArrow,
+  paintLivesPip,
+  paintMedallion,
+  paintPearl,
+  paintPlate,
+  paintRail,
+} from '../art/hudart'
 
 /**
- * The in-stage HUD, as a scene of its own running in parallel with `game`.
+ * The in-stage HUD (UI-4), restyled to the WoF top-band language: floating
+ * player plates with medallion portraits, a segmented arcade HP bar with a
+ * presentation-only damage ghost, a flaming-pearl special lamp, lives pips,
+ * a WAVE chip, a "GO →" cue once the camera unlocks, and a full-width boss
+ * rail that drops in while a boss is alive.
  *
- * Worth being accurate about WHY it is separate, because the obvious reason is
- * wrong: a zoomed camera does displace scrollFactor-0 objects, but only while
- * its origin is the default centre, and `useLogicalViewport` pins the origin to
- * the top-left precisely so that stops happening. The HUD would in fact render
- * correctly inside `game`.
+ * Worth being accurate about WHY it is separate from `game`, because the
+ * obvious reason is wrong: a zoomed camera does displace scrollFactor-0
+ * objects, but only while its origin is the default centre, and
+ * `useLogicalViewport` pins the origin to the top-left precisely so that
+ * stops happening. The HUD would in fact render correctly inside `game`.
  *
  * It is separate for two reasons that do hold. GameScene was 951 lines, past
  * the 800 this project sets itself, and roughly a third of it was HUD that
  * touched nothing else. And the HUD is a pure function of the Sim, which is
  * much easier to keep true when it has no access to anything else - it cannot
- * quietly start owning game state if it never sees any. A side benefit: the HUD
- * no longer rides the camera shake, which is what an arcade HUD should do.
+ * quietly start owning game state if it never sees any. A side benefit: the
+ * HUD no longer rides the camera shake, which is what an arcade HUD should
+ * do.
  *
- * It PULLS rather than being pushed to. Everything it draws is derived from the
- * Sim, which it reads off the debug bridge in the registry - the same object
- * `game` publishes there - so there is no start-order dependency between the
- * two scenes and no second copy of any state. The one thing it cannot derive is
- * the continue countdown, which is wall-clock and owned by `game`; it reads
- * that field structurally rather than importing GameScene, which would be a
- * cycle.
+ * It PULLS rather than being pushed to. Everything it draws is derived from
+ * the Sim, which it reads off the debug bridge in the registry - the same
+ * object `game` publishes there - so there is no start-order dependency
+ * between the two scenes and no second copy of any state. The one thing it
+ * cannot derive is the continue countdown, which is wall-clock and owned by
+ * `game`; it reads that field structurally rather than importing GameScene,
+ * which would be a cycle.
  */
 
 /** What this scene needs from `game`, named structurally to avoid a cycle. */
@@ -48,26 +73,14 @@ interface PendingBanner {
   title: string
   subtitle: string
   color: number
+  holdMs: number
 }
 
-type Bar = ReturnType<typeof makeBar>
+type ArcadeBar = ReturnType<typeof makeArcadeBar>
 
-const GOLD = 0xc8a828
-const CYAN = 0x4a9ad8
 const RED = 0xd33a3a
-
-/**
- * Plate geometry. P2 and the boss are the same shape at other anchors.
- *
- * The widths are what leave the centre column its own lane: plates end at 174
- * and the boss plate starts at 306, so the stage name, score and objective have
- * 132px of clear screen between them. The first pass at this made the plates
- * 206 wide and the boss plate sat straight on top of the objective line.
- */
-const P1 = { x: 6, y: 6, w: 168, h: 48 }
-const P2 = { x: 6, y: 58, w: 168, h: 32 }
-const BOSS = { x: SCREEN_WIDTH - 174, y: 6, w: 168, h: 42 }
-const BAR_W = 104
+/** Banners: stage nameplate holds, boss warning holds the spec's 1.2s. */
+const BANNER_HOLD_MS = 1_500
 
 export class HudScene extends Phaser.Scene {
   /** The Sim this HUD was built for; a different one means a new stage. */
@@ -81,13 +94,15 @@ export class HudScene extends Phaser.Scene {
   readonly touch = new TouchAdapter()
   private banners: PendingBanner[] = []
 
-  private hpBar!: Bar
-  private specialPip!: Phaser.GameObjects.Graphics
+  private hpBar!: ArcadeBar
+  private specialPip!: Phaser.GameObjects.Image
+  private pips: Phaser.GameObjects.Image[] = []
+  private nameText!: Phaser.GameObjects.Text
   private scoreText!: Phaser.GameObjects.Text
-  private objectiveText!: Phaser.GameObjects.Text
-  private weaponText!: Phaser.GameObjects.Text
-  private livesText!: Phaser.GameObjects.Text
-  private horseText!: Phaser.GameObjects.Text
+  private stageText!: Phaser.GameObjects.Text
+  private waveText!: Phaser.GameObjects.Text
+  private foesText!: Phaser.GameObjects.Text
+  private metaText!: Phaser.GameObjects.Text
   private p1DownText!: Phaser.GameObjects.Text
   private continueDim!: Phaser.GameObjects.Rectangle
   private continueSlab!: Phaser.GameObjects.Graphics
@@ -99,15 +114,24 @@ export class HudScene extends Phaser.Scene {
   private pauseText!: Phaser.GameObjects.Text
   private pauseHintText!: Phaser.GameObjects.Text
   private comboText!: Phaser.GameObjects.Text
+  private comboTag!: Phaser.GameObjects.Image
   private comboShown = 0
-  private bossSlab!: Phaser.GameObjects.Graphics
+  private rail!: Phaser.GameObjects.Image
   private bossNameText!: Phaser.GameObjects.Text
-  private bossBar!: Bar
-  private p2Slab?: Phaser.GameObjects.Graphics
+  private bossBar!: ArcadeBar
+  private bossTag!: Phaser.GameObjects.Image
+  private goCue!: Phaser.GameObjects.Container
+  private goTween?: Phaser.Tweens.Tween
+  private p1Ghost = 1
+  private p2Plate?: Phaser.GameObjects.Image
+  private p2Medal?: Phaser.GameObjects.Image
   private p2NameText?: Phaser.GameObjects.Text
-  private p2Portrait?: Phaser.GameObjects.Image
-  private p2Bar?: Bar
+  private p2Bar?: ArcadeBar
+  private p2Pip?: Phaser.GameObjects.Image
+  private p2Meta?: Phaser.GameObjects.Text
   private p2DownText?: Phaser.GameObjects.Text
+  private p2Ghost = 1
+  private bossGhost = 1
 
   constructor() {
     super('hud')
@@ -124,10 +148,13 @@ export class HudScene extends Phaser.Scene {
   /**
    * Queue a banner. Safe to call before this scene's `create` has run - Phaser
    * instantiates scenes at boot, so the array exists from construction, and
-   * `game` raises the stage banner from its own `create`.
+   * `game` raises the stage banner from its own `create`. `holdMs` lets the
+   * caller say how long the plate lingers: the stage nameplate hangs while
+   * you read it; the boss warning snaps off at 1.2s so it cannot mask the
+   * first exchange of the fight.
    */
-  showBanner(title: string, subtitle: string, color: number): void {
-    this.banners.push({ title, subtitle, color })
+  showBanner(title: string, subtitle: string, color: number, holdMs = BANNER_HOLD_MS): void {
+    this.banners.push({ title, subtitle, color, holdMs })
   }
 
   update(): void {
@@ -136,98 +163,231 @@ export class HudScene extends Phaser.Scene {
     if (!sim) return
     if (sim !== this.boundSim) this.build(sim)
     this.drainBanners()
-    this.sync(sim)
+    this.sync(sim, this.game.loop.delta)
+  }
+
+  /** Bake one canvas texture; a no-op once the key exists. */
+  private bake(key: string, w: number, h: number, paint: (ctx: CanvasRenderingContext2D, s: number) => void): void {
+    if (this.textures.exists(key)) return
+    const canvas = document.createElement('canvas')
+    canvas.width = Math.max(1, Math.round(w * RENDER_SCALE))
+    canvas.height = Math.max(1, Math.round(h * RENDER_SCALE))
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    paint(ctx, RENDER_SCALE)
+    this.textures.addCanvas(key, canvas)
+  }
+
+  /** Bake the whole HUD kit; each key is guarded, so build() stays cheap. */
+  private ensureHudArt(charId: string): void {
+    this.bake('hud:plate:p1', PLATE_TEX.width, PLATE_TEX.height, (ctx, s) => paintPlate(ctx, s, 'p1'))
+    this.bake('hud:plate:p2', PLATE_TEX.width, PLATE_TEX.height, (ctx, s) => paintPlate(ctx, s, 'p2'))
+    this.bake('hud:pearl', PEARL_TEX.width, PEARL_TEX.height, (ctx, s) => paintPearl(ctx, s, true))
+    this.bake('hud:pearl-dim', PEARL_TEX.width, PEARL_TEX.height, (ctx, s) => paintPearl(ctx, s, false))
+    this.bake('hud:pip', PIP_TEX.width, PIP_TEX.height, (ctx, s) => paintLivesPip(ctx, s))
+    this.bake('hud:chip', CHIP_TEX.width, CHIP_TEX.height, (ctx, s) => paintChip(ctx, s))
+    this.bake('hud:arrow', GO_TEX.width, GO_TEX.height, (ctx, s) => paintGoArrow(ctx, s))
+    this.bake('hud:rail', RAIL_TEX.width, RAIL_TEX.height, (ctx, s) => paintRail(ctx, s))
+    this.bake('hud:banner:gold', BANNER_TEX.width, BANNER_TEX.height, (ctx, s) => paintBanner(ctx, s, 'gold'))
+    this.bake('hud:banner:red', BANNER_TEX.width, BANNER_TEX.height, (ctx, s) => paintBanner(ctx, s, 'red'))
+    this.ensureMedallion(charId)
+  }
+
+  /** One medallion per hero id the scene has met; textures persist per page. */
+  private ensureMedallion(charId: string): void {
+    const key = `hud:medallion:${charId}`
+    if (this.textures.exists(key)) return
+    const portraitKey = portraitKeyFor(charId)
+    const source = this.textures.exists(portraitKey)
+      ? (this.textures.get(portraitKey).getSourceImage() as unknown as CanvasImageSource)
+      : undefined
+    this.bake(key, MEDAL_TEX.width, MEDAL_TEX.height, (ctx, s) => paintMedallion(ctx, s, source))
+  }
+
+  /**
+   * A baked canvas texture renders at its DEVICE pixel size unless told
+   * otherwise - at RENDER_SCALE 2 that is twice its logical box, which pushed
+   * the whole touch sheet off the bottom of the screen the first time this
+   * shipped. Every baked image therefore goes through here to be shown at
+   * logical size.
+   */
+  private bakedImage(x: number, y: number, key: string, w: number, h: number): Phaser.GameObjects.Image {
+    return this.add.image(x, y, key).setOrigin(0, 0).setDisplaySize(w, h)
+  }
+
+  /** Logical size of a baked display-text texture (frame px / RENDER_SCALE). */
+  private displayTextSize(key: string): { w: number; h: number } {
+    const frame = this.textures.get(key).get()
+    return { w: frame.width / RENDER_SCALE, h: frame.height / RENDER_SCALE }
   }
 
   /** Tear down and rebuild for a new stage's Sim. */
   private build(sim: Sim): void {
+    this.goTween?.stop()
+    this.goTween = undefined
     destroyAllChildren(this)
     this.clearPlayerTwoHud()
     this.comboShown = 0
+    this.p1Ghost = 1
+    this.p2Ghost = 1
+    this.bossGhost = 1
     this.boundSim = sim
     const character = characterById(sim.charId)
     const stage = sim.stage
     ensurePortraitTextures(this, [sim.charId])
+    this.ensureHudArt(sim.charId)
 
     // Cinematic vignette over the battlefield, under everything in the HUD.
     addVignette(this, SCREEN_WIDTH, SCREEN_HEIGHT, 9_000, 0.5)
 
-    // EVERY plate first, then the readouts, then the labels. The occlusion gate
-    // flags an opaque object drawn AFTER a label at the same or higher depth,
-    // and grouping the passes this way means no plate can ever land on top of
-    // text - which is exactly what the boss plate did to the objective line
-    // when it was created after it.
-    drawSlab(this, P1.x, P1.y, P1.w, P1.h, GOLD, 10_000)
-    this.bossSlab = drawSlab(this, BOSS.x, BOSS.y, BOSS.w, BOSS.h, RED, 10_000, { mirror: true })
-    this.bossSlab.setVisible(false).setName('bossBarFrame')
-    // The continue overlay's backdrop. Under 0.7 alpha, so the occlusion gate
-    // reads it as a tint rather than as something burying the label - and it is
-    // a backdrop the overlay simply did not have until now: CONTINUE? sat
-    // straight on the frozen battlefield.
+    /**
+     * Plates, badges and bars first, then labels, so nothing opaque that
+     * arrives later can ever bury a label - the occlusion gate flags exactly
+     * an opaque object drawn AFTER a label at the same or higher depth.
+     */
+    const g1 = L.slotFor('p1')
+    this.bakedImage(g1.plate.x, g1.plate.y, 'hud:plate:p1', PLATE_TEX.width, PLATE_TEX.height)
+      .setDepth(10_000)
+      .setData('panelRect', { x: g1.plate.x, y: g1.plate.y, w: g1.plate.w, h: g1.plate.h })
+    this.bakedImage(
+      g1.medalX - MEDAL_TEX.width / 2,
+      g1.medalY - MEDAL_TEX.height / 2,
+      `hud:medallion:${sim.charId}`,
+      MEDAL_TEX.width,
+      MEDAL_TEX.height,
+    ).setDepth(10_001)
+
+    this.hpBar = makeArcadeBar(this, g1.hp.x, g1.hp.y, g1.hp.w, g1.hp.h, 10_001, L.playerSegments(character.maxHp))
+    this.specialPip = this.bakedImage(
+      g1.pearlX - PEARL_TEX.width / 2,
+      g1.pearlY - PEARL_TEX.height / 2,
+      'hud:pearl',
+      PEARL_TEX.width,
+      PEARL_TEX.height,
+    ).setDepth(10_001)
+
+    this.pips = []
+    for (let i = 0; i < L.PIP_ROW.max; i += 1) {
+      this.pips.push(
+        this.bakedImage(g1.pipX0 + i * (L.PIP_ROW.d + L.PIP_ROW.gap), g1.pipY, 'hud:pip', PIP_TEX.width, PIP_TEX.height)
+          .setDepth(10_001)
+          .setVisible(false),
+      )
+    }
+
+    // WAVE chip. Lives in the centre lane so it never fights the plates.
+    this.bakedImage(L.CHIP.x - CHIP_TEX.width / 2, L.CHIP.y, 'hud:chip', CHIP_TEX.width, CHIP_TEX.height).setDepth(
+      10_001,
+    )
+
+    // GO → cue: the baked display word plus baked chevrons, as one container.
+    const goKey = ensureDisplayTextTexture(this, 'GO →', { variant: 'gold', size: 12 })
+    const goSize = this.displayTextSize(goKey)
+    this.goCue = this.add.container(L.GO.x - goSize.w - 4, L.GO.y).setDepth(10_001).setVisible(false)
+    const goText = this.bakedImage(0, GO_TEX.height / 2, goKey, goSize.w, goSize.h)
+      .setOrigin(0, 0.5)
+      .setScrollFactor(0)
+    const goArrow = this.bakedImage(goSize.w + 4, 0, 'hud:arrow', GO_TEX.width, GO_TEX.height)
+      .setOrigin(0, 0)
+      .setScrollFactor(0)
+    this.goCue.add([goText, goArrow])
+    this.goTween = this.tweens.add({
+      targets: this.goCue,
+      alpha: 0.3,
+      duration: 400,
+      yoyo: true,
+      repeat: -1,
+      paused: true,
+    })
+
+    // Boss rail, hidden until a boss steps out.
+    this.rail = this.bakedImage(L.RAIL.x, L.RAIL.y, 'hud:rail', RAIL_TEX.width, RAIL_TEX.height)
+      .setDepth(10_000)
+      .setVisible(false)
+    const bossDef = enemyByKind(stage.bossKind)
+    this.bossBar = makeArcadeBar(
+      this,
+      L.RAIL_BAR.x,
+      L.RAIL_BAR.y,
+      L.RAIL_BAR.w,
+      L.RAIL_BAR.h,
+      10_001,
+      L.bossSegments(bossDef.maxHp),
+    )
+    this.bossBar.graphics.setVisible(false)
+    const bossKey = ensureDisplayTextTexture(this, 'BOSS', { variant: 'crimson', size: 12 })
+    const bossSize = this.displayTextSize(bossKey)
+    this.bossTag = this.bakedImage(L.RAIL_TAG.x, L.RAIL_TAG.y + RAIL_TEX.height / 2 - 2, bossKey, bossSize.w, bossSize.h)
+      .setOrigin(0, 0.5)
+      .setDepth(10_001)
+      .setVisible(false)
+
+    // The continue/pause overlays stay on the card kit (UI-5 restyles them).
     this.continueDim = this.add
       .rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x05040a, 0.62)
       .setDepth(10_001)
       .setVisible(false)
-    this.continueSlab = drawSlab(this, SCREEN_WIDTH / 2 - 92, 74, 184, 96, GOLD, 10_001)
+    this.continueSlab = drawSlab(this, SCREEN_WIDTH / 2 - 92, 74, 184, 96, 0xc8a828, 10_001)
     this.continueSlab.setVisible(false)
-    // The pause overlay's backdrop and slab: same depths and dim alpha as the
-    // continue overlay, created after it so a pause during the countdown reads
-    // PAUSED first. Both hidden until their state shows.
     this.pauseDim = this.add
       .rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x05040a, 0.62)
       .setDepth(10_001)
       .setVisible(false)
-    this.pauseSlab = drawSlab(this, SCREEN_WIDTH / 2 - 88, 100, 176, 70, GOLD, 10_001)
+    this.pauseSlab = drawSlab(this, SCREEN_WIDTH / 2 - 88, 100, 176, 70, 0xc8a828, 10_001)
     this.pauseSlab.setVisible(false)
 
-    this.addPortrait(sim.charId, P1.x + 4, P1.y + 4)
-    this.hpBar = makeBar(this, P1.x + 38, P1.y + 19, BAR_W, 9, 10_001)
-    this.specialPip = this.add.graphics().setDepth(10_001)
-    this.bossBar = makeBar(this, BOSS.x + 34, BOSS.y + 20, 126, 9, 10_001)
-    this.bossBar.graphics.setVisible(false)
-
     // --- Labels -----------------------------------------------------------
-    this.add
-      .text(P1.x + 36, P1.y + 4, `${character.nameEn} ${character.nameZh}`, {
-        ...liveStyle(9, { color: '#ffffff', bold: true }),
+    this.nameText = this.add
+      .text(g1.nameX, L.NAME.y, `${character.nameEn} ${character.nameZh}`, {
+        ...liveStyle(9, { color: '#ffd700', bold: true }),
       })
       .setDepth(10_002)
-    this.weaponText = this.add
-      .text(P1.x + 34, P1.y + 33, '', { ...liveStyle(7, { color: '#c0c0c0' }) })
-      .setDepth(10_002)
-    this.livesText = this.add
-      .text(P1.x + 84, P1.y + 33, '', { ...liveStyle(7, { color: '#ffd700' }) })
-      .setDepth(10_002)
-    this.horseText = this.add
-      .text(P1.x + 118, P1.y + 33, '', { ...liveStyle(7, { color: '#d8a868' }) })
-      .setDepth(10_002)
-    this.bossNameText = this.add
-      .text(BOSS.x + 28, BOSS.y + 5, '', {
-        ...liveStyle(9, { color: '#ffb0a0', bold: true }),
-      })
-      .setDepth(10_002)
-      .setVisible(false)
-
-    this.add
-      .text(SCREEN_WIDTH / 2, 8, `${stage.nameEn} · ${stage.nameZh}`, {
-        ...liveStyle(9, { color: '#d8c8a0' }),
+    this.stageText = this.add
+      .text(L.STAGE_LABEL.x, L.STAGE_LABEL.y, stage.nameZh, {
+        ...liveStyle(L.STAGE_LABEL.size, { color: '#d8c8a0' }),
       })
       .setOrigin(0.5, 0)
-      .setDepth(10_000)
+      .setDepth(10_002)
     this.scoreText = this.add
-      .text(SCREEN_WIDTH / 2, 22, 'SCORE 0', { ...liveStyle(9, { color: '#ffd700' }) })
+      .text(L.SCORE.x, L.SCORE.y, 'SCORE 0', { ...liveStyle(L.SCORE.size, { color: '#ffd700' }) })
       .setOrigin(0.5)
-      .setDepth(10_000)
-    this.objectiveText = this.add
-      .text(SCREEN_WIDTH / 2, 38, '', { ...liveStyle(10, { color: '#ffd700' }) })
-      .setOrigin(0.5)
-      .setDepth(10_000)
-    this.comboText = this.add
-      .text(SCREEN_WIDTH / 2, 60, '', {
-        ...liveStyle(17, { color: '#ffd700', bold: true, italic: true, stroke: '#5a3a00', strokeThickness: 3 }),
+      .setDepth(10_002)
+    this.waveText = this.add
+      .text(L.CHIP.x, L.CHIP.y + CHIP_TEX.height / 2, 'WAVE 1', {
+        ...liveStyle(9, { color: '#f5e6c8', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
+    this.foesText = this.add
+      .text(L.CHIP.x + CHIP_TEX.width / 2 + 4, L.CHIP.y + CHIP_TEX.height / 2, '', {
+        ...liveStyle(9, { color: '#d8a860' }),
+      })
+      .setOrigin(0, 0.5)
+      .setDepth(10_002)
+    this.metaText = this.add
+      .text(g1.metaX, L.META_ROW.y, '', { ...liveStyle(L.META_ROW.size, { color: '#c0b0a0' }) })
+      .setDepth(10_002)
+    this.bossNameText = this.add
+      .text(L.RAIL_NAME.x, L.RAIL.y + RAIL_TEX.height / 2, '', {
+        ...liveStyle(9, { color: '#ffb0a0', bold: true }),
+      })
+      .setOrigin(0, 0.5)
+      .setVisible(false)
+      .setDepth(10_002)
+
+    this.comboText = this.add
+      .text(L.COMBO.x - 4, L.COMBO.y, '', {
+        ...liveStyle(17, { color: '#ffd700', bold: true, italic: true, stroke: '#5a3a00', strokeThickness: 3 }),
+      })
+      .setOrigin(1, 0.5)
+      .setDepth(10_002)
+    const hitKey = ensureDisplayTextTexture(this, 'HIT', { variant: 'gold', size: 14 })
+    const hitSize = this.displayTextSize(hitKey)
+    this.comboTag = this.bakedImage(L.COMBO.x + 4, L.COMBO.y, hitKey, hitSize.w, hitSize.h)
+      .setOrigin(0, 0.5)
+      .setDepth(10_001)
+      .setVisible(false)
+
     this.p1DownText = this.add
       .text(SCREEN_WIDTH / 2, 100, '', {
         ...liveStyle(10, { color: '#ffd700', bold: true }),
@@ -277,46 +437,57 @@ export class HudScene extends Phaser.Scene {
     if (hasTouch()) this.touch.mount(this)
   }
 
-  private addPortrait(charId: string, x: number, y: number): Phaser.GameObjects.Image | undefined {
-    const key = portraitKeyFor(charId)
-    if (!this.textures.exists(key)) return undefined
-    const frame = this.textures.get(key).get()
-    const h = 30
-    return this.add
-      .image(x, y, key)
-      .setOrigin(0, 0)
-      .setDisplaySize((frame.width / Math.max(1, frame.height)) * h, h)
-      .setDepth(10_001)
-  }
-
   /**
    * The display-list sweep destroys these, and a destroyed object is still
-   * truthy - which is how a stale panel reference once made the next stage skip
-   * rebuilding player two's HUD and then call setDisplaySize on a dead object.
+   * truthy - which is how a stale plate reference once made the next stage
+   * skip rebuilding player two's HUD and then call setData on a dead object.
    */
   private clearPlayerTwoHud(): void {
-    this.p2Slab = undefined
+    this.p2Plate = undefined
+    this.p2Medal = undefined
     this.p2NameText = undefined
-    this.p2Portrait = undefined
     this.p2Bar = undefined
+    this.p2Pip = undefined
+    this.p2Meta = undefined
     this.p2DownText = undefined
   }
 
   /** Player two's plate, built the moment they join and not before. */
   private showPlayerTwoHud(charId: string): void {
-    if (this.p2Slab) return
+    if (this.p2Plate) return
     const character = characterById(charId)
     ensurePortraitTextures(this, [charId])
-    this.p2Slab = drawSlab(this, P2.x, P2.y, P2.w, P2.h, CYAN, 10_000)
-    this.p2Portrait = this.addPortrait(charId, P2.x + 4, P2.y + 1)
+    this.ensureMedallion(charId)
+    const g2 = L.slotFor('p2')
+    // Later than the P1 labels, but below them in depth - it can bury nothing.
+    this.p2Plate = this.bakedImage(g2.plate.x, g2.plate.y, 'hud:plate:p2', PLATE_TEX.width, PLATE_TEX.height).setDepth(
+      10_000,
+    )
+    this.p2Medal = this.bakedImage(
+      g2.medalX - MEDAL_TEX.width / 2,
+      g2.medalY - MEDAL_TEX.height / 2,
+      `hud:medallion:${charId}`,
+      MEDAL_TEX.width,
+      MEDAL_TEX.height,
+    ).setDepth(10_001)
     this.p2NameText = this.add
-      .text(P2.x + 36, P2.y + 3, `2P ${character.nameEn} ${character.nameZh}`, {
+      .text(g2.nameX, L.NAME.y, `2P ${character.nameEn} ${character.nameZh}`, {
         ...liveStyle(9, { color: '#cfe8ff', bold: true }),
       })
+      .setOrigin(1, 0)
       .setDepth(10_002)
-    // Same bar height as player one. They used to be 8px and 6px, which made
-    // the second player's health look like a lesser kind of health.
-    this.p2Bar = makeBar(this, P2.x + 38, P2.y + 17, BAR_W, 9, 10_001)
+    this.p2Bar = makeArcadeBar(this, g2.hp.x, g2.hp.y, g2.hp.w, g2.hp.h, 10_001, L.playerSegments(character.maxHp))
+    this.p2Pip = this.bakedImage(
+      g2.pearlX - PEARL_TEX.width / 2,
+      g2.pearlY - PEARL_TEX.height / 2,
+      'hud:pearl-dim',
+      PEARL_TEX.width,
+      PEARL_TEX.height,
+    ).setDepth(10_001)
+    this.p2Meta = this.add
+      .text(g2.metaX, L.META_ROW.y, '', { ...liveStyle(L.META_ROW.size, { color: '#8ab0c0' }) })
+      .setOrigin(1, 0)
+      .setDepth(10_002)
     this.p2DownText = this.add
       .text(SCREEN_WIDTH / 2, 114, '', {
         ...liveStyle(10, { color: '#cfe8ff', bold: true }),
@@ -330,56 +501,68 @@ export class HudScene extends Phaser.Scene {
   }
 
   /**
-   * Nameplate banner: sweeps in on a slab, holds, sweeps out.
+   * Nameplate banner: sweeps in on its baked plaque, holds, sweeps out.
    *
-   * Drawn UNDER the plates, at 9_800. It used to sit at 11_000, the only object
-   * in the game above the HUD's 10_000..10_002 band, and for the ~1.9s it holds
-   * it covered 29% of player two's HP bar at the start of every co-op stage and
-   * 64% of the CONTINUE? label whenever a death landed in that window. A
-   * transient title card has no business covering a persistent readout; the HUD
-   * is the top layer. Above the vignette (9_000) and the on-screen touch
-   * controls (9_500), so it still reads as being over the battlefield.
+   * Drawn UNDER the HUD plates, at 9_800, so a transient title card never
+   * covers a persistent readout; above the vignette (9_000) and the touch
+   * controls (9_500), it still reads as being over the battlefield.
    */
-  private raiseBanner({ title, subtitle, color }: PendingBanner): void {
-    const w = Math.round(SCREEN_WIDTH * 0.5)
+  private raiseBanner({ title, subtitle, color, holdMs }: PendingBanner): void {
+    const variant = color === RED ? 'red' : 'gold'
+    const key = variant === 'red' ? 'hud:banner:red' : 'hud:banner:gold'
     const container = this.add
-      .container(SCREEN_WIDTH / 2, 70)
+      .container(SCREEN_WIDTH / 2, L.BANNER.y)
       .setDepth(9_800)
       .setAlpha(0)
       .setName('stageBanner')
-    const bg = this.add.rectangle(0, 2, w, 44, 0x0d0d12)
-    bg.setStrokeStyle(2, color)
-    const railTop = this.add.rectangle(0, -22, w, 3, color)
-    const railBot = this.add.rectangle(0, 24, w, 3, color)
-    const capL = this.add.rectangle(-w / 2, 2, 4, 40, color)
-    const capR = this.add.rectangle(w / 2, 2, 4, 32, color)
+    const plaque = this.add
+      .image(0, 0, key)
+      .setOrigin(0.5)
+      .setDisplaySize(BANNER_TEX.width, BANNER_TEX.height)
+      .setScrollFactor(0)
     const titleText = this.add
-      .text(0, -7, title, {
-        ...liveStyle(17, { color: '#ffffff', bold: true, italic: true }),
+      .text(0, -8, title, {
+        ...liveStyle(16, {
+          color: variant === 'red' ? '#ffb0a0' : '#ffd700',
+          bold: true,
+          italic: true,
+        }),
       })
       .setOrigin(0.5)
+      .setScrollFactor(0)
     const subText = this.add
-      .text(0, 11, subtitle, { ...liveStyle(10, { color: '#f5e6c8' }) })
+      .text(0, 10, subtitle, { ...liveStyle(9, { color: '#f5e6c8' }) })
       .setOrigin(0.5)
-    container.add([bg, railTop, railBot, capL, capR, titleText, subText])
+      .setScrollFactor(0)
+    container.add([plaque, titleText, subText])
     container.setScale(0.3, 1).setX(SCREEN_WIDTH / 2)
     this.tweens.add({
       targets: container,
       scaleX: 1,
       duration: 180,
       ease: 'Cubic.easeOut',
-      hold: 1500,
+      hold: holdMs,
       yoyo: true,
       alpha: { from: 0, to: 1 },
       onComplete: () => container.destroy(),
     })
   }
 
-  private sync(sim: Sim): void {
+  private sync(sim: Sim, deltaMs: number): void {
     const player = playerOf(sim)
+    const character = characterById(sim.charId)
     const hpRatio = Math.max(0, Math.min(1, player.hp / player.maxHp))
-    this.hpBar.set(hpRatio, hpRatio <= 0.3)
-    this.syncSpecialPip(sim, player.hp)
+    this.p1Ghost = L.decayGhost(this.p1Ghost, hpRatio, deltaMs)
+    this.hpBar.set(hpRatio, hpRatio <= 0.3, this.p1Ghost)
+
+    // The flaming pearl lights while the special's health cost is payable.
+    const ready = player.hp > character.specialCost
+    this.specialPip.setTexture(ready ? 'hud:pearl' : 'hud:pearl-dim')
+
+    // Lives as helm pips.
+    for (let i = 0; i < this.pips.length; i += 1) {
+      this.pips[i]?.setVisible(i < Math.min(sim.lives, L.PIP_ROW.max))
+    }
 
     // Player two's plate appears the moment they join - derived from the sim,
     // so a drop-in join and a co-op run carried across a stage break are the
@@ -388,74 +571,86 @@ export class HudScene extends Phaser.Scene {
     if (this.p2Bar) {
       const p2 = sim.player2Id !== null ? sim.entities.find((e) => e.id === sim.player2Id) : undefined
       const ratio = p2 ? Math.max(0, Math.min(1, p2.hp / p2.maxHp)) : 0
-      this.p2Bar.set(ratio, ratio <= 0.3)
+      this.p2Ghost = L.decayGhost(this.p2Ghost, ratio, deltaMs)
+      this.p2Bar.set(ratio, ratio <= 0.3, this.p2Ghost)
       const down = p2?.state === 'dead' && sim.phase === 'fight' && sim.lives > 0
       this.p2DownText?.setText(down ? '2P DOWN - PRESS F TO REJOIN' : '')
+      if (p2) {
+        const cost = sim.char2Id ? characterById(sim.char2Id).specialCost : 0
+        this.p2Pip?.setTexture(p2.hp > cost ? 'hud:pearl' : 'hud:pearl-dim')
+        this.p2Meta?.setText(this.metaFor(sim, p2))
+      }
     }
 
     const p1Down = player.state === 'dead' && sim.phase === 'fight' && sim.lives > 0
     this.p1DownText.setText(p1Down ? '1P DOWN - PRESS Z TO REJOIN' : '')
     this.scoreText.setText(`SCORE ${sim.stats.score}`)
-    this.weaponText.setText(player.weapon ? `WEAPON ${player.weapon.toUpperCase()}` : '')
-    this.livesText.setText(`LIVES ${sim.lives}${audio.muted ? ' [M]' : ''}`)
+    const meta = this.metaFor(sim, player)
+    this.metaText.setText(audio.muted && meta ? `${meta}  M` : (audio.muted ? 'M' : meta))
     this.syncCombo(sim.stats.comboHits)
 
-    const horse =
-      player.mountedOn !== null ? sim.entities.find((e) => e.id === player.mountedOn) : undefined
-    this.horseText.setText(horse ? `HORSE ${horse.hp}/${horse.maxHp}` : '')
-    if (sim.cameraLocked) {
+    // WAVE chip: the locked wave count, then the advance cue.
+    const boss = sim.entities.find((e) => e.kind === sim.stage.bossKind)
+    if (boss) {
+      this.waveText.setText('BOSS').setColor('#e85438')
+      this.foesText.setText('')
+      this.goCue.setVisible(false)
+      this.goTween?.pause()
+      this.goCue.setAlpha(1)
+    } else if (sim.cameraLocked) {
       const remaining = sim.entities.filter((e) => e.side === 'enemy' && !isProjectile(e)).length
-      this.objectiveText.setText(`Wave ${sim.waveIndex + 1} - enemies left: ${remaining}`)
+      this.waveText.setText(`WAVE ${sim.waveIndex + 1}`).setColor('#f5e6c8')
+      this.foesText.setText(`×${remaining}`)
+      this.goCue.setVisible(false)
+      this.goTween?.pause()
+      this.goCue.setAlpha(1)
     } else {
-      this.objectiveText.setText('Area cleared - head right!')
+      this.waveText.setText('GO!').setColor('#ffd700')
+      this.foesText.setText('')
+      if (!this.goCue.visible) {
+        this.goCue.setVisible(true)
+        this.goTween?.resume()
+      }
     }
 
     this.syncContinueOverlay(sim)
     this.syncPauseOverlay()
 
-    const boss = sim.entities.find((e) => e.kind === sim.stage.bossKind)
     if (boss) {
       const def = enemyByKind(boss.kind)
       this.bossNameText.setText(`${def.nameEn} ${def.nameZh}`).setVisible(true)
-      this.bossSlab.setVisible(true)
+      this.rail.setVisible(true)
       this.bossBar.graphics.setVisible(true)
+      this.bossTag.setVisible(true)
       const ratio = Math.max(0, Math.min(1, boss.hp / boss.maxHp))
-      this.bossBar.set(ratio, true)
+      this.bossGhost = L.decayGhost(this.bossGhost, ratio, deltaMs)
+      this.bossBar.set(ratio, true, this.bossGhost)
     }
   }
 
   /**
-   * The special-ready marker.
-   *
-   * Driven by the real cost of the move against current health, because the
-   * special SPENDS HEALTH - there is no meter behind it. Drawing a meter would
-   * look more like a fighting game and would be inventing a mechanic the sim
-   * does not have.
+   * The plate's third row: held weapon and mount health, kept compact
+   * ('SWORD HORSE 20') so the longest line still fits inside the plate -
+   * the containment gate fails a label that spills past its panel edge.
    */
-  private syncSpecialPip(sim: Sim, hp: number): void {
-    const cost = characterById(sim.charId).specialCost
-    const ready = hp > cost
-    const x = P1.x + 38 + BAR_W + 10
-    const y = P1.y + 23
-    this.specialPip.clear()
-    this.specialPip.fillStyle(ready ? 0xffd700 : 0x3a3038, 1)
-    this.specialPip.beginPath()
-    this.specialPip.moveTo(x, y - 6)
-    this.specialPip.lineTo(x + 5, y)
-    this.specialPip.lineTo(x, y + 6)
-    this.specialPip.lineTo(x - 5, y)
-    this.specialPip.closePath()
-    this.specialPip.fillPath()
-    this.specialPip.lineStyle(1, ready ? 0xfff2b0 : 0x1a161c, 0.9)
-    this.specialPip.strokePath()
+  private metaFor(sim: Sim, entity: { weapon: string | null; mountedOn: number | null }): string {
+    const parts: string[] = []
+    if (entity.weapon) parts.push(entity.weapon.toUpperCase())
+    if (entity.mountedOn !== null) {
+      const horse = sim.entities.find((e) => e.id === entity.mountedOn)
+      if (horse) parts.push(`HORSE ${horse.hp}`)
+    }
+    return parts.join(' ')
   }
 
-  /** Combo readout, with a pop each time the count actually rises. */
+  /** Combo readout: number pops while the baked HIT tag holds still. */
   private syncCombo(hits: number): void {
     if (hits === this.comboShown) return
     this.comboShown = hits
-    this.comboText.setText(hits >= 2 ? `${hits} HIT` : '')
-    if (hits >= 2) {
+    const on = hits >= 2
+    this.comboText.setText(on ? String(hits) : '')
+    this.comboTag.setVisible(on)
+    if (on) {
       this.comboText.setScale(1.45)
       this.tweens.add({ targets: this.comboText, scale: 1, duration: 140, ease: 'Back.easeOut' })
     }
