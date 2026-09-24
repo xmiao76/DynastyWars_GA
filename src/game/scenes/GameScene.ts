@@ -28,17 +28,22 @@ import { NO_TOUCH } from '../adapters/touch'
 import { ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
 import { artDisplayHeight } from '../art/registry'
 import {
+  EMBERS_H,
   GROUND_H,
+  MARKS_H,
   RIDGE_H,
   SKY_H,
   TILE_W,
   CLOUD_H,
   CLOUD_W,
   paintCloud,
+  paintEmbers,
   paintGround,
+  paintMarks,
   paintRidge,
   paintSky,
 } from '../art/backdrop'
+import { stageBackdrop } from '../data/stagebackdrop'
 import { RENDER_SCALE } from '../render'
 import { destroyAllChildren } from '../ui/display'
 import { useCrispText } from '../ui/viewport'
@@ -58,6 +63,8 @@ const CLOUDS: ReadonlyArray<readonly [number, number, number, number]> = [
 const HILL_HEIGHT = RIDGE_H
 /** How far the ridge sinks behind the ground strip, so there is no seam. */
 const HILL_ROOT_DEPTH = 14
+/** How far the landmark strip sinks behind the ground strip. */
+const MARKS_ROOT_DEPTH = 8
 
 /**
  * Every kind a stage can put on screen.
@@ -215,11 +222,12 @@ export class GameScene extends Phaser.Scene {
     // Procedural and per-stage (no asset pipeline dependency). The sky and
     // ground use the same generate-texture -> tileSprite path so they render
     // identically (a raw Graphics fill at negative depth does not paint).
+    const backdrop = stageBackdrop(this.sim.stage.id)
     const skyKey = this.bakeLayer(
-      `bg-sky-${stage.bgSkyTop.toString(16)}-${stage.bgSkyBottom.toString(16)}`,
+      `bg-sky-${stage.bgSkyTop.toString(16)}-${stage.bgSkyBottom.toString(16)}-${backdrop.sky}`,
       TILE_W,
       SKY_H,
-      (ctx) => paintSky(ctx, stage.bgSkyTop, stage.bgSkyBottom),
+      (ctx) => paintSky(ctx, stage.bgSkyTop, stage.bgSkyBottom, backdrop.sky),
     )
     const sky = this.add.tileSprite(0, 0, stage.length + 64, SCREEN_HEIGHT, skyKey)
     sky.setOrigin(0, 0).setDepth(-20)
@@ -257,6 +265,34 @@ export class GameScene extends Phaser.Scene {
     const hills = this.add.tileSprite(0, hillsY, stage.length + 64, HILL_HEIGHT, hillKey)
     hills.setOrigin(0, 0).setDepth(-15)
     hills.setName('bgHills')
+
+    // Landmark mid-layer: the per-stage silhouette strip (gorge, village,
+    // riverbank, bridge, palisade, warships, inferno, flagship, arena).
+    // In front of the hills, behind the ground; scrolls at 0.6x between the
+    // hills' 0.4x and the ground's 1x. Geometry mirrors the hills anchor so
+    // the strip roots into the ground with no seam.
+    const marksKey = this.bakeLayer(`bg-marks-${stage.id}`, TILE_W, MARKS_H, (ctx) =>
+      paintMarks(ctx, backdrop.marks),
+    )
+    const marks = this.add.tileSprite(0, groundTop - MARKS_H + MARKS_ROOT_DEPTH, stage.length + 64, MARKS_H, marksKey)
+    marks.setOrigin(0, 0).setDepth(-12)
+    marks.setName('bgMarks')
+
+    // Fire strip: embers and smoke for the burning stages, additive so the
+    // sparks read as light. Drifted by sim tick in update, which keeps it
+    // deterministic across renderers.
+    if (backdrop.embers) {
+      const emberKey = this.bakeLayer('bg-embers', TILE_W, EMBERS_H, paintEmbers)
+      const embers = this.add.tileSprite(
+        0,
+        groundTop - EMBERS_H + MARKS_ROOT_DEPTH,
+        stage.length + 64,
+        EMBERS_H,
+        emberKey,
+      )
+      embers.setOrigin(0, 0).setDepth(-11).setBlendMode('ADD')
+      embers.setName('bgEmbers')
+    }
 
     // Bright ground strip under the walkable band.
     const groundKey = this.bakeLayer(`bg-ground-${stage.bgGround.toString(16)}`, TILE_W, GROUND_H, (ctx) =>
@@ -505,6 +541,16 @@ export class GameScene extends Phaser.Scene {
     // Parallax the background hills at 0.4x camera speed; move the sun/clouds.
     const hills = this.children.getByName?.('bgHills') as Phaser.GameObjects.TileSprite | undefined
     if (hills) hills.tilePositionX = this.sim.scrollX * 0.4
+    // Landmarks ride between hills and ground at 0.6x; embers ride with them
+    // and rise by tick - both deterministic functions of the sim, so the two
+    // renderers agree pixel for pixel.
+    const marks = this.children.getByName?.('bgMarks') as Phaser.GameObjects.TileSprite | undefined
+    if (marks) marks.tilePositionX = this.sim.scrollX * 0.6
+    const embers = this.children.getByName?.('bgEmbers') as Phaser.GameObjects.TileSprite | undefined
+    if (embers) {
+      embers.tilePositionX = this.sim.scrollX * 0.6
+      embers.tilePositionY = -((this.sim.tick * 0.25) % EMBERS_H)
+    }
     if (this.cloudLayer) this.cloudLayer.setX(-this.sim.scrollX * 0.18)
   }
 

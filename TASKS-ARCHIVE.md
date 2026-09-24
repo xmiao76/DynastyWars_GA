@@ -3153,3 +3153,49 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No change to heroes, enemies' stats in isolation, or AI - stage content
     (`waves`, `bossKind`, mounts) is the lever this data points at.
 
+
+### GATE-3 - Determinism is documented everywhere and enforced nowhere
+
+- Status: DONE
+- Requirement:
+  The sim's determinism is this project's load-bearing constraint. PROJECT.md:
+  "The simulation must be deterministic: seeded RNG plus fixed 1/60s timestep;
+  no `Math.random` or wall-clock time in core logic." `src/core/rng.ts:4`:
+  "The simulation must never call Math.random". Every seeded test, the whole
+  signal suite and the replay guarantee rest on it.
+
+  Nothing enforces it. `eslint.config.js` restricts IMPORTS into `src/core`
+  (phaser and `**/game/**`, which is how the "pure TypeScript core" half is
+  kept true) and says nothing about randomness or the clock. `Math.random`,
+  `Date.now` and `performance.now` are all live elsewhere in `src/`, so this is
+  one careless line from being wrong, and the failure would not be a lint error
+  or a crash - it would be a seeded run that quietly stops reproducing.
+  `src/core` is clean today; the point is that nothing keeps it so.
+
+  Found by checking whether the constraints PROJECT.md states are actually
+  gated, after REFACTOR-1 moved core code between files.
+- Acceptance criteria:
+  - [x] `no-restricted-properties` for `Math.random`, `Date.now` and
+        `performance.now`, plus `no-restricted-globals` for `Date` - which is
+        what catches `new Date()` as well as `Date.now()`. Scoped to
+        `src/core/**` only
+  - [x] Messages name the alternative: "draw from the injected sim.rng
+        instead" and "use sim.tick, not the wall clock"
+  - [x] Proven able to fail ONCE PER API rather than once overall, because a
+        single combined probe can pass on one rule while another does nothing:
+          Math.random()        -> 'Math.random' is restricted from being used
+          Date.now()           -> Unexpected use of 'Date'
+          performance.now()    -> 'performance.now' is restricted from being used
+          new Date().getTime() -> Unexpected use of 'Date'
+  - [x] `src/` unchanged - confirmed by `git status` after the probes, so the
+        falsification left nothing behind. The game layer keeps both APIs,
+        which it legitimately needs for frame pacing and menu flourishes
+  - [x] lint, typecheck, 142 unit, build. The browser suites were not re-run
+        and did not need to be: only `eslint.config.js` changed, which cannot
+        affect anything at runtime, and no file under `src/`, `test/`, `e2e/`,
+        `vision/` or `prodbuild/` was touched - the tree is byte-identical to
+        4626e8b, where all of them were green
+- Non-goals:
+  - No code changes to `src/core`. It is already clean; this is about keeping
+    it that way.
+

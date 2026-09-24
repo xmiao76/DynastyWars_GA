@@ -21,7 +21,7 @@ Add future enhancement tasks below this heading.
   docs/HERO_FACE_REDESIGN_PLAN.md. ART-16/17 were incremental fixes, not owner
   acceptance of convincing natural likeness.
 - Confirmed owner choices (2026-09-23): semi-realistic painted warriors;
-  Wei Yan follows the novel's é¢å¦‚é‡æž£, superseding the old tan exception.
+  Wei Yan follows the novel's Ã©ÂÂ¢Ã¥Â¦â€šÃ©â€¡ÂÃ¦Å¾Â£, superseding the old tan exception.
 - Acceptance criteria:
   - [x] Source-backed reference brief separating quotations from interpretations.
   - [x] Guan Yu/Zhao Yun pilot reviewed at real select/HUD/gameplay sizes.
@@ -68,28 +68,28 @@ Add future enhancement tasks below this heading.
   colour; Cao Cao and Lu Bu wear the identical `crown` shape; the in-play head
   shows every character the same brow/eye/mouth marks. Bosses have NO portrait
   in play, so boss likeness must land on the in-play sprite.
-- Sources (ä¸‰å›½æ¼”ä¹‰ descriptions, to cite per change):
-  Guan Yu èº«é•¿ä¹å°º, é«¯é•¿äºŒå°º, é¢å¦‚é‡æž£, å”‡è‹¥æ¶‚è„‚, ä¸¹å‡¤çœ¼, å§èš•çœ‰;
-  Zhang Fei èº«é•¿å…«å°º, è±¹å¤´çŽ¯çœ¼, ç‡•é¢”è™Žé¡»; Zhao Yun èº«é•¿å…«å°º, æµ“çœ‰å¤§çœ¼, é˜”é¢é‡é¢;
-  Huang Zhong aged, white-haired; Cao Cao èº«é•¿ä¸ƒå°º, ç»†çœ¼é•¿é«¯;
-  Lu Bu å¤´æˆ´ä¸‰å‰æŸå‘ç´«é‡‘å†  (with é›‰å°¾ plumes), è¥¿å·çº¢é”¦ç™¾èŠ±è¢;
-  Xu Chu èº«é•¿å…«å°ºä½™, è…°å¤§åå›´; Xiahou Dun lost his left eye.
+- Sources (Ã¤Â¸â€°Ã¥â€ºÂ½Ã¦Â¼â€Ã¤Â¹â€° descriptions, to cite per change):
+  Guan Yu Ã¨ÂºÂ«Ã©â€¢Â¿Ã¤Â¹ÂÃ¥Â°Âº, Ã©Â«Â¯Ã©â€¢Â¿Ã¤ÂºÅ’Ã¥Â°Âº, Ã©ÂÂ¢Ã¥Â¦â€šÃ©â€¡ÂÃ¦Å¾Â£, Ã¥â€â€¡Ã¨â€¹Â¥Ã¦Â¶â€šÃ¨â€žâ€š, Ã¤Â¸Â¹Ã¥â€¡Â¤Ã§Å“Â¼, Ã¥ÂÂ§Ã¨Å¡â€¢Ã§Å“â€°;
+  Zhang Fei Ã¨ÂºÂ«Ã©â€¢Â¿Ã¥â€¦Â«Ã¥Â°Âº, Ã¨Â±Â¹Ã¥Â¤Â´Ã§Å½Â¯Ã§Å“Â¼, Ã§â€¡â€¢Ã©Â¢â€Ã¨â„¢Å½Ã©Â¡Â»; Zhao Yun Ã¨ÂºÂ«Ã©â€¢Â¿Ã¥â€¦Â«Ã¥Â°Âº, Ã¦Âµâ€œÃ§Å“â€°Ã¥Â¤Â§Ã§Å“Â¼, Ã©Ëœâ€Ã©ÂÂ¢Ã©â€¡ÂÃ©Â¢Â;
+  Huang Zhong aged, white-haired; Cao Cao Ã¨ÂºÂ«Ã©â€¢Â¿Ã¤Â¸Æ’Ã¥Â°Âº, Ã§Â»â€ Ã§Å“Â¼Ã©â€¢Â¿Ã©Â«Â¯;
+  Lu Bu Ã¥Â¤Â´Ã¦Ë†Â´Ã¤Â¸â€°Ã¥Ââ€°Ã¦ÂÅ¸Ã¥Ââ€˜Ã§Â´Â«Ã©â€¡â€˜Ã¥â€ Â  (with Ã©â€ºâ€°Ã¥Â°Â¾ plumes), Ã¨Â¥Â¿Ã¥Â·ÂÃ§ÂºÂ¢Ã©â€Â¦Ã§â„¢Â¾Ã¨Å Â±Ã¨Â¢Â;
+  Xu Chu Ã¨ÂºÂ«Ã©â€¢Â¿Ã¥â€¦Â«Ã¥Â°ÂºÃ¤Â½â„¢, Ã¨â€¦Â°Ã¥Â¤Â§Ã¥ÂÂÃ¥â€ºÂ´; Xiahou Dun lost his left eye.
 - Acceptance criteria (each a falsified gate or a before/after sheet):
-  - [x] Lu Bu's headgear is its own shape (ä¸‰å‰ç´«é‡‘å†  with two plumes), and its
+  - [x] Lu Bu's headgear is its own shape (Ã¤Â¸â€°Ã¥Ââ€°Ã§Â´Â«Ã©â€¡â€˜Ã¥â€ Â  with two plumes), and its
         portrait/sprite silhouette differs from Cao Cao's crown by a measured margin.
         (`plumed`; likeness.test.ts: sprite reach 2.08R -> 3.63R vs Cao Cao 2.05R, gate > 1R.)
-  - [x] Zhang Fei's beard is bristling (è™Žé¡»: jagged outline), not the smooth wedge.
+  - [x] Zhang Fei's beard is bristling (Ã¨â„¢Å½Ã©Â¡Â»: jagged outline), not the smooth wedge.
         (`bristle`; likeness.test.ts: portrait beard edge reversals 0 -> >= 4.)
-  - [x] Guan Yu's lips read red (å”‡è‹¥æ¶‚è„‚) and his beard reaches the chest.
+  - [x] Guan Yu's lips read red (Ã¥â€â€¡Ã¨â€¹Â¥Ã¦Â¶â€šÃ¨â€žâ€š) and his beard reaches the chest.
         (plan `lips` 0xc81e30; portrait lip-minus-cheek redness -19.5 -> +53.5,
         gate > 40. Sprite long beard now also falls in front of the pauldron and
         arm: visible end 8.7 -> 18.5 units below the chest joint, gate > 14.)
-  - [x] Zhao Yun's brows are the heaviest of the fair-skinned cast (æµ“çœ‰) and his
-        eyes the largest non-fierce eyes (å¤§çœ¼), with a broader jaw.
+  - [x] Zhao Yun's brows are the heaviest of the fair-skinned cast (Ã¦Âµâ€œÃ§Å“â€°) and his
+        eyes the largest non-fierce eyes (Ã¥Â¤Â§Ã§Å“Â¼), with a broader jaw.
         (face `bold`: browWeight 1.5, the cast maximum; eye area 1.35 and eyeW
         1.18, largest short of `fierce`; plan `jaw` 1.1 widens the portrait's
         lower head: measured jaw row 1.014x -> 1.108x Wei Yan's, gate > 1.06.)
-  - [x] Cao Cao's eyes are the narrowest in the cast (ç»†çœ¼, eyeAspect gate).
+  - [x] Cao Cao's eyes are the narrowest in the cast (Ã§Â»â€ Ã§Å“Â¼, eyeAspect gate).
         (`narrow` face: eyeAspect 3.4 / eyeH 0.66, both extremes of the cast.)
   - [x] The four "generic" bosses are pairwise distinct on the in-play head by a
         measured face-region difference, not by hat colour alone.
@@ -132,8 +132,8 @@ Add future enhancement tasks below this heading.
   - poses.ts `DOWN.weaponRot` 0.16 -> -0.34: with SOLID hafts the dropped weapon
     lay across the prone body (caoren/caocao/lubu legibility 0.087-0.137 <
     0.15); now the weapon falls clear as the pose comment already said (0.372+).
-  - figures.ts Guan Yu `TALL.height` 1.03 -> 1.06 (èº«é•¿ä¹å°º, a head above
-    Zhang Fei/Zhao Yun's å…«å°º). With filled bodies guanyu/weiyan silhouettes
+  - figures.ts Guan Yu `TALL.height` 1.03 -> 1.06 (Ã¨ÂºÂ«Ã©â€¢Â¿Ã¤Â¹ÂÃ¥Â°Âº, a head above
+    Zhang Fei/Zhao Yun's Ã¥â€¦Â«Ã¥Â°Âº). With filled bodies guanyu/weiyan silhouettes
     were only 9.4% apart (< 0.1 gate); the old 15.8% came from hollow torsos.
     Now 11.8%. Visual only: combat lives in src/core and is untouched.
 - Acceptance criteria:
@@ -183,17 +183,17 @@ Add future enhancement tasks below this heading.
 - Status: DONE
 - Requirement:
   Third round on weapons. Owner re-tested and says the SILHOUETTES are still
-  wrong, naming å¼ é£ž's serpent spear, å…³ç¾½'s crescent blade and é­å»¶'s dao, plus
+  wrong, naming Ã¥Â¼Â Ã©Â£Å¾'s serpent spear, Ã¥â€¦Â³Ã§Â¾Â½'s crescent blade and Ã©Â­ÂÃ¥Â»Â¶'s dao, plus
   "all of them roughly equally". Reference-checked (Wikipedia guandao) and
   confirmed three concrete errors in my own ART-12/13 paths:
     - crescent: I drew a SYMMETRIC two-pronged crescent (horn and flare both
-      at fore+13, both pointing forward). The real åƒæœˆ profile is a STRAIGHT
+      at fore+13, both pointing forward). The real Ã¥ÂÆ’Ã¦Å“Ë† profile is a STRAIGHT
       back edge with a small spike pointing BACK toward the shaft, and a
       convex cutting edge sweeping forward to the point
-    - serpent: a 25-unit blob with two gentle waves. The è›‡çŸ›'s whole identity
+    - serpent: a 25-unit blob with two gentle waves. The Ã¨â€ºâ€¡Ã§Å¸â€º's whole identity
       is a long, clearly S-curved serpentine blade - amplitude was ~4x too
       small to read as a snake
-    - dao: rounded dome tip and a circular belly, where a å¤§åˆ€ has a straighter
+    - dao: rounded dome tip and a circular belly, where a Ã¥Â¤Â§Ã¥Ë†â‚¬ has a straighter
       spine and an ANGLED point
 - Acceptance criteria:
   - [x] New crescent: straight back, backward top spike, forward-swept point
@@ -227,13 +227,13 @@ Add future enhancement tasks below this heading.
   real weapons. Diagnosed on the in-game screenshot: the spearhead is a
   symmetric pale OVAL (a spoon, no point) and its tip sits at the wielder's
   CHIN in idle, where a real spear towers; the dao head is a small rounded
-  paddle where a å¤§åˆ€ must be a big broad single-edged blade; and tassels point
+  paddle where a Ã¥Â¤Â§Ã¥Ë†â‚¬ must be a big broad single-edged blade; and tassels point
   with the weapon instead of hanging under gravity.
 - Acceptance criteria:
   - [x] Willow-leaf spearhead: pointed both ends, 26 long x 8 wide, midrib
         crease; tip towers ~10 units above the pose space in idle carry
   - [x] Dao blade broadened to crescent-class weight (26 span), flat spine,
-        deep curved belly at the tip end; dao gained the çº¢ç¼¨ tassel (count 12)
+        deep curved belly at the tip end; dao gained the Ã§ÂºÂ¢Ã§Â¼Â¨ tassel (count 12)
   - [x] Tassel hangs world-down at every weapon angle (counter-rotated);
         verified hanging along the haft at idle and below the shaft at attack
   - [x] Calibrated POSE_REACH probe: table holds EXACTLY (55/39/9/19/20/
@@ -249,51 +249,6 @@ Add future enhancement tasks below this heading.
 - Non-goals:
   - Crescent, serpent, ji, recurve untouched; no weapon-length changes; no
     pose or core changes.
-
-### GATE-3 - Determinism is documented everywhere and enforced nowhere
-
-- Status: DONE
-- Requirement:
-  The sim's determinism is this project's load-bearing constraint. PROJECT.md:
-  "The simulation must be deterministic: seeded RNG plus fixed 1/60s timestep;
-  no `Math.random` or wall-clock time in core logic." `src/core/rng.ts:4`:
-  "The simulation must never call Math.random". Every seeded test, the whole
-  signal suite and the replay guarantee rest on it.
-
-  Nothing enforces it. `eslint.config.js` restricts IMPORTS into `src/core`
-  (phaser and `**/game/**`, which is how the "pure TypeScript core" half is
-  kept true) and says nothing about randomness or the clock. `Math.random`,
-  `Date.now` and `performance.now` are all live elsewhere in `src/`, so this is
-  one careless line from being wrong, and the failure would not be a lint error
-  or a crash - it would be a seeded run that quietly stops reproducing.
-  `src/core` is clean today; the point is that nothing keeps it so.
-
-  Found by checking whether the constraints PROJECT.md states are actually
-  gated, after REFACTOR-1 moved core code between files.
-- Acceptance criteria:
-  - [x] `no-restricted-properties` for `Math.random`, `Date.now` and
-        `performance.now`, plus `no-restricted-globals` for `Date` - which is
-        what catches `new Date()` as well as `Date.now()`. Scoped to
-        `src/core/**` only
-  - [x] Messages name the alternative: "draw from the injected sim.rng
-        instead" and "use sim.tick, not the wall clock"
-  - [x] Proven able to fail ONCE PER API rather than once overall, because a
-        single combined probe can pass on one rule while another does nothing:
-          Math.random()        -> 'Math.random' is restricted from being used
-          Date.now()           -> Unexpected use of 'Date'
-          performance.now()    -> 'performance.now' is restricted from being used
-          new Date().getTime() -> Unexpected use of 'Date'
-  - [x] `src/` unchanged - confirmed by `git status` after the probes, so the
-        falsification left nothing behind. The game layer keeps both APIs,
-        which it legitimately needs for frame pacing and menu flourishes
-  - [x] lint, typecheck, 142 unit, build. The browser suites were not re-run
-        and did not need to be: only `eslint.config.js` changed, which cannot
-        affect anything at runtime, and no file under `src/`, `test/`, `e2e/`,
-        `vision/` or `prodbuild/` was touched - the tree is byte-identical to
-        4626e8b, where all of them were green
-- Non-goals:
-  - No code changes to `src/core`. It is already clean; this is about keeping
-    it that way.
 
 ### REFACTOR-1 - src/core/sim.ts is 978 lines against the project's own 800
 
@@ -395,7 +350,7 @@ Add future enhancement tasks below this heading.
 - Status: DONE
 - Requirement:
   All five heroes share identical frame data (`defineHeroAttacks` in
-  `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 â€” only damage/reach
+  `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 Ã¢â‚¬â€ only damage/reach
   numbers differ), so a pike thrust and a blade sweep feel identical. Give
   each hero weapon-true per-hit frame data (startup/active/recover,
   knockback/knockdown, reach/arc per jab1, jab2, finisher), keeping the
@@ -412,7 +367,7 @@ Add future enhancement tasks below this heading.
   Exact numbers are the implementer's within these identities. Replace the
   `.jab2`-suffix pose rule in `poseForEntity` (`src/game/adapters/sprites.ts`)
   with a `STRIKE_POSE` table keyed by full attack id, initially mapping to
-  current behavior (jab2â†’attack2, everything elseâ†’attack); per-hero triples
+  current behavior (jab2Ã¢â€ â€™attack2, everything elseÃ¢â€ â€™attack); per-hero triples
   land in ENH-5 with the new poses. Fix the self-play bot (`selfplay/bot.ts`,
   two call sites) to space off the DRIVEN hero's own `combo[0]` def instead
   of hard-coded `zy.jab1`.
@@ -421,7 +376,7 @@ Add future enhancement tasks below this heading.
         ENH-4 baseline marathon table (stage times/continues per hero).
   - [x] New `test/core` assertions: per-hero frame data differs as designed
         (e.g. zhaoyun chain total < guanyu; zf.jab1 longest reach); every def
-        keeps `totalFrames > 0`; full-combo DPS per hero within Â±10% of its
+        keeps `totalFrames > 0`; full-combo DPS per hero within Ã‚Â±10% of its
         current value, computed in-test (no hand-waving).
   - [x] `sprites.test.ts`: table-driven selection proven (mapping decides,
         not the suffix); phasing boundaries per new frame datum; fallback to
@@ -443,7 +398,7 @@ Add future enhancement tasks below this heading.
 - Requirement:
   Author at most three new shared strike poses in `src/game/art/poses.ts`:
   `thrust` (deep lunge, weapon level), `chop` (high-to-low cut on a steep
-  forward diagonal, inside HEADROOM 27 â€” never truly overhead), `sweep`
+  forward diagonal, inside HEADROOM 27 Ã¢â‚¬â€ never truly overhead), `sweep`
   (low crouched wide swing). Repoint ENH-4's `STRIKE_POSE` table so each
   hero's (jab1, jab2, finisher) is three distinct poses and no two heroes
   share the same ordered triple. Register names in `sprites.ts` POSES,
@@ -451,11 +406,11 @@ Add future enhancement tasks below this heading.
   the hardcoded strike lists and distinctness PAIRS in
   `test/game/artquality.test.ts`.
 - Acceptance criteria:
-  - [x] Reach gate: every new strike beats idle by â‰¥ MIN_WEAPON_REACH_PX
+  - [x] Reach gate: every new strike beats idle by Ã¢â€°Â¥ MIN_WEAPON_REACH_PX
         for every armed kind. Retract gate: windup/recover strictly narrower
         than EACH new strike. Distinctness: each new strike vs idle, windup,
         recover, and sibling strikes, all above the floor. No floor moved.
-  - [x] Face-clearance (all kinds Ã— poses Ã— facings), no-clip, centering,
+  - [x] Face-clearance (all kinds Ãƒâ€” poses Ãƒâ€” facings), no-clip, centering,
         portrait, tassel, and weapon-identity tests green unmodified in logic.
   - [x] `npm run vision` 5/5 including renderer parity and both negative
         controls; before/after combo sheets for all five heroes captured via
@@ -468,7 +423,7 @@ Add future enhancement tasks below this heading.
     vs enh5before; geometry-enh5after.json (thrust 65, chop 30, sweep 61,
     headroom 25, zero face overlaps); artifacts/look/facesheet.png.
 - Non-goals:
-  - No frame-data changes (ENH-4 owns them). No threshold weakening â€” redraw
+  - No frame-data changes (ENH-4 owns them). No threshold weakening Ã¢â‚¬â€ redraw
     the pose, never the floor. Enemies keep existing strike mapping.
 
 ### ENH-6 - Moveset validation: e2e, signals, balance comparison, eye review
@@ -480,7 +435,7 @@ Add future enhancement tasks below this heading.
   Prove the redesigned movesets end to end. Extend `e2e/anim.spec.ts`
   strike/withdrawn predicates to the new pose suffixes and add a per-hero
   combo texture test (Zhang Fei shows thrust-family keys, Guan Yu
-  sweep/chop-family â€” never the same triple). Run the full gates and compare
+  sweep/chop-family Ã¢â‚¬â€ never the same triple). Run the full gates and compare
   against the ENH-4 baseline marathon table.
 - Acceptance criteria:
   - [x] e2e green including the new per-hero combo test; vision 5/5;
@@ -664,7 +619,7 @@ Add future enhancement tasks below this heading.
   day and the key art was generated with the grok provider.
   Original painted key art backdrop (Five-Tigers homage, Red-Cliff
   fire/ship motif, provenance-logged like ART-18); baked gold-foil logo lockup
-  with ã€Žèµ¤å£ä¹‹æˆ˜ã€ subtitle; blinking PRESS START; presentation-only hi-score
+  with Ã£â‚¬Å½Ã¨ÂµÂ¤Ã¥Â£ÂÃ¤Â¹â€¹Ã¦Ë†ËœÃ£â‚¬Â subtitle; blinking PRESS START; presentation-only hi-score
   line (`localStorage`, guarded); control plate as bronze plaque with the same
   device-specific strings; ember-drift + logo-sheen animation (visual-only).
 - Acceptance criteria:
@@ -721,14 +676,14 @@ Add future enhancement tasks below this heading.
   verified full-green same day)
 - Dependency: UI-1 DONE.
 - Requirement: arcade top band (P1 medallion + name + segmented HP + score +
-  lives pips); full-width boss rail on boss waves; "GO â†’" advance cue;
+  lives pips); full-width boss rail on boss waves; "GO Ã¢â€ â€™" advance cue;
   "WAVE n" chip; restyled combo + flaming-pearl special pip (same hp>cost rule);
   1.2s boss-name banner via existing `showBanner` queue; touch controls
   restyled as bronze lacquer buttons with identical hit zones/protocol.
 - Acceptance criteria:
   - [x] HUD/layout/pause/touch/prodbuild-HUD specs pass unchanged (no
         assertion deleted: geometry moved to hudlayout.ts with new unit
-        tests; the persistent stage label shows nameZh with the full EnÂ·Zh
+        tests; the persistent stage label shows nameZh with the full EnÃ‚Â·Zh
         name still present via the entry banner, which hud.spec reads).
   - [x] Reviewed desktop + mobile portrait/landscape in combat, boss, co-op
         (artifacts/look/ui4-{combat,boss,coop,go,touch-portrait,
@@ -741,7 +696,7 @@ Add future enhancement tasks below this heading.
   src/game/art/hudart.ts (plate/medallion/pearl/pip/chip/GO/rail/banner/touch
   painters), HudScene.ts rewrite (WoF band, boss rail, WAVE chip, GO cue,
   restyled combo + banner plaque, holdMs param), touch.ts bronze sheet
-  (identical zones/protocol), GameScene 1.2s boss banner, type.ts 'GO â†’',
+  (identical zones/protocol), GameScene 1.2s boss banner, type.ts 'GO Ã¢â€ â€™',
   test/game/{hudlayout,hudart}.test.ts (12), e2e/hud-look.spec.ts (4).
 - Non-goals: no sim/HUD-data changes; damage ghost is presentation-only
   (decayGhost in hudlayout, ghost field separate from ratio).
@@ -776,7 +731,8 @@ Add future enhancement tasks below this heading.
 
 ### ART-19 - Painted per-stage backdrops (overhaul phase 6)
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-24 09:05 UTC - owner overhaul goal,
+  verified full-green same morning)
 - Dependency: UI-1 DONE.
 - Requirement: extend `backdrop.ts` with per-stage landmark mid-layers and
   palettes from the theme (rivers/bridges/temples for early stages, burning
@@ -784,9 +740,22 @@ Add future enhancement tasks below this heading.
   technique, optional visual-only animated overlays (smoke/embers). Ground
   line and scroll geometry identical.
 - Acceptance criteria:
-  - [ ] All 9 stages visually distinct, reviewed in screenshots + motion.
-  - [ ] Tile-seam unit test per layer; background/probe specs pass.
-  - [ ] Full gates green.
+  - [x] All 9 stages visually distinct, reviewed in screenshots + motion
+        (artifacts/look/ui19-stage{1..9}.png; 21/21 objective pixel checks
+        via artifacts/ui19-review.mjs incl. 9/9 distinct band signatures;
+        motion = parallax + rising embers asserted in the look spec).
+  - [x] Tile-seam unit test per layer (test/game/backdrop.test.ts, 12
+        tests: seam-step profile per legacy layer + all 9 landmark kinds,
+        exact wall-wrap for gorge/inferno, edge margins for interior kinds,
+        integer-period bands, band continuation; background/probe specs
+        pass in the full e2e run).
+  - [x] Full gates green (see PROGRESS entry for the exact tallies).
+- Delivered: src/game/data/stagebackdrop.ts (9 landmark kinds + ember sky
+  selection, game layer), backdrop.ts paintMarks/paintEmbers/paintSky
+  ember variant (day path byte-identical), GameScene bgMarks tileSprite
+  (depth -12, 0.6x parallax) + bgEmbers (depth -11, ADD, rises by sim
+  tick), e2e/backdrop-look.spec.ts, artifacts/ui19-review.mjs. Ground line
+  (walkBandTop-26) and scroll geometry untouched.
 - Non-goals: no parallax/camera/ground-geometry changes.
 
 ### ART-20 - Props, pickups & combat-feedback pass (overhaul phase 7)

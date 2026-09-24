@@ -22,6 +22,52 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-24 09:10 UTC - ART-19 (attempt 1, full verification, DONE)
+
+- Status before: ART-19 TODO. The runner is paused on the attempt-2 BLOCKED
+  (untouched here). This round came from the owner's standing overhaul goal
+  in the DSH session, not a runner tick.
+- Work completed: painted per-stage backdrops.
+  - New `src/game/data/stagebackdrop.ts`: landmark kind + sky variant +
+    ember flag per stage (game layer; sim never reads it).
+  - `backdrop.ts`: paintMarks with 9 periodic landmark strips (gorge,
+    village, riverbank, bridge, outskirts, warships, inferno, flagship,
+    arena), paintEmbers smoke/spark strip, paintSky 'ember' variant (day
+    path byte-identical + a glow wrap-copy so the tile is genuinely
+    periodic - the old off-centre sun left a faint vertical edge every
+    tile, real if subtle).
+  - `GameScene`: bgMarks tileSprite (depth -12, 0.6x parallax, roots into
+    the ground like the hills) + bgEmbers on stages 7/8 (depth -11, ADD,
+    rises by sim tick - deterministic across renderers). Ground line,
+    scroll and camera geometry untouched.
+  - New `e2e/backdrop-look.spec.ts`: captures all nine stages to
+    artifacts/look/ui19-stage{1..9}.png with layer/parallax contracts.
+- Defects and findings during verification:
+  1. My first seam test (column equality) was the wrong bar: it fails
+     every sloped periodic edge. Replaced with an outlier test (seam step
+     must not exceed the tile's own steepest interior step) plus targeted
+     checks: exact wall-wrap, edge margins, integer-period bands, band
+     continuation - with teeth (the arena sawtooth's path-start miter and
+     a tent-straddling window both failed before their fixes).
+  2. Two spec bugs, not game bugs: Phaser TileSprite clones its pattern
+     into a UUID-keyed internal texture (all bg layers do this - the
+     contract is layer presence + baked-key existence), and getByName
+     returns null (not undefined) when absent.
+- Verification run: lint PASS, typecheck PASS, unit 335/335 (+12), e2e
+  72/72 in 3.7 min (+1 backdrop-look; background/probe preserved), vision
+  5/5, selfplay 13/13, vite build PASS, prodbuild 4/4. Capture review
+  21/21 via artifacts/ui19-review.mjs (9/9 distinct band signatures,
+  embers only on 7/8, ember sky on 7) + 20/20 ui4 HUD regression;
+  stage1/7/9 captures eyeballed (gorge walls, burning red cliffs with
+  rising embers, dark arena peaks with braziers).
+- Housekeeping: GATE-3 (oldest DONE by the established tail chain
+  ART-11 -> ART-12 -> DIFF-1 -> GATE-3) moved to TASKS-ARCHIVE.md tail.
+  20 DONE remain.
+- Result: COMPLETED outside the runner (no tick; runner still paused for
+  owner review).
+- Status after: ART-19 DONE. ART-20 remains TODO; ENH-12 deferred.
+- Next recommended task: ART-20 (props, pickups & combat-feedback pass).
+
 ### 2026-09-24 05:25 UTC - UI-5 (attempt 1, full verification, DONE)
 
 - Status before: UI-5 TODO. The runner is paused on the attempt-2 BLOCKED
