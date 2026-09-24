@@ -3242,3 +3242,57 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No behaviour change, no API change, no renaming. If a caller has to be
     edited, the split was wrong.
 
+
+### FIX-6 - The production build strips the viewport-height fallback
+
+- Status: DONE
+- Requirement:
+  FIX-4 gave `#game` a definite height as two declarations:
+
+      height: 100vh;
+      height: 100dvh;
+
+  which is the standard way to say "use the dynamic viewport where it exists,
+  otherwise the static one". The production CSS minifier treats the pair as a
+  duplicate property and keeps only the last. Shipped output:
+
+      #game{...;height:100dvh;display:flex}
+
+  A browser without `dvh` - iOS Safari 15.3 and earlier - drops that
+  declaration as invalid, and with no other height `#game` falls back to auto.
+  That is exactly the state FIX-4 fixed: `Scale.FIT` measures a box that can
+  grow, fits to width, and on a phone in landscape pushes the bottom of the
+  game and its controls off screen.
+
+  Every check of FIX-4 and FIX-5 so far ran against the DEV server. PROJECT.md
+  is explicit that `dist/` is what deploys and that the two genuinely differ,
+  which is the whole reason `npm run prodbuild` exists; this is that difference
+  biting the most important fix of the session.
+- Acceptance criteria:
+  - [x] The `dvh` value moved into its own `@supports` rule. Shipped output now
+        carries both: `#game{...height:100vh;display:flex}` and
+        `@supports (height:100dvh){#game{height:100dvh}}`
+  - [x] Verified against `dist/assets/*.css`, not the source
+  - [x] The built site measured through `vite preview` at both orientations:
+        portrait canvas 412x232 of 412x839, landscape 640x360 of 863x360, seven
+        control zones on screen in each, nothing overflowing
+  - [x] New prodbuild gate asserting both halves, because neither implies the
+        other: the browser running these tests supports `dvh` and would pass
+        the layout check on the enhancement alone
+  - [x] Both halves proven able to fail INDEPENDENTLY:
+          restoring the two-declaration form -> "the shipped CSS has no
+            dvh-independent height for #game", with the received string showing
+            `height:100dvh` alone
+          `min-height: 100vh` with the @supports intact -> same failure
+          `Scale.NONE` with the CSS untouched -> "portrait: the shipped canvas
+            does not fit - viewport 549x1118, canvas 960x540"
+  - [x] A flaw in my own first assertion, caught while falsifying it rather
+        than after: `toContain('height:100vh')` also matches
+        `min-height:100vh`, so the gate would have passed on the exact bug
+        FIX-4 fixed. Anchored to a declaration boundary instead
+  - [x] lint, typecheck, 142 unit, 43 e2e, vision 5/5, prodbuild 4/4,
+        signal 13/13, build
+- Non-goals:
+  - No minifier configuration. The fix is to write CSS the minifier cannot
+    misread, not to argue with it.
+

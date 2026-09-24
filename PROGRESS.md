@@ -22,6 +22,172 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-24 22:05 UTC - BODY-1 DONE (owner approved the pilots)
+
+- Status before: BODY-1 IN_PROGRESS, awaiting owner pilot approval.
+- Work completed: owner replied "Approved" with no changes requested.
+  Acceptance now fully met: both briefs written with quotations separated
+  from interpretation; pilots reviewed at full + select/HUD/gameplay
+  sizes with no legibility blockers. Supporting prep already verified in
+  rounds 1-5 and 13: pilot keyability, bundle/memory/boot baselines,
+  parity-harness validation (IoU 1.0 deterministic, >=0.90 floor),
+  14-pose joint inventory, BODY-2 insertion-contract mapping,
+  docs/BODY_PARTS_SPEC.md.
+- Housekeeping: FIX-6 (tail chain ...GATE-3 -> REFACTOR-1 -> FIX-6) moved
+  to TASKS-ARCHIVE.md tail. 20 DONE remain.
+- Result: COMPLETED; goal-4bb34af7 resumed to active/armed.
+- Status after: BODY-1 DONE. BODY-2 starts next.
+- Next recommended task: BODY-2 (paper-doll pipeline).
+
+### 2026-09-24 21:55 UTC - BODY-1 (goal round 13: BODY-2 part spec pre-designed)
+
+- Status before: BODY-1 IN_PROGRESS, owner pilot approval still pending.
+- Work completed: `docs/BODY_PARTS_SPEC.md` - the complete BODY-2 part
+  inventory (13 raster parts with pivots, natural lengths from the idle
+  pose, draw order interleaved with ART-18 head markers), kept-procedural
+  list (neck, pauldron, weapons), per-part transform rule (translate to
+  joint A, rotate to B, axial scale to |AB|), sheet-packing recommendation
+  and the IoU>=0.90 parity floor (grounded in round-2's 0.763
+  cross-identity measurement). Derived from the round-3 joint inventory
+  and round-4 insertion-contract mapping; no source touched, no art
+  generated - pure design, so the approval gate stands intact.
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 21:35 UTC - BODY-1 (goal round 6: waiting-state integrity check)
+
+- Status before: BODY-1 IN_PROGRESS, owner pilot approval still pending;
+  all approval-independent prep done (rounds 1-5).
+- Work completed: verified the waiting state is intact - queue shows
+  BODY-1 IN_PROGRESS with BODY-2..7 TODO, both briefs + all four review
+  artifacts present with unchanged sizes, tree holds only uncommitted
+  BODY-1 work with zero source changes. No new groundwork left that
+  would not either duplicate prior rounds or jump the approval gate.
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 21:15 UTC - BODY-1 (goal round 5: pilots checked at real display sizes)
+
+- Status before: BODY-1 IN_PROGRESS, owner pilot approval still pending.
+- Work completed: `artifacts/body1-pilot-sizes.mjs` + review sheet
+  `artifacts/look/body1-pilot-sizes.png` showing each pilot at the true
+  sizes the game uses (device px at 960x540): Zhao Yun body at gameplay
+  92px tall, Cao Cao portrait in the 76x84 select window, Cao Cao head
+  at 34px medallion and ~20px gameplay widths. Read the sheet: the body
+  reads clearly at gameplay height (armor, plume, spear all visible);
+  the portrait holds the select window (face, crown, beard); the head
+  stays recognizable down to medallion/gameplay chips, on par with how
+  ART-18 heads read at those sizes. No legibility blockers found.
+- Result: no repo source touched. BODY-1 acceptance evidence now covers
+  select/HUD/gameplay sizes, not just full-size pilots.
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 20:55 UTC - BODY-1 (goal round 4: BODY-2 insertion contract mapped)
+
+- Status before: BODY-1 IN_PROGRESS, owner pilot approval still pending.
+  Read-only round; no source touched.
+- Work completed: mapped the exact `drawFigure` seam BODY-2 extends
+  (`draw.ts:173-382`, `registry.ts:286-314`):
+  - Painted path already exists: `figureShapes` inserts `headLayer`
+    rear/head/front marker shapes into the ordered list; `paintWithHead`
+    flushes cel groups and invokes the raster painter at each marker;
+    procedural head parts swap to `emptyHeadParts`; skin material flows
+    from the painted art (`draw.ts:180`).
+  - Full slot order: [(lying) weapon] -> cape -> rear marker -> far
+    arm/leg/boot/foot -> torso -> skirt -> near leg/boot/foot -> neck ->
+    head -> pauldron -> near arm (+shoulder cap) -> [beard] -> front
+    marker -> forearm skin/hand -> weapon.
+  - BODY-2 contract: same marker mechanism with per-part markers in the
+    SAME slots (cape->cloth part, chains->upper/fore+thigh/shin parts,
+    torso->torso part); part transform = translate to joint A, rotate to
+    B, axial scale to |AB| (round-3 finding); raster pre-shaded like
+    heads (never cel-shaded over); procedural shapes skipped per part
+    like `emptyHeadParts`; weapons/hands/facing (outside mirror) and
+    `applyBuild` joint flow untouched; skin flows from body art.
+  - Open for BODY-2: skirt stays procedural vs torso-sheet region;
+    neck procedural bridge vs head-sheet extension.
+- Result: BODY-2 design de-risked without writing pipeline code (which
+  correctly waits on BODY-1 approval).
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 20:35 UTC - BODY-1 (goal round 3: joint inventory + foreshortening finding)
+
+- Status before: BODY-1 IN_PROGRESS, owner pilot approval still pending.
+  Continued with approval-independent groundwork only.
+- Work completed: dumped all 14 pose skeletons + 10 derived part segments
+  to artifacts/body-joint-inventory.json (scratch vitest, since removed).
+- KEY FINDING for BODY-2: segment lengths are NOT rigid across poses -
+  foreArmN spans 2.8..13.0 (128% spread), shins ~60%, torso 21..23 except
+  `down` at 13.2. Rigid paper-doll rotation alone cannot fit; the BODY-2
+  renderer must axially stretch parts to joint distance, with dedicated
+  foreshortened variants (or accepted squash) for recover/jump/down,
+  which drive the extremes. Torso needs only a lying variant.
+- Result: no repo source touched (scratch deleted); finding recorded for
+  BODY-2 design. Tree still holds only uncommitted BODY-1 briefs + queue.
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 20:10 UTC - BODY-1 (goal round 2: baselines + parity-harness validation)
+
+- Status before: BODY-1 IN_PROGRESS, owner pilot approval still pending.
+  Continued with approval-independent groundwork only; no bulk art.
+- Work completed:
+  - BODY-7 baseline: dist 3805 KB / 25 files (hero-faces shipping art
+    alone 2327 KB; 5 portraits ~300 KB each dominate); boot-to-title
+    2118 ms; 337 textures / ~99.8 MB decoded RGBA at full cast
+    (biggest single: title sheen strip 3.6 MB). Scripts:
+    artifacts/body-baseline-mem.cjs.
+  - BODY-2 parity-harness validation (scratch vitest, since removed):
+    identical renders score mask-IoU exactly 1.0 (deterministic);
+    zhaoyun-vs-zhangfei idle scores 0.763, so the same-fighter
+    old-vs-new parity floor should sit >= 0.90. Key design finding:
+    compare only within identical boxes (same pose) - per-pose margins
+    differ, so cross-pose IoU is meaningless.
+- Result: no repo source touched (scratch deleted); tree holds only the
+  BODY-1 briefs + queue updates, uncommitted until BODY-1 closes.
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 19:45 UTC - BODY-1 (goal round 1: pilot prep validation, still awaiting owner)
+
+- Status before: BODY-1 IN_PROGRESS, pilots presented, owner approval
+  pending. Bulk work parked per plan; this round did only
+  approval-independent validation.
+- Work completed: `artifacts/body1-pilot-analysis.mjs` flood-fill analysis
+  of the three pilots (corner flood, tolerance 18):
+  - zhaoyun-body: 62.8% keyable black, figure 75%w x 92%h with margins on
+    all four sides - clean for part-cutting prep.
+  - caocao-head: 81.9% keyable black, figure 68%w x 91%h, margins all
+    sides - clean for head-cell prep.
+  - caocao-portrait: figure touches all edges (100% bbox) - expected and
+    fine, portraits are full-bleed busts, never keyed sprites.
+- Result: preparation approach validated (keyed cutouts for gameplay
+  art, full-bleed for portraits). No repo source touched this round.
+- Status after: BODY-1 IN_PROGRESS, still awaiting owner pilot approval.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
+### 2026-09-24 19:35 UTC - BODY-1 (attempt 1, briefs done, pilots awaiting owner approval)
+
+- Status before: BODY-1 TODO, first task of the approved paper-doll body
+  plan (BODY-1..7 filed this round; goal-4bb34af7 created and armed).
+- Work completed:
+  - `docs/BODY_STYLE_GUIDE.md`: shared direction (brushwork, palette,
+    joint conventions, per-hero/mook/horse notes tied to ART-18 heads).
+  - `docs/BOSS_HEAD_REFERENCE.md`: 9 boss briefs; 4 sourced (Lu Bu ch.5
+    attire, Cao Cao ch.1 細眼長髯, Xiahou Dun ch.18 拔矢啖睛, Xu Chu
+    Records 長八尺餘腰大十圍), 5 honestly interpretation-only.
+  - Pilots generated (grok provider; one transient reference-fetch failure
+    cleared on retry): Zhao Yun full body keyed to his ART-18 head sheet,
+    Cao Cao portrait bust, Cao Cao gameplay head keyed to the portrait.
+  - Copies in artifacts/look/body1-{zhaoyun-bodypilot,caocao-portrait,
+    caocao-head}.jpg for review.
+- Result: IN_PROGRESS - BODY-1 acceptance needs owner approval of the
+  pilots before bulk work (unresolved objections stay open per plan).
+- Status after: BODY-1 IN_PROGRESS, awaiting owner pilot review.
+- Next: on approval, BODY-2 (paper-doll pipeline); BODY-1 closes DONE.
+
 ### 2026-09-24 10:45 UTC - ART-20 (attempt 1, full verification, DONE)
 
 - Status before: ART-20 TODO, the last overhaul phase. The runner is paused
