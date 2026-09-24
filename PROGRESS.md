@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-24 10:45 UTC - ART-20 (attempt 1, full verification, DONE)
+
+- Status before: ART-20 TODO, the last overhaul phase. The runner is paused
+  on the attempt-2 BLOCKED (untouched here). This round came from the
+  owner's standing overhaul goal in the DSH session, not a runner tick.
+- Work completed: props, pickups & combat-feedback pass.
+  - New `src/game/art/fx.ts`: paintSpark (layered amber/gold/white
+    starburst with ink flecks), paintBurst (new 28px KO ring + star +
+    embers), paintDust (unchanged look, moved for testability).
+  - `BootScene` bakes fx:spark (restyled), fx:burst (new), fx:dust.
+  - `props.ts`: enriched interiors, identical boxes - crate diagonal
+    brace + studs + grain, meat glaze + sheen + knuckles, sword fuller +
+    grip wraps, arrow barbs + shaft bands + head glint.
+  - `GameScene`: koEmitter bound to fx:burst (same counts/positions);
+    stage-clear gold cam.flash(220, 255, 214, 130); boss-spawn crimson
+    cam.flash(180, 178, 28, 28) next to the WARNING banner. Both
+    presentation-only and real-play gated (applyJuice path / explicit
+    autopilot check).
+  - `test/game/fx.test.ts` (3) + `e2e/artfx.spec.ts` (3): texture
+    existence + emitter bindings, flash recording via a window-logged
+    cam.flash wrapper (crimson on forceBoss spawn; gold on a REAL
+    stageclear driven by killing the boss - forceResult bypasses the sim
+    and emits nothing), combat capture + 8x fx texture dumps for review.
+- Scope note: no jar/chest kinds exist (loot is crate/meat/sword/arrow);
+  inventing kinds would touch the sim, so the four existing props were
+  restyled instead. Neither flash existed; both added as real-play juice.
+- Verification run: lint PASS, typecheck PASS, unit 338/338 (+3; one
+  full-suite flake in the two heaviest files, green on re-run and in
+  isolation), e2e 75/75 (+3; weapon/probe/juice preserved), vision 5/5
+  (SPRITE GATE 256/256, 85/85 weapons, 170/170 retracts), selfplay 13/13,
+  build PASS, prodbuild 4/4. ui20-fx-{spark,burst} dumps + ui20-combat
+  (live sparks, restyled crate) eyeballed.
+- Housekeeping: REFACTOR-1 (tail chain ...DIFF-1 -> GATE-3 -> REFACTOR-1)
+  moved to TASKS-ARCHIVE.md tail. 20 DONE remain.
+- Result: COMPLETED outside the runner (no tick; runner still paused for
+  owner review).
+- Status after: ALL SEVEN OVERHAUL PHASES DONE (UI-1..UI-5, ART-19,
+  ART-20). ENH-12 still deferred (owner priority).
+- Next recommended task: none for the goal - it is complete; ENH-12
+  awaits the owner's go-ahead whenever the deferral lifts.
+
 ### 2026-09-24 09:10 UTC - ART-19 (attempt 1, full verification, DONE)
 
 - Status before: ART-19 TODO. The runner is paused on the attempt-2 BLOCKED

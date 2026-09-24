@@ -3199,3 +3199,46 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No code changes to `src/core`. It is already clean; this is about keeping
     it that way.
 
+
+### REFACTOR-1 - src/core/sim.ts is 978 lines against the project's own 800
+
+- Status: DONE
+- Requirement:
+  `src/core/sim.ts` is 978 lines. This project sets itself 800 - it is why
+  `GameScene` was split during UI-R2, at 951 - and sim.ts has been past it for
+  some time. I recorded it as a known overage twice rather than acting on it,
+  because it is the determinism-critical core and a line count is not by itself
+  worth risk. Doing it now on the owner's say-so, as a PURE MOVE: no logic
+  edits, and the seeded signal suite is the proof.
+- Acceptance criteria:
+  - [x] 978 -> 784 lines, and `git diff --stat` over `src/` shows exactly one
+        modified file and three new ones: no caller changed, because `sim.ts`
+        re-exports everything it moved
+  - [x] Pure moves. `src/core/simtypes.ts` (66) holds the `Sim` shape,
+        `src/core/snapshot.ts` (132) the JSON read model, `src/core/players.ts`
+        (78) the pure queries
+  - [x] No runtime cycle. Extracting `Sim` into its own module REMOVED a
+        workaround rather than adding one: without it, `players.ts` and
+        `snapshot.ts` each had to type-import `sim.ts`, which works only
+        because the import is erased at runtime and stops working the moment
+        anyone needs a value from it. All three now depend on the state, not
+        the engine
+  - [x] `joinPlayer2` and `tryRevivePlayer` deliberately stayed in `sim.ts`
+        despite belonging with the other player functions by name. They need
+        the engine-private `spawnEntity` and `enterState`, and exporting those
+        to move two functions would have put a genuine runtime cycle through
+        the code the sim's determinism rests on
+  - [x] signal 13/13 - and stronger than that. "Passed" only proves the
+        invariants held, so identity was measured directly: the same three
+        seeds driven through 900 ticks of varied input (movement, attacks,
+        jumps, specials), digesting the full entity list, positions, HP,
+        states and stats, give byte-identical results before and after:
+            zhaoyun/42/stage1  957686d7
+            guanyu/7/stage4    bf2f2436
+            weiyan/99/stage9   eed635ad
+  - [x] lint, typecheck, 142 unit, 43 e2e, vision 5/5, prodbuild 4/4,
+        signal 13/13, build
+- Non-goals:
+  - No behaviour change, no API change, no renaming. If a caller has to be
+    edited, the split was wrong.
+

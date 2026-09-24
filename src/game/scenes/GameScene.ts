@@ -389,7 +389,7 @@ export class GameScene extends Phaser.Scene {
       })
       .setDepth(9000)
     this.koEmitter = this.add
-      .particles(0, 0, 'fx:spark', {
+      .particles(0, 0, 'fx:burst', {
         speed: { min: 60, max: 140 },
         lifespan: 350,
         gravityY: 200,
@@ -524,10 +524,13 @@ export class GameScene extends Phaser.Scene {
       // bursts per frame.
       if (!this.bridge.autopilot) this.applyJuice(event)
       // Boss-spawn warning banner: 1.2s, just long enough to read the name,
-      // then hands the fight back before the first exchange.
+      // then hands the fight back before the first exchange. The crimson
+      // flash answers the banner's red plaque (banner-kit red), real-play
+      // only - autopilot keeps its deterministic frames.
       if (event.type === 'spawn' && event.kind === this.sim.stage.bossKind) {
         const bossDef = enemyByKind(event.kind)
         this.hud.showBanner('WARNING', `${bossDef.nameEn} ${bossDef.nameZh}`, 0xd33a3a, 1_200)
+        if (!this.bridge.autopilot) this.cameras.main.flash(180, 178, 28, 28)
       }
       if (event.type === 'stageclear' && this.clearMsLeft < 0) {
         // Let the boss's fall play out, then show results: a 2s wall-clock
@@ -710,6 +713,9 @@ export class GameScene extends Phaser.Scene {
       }
       case 'stageclear':
         cam.shake(200, 0.004)
+        // Gold celebration wash. Real-play only like every other juice call:
+        // autopilot never sees it, so harnesses and their screenshots agree.
+        cam.flash(220, 255, 214, 130)
         break
       case 'enrage':
         cam.shake(150, 0.006)

@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { RENDER_SCALE } from '../render'
+import { FX_BURST, FX_DUST, FX_SPARK, paintBurst, paintDust, paintSpark } from '../art/fx'
 import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
 import { loadDisplayFont } from '../ui/type'
 import displayFontUrl from '../assets/fonts/zcool-qingke-huangyou-subset.woff2?url'
@@ -110,39 +111,12 @@ export class BootScene extends Phaser.Scene {
 
   /**
    * Impact textures, baked on canvas so they carry the same ink-and-light
-   * treatment as everything else. The old pair were a plain square and a plain
-   * circle from `Graphics.generateTexture` - fine as placeholders, but they
-   * were the last things on screen with no relationship to the art around them.
+   * treatment as everything else. The painters live in art/fx so the unit
+   * suite can render and assert on them directly.
    */
   private generateFxTextures(): void {
-    bake(this, 'fx:spark', 16, 16, (ctx) => {
-      // A four-point star: the shape a hit spark reads as even at two pixels.
-      ctx.translate(8, 8)
-      ctx.fillStyle = 'rgba(255, 236, 170, 0.95)'
-      ctx.beginPath()
-      for (let i = 0; i < 8; i += 1) {
-        const r = i % 2 === 0 ? 8 : 2.4
-        const a = (i / 8) * Math.PI * 2
-        const x = Math.cos(a) * r
-        const y = Math.sin(a) * r
-        if (i === 0) ctx.moveTo(x, y)
-        else ctx.lineTo(x, y)
-      }
-      ctx.closePath()
-      ctx.fill()
-      ctx.fillStyle = '#ffffff'
-      ctx.beginPath()
-      ctx.arc(0, 0, 2.6, 0, Math.PI * 2)
-      ctx.fill()
-    })
-
-    bake(this, 'fx:dust', 12, 12, (ctx) => {
-      const g = ctx.createRadialGradient(6, 6, 0, 6, 6, 6)
-      g.addColorStop(0, 'rgba(226, 214, 186, 0.85)')
-      g.addColorStop(0.6, 'rgba(198, 184, 152, 0.4)')
-      g.addColorStop(1, 'rgba(198, 184, 152, 0)')
-      ctx.fillStyle = g
-      ctx.fillRect(0, 0, 12, 12)
-    })
+    bake(this, 'fx:spark', FX_SPARK.width, FX_SPARK.height, paintSpark)
+    bake(this, 'fx:burst', FX_BURST.width, FX_BURST.height, paintBurst)
+    bake(this, 'fx:dust', FX_DUST.width, FX_DUST.height, paintDust)
   }
 }
