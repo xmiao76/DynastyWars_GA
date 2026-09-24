@@ -1,4 +1,4 @@
-﻿# Progress Log
+# Progress Log
 
 Add one entry at the TOP after every manual or scheduled iteration - newest
 first, so the most recent state is the first thing an iteration reads.
@@ -21,6 +21,50 @@ history slowly crowds out the work it is supposed to support.
 - Next recommended task:
 
 ## Entries
+
+### 2026-09-24 05:25 UTC - UI-5 (attempt 1, full verification, DONE)
+
+- Status before: UI-5 TODO. The runner is paused on the attempt-2 BLOCKED
+  (untouched here). This round came from the owner's standing overhaul goal
+  in the DSH session, not a runner tick.
+- Work completed: flow screens in the new kit.
+  - New `src/game/data/stagelore.ts`: one lore beat per stage (ordinal,
+    two ~46-char lines, Chinese caption), game layer, sim never reads it.
+  - New `src/game/art/flowart.ts`: parchment intro card, gold/crimson
+    dialogs, victory/defeat scrolls, lacquer stat chip + ensureFlowArt +
+    5 unit tests.
+  - `HudScene`: scene-intro parchment overlay, self-driven per stage entry
+    (no new scene, no GameScene change): materializes 1.6s after build so
+    the banner clears first; autopilot dismisses on sim.tick+30 so run()
+    batches can never stall; real play dismisses on Enter/tap/3s. Depth
+    10_000: above banner/controls, below readouts and pause/continue.
+  - Pause/continue overlays + Result/GameOver/GameComplete screens restyled
+    to parchment with dark-ink recolors; same scene keys, texts, hints,
+    bridge fields. type.ts gained STAGE 1..9.
+  - New `e2e/introcard.spec.ts` (4): card at entry + tick dismissal, Enter
+    dismissal in real play, fresh card per stage, defeat/pause/complete
+    captures to artifacts/look/ui5-*.png.
+- Defects caught during review (captures were read, not just taken):
+  1. Intro card and stage banner stacked (STAGE n twice): staggered the
+     card 1.6s and demoted it to depth 10_000 so overlays win.
+  2. White/bone text invisible on parchment in all three ending screens
+     and both overlay hints: recolored to dark inks (PAUSED keeps its gold
+     contract, now with an ink stroke - the pixel gate still passes).
+  3. My own complete-flow test called startGame from inside 'game', where
+     pendingStart is a silent no-op - vacuous poll landed on stage 3.
+     Fixed the TEST (route via gameover, assert stageId), not the game.
+- Verification run: lint PASS, typecheck PASS, unit 323/323 (+5), e2e
+  71/71 in 3.8 min (+4 introcard; stageclear/continue/scenerestart/pause/
+  touchpause/hud/hudpanels/layout all green), vision 5/5, selfplay 13/13,
+  vite build PASS, prodbuild 4/4. Capture review 13/13 via
+  artifacts/ui5-review-cards.mjs + 20/20 ui4 HUD regression; all five
+  ui5 captures eyeballed.
+- Housekeeping: DIFF-1 (oldest DONE by completion; tail was ART-12)
+  moved to TASKS-ARCHIVE.md tail. 20 DONE remain.
+- Result: COMPLETED outside the runner (no tick; runner still paused for
+  owner review).
+- Status after: UI-5 DONE. ART-19, ART-20 remain TODO; ENH-12 deferred.
+- Next recommended task: ART-19 (painted per-stage backdrops).
 
 ### 2026-09-23 22:55 UTC - UI-4 (attempt 1, full verification, DONE)
 

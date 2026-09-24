@@ -10,10 +10,16 @@ import { hasTouch, TouchAdapter } from '../adapters/touch'
 import { ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
 import { destroyAllChildren } from '../ui/display'
 import { useLogicalViewport } from '../ui/viewport'
-import { addVignette, drawSlab, ensureDisplayTextTexture, makeArcadeBar } from '../ui/panels'
+import { addVignette, ensureDisplayTextTexture, makeArcadeBar } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
 import type { BridgeState } from '../debug/bridge'
 import * as L from '../ui/hudlayout'
+import { stageLore } from '../data/stagelore'
+import {
+  CARD_TEX,
+  DIALOG_TEX,
+  ensureFlowArt,
+} from '../art/flowart'
 import {
   BANNER_TEX,
   CHIP_TEX,
@@ -105,12 +111,12 @@ export class HudScene extends Phaser.Scene {
   private metaText!: Phaser.GameObjects.Text
   private p1DownText!: Phaser.GameObjects.Text
   private continueDim!: Phaser.GameObjects.Rectangle
-  private continueSlab!: Phaser.GameObjects.Graphics
+  private continueCard!: Phaser.GameObjects.Image
   private continueText!: Phaser.GameObjects.Text
   private continueCountdownText!: Phaser.GameObjects.Text
   private continueHintText!: Phaser.GameObjects.Text
   private pauseDim!: Phaser.GameObjects.Rectangle
-  private pauseSlab!: Phaser.GameObjects.Graphics
+  private pauseCard!: Phaser.GameObjects.Image
   private pauseText!: Phaser.GameObjects.Text
   private pauseHintText!: Phaser.GameObjects.Text
   private comboText!: Phaser.GameObjects.Text
@@ -132,6 +138,19 @@ export class HudScene extends Phaser.Scene {
   private p2DownText?: Phaser.GameObjects.Text
   private p2Ghost = 1
   private bossGhost = 1
+  /**
+   * The scene-intro parchment card (UI-5). Shown once per stage entry; ticks
+   * dismiss it under autopilot so run() batches can never stall on it, and
+   * wall-clock plus Enter/tap dismiss it in real play. Materialization waits
+   * 1.6s so the ~1.9s stage banner nearly clears before the card rises - the
+   * two stacked on top of each other otherwise, STAGE n twice on the screen.
+   */
+  private introCard?: Phaser.GameObjects.Container
+  private introTick = 0
+  private introMs = 0
+  private introShowAtMs = 0
+  private introPending = false
+  private introDismiss?: () => void
 
   constructor() {
     super('hud')
@@ -164,6 +183,7 @@ export class HudScene extends Phaser.Scene {
     if (sim !== this.boundSim) this.build(sim)
     this.drainBanners()
     this.sync(sim, this.game.loop.delta)
+    this.syncIntroCard(sim, bridge.autopilot === true)
   }
 
   /** Bake one canvas texture; a no-op once the key exists. */
@@ -236,6 +256,7 @@ export class HudScene extends Phaser.Scene {
     const stage = sim.stage
     ensurePortraitTextures(this, [sim.charId])
     this.ensureHudArt(sim.charId)
+    ensureFlowArt(this)
 
     // Cinematic vignette over the battlefield, under everything in the HUD.
     addVignette(this, SCREEN_WIDTH, SCREEN_HEIGHT, 9_000, 0.5)
@@ -322,19 +343,39 @@ export class HudScene extends Phaser.Scene {
       .setDepth(10_001)
       .setVisible(false)
 
-    // The continue/pause overlays stay on the card kit (UI-5 restyles them).
+    // The continue/pause overlays (UI-5): baked parchment dialogs on the dim.
     this.continueDim = this.add
       .rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x05040a, 0.62)
       .setDepth(10_001)
       .setVisible(false)
-    this.continueSlab = drawSlab(this, SCREEN_WIDTH / 2 - 92, 74, 184, 96, 0xc8a828, 10_001)
-    this.continueSlab.setVisible(false)
+    this.continueCard = this.add
+      .image(SCREEN_WIDTH / 2, 123, 'flow:dialog:gold')
+      .setOrigin(0.5)
+      .setDisplaySize(DIALOG_TEX.width, DIALOG_TEX.height)
+      .setDepth(10_001)
+      .setData('panelRect', {
+        x: SCREEN_WIDTH / 2 - DIALOG_TEX.width / 2,
+        y: 123 - DIALOG_TEX.height / 2,
+        w: DIALOG_TEX.width,
+        h: DIALOG_TEX.height,
+      })
+      .setVisible(false)
     this.pauseDim = this.add
       .rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x05040a, 0.62)
       .setDepth(10_001)
       .setVisible(false)
-    this.pauseSlab = drawSlab(this, SCREEN_WIDTH / 2 - 88, 100, 176, 70, 0xc8a828, 10_001)
-    this.pauseSlab.setVisible(false)
+    this.pauseCard = this.add
+      .image(SCREEN_WIDTH / 2, 123, 'flow:dialog:gold')
+      .setOrigin(0.5)
+      .setDisplaySize(DIALOG_TEX.width, DIALOG_TEX.height)
+      .setDepth(10_001)
+      .setData('panelRect', {
+        x: SCREEN_WIDTH / 2 - DIALOG_TEX.width / 2,
+        y: 123 - DIALOG_TEX.height / 2,
+        w: DIALOG_TEX.width,
+        h: DIALOG_TEX.height,
+      })
+      .setVisible(false)
 
     // --- Labels -----------------------------------------------------------
     this.nameText = this.add
@@ -411,21 +452,21 @@ export class HudScene extends Phaser.Scene {
       .setVisible(false)
     this.continueHintText = this.add
       .text(SCREEN_WIDTH / 2, 154, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', {
-        ...liveStyle(10, { color: '#9ab0c0' }),
+        ...liveStyle(10, { color: '#4a3820', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.pauseText = this.add
       .text(SCREEN_WIDTH / 2, 120, 'PAUSED', {
-        ...liveStyle(22, { color: '#ffd700', bold: true }),
+        ...liveStyle(22, { color: '#ffd700', bold: true, stroke: '#5a3a00', strokeThickness: 2 }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.pauseHintText = this.add
       .text(SCREEN_WIDTH / 2, 148, hasTouch() ? 'TAP TO RESUME' : 'PRESS P TO RESUME', {
-        ...liveStyle(10, { color: '#9ab0c0' }),
+        ...liveStyle(10, { color: '#4a3820', bold: true }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
@@ -435,6 +476,129 @@ export class HudScene extends Phaser.Scene {
     // re-mounted on every rebuild because the sweep at the top of this method
     // destroyed the previous set along with everything else.
     if (hasTouch()) this.touch.mount(this)
+
+    // The scene-intro parchment card, once per stage entry - armed here,
+    // materialized by syncIntroCard once the stage banner has had its beat.
+    this.teardownIntro()
+    this.introPending = true
+    this.introShowAtMs = this.time.now + 1_600
+  }
+
+  /**
+   * The scene-intro card (UI-5): a parchment scroll naming the stage and
+   * setting its scene. It is a transient overlay like the banner - the sim
+   * keeps running underneath it, and nothing about the flow waits on it:
+   * autopilot batches dismiss it by TICK COUNT, so `run()` can never stall,
+   * and real play dismisses on Enter, a tap, or a 3s wall-clock hold.
+   * Depth 10_000: above the vignette, banner and touch controls, below the
+   * readouts and the pause/continue overlays, so those always win.
+   */
+  private raiseIntroCard(sim: Sim): void {
+    this.teardownIntro()
+    const lore = stageLore(sim.stage.id)
+    const stage = sim.stage
+    const card = this.add.container(SCREEN_WIDTH / 2, 136).setDepth(10_000).setName('introCard')
+    const parchment = this.add
+      .image(0, 0, 'flow:intro')
+      .setOrigin(0.5)
+      .setDisplaySize(CARD_TEX.width, CARD_TEX.height)
+      .setScrollFactor(0)
+    const sealKey = ensureDisplayTextTexture(this, `STAGE ${lore.number}`, { variant: 'gold', size: 12 })
+    const sealSize = this.displayTextSize(sealKey)
+    const seal = this.add
+      .image(0, -CARD_TEX.height / 2 + 16, sealKey)
+      .setOrigin(0.5)
+      .setDisplaySize(sealSize.w, sealSize.h)
+      .setScrollFactor(0)
+    const name = this.add
+      .text(0, -22, `${stage.nameEn} · ${stage.nameZh}`, {
+        ...liveStyle(10, { color: '#3a2a14', bold: true }),
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+    const rule = this.add
+      .rectangle(0, -12, CARD_TEX.width - 56, 1, 0x8a6a3a, 0.8)
+      .setScrollFactor(0)
+    const lore1 = this.add
+      .text(0, 0, lore.lines[0], { ...liveStyle(8, { color: '#4a3820' }) })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+    const lore2 = this.add
+      .text(0, 11, lore.lines[1], { ...liveStyle(8, { color: '#4a3820' }) })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+    const caption = this.add
+      .text(0, 28, lore.captionZh, { ...liveStyle(10, { color: '#8a2418', bold: true }) })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+    const hint = this.add
+      .text(0, CARD_TEX.height / 2 - 14, hasTouch() ? 'TAP TO FIGHT' : 'PRESS ENTER TO FIGHT', {
+        ...liveStyle(8, { color: '#6a5230' }),
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+    this.tweens.add({ targets: hint, alpha: 0.25, duration: 500, yoyo: true, repeat: -1 })
+    card.add([parchment, seal, name, rule, lore1, lore2, caption, hint])
+    card.setScale(0.85).setAlpha(0)
+    this.tweens.add({ targets: card, scale: 1, alpha: 1, duration: 160, ease: 'Cubic.easeOut' })
+    this.introCard = card
+    this.introTick = sim.tick
+    this.introMs = this.time.now
+    this.introDismiss = (): void => this.dismissIntroCard()
+    this.input.keyboard?.on('keydown-ENTER', this.introDismiss)
+    this.input.on('pointerdown', this.introDismiss)
+  }
+
+  /** Remove the card and its input wiring; safe to call with nothing up. */
+  private teardownIntro(): void {
+    this.introPending = false
+    if (this.introDismiss) {
+      this.input.keyboard?.off('keydown-ENTER', this.introDismiss)
+      this.input.off('pointerdown', this.introDismiss)
+      this.introDismiss = undefined
+    }
+    this.introCard?.destroy()
+    this.introCard = undefined
+  }
+
+  /** Dismiss with a quick roll-up; a no-op when the card is already gone. */
+  private dismissIntroCard(): void {
+    const card = this.introCard
+    if (!card) return
+    if (this.introDismiss) {
+      this.input.keyboard?.off('keydown-ENTER', this.introDismiss)
+      this.input.off('pointerdown', this.introDismiss)
+      this.introDismiss = undefined
+    }
+    this.introCard = undefined
+    this.tweens.add({
+      targets: card,
+      alpha: 0,
+      scaleY: 0.1,
+      duration: 140,
+      ease: 'Cubic.easeIn',
+      onComplete: () => card.destroy(),
+    })
+  }
+
+  /**
+   * Autopilot dismissal is TICK-based, not wall-clock: run() batches drain
+   * hundreds of ticks in a frame and must never queue behind a real-time
+   * hold. Real play gets the 3s fallback plus the Enter/tap dismissals.
+   * Materialization itself is wall-clock - showing late can only shorten the
+   * card's exposure, never block anything.
+   */
+  private syncIntroCard(sim: Sim, autopilot: boolean): void {
+    if (!this.introCard && this.introPending && this.time.now >= this.introShowAtMs) {
+      this.raiseIntroCard(sim)
+      return
+    }
+    if (!this.introCard) return
+    if (autopilot && sim.tick - this.introTick >= 30) {
+      this.dismissIntroCard()
+      return
+    }
+    if (this.time.now - this.introMs > 3_000) this.dismissIntroCard()
   }
 
   /**
@@ -666,7 +830,7 @@ export class HudScene extends Phaser.Scene {
     const msLeft = owner?.continueMsLeft ?? -1
     const showing = msLeft > 0
     this.continueDim.setVisible(showing)
-    this.continueSlab.setVisible(showing)
+    this.continueCard.setVisible(showing)
     this.continueText.setVisible(showing)
     this.continueCountdownText.setVisible(showing)
     this.continueHintText.setVisible(showing && sim.lives > 0)
@@ -683,7 +847,7 @@ export class HudScene extends Phaser.Scene {
     const owner = this.scene.get('game') as unknown as GameReadout | undefined
     const showing = owner?.paused === true
     this.pauseDim.setVisible(showing)
-    this.pauseSlab.setVisible(showing)
+    this.pauseCard.setVisible(showing)
     this.pauseText.setVisible(showing)
     this.pauseHintText.setVisible(showing)
   }

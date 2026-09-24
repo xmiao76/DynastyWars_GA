@@ -7,8 +7,9 @@ import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
 import { CHARACTER_ORDER } from '../../core/characters'
 import { ensureEntityTextures } from '../adapters/sprites'
-import { addVignette, drawSlab } from '../ui/panels'
+import { addVignette } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
+import { VICTORY_TEX, ensureFlowArt } from '../art/flowart'
 import { browserStorage, writeHiScore } from '../ui/hiscore'
 import { useLogicalViewport } from '../ui/viewport'
 
@@ -59,29 +60,33 @@ export class GameCompleteScene extends Phaser.Scene {
       figure.setDisplaySize((frame.width / frame.height) * h, h)
     })
 
-    drawSlab(this, SCREEN_WIDTH / 2 - 170, 30, 340, 140, 0xc8a828, 0)
+    ensureFlowArt(this)
+    this.add
+      .image(SCREEN_WIDTH / 2, 100, 'flow:victory')
+      .setOrigin(0.5)
+      .setDisplaySize(VICTORY_TEX.width, VICTORY_TEX.height)
     this.add
       .text(SCREEN_WIDTH / 2, 56, 'GAME COMPLETE!', {
-        ...liveStyle(26, { color: '#ffd700' }),
+        ...liveStyle(26, { color: '#a87818', bold: true }),
       })
       .setOrigin(0.5)
     this.add
       .text(SCREEN_WIDTH / 2, 84, 'Lu Bu has fallen - the land is at peace', {
-        ...liveStyle(11, { color: '#f5e6c8' }),
+        ...liveStyle(11, { color: '#4a3820', bold: true }),
       })
       .setOrigin(0.5)
     this.add
       .text(SCREEN_WIDTH / 2, 116, `FINAL SCORE  ${score}`, {
-        ...liveStyle(16, { color: '#ffffff' }),
+        ...liveStyle(16, { color: '#2a1e10', bold: true }),
       })
       .setOrigin(0.5)
     this.add
       .text(SCREEN_WIDTH / 2, 142, `TOTAL TIME  ${totalSeconds}s`, {
-        ...liveStyle(12, { color: '#9ab0c0' }),
+        ...liveStyle(12, { color: '#4a5a60', bold: true }),
       })
       .setOrigin(0.5)
     this.add
-      .text(SCREEN_WIDTH / 2, 158, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', { ...liveStyle(11, { color: '#ffffff' }) })
+      .text(SCREEN_WIDTH / 2, 158, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', { ...liveStyle(11, { color: '#4a3820', bold: true }) })
       .setOrigin(0.5)
 
     const confirm = (): void => {

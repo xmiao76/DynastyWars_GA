@@ -3,8 +3,9 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { nextStageId, STAGES } from '../../core/stage'
 import { audio } from '../audio/sfx'
 import { TITLE_THEME } from '../audio/music'
-import { addVignette, drawSlab } from '../ui/panels'
+import { addVignette } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
+import { CHIP_PLATE_TEX, VICTORY_TEX, ensureFlowArt } from '../art/flowart'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
@@ -81,12 +82,16 @@ export class ResultScene extends Phaser.Scene {
       this.add.rectangle(SCREEN_WIDTH - 84, SCREEN_HEIGHT - 50, 34, 60, 0xc8a828, 0.6).setOrigin(0.5, 1)
     }
 
-    // The victory dialog: wide gold-framed panel.
+    // The victory dialog: the parchment scroll on lacquer rails.
     // Depth 0, not a high one: Phaser draws equal-depth objects in insertion
     // order, and this panel is added BEFORE the content it frames. Hoisting it
     // to a high depth pulled it in front of every sprite and label in the scene
     // (all of which sit at the default depth 0), hiding them behind the slab.
-    drawSlab(this, SCREEN_WIDTH / 2 - 170, 66, 340, 150, 0xc8a828, 0)
+    ensureFlowArt(this)
+    this.add
+      .image(SCREEN_WIDTH / 2, 141, 'flow:victory')
+      .setOrigin(0.5)
+      .setDisplaySize(VICTORY_TEX.width, VICTORY_TEX.height)
 
     // Title with a second accent line.
     this.add
@@ -97,18 +102,18 @@ export class ResultScene extends Phaser.Scene {
     if (stage) {
       this.add
         .text(SCREEN_WIDTH / 2, 116, `${stage.nameEn} · ${stage.nameZh}`, {
-          ...liveStyle(12, { color: '#f5e6c8' }),
+          ...liveStyle(12, { color: '#3a2a14', bold: true }),
         })
         .setOrigin(0.5)
     }
 
-    // Score / time / lives as filled chips. Each chip owns its caption, plate
-    // and value, and the widths keep all three plates inside the dialog panel
-    // (x 70..410) - the TIME plate used to run past its right edge.
+    // Score / time / lives as parchment-kit chips. Each chip owns its caption,
+    // plate and value, and the widths keep all three plates inside the dialog
+    // panel (x 70..410) - the TIME plate used to run past its right edge.
     const chipY = 156
-    drawChip(this, SCREEN_WIDTH / 2 - 170, chipY, 62, 30, 'LIVES', `${data.lives ?? 0}`)
-    const scoreValue = drawChip(this, SCREEN_WIDTH / 2 - 76, chipY, 120, 30, 'SCORE', '0')
-    drawChip(this, SCREEN_WIDTH / 2 + 60, chipY, 90, 30, 'TIME', `${seconds}s`)
+    drawChip(this, SCREEN_WIDTH / 2 - 170, chipY, 62, 'LIVES', `${data.lives ?? 0}`)
+    const scoreValue = drawChip(this, SCREEN_WIDTH / 2 - 76, chipY, 120, 'SCORE', '0')
+    drawChip(this, SCREEN_WIDTH / 2 + 60, chipY, 90, 'TIME', `${seconds}s`)
     this.tweens.addCounter({
       from: 0,
       to: score,
@@ -125,7 +130,7 @@ export class ResultScene extends Phaser.Scene {
           : hasTouch()
             ? 'TAP TO CONTINUE'
             : 'PRESS ENTER',
-        { ...liveStyle(10, { color: '#ffffff' }) },
+        { ...liveStyle(10, { color: '#4a3820', bold: true }) },
       )
       .setOrigin(0.5)
 
@@ -162,32 +167,34 @@ export class ResultScene extends Phaser.Scene {
 }
 
 /**
- * One stat chip: caption above, plate, value centred in the plate. The chip
- * owns all three so they cannot drift apart - the caption used to be centred
- * on `x` while the plate spanned `x..x+w`, which put half of every caption
- * under its own plate's left edge, and the values were positioned by hand a
- * few pixels off their plate centres. Returns the value text so a caller can
- * animate it.
+ * One stat chip: caption above, the baked lacquer plate, value centred on the
+ * plate. The chip owns all three so they cannot drift apart - the caption
+ * used to be centred on `x` while the plate spanned `x..x+w`, which put half
+ * of every caption under its own plate's left edge, and the values were
+ * positioned by hand a few pixels off their plate centres. Returns the value
+ * text so a caller can animate it.
  */
 function drawChip(
   scene: Phaser.Scene,
   x: number,
   y: number,
   w: number,
-  h: number,
   label: string,
   value: string,
 ): Phaser.GameObjects.Text {
   const cx = x + w / 2
   scene.add
-    .text(cx, y - h / 2 - 10, label.toUpperCase(), {
-      ...liveStyle(7, { color: '#c8b07a' }),
+    .text(cx, y - 22, label.toUpperCase(), {
+      ...liveStyle(7, { color: '#7a5a28' }),
     })
     .setOrigin(0.5, 0)
-  scene.add.rectangle(cx, y, w, h, 0x0c0c12, 0.85).setStrokeStyle(1, 0x9a7a2a)
+  scene.add
+    .image(cx, y + CHIP_PLATE_TEX.height / 2 - 4, 'flow:chip')
+    .setOrigin(0.5)
+    .setDisplaySize(w, CHIP_PLATE_TEX.height)
   return scene.add
-    .text(cx, y, value, {
-      ...liveStyle(16, { color: '#ffffff', bold: true }),
+    .text(cx, y + CHIP_PLATE_TEX.height / 2 - 4, value, {
+      ...liveStyle(14, { color: '#f5e6c8', bold: true }),
     })
     .setOrigin(0.5)
 }

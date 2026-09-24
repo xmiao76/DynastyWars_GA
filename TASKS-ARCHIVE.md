@@ -3054,3 +3054,102 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Non-goals:
   - No pose, POSES-list, sprite-binding, scene, or core changes; no strict-Han
     weapons; no second weapon for Huang Zhong; the sword pickup prop untouched.
+
+### DIFF-1 - The measured difficulty curve is uneven in three places
+
+- Status: DONE
+- Owner decision, 2026-09-22: ACCEPT THE SHAPE AND CLOSE. The owner
+  reviewed the re-scored evidence and chose to keep the curve as-is:
+  stage 3's wall is the stage-2 mount reward ending plus intended enemy
+  escalation (spearmen/archers) - design-shaped, hero-texture (the heavy
+  build copes best), not a defect. No balance change was made. The
+  review also re-scored the findings against TODAY's post-ENH-10
+  marathon (the filed tables predate the arrow rework): the stage-3
+  wall persisted (+88% over stage 2 in Zhao Yun's current table), and
+  his stage-5-dip / stage-8-over-finale quirks persisted in his table
+  only - the 2026-09-19 cross-hero verdicts stand unchanged (findings
+  2 and 3 were Zhao-Yun artifacts).
+- Requirement:
+  Producer measurement, not a complaint: the self-play bot drove Zhao Yun
+  through all nine stages at TWO seeds (42 and 7), and both runs agree on
+  where the curve departs from the designed one. Designed content per stage
+  (from `src/core/stage.ts`): mobs 12, 18, 19, 23, 27, 27, 28, 28, 29 across
+  waves 3, 4, 4, 5, 5, 5, 5, 5, 5.
+
+  Measured clear time and continues spent (mean of both seeds):
+
+    stage   mobs   seed42   seed7   mean    vs previous stage
+    1        12     59.0s     0      68.8s/1    -
+    2        18     62.6s     0      64.4s/0   +0%
+    3        19     91.8s/2   85.2s/1  88.5s   +40% time for +1 mob
+    4        23     90.0s/1   93.4s/1  91.7s   +4%
+    5        27     71.8s/1   64.2s/1  68.0s   -26% (a dip)
+    6        27     86.2s/0  119.4s/2 102.8s   +51%
+    7        28     85.8s/1  101.4s/2  93.6s    -9%
+    8        28    132.6s/2  114.0s/2 123.3s   +32% (the peak)
+    9        29     111.8s/2  98.8s/0 105.3s   -15% (finie easier than 8)
+
+  Both seeds agree on three findings, so they are properties of the stages
+  and not of one run:
+    1. STAGE 3 IS A WALL. One more mob than stage 2 costs 40% more time and
+       the most continues of the early game. The stage data explains it:
+       stage 2 grants a horse, stage 3 does not, and adds spearmen and
+       archers. The jump is carried by the mount withdrawal.
+    2. STAGE 5 IS A DIP. 27 mobs - as many as stage 6 - but the fastest clear
+       of stages 3-9 in both runs.
+    3. STAGE 8 OUTLASTS THE FINALE. 123.3s mean against 105.3s for stage 9,
+       the only place the curve descends at the end. The penultimate stage
+       peaks instead of the last one.
+  Caveat stated plainly: this is one bot at two seeds. A bot is not a
+  player, and none of this says what the curve SHOULD be - only where it is
+  uneven against itself.
+- NEW EVIDENCE, 2026-09-19. The caveat this task filed itself with - "one bot
+  at two seeds" - turned out to matter more than the findings. Two OTHER heroes
+  driven through all nine stages at the SAME seed 42, so the runs are directly
+  comparable:
+
+      stage    Zhao Yun (filed)   Guan Yu   Zhang Fei
+      1              59.0 / 0      42.6/0      41.6/0
+      2              62.6 / 0      49.4/0      54.0/0
+      3              91.8 / 2      85.4/0      63.8/0
+      4              90.0 / 1      72.0/0      73.2/0
+      5              71.8 / 1      67.8/0      85.6/1
+      6              86.2 / 0      73.0/1      69.0/0
+      7              85.8 / 1      85.6/1      83.0/1
+      8             132.6 / 2      77.2/0      89.2/0
+      9             111.8 / 2      99.8/1     101.4/1
+
+  Against the three findings as filed:
+    1. STAGE 3 IS A WALL - HOLDS, and is the only one that does. Stage 2 to 3
+       costs +47% for Zhao Yun, +73% for Guan Yu, +18% for Zhang Fei. Two of
+       three heroes take a large jump, which is consistent with the stated
+       cause (stage 2 grants a horse, stage 3 does not, and adds spearmen and
+       archers). Zhang Fei feeling it least is consistent with his being the
+       HEAVY build.
+    2. STAGE 5 IS A DIP - DOES NOT HOLD. Zhao Yun -20%, Guan Yu -6%, and Zhang
+       Fei +17%, which is a RISE. This was a property of Zhao Yun, not of the
+       stage.
+    3. STAGE 8 OUTLASTS THE FINALE - DOES NOT HOLD. It is Zhao Yun only. For
+       both other heroes stage 9 is the longest stage of the nine, which is
+       the designed shape: Guan Yu 77.2 then 99.8, Zhang Fei 89.2 then 101.4.
+
+  So the decision this task is waiting on is SMALLER than it looked: one
+  anomaly to consider rather than three, and it is the one with a named cause
+  already in the stage data.
+- The measurements also still STAND: `git log src/core` since they were filed
+  is empty, and the sim is deterministic, so nothing about the curve has moved
+  in fifty-odd commits.
+- Acceptance criteria (when unblocked):
+  - [x] Owner has chosen: accept the shape and close this task
+        (2026-09-22).
+  - [x] No change was made (accepted as-is), so no before/after
+        re-measurement applies; the standing signal snapshots stayed
+        green throughout (13/13 across today's ticks, tables recorded
+        in PROGRESS.md).
+  - [x] `npm run signal` green throughout on the current build - and
+        deliberately unchanged: no stage data was touched.
+- Non-goals:
+  - No balance change without that owner decision.
+  - No change to heroes, enemies' stats in isolation, or AI - stage content
+    (`waves`, `bossKind`, mounts) is the lever this data points at.
+

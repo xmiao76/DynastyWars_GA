@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { audio } from '../audio/sfx'
-import { addVignette, drawSlab } from '../ui/panels'
+import { addVignette } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
+import { DEFEAT_TEX, ensureFlowArt } from '../art/flowart'
 import { browserStorage, writeHiScore } from '../ui/hiscore'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
@@ -40,12 +41,16 @@ export class GameOverScene extends Phaser.Scene {
     this.add.rectangle(SCREEN_WIDTH / 2, 110, SCREEN_WIDTH, 160, 0x7a1a1a, 0.4).setBlendMode('ADD')
     addVignette(this, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0.65)
 
-    // The defeat dialog.
+    // The defeat dialog: the crimson parchment scroll.
     // Depth 0, not a high one: Phaser draws equal-depth objects in insertion
     // order, and this panel is added BEFORE the content it frames. Hoisting it
     // to a high depth pulled it in front of every sprite and label in the scene
     // (all of which sit at the default depth 0), hiding them behind the slab.
-    drawSlab(this, SCREEN_WIDTH / 2 - 150, 60, 300, 150, 0xd33a3a, 0)
+    ensureFlowArt(this)
+    this.add
+      .image(SCREEN_WIDTH / 2, 135, 'flow:defeat')
+      .setOrigin(0.5)
+      .setDisplaySize(DEFEAT_TEX.width, DEFEAT_TEX.height)
 
     this.add
       .text(SCREEN_WIDTH / 2, 88, 'GAME OVER', {
@@ -58,7 +63,7 @@ export class GameOverScene extends Phaser.Scene {
     // centres by default, so it rendered half a width to the left and cut
     // through the caption above it.
     this.add
-      .text(SCREEN_WIDTH / 2, 126, 'FINAL SCORE', { ...liveStyle(8, { color: '#c8a0a0' }) })
+      .text(SCREEN_WIDTH / 2, 126, 'FINAL SCORE', { ...liveStyle(8, { color: '#8a4a3a', bold: true }) })
       .setOrigin(0.5)
     this.add
       .rectangle(SCREEN_WIDTH / 2, 150, 140, 28, 0x0c0c14, 0.9)
@@ -69,7 +74,7 @@ export class GameOverScene extends Phaser.Scene {
       })
       .setOrigin(0.5)
     this.add
-      .text(SCREEN_WIDTH / 2, 188, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', { ...liveStyle(10, { color: '#9ab0c0' }) })
+      .text(SCREEN_WIDTH / 2, 188, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', { ...liveStyle(10, { color: '#4a3820', bold: true }) })
       .setOrigin(0.5)
 
     const confirm = (): void => {

@@ -1,4 +1,4 @@
-# Work Queue
+﻿# Work Queue
 
 Statuses: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
@@ -21,7 +21,7 @@ Add future enhancement tasks below this heading.
   docs/HERO_FACE_REDESIGN_PLAN.md. ART-16/17 were incremental fixes, not owner
   acceptance of convincing natural likeness.
 - Confirmed owner choices (2026-09-23): semi-realistic painted warriors;
-  Wei Yan follows the novel's 面如重枣, superseding the old tan exception.
+  Wei Yan follows the novel's é¢å¦‚é‡æž£, superseding the old tan exception.
 - Acceptance criteria:
   - [x] Source-backed reference brief separating quotations from interpretations.
   - [x] Guan Yu/Zhao Yun pilot reviewed at real select/HUD/gameplay sizes.
@@ -68,28 +68,28 @@ Add future enhancement tasks below this heading.
   colour; Cao Cao and Lu Bu wear the identical `crown` shape; the in-play head
   shows every character the same brow/eye/mouth marks. Bosses have NO portrait
   in play, so boss likeness must land on the in-play sprite.
-- Sources (三国演义 descriptions, to cite per change):
-  Guan Yu 身长九尺, 髯长二尺, 面如重枣, 唇若涂脂, 丹凤眼, 卧蚕眉;
-  Zhang Fei 身长八尺, 豹头环眼, 燕颔虎须; Zhao Yun 身长八尺, 浓眉大眼, 阔面重颐;
-  Huang Zhong aged, white-haired; Cao Cao 身长七尺, 细眼长髯;
-  Lu Bu 头戴三叉束发紫金冠 (with 雉尾 plumes), 西川红锦百花袍;
-  Xu Chu 身长八尺余, 腰大十围; Xiahou Dun lost his left eye.
+- Sources (ä¸‰å›½æ¼”ä¹‰ descriptions, to cite per change):
+  Guan Yu èº«é•¿ä¹å°º, é«¯é•¿äºŒå°º, é¢å¦‚é‡æž£, å”‡è‹¥æ¶‚è„‚, ä¸¹å‡¤çœ¼, å§èš•çœ‰;
+  Zhang Fei èº«é•¿å…«å°º, è±¹å¤´çŽ¯çœ¼, ç‡•é¢”è™Žé¡»; Zhao Yun èº«é•¿å…«å°º, æµ“çœ‰å¤§çœ¼, é˜”é¢é‡é¢;
+  Huang Zhong aged, white-haired; Cao Cao èº«é•¿ä¸ƒå°º, ç»†çœ¼é•¿é«¯;
+  Lu Bu å¤´æˆ´ä¸‰å‰æŸå‘ç´«é‡‘å†  (with é›‰å°¾ plumes), è¥¿å·çº¢é”¦ç™¾èŠ±è¢;
+  Xu Chu èº«é•¿å…«å°ºä½™, è…°å¤§åå›´; Xiahou Dun lost his left eye.
 - Acceptance criteria (each a falsified gate or a before/after sheet):
-  - [x] Lu Bu's headgear is its own shape (三叉紫金冠 with two plumes), and its
+  - [x] Lu Bu's headgear is its own shape (ä¸‰å‰ç´«é‡‘å†  with two plumes), and its
         portrait/sprite silhouette differs from Cao Cao's crown by a measured margin.
         (`plumed`; likeness.test.ts: sprite reach 2.08R -> 3.63R vs Cao Cao 2.05R, gate > 1R.)
-  - [x] Zhang Fei's beard is bristling (虎须: jagged outline), not the smooth wedge.
+  - [x] Zhang Fei's beard is bristling (è™Žé¡»: jagged outline), not the smooth wedge.
         (`bristle`; likeness.test.ts: portrait beard edge reversals 0 -> >= 4.)
-  - [x] Guan Yu's lips read red (唇若涂脂) and his beard reaches the chest.
+  - [x] Guan Yu's lips read red (å”‡è‹¥æ¶‚è„‚) and his beard reaches the chest.
         (plan `lips` 0xc81e30; portrait lip-minus-cheek redness -19.5 -> +53.5,
         gate > 40. Sprite long beard now also falls in front of the pauldron and
         arm: visible end 8.7 -> 18.5 units below the chest joint, gate > 14.)
-  - [x] Zhao Yun's brows are the heaviest of the fair-skinned cast (浓眉) and his
-        eyes the largest non-fierce eyes (大眼), with a broader jaw.
+  - [x] Zhao Yun's brows are the heaviest of the fair-skinned cast (æµ“çœ‰) and his
+        eyes the largest non-fierce eyes (å¤§çœ¼), with a broader jaw.
         (face `bold`: browWeight 1.5, the cast maximum; eye area 1.35 and eyeW
         1.18, largest short of `fierce`; plan `jaw` 1.1 widens the portrait's
         lower head: measured jaw row 1.014x -> 1.108x Wei Yan's, gate > 1.06.)
-  - [x] Cao Cao's eyes are the narrowest in the cast (细眼, eyeAspect gate).
+  - [x] Cao Cao's eyes are the narrowest in the cast (ç»†çœ¼, eyeAspect gate).
         (`narrow` face: eyeAspect 3.4 / eyeH 0.66, both extremes of the cast.)
   - [x] The four "generic" bosses are pairwise distinct on the in-play head by a
         measured face-region difference, not by hat colour alone.
@@ -132,8 +132,8 @@ Add future enhancement tasks below this heading.
   - poses.ts `DOWN.weaponRot` 0.16 -> -0.34: with SOLID hafts the dropped weapon
     lay across the prone body (caoren/caocao/lubu legibility 0.087-0.137 <
     0.15); now the weapon falls clear as the pose comment already said (0.372+).
-  - figures.ts Guan Yu `TALL.height` 1.03 -> 1.06 (身长九尺, a head above
-    Zhang Fei/Zhao Yun's 八尺). With filled bodies guanyu/weiyan silhouettes
+  - figures.ts Guan Yu `TALL.height` 1.03 -> 1.06 (èº«é•¿ä¹å°º, a head above
+    Zhang Fei/Zhao Yun's å…«å°º). With filled bodies guanyu/weiyan silhouettes
     were only 9.4% apart (< 0.1 gate); the old 15.8% came from hollow torsos.
     Now 11.8%. Visual only: combat lives in src/core and is untouched.
 - Acceptance criteria:
@@ -183,17 +183,17 @@ Add future enhancement tasks below this heading.
 - Status: DONE
 - Requirement:
   Third round on weapons. Owner re-tested and says the SILHOUETTES are still
-  wrong, naming 张飞's serpent spear, 关羽's crescent blade and 魏延's dao, plus
+  wrong, naming å¼ é£ž's serpent spear, å…³ç¾½'s crescent blade and é­å»¶'s dao, plus
   "all of them roughly equally". Reference-checked (Wikipedia guandao) and
   confirmed three concrete errors in my own ART-12/13 paths:
     - crescent: I drew a SYMMETRIC two-pronged crescent (horn and flare both
-      at fore+13, both pointing forward). The real 偃月 profile is a STRAIGHT
+      at fore+13, both pointing forward). The real åƒæœˆ profile is a STRAIGHT
       back edge with a small spike pointing BACK toward the shaft, and a
       convex cutting edge sweeping forward to the point
-    - serpent: a 25-unit blob with two gentle waves. The 蛇矛's whole identity
+    - serpent: a 25-unit blob with two gentle waves. The è›‡çŸ›'s whole identity
       is a long, clearly S-curved serpentine blade - amplitude was ~4x too
       small to read as a snake
-    - dao: rounded dome tip and a circular belly, where a 大刀 has a straighter
+    - dao: rounded dome tip and a circular belly, where a å¤§åˆ€ has a straighter
       spine and an ANGLED point
 - Acceptance criteria:
   - [x] New crescent: straight back, backward top spike, forward-swept point
@@ -227,13 +227,13 @@ Add future enhancement tasks below this heading.
   real weapons. Diagnosed on the in-game screenshot: the spearhead is a
   symmetric pale OVAL (a spoon, no point) and its tip sits at the wielder's
   CHIN in idle, where a real spear towers; the dao head is a small rounded
-  paddle where a 大刀 must be a big broad single-edged blade; and tassels point
+  paddle where a å¤§åˆ€ must be a big broad single-edged blade; and tassels point
   with the weapon instead of hanging under gravity.
 - Acceptance criteria:
   - [x] Willow-leaf spearhead: pointed both ends, 26 long x 8 wide, midrib
         crease; tip towers ~10 units above the pose space in idle carry
   - [x] Dao blade broadened to crescent-class weight (26 span), flat spine,
-        deep curved belly at the tip end; dao gained the 红缨 tassel (count 12)
+        deep curved belly at the tip end; dao gained the çº¢ç¼¨ tassel (count 12)
   - [x] Tassel hangs world-down at every weapon angle (counter-rotated);
         verified hanging along the haft at idle and below the shaft at attack
   - [x] Calibrated POSE_REACH probe: table holds EXACTLY (55/39/9/19/20/
@@ -249,104 +249,6 @@ Add future enhancement tasks below this heading.
 - Non-goals:
   - Crescent, serpent, ji, recurve untouched; no weapon-length changes; no
     pose or core changes.
-
-### DIFF-1 - The measured difficulty curve is uneven in three places
-
-- Status: DONE
-- Owner decision, 2026-09-22: ACCEPT THE SHAPE AND CLOSE. The owner
-  reviewed the re-scored evidence and chose to keep the curve as-is:
-  stage 3's wall is the stage-2 mount reward ending plus intended enemy
-  escalation (spearmen/archers) - design-shaped, hero-texture (the heavy
-  build copes best), not a defect. No balance change was made. The
-  review also re-scored the findings against TODAY's post-ENH-10
-  marathon (the filed tables predate the arrow rework): the stage-3
-  wall persisted (+88% over stage 2 in Zhao Yun's current table), and
-  his stage-5-dip / stage-8-over-finale quirks persisted in his table
-  only - the 2026-09-19 cross-hero verdicts stand unchanged (findings
-  2 and 3 were Zhao-Yun artifacts).
-- Requirement:
-  Producer measurement, not a complaint: the self-play bot drove Zhao Yun
-  through all nine stages at TWO seeds (42 and 7), and both runs agree on
-  where the curve departs from the designed one. Designed content per stage
-  (from `src/core/stage.ts`): mobs 12, 18, 19, 23, 27, 27, 28, 28, 29 across
-  waves 3, 4, 4, 5, 5, 5, 5, 5, 5.
-
-  Measured clear time and continues spent (mean of both seeds):
-
-    stage   mobs   seed42   seed7   mean    vs previous stage
-    1        12     59.0s     0      68.8s/1    -
-    2        18     62.6s     0      64.4s/0   +0%
-    3        19     91.8s/2   85.2s/1  88.5s   +40% time for +1 mob
-    4        23     90.0s/1   93.4s/1  91.7s   +4%
-    5        27     71.8s/1   64.2s/1  68.0s   -26% (a dip)
-    6        27     86.2s/0  119.4s/2 102.8s   +51%
-    7        28     85.8s/1  101.4s/2  93.6s    -9%
-    8        28    132.6s/2  114.0s/2 123.3s   +32% (the peak)
-    9        29     111.8s/2  98.8s/0 105.3s   -15% (finie easier than 8)
-
-  Both seeds agree on three findings, so they are properties of the stages
-  and not of one run:
-    1. STAGE 3 IS A WALL. One more mob than stage 2 costs 40% more time and
-       the most continues of the early game. The stage data explains it:
-       stage 2 grants a horse, stage 3 does not, and adds spearmen and
-       archers. The jump is carried by the mount withdrawal.
-    2. STAGE 5 IS A DIP. 27 mobs - as many as stage 6 - but the fastest clear
-       of stages 3-9 in both runs.
-    3. STAGE 8 OUTLASTS THE FINALE. 123.3s mean against 105.3s for stage 9,
-       the only place the curve descends at the end. The penultimate stage
-       peaks instead of the last one.
-  Caveat stated plainly: this is one bot at two seeds. A bot is not a
-  player, and none of this says what the curve SHOULD be - only where it is
-  uneven against itself.
-- NEW EVIDENCE, 2026-09-19. The caveat this task filed itself with - "one bot
-  at two seeds" - turned out to matter more than the findings. Two OTHER heroes
-  driven through all nine stages at the SAME seed 42, so the runs are directly
-  comparable:
-
-      stage    Zhao Yun (filed)   Guan Yu   Zhang Fei
-      1              59.0 / 0      42.6/0      41.6/0
-      2              62.6 / 0      49.4/0      54.0/0
-      3              91.8 / 2      85.4/0      63.8/0
-      4              90.0 / 1      72.0/0      73.2/0
-      5              71.8 / 1      67.8/0      85.6/1
-      6              86.2 / 0      73.0/1      69.0/0
-      7              85.8 / 1      85.6/1      83.0/1
-      8             132.6 / 2      77.2/0      89.2/0
-      9             111.8 / 2      99.8/1     101.4/1
-
-  Against the three findings as filed:
-    1. STAGE 3 IS A WALL - HOLDS, and is the only one that does. Stage 2 to 3
-       costs +47% for Zhao Yun, +73% for Guan Yu, +18% for Zhang Fei. Two of
-       three heroes take a large jump, which is consistent with the stated
-       cause (stage 2 grants a horse, stage 3 does not, and adds spearmen and
-       archers). Zhang Fei feeling it least is consistent with his being the
-       HEAVY build.
-    2. STAGE 5 IS A DIP - DOES NOT HOLD. Zhao Yun -20%, Guan Yu -6%, and Zhang
-       Fei +17%, which is a RISE. This was a property of Zhao Yun, not of the
-       stage.
-    3. STAGE 8 OUTLASTS THE FINALE - DOES NOT HOLD. It is Zhao Yun only. For
-       both other heroes stage 9 is the longest stage of the nine, which is
-       the designed shape: Guan Yu 77.2 then 99.8, Zhang Fei 89.2 then 101.4.
-
-  So the decision this task is waiting on is SMALLER than it looked: one
-  anomaly to consider rather than three, and it is the one with a named cause
-  already in the stage data.
-- The measurements also still STAND: `git log src/core` since they were filed
-  is empty, and the sim is deterministic, so nothing about the curve has moved
-  in fifty-odd commits.
-- Acceptance criteria (when unblocked):
-  - [x] Owner has chosen: accept the shape and close this task
-        (2026-09-22).
-  - [x] No change was made (accepted as-is), so no before/after
-        re-measurement applies; the standing signal snapshots stayed
-        green throughout (13/13 across today's ticks, tables recorded
-        in PROGRESS.md).
-  - [x] `npm run signal` green throughout on the current build - and
-        deliberately unchanged: no stage data was touched.
-- Non-goals:
-  - No balance change without that owner decision.
-  - No change to heroes, enemies' stats in isolation, or AI - stage content
-    (`waves`, `bossKind`, mounts) is the lever this data points at.
 
 ### GATE-3 - Determinism is documented everywhere and enforced nowhere
 
@@ -493,7 +395,7 @@ Add future enhancement tasks below this heading.
 - Status: DONE
 - Requirement:
   All five heroes share identical frame data (`defineHeroAttacks` in
-  `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 — only damage/reach
+  `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 â€” only damage/reach
   numbers differ), so a pike thrust and a blade sweep feel identical. Give
   each hero weapon-true per-hit frame data (startup/active/recover,
   knockback/knockdown, reach/arc per jab1, jab2, finisher), keeping the
@@ -510,7 +412,7 @@ Add future enhancement tasks below this heading.
   Exact numbers are the implementer's within these identities. Replace the
   `.jab2`-suffix pose rule in `poseForEntity` (`src/game/adapters/sprites.ts`)
   with a `STRIKE_POSE` table keyed by full attack id, initially mapping to
-  current behavior (jab2→attack2, everything else→attack); per-hero triples
+  current behavior (jab2â†’attack2, everything elseâ†’attack); per-hero triples
   land in ENH-5 with the new poses. Fix the self-play bot (`selfplay/bot.ts`,
   two call sites) to space off the DRIVEN hero's own `combo[0]` def instead
   of hard-coded `zy.jab1`.
@@ -519,7 +421,7 @@ Add future enhancement tasks below this heading.
         ENH-4 baseline marathon table (stage times/continues per hero).
   - [x] New `test/core` assertions: per-hero frame data differs as designed
         (e.g. zhaoyun chain total < guanyu; zf.jab1 longest reach); every def
-        keeps `totalFrames > 0`; full-combo DPS per hero within ±10% of its
+        keeps `totalFrames > 0`; full-combo DPS per hero within Â±10% of its
         current value, computed in-test (no hand-waving).
   - [x] `sprites.test.ts`: table-driven selection proven (mapping decides,
         not the suffix); phasing boundaries per new frame datum; fallback to
@@ -541,7 +443,7 @@ Add future enhancement tasks below this heading.
 - Requirement:
   Author at most three new shared strike poses in `src/game/art/poses.ts`:
   `thrust` (deep lunge, weapon level), `chop` (high-to-low cut on a steep
-  forward diagonal, inside HEADROOM 27 — never truly overhead), `sweep`
+  forward diagonal, inside HEADROOM 27 â€” never truly overhead), `sweep`
   (low crouched wide swing). Repoint ENH-4's `STRIKE_POSE` table so each
   hero's (jab1, jab2, finisher) is three distinct poses and no two heroes
   share the same ordered triple. Register names in `sprites.ts` POSES,
@@ -549,11 +451,11 @@ Add future enhancement tasks below this heading.
   the hardcoded strike lists and distinctness PAIRS in
   `test/game/artquality.test.ts`.
 - Acceptance criteria:
-  - [x] Reach gate: every new strike beats idle by ≥ MIN_WEAPON_REACH_PX
+  - [x] Reach gate: every new strike beats idle by â‰¥ MIN_WEAPON_REACH_PX
         for every armed kind. Retract gate: windup/recover strictly narrower
         than EACH new strike. Distinctness: each new strike vs idle, windup,
         recover, and sibling strikes, all above the floor. No floor moved.
-  - [x] Face-clearance (all kinds × poses × facings), no-clip, centering,
+  - [x] Face-clearance (all kinds Ã— poses Ã— facings), no-clip, centering,
         portrait, tassel, and weapon-identity tests green unmodified in logic.
   - [x] `npm run vision` 5/5 including renderer parity and both negative
         controls; before/after combo sheets for all five heroes captured via
@@ -566,7 +468,7 @@ Add future enhancement tasks below this heading.
     vs enh5before; geometry-enh5after.json (thrust 65, chop 30, sweep 61,
     headroom 25, zero face overlaps); artifacts/look/facesheet.png.
 - Non-goals:
-  - No frame-data changes (ENH-4 owns them). No threshold weakening — redraw
+  - No frame-data changes (ENH-4 owns them). No threshold weakening â€” redraw
     the pose, never the floor. Enemies keep existing strike mapping.
 
 ### ENH-6 - Moveset validation: e2e, signals, balance comparison, eye review
@@ -578,7 +480,7 @@ Add future enhancement tasks below this heading.
   Prove the redesigned movesets end to end. Extend `e2e/anim.spec.ts`
   strike/withdrawn predicates to the new pose suffixes and add a per-hero
   combo texture test (Zhang Fei shows thrust-family keys, Guan Yu
-  sweep/chop-family — never the same triple). Run the full gates and compare
+  sweep/chop-family â€” never the same triple). Run the full gates and compare
   against the ENH-4 baseline marathon table.
 - Acceptance criteria:
   - [x] e2e green including the new per-hero combo test; vision 5/5;
@@ -762,7 +664,7 @@ Add future enhancement tasks below this heading.
   day and the key art was generated with the grok provider.
   Original painted key art backdrop (Five-Tigers homage, Red-Cliff
   fire/ship motif, provenance-logged like ART-18); baked gold-foil logo lockup
-  with 『赤壁之战』 subtitle; blinking PRESS START; presentation-only hi-score
+  with ã€Žèµ¤å£ä¹‹æˆ˜ã€ subtitle; blinking PRESS START; presentation-only hi-score
   line (`localStorage`, guarded); control plate as bronze plaque with the same
   device-specific strings; ember-drift + logo-sheen animation (visual-only).
 - Acceptance criteria:
@@ -819,14 +721,14 @@ Add future enhancement tasks below this heading.
   verified full-green same day)
 - Dependency: UI-1 DONE.
 - Requirement: arcade top band (P1 medallion + name + segmented HP + score +
-  lives pips); full-width boss rail on boss waves; "GO →" advance cue;
+  lives pips); full-width boss rail on boss waves; "GO â†’" advance cue;
   "WAVE n" chip; restyled combo + flaming-pearl special pip (same hp>cost rule);
   1.2s boss-name banner via existing `showBanner` queue; touch controls
   restyled as bronze lacquer buttons with identical hit zones/protocol.
 - Acceptance criteria:
   - [x] HUD/layout/pause/touch/prodbuild-HUD specs pass unchanged (no
         assertion deleted: geometry moved to hudlayout.ts with new unit
-        tests; the persistent stage label shows nameZh with the full En·Zh
+        tests; the persistent stage label shows nameZh with the full EnÂ·Zh
         name still present via the entry banner, which hud.spec reads).
   - [x] Reviewed desktop + mobile portrait/landscape in combat, boss, co-op
         (artifacts/look/ui4-{combat,boss,coop,go,touch-portrait,
@@ -839,23 +741,37 @@ Add future enhancement tasks below this heading.
   src/game/art/hudart.ts (plate/medallion/pearl/pip/chip/GO/rail/banner/touch
   painters), HudScene.ts rewrite (WoF band, boss rail, WAVE chip, GO cue,
   restyled combo + banner plaque, holdMs param), touch.ts bronze sheet
-  (identical zones/protocol), GameScene 1.2s boss banner, type.ts 'GO →',
+  (identical zones/protocol), GameScene 1.2s boss banner, type.ts 'GO â†’',
   test/game/{hudlayout,hudart}.test.ts (12), e2e/hud-look.spec.ts (4).
 - Non-goals: no sim/HUD-data changes; damage ghost is presentation-only
   (decayGhost in hudlayout, ghost field separate from ratio).
 
 ### UI-5 - Flow screens: scene cards, result, game over, complete, pause/continue (overhaul phase 5)
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-24 05:20 UTC - owner overhaul goal,
+  verified full-green same night)
 - Dependency: UI-1 DONE.
 - Requirement: new skippable scene-intro parchment card as a HudScene overlay
   (no new scene; tick-based autopilot auto-skip; `STAGE_LORE` copy table in the
   game layer); victory tally / game-over / game-complete / continue / pause
   cards in the new kit. Same scene keys + bridge fields.
 - Acceptance criteria:
-  - [ ] Autopilot/selfplay/marathon never hang on the card (new e2e test).
-  - [ ] stageclear/continue/scenerestart specs preserved; vision captures reviewed.
-  - [ ] Full gates green.
+  - [x] Autopilot/selfplay/marathon never hang on the card (new
+        e2e/introcard.spec.ts, 4 tests: tick-dismissal, real-play Enter
+        dismissal, fresh card per stage, defeat/complete/pause captures).
+  - [x] stageclear/continue/scenerestart specs preserved (plus pause,
+        touchpause, hud, hudpanels, layout all green); vision captures
+        reviewed.
+  - [x] Full gates green: lint, typecheck, unit 323/323 (+5), e2e 71/71
+        (+4 introcard), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
+- Delivered: src/game/data/stagelore.ts (9 lore beats), src/game/art/
+  flowart.ts (parchment intro/dialog/victory/defeat cards + stat chip +
+  ensureFlowArt), HudScene intro overlay (1.6s stagger, tick-based
+  autopilot dismiss, Enter/tap/3s dismiss; overlays sit above it),
+  parchment pause/continue/result/gameover/complete cards with dark-ink
+  recolors, type.ts STAGE 1..9, test/game/flowart.test.ts (5),
+  artifacts/ui5-review-cards.mjs (13/13 pixel checks), screenshots
+  artifacts/look/ui5-{intro,victory,gameover,pause,complete}.png.
 - Non-goals: no flow/state-machine changes; no new scenes.
 
 ### ART-19 - Painted per-stage backdrops (overhaul phase 6)
