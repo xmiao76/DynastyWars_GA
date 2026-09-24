@@ -1,5 +1,6 @@
 import { FACES, SCLERA } from './faces'
 import { headPainter, type HeroArt, type HeadPainter, type HeadLayer } from './hero-resources'
+import { bodyPainter, type BodyArt, type BodyPainter, type BodyPartName } from './body-parts'
 import type { PoseName } from './poses'
 import type { FigurePlan } from './figures'
 import { addWeapon, weaponPose } from './weapons'
@@ -62,6 +63,8 @@ export interface Shape {
   outline?: boolean
   /** A paint boundary, not a shape: cel groups on either side shade once. */
   headLayer?: HeadLayer
+  /** A paper-doll body part marker: the raster painter draws here instead. */
+  bodyPart?: BodyPartName
   /** Soft local transition on the painted head's near shoulder only. */
   shoulder?: { x: number; y: number; radius: number }
 }
@@ -174,28 +177,36 @@ export function drawFigure(
   ctx: CanvasRenderingContext2D,
   plan: FigurePlan,
   rawPose: Skeleton,
-  painted?: { art: HeroArt; poseName: PoseName },
+  painted?: { art?: HeroArt; poseName: PoseName; body?: BodyArt },
 ): void {
   const pose = weaponPose(plan, applyBuild(rawPose, plan.build))
-  const m = materials(plan.body, plan.trim, plan.gear, plan.beardColor ?? 0x3a2a18, painted?.art.skin ?? plan.skin)
-  const shapes = figureShapes(plan, pose, m, painted ? emptyHeadParts : spriteHeadParts, painted !== undefined)
-  if (painted) {
-    paintWithHead(ctx, shapes, headPainter(painted.art, painted.poseName, pose, plan.build.head),
+  const m = materials(plan.body, plan.trim, plan.gear, plan.beardColor ?? 0x3a2a18, painted?.art?.skin ?? plan.skin)
+  const head = painted?.art
+  const body = painted?.body
+  const shapes = figureShapes(plan, pose, m, head ? emptyHeadParts : spriteHeadParts, head !== undefined, body)
+  if (head || body) {
+    paintWithHead(ctx, shapes,
+      head ? headPainter(head, painted?.poseName ?? 'idle', pose, plan.build.head) : undefined,
+      body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk) : undefined,
       () => drawBodyDetails(ctx, plan, pose, m))
   } else {
     paintCel(ctx, shapes, FIG_W, GROUND)
   }
 
   // A painted head owns its face. Retain only the body details in that path.
-  if (!painted) drawDetails(ctx, plan, pose, m)
+  if (!head) drawDetails(ctx, plan, pose, m)
 }
 
 const emptyHeadParts: HeadParts = () => {}
 
-/** Keep body cel shading inside each shape, never over a painted head. All
- * layers use the same global lighting bands and existing ordered geometry. */
-function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], painter: HeadPainter, bodyDetails: () => void): void {
+/** Keep body cel shading inside each shape, never over painted raster.
+ * All layers use the same global lighting bands and existing ordered
+ * geometry. Either painter may be absent (procedural head under a painted
+ * body, or vice versa); body details run at the front head marker when
+ * there is one, otherwise just before the trailing group flushes. */
+function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: HeadPainter | undefined, body: BodyPainter | undefined, bodyDetails: () => void): void {
   let group: Shape[] = []
+  let detailsDone = false
   const flush = (): void => {
     if (group.length === 0) return
     // Clip shading to the current group's paths; otherwise source-atop shades
@@ -228,13 +239,20 @@ function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], painter: 
     group = []
   }
   for (const shape of shapes) {
-    if (shape.headLayer) {
+    if (shape.headLayer && head) {
       flush()
-      if (shape.headLayer === 'front') bodyDetails()
-      painter(ctx, shape.headLayer)
+      if (shape.headLayer === 'front') {
+        bodyDetails()
+        detailsDone = true
+      }
+      head(ctx, shape.headLayer)
+    } else if (shape.bodyPart && body) {
+      flush()
+      body(ctx, shape.bodyPart)
     }
     else group.push(shape)
   }
+  if (!detailsDone) bodyDetails()
   flush()
 }
 
@@ -295,11 +313,15 @@ export function figureShapes(
   m: Materials,
   headParts: HeadParts = spriteHeadParts,
   painted = false,
+  body?: BodyArt,
 ): Shape[] {
   const b = plan.build.bulk
   const shapes: Shape[] = []
   const add = (trace: Shape['trace'], fill: string, outline = true): void => {
     shapes.push({ trace, fill, outline })
+  }
+  const mark = (part: BodyPartName): void => {
+    shapes.push({ trace: () => {}, fill: '', bodyPart: part })
   }
 
   // A dropped weapon rests behind the prone body, not across the eyes. Its
@@ -309,57 +331,88 @@ export function figureShapes(
   // Cape first: it sits behind everything and is most of what makes a
   // silhouette recognisable at a distance.
   if (plan.cape) {
-    const trail = p.lying === true ? 1 : -1
-    add(
-      (c) =>
-        polyPath(c, [
-          { x: p.shoulderF.x - 2, y: p.shoulderF.y - 4 },
-          { x: p.shoulderN.x + 1, y: p.shoulderN.y - 4 },
-          { x: p.hip.x + trail * 2, y: p.hip.y + 20 * plan.build.height },
-          { x: p.hip.x + trail * 16, y: p.hip.y + 12 * plan.build.height },
-        ]),
-      m.clothShade,
-    )
+    if (body) {
+      mark('cloth')
+    } else {
+      const trail = p.lying === true ? 1 : -1
+      add(
+        (c) =>
+          polyPath(c, [
+            { x: p.shoulderF.x - 2, y: p.shoulderF.y - 4 },
+            { x: p.shoulderN.x + 1, y: p.shoulderN.y - 4 },
+            { x: p.hip.x + trail * 2, y: p.hip.y + 20 * plan.build.height },
+            { x: p.hip.x + trail * 16, y: p.hip.y + 12 * plan.build.height },
+          ]),
+        m.clothShade,
+      )
+    }
   }
 
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'rear' })
 
   // Far side of the body, drawn behind the torso.
-  add(
-    (c) => chainPath(c, [p.shoulderF, p.elbowF, p.handF], [9 * b, 7.2 * b, 5.4 * b]),
-    m.clothShade,
-  )
-  add((c) => chainPath(c, [p.hipF, p.kneeF, p.footF], [12.5 * b, 9.5 * b, 7 * b]), m.clothShade)
-  add((c) => bootShape(c, p.kneeF, p.footF, b), m.leatherShade)
-  add((c) => footShape(c, p.footF, b), m.leatherShade)
+  if (body) {
+    mark('upperArmF')
+    mark('foreArmF')
+  } else {
+    add(
+      (c) => chainPath(c, [p.shoulderF, p.elbowF, p.handF], [9 * b, 7.2 * b, 5.4 * b]),
+      m.clothShade,
+    )
+  }
+  if (body) {
+    mark('thighF')
+    mark('shinF')
+  } else {
+    add((c) => chainPath(c, [p.hipF, p.kneeF, p.footF], [12.5 * b, 9.5 * b, 7 * b]), m.clothShade)
+    add((c) => bootShape(c, p.kneeF, p.footF, b), m.leatherShade)
+    add((c) => footShape(c, p.footF, b), m.leatherShade)
+  }
 
-  // Torso, then the armour skirt over the hips.
-  add((c) => limbPath(c, p.chest, p.hip, 23.5 * b, 15.5 * b), m.cloth)
-  add(
-    (c) =>
-      polyPath(c, [
-        { x: p.hip.x - 8.5 * b, y: p.hip.y - 3 },
-        { x: p.hip.x + 8.5 * b, y: p.hip.y - 3 },
-        { x: p.hip.x + 11 * b, y: p.hip.y + 10 * plan.build.height },
-        { x: p.hip.x - 11 * b, y: p.hip.y + 10 * plan.build.height },
-      ]),
-    m.trim,
-  )
+  // Torso, then the armour skirt over the hips. The paper-doll torso sheet
+  // includes the skirt (rigid with the hips), so one marker replaces both.
+  if (body) {
+    mark('torso')
+  } else {
+    add((c) => limbPath(c, p.chest, p.hip, 23.5 * b, 15.5 * b), m.cloth)
+    add(
+      (c) =>
+        polyPath(c, [
+          { x: p.hip.x - 8.5 * b, y: p.hip.y - 3 },
+          { x: p.hip.x + 8.5 * b, y: p.hip.y - 3 },
+          { x: p.hip.x + 11 * b, y: p.hip.y + 10 * plan.build.height },
+          { x: p.hip.x - 11 * b, y: p.hip.y + 10 * plan.build.height },
+        ]),
+      m.trim,
+    )
+  }
 
   // Near leg, in front of the skirt.
-  add((c) => chainPath(c, [p.hipN, p.kneeN, p.footN], [13 * b, 10 * b, 7.5 * b]), m.cloth)
-  add((c) => bootShape(c, p.kneeN, p.footN, b), m.leather)
-  add((c) => footShape(c, p.footN, b), m.leather)
+  if (body) {
+    mark('thighN')
+    mark('shinN')
+  } else {
+    add((c) => chainPath(c, [p.hipN, p.kneeN, p.footN], [13 * b, 10 * b, 7.5 * b]), m.cloth)
+    add((c) => bootShape(c, p.kneeN, p.footN, b), m.leather)
+    add((c) => footShape(c, p.footN, b), m.leather)
+  }
 
   // Neck and head.
   add((c) => limbPath(c, p.neck, p.chest, 9 * b, 14 * b), m.skinShade)
   headParts(add, plan, p, m, headRadius(plan))
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'head' })
 
-  // Pauldron, then the near arm over it.
-  add((c) => ovalPath(c, p.shoulderN, 7.8 * b, 6.4 * b, -0.2), m.trim)
-  add((c) => chainPath(c, [p.shoulderN, p.elbowN, p.handN], [9.5 * b, 7.4 * b, 5.6 * b]), m.cloth)
-  if (painted) {
+  // Pauldron, then the near arm over it. With a paper-doll body the
+  // upper-arm part carries the shoulder, so the procedural pauldron (and
+  // the painted-head shoulder cap below it) would double-draw.
+  if (body) {
+    mark('upperArmN')
+    mark('foreArmN')
+  } else {
+    add((c) => ovalPath(c, p.shoulderN, 7.8 * b, 6.4 * b, -0.2), m.trim)
+    add((c) => chainPath(c, [p.shoulderN, p.elbowN, p.handN], [9.5 * b, 7.4 * b, 5.6 * b]), m.cloth)
+  }
+  if (painted && !body) {
     // A fitted shoulder cap bridges the painted neck and the existing sleeve.
     // It does not alter the arm endpoints or any weapon/hand geometry.
     add(c => ovalPath(c, p.shoulderN, 6.8 * b, 5.4 * b, -0.2), m.cloth)
@@ -375,19 +428,25 @@ export function figureShapes(
   }
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'front' })
   // Forearm and hand in skin, over the sleeve, so the arm is not one tube.
-  add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
+  // Skipped with a paper-doll body: the hand is painted into the foreArm part.
+  if (!body) {
+    add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
+  }
 
   if (!painted || !p.lying) addWeapon(add, plan, p, m)
   return shapes
 }
 
-/** A foot, always set flat along the ground line it stands on. */
-function footShape(c: CanvasRenderingContext2D, foot: Pt, b: number): void {
+/** A foot, always set flat along the ground line it stands on. Exported for
+ * the BODY-2 fixture generator, which paints paper-doll parts with the same
+ * path functions so fixture silhouettes match procedural ones exactly. */
+export function footShape(c: CanvasRenderingContext2D, foot: Pt, b: number): void {
   limbPath(c, { x: foot.x - 2, y: foot.y - 1.5 }, { x: foot.x + 6, y: foot.y - 1.5 }, 6.5 * b, 5 * b)
 }
 
-/** The boot cuff: the lower third of the shin, so a leg is not one flat tube. */
-function bootShape(c: CanvasRenderingContext2D, knee: Pt, foot: Pt, b: number): void {
+/** The boot cuff: the lower third of the shin, so a leg is not one flat tube.
+ * Exported for the BODY-2 fixture generator (see footShape). */
+export function bootShape(c: CanvasRenderingContext2D, knee: Pt, foot: Pt, b: number): void {
   const top = lerpPt(knee, foot, 0.62)
   limbPath(c, top, foot, 9 * b, 7.5 * b)
 }

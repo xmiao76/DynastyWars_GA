@@ -32,7 +32,9 @@ export const HERO_ART_CATALOG = {
   weiyan: { portrait: wyPortrait, head: wyHead, front: wyFront, rear: wyRear },
 } as const
 const PARTS = ['portrait', 'head', 'front', 'rear'] as const
-const RESOURCE_KEY = 'paintedHeroArt'
+/** Registry key for painted art packs; shared with the body-art adapter so
+ * heads and bodies publish into one record without wiping each other. */
+export const ART_RESOURCE_KEY = 'paintedHeroArt'
 const keyFor = (id: string, part: string): string => `hero-source:${id}:${part}`
 
 export function queueHeroArt(scene: Phaser.Scene): void {
@@ -79,9 +81,10 @@ export function publishHeroArt(scene: Phaser.Scene): void {
         skin: parseInt(meta.skin.slice(1), 16) }
     }
   }
-  scene.registry.set(RESOURCE_KEY, { heroes } satisfies ArtResources)
+  const prev = scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined
+  scene.registry.set(ART_RESOURCE_KEY, { heroes, bodies: prev?.bodies } satisfies ArtResources)
 }
 
 export function heroArtResources(scene: Phaser.Scene): ArtResources | undefined {
-  return scene.registry.get(RESOURCE_KEY) as ArtResources | undefined
+  return scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined
 }

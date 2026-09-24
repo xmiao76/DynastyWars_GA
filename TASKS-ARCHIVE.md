@@ -3296,3 +3296,49 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No minifier configuration. The fix is to write CSS the minifier cannot
     misread, not to argue with it.
 
+
+### ENH-4 - Per-weapon hero moveset data, strike mapping, and unit tests
+
+- Status: DONE
+- Requirement:
+  All five heroes share identical frame data (`defineHeroAttacks` in
+  `src/core/attacks.ts`: jabs 6/4/10, finisher 8/5/16 ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â only damage/reach
+  numbers differ), so a pike thrust and a blade sweep feel identical. Give
+  each hero weapon-true per-hit frame data (startup/active/recover,
+  knockback/knockdown, reach/arc per jab1, jab2, finisher), keeping the
+  3-hit chain, jumpkick, special, and all enemy defs unchanged:
+    - Guan Yu, glaive (heavy sweeps): slowest chain, wide arc; e.g. jabs
+      8/5/12 arc 12, finisher overhead chop 12/6/20 with knockdown.
+    - Zhang Fei, serpent pike (longest, thrust-first): longest reach, narrow
+      arc; quick thrusts 5/4/9, finisher wide sweeping knockdown 10/6/18.
+    - Zhao Yun, spear (fast agile): fastest chain 5/3/8, lowest damage/hit.
+    - Huang Zhong, bow (veteran archer): compact short-range melee, moderate
+      speed; arrow special untouched.
+    - Wei Yan, dao (chopping blade): slow heavy chops 9/5/14, high damage,
+      long recover; finisher big knockdown chop.
+  Exact numbers are the implementer's within these identities. Replace the
+  `.jab2`-suffix pose rule in `poseForEntity` (`src/game/adapters/sprites.ts`)
+  with a `STRIKE_POSE` table keyed by full attack id, initially mapping to
+  current behavior (jab2ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢attack2, everything elseÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢attack); per-hero triples
+  land in ENH-5 with the new poses. Fix the self-play bot (`selfplay/bot.ts`,
+  two call sites) to space off the DRIVEN hero's own `combo[0]` def instead
+  of hard-coded `zy.jab1`.
+- Acceptance criteria:
+  - [x] Before editing, `npm run signal` is recorded in PROGRESS.md as the
+        ENH-4 baseline marathon table (stage times/continues per hero).
+  - [x] New `test/core` assertions: per-hero frame data differs as designed
+        (e.g. zhaoyun chain total < guanyu; zf.jab1 longest reach); every def
+        keeps `totalFrames > 0`; full-combo DPS per hero within ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â±10% of its
+        current value, computed in-test (no hand-waving).
+  - [x] `sprites.test.ts`: table-driven selection proven (mapping decides,
+        not the suffix); phasing boundaries per new frame datum; fallback to
+        `attack`/`special` for enemies, mounted sweep, unknown ids preserved.
+  - [x] Bot own-def spacing covered by a targeted test; `npm run signal`
+        still 13/13 (bot viable with every hero).
+  - [x] Each new assertion proven able to fail against the old tables/data.
+  - [x] lint, typecheck, unit green. No `sim.ts` logic changes (data only).
+- Non-goals:
+  - No new poses or art-gate changes (ENH-5). No jumpkick, special, enemy,
+    or mounted-sweep changes. No DIFF-1 smoothing: record balance deltas,
+    do not chase them.
+

@@ -1,5 +1,6 @@
 import type { PoseName } from './poses'
 import type { Skeleton } from './rig'
+import type { BodyArt } from './body-parts'
 
 /** Decoded, complete per-hero art. Pure renderers receive this explicitly. */
 export interface HeroArt {
@@ -16,6 +17,9 @@ export interface HeroArt {
 
 export interface ArtResources {
   heroes: Readonly<Partial<Record<string, HeroArt>>>
+  /** Paper-doll bodies (BODY-2), keyed by fighter id like heads. Absent
+   * entries render fully procedural - the atomic fallback is per fighter. */
+  bodies?: Readonly<Partial<Record<string, BodyArt>>>
 }
 
 export type HeadLayer = 'rear' | 'head' | 'front'

@@ -22,6 +22,51 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-24 23:10 UTC - BODY-2 (attempt 1, full verification, DONE)
+
+- Status before: BODY-2 TODO (BODY-1 closed DONE on owner pilot approval
+  earlier this turn; goal resumed to active/armed).
+- Work completed: paper-doll body pipeline, fixtures only, no shipped
+  visual change (production body catalog is empty; everything falls back
+  to procedural pixels).
+  - `src/game/art/body-parts.ts`: 10-part table (BODY_PART_ORDER per the
+    BODY_PARTS_SPEC), BodyArt/BodyResources, bodyPainter (translate to
+    joint A, rotate to B, axial stretch to |AB|, lateral bulk scale,
+    device-to-logical density conversion), maskIou, PARITY_FLOOR 0.90.
+  - `draw.ts`: `Shape.bodyPart` markers slotted into `figureShapes`
+    (procedural shapes skipped per part when body art present),
+    generalized `paintWithHead` (independent head/body painters,
+    bodyDetails runs at front marker or before the trailing flush),
+    `drawFigure` threading; exported bootShape/footShape for fixtures.
+  - `registry.ts` threads `resources.bodies[kind]`; `ArtResources`
+    gains optional `bodies`; `body-art.ts` adapter (explicit-catalog
+    queue/publish, registry merge both directions); BootScene wires
+    queue+publish (verified no-ops).
+  - `scripts/make-body-fixtures.mjs` (+ .d.mts): deterministic 10-cell
+    fixture sheet (exact procedural silhouettes, distinct flat colors)
+    + prepared.json with sha256/signatures; committed under
+    src/game/assets/body-fixtures/.
+  - `test/game/bodyparts.test.ts` (12): table/cells, byte-identical
+    regeneration, sha256+signatures, part presence + draw order at
+    computed joint points, mook-path registry threading, fallback
+    byte-identity, publish atomicity incl. heads-preserved merge,
+    mask-IoU units, 14-pose parity gate (all clear 0.90).
+- Defects caught during verification (all in new code/tests, none shipped):
+  1. bodyPainter forgot the device-to-logical density conversion: every
+     part rendered 4x and buried the far side. Fixed; density now flows
+     from prepared.json through BodyArt.
+  2. Order-test sample points kept landing on the pike haft (near-vertical
+     through the grip) and beard/trim regions; resolved with a zoomed
+     dump (artifacts/elbow-zoom.png) and region-based assertions.
+- Verification run: lint PASS, typecheck PASS, unit 350/350 (+12), e2e
+  75/75, vision 5/5 (sprite gate untouched - zero art changed), selfplay
+  13/13, build PASS, prodbuild 4/4.
+- Housekeeping: ENH-4 (tail chain ...FIX-6 -> ENH-4) moved to
+  TASKS-ARCHIVE.md tail. 20 DONE remain.
+- Result: COMPLETED.
+- Status after: BODY-2 DONE. Next: BODY-3 (five hero bodies).
+- Next recommended task: BODY-3.
+
 ### 2026-09-24 22:05 UTC - BODY-1 DONE (owner approved the pilots)
 
 - Status before: BODY-1 IN_PROGRESS, awaiting owner pilot approval.

@@ -1,6 +1,7 @@
 import { HORSE_H, HORSE_W, HORSE_PLAN, drawHorse, type HorsePlan } from './beasts'
 import { drawFigure } from './draw'
-import type { ArtResources } from './hero-resources'
+import type { ArtResources, HeroArt } from './hero-resources'
+import type { BodyArt } from './body-parts'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
 import { drawPortraitFigure } from './portrait'
@@ -296,11 +297,20 @@ export function drawKindPose(
   ctx.scale(scale, scale)
   let drawn = true
   switch (entry.type) {
-    case 'figure':
+    case 'figure': {
       ctx.translate(marginFor(pose), HEADROOM)
-      drawFigure(ctx, entry.plan, POSE_TABLE[pose], resources?.heroes[kind]
-        ? { art: resources.heroes[kind], poseName: pose } : undefined)
+      const head = resources?.heroes[kind]
+      const body = resources?.bodies?.[kind]
+      if (head || body) {
+        const painted: { art?: HeroArt; poseName: PoseName; body?: BodyArt } = { poseName: pose }
+        if (head) painted.art = head
+        if (body) painted.body = body
+        drawFigure(ctx, entry.plan, POSE_TABLE[pose], painted)
+      } else {
+        drawFigure(ctx, entry.plan, POSE_TABLE[pose])
+      }
       break
+    }
     case 'horse':
       ctx.translate(0, HORSE_HEADROOM)
       drawHorse(ctx, entry.plan, pose)
