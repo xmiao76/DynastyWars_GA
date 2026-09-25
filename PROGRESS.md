@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 00:40 UTC - BODY-8 (attempt 1, full verification, DONE)
+
+- Status before: BODY-8 TODO (first owner-objection fix task).
+- Work completed: hands visible + grip readable for all 17 fighters.
+  - Root cause (vision + debug): the masters' open hands exceed the
+    limb-band cuts -> foreArm cells end at clipped palm stubs, and the
+    plain haft draws OVER the stub = zero hand pixels at the grip. A
+    far-hand debug run also measured that the far arm sits INSIDE the
+    torso span in every pose of this rig (guanyu attack handF at
+    (58.3, 32.6)) - occluded by anatomy, so no far-hand visibility
+    assertion is meaningful.
+  - Fix: painted-style hands in the fighter's own BODY skin (hero
+    head-skin measurements differ from body skin - handM() threads the
+    body skin through materials): drawGripHand = fist + 3 finger bands
+    wrapping the haft at handN OVER the weapon + knuckle line + form
+    shadow; drawRelaxedHand rides the far-arm slot inside the shape
+    stream (correct occlusion). Both paths (painted + procedural).
+  - Measurable gate: test/game/handgrip.test.ts - 238/238 checks (17
+    fighters x 14 poses, >= 24 skin px at SCALE 2 within +-3 px of the
+    grip point). Zero before the fix (haft covered everything).
+- Verification: lint PASS, typecheck PASS, unit 516/516 (one documented
+  full-suite artquality flake - green on re-run and in isolation, the
+  same pattern as its recorded history), e2e 78/78, vision 5/5, selfplay
+  13/13, build PASS, prodbuild 4/4. Grip review sheets regenerated
+  (artifacts/look/obs-grip-*.png) for owner re-review.
+- Housekeeping: ENH-9 archived (chain ENH-8 -> ENH-9). 20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the final
+  acceptance gate).
+- Status after: BODY-8 DONE. Next: BODY-9 (feet).
+- Next recommended task: BODY-9.
+
 ### 2026-09-25 23:55 UTC - Owner objections received: vision diagnosis + BODY-8..13 filed
 
 - Status before: goal blocked awaiting final-cast acceptance. Owner

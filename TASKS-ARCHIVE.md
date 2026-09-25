@@ -3485,3 +3485,50 @@ and the three pre-redesign enhancements - all DONE and verified)
     (identical marathons), vision 5/5, prodbuild 4/4 (8 zones both
     orientations), build. Zone counts 7->8 in touch/prodbuild specs.
 
+
+### ENH-9 - Pause does not freeze the stage-clear transition
+
+- Status: DONE
+- Requirement:
+  ENH-7's pause gate promises "no stage transitions until resume", and
+  the game-over countdown honors it (frozen while paused). The
+  stage-clear path does not: once the `stageclear` event drains,
+  GameScene arms a wall-clock `delayedCall(2000)` to the result scene,
+  which fires straight through a pause - the scene changes under the
+  PAUSED overlay when pause lands inside the 2s clear window. Freeze
+  the clear countdown while paused (the continue countdown is the
+  in-repo template: accumulate only on unpaused updates), so pause
+  truly freezes every transition.
+- Acceptance criteria:
+  - [x] Pausing inside the clear window holds the game scene: e2e
+        drives the REAL clear path (forceBoss + boss down -> stageclear
+        event), pauses inside the 2s beat, and asserts scene is still
+        'game' 3s later with the PAUSED caption showing.
+  - [x] Resume completes the transition: the result scene appears
+        after resume without further input (same test).
+  - [x] Unpaused clear timing unchanged: the delayedCall became a
+        delta-counted 2000ms beat armed at the same event drain (same
+        payload read at fire time); existing stageclear e2e green
+        (bot-driven full stage clear -> result -> stage 2); no DIFF-1
+        impact (no frame data, spawn, or tuning change).
+  - [x] Sweep done, every gameplay `scene.start` justified: GameScene
+        pending-restart and gameover expiry sit below the pause gate;
+        the clear->result transition now does too (this defect's fix).
+        Menu-scene transitions (result/gameover/select/title) only run
+        after the game scene is gone - no pause exists there. The
+        bridge's forceResult/forceGameOver are harness test aids that
+        deliberately bypass gameplay.
+- Non-goals:
+  - No pause menu, settings, or volume. No change to the 2s boss-fall
+    beat length. No auto-pause on blur. No touch-input changes.
+- Evidence:
+  - artifacts/loop/proposals-clearpause-enh9.md (this pass's review).
+  - Trial: `clearScheduled` + `time.delayedCall(2000)` -> `clearMsLeft`
+    counted in update() below the pause gate (the continue-countdown
+    template). e2e/pause.spec.ts gains the both-directions pin; both
+    mechanisms falsified by probe (old delayedCall restored -> "the
+    result scene arrived under the PAUSED overlay"; transition
+    suppressed -> the resume assert fails). Gates: lint/typecheck
+    clean, unit 196/196, e2e 53/53 (+1), signal 13/13, vision 5/5,
+    prodbuild 4/4, build.
+
