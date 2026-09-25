@@ -22,6 +22,25 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 11:20 UTC - BODY-7 (attempt 3, round-2 re-review sweep, awaiting owner acceptance)
+
+- Status before: BODY-1..6 + BODY-8..16 all DONE; BODY-7 IN_PROGRESS.
+- Work completed: the closing sweep for the round-2 program.
+  - ONE serial run fully green: eslint, tsc, unit 606/606, e2e 78/78,
+    vision 5/5, selfplay 13/13, build, prodbuild 4/4, memory probe.
+  - Resources unchanged by round 2 (code-only enhancements, no new
+    art): dist 9,966 KB/85, boot 4.1 s, 403 textures, ~129 MB.
+    Report: artifacts/body7-round2-report.md.
+  - All review sheets regenerated with arms + proportions live.
+- Verification: all gates green in one serial run; logs
+  artifacts/body7-{lint,tsc,unit,e2e,vision,selfplay,build,prodbuild,mem}.log.
+- Result: IN_PROGRESS - every technical criterion is met and verified
+  three times; the remaining acceptance item is the OWNER'S acceptance
+  of the final cast (objections stay open per the task's own criteria).
+- Status after: BODY-7 IN_PROGRESS (awaiting owner acceptance).
+- Next: owner verdict - acceptance closes BODY-7 DONE and completes the
+  goal; objections become the next work.
+
 ### 2026-09-26 10:30 UTC - BODY-16 (attempt 1, full verification, DONE)
 
 - Status before: BODY-16 TODO (owner: natural proportions).
