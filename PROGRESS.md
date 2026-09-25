@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 05:30 UTC - BODY-13 (attempt 1, full verification, DONE)
+
+- Status before: BODY-13 IN_PROGRESS (last owner-objection fix task).
+- Work completed: paper-doll bodies for all nine bosses.
+  - 9 full-body masters (grok, A-pose recipe), armor keyed to the
+    painted heads per BOSS_HEAD_REFERENCE; eyeballed joint marks in
+    prepare-body-parts.mjs; boss skins match the face packs.
+  - Cell strips reviewed clean (no truncations); hero/mook sheets
+    regenerate byte-identical (git-verified, no drift).
+  - Wired via body-art.ts (catalog 8->17); parity + seating + waist
+    + grip + foot tests extended to all 17 fighters; bossboard NEW
+    side paints bodies.
+- Verification: lint PASS, typecheck PASS, unit 605/605, e2e 78/78
+  (after extending body-look's published-bodies exact-set 8->17 -
+  the BODY-4 precedent), vision 5/5, selfplay 13/13, build,
+  prodbuild 4/4. Boss before/after board eyeballed: idle/attack/
+  down all compose with painted heads + bodies + hands + feet.
+- Housekeeping: ART-17 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the final
+  acceptance gate).
+- Status after: BODY-13 DONE. All objection fixes complete. Next:
+  BODY-7 final re-review sweep.
+- Next recommended task: BODY-7.
+
 ### 2026-09-26 04:30 UTC - BODY-12 (attempt 1, full verification, DONE)
 
 - Status before: BODY-12 IN_PROGRESS (owner cel-face-split objection).

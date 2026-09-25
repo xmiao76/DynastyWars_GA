@@ -436,7 +436,7 @@ describe('BODY-2 mask IoU', () => {
   })
 
   it('holds the parity floor on every wired production fighter', async () => {
-    const packs = ['hero-bodies', 'mook-bodies'] as const
+    const packs = ['hero-bodies', 'mook-bodies', 'boss-bodies'] as const
     let covered = 0
     for (const pack of packs) {
       const prepared = (await import(`../../src/game/assets/${pack}/prepared.json`)).default as Record<
@@ -483,7 +483,7 @@ describe('BODY-2 mask IoU', () => {
         }
       }
     }
-    expect(covered, 'production packs must cover heroes + mooks').toBe(8)
+    expect(covered, 'production packs must cover heroes + mooks + bosses').toBe(17)
   })
 
   it('seats every painted part on its own joint segment', async () => {
@@ -494,6 +494,7 @@ describe('BODY-2 mask IoU', () => {
     const packs = [
       { dir: 'hero-bodies', plans: HERO_FIGURES },
       { dir: 'mook-bodies', plans: ENEMY_FIGURES },
+      { dir: 'boss-bodies', plans: ENEMY_FIGURES },
     ] as const
     for (const { dir, plans } of packs) {
       const prepared = (await import(`../../src/game/assets/${dir}/prepared.json`)).default as Record<

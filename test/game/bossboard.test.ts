@@ -3,18 +3,21 @@ import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { artBoxFor, drawKindPose } from '../../src/game/art/registry'
 import type { ArtResources, HeroArt } from '../../src/game/art/hero-resources'
+import type { BodyArt } from '../../src/game/art/body-parts'
 import type { PoseName } from '../../src/game/art/poses'
 import prepared from '../../src/game/assets/boss-faces/prepared.json'
+import bodiesPrepared from '../../src/game/assets/boss-bodies/prepared.json'
 
-/** BODY-6 review board: every boss, procedural vs painted heads, idle +
- * attack + down. Writes artifacts/look/boss-beforeafter.png; the
- * assertions are the painted-vs-fallback liveness per cell. */
+/** BODY-6/13 review board: every boss, procedural vs painted, idle +
+ * attack + down. BODY-13 extends the NEW side to painted bodies.
+ * Writes artifacts/look/boss-beforeafter.png; the assertions are the
+ * painted-vs-fallback liveness per cell. */
 const IDS = ['lubu', 'caocao', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'zhanghe', 'lidian'] as const
 const SCALE = 2
 
 describe('BODY-6 review board (permanent generator)', () => {
   it('writes the boss before/after board at gameplay scale', async () => {
-    const resources: ArtResources = { heroes: {} }
+    const resources: ArtResources = { heroes: {}, bodies: {} }
     for (const id of IDS) {
       const image = async (part: string) => await loadImage(`src/game/assets/boss-faces/${id}-${part}.png`) as unknown as CanvasImageSource
       const m = prepared[id]
@@ -22,6 +25,12 @@ describe('BODY-6 review board (permanent generator)', () => {
         id, revision: m.revision, portrait: await image('portrait'), head: await image('head'),
         front: await image('front'), rear: await image('rear'), cell: m.cell, bounds: m.bounds,
         skin: parseInt(m.skin.slice(1), 16),
+      }
+      const bm = bodiesPrepared[id] as { revision: string; skin: string; density: number; parts: BodyArt['parts'] }
+      const sheet = (await loadImage(`src/game/assets/boss-bodies/${id}-sheet.png`)) as unknown as CanvasImageSource
+      ;(resources.bodies as Record<string, BodyArt>)[id] = {
+        id, revision: bm.revision, sheet, density: bm.density, parts: bm.parts,
+        skin: parseInt(bm.skin.slice(1), 16),
       }
     }
     const poses: PoseName[] = ['idle', 'attack', 'down']

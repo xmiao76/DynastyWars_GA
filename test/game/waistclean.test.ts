@@ -1,4 +1,4 @@
-import { createCanvas, loadImage } from '@napi-rs/canvas'
+﻿import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { drawFigure } from '../../src/game/art/draw'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
@@ -19,7 +19,7 @@ type Ctx = CanvasRenderingContext2D
 const SCALE = 2
 const POSES = Object.keys(POSE_TABLE) as PoseName[]
 
-const PAINTED: Array<{ id: string; bodyDir: 'hero-bodies' | 'mook-bodies' }> = [
+const PAINTED: Array<{ id: string; bodyDir: 'hero-bodies' | 'mook-bodies' | 'boss-bodies' }> = [
   { id: 'guanyu', bodyDir: 'hero-bodies' },
   { id: 'zhangfei', bodyDir: 'hero-bodies' },
   { id: 'zhaoyun', bodyDir: 'hero-bodies' },
@@ -28,6 +28,15 @@ const PAINTED: Array<{ id: string; bodyDir: 'hero-bodies' | 'mook-bodies' }> = [
   { id: 'soldier', bodyDir: 'mook-bodies' },
   { id: 'spearman', bodyDir: 'mook-bodies' },
   { id: 'archer', bodyDir: 'mook-bodies' },
+  { id: 'lubu', bodyDir: 'boss-bodies' },
+  { id: 'caocao', bodyDir: 'boss-bodies' },
+  { id: 'xiahoudun', bodyDir: 'boss-bodies' },
+  { id: 'xuchu', bodyDir: 'boss-bodies' },
+  { id: 'zhangliao', bodyDir: 'boss-bodies' },
+  { id: 'caoren', bodyDir: 'boss-bodies' },
+  { id: 'xuhuang', bodyDir: 'boss-bodies' },
+  { id: 'zhanghe', bodyDir: 'boss-bodies' },
+  { id: 'lidian', bodyDir: 'boss-bodies' },
 ]
 
 async function loadBody(id: string, dir: string): Promise<BodyArt | undefined> {

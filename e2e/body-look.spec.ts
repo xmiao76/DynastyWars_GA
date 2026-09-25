@@ -20,7 +20,8 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
     .toBe('title')
 
-  // Boot must have published all eight body packs (signature-verified).
+  // Boot must have published all seventeen body packs
+  // (signature-verified): BODY-3 heroes + BODY-4 mooks + BODY-13 bosses.
   const published = await page.evaluate(() => {
     const game = window.__DW_GAME__
     const scene = game?.scene.getScene('boot')
@@ -30,7 +31,9 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
     return { bodies: Object.keys(res?.bodies ?? {}).sort(), horse: res?.horse !== undefined }
   })
   expect(published.bodies).toEqual([
-    'archer', 'guanyu', 'huangzhong', 'soldier', 'spearman', 'weiyan', 'zhangfei', 'zhaoyun',
+    'archer', 'caocao', 'caoren', 'guanyu', 'huangzhong', 'lidian', 'lubu',
+    'soldier', 'spearman', 'weiyan', 'xiahoudun', 'xuchu', 'xuhuang',
+    'zhangfei', 'zhanghe', 'zhangliao', 'zhaoyun',
   ])
   expect(published.horse, 'painted horse published at boot').toBe(true)
 

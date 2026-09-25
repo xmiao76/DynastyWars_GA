@@ -19,7 +19,7 @@ type Ctx = CanvasRenderingContext2D
 const SCALE = 2
 const POSES = Object.keys(POSE_TABLE) as PoseName[]
 
-const FIGHTERS: Array<{ id: string; dir: 'hero-faces' | 'boss-faces'; bodyDir: 'hero-bodies' | 'mook-bodies' | null }> = [
+const FIGHTERS: Array<{ id: string; dir: 'hero-faces' | 'boss-faces' | 'mook-faces'; bodyDir: 'hero-bodies' | 'mook-bodies' | 'boss-bodies' | null }> = [
   { id: 'guanyu', dir: 'hero-faces', bodyDir: 'hero-bodies' },
   { id: 'zhangfei', dir: 'hero-faces', bodyDir: 'hero-bodies' },
   { id: 'zhaoyun', dir: 'hero-faces', bodyDir: 'hero-bodies' },
@@ -28,15 +28,15 @@ const FIGHTERS: Array<{ id: string; dir: 'hero-faces' | 'boss-faces'; bodyDir: '
   { id: 'soldier', dir: 'mook-faces', bodyDir: 'mook-bodies' },
   { id: 'spearman', dir: 'mook-faces', bodyDir: 'mook-bodies' },
   { id: 'archer', dir: 'mook-faces', bodyDir: 'mook-bodies' },
-  { id: 'lubu', dir: 'boss-faces', bodyDir: null },
-  { id: 'caocao', dir: 'boss-faces', bodyDir: null },
-  { id: 'xiahoudun', dir: 'boss-faces', bodyDir: null },
-  { id: 'xuchu', dir: 'boss-faces', bodyDir: null },
-  { id: 'zhangliao', dir: 'boss-faces', bodyDir: null },
-  { id: 'caoren', dir: 'boss-faces', bodyDir: null },
-  { id: 'xuhuang', dir: 'boss-faces', bodyDir: null },
-  { id: 'zhanghe', dir: 'boss-faces', bodyDir: null },
-  { id: 'lidian', dir: 'boss-faces', bodyDir: null },
+  { id: 'lubu', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'caocao', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'xiahoudun', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'xuchu', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'zhangliao', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'caoren', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'xuhuang', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'zhanghe', dir: 'boss-faces', bodyDir: 'boss-bodies' },
+  { id: 'lidian', dir: 'boss-faces', bodyDir: 'boss-bodies' },
 ]
 
 async function loadPack(id: string, dir: string): Promise<HeroArt | undefined> {

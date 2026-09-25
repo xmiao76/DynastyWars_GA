@@ -46,6 +46,9 @@ async function loadResources(): Promise<ArtResources> {
     ['guanyu', 'hero-bodies'], ['zhangfei', 'hero-bodies'], ['zhaoyun', 'hero-bodies'],
     ['huangzhong', 'hero-bodies'], ['weiyan', 'hero-bodies'],
     ['soldier', 'mook-bodies'], ['spearman', 'mook-bodies'], ['archer', 'mook-bodies'],
+    ['lubu', 'boss-bodies'], ['caocao', 'boss-bodies'], ['xiahoudun', 'boss-bodies'], ['xuchu', 'boss-bodies'],
+    ['zhangliao', 'boss-bodies'], ['caoren', 'boss-bodies'], ['xuhuang', 'boss-bodies'],
+    ['zhanghe', 'boss-bodies'], ['lidian', 'boss-bodies'],
   ] as const) {
     const m = (await import(`../../src/game/assets/${dir}/prepared.json`)).default as Record<string, {
       revision: string; skin: string; density: number; parts: BodyArt['parts']

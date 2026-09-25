@@ -1,4 +1,4 @@
-﻿import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 
@@ -108,6 +108,116 @@ export const HEROES = {
       shoulderN: [557, 300], elbowN: [674, 449], handN: [765, 586],
       hipF: [366, 661], kneeF: [358, 911], footF: [349, 1198],
       hipN: [466, 661], kneeN: [474, 911], footN: [482, 1198],
+    },
+  },
+  // BODY-13 bosses: eyeballed like the heroes; skins match the boss-faces
+  // packs so necks/heads agree.
+  lubu: {
+    master: 'art/fighter-bodies/lubu-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#f0c8a0',
+    joints: {
+      chest: [416, 430], hip: [416, 640],
+      shoulderF: [300, 360], elbowF: [180, 470], handF: [80, 570],
+      shoulderN: [532, 360], elbowN: [652, 470], handN: [752, 570],
+      hipF: [350, 660], kneeF: [340, 900], footF: [320, 1160],
+      hipN: [482, 660], kneeN: [492, 900], footN: [512, 1160],
+    },
+  },
+  caocao: {
+    master: 'art/fighter-bodies/caocao-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#d8b48c',
+    joints: {
+      chest: [416, 420], hip: [416, 640],
+      shoulderF: [290, 360], elbowF: [170, 470], handF: [75, 570],
+      shoulderN: [545, 360], elbowN: [665, 470], handN: [755, 570],
+      hipF: [350, 655], kneeF: [345, 890], footF: [330, 1145],
+      hipN: [480, 655], kneeN: [485, 890], footN: [500, 1145],
+    },
+  },
+  xiahoudun: {
+    master: 'art/fighter-bodies/xiahoudun-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#cfa87e',
+    joints: {
+      chest: [416, 400], hip: [416, 640],
+      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
+      shoulderN: [545, 350], elbowN: [660, 460], handN: [755, 560],
+      hipF: [350, 650], kneeF: [340, 880], footF: [320, 1140],
+      hipN: [480, 650], kneeN: [490, 880], footN: [510, 1140],
+    },
+  },
+  xuchu: {
+    master: 'art/fighter-bodies/xuchu-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#c08a68',
+    joints: {
+      chest: [416, 380], hip: [416, 640],
+      shoulderF: [270, 330], elbowF: [165, 450], handF: [70, 555],
+      shoulderN: [560, 330], elbowN: [665, 450], handN: [760, 555],
+      hipF: [340, 655], kneeF: [330, 880], footF: [310, 1140],
+      hipN: [490, 655], kneeN: [500, 880], footN: [520, 1140],
+    },
+  },
+  zhangliao: {
+    master: 'art/fighter-bodies/zhangliao-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#e0bc94',
+    joints: {
+      chest: [416, 400], hip: [416, 645],
+      shoulderF: [290, 355], elbowF: [175, 465], handF: [75, 565],
+      shoulderN: [545, 355], elbowN: [655, 465], handN: [755, 565],
+      hipF: [350, 660], kneeF: [340, 890], footF: [320, 1150],
+      hipN: [480, 660], kneeN: [490, 890], footN: [510, 1150],
+    },
+  },
+  caoren: {
+    master: 'art/fighter-bodies/caoren-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#d4ac84',
+    joints: {
+      chest: [416, 400], hip: [416, 630],
+      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
+      shoulderN: [545, 350], elbowN: [655, 460], handN: [755, 560],
+      hipF: [350, 645], kneeF: [340, 880], footF: [320, 1140],
+      hipN: [480, 645], kneeN: [490, 880], footN: [510, 1140],
+    },
+  },
+  xuhuang: {
+    master: 'art/fighter-bodies/xuhuang-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#d2a87c',
+    joints: {
+      chest: [416, 400], hip: [416, 640],
+      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
+      shoulderN: [545, 350], elbowN: [655, 460], handN: [755, 560],
+      hipF: [350, 655], kneeF: [340, 885], footF: [320, 1150],
+      hipN: [480, 655], kneeN: [490, 885], footN: [510, 1150],
+    },
+  },
+  zhanghe: {
+    master: 'art/fighter-bodies/zhanghe-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#e8c4a0',
+    joints: {
+      chest: [416, 410], hip: [416, 650],
+      shoulderF: [290, 360], elbowF: [175, 470], handF: [75, 570],
+      shoulderN: [545, 360], elbowN: [655, 470], handN: [755, 570],
+      hipF: [350, 665], kneeF: [340, 890], footF: [320, 1150],
+      hipN: [480, 665], kneeN: [490, 890], footN: [510, 1150],
+    },
+  },
+  lidian: {
+    master: 'art/fighter-bodies/lidian-body-master.jpg',
+    out: 'src/game/assets/boss-bodies',
+    skin: '#e4c09a',
+    joints: {
+      chest: [416, 400], hip: [416, 640],
+      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
+      shoulderN: [545, 350], elbowN: [655, 460], handN: [755, 560],
+      hipF: [350, 650], kneeF: [340, 880], footF: [320, 1140],
+      hipN: [480, 650], kneeN: [490, 880], footN: [510, 1140],
     },
   },
 }
