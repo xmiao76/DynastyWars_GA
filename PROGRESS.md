@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 04:50 UTC - BODY-6 (goal round 28: BODY-5 closed, all 18 boss masters banked)
+
+- Status before: BODY-5 bookkeeping incomplete (task marked, not
+  committed); BODY-6 TODO.
+- Work completed:
+  - BODY-5 closed: ENH-7 archived (20 DONE), progress logged, committed
+    7a33ef3, captures presented (rider seated on painted horse,
+    3-frame look panel, master sheet).
+  - BODY-6 IN_PROGRESS; ALL art banked in one round:
+    art/boss-faces/ 18 masters = 9 heads sheets (3 expressions each)
+    + 9 portraits. Cao Cao reused the owner-approved BODY-1 pilots;
+    the other 8 keyed to their own heads for identity. Lu Bu portrait
+    came back 3-bust strip -> middle bust cropped; zhangliao/zhanghe
+    portraits came back wide strips with centered busts (ink-bbox crop
+    step needed in prep).
+  - Early component validation (artifacts/check-boss-components.mjs,
+    same flood-fill rule as prep): 5/9 heads masters clean 3-group
+    (lubu, xuchu, caoren, zhanghe, lidian); 4 need the planned tolerant
+    boss-prep variant: caocao has heads MERGED (2 groups where 3
+    expected); xiahoudun/xuhuang/zhangliao carry beard/hair fragments
+    1200-2100px that exceed the >1000px keep rule. Design decision:
+    boss prep keeps the 3 LARGEST groups and folds/drops fragments
+    (heroes keep the strict exactly-3 rule).
+  - Prep contract confirmed: hero masters are keyed PNGs (components()
+    reads alpha) while generation returns opaque JPEGs -> boss flow
+    needs a JPEG->keyed-PNG conversion step before the ART-18 pipeline.
+- Result: IN_PROGRESS. Next round: conversion + portrait normalization +
+  landmark eyeballing (9 bosses x 3 frames), boss spec extension of
+  prepare-hero-faces.mjs, catalog wiring to boss ids, tests (mirror
+  hero-faces suite), full gates, before/after review, owner review.
+- Status after: BODY-5 DONE (committed), BODY-6 IN_PROGRESS (art done).
+
 ### 2026-09-25 04:25 UTC - BODY-5 (attempt 1 resumed after provider recovery, full verification, DONE)
 
 - Status before: BODY-5 IN_PROGRESS (goal was blocked on the provider

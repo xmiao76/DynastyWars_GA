@@ -1,4 +1,4 @@
-﻿# Work Queue
+# Work Queue
 
 Statuses: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
@@ -687,7 +687,7 @@ Add future enhancement tasks below this heading.
 
 ### BODY-6 - Nine boss heads via the ART-18 pipeline
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1)
 - Dependency: BODY-1 DONE.
 - Requirement: portrait + head/exertion/hurt cells + rear/front layers per
   boss (beards, Xiahou Dun's scarred socket, Lu Bu's plumed crown, Zhang
