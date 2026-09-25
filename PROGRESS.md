@@ -22,6 +22,30 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 07:10 UTC - Owner round-2 objections: vision diagnosis + BODY-14..16 filed
+
+- Status before: goal blocked awaiting final acceptance. Owner replied
+  with round-2 objections (both arms+hands + one/two-handed grips;
+  natural head:body ratios; enhanced visual verification loop).
+  Goal resumed with the round-2 scope (revision 16).
+- Work completed (diagnosis only; implementation starts next round):
+  - Vision-checked whole-character sheets (obs-full-0 heroes,
+    obs-full-3 bosses) with working vision. CONFIRMED:
+    1. One fist per figure; near arm a short stub; far arm fully
+       occluded behind the torso in every stance ("one hand without
+       arms"); polearms held one-handed mid-haft.
+    2. Head:body ~1:3 (chibi) across the cast - Zhang Fei/Cao Cao
+       heads dominate their compact bodies.
+    3. FINE as-is: head art, body painting, weapon materials, feet,
+       the single fist's grip read.
+  - Filed BODY-14 (verification harness + loop rule - built first so
+    the enhancements execute inside it), BODY-15 (both arms/hands +
+    one/two-handed grips, with the hard no-reach-change constraint),
+    BODY-16 (head:body ~1:4.5-5), each with measurable acceptance +
+    the vision-loop item + non-goals; BODY-7 stays the closing task.
+- Result: IN_PROGRESS (diagnosis + tasks delivered).
+- Status after: BODY-7 IN_PROGRESS; BODY-14 first TODO.
+
 ### 2026-09-26 06:20 UTC - BODY-7 (attempt 2, final re-review sweep, awaiting owner acceptance)
 
 - Status before: BODY-1..6 + BODY-8..13 all DONE; BODY-7 IN_PROGRESS
