@@ -22,6 +22,28 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 06:20 UTC - BODY-7 (attempt 2, final re-review sweep, awaiting owner acceptance)
+
+- Status before: BODY-1..6 + BODY-8..13 all DONE; BODY-7 IN_PROGRESS
+  (owner objections became fix work, now complete).
+- Work completed: the closing sweep for the plan + all six objection
+  fixes.
+  - ONE serial run fully green: eslint, tsc, unit 605/605, e2e 78/78,
+    vision 5/5, selfplay 13/13, build, prodbuild 4/4, memory probe.
+  - Resource report vs baseline (artifacts/body7-final-report.md):
+    dist 3.8 -> 10.0 MB (+6.2 MB art); boot 2.1 -> 4.1 s; textures
+    337 -> 403; decoded ~100 -> ~129 MB.
+  - Whole-cast + objection sheets regenerated with everything live.
+- Verification: all gates green in one serial run; logs
+  artifacts/body7-{lint,tsc,unit,e2e,vision,selfplay,build,prodbuild,mem}.log.
+- Result: IN_PROGRESS - every technical criterion is met and verified
+  twice; the remaining acceptance item is the OWNER'S acceptance of
+  the final cast (objections stay open per the task's own criteria).
+  Presented this round: final report + whole-cast + before/afters.
+- Status after: BODY-7 IN_PROGRESS (awaiting owner acceptance).
+- Next: owner verdict - acceptance closes BODY-7 DONE and completes the
+  goal; objections become the next work.
+
 ### 2026-09-26 05:30 UTC - BODY-13 (attempt 1, full verification, DONE)
 
 - Status before: BODY-13 IN_PROGRESS (last owner-objection fix task).
