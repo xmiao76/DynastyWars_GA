@@ -4,6 +4,7 @@ import type { ArtResources } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import { ART_RESOURCE_KEY } from './hero-art'
 import horsePrepared from '../assets/horse/prepared.json'
+import horseSheet from '../assets/horse/horse-sheet.png'
 
 /**
  * Painted horse loading (BODY-5), same chain shape as heads and bodies:
@@ -30,7 +31,9 @@ export interface HorsePreparedEntry {
 }
 
 /** Production catalog: the BODY-5 horse sheet. */
-export const HORSE_ART_CATALOG: HorseCatalog = {}
+export const HORSE_ART_CATALOG: HorseCatalog = {
+  horse: { sheet: horseSheet },
+}
 
 const keyFor = (id: string): string => `horse-source:${id}`
 

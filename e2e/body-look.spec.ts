@@ -25,13 +25,14 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
     const game = window.__DW_GAME__
     const scene = game?.scene.getScene('boot')
     const res = scene?.registry.get('paintedHeroArt') as
-      | { bodies?: Record<string, unknown> }
+      | { bodies?: Record<string, unknown>; horse?: unknown }
       | undefined
-    return Object.keys(res?.bodies ?? {}).sort()
+    return { bodies: Object.keys(res?.bodies ?? {}).sort(), horse: res?.horse !== undefined }
   })
-  expect(published).toEqual([
+  expect(published.bodies).toEqual([
     'archer', 'guanyu', 'huangzhong', 'soldier', 'spearman', 'weiyan', 'zhangfei', 'zhaoyun',
   ])
+  expect(published.horse, 'painted horse published at boot').toBe(true)
 
   // Select screen: every card shows the painted figure (portrait zoom over
   // the new body art would fail loudly if a sheet were blank).

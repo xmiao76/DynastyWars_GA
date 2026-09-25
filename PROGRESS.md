@@ -22,6 +22,73 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 04:25 UTC - BODY-5 (attempt 1 resumed after provider recovery, full verification, DONE)
+
+- Status before: BODY-5 IN_PROGRESS (goal was blocked on the provider
+  outage; owner said "retry" - grok recovered on the first call).
+- Work completed: painted horse shipped LIVE.
+  - Master: 3-panel bay warhorse sheet (idle/walk0/walk1, gold-tacked
+    saddle, black mane/tail) keyed to the Guan Yu body master; saved to
+    art/fighter-bodies/horse-master.jpg.
+  - Prep: explicit per-frame crop/dest geometry (measured from the grid
+    overlay), uniform 0.93 scale - hooves anchored at logical y76,
+    saddle centers registered at logical x50/y27.4 (inside the
+    procedural x38-62/y21-31 zone), ears within the -8 headroom.
+  - Wiring: HORSE_ART_CATALOG + prepared.json live; e2e now asserts the
+    horse publishes at boot alongside the 8 body packs.
+  - Gates: parity floor deliberately NOT applied to the full-frame
+    replacement (the painted horse is honestly slimmer than the chunky
+    procedural beast - IoU 0.48 on live measurement, eyeballed as a
+    clean style upgrade in the 3-frame look panel). Placement is gated
+    instead by saddle-tack-zone + hoof-ground checks per frame, plus
+    liveness and the vision sprite gate.
+- Verification: lint PASS, typecheck PASS, unit 362/362 (horse suite
+  8/8 incl. placement gates on the real sheet), e2e 78/78 (mounted
+  capture shows the rider seated on the painted saddle), vision 5/5,
+  selfplay 13/13, build PASS, prodbuild 4/4.
+- Housekeeping: ENH-7 archived (chain ENH-6 -> ENH-7). 20 DONE remain.
+- Result: COMPLETED; captures presented for owner review.
+- Status after: BODY-5 DONE. Next: BODY-6 (nine boss heads).
+- Next recommended task: BODY-6.
+
+### 2026-09-25 04:10 UTC - BODY-5 (goal round 27: outage round 3, goal marked blocked)
+
+- Status before: BODY-5 IN_PROGRESS (pipeline committed, art pending).
+- Work completed: grok still failing (6th attempt, same transport error);
+  gpt quota-exhausted (resets ~5 days out). Verified the one remaining
+  art-free integration: look spec 3/3 green with the empty horse catalog
+  wired (boot publish no-ops don't throw; all 8 body packs still
+  publish). No other art-free work remains: BODY-5 art, BODY-6 art, and
+  BODY-7 all require image generation.
+- Result: goal meets the blocked bar (same provider-outage condition
+  across rounds 25-27, no useful remaining work) - marked blocked with
+  resume instructions. BODY-5 stays IN_PROGRESS; everything is committed
+  through a7ce4b5, so resuming is: retry generation, then prep/wire/
+  verify per the round-25/26 notes.
+- Status after: goal blocked on provider recovery; BODY-5 IN_PROGRESS.
+
+### 2026-09-25 03:50 UTC - BODY-5 (goal round 26: prep validated on synthetic; provider still down)
+
+- Status before: BODY-5 IN_PROGRESS (pipeline committed, art pending).
+- Work completed: grok still failing (5th attempt, same transport error;
+  outage round 2 - not yet reportable as blocked). Validated everything
+  validatable without the master:
+  - Synthetic 3-panel master (procedural frames side by side) + dry-run
+    overrides (HORSE_MASTER/HORSE_OUT/HORSE_SYNTH/HORSE_KEY_TOL).
+  - Dry run CAUGHT a real bug: auto bbox-centering shifts asymmetric
+    figures (horse head extends right of barrel) - round-trip IoU 0.452.
+    Redesigned to explicit per-frame crop/dest geometry (eyeballed like
+    body joints, verified by parity + saddle tests).
+  - Round-trip now 0.776-0.809 across all three frames (consistent band
+    = systematic keying erosion on the banded synthetic, not
+    misplacement; synthetic carries cel bands + clipped ears, real
+    masters have clean black). Mechanics proven; scratch removed.
+  - tsc/lint clean, horse suite 8/8.
+- Result: IN_PROGRESS. Next: retry generation; on success - eyeball
+  master, set frame geometry, prep, wire, parity/saddle/eyeball, mounted
+  captures, full gates, owner review, DONE.
+- Status after: BODY-5 IN_PROGRESS (outage round 2).
+
 ### 2026-09-25 03:20 UTC - BODY-5 (goal round 25: pipeline done, art blocked on provider outage)
 
 - Status before: BODY-5 TODO (BODY-4 DONE).

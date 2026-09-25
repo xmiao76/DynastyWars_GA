@@ -3404,3 +3404,43 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No DIFF-1 smoothing and no new follow-up tasks invented. No deployment,
     push, or cloud changes.
 
+
+### ENH-7 - Pause the game mid-stage (P key, overlay, deterministic resume)
+
+- Status: DONE
+- Requirement:
+  A full run is ~13 minutes of uninterrupted real-time action (ENH-6
+  zhaoyun marathon: 47,416 ticks) and the game has no way to stop the
+  clock: zero matches for "pause" in src/selfplay/test/e2e, no pause key
+  on the title screen's control list, no suspend/blur handling in
+  gameplay. Add a gameplay pause: one key toggles it, the sim freezes,
+  an overlay says so, and resume continues tick-neutrally.
+- Acceptance criteria:
+  - [x] P pauses and resumes during stage gameplay, co-op included (both
+        players' sim time freezes; nobody moves while paused).
+  - [x] While paused the sim advances zero ticks (pinned: tick count
+        frozen across 120 wall frames) and no buffered press leaks through
+        on resume.
+  - [x] A legible overlay (dim + PAUSED + resume hint) renders while
+        paused; the title-screen control list documents the key.
+  - [x] Resume is neutral: pausing for any length of wall time then
+        resuming changes nothing in the sim (pinned by comparing pre-pause
+        and post-resume sim snapshots, or equal clear-tick counts
+        with/without a mid-run pause).
+  - [x] Full gates green: lint, typecheck, unit, e2e, signal 13/13,
+        vision 5/5 (overlay judged by eye at gameplay size, no other frame
+        regressed).
+- Non-goals:
+  - No pause menu, settings, volume, or stage-select. No auto-pause on tab
+    blur/hidden (a behavior decision for the owner). No touch pause button
+    (stated follow-up if the owner wants mobile parity). No DIFF-1
+    impact: pause changes no frame data, spawns, or tuning.
+- Evidence:
+  - artifacts/loop/proposals-20260921-2038-pause.md (this pass's review).
+  - Trial 2026-09-21: e2e/pause.spec.ts (3 tests: 120-frame freeze + full
+    snapshot equality, no-leak/no-join, dim + gold-caption + undim), both
+    mechanisms falsified by revert. Gates: lint/typecheck clean, unit
+    188/188, e2e 48/48, signal 13/13 (marathons tick-identical to ENH-6),
+    vision 5/5, prodbuild 4/4, build. Eye: artifacts/pause/{paused,
+    unpaused,resumed}.png + artifacts/vision/title.png reviewed.
+
