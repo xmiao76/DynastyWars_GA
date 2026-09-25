@@ -22,6 +22,41 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 03:20 UTC - BODY-5 (goal round 25: pipeline done, art blocked on provider outage)
+
+- Status before: BODY-5 TODO (BODY-4 DONE).
+- Work completed: BODY-5 marked IN_PROGRESS; full horse pipeline built
+  and verified WITHOUT art (provider down, see below).
+  - `src/game/art/horse-frames.ts`: HorseArt, 3-frame table, aliasing
+    mirrored from horsePoseName, full-frame blit painter.
+  - `src/game/adapters/horse-art.ts`: queue/publish with signature
+    verification + atomic fallback; registry threading in drawKindPose
+    horse case; BootScene queue+publish wiring (verified no-ops);
+    all three publish functions now preserve each other's keys.
+  - Fixtures: `scripts/make-horse-fixture.mjs` (+ .d.mts) with distinct
+    flat-color frames; committed under horse-fixtures/.
+  - `test/game/horse.test.ts` (8): frame table + aliasing, fixture
+    determinism + integrity, per-frame render selection incl. aliases,
+    fallback byte-identity, publish atomicity (missing/undersized/
+    tampered rejected, heads+bodies preserved), production-pack pin
+    (empty until art lands), and a VACUOUS-LIVE parity/liveness/saddle
+    test that gates every frame the moment the real sheet wires in.
+  - `scripts/prepare-horse.mjs` written (3-panel split, bbox normalize
+    feet-y76/center-x50, per-frame nudge config, keying, signatures);
+    untested until a master exists.
+- PROVIDER OUTAGE (round 1): grok image_generate fails 4x with a
+  transport error ("Unexpected token" JSON parse failure, with and
+  without reference images); gpt returns HTTP 429 usage_limit_reached
+  (resets in ~116h). No quota spend possible on either side right now.
+  NOT marking blocked (goal policy needs 3+ rounds of the same
+  condition); retrying next round.
+- Verification: lint PASS, typecheck PASS, horse suite 8/8. Full gates
+  deferred to the art round (nothing user-visible changed yet).
+- Result: IN_PROGRESS (pipeline checkpoint committed; art pending).
+- Status after: BODY-5 IN_PROGRESS.
+- Next: retry horse master generation; on success - prep, wire, parity,
+  mounted captures, full gates, owner review, DONE.
+
 ### 2026-09-25 02:55 UTC - BODY-4 (attempt 1, full verification, DONE)
 
 - Status before: BODY-4 IN_PROGRESS (masters generated round 22).

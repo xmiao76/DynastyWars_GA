@@ -702,7 +702,7 @@ Add future enhancement tasks below this heading.
 
 ### BODY-5 - Horse repaint (full-frame raster)
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1)
 - Dependency: BODY-1 DONE.
 - Requirement: painted horse frames for each distinct horse pose in the
   same 112x76 box, same asset chain + procedural fallback as bodies.

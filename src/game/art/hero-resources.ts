@@ -1,6 +1,7 @@
 import type { PoseName } from './poses'
 import type { Skeleton } from './rig'
 import type { BodyArt } from './body-parts'
+import type { HorseArt } from './horse-frames'
 
 /** Decoded, complete per-hero art. Pure renderers receive this explicitly. */
 export interface HeroArt {
@@ -20,6 +21,9 @@ export interface ArtResources {
   /** Paper-doll bodies (BODY-2), keyed by fighter id like heads. Absent
    * entries render fully procedural - the atomic fallback is per fighter. */
   bodies?: Readonly<Partial<Record<string, BodyArt>>>
+  /** Painted horse frames (BODY-5). Absent (or missing a frame) renders
+   * the procedural horse. */
+  horse?: HorseArt
 }
 
 export type HeadLayer = 'rear' | 'head' | 'front'

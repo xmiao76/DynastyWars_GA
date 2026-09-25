@@ -2,6 +2,7 @@ import { HORSE_H, HORSE_W, HORSE_PLAN, drawHorse, type HorsePlan } from './beast
 import { drawFigure } from './draw'
 import type { ArtResources, HeroArt } from './hero-resources'
 import type { BodyArt } from './body-parts'
+import { horseFrameFor, paintHorseFrame } from './horse-frames'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
 import { drawPortraitFigure } from './portrait'
@@ -311,10 +312,14 @@ export function drawKindPose(
       }
       break
     }
-    case 'horse':
+    case 'horse': {
       ctx.translate(0, HORSE_HEADROOM)
+      const horse = resources?.horse
+      const frame = horseFrameFor(pose)
+      if (horse && paintHorseFrame(ctx, horse, frame, HORSE_W, HORSE_H)) break
       drawHorse(ctx, entry.plan, pose)
       break
+    }
     case 'prop':
       ctx.translate(PROP_PAD, PROP_PAD)
       drawn = drawProp(ctx, kind)
