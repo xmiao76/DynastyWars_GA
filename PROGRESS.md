@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 09:30 UTC - BODY-15 (attempt 1, full verification, DONE)
+
+- Status before: BODY-15 TODO (owner: both arms/hands + grips).
+- Work completed: far-hand choreography in weaponPose (pose table
+  frozen): polearms two-hand the haft 12u behind the grip, one-
+  handers/bows counterbalance visibly; fist-vs-mitten by haft-axis
+  geometry; far fist (absolute-geometry painter, shaded) over torso
+  under weapon + fingertips wrapping OVER the haft at the tail.
+  Weapon anchor never moves: reach byte-stable, sim untouched.
+- Hardest debug of the round-2 program: the far fist measured 0-4px
+  for 9 bisects. Resolved by probe, not theory: the painter always
+  worked (~148px when shifted to open space) - the haft covered all
+  but slivers at the real position. The fingertips-over-haft design
+  came straight out of that measurement. (Blind alleys killed along
+  the way: separation 7->10->12u, fist blob shrink, sample-box widen,
+  transform/save/clip machinery - all verified innocent.)
+- Verification: lint PASS, typecheck PASS, unit 606/606 (far-hand
+  gate >= 12px x 17 fighters x 13 poses), e2e 78/78, vision 5/5,
+  selfplay 13/13, build, prodbuild 4/4. Harness sheets: NY FY on
+  all 17 x idle/attack; vision-confirmed two-handed grips +
+  counterbalances; findings filed in CHARACTER_REVIEW.md.
+- Housekeeping: UI-1 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the
+  final acceptance gate).
+- Status after: BODY-15 DONE. Next: BODY-16 (head:body ratios).
+- Next recommended task: BODY-16.
+
 ### 2026-09-26 08:00 UTC - BODY-14 (attempt 1, full verification, DONE)
 
 - Status before: BODY-14 TODO (first round-2 task: the harness).

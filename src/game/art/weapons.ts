@@ -160,12 +160,32 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
       elbowN: { x: pose.elbowN.x, y: pose.elbowN.y - 4.5 },
     }
   }
-  if (plan.weapon !== 'bow') return pose
-  return {
-    ...pose,
-    handN: { x: pose.handN.x + 14, y: pose.handN.y },
-    elbowN: { x: pose.elbowN.x + 7, y: pose.elbowN.y },
-  }
+  const adjusted = plan.weapon === 'bow'
+    ? { ...pose, handN: { x: pose.handN.x + 14, y: pose.handN.y }, elbowN: { x: pose.elbowN.x + 7, y: pose.elbowN.y } }
+    : pose
+  // BODY-15 far-hand choreography: the far arm hung inside the torso span
+  // in every pose, so only one hand ever read. Polearms get a true
+  // two-handed grip (far fist on the haft behind the near fist);
+  // one-handers and bows get a visible counterbalance arm swung out back.
+  // The weapon anchor (handN) never moves, so tip reach is byte-stable.
+  const twoHanded = ['crescent', 'serpent', 'leaf', 'ji'].includes(WEAPONS[plan.weapon].head)
+  // 12u of separation: each fist spans ~4u along the haft and the near
+  // fist's blob reaches ~6u, so 10u still buried the far fist under it
+  // in extended strikes (measured 4px); 12u leaves a real gap while
+  // staying on the haft (the butt is ~20u behind the grip).
+  const handF = twoHanded
+    ? {
+        x: adjusted.handN.x - 12 * Math.cos(adjusted.weaponRot),
+        y: adjusted.handN.y - 12 * Math.sin(adjusted.weaponRot),
+      }
+    : { x: adjusted.shoulderF.x - 14, y: adjusted.shoulderF.y + 12 }
+  const mx = (adjusted.shoulderF.x + handF.x) / 2
+  const my = (adjusted.shoulderF.y + handF.y) / 2
+  const dx = mx - adjusted.chest.x
+  const dy = my - adjusted.chest.y
+  const len = Math.hypot(dx, dy) || 1
+  const elbowF = { x: mx + (dx / len) * 3.5, y: my + (dy / len) * 3.5 }
+  return { ...adjusted, handF, elbowF }
 }
 /**
  * BODY-10 painted materials. Each overlay runs inside its shape's clip, in

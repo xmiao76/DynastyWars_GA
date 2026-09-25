@@ -205,13 +205,18 @@ export function drawFigure(
   // A painted head owns its face. Retain only the body details in that path.
   if (!head) drawDetails(ctx, plan, pose, m, true, !body?.parts.torso)
 
-  // Hands last, over the weapon: BODY-8 - a fist wrapping the haft at the
-  // grip point. The paper-doll foreArm cells end at clipped palm stubs (the
-  // masters' open hands exceed the limb bands), and the plain haft covered
-  // whatever remained, so hands read as absent and weapons floated. Drawn
-  // for every fighter - painted and procedural. The far hand rides the
-  // far-arm slot inside figureShapes instead (occlusion).
-  drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, handM(m, plan, body))
+  // Hands last, over the weapon. BODY-8: a fist wrapping the haft at the
+  // grip point (the paper-doll foreArm cells end at clipped palm stubs
+  // that the plain haft used to cover, so hands read as absent). BODY-15:
+  // the far hand's fingertips cross the haft first, under the same grip
+  // predicate as the far-fist shape - the wrap only reads when fingertips
+  // show on the near side of the haft. Drawn for every fighter.
+  const hmTail = handM(m, plan, body)
+  const gripDistTail = Math.abs((pose.handF.x - pose.handN.x) * Math.sin(pose.weaponRot) - (pose.handF.y - pose.handN.y) * Math.cos(pose.weaponRot))
+  if (gripDistTail < 3 && !pose.lying) {
+    drawFingertips(ctx, pose.handF, pose.weaponRot, plan.build.bulk, hmTail.skinShade, hmTail.skinForm)
+  }
+  drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, hmTail)
 
   // Feet last as well: BODY-9 - the painted boot tips are dark-on-dark at
   // gameplay size, robe hems swallow the ankles, and the weapon butt hangs
@@ -310,12 +315,12 @@ function drawGripHand(
   // Fist follows the forearm; the haft passes through it along weaponRot.
   ctx.rotate(ang)
   ctx.fillStyle = m.skin
-  limbPath(ctx, { x: -1.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 7.4 * bulk, 6.2 * bulk)
+  limbPath(ctx, { x: -1.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 6.4 * bulk, 5.4 * bulk)
   ctx.fill()
   // Form shadow along the lower edge so the fist reads as volume.
   ctx.save()
   ctx.beginPath()
-  limbPath(ctx, { x: -1.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 7.4 * bulk, 6.2 * bulk)
+  limbPath(ctx, { x: -1.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 6.4 * bulk, 5.4 * bulk)
   ctx.clip()
   ctx.fillStyle = m.skinForm
   ctx.fillRect(-4 * bulk, 1.6 * bulk, 12 * bulk, 5 * bulk)
@@ -346,6 +351,99 @@ function drawGripHand(
   ctx.arc(3.6 * bulk, 0, 3.2 * bulk, -1.05, 1.05)
   ctx.stroke()
   ctx.restore()
+}
+
+/**
+ * The far fist, painted in ABSOLUTE figure coords with no canvas
+ * transforms. Verified the hard way (8 bisects): a shape-trace painter
+ * that calls save+translate+rotate paints nothing in this runtime's
+ * shape stream, while absolute paths, plain fills, and save/restore
+ * without rotate all paint fine. The near fist keeps drawGripHand at
+ * the drawFigure tail, where transforms work. Same geometry, so both
+ * fists render the same pixels modulo float rounding.
+ */
+function drawGripHandFar(
+  ctx: CanvasRenderingContext2D,
+  hand: Pt,
+  elbow: Pt,
+  weaponRot: number,
+  bulk: number,
+  skin: string,
+  form: string,
+): void {
+  const ang = Math.atan2(hand.y - elbow.y, hand.x - elbow.x)
+  const ca = Math.cos(ang)
+  const sa = Math.sin(ang)
+  // Fist-frame point (x along forearm, y across) to figure coords.
+  const r = (x: number, y: number): Pt => ({ x: hand.x + x * ca - y * sa, y: hand.y + x * sa + y * ca })
+  // Back of the hand.
+  ctx.fillStyle = skin
+  limbPath(ctx, r(-1.2 * bulk, 0), r(5.6 * bulk, 0), 6.4 * bulk, 5.4 * bulk)
+  ctx.fill()
+  // Form shadow hugging the lower edge (a capsule, not a clipped rect,
+  // so no save/clip/restore sequence is needed).
+  ctx.fillStyle = form
+  limbPath(ctx, r(-1 * bulk, 1.8 * bulk), r(5.5 * bulk, 2 * bulk), 2.2 * bulk, 2 * bulk)
+  ctx.fill()
+  // Thumb wrapping toward the haft's far side.
+  ctx.fillStyle = skin
+  limbPath(ctx, r(0.6 * bulk, -2.6 * bulk), r(4.4 * bulk, -3.4 * bulk), 2.6 * bulk, 2.2 * bulk)
+  ctx.fill()
+  // Finger bands crossing the haft.
+  const wx = Math.cos(weaponRot)
+  const wy = Math.sin(weaponRot)
+  for (const [i, fx] of [-1.4, 1.0, 3.4].entries()) {
+    const half = (3.6 - i * 0.35) * bulk
+    const cx = hand.x + fx * bulk * wx
+    const cy = hand.y + fx * bulk * wy
+    ctx.fillStyle = skin
+    limbPath(ctx, { x: cx - wy * half, y: cy + wx * half }, { x: cx + wy * half, y: cy - wx * half }, 2.3 * bulk, 2 * bulk)
+    ctx.fill()
+    const gx = hand.x + (fx + 1.15) * bulk * wx
+    const gy = hand.y + (fx + 1.15) * bulk * wy
+    ctx.fillStyle = form
+    limbPath(ctx, { x: gx - wy * half, y: gy + wx * half }, { x: gx + wy * half, y: gy - wx * half }, 0.7 * bulk, 0.6 * bulk)
+    ctx.fill()
+  }
+  // Knuckle line.
+  const k = r(3.6 * bulk, 0)
+  ctx.strokeStyle = form
+  ctx.lineWidth = 1.1
+  ctx.beginPath()
+  ctx.arc(k.x, k.y, 3.2 * bulk, ang - 1.05, ang + 1.05)
+  ctx.stroke()
+}
+
+/**
+ * Fingertips of the far hand wrapping OVER the haft (BODY-15). The far
+ * fist's back-of-hand rides under the weapon, where the haft covers all
+ * but slivers of it - the wrap only reads when the fingertips cross the
+ * haft on the near side. Absolute coords like drawGripHandFar. Drawn at
+ * the drawFigure tail (after the weapon, before the near fist).
+ */
+function drawFingertips(
+  ctx: CanvasRenderingContext2D,
+  hand: Pt,
+  weaponRot: number,
+  bulk: number,
+  skin: string,
+  form: string,
+): void {
+  const wx = Math.cos(weaponRot)
+  const wy = Math.sin(weaponRot)
+  for (const [i, fx] of [-1.6, 0.6, 2.8].entries()) {
+    const half = (3.4 - i * 0.3) * bulk
+    const cx = hand.x + fx * bulk * wx
+    const cy = hand.y + fx * bulk * wy
+    ctx.fillStyle = skin
+    limbPath(ctx, { x: cx - wy * half, y: cy + wx * half }, { x: cx + wy * half, y: cy - wx * half }, 1.9 * bulk, 1.7 * bulk)
+    ctx.fill()
+    const gx = hand.x + (fx + 1.05) * bulk * wx
+    const gy = hand.y + (fx + 1.05) * bulk * wy
+    ctx.fillStyle = form
+    limbPath(ctx, { x: gx - wy * half, y: gy + wx * half }, { x: gx + wy * half, y: gy - wx * half }, 0.6 * bulk, 0.5 * bulk)
+    ctx.fill()
+  }
 }
 
 const emptyHeadParts: HeadParts = () => {}
@@ -486,6 +584,11 @@ export function figureShapes(
   }
   const has = (part: BodyPartName): boolean => body?.parts[part] !== undefined
   const hm = handM(m, plan, body)
+  // BODY-15: the far hand grips iff it sits on the haft axis (the far fist
+  // is choreographed there for polearms); otherwise it is a relaxed
+  // counterbalance hand. Decided by geometry so no signature changes.
+  const gripDist = Math.abs((p.handF.x - p.handN.x) * Math.sin(p.weaponRot) - (p.handF.y - p.handN.y) * Math.cos(p.weaponRot))
+  const gripping = gripDist < 3 && !p.lying
   // Procedural groups are replaced only when ALL of their parts are painted;
   // a missing part keeps its procedural shape in the same slot (e.g. heroes
   // whose masters show no cape keep the procedural cape).
@@ -530,21 +633,25 @@ export function figureShapes(
   if (farArm) {
     mark('upperArmF')
     mark('foreArmF')
-    add((c) => {
-      drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
-      // Re-declare the silhouette so the shape's transparent fill clips the
-      // cel bands to the hand and does not repaint the grooves away.
-      limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
-    }, 'rgba(0,0,0,0)', false)
+    if (!gripping) {
+      add((c) => {
+        drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
+        // Re-declare the silhouette so the shape's transparent fill clips the
+        // cel bands to the hand and does not repaint the grooves away.
+        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+      }, 'rgba(0,0,0,0)', false)
+    }
   } else {
     add(
       (c) => chainPath(c, [p.shoulderF, p.elbowF, p.handF], [9 * b, 7.2 * b, 5.4 * b]),
       m.clothShade,
     )
-    add((c) => {
-      drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
-      limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
-    }, 'rgba(0,0,0,0)', false)
+    if (!gripping) {
+      add((c) => {
+        drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
+        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+      }, 'rgba(0,0,0,0)', false)
+    }
   }
   if (farLeg) {
     mark('thighF')
@@ -637,6 +744,15 @@ export function figureShapes(
   // Skipped when the paper-doll forearm (which includes the hand) is present.
   if (!has('foreArmN')) {
     add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
+  }
+
+  // BODY-15: the far fist on the haft - over the torso (the far arm
+  // reaches from behind) but under the weapon (it is the far hand).
+  if (gripping) {
+    add((c) => {
+      drawGripHandFar(c, p.handF, p.elbowF, p.weaponRot, b, hm.skinShade, hm.skinForm)
+      limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+    }, 'rgba(0,0,0,0)', false)
   }
 
   if (!painted || !p.lying) addWeapon(add, plan, p, m)

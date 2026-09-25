@@ -1,7 +1,8 @@
-﻿import { createCanvas, loadImage } from '@napi-rs/canvas'
+import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { drawFigure } from '../../src/game/art/draw'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
+import { shade } from '../../src/game/art/palette'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 import { applyBuild } from '../../src/game/art/rig'
 import { weaponPose } from '../../src/game/art/weapons'
@@ -79,6 +80,7 @@ describe('BODY-8 hands at the grip', () => {
     // Same skin flow as drawFigure: body art > painted head > plan > default.
     const skinNum = body?.skin ?? head?.skin ?? plan.skin ?? 0xf0c8a0
     const handSkin = rgb(skinNum)
+    const farTone = rgb(shade(skinNum, 0.22))
     const painted = head || body ? { art: head, poseName: 'idle' as PoseName, body } : undefined
     for (const poseName of POSES) {
       const pose = weaponPose(plan, applyBuild(POSE_TABLE[poseName], plan.build))
@@ -88,12 +90,12 @@ describe('BODY-8 hands at the grip', () => {
       const art = painted ? { ...painted, poseName } : undefined
       drawFigure(ctx as unknown as Ctx, plan, POSE_TABLE[poseName], art)
       const data = ctx.getImageData(0, 0, 120 * SCALE, 110 * SCALE).data
-      const near = (cx: number, cy: number, tone: [number, number, number]): number => {
+      const near = (cx: number, cy: number, tone: [number, number, number], r = 3): number => {
         let n = 0
         const W = 120 * SCALE
         const H = 110 * SCALE
-        for (let y = Math.round((cy - 3) * SCALE); y <= Math.round((cy + 3) * SCALE); y += 1) {
-          for (let x = Math.round((cx - 3) * SCALE); x <= Math.round((cx + 3) * SCALE); x += 1) {
+        for (let y = Math.round((cy - r) * SCALE); y <= Math.round((cy + r) * SCALE); y += 1) {
+          for (let x = Math.round((cx - r) * SCALE); x <= Math.round((cx + r) * SCALE); x += 1) {
             if (x < 0 || y < 0 || x >= W || y >= H) continue
             const p = (y * W + x) * 4
             if ((data[p + 3] ?? 0) < 128) continue
@@ -104,12 +106,16 @@ describe('BODY-8 hands at the grip', () => {
       }
       const grip = near(pose.handN.x, pose.handN.y, handSkin)
       expect(grip, `${id}:${poseName} grip hand missing (${grip}px)`).toBeGreaterThanOrEqual(24)
-      // No far-hand visibility assertion on purpose: measured (guanyu attack,
-      // handF at (58.3, 32.6) inside the torso span) the far arm is behind
-      // the body in every pose of this rig - its hand renders at the far-arm
-      // slot and is occluded by anatomy, exactly like the raster far arm.
-      // Its placement is covered by the part-position tests and the review
-      // sheets; the owner's objection is the GIP hand, gated above.
+      // BODY-15: the far hand is choreographed visible in every pose but
+      // down (far fist on the haft for polearms, counterbalance mitten
+      // for one-handers) - both paint in the shaded tone.
+      if (poseName !== 'down') {
+        // Wider box: the far fist wraps the haft, so its visible tone is
+        // the side slivers plus the fingertips crossing the haft - not
+        // just the covered center.
+        const far = near(pose.handF.x, pose.handF.y, farTone, 5)
+        expect(far, `${id}:${poseName} far hand missing (${far}px)`).toBeGreaterThanOrEqual(12)
+      }
     }
   }, 30_000)
 })

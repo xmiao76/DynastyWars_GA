@@ -35,3 +35,11 @@ cast looks natural and good.
 | Figure | Fine | Unnatural | Needs work |
 |---|---|---|---|
 | All 17 | Head art, body paint, weapon materials, feet, the single fist's grip read | One fist per figure; near arm a stub; far arm fully occluded; polearms one-handed; heads ~1:3 | BODY-15 (both arms/hands + grips), BODY-16 (ratios) |
+
+### 2026-09-26 (BODY-15 vision check, post-enhancement)
+
+| Figure | Fine | Unnatural | Needs work |
+|---|---|---|---|
+| Polearm wielders (11) | Two fists read on the haft in idle (carry) + all strikes; far fist shaded distinct from near | Nothing | None - residual: near arm still shortish in idle; arm extension (+8u handN with grip compensation) is the filed follow-up if the owner still sees stubs |
+| One-handers + bows (6) | Counterbalance far arm + hand read behind the body in idle + strikes | Nothing | None |
+| All 17 | Harness flags NY FY everywhere; ratios still 1:3.1-3.8 | Heads still ~1:3 | BODY-16 (proportions) |
