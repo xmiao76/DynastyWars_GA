@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 22:35 UTC - BODY-6 (attempt 1, full verification, DONE)
+
+- Status before: BODY-6 IN_PROGRESS (art banked round 28).
+- Work completed: all nine boss heads shipped LIVE through the ART-18
+  pipeline.
+  - Prep (`scripts/prepare-boss-faces.mjs`): JPEG border-flood keying at
+    tol 4 (tolerance sweep showed 16 eats near-black beards/gauze and
+    fragments heads; 4 keeps all nine masters whole at exactly 3 groups);
+    3-largest silhouettes with fragments auto-dropped (xuhuang split
+    head + xiahoudun/zhangliao hair wisps); landmark fractions per boss
+    calibrated from the heroes' authored landmarks (per-frame stable,
+    cross-boss spread due to beard/hair mass); portrait ink-bbox
+    normalization (strip portraits came back wide); full ART-18 cell
+    pipeline incl. dark rim + front/rear layer splits.
+  - Cao Cao heads regenerated: the BODY-1 "head pilot" was a single
+    neutral cutout, not a 3-expression sheet (hash-verified); new sheet
+    keyed to the owner-approved pilot portrait keeps the approved face.
+  - Wiring: HERO_ART_CATALOG generalized to 14 ids (boss ids are
+    ordinary VECTOR_ART kinds - same publish path lights them up);
+    hero-faces e2e exact-set assertion extended to the 14-id roster
+    (deliberate, documented in the spec: bosses publishing through the
+    shared record IS this task's requirement).
+  - Tests: test/game/boss-faces.test.ts (134) mirrors the hero suite -
+    hashes, content signatures, blank/swapped/erased rejection,
+    expression mapping, portrait source, 126 frame-escape cells,
+    displaced-pivot guard, fallback liveness, head-identity gate
+    (head-layers-only, immune to body color); test/game/bossboard.test.ts
+    writes the before/after board with liveness baked in. One real
+    defect caught: the signature test hit the 5s default timeout under
+    full-suite CPU contention (36 sheet decodes) - explicit 30s
+    timeouts added; standalone-vs-full-suite discrepancy resolved as
+    timeout, not content drift.
+- Verification: lint PASS, typecheck PASS, unit 497/497, e2e 78/78
+  (first chain run failed on the stale 5-id e2e set - fixed, second
+  run green), vision 5/5 (sprite gate held with boss heads live),
+  selfplay 13/13, build PASS, prodbuild 4/4. Objective cell review
+  45/45 (ink, expression liveness 3/3 per boss, face mass at pivot
+  20-28px across all nine, portraits non-blank).
+- Housekeeping: ENH-8 archived (chain ENH-7 -> ENH-8). 20 DONE remain.
+- Result: COMPLETED; board + cell review presented for owner review.
+- Status after: BODY-6 DONE. Next: BODY-7 (full verification sweep).
+- Next recommended task: BODY-7.
+
 ### 2026-09-25 04:50 UTC - BODY-6 (goal round 28: BODY-5 closed, all 18 boss masters banked)
 
 - Status before: BODY-5 bookkeeping incomplete (task marked, not

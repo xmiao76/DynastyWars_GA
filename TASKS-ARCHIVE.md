@@ -3444,3 +3444,44 @@ and the three pre-redesign enhancements - all DONE and verified)
     vision 5/5, prodbuild 4/4, build. Eye: artifacts/pause/{paused,
     unpaused,resumed}.png + artifacts/vision/title.png reviewed.
 
+
+### ENH-8 - Touch pause button (mobile parity for the P key)
+
+- Status: DONE
+- Requirement:
+  ENH-7 gave keyboard players P; a touch device has no P key and no other
+  pause path, so a phone player cannot pause a ~13-minute run. Add one
+  pause touch control, shown only on touch devices like the existing 7
+  zones: tapping it toggles the same `GameScene.paused` flag (same freeze,
+  overlay, buffer-clear and resume semantics - no new pause state). Anchor
+  it clear of HUD plates, bars, banners, down-texts and the existing zones
+  in every HUD state (boss plate and P2 plate included); legible glyph at
+  phone size.
+- Acceptance criteria:
+  - [x] One new touch zone + visible glyph, HUD-owned and mounted with the
+        existing controls (survives display-list rebuilds), shown only
+        when `hasTouch()`.
+  - [x] Tap pauses (sim tick frozen across 60 wall frames) and tap resumes
+        (tick advances), pinned by a Pixel-7-emulation e2e reusing the
+        `tapGamePoint` + `touchscreen.tap` patterns.
+  - [x] The pause overlay shows/hides with touch toggles (dim pin or HUD
+        visibility assertion).
+  - [x] Occlusion and label-fit gates still green; desktop shows no new
+        control (extend the desktop-absence coverage).
+  - [x] Full gates green (lint, typecheck, unit, e2e, signal, vision,
+        prodbuild, build); phone-size capture eye-reviewed.
+- Non-goals:
+  - No new pause semantics, menu, settings, or volume. No auto-pause on
+    tab blur (owner behavior decision, unchanged). No desktop-visible
+    change. No DIFF-1 impact.
+- Evidence:
+  - artifacts/loop/proposals-touchpause-enh8.md (this pass's review).
+  - Trial: circled-II glyph in the shared pad Graphics + named touchPause
+    zone (pointerup, Phaser order hazard documented); shared togglePause().
+    e2e/touchpause.spec.ts (Pixel 7): tap freezes 60 frames with full
+    snapshot equality, caption visibility both directions, tap resumes;
+    falsified by unwiring the zone. Touch hint TAP TO RESUME (eye-caught).
+    Gates: lint/typecheck clean, unit 188/188, e2e 49/49, signal 13/13
+    (identical marathons), vision 5/5, prodbuild 4/4 (8 zones both
+    orientations), build. Zone counts 7->8 in touch/prodbuild specs.
+

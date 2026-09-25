@@ -1,7 +1,8 @@
 import type Phaser from 'phaser'
 import type { ArtResources, HeroArt } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
-import prepared from '../assets/hero-faces/prepared.json'
+import heroPrepared from '../assets/hero-faces/prepared.json'
+import bossPrepared from '../assets/boss-faces/prepared.json'
 import gyPortrait from '../assets/hero-faces/guanyu-portrait.png'
 import gyHead from '../assets/hero-faces/guanyu-head.png'
 import gyFront from '../assets/hero-faces/guanyu-front.png'
@@ -22,15 +23,69 @@ import wyPortrait from '../assets/hero-faces/weiyan-portrait.png'
 import wyHead from '../assets/hero-faces/weiyan-head.png'
 import wyFront from '../assets/hero-faces/weiyan-front.png'
 import wyRear from '../assets/hero-faces/weiyan-rear.png'
+import lbPortrait from '../assets/boss-faces/lubu-portrait.png'
+import lbHead from '../assets/boss-faces/lubu-head.png'
+import lbFront from '../assets/boss-faces/lubu-front.png'
+import lbRear from '../assets/boss-faces/lubu-rear.png'
+import ccPortrait from '../assets/boss-faces/caocao-portrait.png'
+import ccHead from '../assets/boss-faces/caocao-head.png'
+import ccFront from '../assets/boss-faces/caocao-front.png'
+import ccRear from '../assets/boss-faces/caocao-rear.png'
+import xhPortrait from '../assets/boss-faces/xiahoudun-portrait.png'
+import xhHead from '../assets/boss-faces/xiahoudun-head.png'
+import xhFront from '../assets/boss-faces/xiahoudun-front.png'
+import xhRear from '../assets/boss-faces/xiahoudun-rear.png'
+import xcPortrait from '../assets/boss-faces/xuchu-portrait.png'
+import xcHead from '../assets/boss-faces/xuchu-head.png'
+import xcFront from '../assets/boss-faces/xuchu-front.png'
+import xcRear from '../assets/boss-faces/xuchu-rear.png'
+import zlPortrait from '../assets/boss-faces/zhangliao-portrait.png'
+import zlHead from '../assets/boss-faces/zhangliao-head.png'
+import zlFront from '../assets/boss-faces/zhangliao-front.png'
+import zlRear from '../assets/boss-faces/zhangliao-rear.png'
+import crPortrait from '../assets/boss-faces/caoren-portrait.png'
+import crHead from '../assets/boss-faces/caoren-head.png'
+import crFront from '../assets/boss-faces/caoren-front.png'
+import crRear from '../assets/boss-faces/caoren-rear.png'
+import xgPortrait from '../assets/boss-faces/xuhuang-portrait.png'
+import xgHead from '../assets/boss-faces/xuhuang-head.png'
+import xgFront from '../assets/boss-faces/xuhuang-front.png'
+import xgRear from '../assets/boss-faces/xuhuang-rear.png'
+import zhPortrait from '../assets/boss-faces/zhanghe-portrait.png'
+import zhHead from '../assets/boss-faces/zhanghe-head.png'
+import zhFront from '../assets/boss-faces/zhanghe-front.png'
+import zhRear from '../assets/boss-faces/zhanghe-rear.png'
+import ldPortrait from '../assets/boss-faces/lidian-portrait.png'
+import ldHead from '../assets/boss-faces/lidian-head.png'
+import ldFront from '../assets/boss-faces/lidian-front.png'
+import ldRear from '../assets/boss-faces/lidian-rear.png'
 
-/** These URL imports are content-hashed by Vite, never a legacy network manifest. */
+/** These URL imports are content-hashed by Vite, never a legacy network manifest.
+ * Heroes (ART-18) + bosses (BODY-6) share the pipeline; boss ids are ordinary
+ * VECTOR_ART kinds, so the same publish path lights up their heads. */
 export const HERO_ART_CATALOG = {
   guanyu: { portrait: gyPortrait, head: gyHead, front: gyFront, rear: gyRear },
   zhaoyun: { portrait: zyPortrait, head: zyHead, front: zyFront, rear: zyRear },
   zhangfei: { portrait: zfPortrait, head: zfHead, front: zfFront, rear: zfRear },
   huangzhong: { portrait: hzPortrait, head: hzHead, front: hzFront, rear: hzRear },
   weiyan: { portrait: wyPortrait, head: wyHead, front: wyFront, rear: wyRear },
+  lidian: { portrait: ldPortrait, head: ldHead, front: ldFront, rear: ldRear },
+  xiahoudun: { portrait: xhPortrait, head: xhHead, front: xhFront, rear: xhRear },
+  xuchu: { portrait: xcPortrait, head: xcHead, front: xcFront, rear: xcRear },
+  caoren: { portrait: crPortrait, head: crHead, front: crFront, rear: crRear },
+  zhangliao: { portrait: zlPortrait, head: zlHead, front: zlFront, rear: zlRear },
+  xuhuang: { portrait: xgPortrait, head: xgHead, front: xgFront, rear: xgRear },
+  zhanghe: { portrait: zhPortrait, head: zhHead, front: zhFront, rear: zhRear },
+  caocao: { portrait: ccPortrait, head: ccHead, front: ccFront, rear: ccRear },
+  lubu: { portrait: lbPortrait, head: lbHead, front: lbFront, rear: lbRear },
 } as const
+
+/** Merged preparation records for every catalogued fighter. */
+type PreparedEntry = (typeof heroPrepared)[keyof typeof heroPrepared]
+const preparedAll: Record<string, PreparedEntry> = {
+  ...(heroPrepared as unknown as Record<string, PreparedEntry>),
+  ...(bossPrepared as unknown as Record<string, PreparedEntry>),
+}
 const PARTS = ['portrait', 'head', 'front', 'rear'] as const
 /** Registry key for painted art packs; shared with the body-art adapter so
  * heads and bodies publish into one record without wiping each other. */
@@ -64,7 +119,8 @@ function decodedSignature(src: CanvasImageSource & { width: number; height: numb
 export function publishHeroArt(scene: Phaser.Scene): void {
   const heroes: Record<string, HeroArt> = {}
   for (const id of Object.keys(HERO_ART_CATALOG) as Array<keyof typeof HERO_ART_CATALOG>) {
-    const meta = prepared[id]
+    const meta = preparedAll[id]
+    if (!meta) continue
     const images: Partial<Record<typeof PARTS[number], CanvasImageSource>> = {}
     for (const part of PARTS) {
       const key = keyFor(id, part)
