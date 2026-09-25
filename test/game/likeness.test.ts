@@ -4,6 +4,7 @@ import { drawFigure, headRadius } from '../../src/game/art/draw'
 import { FACES } from '../../src/game/art/faces'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
 import { POSE_TABLE } from '../../src/game/art/poses'
+import mookPrepared from '../../src/game/assets/mook-bodies/prepared.json'
 import { PORTRAIT_HW } from '../../src/game/art/portrait'
 import {
   PORTRAIT_BOX,
@@ -217,12 +218,18 @@ describe('the cast looks as the histories describe it', () => {
         ).toBeGreaterThan(0.025)
       }
     }
-    // 'plain' + shared skin for the rank and file, and no likeness fields.
+    // 'plain' face and no likeness fields for the rank and file - but since
+    // BODY-4 each mook carries a measured skin matching its painted pack
+    // (see artquality), never the old shared tone and never a boss's face.
     for (const kind of ['soldier', 'spearman', 'archer']) {
       const t = planOf(kind)
-      expect([t.face, t.skin, t.lips, t.jaw], `${kind} gained a likeness`).toEqual([
-        undefined, undefined, undefined, undefined,
+      expect([t.face, t.lips, t.jaw], `${kind} gained a likeness`).toEqual([
+        undefined, undefined, undefined,
       ])
+      const recorded = (mookPrepared as Record<string, { skin: string }>)[kind]?.skin
+      expect(t.skin, `${kind} lost its measured complexion`).toBe(
+        recorded ? parseInt(recorded.slice(1), 16) : undefined,
+      )
     }
   })
 

@@ -20,7 +20,7 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
     .toBe('title')
 
-  // Boot must have published all five body packs (signature-verified).
+  // Boot must have published all eight body packs (signature-verified).
   const published = await page.evaluate(() => {
     const game = window.__DW_GAME__
     const scene = game?.scene.getScene('boot')
@@ -29,7 +29,9 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
       | undefined
     return Object.keys(res?.bodies ?? {}).sort()
   })
-  expect(published).toEqual(['guanyu', 'huangzhong', 'weiyan', 'zhangfei', 'zhaoyun'])
+  expect(published).toEqual([
+    'archer', 'guanyu', 'huangzhong', 'soldier', 'spearman', 'weiyan', 'zhangfei', 'zhaoyun',
+  ])
 
   // Select screen: every card shows the painted figure (portrait zoom over
   // the new body art would fail loudly if a sheet were blank).

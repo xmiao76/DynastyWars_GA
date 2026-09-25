@@ -2,8 +2,9 @@ import { writeFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { artBoxFor, drawKindPose } from '../../src/game/art/registry'
-import { maskIou, type BodyArt, type BodyPartName } from '../../src/game/art/body-parts'
+import { maskIou, PARITY_FLOOR, type BodyArt, type BodyPartName } from '../../src/game/art/body-parts'
 import prepared from '../../src/game/assets/hero-bodies/prepared.json'
+import mookPrepared from '../../src/game/assets/mook-bodies/prepared.json'
 import type { PoseName } from '../../src/game/art/poses'
 
 type Ctx = CanvasRenderingContext2D
@@ -17,25 +18,31 @@ type Meta = {
   parts: Partial<Record<BodyPartName, BodyArt['parts'][BodyPartName]>>
 }
 
-/** Before/after board: every hero, old vs paper-doll, idle + attack + down.
- * Writes artifacts/look/body3-beforeafter.png (a review artifact, kept out
- * of the test's assertions; the assertions are parity + liveness). */
+/** Before/after board: every wired fighter, old vs paper-doll, idle +
+ * attack + down. Writes artifacts/look/body3-beforeafter.png (a review
+ * artifact; the assertions are parity + liveness). */
 describe('BODY-3 review board (permanent generator)', () => {
   it('writes the before/after board at gameplay scale', async () => {
-    const heroes = Object.keys(prepared) as Array<keyof typeof prepared>
-    expect(heroes.length).toBe(5)
+    const packs = [
+      { dir: 'hero-bodies', ids: Object.keys(prepared) },
+      { dir: 'mook-bodies', ids: Object.keys(mookPrepared) },
+    ]
+    const fighters = packs.flatMap((p) => p.ids.map((id) => ({ ...p, id })))
+    expect(fighters.length).toBe(8)
     const poses: PoseName[] = ['idle', 'attack', 'down']
-    const CW = 220
-    const CH = 150
-    const board = createCanvas(CW * poses.length * 2 + 40, CH * heroes.length + 40)
+    const CW = 260
+    const CH = 300
+    const board = createCanvas(CW * poses.length * 2 + 40, CH * fighters.length + 40)
     const g = board.getContext('2d')
     g.fillStyle = '#181420'
     g.fillRect(0, 0, board.width, board.height)
     g.font = '13px sans-serif'
-    for (const [row, id] of heroes.entries()) {
-      const meta = (prepared as Record<string, Meta>)[id]
+    for (const [row, f] of fighters.entries()) {
+      const { dir, id } = f
+      const pack = dir === 'hero-bodies' ? prepared : mookPrepared
+      const meta = (pack as Record<string, Meta>)[id]
       if (!meta) continue
-      const sheet = (await loadImage(`src/game/assets/hero-bodies/${id}-sheet.png`)) as unknown as CanvasImageSource
+      const sheet = (await loadImage(`src/game/assets/${dir}/${id}-sheet.png`)) as unknown as CanvasImageSource
       const art: BodyArt = {
         id,
         revision: meta.revision,
@@ -78,10 +85,10 @@ describe('BODY-3 review board (permanent generator)', () => {
         }
       }
       const iou = maskIou(render(), render(art))
-      expect(iou, `${id} board parity`).toBeGreaterThan(0.81)
+      expect(iou, `${id} board parity`).toBeGreaterThanOrEqual(PARITY_FLOOR)
       expect(iou, `${id} board liveness`).toBeLessThan(0.99)
     }
-    writeFileSync('artifacts/look/body3-beforeafter.png', board.toBuffer('image/png'))
+    writeFileSync('artifacts/look/body-beforeafter.png', board.toBuffer('image/png'))
     expect(true).toBe(true)
   })
 })

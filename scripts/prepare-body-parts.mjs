@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync } from 'node:fs'
+﻿import { writeFileSync, mkdirSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 
@@ -20,7 +20,7 @@ export const FAR_SHADE = 0.82
 /** joints, widths (logical, bulk 1.0) and span fractions per hero. */
 export const HEROES = {
   zhangfei: {
-    master: 'art/hero-bodies/zhangfei-body-master.jpg',
+    master: 'art/fighter-bodies/zhangfei-body-master.jpg',
     skin: '#8a5a3c',
     joints: {
       chest: [416, 400], hip: [416, 686],
@@ -31,7 +31,7 @@ export const HEROES = {
     },
   },
   guanyu: {
-    master: 'art/hero-bodies/guanyu-body-master.jpg',
+    master: 'art/fighter-bodies/guanyu-body-master.jpg',
     skin: '#a8442f',
     joints: {
       chest: [416, 374], hip: [416, 686],
@@ -42,7 +42,7 @@ export const HEROES = {
     },
   },
   huangzhong: {
-    master: 'art/hero-bodies/huangzhong-body-master.jpg',
+    master: 'art/fighter-bodies/huangzhong-body-master.jpg',
     skin: '#d9ad86',
     joints: {
       chest: [416, 374], hip: [416, 686],
@@ -53,7 +53,7 @@ export const HEROES = {
     },
   },
   weiyan: {
-    master: 'art/hero-bodies/weiyan-body-master.jpg',
+    master: 'art/fighter-bodies/weiyan-body-master.jpg',
     skin: '#c79a63',
     joints: {
       chest: [816, 187], hip: [816, 343],
@@ -64,7 +64,7 @@ export const HEROES = {
     },
   },
   zhaoyun: {
-    master: 'art/hero-bodies/zhaoyun-body-master.jpg',
+    master: 'art/fighter-bodies/zhaoyun-body-master.jpg',
     skin: '#f4d0ac',
     joints: {
       chest: [360, 384], hip: [360, 602],
@@ -72,6 +72,42 @@ export const HEROES = {
       shoulderN: [482, 333], elbowN: [590, 474], handN: [670, 602],
       hipF: [310, 640], kneeF: [302, 870], footF: [295, 1190],
       hipN: [410, 640], kneeN: [418, 870], footN: [425, 1190],
+    },
+  },
+  soldier: {
+    master: 'art/fighter-bodies/soldier-body-master.jpg',
+    out: 'src/game/assets/mook-bodies',
+    skin: '#875640',
+    joints: {
+      chest: [416, 349], hip: [416, 649],
+      shoulderF: [275, 300], elbowF: [158, 449], handF: [67, 574],
+      shoulderN: [557, 300], elbowN: [674, 449], handN: [765, 574],
+      hipF: [358, 661], kneeF: [349, 898], footF: [341, 1198],
+      hipN: [474, 661], kneeN: [482, 898], footN: [491, 1198],
+    },
+  },
+  spearman: {
+    master: 'art/fighter-bodies/spearman-body-master.jpg',
+    out: 'src/game/assets/mook-bodies',
+    skin: '#936149',
+    joints: {
+      chest: [416, 349], hip: [416, 624],
+      shoulderF: [275, 312], elbowF: [166, 449], handF: [75, 574],
+      shoulderN: [557, 312], elbowN: [666, 449], handN: [757, 574],
+      hipF: [358, 649], kneeF: [349, 898], footF: [341, 1198],
+      hipN: [474, 649], kneeN: [482, 898], footN: [491, 1198],
+    },
+  },
+  archer: {
+    master: 'art/fighter-bodies/archer-body-master.jpg',
+    out: 'src/game/assets/mook-bodies',
+    skin: '#8f604a',
+    joints: {
+      chest: [416, 349], hip: [416, 649],
+      shoulderF: [275, 300], elbowF: [158, 449], handF: [67, 586],
+      shoulderN: [557, 300], elbowN: [674, 449], handN: [765, 586],
+      hipF: [366, 661], kneeF: [358, 911], footF: [349, 1198],
+      hipN: [466, 661], kneeN: [474, 911], footN: [482, 1198],
     },
   },
 }
@@ -211,29 +247,40 @@ export async function prepareHero(id) {
 }
 
 export async function main() {
-  mkdirSync('src/game/assets/hero-bodies', { recursive: true })
-  const prepared = {}
+  const byOut = new Map()
   for (const id of Object.keys(HEROES)) {
-    const { sheet, parts, width, height } = await prepareHero(id)
-    const sctx = sheet.getContext('2d')
-    const png = sheet.toBuffer('image/png')
-    const im = sctx.getImageData(0, 0, width, height)
-    writeFileSync(`src/game/assets/hero-bodies/${id}-sheet.png`, png)
-    prepared[id] = {
-      revision: 'body-1',
-      skin: HEROES[id].skin,
-      density: DENSITY,
-      sheet: { width, height },
-      parts,
-      signatures: { sheet: signature(im) },
-      sha256: { sheet: createHash('sha256').update(png).digest('hex') },
-    }
-    console.log(`${id}: sheet ${width}x${height}, ${png.length} bytes`)
+    const out = HEROES[id].out ?? 'src/game/assets/hero-bodies'
+    if (!byOut.has(out)) byOut.set(out, [])
+    byOut.get(out).push(id)
   }
-  writeFileSync('src/game/assets/hero-bodies/prepared.json', `${JSON.stringify(prepared, null, 2)}\n`)
+  const preparedByOut = new Map()
+  for (const [out, ids] of byOut) {
+    mkdirSync(out, { recursive: true })
+    const prepared = {}
+    preparedByOut.set(out, prepared)
+    for (const id of ids) {
+      const { sheet, parts, width, height } = await prepareHero(id)
+      const sctx = sheet.getContext('2d')
+      const png = sheet.toBuffer('image/png')
+      const im = sctx.getImageData(0, 0, width, height)
+      writeFileSync(`${out}/${id}-sheet.png`, png)
+      prepared[id] = {
+        revision: 'body-1',
+        skin: HEROES[id].skin,
+        density: DENSITY,
+        sheet: { width, height },
+        parts,
+        signatures: { sheet: signature(im) },
+        sha256: { sheet: createHash('sha256').update(png).digest('hex') },
+      }
+      console.log(`${id}: sheet ${width}x${height}, ${png.length} bytes`)
+    }
+    writeFileSync(`${out}/prepared.json`, `${JSON.stringify(prepared, null, 2)}\n`)
+  }
   // Review composite: every cell on checkers with its pivot marked.
   for (const id of Object.keys(HEROES)) {
-    const img = await loadImage(`src/game/assets/hero-bodies/${id}-sheet.png`)
+    const out = HEROES[id].out ?? 'src/game/assets/hero-bodies'
+    const img = await loadImage(`${out}/${id}-sheet.png`)
     const comp = createCanvas(img.width, img.height + 24)
     const g = comp.getContext('2d')
     for (let y = 0; y < img.height; y += 16) {
@@ -245,7 +292,7 @@ export async function main() {
     g.drawImage(img, 0, 0)
     g.fillStyle = '#00ff00'
     g.font = '13px sans-serif'
-    for (const [name, c] of Object.entries(prepared[id].parts)) {
+    for (const [name, c] of Object.entries(preparedByOut.get(out)[id].parts)) {
       g.fillRect(c.x + c.pivotX - 1, c.y + c.pivotY - 1, 3, 3)
       g.fillStyle = '#000000'
       g.fillText(name, c.x + 3, img.height + 18)

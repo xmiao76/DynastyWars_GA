@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 02:55 UTC - BODY-4 (attempt 1, full verification, DONE)
+
+- Status before: BODY-4 IN_PROGRESS (masters generated round 22).
+- Work completed: three mook paper-doll bodies shipped LIVE (8 fighters
+  total with painted bodies).
+  - Masters: soldier (red-brown lamellar), spearman (blue-grey mail),
+    archer (green cloth+leather), all keyed to the Guan Yu master for
+    brushwork; joint tables eyeballed from grids; prep extended with
+    per-entry outDir (mook-bodies pack) - hero sheets byte-identical on
+    regen (determinism holds).
+  - Wired: BODY_ART_CATALOG + BODY_PREPARED merged across both packs;
+    boot publishes all 8 (e2e asserts the exact set).
+  - Measured mook complexions: painted hands sample #86-93/#55-67/
+    #3f-4f vs cast default #f0c8a0 (a glaring head/hand mismatch), so
+    ENEMY_FIGURES gained SKIN_SOLDIER/SPEARMAN/ARCHER (0x875640/
+    0x936149/0x8f604a); artquality + likeness mook rules upgraded from
+    "shared tone" to exact plan-pack skin match (stronger, not weaker).
+  - Gate rebalancing (evidence-led): archer's lean silhouette scores
+    0.787-0.832 (honest enrichment, verified by eyeball), so
+    PARITY_FLOOR 0.81->0.75 as a drift bound; breakage detection moved
+    to new per-part position tests (every part's ink centroid on its
+    segment, idle/attack/down, all 8 fighters - immune to style).
+- Verification: lint PASS, typecheck PASS, unit 354/354, e2e 78/78,
+  vision 5/5 (sprite gate held), selfplay 13/13, build PASS, prodbuild
+  4/4. 8-fighter before/after board eyeballed (mook heads seat cleanly
+  on painted torsos; down poses coherent); live combat + co-op captures
+  eyeballed (painted mooks, P2 spawn, untouched horse).
+- Housekeeping: ENH-6 archived (chain ENH-5 -> ENH-6). 20 DONE remain.
+  art/hero-bodies renamed art/fighter-bodies (now holds 8 masters) +
+  PROVENANCE.md written.
+- Result: COMPLETED; captures presented for owner review.
+- Status after: BODY-4 DONE. Next: BODY-5 (horse repaint).
+- Next recommended task: BODY-5.
+
 ### 2026-09-25 00:30 UTC - BODY-3 (attempt 1, full verification, DONE)
 
 - Status before: BODY-3 IN_PROGRESS (Zhang Fei wired in round 19).

@@ -3379,3 +3379,28 @@ and the three pre-redesign enhancements - all DONE and verified)
   - No frame-data changes (ENH-4 owns them). No threshold weakening ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â redraw
     the pose, never the floor. Enemies keep existing strike mapping.
 
+
+### ENH-6 - Moveset validation: e2e, signals, balance comparison, eye review
+
+- Status: DONE
+- Dependency: do not start until ENH-5 is DONE. If reached earlier, mark
+  this BLOCKED with reason "waiting on ENH-5" and implement nothing.
+- Requirement:
+  Prove the redesigned movesets end to end. Extend `e2e/anim.spec.ts`
+  strike/withdrawn predicates to the new pose suffixes and add a per-hero
+  combo texture test (Zhang Fei shows thrust-family keys, Guan Yu
+  sweep/chop-family ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â never the same triple). Run the full gates and compare
+  against the ENH-4 baseline marathon table.
+- Acceptance criteria:
+  - [x] e2e green including the new per-hero combo test; vision 5/5;
+        prodbuild 4/4; signal 13/13 including all five marathons.
+  - [x] Marathon before/after table recorded in PROGRESS.md. Any stage mean
+        shifting >15% stops the task: flag to the owner, do not retune toward
+        it. DIFF-1 stays BLOCKED regardless.
+  - [x] All five heroes' full combos eye-reviewed at gameplay size (desktop +
+        phone); masked attribution check: each combo reads as its weapon.
+  - [x] lint, typecheck, unit green; no thresholds weakened.
+- Non-goals:
+  - No DIFF-1 smoothing and no new follow-up tasks invented. No deployment,
+    push, or cloud changes.
+

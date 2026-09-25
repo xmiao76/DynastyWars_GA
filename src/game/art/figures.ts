@@ -153,6 +153,14 @@ const SKIN_ZHANGFEI = 0x8a5a3c    // 黑脸, lifted clear of a near-black beard
 const SKIN_ZHAOYUN = 0xf4d0ac     // young and fair
 const SKIN_HUANGZHONG = 0xd9ad86  // the old general, weathered
 const SKIN_WEIYAN = 0xc79a63      // sallow and hard
+// BODY-4: the three mooks' procedural faces/necks must meet their painted
+// hands, which measure #86-93/#55-67/#3f-4f across the masters - far darker
+// than the cast default 0xf0c8a0. Sampled from lit hand pixels (fingertip
+// neighborhoods, luminance > 40), rounded, no readability lift: Zhang Fei
+// proves darker procedural skin reads at game size.
+const SKIN_SOLDIER = 0x875640
+const SKIN_SPEARMAN = 0x936149
+const SKIN_ARCHER = 0x8f604a
 const LIPS_GUANYU = 0xc81e30      // 唇若涂脂 - rouge crimson, deeper than his skin
 const JAW_ZHAOYUN = 1.1           // 阔面重颐 - broad face, full jaw
 
@@ -199,9 +207,9 @@ export const HERO_FIGURES: Record<string, FigurePlan> = {
 
 /** Wei's rank and file, and the nine bosses. Colours from the pixel cast. */
 export const ENEMY_FIGURES: Record<string, FigurePlan> = {
-  soldier: plan(0x8b3a2a, 0x5a2a1a, 0x6a5a4a, 'helmet', 'sword', GRUNT),
-  spearman: plan(0x5b4a8b, 0x8a7ab0, 0x4a4a6a, 'helmet', 'spear', GRUNT),
-  archer: plan(0x3a6b3a, 0x6a9a5a, 0x2a4a2a, 'hood', 'bow', GRUNT),
+  soldier: plan(0x8b3a2a, 0x5a2a1a, 0x6a5a4a, 'helmet', 'sword', GRUNT, 'none', undefined, false, SKIN_SOLDIER),
+  spearman: plan(0x5b4a8b, 0x8a7ab0, 0x4a4a6a, 'helmet', 'spear', GRUNT, 'none', undefined, false, SKIN_SPEARMAN),
+  archer: plan(0x3a6b3a, 0x6a9a5a, 0x2a4a2a, 'hood', 'bow', GRUNT, 'none', undefined, false, SKIN_ARCHER),
 
   /*
    * The nine bosses, given the same treatment as the heroes. Their complexions

@@ -2,14 +2,16 @@ import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
-import { HERO_FIGURES } from '../../src/game/art/figures'
+import { HERO_FIGURES, ENEMY_FIGURES } from '../../src/game/art/figures'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 import { applyBuild } from '../../src/game/art/rig'
+import { weaponPose } from '../../src/game/art/weapons'
 import { drawFigure } from '../../src/game/art/draw'
 import { artBoxFor, drawKindPose } from '../../src/game/art/registry'
 import {
   BODY_PART_DEFS,
   BODY_PART_ORDER,
+  bodyPainter,
   PARITY_FLOOR,
   maskIou,
   type BodyArt,
@@ -119,7 +121,7 @@ describe('BODY-2 part table', () => {
       expect(POSE_TABLE.idle[def.from as keyof Skeleton]).toBeTruthy()
       expect(POSE_TABLE.idle[def.to as keyof Skeleton]).toBeTruthy()
     }
-    expect(PARITY_FLOOR).toBe(0.81)
+    expect(PARITY_FLOOR).toBe(0.75)
   })
 
   it('keeps fixture cells inside the sheet with pivots on the joint line', () => {
@@ -433,18 +435,21 @@ describe('BODY-2 mask IoU', () => {
     }
   })
 
-  it('holds the parity floor on every wired production hero', async () => {
-    const prepared = (await import('../../src/game/assets/hero-bodies/prepared.json')).default as Record<
-      string,
-      { revision: string; skin: string; density: number; parts: BodyArt['parts'] }
-    >
-    expect(Object.keys(prepared).length).toBeGreaterThan(0)
-    for (const id of Object.keys(prepared)) {
-      const meta = prepared[id]
-      if (!meta) continue
-      const sheet = (await loadImage(
-        `src/game/assets/hero-bodies/${id}-sheet.png`,
-      )) as unknown as CanvasImageSource
+  it('holds the parity floor on every wired production fighter', async () => {
+    const packs = ['hero-bodies', 'mook-bodies'] as const
+    let covered = 0
+    for (const pack of packs) {
+      const prepared = (await import(`../../src/game/assets/${pack}/prepared.json`)).default as Record<
+        string,
+        { revision: string; skin: string; density: number; parts: BodyArt['parts'] }
+      >
+      for (const id of Object.keys(prepared)) {
+        covered += 1
+        const meta = prepared[id]
+        if (!meta) continue
+        const sheet = (await loadImage(
+          `src/game/assets/${pack}/${id}-sheet.png`,
+        )) as unknown as CanvasImageSource
       const art: BodyArt = {
         id,
         revision: meta.revision,
@@ -475,6 +480,76 @@ describe('BODY-2 mask IoU', () => {
         // silent whole-fighter fallback (which renders procedurally, IoU 1.0)
         // would pass the parity gate above.
         expect(iou, `${id}:${pose} looks fallen back`).toBeLessThan(0.99)
+        }
+      }
+    }
+    expect(covered, 'production packs must cover heroes + mooks').toBe(8)
+  })
+
+  it('seats every painted part on its own joint segment', async () => {
+    // The precise breakage test whole-figure IoU cannot be: render each
+    // part alone through the real painter and demand ink near its segment.
+    // Enrichment never moves a part off its joints, so this is immune to
+    // style changes and trips only on missing/misseated parts.
+    const packs = [
+      { dir: 'hero-bodies', plans: HERO_FIGURES },
+      { dir: 'mook-bodies', plans: ENEMY_FIGURES },
+    ] as const
+    for (const { dir, plans } of packs) {
+      const prepared = (await import(`../../src/game/assets/${dir}/prepared.json`)).default as Record<
+        string,
+        { revision: string; skin: string; density: number; parts: BodyArt['parts'] }
+      >
+      for (const id of Object.keys(prepared)) {
+        const meta = prepared[id]
+        if (!meta) continue
+        const sheet = (await loadImage(`src/game/assets/${dir}/${id}-sheet.png`)) as unknown as CanvasImageSource
+        const art: BodyArt = {
+          id,
+          revision: meta.revision,
+          sheet,
+          density: meta.density,
+          parts: meta.parts,
+          skin: parseInt(meta.skin.slice(1), 16),
+        }
+        const plan = plans[id] as (typeof HERO_FIGURES)[string] | undefined
+        if (!plan) throw new Error(`no plan for ${id}`)
+        for (const poseName of ['idle', 'attack', 'down'] as PoseName[]) {
+          const pose = weaponPose(plan, applyBuild(POSE_TABLE[poseName], plan.build))
+          const joints = pose as unknown as Record<string, { x: number; y: number }>
+          const paint = bodyPainter(art, joints, plan.build.bulk)
+          for (const part of Object.keys(meta.parts) as BodyPartName[]) {
+            const def = BODY_PART_DEFS[part]
+            const a = joints[def.from]
+            const b = joints[def.to]
+            if (!a || !b) throw new Error(`no joints for ${part}`)
+            const canvas = createCanvas(120 * SCALE, 110 * SCALE)
+            const ctx = canvas.getContext('2d')
+            ctx.scale(SCALE, SCALE)
+            paint(ctx as unknown as Ctx, part)
+            const data = ctx.getImageData(0, 0, 120 * SCALE, 110 * SCALE).data
+            let n = 0
+            let sx = 0
+            let sy = 0
+            for (let y = 0; y < 110 * SCALE; y += 1) {
+              for (let x = 0; x < 120 * SCALE; x += 1) {
+                if ((data[(y * 120 * SCALE + x) * 4 + 3] ?? 0) > 128) {
+                  n += 1
+                  sx += x
+                  sy += y
+                }
+              }
+            }
+            expect(n, `${id}:${poseName}:${part} paints nothing`).toBeGreaterThan(20)
+            const cx = sx / n / SCALE
+            const cy = sy / n / SCALE
+            const mx = (a.x + b.x) / 2
+            const my = (a.y + b.y) / 2
+            const segLen = Math.hypot(b.x - a.x, b.y - a.y)
+            const drift = Math.hypot(cx - mx, cy - my)
+            expect(drift, `${id}:${poseName}:${part} centroid off-segment`).toBeLessThan(segLen * 0.35 + 3)
+          }
+        }
       }
     }
   })

@@ -22,6 +22,7 @@ import { SKIN, TASSEL, shade } from '../../src/game/art/palette'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 import { BODY_X, FIG_H, FIG_W, applyBuild } from '../../src/game/art/rig'
 import { POSES } from '../../src/game/adapters/sprites'
+import mookPrepared from '../../src/game/assets/mook-bodies/prepared.json'
 import {
   assessSprite,
   assessWeaponReach,
@@ -734,12 +735,21 @@ describe('character art reads as characters', () => {
         expect(skins[i], bosses[i] + ' and ' + bosses[j] + ' share a complexion').not.toBe(skins[j])
       }
     }
-    // The rank and file keeps the shared tone.
+    // The rank and file keeps the plain face - but since BODY-4 each mook
+    // carries a MEASURED complexion, sampled from its painted hands, so the
+    // procedural face meets the painted body. The committed plan tone must
+    // equal the pack's recorded skin exactly: drift either side reopens the
+    // head/hand mismatch the measurement closed.
     for (const kind of ['soldier', 'spearman', 'archer'] as const) {
       expect(
         ENEMY_FIGURES[kind]?.skin,
-        kind + ' is a uniformed troop and keeps the shared tone',
-      ).toBeUndefined()
+        kind + ' declares no measured complexion',
+      ).toBeDefined()
+      const recorded = (mookPrepared as Record<string, { skin: string }>)[kind]?.skin
+      expect(
+        ENEMY_FIGURES[kind]?.skin,
+        kind + ' plan tone drifted from its painted pack',
+      ).toBe(recorded ? parseInt(recorded.slice(1), 16) : undefined)
       expect(
         ENEMY_FIGURES[kind]?.face,
         kind + ' is a uniformed troop and keeps the plain face',
