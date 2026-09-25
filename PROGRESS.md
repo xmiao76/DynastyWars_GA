@@ -22,6 +22,29 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 08:00 UTC - BODY-14 (attempt 1, full verification, DONE)
+
+- Status before: BODY-14 TODO (first round-2 task: the harness).
+- Work completed: docs/CHARACTER_REVIEW.md (checklist + loop rule +
+  round-2 findings) and test/game/reviewharness.test.ts (permanent
+  generator): whole characters at 1.5x with per-cell analytic
+  head:body ratio + N/F hand flags, 2 sheets (heroes+mooks, bosses).
+- The vision loop already paid off on its first use: the ratio first
+  read 1:2.1 (cell-span math counted empty cell margins around the
+  head) - the eyeball check caught it and the math is now
+  crown-based (eye->chin 12u + eye->crown 8u from the prep
+  landmarks), reading 1:3.1-3.8, matching the seen chibi cast.
+  Current sheets confirm both known defects: N=yes everywhere,
+  F=no everywhere, all ratios above 1:4.
+- Verification: lint PASS, typecheck PASS, unit 606/606, e2e 78/78,
+  vision 5/5, selfplay 13/13, build PASS, prodbuild 4/4.
+- Housekeeping: ART-18 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the
+  final acceptance gate).
+- Status after: BODY-14 DONE. Next: BODY-15 (both arms/hands+grips).
+- Next recommended task: BODY-15.
+
 ### 2026-09-26 07:10 UTC - Owner round-2 objections: vision diagnosis + BODY-14..16 filed
 
 - Status before: goal blocked awaiting final acceptance. Owner replied
