@@ -682,6 +682,121 @@ Add future enhancement tasks below this heading.
   extended to the 14-id roster, bossboard generator.
 - Non-goals: no boss bodies; no sim/AI changes.
 
+### BODY-8 - Hands visible and grip readable (owner objection 2+3)
+
+- Status: TODO
+- Owner objection (2026-09-25, final-cast review): "I cannot see these
+  characters' hand" and "I can not see how these characters hold their
+  weapons." Vision inspection (artifacts/look/obs-grip-*.png,
+  obs-full-*.png) confirms: no hand is visible in any weapon pose; the
+  red tassel blobs occupy the grip zone; hafts cross bodies with zero
+  hand contact.
+- Requirement: hands must be visible and wrap the haft at the grip in
+  every weapon-bearing pose, for all 17 fighters. Repaint hand cells as
+  CLOSED-GRIP hands (fingers wrapping) for weapon poses and relaxed
+  hands for idle; composite the near hand OVER the haft at the grip
+  point (draw order: haft -> hand), replacing the tassel-at-grip blob
+  with a socket-cloth tassel or removing it from the grip zone.
+- Acceptance criteria:
+  - [ ] Grip review sheet (regenerated from obs-grip) shows a clear
+        skin-toned hand ON the haft in attack/attack2/thrust/chop/
+        sweep/windup/recover/special/idle for every fighter.
+  - [ ] Measurable: in each weapon pose, a hand-hue region (skin tone
+        band) of >= 24 px at gameplay scale (SCALE 2) intersects the
+        haft's central axis within +-3 logical px of the grip point.
+  - [ ] Full gates green; owner re-review.
+- Non-goals: no weapon geometry/reach changes; no sim changes.
+
+### BODY-9 - Feet visible at gameplay size (owner objection 1)
+
+- Status: TODO
+- Owner objection: "I cannot see these characters' feet." Vision
+  inspection (artifacts/look/obs-feet-*.png) confirms: boots are
+  dark-on-dark with no sole/toe definition; weapon butt-caps hang into
+  the foot zone; robe hems swallow ankles.
+- Requirement: feet must read as feet at gameplay size. Paint boot toes
+  and soles with clear lighter edges (toe cap highlight + sole line),
+  keep feet clear of the weapon butt (haft ends above the foot line or
+  draws behind boots), and prevent robe hems from covering the boot
+  front in standing poses.
+- Acceptance criteria:
+  - [ ] Feet review sheet shows two distinct feet (toe direction + sole
+        line visible) per standing fighter at gameplay scale.
+  - [ ] Measurable: boot region vs background luminance delta >= 30,
+        and boot-front pixels unoccluded (not covered by hem/haft) in
+        idle/walk0/walk1 for every fighter.
+  - [ ] Full gates green; owner re-review.
+- Non-goals: no pose/rig changes; no ground/scene changes.
+
+### BODY-10 - Painted weapons (realism pass, supports objections 2+3)
+
+- Status: TODO
+- Finding from vision inspection: the procedural weapons (flat brown
+  hafts, rounded butt-caps, white squiggle blades, red tassel bars)
+  are the strongest remaining cartoon signal against the painted cast -
+  they also cause the foot-zone and grip-zone artifacts above.
+- Requirement: painted weapon art per WeaponKind (crescent glaive,
+  serpent spear, leaf spear, jian, dao, ji, bow): wood-grain hafts,
+  steel blades with real bevels, cloth tassels at the socket only.
+  Same weapon geometry and reach (POSE_REACH and attack reach must not
+  move), same grip anchors.
+- Acceptance criteria:
+  - [ ] Weapon silhouettes preserve measured reach (reach table tests
+        unchanged; sprite gate holds).
+  - [ ] Vision review: no flat-fill weapon parts remain; blades read as
+        steel at gameplay size.
+  - [ ] Full gates green; owner re-review.
+- Non-goals: no sim/weapon-stat changes; no new weapon kinds.
+
+### BODY-11 - Composition cleanup: belt bars, seams, arm readability
+
+- Status: TODO
+- Findings from vision inspection: procedural sash/belt bars draw OVER
+  painted waists (straight floating bars on every paper-doll fighter);
+  painted head collars double with painted torso shoulders; near arms
+  merge into torsos at gameplay size.
+- Requirement: procedural body details (sash + belt) stop drawing on
+  paper-doll fighters (painted torsos carry their own belts); polish the
+  head/torso shoulder join; raise near-arm contrast against the torso.
+- Acceptance criteria:
+  - [ ] No straight procedural bars over painted waists in any pose.
+  - [ ] Shoulder join invisible at gameplay size in both facings.
+  - [ ] Full gates green; owner re-review.
+- Non-goals: no head-art changes; no pose changes.
+
+### BODY-12 - Mook painted heads (realism: every character)
+
+- Status: TODO
+- Finding: the three mooks keep procedural cel faces (dot eyes) on
+  painted bodies - a style split the owner's "make every character
+  looks realistic and good" covers.
+- Requirement: painted 3-expression heads for soldier/spearman/archer
+  via the BODY-6 boss-head pipeline (keyed to the mook briefs in
+  docs/BODY_STYLE_GUIDE.md: plain weathered infantry faces, no boss
+  likeness), wired through the same catalog; procedural faces remain
+  the fallback.
+- Acceptance criteria:
+  - [ ] All three mooks render painted heads in all 14 poses x both
+        facings; identity/distinctness tests mirror boss-faces suite.
+  - [ ] Full gates green (sprite gate holds); owner re-review.
+- Non-goals: no mook body changes; no boss changes.
+
+### BODY-13 - Boss paper-doll bodies (realism: every character)
+
+- Status: TODO
+- Scope note: the original plan said "bosses heads only", but the
+  owner's final-cast instruction ("make every character looks
+  realistic and good") supersedes it - boss cel bodies under painted
+  heads are a visible style split.
+- Requirement: paper-doll bodies for the nine bosses via the BODY-2/3
+  pipeline (masters keyed to their painted heads; distinct armor per
+  the BOSS_HEAD_REFERENCE costume notes), keeping boss builds/scales.
+- Acceptance criteria:
+  - [ ] All 14 poses x both facings per boss; per-part position tests
+        + parity/liveness pass; sprite gate holds.
+  - [ ] Before/after board + full gates green; owner re-review.
+- Non-goals: no boss AI/sim changes; no weapon geometry changes.
+
 ### BODY-7 - Full verification sweep for the body overhaul
 
 - Status: IN_PROGRESS (attempt 1)

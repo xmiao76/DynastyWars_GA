@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 23:55 UTC - Owner objections received: vision diagnosis + BODY-8..13 filed
+
+- Status before: goal blocked awaiting final-cast acceptance. Owner
+  replied with 3 objections + a realism instruction ("use your vision to
+  take screenshot... generate tasks to fix all these problems, and make
+  every character looks realistic and good"). Goal resumed with the fix
+  scope (revision 13).
+- Work completed:
+  - Vision inspection: test/game/lookreview.test.ts (permanent
+    generator) renders all 17 fighters x idle/attack through the
+    shipping path as artifacts/look/obs-{full,feet,grip}-*.png (18
+    sheets); read with vision and diagnosed.
+  - CONFIRMED diagnosis:
+    1. FEET: boots dark-on-dark, no sole/toe definition; weapon
+       butt-caps hang into the foot zone; robe hems swallow ankles.
+    2. HANDS: NO hands visible in any weapon pose - arms end at sleeve
+       stubs; red tassel blobs occupy the grip zone (Zhao Yun's chest
+       shows a red bar like a stuck arrow).
+    3. WEAPON HOLD: flat brown hafts float across bodies with zero hand
+       contact; white squiggle blades; procedural belt bars draw OVER
+       painted waists (drawBodyDetails runs on paper-doll torsos).
+    4. REALISM GAPS: cartoon weapons vs painted cast; mook cel-faces on
+       painted bodies; boss cel-bodies under painted heads.
+  - Filed BODY-8 (hands+grip), BODY-9 (feet), BODY-10 (painted
+    weapons), BODY-11 (belt bars/seams), BODY-12 (mook painted heads),
+    BODY-13 (boss paper-doll bodies) - each with measurable acceptance
+    + non-goals; BODY-7 stays the closing acceptance task.
+- Result: IN_PROGRESS (diagnosis + tasks delivered; implementation
+  starts with BODY-8 next round).
+- Status after: BODY-7 IN_PROGRESS (objections = filed work); BODY-8
+  first TODO.
+
 ### 2026-09-25 23:20 UTC - BODY-7 (attempt 1, serial sweep green, awaiting owner acceptance)
 
 - Status before: BODY-7 TODO (BODY-1..6 all DONE).
