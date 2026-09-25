@@ -320,6 +320,15 @@ export function figureShapes(
   const add = (trace: Shape['trace'], fill: string, outline = true): void => {
     shapes.push({ trace, fill, outline })
   }
+  const has = (part: BodyPartName): boolean => body?.parts[part] !== undefined
+  // Procedural groups are replaced only when ALL of their parts are painted;
+  // a missing part keeps its procedural shape in the same slot (e.g. heroes
+  // whose masters show no cape keep the procedural cape).
+  const farArm = has('upperArmF') && has('foreArmF')
+  const farLeg = has('thighF') && has('shinF')
+  const torso = has('torso')
+  const nearLeg = has('thighN') && has('shinN')
+  const nearArm = has('upperArmN') && has('foreArmN')
   const mark = (part: BodyPartName): void => {
     shapes.push({ trace: () => {}, fill: '', bodyPart: part })
   }
@@ -331,7 +340,7 @@ export function figureShapes(
   // Cape first: it sits behind everything and is most of what makes a
   // silhouette recognisable at a distance.
   if (plan.cape) {
-    if (body) {
+    if (has('cloth')) {
       mark('cloth')
     } else {
       const trail = p.lying === true ? 1 : -1
@@ -351,7 +360,7 @@ export function figureShapes(
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'rear' })
 
   // Far side of the body, drawn behind the torso.
-  if (body) {
+  if (farArm) {
     mark('upperArmF')
     mark('foreArmF')
   } else {
@@ -360,7 +369,7 @@ export function figureShapes(
       m.clothShade,
     )
   }
-  if (body) {
+  if (farLeg) {
     mark('thighF')
     mark('shinF')
   } else {
@@ -371,7 +380,7 @@ export function figureShapes(
 
   // Torso, then the armour skirt over the hips. The paper-doll torso sheet
   // includes the skirt (rigid with the hips), so one marker replaces both.
-  if (body) {
+  if (torso) {
     mark('torso')
   } else {
     add((c) => limbPath(c, p.chest, p.hip, 23.5 * b, 15.5 * b), m.cloth)
@@ -388,7 +397,7 @@ export function figureShapes(
   }
 
   // Near leg, in front of the skirt.
-  if (body) {
+  if (nearLeg) {
     mark('thighN')
     mark('shinN')
   } else {
@@ -402,17 +411,17 @@ export function figureShapes(
   headParts(add, plan, p, m, headRadius(plan))
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'head' })
 
-  // Pauldron, then the near arm over it. With a paper-doll body the
+  // Pauldron, then the near arm over it. With a paper-doll near arm the
   // upper-arm part carries the shoulder, so the procedural pauldron (and
   // the painted-head shoulder cap below it) would double-draw.
-  if (body) {
+  if (nearArm) {
     mark('upperArmN')
     mark('foreArmN')
   } else {
     add((c) => ovalPath(c, p.shoulderN, 7.8 * b, 6.4 * b, -0.2), m.trim)
     add((c) => chainPath(c, [p.shoulderN, p.elbowN, p.handN], [9.5 * b, 7.4 * b, 5.6 * b]), m.cloth)
   }
-  if (painted && !body) {
+  if (painted && !nearArm) {
     // A fitted shoulder cap bridges the painted neck and the existing sleeve.
     // It does not alter the arm endpoints or any weapon/hand geometry.
     add(c => ovalPath(c, p.shoulderN, 6.8 * b, 5.4 * b, -0.2), m.cloth)
@@ -428,8 +437,8 @@ export function figureShapes(
   }
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'front' })
   // Forearm and hand in skin, over the sleeve, so the arm is not one tube.
-  // Skipped with a paper-doll body: the hand is painted into the foreArm part.
-  if (!body) {
+  // Skipped when the paper-doll forearm (which includes the hand) is present.
+  if (!has('foreArmN')) {
     add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
   }
 

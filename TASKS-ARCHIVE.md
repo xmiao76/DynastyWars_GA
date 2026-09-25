@@ -3342,3 +3342,40 @@ and the three pre-redesign enhancements - all DONE and verified)
     or mounted-sweep changes. No DIFF-1 smoothing: record balance deltas,
     do not chase them.
 
+
+### ENH-5 - Weapon-true strike poses (thrust/chop/sweep) and art gates
+
+- Status: DONE
+- Dependency: do not start until ENH-4 is DONE. If reached earlier, mark
+  this BLOCKED with reason "waiting on ENH-4" and implement nothing.
+- Requirement:
+  Author at most three new shared strike poses in `src/game/art/poses.ts`:
+  `thrust` (deep lunge, weapon level), `chop` (high-to-low cut on a steep
+  forward diagonal, inside HEADROOM 27 ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â never truly overhead), `sweep`
+  (low crouched wide swing). Repoint ENH-4's `STRIKE_POSE` table so each
+  hero's (jab1, jab2, finisher) is three distinct poses and no two heroes
+  share the same ordered triple. Register names in `sprites.ts` POSES,
+  calibrate per-pose `POSE_REACH` by measurement (no 57 fallback), extend
+  the hardcoded strike lists and distinctness PAIRS in
+  `test/game/artquality.test.ts`.
+- Acceptance criteria:
+  - [x] Reach gate: every new strike beats idle by ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¥ MIN_WEAPON_REACH_PX
+        for every armed kind. Retract gate: windup/recover strictly narrower
+        than EACH new strike. Distinctness: each new strike vs idle, windup,
+        recover, and sibling strikes, all above the floor. No floor moved.
+  - [x] Face-clearance (all kinds ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â poses ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â facings), no-clip, centering,
+        portrait, tassel, and weapon-identity tests green unmodified in logic.
+  - [x] `npm run vision` 5/5 including renderer parity and both negative
+        controls; before/after combo sheets for all five heroes captured via
+        the weapon-review/facesheet scripts and judged by eye at gameplay
+        size (desktop + phone attacks); no clipping, no weapon over a face.
+- Evidence:
+  - Triples: gy (sweep,attack,chop), zf (thrust,attack2,sweep),
+    zy (attack,attack2,thrust), hz (thrust,chop,sweep), wy (attack,sweep,chop).
+  - artifacts/weapon-review/{pose-sweep,sequence-desktop,sequence-phone}-*-enh5after.png
+    vs enh5before; geometry-enh5after.json (thrust 65, chop 30, sweep 61,
+    headroom 25, zero face overlaps); artifacts/look/facesheet.png.
+- Non-goals:
+  - No frame-data changes (ENH-4 owns them). No threshold weakening ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â redraw
+    the pose, never the floor. Enemies keep existing strike mapping.
+

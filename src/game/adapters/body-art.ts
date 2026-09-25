@@ -3,7 +3,12 @@ import type { BodyArt } from '../art/body-parts'
 import type { ArtResources } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import { ART_RESOURCE_KEY } from './hero-art'
-import bodyPrepared from '../assets/body-art/prepared.json'
+import bodyPrepared from '../assets/hero-bodies/prepared.json'
+import guanyuSheet from '../assets/hero-bodies/guanyu-sheet.png'
+import huangzhongSheet from '../assets/hero-bodies/huangzhong-sheet.png'
+import weiyanSheet from '../assets/hero-bodies/weiyan-sheet.png'
+import zhangfeiSheet from '../assets/hero-bodies/zhangfei-sheet.png'
+import zhaoyunSheet from '../assets/hero-bodies/zhaoyun-sheet.png'
 
 /**
  * Paper-doll body art loading (BODY-2), mirroring the ART-18 head chain:
@@ -32,8 +37,14 @@ export interface BodyPreparedEntry {
   sha256: { sheet: string }
 }
 
-/** Production catalog: empty until BODY-3 ships the first part sheets. */
-export const BODY_ART_CATALOG: BodyCatalog = {}
+/** Production catalog: BODY-3 ships all five hero part sheets. */
+export const BODY_ART_CATALOG: BodyCatalog = {
+  guanyu: { sheet: guanyuSheet },
+  huangzhong: { sheet: huangzhongSheet },
+  weiyan: { sheet: weiyanSheet },
+  zhangfei: { sheet: zhangfeiSheet },
+  zhaoyun: { sheet: zhaoyunSheet },
+}
 
 const keyFor = (id: string): string => `body-source:${id}`
 

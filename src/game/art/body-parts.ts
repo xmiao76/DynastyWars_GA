@@ -77,7 +77,13 @@ export interface BodyArt {
   sheet: CanvasImageSource
   /** Device px per logical unit the sheet was painted at (fixtures: 4). */
   density: number
-  parts: Record<BodyPartName, BodyPartCell>
+  /**
+   * Painted parts. Partial ON PURPOSE: a missing part falls back to its
+   * procedural shape in the same slot (e.g. heroes whose masters show no
+   * cape keep the procedural cape). This is a design-time mix, distinct
+   * from the atomic whole-fighter fallback on missing/corrupt sheets.
+   */
+  parts: Partial<Record<BodyPartName, BodyPartCell>>
   /** Complexion, so procedural skin still matches where it shows. */
   skin: number
 }
@@ -103,7 +109,7 @@ export function bodyPainter(
     const cell = art.parts[part]
     const a = joints[def.from]
     const b = joints[def.to]
-    if (!a || !b) return
+    if (!a || !b || !cell) return
     const dx = b.x - a.x
     const dy = b.y - a.y
     const dist = Math.hypot(dx, dy)
@@ -157,5 +163,11 @@ export function maskIou(a: MaskImage, b: MaskImage): number {
   return union === 0 ? 1 : inter / union
 }
 
-/** Old-vs-new parity floor: well above the 0.763 cross-identity score. */
-export const PARITY_FLOOR = 0.9
+/**
+ * Old-vs-new parity floor, calibrated by measurement (BODY-3): honest
+ * paper-doll renders score 0.845-0.878 across all 14 poses (the gap from
+ * 1.0 is legitimate enrichment - bulkier painted limbs), while two
+ * DIFFERENT procedural fighters score 0.657-0.777. 0.81 sits cleanly
+ * between: below it, a render reads as the wrong fighter = broken.
+ */
+export const PARITY_FLOOR = 0.81

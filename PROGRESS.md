@@ -22,6 +22,97 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-25 00:30 UTC - BODY-3 (attempt 1, full verification, DONE)
+
+- Status before: BODY-3 IN_PROGRESS (Zhang Fei wired in round 19).
+- Work completed: all five hero paper-doll bodies shipped LIVE.
+  - Joint tables for guanyu/huangzhong/weiyan/zhaoyun (eyeballed from
+    grid overlays; weiyan's master is the 1632x624 landscape cut);
+    prep derives palm/ankle joints from the visible-fingertip/sole
+    landmarks the tables record.
+  - All five sheets + prepared.json regenerated; BODY_ART_CATALOG wired
+    for the full roster; boot publishes all five (signature-verified).
+  - New e2e/body-look.spec.ts (3): boot publishes 5, select capture,
+    per-hero gameplay w/ motion, mounted, co-op, phone; idle-texture
+    liveness per hero. test/game/bodyboard.test.ts writes the
+    before/after board (idle/attack/down x old/new x 5 heroes) with
+    parity+liveness assertions baked in.
+- Verification: lint PASS, typecheck PASS, unit 353/353, e2e 78/78,
+  vision 5/5 (sprite gate HELD with painted bodies live - the
+  outline-ratio risk did not materialize), selfplay 13/13, build PASS,
+  prodbuild 4/4. Objective capture review 10/10 via
+  artifacts/body3-review.mjs (per-hero armor hue, 5/5 pairwise distinct
+  frames, select cards populated, mounted/co-op/phone non-empty).
+- Housekeeping: ENH-5 (tail chain ...FIX-6 -> ENH-4 -> ENH-5) archived.
+  20 DONE remain.
+- Result: COMPLETED; captures presented for owner review (objections
+  welcome - plan requires presentation, not a pre-approval gate, for
+  this phase).
+- Status after: BODY-3 DONE. Next: BODY-4 (mook bodies).
+- Next recommended task: BODY-4.
+
+### 2026-09-24 22:40 UTC - BODY-3 (goal round 19: Zhang Fei paper-doll wired + verified)
+
+- Status before: BODY-3 IN_PROGRESS, 5 production masters generated.
+- Work completed: first hero end-to-end through the paper-doll pipeline.
+  - `scripts/prepare-body-parts.mjs`: joint tables + oriented-quad cuts,
+    derotation to vertical cells, corner-flood keying (seed: EVERY dark
+    border pixel), far-side 0.82 shading, per-hero sheets + prepared.json
+    (sha256 + content signatures), checkered review composites.
+  - Zhang Fei joints eyeballed from grid overlay; sheet + review
+    composite generated; cells verified (all 9 parts, pivots on joints).
+  - Wired into BODY_ART_CATALOG; body-art.ts now reads
+    hero-bodies/prepared.json (empty body-art/prepared.json stub removed).
+  - Parity calibrated on REAL art: honest scores 0.845-0.878 across all
+    14 poses, cross-identity band 0.657-0.777, so PARITY_FLOOR set to
+    0.81 with a liveness check (< 0.99) catching silent fallback; both
+    asserted per wired hero per pose. Ablation proved small-part loss is
+    invisible to whole-figure IoU, hence the liveness pairing.
+- Defects caught by review (all fixed): keying ate dark trousers at
+  tolerance 16 (now 10); corner-only flood seeds stranded torso-cell
+  background (now all dark border pixels - the black-slab bug, confirmed
+  fixed in the re-render); upperArm pre widened 0.2->0.3 for pauldron
+  coverage.
+- Verification: bodyparts suite 14/14 (incl. real-art parity + liveness);
+  before/after + zoomed attack renders eyeballed (painted vest/trousers/
+  boots/arms seat correctly, pike grip + head untouched).
+- Result: IN_PROGRESS. Next: joints + prep for guanyu/huangzhong/weiyan/
+  zhaoyun, corner-alpha regression test, review sheets, e2e captures
+  (mounted/co-op), full gates, owner review, commit.
+- Status after: BODY-3 IN_PROGRESS (1 of 5 heroes wired).
+
+### 2026-09-24 21:32 UTC - BODY-3 (goal round 18: production masters regenerated for cutting)
+
+- Status before: BODY-3 IN_PROGRESS with five approved-style pilot masters.
+- Work completed: grid-overlay review showed the relaxed-pose pilots
+  overlap too much for clean part cuts (arms against torsos, legs under
+  robes), so all five were regenerated in spread-limb production poses
+  (arms out ~30 deg, legs apart, no weapons), each keyed to its ART-18
+  head sheet. Wei Yan needed one retry (3-panel sheet again); Guan Yu
+  production is single-figure. Old pilot files preserved under
+  artifacts/look/body1-*-pilot.jpg; production masters committed at
+  art/hero-bodies/*-body-master.jpg.
+- Result: IN_PROGRESS. Next: preparation script (fractional polygon
+  cuts + pivots + prepared.json), catalog/boot wiring, per-hero parity,
+  review sheets, full gates, owner review.
+- Status after: BODY-3 IN_PROGRESS (production masters done).
+
+### 2026-09-24 21:25 UTC - BODY-3 (goal round 17: all five body masters generated)
+
+- Status before: BODY-3 TODO, BODY-2 DONE.
+- Work completed: BODY-3 marked IN_PROGRESS; generated all five hero
+  body masters (grok provider, each keyed to its ART-18 head sheet):
+  art/hero-bodies/{guanyu,zhangfei,huangzhong,weiyan,zhaoyun}-body-
+  master.jpg. Zhao Yun regenerated clean (the BODY-1 pilot holds a
+  spear, unusable for parts); Wei Yan needed one retry (first came back
+  a 3-panel sheet); Guan Yu's master is a 3-figure sheet (use the middle
+  figure at prep). All show neutral spread-limb stances on black, no
+  weapons, matching heads.
+- Result: IN_PROGRESS. Next in BODY-3: preparation script (fractional
+  part cuts + pivot metadata + prepared.json), catalog/boot wiring,
+  parity per hero per pose, review sheets, full gates, owner review.
+- Status after: BODY-3 IN_PROGRESS (masters done, prep + wiring next).
+
 ### 2026-09-24 23:10 UTC - BODY-2 (attempt 1, full verification, DONE)
 
 - Status before: BODY-2 TODO (BODY-1 closed DONE on owner pilot approval

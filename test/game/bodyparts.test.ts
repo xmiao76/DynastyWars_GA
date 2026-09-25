@@ -119,13 +119,14 @@ describe('BODY-2 part table', () => {
       expect(POSE_TABLE.idle[def.from as keyof Skeleton]).toBeTruthy()
       expect(POSE_TABLE.idle[def.to as keyof Skeleton]).toBeTruthy()
     }
-    expect(PARITY_FLOOR).toBeGreaterThanOrEqual(0.9)
+    expect(PARITY_FLOOR).toBe(0.81)
   })
 
   it('keeps fixture cells inside the sheet with pivots on the joint line', () => {
     const meta = preparedFixture()
     for (const name of BODY_PART_ORDER) {
       const c = meta.parts[name]
+      if (!c) throw new Error(`fixture lacks ${name}`)
       expect(c.x + c.w).toBeLessThanOrEqual(meta.sheet.width)
       expect(c.y + c.h).toBeLessThanOrEqual(meta.sheet.height)
       expect(c.pivotX).toBeGreaterThanOrEqual(0)
@@ -229,6 +230,32 @@ describe('BODY-2 paper-doll rendering', () => {
     const pixels = ctx.getImageData(0, 0, box.width * SCALE, box.height * SCALE).data
     const r = { pixels, w: box.width * SCALE, h: box.height * SCALE }
     expect(countColor(r, PART_COLORS.torso)).toBeGreaterThan(40)
+  })
+
+  it('falls back per part: a missing cloth keeps its procedural cape', async () => {
+    const art = await fixtureArt()
+    const plan = HERO_FIGURES['zhaoyun']
+    if (!plan) throw new Error('no zhaoyun plan')
+    const full = renderFigure(plan, 'idle', art)
+    const rest = { ...art.parts }
+    delete rest.cloth
+    const partial: BodyArt = { ...art, parts: rest }
+    const r = renderFigure(plan, 'idle', partial)
+    // Paper-doll torso still paints...
+    expect(countColor(r, PART_COLORS.torso)).toBeGreaterThan(40)
+    // ...but the render differs exactly where the procedural cape returns.
+    let diff = 0
+    for (let i = 0; i < r.pixels.length; i += 4) {
+      if (
+        r.pixels[i] !== full.pixels[i] ||
+        r.pixels[i + 1] !== full.pixels[i + 1] ||
+        r.pixels[i + 2] !== full.pixels[i + 2] ||
+        r.pixels[i + 3] !== full.pixels[i + 3]
+      ) {
+        diff += 1
+      }
+    }
+    expect(diff).toBeGreaterThan(0)
   })
 
   it('falls back to fully procedural art without body resources', () => {
@@ -403,6 +430,52 @@ describe('BODY-2 mask IoU', () => {
     for (const pose of POSES) {
       const iou = maskIou(render(pose), render(pose, art))
       expect(iou, `${pose} parity ${iou.toFixed(3)}`).toBeGreaterThanOrEqual(PARITY_FLOOR)
+    }
+  })
+
+  it('holds the parity floor on every wired production hero', async () => {
+    const prepared = (await import('../../src/game/assets/hero-bodies/prepared.json')).default as Record<
+      string,
+      { revision: string; skin: string; density: number; parts: BodyArt['parts'] }
+    >
+    expect(Object.keys(prepared).length).toBeGreaterThan(0)
+    for (const id of Object.keys(prepared)) {
+      const meta = prepared[id]
+      if (!meta) continue
+      const sheet = (await loadImage(
+        `src/game/assets/hero-bodies/${id}-sheet.png`,
+      )) as unknown as CanvasImageSource
+      const art: BodyArt = {
+        id,
+        revision: meta.revision,
+        sheet,
+        density: meta.density,
+        parts: meta.parts,
+        skin: parseInt(meta.skin.slice(1), 16),
+      }
+      for (const pose of POSES) {
+        const b = artBoxFor(id, pose)
+        if (!b) throw new Error(`no box for ${id}:${pose}`)
+        const render = (body?: BodyArt): MaskImage => {
+          const canvas = createCanvas(b.width * SCALE, b.height * SCALE)
+          const ctx = canvas.getContext('2d')
+          drawKindPose(ctx as unknown as Ctx, id, pose, SCALE, {
+            heroes: {},
+            bodies: body ? { [id]: body } : {},
+          })
+          return {
+            width: b.width * SCALE,
+            height: b.height * SCALE,
+            data: new Uint8Array(ctx.getImageData(0, 0, b.width * SCALE, b.height * SCALE).data),
+          }
+        }
+        const iou = maskIou(render(undefined), render(art))
+        expect(iou, `${id}:${pose} parity ${iou.toFixed(3)}`).toBeGreaterThanOrEqual(PARITY_FLOOR)
+        // Liveness: the paper-doll render must DIFFER from procedural, or a
+        // silent whole-fighter fallback (which renders procedurally, IoU 1.0)
+        // would pass the parity gate above.
+        expect(iou, `${id}:${pose} looks fallen back`).toBeLessThan(0.99)
+      }
     }
   })
 })

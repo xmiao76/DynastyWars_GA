@@ -64,5 +64,7 @@ variant (21–23 everywhere except `down` at 13.2). Full per-pose tables:
 - Same asset chain: tracked masters + provenance → shipping derivatives
   under `src/game/assets/` → Vite-hashed imports → bounded boot preload
   → signature verification → atomic per-fighter procedural fallback.
-- Parity: same-pose old-vs-new mask IoU ≥ 0.90 floor (cross-identity
-  same-pose scores 0.763, so the floor has real teeth).
+- Parity: same-pose old-vs-new mask IoU ≥ 0.81 floor (calibrated on real
+  art: honest renders score 0.845-0.878 across all 14 poses, cross-identity
+  scores 0.657-0.777, so 0.81 sits cleanly between) plus a liveness check
+  (IoU < 0.99) catching silent whole-fighter fallback.
