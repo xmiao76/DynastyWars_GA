@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 01:30 UTC - BODY-9 (attempt 1, full verification, DONE)
+
+- Status before: BODY-9 TODO (owner objection 1: feet).
+- Work completed: painted-style boot overlays at footF/footN (the BODY-8
+  pattern - drawn last so feet sit over robe hems AND the weapon butt):
+  sole slab + light contact line, boot body, toe-cap highlight
+  (tint(LEATHER, 0.3)), heel cuff; flat on the ground line (old
+  footShape convention), bulk-scaled, far boot darker so the two feet
+  separate. LEATHER exported from palette.
+- Measurable gate: test/game/footcheck.test.ts - 51/51 checks (17
+  fighters x idle/walk0/walk1: toe-cap >= 24 exact-tone px at SCALE 2,
+  mean luminance >= 30 vs background 0). First run caught 4 marginal
+  failures on lean builds (22px) - boot enlarged (also the visibility
+  win the owner asked for) and all pass.
+- Verification: lint PASS, typecheck PASS, unit 533/533 (first try),
+  e2e 78/78, vision 5/5, selfplay 13/13, build PASS, prodbuild 4/4.
+  Feet review sheets regenerated (artifacts/look/obs-feet-*.png).
+  Known residual: the haft butt can still show in the gap BETWEEN the
+  feet - reshaping it is BODY-10 (painted weapons) scope.
+- Housekeeping: ENH-10 does not exist (ENH tail fully archived);
+  ART-13 archived instead as the oldest DONE by completion order.
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the final
+  acceptance gate).
+- Status after: BODY-9 DONE. Next: BODY-10 (painted weapons).
+- Next recommended task: BODY-10.
+
 ### 2026-09-26 00:40 UTC - BODY-8 (attempt 1, full verification, DONE)
 
 - Status before: BODY-8 TODO (first owner-objection fix task).

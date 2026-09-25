@@ -10,6 +10,7 @@
 
 /** The one ink colour. Every figure is bordered in it, so the cast reads as a set. */
 export const INK = '#140f14'
+export const LEATHER = 0x4a3524
 
 /** Darken a packed RGB toward black by `amount` (0..1). */
 export function shade(rgb: number, amount: number): number {
@@ -66,7 +67,6 @@ export interface Materials {
   eye: string
 }
 
-const LEATHER = 0x4a3524
 const STEEL = 0xc8d0dc
 const HAFT = 0x7a5230
 /**

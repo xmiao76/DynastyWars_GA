@@ -4,7 +4,7 @@ import { bodyPainter, type BodyArt, type BodyPainter, type BodyPartName } from '
 import type { PoseName } from './poses'
 import type { FigurePlan } from './figures'
 import { addWeapon, weaponPose } from './weapons'
-import { INK, SKIN, css, materials, tint, type Materials } from './palette'
+import { INK, LEATHER, SKIN, css, materials, shade, tint, type Materials } from './palette'
 import {
   BODY_X,
   FIG_H,
@@ -203,6 +203,53 @@ export function drawFigure(
   // for every fighter - painted and procedural. The far hand rides the
   // far-arm slot inside figureShapes instead (occlusion).
   drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, handM(m, plan, body))
+
+  // Feet last as well: BODY-9 - the painted boot tips are dark-on-dark at
+  // gameplay size, robe hems swallow the ankles, and the weapon butt hangs
+  // into the foot zone. A painted-style boot overlay at each foot (drawn
+  // over hems and haft) gives every fighter a readable toe cap and sole
+  // line. Flat on the ground line, the old footShape convention.
+  drawBoot(ctx, pose.footF, plan.build.bulk, css(shade(LEATHER, 0.34)), css(LEATHER), css(shade(LEATHER, 0.5)))
+  drawBoot(ctx, pose.footN, plan.build.bulk, css(LEATHER), css(tint(LEATHER, 0.3)), css(tint(LEATHER, 0.18)))
+}
+
+/**
+ * A boot at the foot joint, toe toward the facing (+x), sole on the ground
+ * line (BODY-9). Four quiet shapes: sole slab (light edge), boot body,
+ * toe cap highlight, heel cuff. Bulk-scaled; the far boot passes darker
+ * tones so the two feet separate at a glance.
+ */
+function drawBoot(
+  ctx: CanvasRenderingContext2D,
+  foot: Pt,
+  bulk: number,
+  base: string,
+  toe: string,
+  sole: string,
+): void {
+  ctx.save()
+  ctx.translate(foot.x, foot.y)
+  // Sole slab along the ground.
+  ctx.fillStyle = sole
+  limbPath(ctx, { x: -3.4 * bulk, y: -1.1 }, { x: 7.8 * bulk, y: -1.1 }, 1.8 * bulk, 1.5 * bulk)
+  ctx.fill()
+  // Boot body: taller at the heel, tapering to the toe.
+  ctx.fillStyle = base
+  limbPath(ctx, { x: -2.8 * bulk, y: -3.8 }, { x: 6.2 * bulk, y: -3.1 }, 3.3 * bulk, 2.7 * bulk)
+  ctx.fill()
+  // Toe cap: the highlight that makes the foot read at 20px.
+  ctx.fillStyle = toe
+  limbPath(ctx, { x: 3.0 * bulk, y: -2.5 }, { x: 7.2 * bulk, y: -1.9 }, 2.6 * bulk, 1.9 * bulk)
+  ctx.fill()
+  // Heel cuff rising toward the ankle so the boot meets the shin.
+  ctx.fillStyle = base
+  limbPath(ctx, { x: -2.3 * bulk, y: -6.4 }, { x: -1.5 * bulk, y: -3.3 }, 2.4 * bulk, 3.1 * bulk)
+  ctx.fill()
+  // Sole contact line: a light stroke at the ground.
+  ctx.fillStyle = sole
+  limbPath(ctx, { x: -2.8 * bulk, y: -0.35 }, { x: 7.5 * bulk, y: -0.35 }, 0.6 * bulk, 0.5 * bulk)
+  ctx.fill()
+  ctx.restore()
 }
 
 /**
