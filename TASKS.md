@@ -1,4 +1,4 @@
-﻿# Work Queue
+# Work Queue
 
 Statuses: `TODO`, `IN_PROGRESS`, `BLOCKED`, `DONE`.
 
@@ -684,7 +684,7 @@ Add future enhancement tasks below this heading.
 
 ### BODY-7 - Full verification sweep for the body overhaul
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1)
 - Dependency: BODY-3, BODY-4, BODY-5, BODY-6 DONE.
 - Requirement: whole-cast review (all fighters x poses x facings,
   desktop + mobile, co-op + mounted), byte/decode-memory/boot-time

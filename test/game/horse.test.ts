@@ -197,8 +197,7 @@ describe('BODY-5 frame rendering', () => {
   })
 
   it('holds parity, liveness and saddle seat on the production horse', async () => {
-    // Vacuous until the real sheet lands; then every frame is gated.
-    const { PARITY_FLOOR } = await import('../../src/game/art/body-parts')
+    // Live since the master landed: every production frame is gated below.
     const { maskIou } = await import('../../src/game/art/body-parts')
     for (const id of Object.keys(horsePrepared)) {
       const meta = (horsePrepared as Record<string, FixtureMeta>)[id]
