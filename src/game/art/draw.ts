@@ -65,6 +65,10 @@ export interface Shape {
   headLayer?: HeadLayer
   /** A paper-doll body part marker: the raster painter draws here instead. */
   bodyPart?: BodyPartName
+  /** Painted-material overlay (BODY-10): runs inside this shape's clip, in
+   * the trace's own frame, after the cel bands - wood grain, steel bevels,
+   * cloth folds. Restrained: a shape may carry one overlay only. */
+  mat?: (c: CanvasRenderingContext2D) => void
   /** Soft local transition on the painted head's near shoulder only. */
   shoulder?: { x: number; y: number; radius: number }
 }
@@ -387,6 +391,8 @@ function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: Hea
         bandPath(ctx, FIG_W, GROUND, band.split, band.toward)
         ctx.fillStyle = band.fill; ctx.fill()
       }
+      // BODY-10: painted-material overlay inside the shape's own clip/frame.
+      if (shape.mat) shape.mat(ctx)
       ctx.restore()
     }
     group = []
@@ -470,8 +476,8 @@ export function figureShapes(
 ): Shape[] {
   const b = plan.build.bulk
   const shapes: Shape[] = []
-  const add = (trace: Shape['trace'], fill: string, outline = true): void => {
-    shapes.push({ trace, fill, outline })
+  const add = (trace: Shape['trace'], fill: string, outline = true, mat?: Shape['mat']): void => {
+    shapes.push({ trace, fill, outline, ...(mat ? { mat } : {}) })
   }
   const has = (part: BodyPartName): boolean => body?.parts[part] !== undefined
   const hm = handM(m, plan, body)

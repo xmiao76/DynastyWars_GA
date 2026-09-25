@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 02:40 UTC - BODY-10 (attempt 1, full verification, DONE)
+
+- Status before: BODY-10 TODO (owner objection support: cartoon weapons).
+- Work completed: painted weapon materials on the SAME paths (ART-20
+  pattern; ART-14/15 silhouettes + reach byte-stable by construction):
+  Shape.mat hook (inside each shape's clip, in the weapon frame, after
+  cel bands) + woodMat/steelMat(fore)/metalMat/clothMat painters + a
+  steel pommel at the butt + bow wood/string shine.
+- Defects caught during verification (both in the NEW code, both real):
+  1. steelMat's gradient was anchored near the grip and painted nothing
+     onto the blades (blades sit at x~fore) - re-anchored on fore;
+  2. metalMat's rect missed the ferrule (ferrule sits at fore-12..fore-7)
+     - widened (the shape clip confines paint anyway);
+  3. steel bevel needed a dark spine (white-only overlays = spread 15).
+- ROOT CAUSE of the months-old artquality "flake": never a flake - the
+  "poses that could be confused" test exceeded vitest's 5s default
+  timeout under full-suite contention (materials slowed the renders
+  enough to fail EVERY full run). Explicit 30s timeout; assertions
+  untouched. Recorded so future rounds stop re-diagnosing it.
+- Verification: lint PASS, typecheck PASS, unit 537/537 (weaponmat 4/4
+  material gates + all prior suites), e2e 78/78, vision 5/5, selfplay
+  13/13, build PASS, prodbuild 4/4. Review sheets regenerated.
+- Housekeeping: ART-14 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the final
+  acceptance gate).
+- Status after: BODY-10 DONE. Next: BODY-11 (belt bars/seams).
+- Next recommended task: BODY-11.
+
 ### 2026-09-26 01:30 UTC - BODY-9 (attempt 1, full verification, DONE)
 
 - Status before: BODY-9 TODO (owner objection 1: feet).

@@ -167,8 +167,95 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
     elbowN: { x: pose.elbowN.x + 7, y: pose.elbowN.y },
   }
 }
+/**
+ * BODY-10 painted materials. Each overlay runs inside its shape's clip, in
+ * the weapon's own frame (x along the haft, grip at 0), after the cel
+ * bands. Restrained brushwork - one gradient sweep and a few lines per
+ * part: enough for wood, steel and cloth to read at gameplay size without
+ * cartoon shine. Geometry is untouched: the ART-14/15 silhouettes and
+ * reach stay byte-stable because the PATHS do.
+ */
+export function woodMat(back: number, fore: number, haft: number) {
+  return (c: CanvasRenderingContext2D): void => {
+    const g = c.createLinearGradient(0, -haft / 2, 0, haft / 2)
+    g.addColorStop(0, 'rgba(255,226,180,0.30)')
+    g.addColorStop(0.32, 'rgba(120,80,42,0.10)')
+    g.addColorStop(0.72, 'rgba(32,18,8,0.34)')
+    g.addColorStop(1, 'rgba(20,12,6,0.5)')
+    c.fillStyle = g
+    c.fillRect(back, -haft, fore - back, haft * 2)
+    c.strokeStyle = 'rgba(38,22,10,0.38)'
+    c.lineWidth = 0.7
+    c.beginPath()
+    c.moveTo(back + 1.5, -haft * 0.16)
+    c.lineTo(fore - 1.5, -haft * 0.1)
+    c.stroke()
+    c.beginPath()
+    c.moveTo(back + 2, haft * 0.2)
+    c.lineTo(fore - 2, haft * 0.24)
+    c.stroke()
+    c.strokeStyle = 'rgba(255,230,190,0.24)'
+    c.lineWidth = 0.55
+    c.beginPath()
+    c.moveTo(back + 1, -haft * 0.34)
+    c.lineTo(fore - 1, -haft * 0.32)
+    c.stroke()
+  }
+}
+
+export function steelMat(fore: number): (c: CanvasRenderingContext2D) => void {
+  return (c: CanvasRenderingContext2D): void => {
+    // The sweep is anchored on the blade (x near fore), not the grip -
+    // a fixed origin-left gradient painted nothing onto the blades.
+    const g = c.createLinearGradient(fore - 30, -10, fore + 30, 10)
+    g.addColorStop(0, 'rgba(36,46,62,0.34)')
+    g.addColorStop(0.22, 'rgba(36,46,62,0)')
+    g.addColorStop(0.45, 'rgba(255,255,255,0.24)')
+    g.addColorStop(0.62, 'rgba(255,255,255,0)')
+    g.addColorStop(0.88, 'rgba(255,255,255,0.34)')
+    g.addColorStop(1, 'rgba(255,255,255,0.1)')
+    c.fillStyle = g
+    c.fillRect(fore - 44, -14, 88, 28)
+  }
+}
+
+export function metalMat(): (c: CanvasRenderingContext2D) => void {
+  return (c: CanvasRenderingContext2D): void => {
+    // Y-only gradient; the x extent covers any fitting (the shape's clip
+    // confines the paint) - ferrules sit near fore, the pommel near back.
+    const g = c.createLinearGradient(0, -6, 0, 6)
+    g.addColorStop(0, 'rgba(255,255,255,0.3)')
+    g.addColorStop(0.5, 'rgba(255,255,255,0)')
+    g.addColorStop(1, 'rgba(0,0,0,0.32)')
+    c.fillStyle = g
+    c.fillRect(-200, -8, 400, 16)
+  }
+}
+
+export function clothMat(): (c: CanvasRenderingContext2D) => void {
+  return (c: CanvasRenderingContext2D): void => {
+    // Two folds and one highlight: the tassel reads as gathered cloth.
+    c.strokeStyle = 'rgba(60,10,12,0.42)'
+    c.lineWidth = 0.8
+    c.beginPath()
+    c.moveTo(-1.6, 3.2)
+    c.quadraticCurveTo(-2.2, 6, -1.2, 9)
+    c.stroke()
+    c.beginPath()
+    c.moveTo(1.8, 3)
+    c.quadraticCurveTo(2.4, 6.2, 1.4, 9.2)
+    c.stroke()
+    c.strokeStyle = 'rgba(255,190,170,0.28)'
+    c.lineWidth = 0.7
+    c.beginPath()
+    c.moveTo(-0.2, 2.8)
+    c.quadraticCurveTo(-0.6, 6, 0.2, 9.4)
+    c.stroke()
+  }
+}
+
 export function addWeapon(
-  add: (t: WeaponTrace, f: string, outline?: boolean) => void,
+  add: (t: WeaponTrace, f: string, outline?: boolean, mat?: (c: CanvasRenderingContext2D) => void) => void,
   plan: FigurePlan,
   p: Skeleton,
   m: Materials,
@@ -184,7 +271,21 @@ export function addWeapon(
   }
 
   if (spec.head === 'bow') {
-    add(oriented((c) => traceBow(c, fore)), m.haft)
+    add(oriented((c) => traceBow(c, fore)), m.haft, true, (c: CanvasRenderingContext2D): void => {
+      // The bow arcs across y -14..-2 in this frame; wood runs along it.
+      const g = c.createLinearGradient(0, -16, 0, 2)
+      g.addColorStop(0, 'rgba(255,226,180,0.3)')
+      g.addColorStop(0.55, 'rgba(120,80,42,0.12)')
+      g.addColorStop(1, 'rgba(24,14,8,0.5)')
+      c.fillStyle = g
+      c.fillRect(-fore - 4, -18, fore * 2 + 8, 22)
+      c.strokeStyle = 'rgba(38,22,10,0.36)'
+      c.lineWidth = 0.7
+      c.beginPath()
+      c.moveTo(-fore + 2, -11)
+      c.quadraticCurveTo(0, -14, fore - 2, -11)
+      c.stroke()
+    })
     // A closed strip bridges both nocks. A crossed capsule fill left a gap
     // in the middle when drawn without ink, turning the bow into an open arc.
     add(
@@ -192,23 +293,34 @@ export function addWeapon(
         { x: -fore, y: -10.55 }, { x: fore, y: -10.55 },
         { x: fore, y: -9.45 }, { x: -fore, y: -9.45 },
       ])),
-      '#d8c49a',
+      '#d8c49a', true,
+      (c: CanvasRenderingContext2D): void => {
+        c.fillStyle = 'rgba(255,248,224,0.5)'
+        c.fillRect(-fore, -10.55, fore * 2, 0.6)
+        c.fillStyle = 'rgba(80,60,30,0.3)'
+        c.fillRect(-fore, -9.85, fore * 2, 0.4)
+      },
     )
-    add(oriented((c) => limbPath(c, { x: -3, y: 0 }, { x: 3, y: 0 }, 3.2, 3.2)), m.leather, false)
+    add(oriented((c) => limbPath(c, { x: -3, y: 0 }, { x: 3, y: 0 }, 3.2, 3.2)), m.leather, true, metalMat())
     return
   }
 
   // Haft.
-  add(oriented((c) => limbPath(c, { x: back, y: 0 }, { x: fore, y: 0 }, spec.haft, spec.haft)), m.haft)
+  add(oriented((c) => limbPath(c, { x: back, y: 0 }, { x: fore, y: 0 }, spec.haft, spec.haft)), m.haft, true,
+    woodMat(back, fore, spec.haft))
+  // Metal pommel at the butt: a fitting, not a rounded brown blob (the
+  // owner's foot-zone complaint pointed straight at this end).
+  add(oriented((c) => limbPath(c, { x: back - 0.4, y: 0 }, { x: back + 2.6, y: 0 }, spec.haft * 0.62, spec.haft * 0.56)),
+    m.steelShade, true, metalMat())
   // Ferrule where haft meets steel: without it a blade reads as a blob stuck
   // on a stick, which is exactly how the old swung weapons read.
   add(
     oriented((c) =>
       limbPath(c, { x: fore - 12, y: 0 }, { x: fore - 7, y: 0 }, spec.haft + 2.4, spec.haft + 2.4),
     ),
-    m.trim,
+    m.trim, true, metalMat(),
   )
-  // 红缨: the red tassel at the socket. Cloth hangs DOWN, whatever the weapon
+  // Ã§ÂºÂ¢Ã§Â¼Â¨: the red tassel at the socket. Cloth hangs DOWN, whatever the weapon
   // is doing - so the tuft is drawn in a gravity-aligned frame: translate to
   // the socket, then UNDO the weapon's rotation before drawing it hanging +y.
   // Rotating with the weapon instead had it sticking sideways-forward at idle
@@ -227,13 +339,13 @@ export function addWeapon(
           { x: -2, y: 7.5 },
         ])
       }),
-      m.tassel,
+      m.tassel, true, clothMat(),
     )
   }
 
   switch (spec.head) {
     case 'crescent':
-      add(oriented((c) => traceBlade(c, 'crescent', fore)), m.steel)
+      add(oriented((c) => traceBlade(c, 'crescent', fore)), m.steel, true, steelMat(fore))
       add(oriented((c) => {
         traceBlade(c, 'crescent', fore)
         c.clip()
@@ -246,7 +358,7 @@ export function addWeapon(
       }), STEEL_EDGE, false)
       break
     case 'serpent':
-      add(oriented((c) => traceBlade(c, 'serpent', fore)), m.steel)
+      add(oriented((c) => traceBlade(c, 'serpent', fore)), m.steel, true, steelMat(fore))
       add(oriented((c) => {
         traceBlade(c, 'serpent', fore)
         c.clip()
@@ -259,7 +371,7 @@ export function addWeapon(
       }), STEEL_EDGE, false)
       break
     case 'leaf':
-      add(oriented((c) => traceBlade(c, 'leaf', fore)), m.steel)
+      add(oriented((c) => traceBlade(c, 'leaf', fore)), m.steel, true, steelMat(fore))
       add(oriented((c) => {
         traceBlade(c, 'leaf', fore)
         c.clip()
@@ -272,7 +384,7 @@ export function addWeapon(
       }), STEEL_EDGE, false)
       break
     case 'jian':
-      // A straight double-edged jian - right for Cao Cao's 倚天剑 - with a
+      // A straight double-edged jian - right for Cao Cao's Ã¥â‚¬Å¡Ã¥Â¤Â©Ã¥â€°â€˜ - with a
       // Chinese DISC guard. The old crossguard was European and wrong for the
       // setting on every wielder.
       add(
@@ -285,12 +397,12 @@ export function addWeapon(
             { x: fore - 5, y: 4.4 },
           ]),
         ),
-        m.steel,
+        m.steel, true, steelMat(fore),
       )
-      add(oriented((c) => ovalPath(c, { x: fore - 4.5, y: 0 }, 2.6, 5.2, 0)), m.trim)
+      add(oriented((c) => ovalPath(c, { x: fore - 4.5, y: 0 }, 2.6, 5.2, 0)), m.trim, true, metalMat())
       break
     case 'dao':
-      add(oriented((c) => traceBlade(c, 'dao', fore)), m.steel)
+      add(oriented((c) => traceBlade(c, 'dao', fore)), m.steel, true, steelMat(fore))
       add(oriented((c) => {
         traceBlade(c, 'dao', fore)
         c.clip()
@@ -303,11 +415,11 @@ export function addWeapon(
       }), STEEL_EDGE, false)
       break
     case 'ji':
-      // 方天画戟 - the central spearhead plus the PAIR of crescent wings that
-      // give the halberd its name (方天 = the double wing). The classic weapon
+      // Ã¦â€“Â¹Ã¥Â¤Â©Ã§â€Â»Ã¦Ë†Å¸ - the central spearhead plus the PAIR of crescent wings that
+      // give the halberd its name (Ã¦â€“Â¹Ã¥Â¤Â© = the double wing). The classic weapon
       // carries them pointing FORWARD past the spearhead's base, not curled
       // back over it, so they are drawn as forward crescents here.
-      add(oriented((c) => ovalPath(c, { x: fore + 4, y: 0 }, 11, 4.4, 0)), m.steel)
+      add(oriented((c) => ovalPath(c, { x: fore + 4, y: 0 }, 11, 4.4, 0)), m.steel, true, steelMat(fore))
       for (const s of [1, -1]) {
         add(
           oriented((c) => {
@@ -318,7 +430,7 @@ export function addWeapon(
             c.quadraticCurveTo(fore + 3, 0, fore - 4, 3 * s)
             c.closePath()
           }),
-          m.steel,
+          m.steel, true, steelMat(fore),
         )
       }
       break

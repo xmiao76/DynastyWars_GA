@@ -618,7 +618,10 @@ describe('character art reads as characters', () => {
       }
     }
     expect(scores.length, 'no poses compared').toBe(ARMED_KINDS.length * PAIRS.length)
-  })
+    // Heavy: ARMED_KINDS x 22 pairs x 2 rasters; the painted materials push
+    // it past the 5s default under full-suite contention (documented as a
+    // "flake" for months - it was always this timeout).
+  }, 30_000)
 
   /**
    * The five heroes have their own faces.
