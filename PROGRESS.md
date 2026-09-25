@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 04:30 UTC - BODY-12 (attempt 1, full verification, DONE)
+
+- Status before: BODY-12 IN_PROGRESS (owner cel-face-split objection).
+- Work completed: painted 3-expression heads + bust portraits for all
+  three mooks, keyed to their shipped body masters (soldier iron dome,
+  spearman chin-straps, archer green headwrap; portraits keyed to the
+  sheets via reference). BODY-6 pipeline clone
+  (scripts/prepare-mook-faces.mjs, revision body12-1): key tol 4,
+  3-largest groups, mook skins from the body packs; default fracs fit
+  the helmeted heads with zero clip errors. Catalog generalized 14->17
+  ids (hero-art.ts + e2e published-ids exact-set, both deliberate -
+  mooks publishing through the shared record IS the requirement);
+  review/grip/foot/cast loaders now point mooks at mook-faces.
+- Verification: test/game/mook-faces.test.ts 50/50 (mirrors boss
+  suite: hashes, signatures, negative controls, expressions,
+  portraits, 42 escape cells, pivot guard, fallback-difference,
+  head-identity); full unit 596/596 (first try), e2e 78/78, vision
+  5/5 (sprite gate holds with mook heads), selfplay 13/13, build,
+  prodbuild 4/4. Review sheets regenerated - mook figures now show
+  helmeted painted heads matching their bodies (eyeballed idle+
+  attack, incl. exertion faces on attack).
+- Housekeeping: ART-16 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the final
+  acceptance gate).
+- Status after: BODY-12 DONE. Next: BODY-13 (boss paper-doll bodies).
+- Next recommended task: BODY-13.
+
 ### 2026-09-26 03:30 UTC - BODY-11 (attempt 1, full verification, DONE)
 
 - Status before: BODY-11 TODO (owner objection support: bars/seams/arms).

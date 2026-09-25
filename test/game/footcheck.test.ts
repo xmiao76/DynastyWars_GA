@@ -1,4 +1,4 @@
-import { createCanvas, loadImage } from '@napi-rs/canvas'
+﻿import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { drawFigure } from '../../src/game/art/draw'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
@@ -27,9 +27,9 @@ const FIGHTERS: Array<{ id: string; dir: 'hero-faces' | 'boss-faces'; bodyDir: '
   { id: 'zhaoyun', dir: 'hero-faces', bodyDir: 'hero-bodies' },
   { id: 'huangzhong', dir: 'hero-faces', bodyDir: 'hero-bodies' },
   { id: 'weiyan', dir: 'hero-faces', bodyDir: 'hero-bodies' },
-  { id: 'soldier', dir: 'hero-faces', bodyDir: 'mook-bodies' },
-  { id: 'spearman', dir: 'hero-faces', bodyDir: 'mook-bodies' },
-  { id: 'archer', dir: 'hero-faces', bodyDir: 'mook-bodies' },
+  { id: 'soldier', dir: 'mook-faces', bodyDir: 'mook-bodies' },
+  { id: 'spearman', dir: 'mook-faces', bodyDir: 'mook-bodies' },
+  { id: 'archer', dir: 'mook-faces', bodyDir: 'mook-bodies' },
   { id: 'lubu', dir: 'boss-faces', bodyDir: null },
   { id: 'caocao', dir: 'boss-faces', bodyDir: null },
   { id: 'xiahoudun', dir: 'boss-faces', bodyDir: null },

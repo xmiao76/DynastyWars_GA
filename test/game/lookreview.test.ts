@@ -27,6 +27,7 @@ async function loadResources(): Promise<ArtResources> {
     ['lubu', 'boss-faces'], ['caocao', 'boss-faces'], ['xiahoudun', 'boss-faces'], ['xuchu', 'boss-faces'],
     ['zhangliao', 'boss-faces'], ['caoren', 'boss-faces'], ['xuhuang', 'boss-faces'],
     ['zhanghe', 'boss-faces'], ['lidian', 'boss-faces'],
+    ['soldier', 'mook-faces'], ['spearman', 'mook-faces'], ['archer', 'mook-faces'],
   ] as const) {
     const image = async (part: string) => await loadImage(`src/game/assets/${dir}/${id}-${part}.png`) as unknown as CanvasImageSource
     const m = (await import(`../../src/game/assets/${dir}/prepared.json`)).default as Record<string, {

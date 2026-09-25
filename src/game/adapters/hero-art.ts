@@ -3,6 +3,7 @@ import type { ArtResources, HeroArt } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import heroPrepared from '../assets/hero-faces/prepared.json'
 import bossPrepared from '../assets/boss-faces/prepared.json'
+import mookPrepared from '../assets/mook-faces/prepared.json'
 import gyPortrait from '../assets/hero-faces/guanyu-portrait.png'
 import gyHead from '../assets/hero-faces/guanyu-head.png'
 import gyFront from '../assets/hero-faces/guanyu-front.png'
@@ -59,10 +60,23 @@ import ldPortrait from '../assets/boss-faces/lidian-portrait.png'
 import ldHead from '../assets/boss-faces/lidian-head.png'
 import ldFront from '../assets/boss-faces/lidian-front.png'
 import ldRear from '../assets/boss-faces/lidian-rear.png'
+import soPortrait from '../assets/mook-faces/soldier-portrait.png'
+import soHead from '../assets/mook-faces/soldier-head.png'
+import soFront from '../assets/mook-faces/soldier-front.png'
+import soRear from '../assets/mook-faces/soldier-rear.png'
+import spPortrait from '../assets/mook-faces/spearman-portrait.png'
+import spHead from '../assets/mook-faces/spearman-head.png'
+import spFront from '../assets/mook-faces/spearman-front.png'
+import spRear from '../assets/mook-faces/spearman-rear.png'
+import arPortrait from '../assets/mook-faces/archer-portrait.png'
+import arHead from '../assets/mook-faces/archer-head.png'
+import arFront from '../assets/mook-faces/archer-front.png'
+import arRear from '../assets/mook-faces/archer-rear.png'
 
 /** These URL imports are content-hashed by Vite, never a legacy network manifest.
- * Heroes (ART-18) + bosses (BODY-6) share the pipeline; boss ids are ordinary
- * VECTOR_ART kinds, so the same publish path lights up their heads. */
+ * Heroes (ART-18) + bosses (BODY-6) + mooks (BODY-12) share the pipeline;
+ * boss and mook ids are ordinary kinds, so the same publish path lights up
+ * their heads. */
 export const HERO_ART_CATALOG = {
   guanyu: { portrait: gyPortrait, head: gyHead, front: gyFront, rear: gyRear },
   zhaoyun: { portrait: zyPortrait, head: zyHead, front: zyFront, rear: zyRear },
@@ -78,6 +92,9 @@ export const HERO_ART_CATALOG = {
   zhanghe: { portrait: zhPortrait, head: zhHead, front: zhFront, rear: zhRear },
   caocao: { portrait: ccPortrait, head: ccHead, front: ccFront, rear: ccRear },
   lubu: { portrait: lbPortrait, head: lbHead, front: lbFront, rear: lbRear },
+  soldier: { portrait: soPortrait, head: soHead, front: soFront, rear: soRear },
+  spearman: { portrait: spPortrait, head: spHead, front: spFront, rear: spRear },
+  archer: { portrait: arPortrait, head: arHead, front: arFront, rear: arRear },
 } as const
 
 /** Merged preparation records for every catalogued fighter. */
@@ -85,6 +102,7 @@ type PreparedEntry = (typeof heroPrepared)[keyof typeof heroPrepared]
 const preparedAll: Record<string, PreparedEntry> = {
   ...(heroPrepared as unknown as Record<string, PreparedEntry>),
   ...(bossPrepared as unknown as Record<string, PreparedEntry>),
+  ...(mookPrepared as unknown as Record<string, PreparedEntry>),
 }
 const PARTS = ['portrait', 'head', 'front', 'rear'] as const
 /** Registry key for painted art packs; shared with the body-art adapter so
