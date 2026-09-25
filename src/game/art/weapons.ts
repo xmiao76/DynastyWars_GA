@@ -1,4 +1,5 @@
 import { WEAPONS, type FigurePlan } from './figures'
+import { HEAD_CHIN_DROP } from './hero-resources'
 import type { Materials } from './palette'
 import { limbPath, ovalPath, polyPath, type Skeleton } from './rig'
 
@@ -153,11 +154,23 @@ export function traceBow(c: CanvasRenderingContext2D, halfLength: number): void 
  * use these joints.
  */
 export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
+  // BODY-16 chin-anchored re-seat for the scaled painted heads: the chin
+  // stays on the neck while the head art shrinks around the eye. Lying
+  // heads shift along the head->chest axis (their eye->chin direction).
+  const ldx = pose.chest.x - pose.head.x
+  const ldy = pose.chest.y - pose.head.y
+  const llen = Math.hypot(ldx, ldy) || 1
+  const base = {
+    ...pose,
+    head: pose.lying
+      ? { x: pose.head.x + (ldx / llen) * HEAD_CHIN_DROP, y: pose.head.y + (ldy / llen) * HEAD_CHIN_DROP }
+      : { x: pose.head.x, y: pose.head.y + HEAD_CHIN_DROP },
+  }
   if (pose.lying) {
     return {
-      ...pose,
-      handN: { x: pose.handN.x, y: pose.handN.y - 9 },
-      elbowN: { x: pose.elbowN.x, y: pose.elbowN.y - 4.5 },
+      ...base,
+      handN: { x: base.handN.x, y: base.handN.y - 9 },
+      elbowN: { x: base.elbowN.x, y: base.elbowN.y - 4.5 },
     }
   }
   const adjusted = plan.weapon === 'bow'

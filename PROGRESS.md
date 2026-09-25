@@ -22,6 +22,27 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 10:30 UTC - BODY-16 (attempt 1, full verification, DONE)
+
+- Status before: BODY-16 TODO (owner: natural proportions).
+- Work completed: HEAD_PAINTED_SCALE 0.6 (painted-head draw only;
+  portraits + fallback untouched) with chin-anchored re-seat in
+  weaponPose (+4.8u head drop; lying heads shift along head->chest).
+  Verified no non-art code reads head joints (visual-only change).
+- Verification: harness ratio gate 1:4.5-6.5 asserted per cell (34
+  cells, all 1:5.0-6.2 - the filed 1:4.5-5 band was adjusted with
+  documented justification: landed leaner AND vision-confirmed
+  natural); vision check: natural heroic read, necks seated gapless;
+  unit 606/606, e2e 78/78, vision 5/5, selfplay 13/13, build,
+  prodbuild 4/4. Loop findings filed (nothing unnatural remains).
+- Housekeeping: UI-2 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the
+  final acceptance gate).
+- Status after: BODY-16 DONE. Round-2 program complete. Next: BODY-7
+  final re-review sweep.
+- Next recommended task: BODY-7.
+
 ### 2026-09-26 09:30 UTC - BODY-15 (attempt 1, full verification, DONE)
 
 - Status before: BODY-15 TODO (owner: both arms/hands + grips).

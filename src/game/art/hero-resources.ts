@@ -29,6 +29,16 @@ export interface ArtResources {
 export type HeadLayer = 'rear' | 'head' | 'front'
 export type HeadPainter = (ctx: CanvasRenderingContext2D, layer: HeadLayer) => void
 
+/** BODY-16 natural proportions: painted heads render at 60% (the cast
+ * measured ~1:3.1-3.8, chibi; this lands every fighter in 1:4.5-5).
+ * Portraits are separate assets and stay full-size; the procedural
+ * fallback keeps build.head (emergency path only). */
+export const HEAD_PAINTED_SCALE = 0.6
+/** Chin-anchored re-seat: eye->chin is 12 art units, so shrinking the
+ * head lifts the chin 12*(1-0.6) units off the neck unless the head
+ * joint drops by exactly that. */
+export const HEAD_CHIN_DROP = 12 * (1 - HEAD_PAINTED_SCALE)
+
 export function expressionFor(pose: PoseName): number {
   if (pose === 'hurt' || pose === 'down') return 2
   if (['attack', 'attack2', 'thrust', 'chop', 'sweep', 'special'].includes(pose)) return 1

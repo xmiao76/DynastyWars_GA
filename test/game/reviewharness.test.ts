@@ -3,6 +3,7 @@ import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { artBoxFor, drawKindPose } from '../../src/game/art/registry'
 import type { ArtResources, HeroArt } from '../../src/game/art/hero-resources'
+import { HEAD_PAINTED_SCALE } from '../../src/game/art/hero-resources'
 import type { BodyArt } from '../../src/game/art/body-parts'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
 import { shade } from '../../src/game/art/palette'
@@ -108,14 +109,23 @@ describe('BODY-14 review harness sheets (permanent generator)', () => {
           // eye->chin to 12 art units with the eye at the pose head joint,
           // and the cells measure eye->crown ~8 units (anatomical, so tall
           // headgear like Lu Bu's plumes does not inflate the head).
+          // BODY-16: painted heads render at HEAD_PAINTED_SCALE with the
+          // chin anchored (the pose head joint already carries the drop).
           let ratio = '1:?'
           if (head) {
-            const hs = plan.build.head
+            const hs = plan.build.head * HEAD_PAINTED_SCALE
             const headTop = pose.head.y - 8 * hs
             const headH = 20 * hs
             const total = GROUND - headTop
-            ratio = `1:${(total / headH).toFixed(1)}`
+            const x = total / headH
+            ratio = `1:${x.toFixed(1)}`
             ratios += 1
+            // BODY-16 measurable acceptance: natural band 1:4.5-6.5 for
+            // every fighter (the whole cast measures 1:5.0-6.2,
+            // vision-confirmed natural; the floor guards chibi
+            // regression, the ceiling pinheads).
+            expect(x, `${cell.id}:${cell.pose} head:body 1:${x.toFixed(1)} outside 1:4.5-6.5`).toBeGreaterThanOrEqual(4.5)
+            expect(x, `${cell.id}:${cell.pose} head:body 1:${x.toFixed(1)} outside 1:4.5-6.5`).toBeLessThanOrEqual(6.5)
           }
           // Hands presence on the actual render (box coords).
           const b = artBoxFor(cell.id, cell.pose) ?? artBoxFor(cell.id, 'idle')

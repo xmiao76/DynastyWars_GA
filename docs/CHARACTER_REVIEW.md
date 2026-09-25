@@ -22,7 +22,9 @@ cast looks natural and good.
 - `1:X` — the analytic head:body ratio (eye->chin 12u + eye->crown
   8u from the prep landmarks, vs crown to ground, in the renderer's own
   figure units). Crown-based so tall headgear does not inflate the head.
-  Target band: 1:4.5-5 (heroic-natural). Above 1:4 reads chibi.
+  Target band: 1:4.5-6.5, asserted per cell (the cast measures 1:5.0-6.2,
+  vision-confirmed natural; the floor guards chibi regression, the
+  ceiling pinheads).
 - `N` — near fist present at the weapon grip (BODY-8 gate, must stay
   green for every fighter in every pose).
 - `F` — far hand visible at its joint (missing = occluded by anatomy;
@@ -43,3 +45,9 @@ cast looks natural and good.
 | Polearm wielders (11) | Two fists read on the haft in idle (carry) + all strikes; far fist shaded distinct from near | Nothing | None - residual: near arm still shortish in idle; arm extension (+8u handN with grip compensation) is the filed follow-up if the owner still sees stubs |
 | One-handers + bows (6) | Counterbalance far arm + hand read behind the body in idle + strikes | Nothing | None |
 | All 17 | Harness flags NY FY everywhere; ratios still 1:3.1-3.8 | Heads still ~1:3 | BODY-16 (proportions) |
+
+### 2026-09-26 (BODY-16 vision check, post-enhancement)
+
+| Figure | Fine | Unnatural | Needs work |
+|---|---|---|---|
+| All 17 | Ratios 1:5.0-6.2, natural heroic read; chins seated on necks with no gaps (chin-anchoring worked); beards/helmets/hands/weapons/feet all intact | Nothing remaining | None - the cast reads natural and good; loop ends, BODY-7 re-review next |

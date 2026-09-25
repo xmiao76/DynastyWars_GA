@@ -1,5 +1,5 @@
 import { FACES, SCLERA } from './faces'
-import { headPainter, type HeroArt, type HeadPainter, type HeadLayer } from './hero-resources'
+import { HEAD_PAINTED_SCALE, headPainter, type HeroArt, type HeadPainter, type HeadLayer } from './hero-resources'
 import { bodyPainter, type BodyArt, type BodyPainter, type BodyPartName } from './body-parts'
 import type { PoseName } from './poses'
 import type { FigurePlan } from './figures'
@@ -190,7 +190,7 @@ export function drawFigure(
   const shapes = figureShapes(plan, pose, m, head ? emptyHeadParts : spriteHeadParts, head !== undefined, body)
   if (head || body) {
     paintWithHead(ctx, shapes,
-      head ? headPainter(head, painted?.poseName ?? 'idle', pose, plan.build.head) : undefined,
+      head ? headPainter(head, painted?.poseName ?? 'idle', pose, plan.build.head * HEAD_PAINTED_SCALE) : undefined,
       body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk) : undefined,
       () => {
         // BODY-11: painted torsos carry their own belts and sashes; the
