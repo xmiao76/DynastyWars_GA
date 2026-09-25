@@ -192,13 +192,18 @@ export function drawFigure(
     paintWithHead(ctx, shapes,
       head ? headPainter(head, painted?.poseName ?? 'idle', pose, plan.build.head) : undefined,
       body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk) : undefined,
-      () => drawBodyDetails(ctx, plan, pose, m))
+      () => {
+        // BODY-11: painted torsos carry their own belts and sashes; the
+        // procedural bars float over them as dead-straight capsules (the
+        // "stuck arrow" in the objection screenshots).
+        if (!body?.parts.torso) drawBodyDetails(ctx, plan, pose, m)
+      })
   } else {
     paintCel(ctx, shapes, FIG_W, GROUND)
   }
 
   // A painted head owns its face. Retain only the body details in that path.
-  if (!head) drawDetails(ctx, plan, pose, m)
+  if (!head) drawDetails(ctx, plan, pose, m, true, !body?.parts.torso)
 
   // Hands last, over the weapon: BODY-8 - a fist wrapping the haft at the
   // grip point. The paper-doll foreArm cells end at clipped palm stubs (the
@@ -580,6 +585,16 @@ export function figureShapes(
 
   // Neck and head.
   add((c) => limbPath(c, p.neck, p.chest, 9 * b, 14 * b), m.skinShade)
+  if (body) {
+    // BODY-11: a soft neck shadow over the painted torso top masks the
+    // head-collar/shoulder seam (painted heads carry their own collars).
+    shapes.push({
+      trace: (c) => ovalPath(c, { x: p.neck.x, y: p.neck.y + 2 }, 9 * b, 7 * b, 0),
+      fill: 'rgba(0,0,0,0)',
+      outline: false,
+      shoulder: { x: p.neck.x, y: p.neck.y + 2, radius: 9 * b },
+    })
+  }
   headParts(add, plan, p, m, headRadius(plan))
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'head' })
 
@@ -587,6 +602,16 @@ export function figureShapes(
   // upper-arm part carries the shoulder, so the procedural pauldron (and
   // the painted-head shoulder cap below it) would double-draw.
   if (nearArm) {
+    if (body) {
+      // BODY-11: soft shoulder shading separates the near arm from the
+      // painted torso at gameplay size (same tones read as one mass).
+      shapes.push({
+        trace: (c) => ovalPath(c, { x: p.shoulderN.x, y: p.shoulderN.y + 1 }, 8 * b, 7 * b, -0.2),
+        fill: 'rgba(0,0,0,0)',
+        outline: false,
+        shoulder: { x: p.shoulderN.x, y: p.shoulderN.y + 1, radius: 8 * b },
+      })
+    }
     mark('upperArmN')
     mark('foreArmN')
   } else {
@@ -992,9 +1017,12 @@ function drawDetails(
   p: Skeleton,
   m: Materials,
   includeFace = true,
+  includeBody = true,
 ): void {
   if (includeFace) drawFaceDetails(ctx, plan, p, m)
-  drawBodyDetails(ctx, plan, p, m)
+  // BODY-11: painted torsos carry their own belts and sashes - the
+  // procedural bars float over them as dead-straight capsules.
+  if (includeBody) drawBodyDetails(ctx, plan, p, m)
 }
 
 function drawFaceDetails(ctx: CanvasRenderingContext2D, plan: FigurePlan, p: Skeleton, m: Materials): void {

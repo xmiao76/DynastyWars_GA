@@ -74,7 +74,9 @@ describe('painted hero pilot shipping resources', () => {
       const sig = imageSignature(c.getImageData(0, 0, cv.width, cv.height))
       expect(signatureMatches(sig, prepared[id].signatures[part]), `${id}:${part} content drifted`).toBe(true)
     }
-  })
+    // 20 sheet decodes; the second of the two "heavy file flakes" this
+    // suite has always had - both were vitest default timeouts.
+  }, 30_000)
 
   it('signatures reject blank, swapped and erased art', async () => {
     const meta = prepared.guanyu
@@ -97,7 +99,7 @@ describe('painted hero pilot shipping resources', () => {
     ec.clearRect(40, 55, 80, 45)
     const erasedSig = imageSignature(ec.getImageData(0, 0, erased.width, erased.height))
     expect(signatureMatches(erasedSig, meta.signatures.head), 'erased features accepted').toBe(false)
-  })
+  }, 30_000)
 
   it('maps exertion and hurt without changing pose timing', () => {
     expect(expressionFor('idle')).toBe(0)

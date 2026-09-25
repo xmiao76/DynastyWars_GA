@@ -3606,3 +3606,32 @@ and the three pre-redesign enhancements - all DONE and verified)
     silhouette, not missing details), no change to Zhao Yun's leaf, the bow,
     the jian, or the tassel; no shading work.
 
+
+### ART-15 - Legend-faithful silhouettes for all five heroes
+
+- Status: DONE
+- Requirement:
+  Implement the owner's approved five-hero weapon plan in the existing
+  cel-shaded style. The captured baseline shows paddle-shaped guandao/dao
+  blades, a thick curled serpent head, a weak spear ridge and an off-centre bow.
+  This approved scope replaces the earlier two-blade-only ART-15 constraints.
+- Acceptance criteria:
+  - [x] Shared internal weapon paths support isolated silhouette tests.
+  - [x] Guan Yu: elongated asymmetric crescent, sharp point, restrained rear spur.
+  - [x] Zhang Fei: slender S-shaped spear blade; existing long shaft retained.
+  - [x] Zhao Yun: narrow symmetrical point, central ridge and readable edge.
+  - [x] Huang Zhong: slimmer recurve, distinct string, grip centred in his hand.
+  - [x] Wei Yan: elongated dao, straighter spine, angled point and controlled belly.
+  - [x] The old three malformed blades and off-hand bow fail regression controls.
+  - [x] All 17 shared fighters, 11 poses and both facings keep weapons off faces.
+  - [x] Matching before/after sheets, desktop/phone attacks and gameplay reviewed.
+  - [x] Existing scale, clipping, reach, tassel, visual parity and full project gates pass.
+- Non-goals:
+  - No combat reach, damage, collision, timing, character-scale or assignment changes.
+  - No new animation states; Huang Zhong keeps melee attacks and his arrow special.
+  - No deployment or push. Existing jian/ji blade geometry is retained.
+- Evidence:
+  - artifacts/weapon-review/weapon-shapes-before.png and weapon-shapes-after.png.
+  - Negative-control paths captured from local baseline commit 1e5e3f4.
+  - References: https://anthony.sogang.ac.kr/ThreeKingdoms/bc001.htm
+    and https://en.wikipedia.org/wiki/Guandao

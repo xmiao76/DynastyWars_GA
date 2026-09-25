@@ -22,6 +22,29 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 03:30 UTC - BODY-11 (attempt 1, full verification, DONE)
+
+- Status before: BODY-11 TODO (owner objection support: bars/seams/arms).
+- Work completed: sash/belt gating (both call paths) + seam shading.
+  - Defect caught by the new test: gating only the paintWithHead
+    callback left 347-390px of bars via drawDetails' internal call -
+    that second path IS the mook path (procedural heads), so the test
+    would have passed heroes and failed mooks. drawDetails grew an
+    includeBody param; drawFigure threads !body?.parts.torso.
+  - Detector hardened: single-pixel hex collisions from painted
+    gradients demanded run-based detection (>=20px horizontal runs of
+    procedural trim/leather tones) - measures actual straight bars.
+- Verification: lint PASS, typecheck PASS, unit 546/546 (waistclean
+  9/9), e2e 78/78, vision 5/5, selfplay 13/13, build PASS, prodbuild
+  4/4. Review sheets regenerated. Second legacy timeout flake fixed
+  along the way (hero-faces signature decodes, explicit 30s).
+- Housekeeping: ART-15 archived (oldest DONE by completion order).
+  20 DONE remain.
+- Result: COMPLETED (owner re-review may reopen; BODY-7 stays the final
+  acceptance gate).
+- Status after: BODY-11 DONE. Next: BODY-12 (mook painted heads).
+- Next recommended task: BODY-12.
+
 ### 2026-09-26 02:40 UTC - BODY-10 (attempt 1, full verification, DONE)
 
 - Status before: BODY-10 TODO (owner objection support: cartoon weapons).
