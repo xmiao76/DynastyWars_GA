@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 20:30 UTC - BODY-19 (attempt 1, IK arms + connected hands)
+
+- Status before: BODY-19 TODO (owner round-3 objections (a)+(c): arms
+  missing/unconnected/unnatural). Round-3 baseline (BODY-17 review):
+  far fist floating with no arm (37u reach on a 24.5u arm), open palm +
+  stamped fist (two hands), arm lengths varying to 128% (recover
+  forearm 3u), down pose gripping mid-air.
+- Work completed: two-bone IK arms with constant natural segment lengths
+  (src/game/art/armik.ts, new): elbows solved per pose with the authored
+  elbow as the bend hint; overreach protracts the shoulder (worst 5.9u
+  xuchu:thrust, inside torso) instead of stretching; far hand searched
+  along the haft both directions (12u fist separation, 85%-reach comfort,
+  relaxed fallback); bow canted toward vertical + minimal shift per pose
+  (curve-model face check: idle shift 6-7, strikes cant -0.1..-0.55 with
+  shift 0-5, all within reach + protraction); down pose drops the weapon
+  across the body with an open resting hand (new weaponAnchor). Paint:
+  gripping far forearm moved in front of the torso; fist/mitten backs to
+  -3.2u; flat neck wedge removed over painted collars (G7). Prep: all 34
+  arm joint landmarks re-measured from gridded crops (old elbows sat at
+  the cuff); forearm cells cut at the wrist (revision body-2); Wei Yan's
+  forearms now carry sleeve (fill 19-21% -> 32-33%, G3 fixed). Found en
+  route: the BODY-16 standing chin drop is dead code (preserved; flagged
+  for BODY-22) and the bow is drawn symmetric (+-fore, not the grip
+  split) - both documented in code. Review: anatomy 4 in every movement
+  (recover/down were 1), 10/17 fighters close-passed + fresh motion
+  clips/sheets; dao socket blob filed to BODY-21 (pre-existing).
+- Files changed: src/game/art/{armik.ts (new),weapons.ts,draw.ts,
+  rig.ts}, scripts/prepare-body-parts.mjs, 17 body sheets + 3
+  prepared.json (regen), test/game/armik.test.ts (new, 6 tests),
+  docs/CHARACTER_REVIEW.md (BODY-19 section), TASKS.md (BODY-19 DONE,
+  findings to BODY-21/22, UI-5 archived), TASKS-ARCHIVE.md (UI-5),
+  PROGRESS.md.
+- Verification run: eslint 0; tsc 0; vitest 616/616 (55 files, +6);
+  browser gates (artifacts/run-body2-gates.ps1): E2E=0 (78 passed),
+  VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4);
+  motion review re-captured (5 heroes, 1 passed).
+- Result: BODY-19 acceptance met; arms attached + constant-length,
+  hands continuous at the wrist, down weapon dropped, bow cants clear.
+- Status after: BODY-19 DONE.
+- Remaining work or blocker: BODY-20..23 then the BODY-7 re-review
+  sweep; owner acceptance of round 3 outstanding.
+- Next recommended task: BODY-20 (painted hands).
+
 ### 2026-09-26 18:40 UTC - BODY-18 (attempt 1, art-materials completeness audit)
 
 - Status before: BODY-18 TODO (owner round-3 objection (d): review all

@@ -12,34 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### UI-5 - Flow screens: scene cards, result, game over, complete, pause/continue (overhaul phase 5)
-
-- Status: DONE (attempt 1, 2026-09-24 05:20 UTC - owner overhaul goal,
-  verified full-green same night)
-- Dependency: UI-1 DONE.
-- Requirement: new skippable scene-intro parchment card as a HudScene overlay
-  (no new scene; tick-based autopilot auto-skip; `STAGE_LORE` copy table in the
-  game layer); victory tally / game-over / game-complete / continue / pause
-  cards in the new kit. Same scene keys + bridge fields.
-- Acceptance criteria:
-  - [x] Autopilot/selfplay/marathon never hang on the card (new
-        e2e/introcard.spec.ts, 4 tests: tick-dismissal, real-play Enter
-        dismissal, fresh card per stage, defeat/complete/pause captures).
-  - [x] stageclear/continue/scenerestart specs preserved (plus pause,
-        touchpause, hud, hudpanels, layout all green); vision captures
-        reviewed.
-  - [x] Full gates green: lint, typecheck, unit 323/323 (+5), e2e 71/71
-        (+4 introcard), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
-- Delivered: src/game/data/stagelore.ts (9 lore beats), src/game/art/
-  flowart.ts (parchment intro/dialog/victory/defeat cards + stat chip +
-  ensureFlowArt), HudScene intro overlay (1.6s stagger, tick-based
-  autopilot dismiss, Enter/tap/3s dismiss; overlays sit above it),
-  parchment pause/continue/result/gameover/complete cards with dark-ink
-  recolors, type.ts STAGE 1..9, test/game/flowart.test.ts (5),
-  artifacts/ui5-review-cards.mjs (13/13 pixel checks), screenshots
-  artifacts/look/ui5-{intro,victory,gameover,pause,complete}.png.
-- Non-goals: no flow/state-machine changes; no new scenes.
-
 ### ART-19 - Painted per-stage backdrops (overhaul phase 6)
 
 - Status: DONE (attempt 1, 2026-09-24 09:05 UTC - owner overhaul goal,
@@ -616,7 +588,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-19 - Arms connected and natural in every movement
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
 - Owner objection round 3 (a) + (c): "either no arms, or the arm
   movements are not natural, and the arms are not connected to the
   hands." Diagnosis (r3-armzoom, 2026-09-26): (1) the far arm is
@@ -640,12 +613,27 @@ Add future enhancement tasks below this heading.
   only); G7 - drop or texture the flat procedural neck tube painted
   over the collar.
 - Acceptance criteria:
-  - [ ] Every arm segment within 95-105% of natural length in every
-        movement for every fighter (test); wrist-to-hand continuity
-        (hand drawn at its forearm's end) asserted.
-  - [ ] Human-style review of all movements: arms read attached and
-        natural; findings filed.
-  - [ ] Reach tests unchanged; full gates green.
+  - [x] Every arm segment within 95-105% of natural length in every
+        movement for every fighter (test/game/armik.test.ts: 6 tests;
+        measured exactly 100.0% on all 17x14; far-hand reach + 12u fist
+        separation asserted; protraction capped, worst 5.9u xuchu:thrust,
+        shoulder inside torso); wrist-to-hand continuity via wrist-cut
+        forearm cells + fist backs extended to -3.2u (raw cell verified).
+  - [x] Human-style review of all movements (docs/CHARACTER_REVIEW.md
+        BODY-19 section): anatomy 4 in every movement (recover/down were
+        1); close pass on 10 fighters + fresh motion clips/sheets for all
+        5 heroes; findings filed (dao socket blob -> BODY-21, fists ->
+        BODY-20, frozen walk arms + chin-drop note -> BODY-22).
+  - [x] Reach tests unchanged; full gates green: lint 0, typecheck 0,
+        unit 616/616 (55 files, +6 armik), e2e 78 passed, vision 5/5,
+        selfplay 13/13, build 0, prodbuild 4/4.
+- Delivered: src/game/art/armik.ts (new: two-bone IK, natural lengths,
+  bow cant+shift fit, far-hand haft search, down-pose drop),
+  weapons.ts (weaponPose rewrite, weaponAnchor), draw.ts (gripping far
+  forearm in front of torso, open lying hand, fist backs -3.2, neck G7),
+  rig.ts (weaponAnchor), scripts/prepare-body-parts.mjs (68 arm joints
+  re-landmarked from gridded crops, wrist-cut, revision body-2), 17
+  body sheets + 3 prepared.json regenerated, test/game/armik.test.ts.
 - Non-goals: no sim/timing changes; pose table body joints untouched
   except arms via weaponPose.
 
@@ -681,6 +669,9 @@ Add future enhancement tasks below this heading.
         (test); ART-14/15 reach + silhouette gates hold.
   - [ ] Human-style review: weapons read realistic at gameplay size.
   - [ ] Full gates green.
+- From BODY-19 review: purple/white blob at the dao blade socket in
+  some poses (walk1/windup/down/hurt) - pre-existing, verified against
+  the pre-19 baseline side by side; weapon geometry, in scope here.
 - Non-goals: no new weapon kinds; no sim changes.
 
 ### BODY-22 - Whole-body proportions and natural motion pass
@@ -699,6 +690,10 @@ Add future enhancement tasks below this heading.
   - [ ] Human-style motion review of every sequence reads natural;
         findings filed and fixed.
   - [ ] Full gates green.
+- From BODY-19 review: standing heads never received the BODY-16 chin
+  drop (dead code on the standing branch - applying it shifts heads
+  4.8u and grazes the face gate); any head re-seat must re-verify
+  weapons.test. Walk arms are frozen copies of idle (no counter-swing).
 - Non-goals: no sim/timing changes.
 
 ### BODY-23 - Clean painted cells: holes, capes, boots

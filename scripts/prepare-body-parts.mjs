@@ -16,6 +16,16 @@ export const DENSITY = 4
  * 10 keeps the key while sparing anything the painter actually painted. */
 export const KEY_TOLERANCE = 10
 export const FAR_SHADE = 0.82
+/**
+ * BODY-19 wrist cut: forearm cells end at the wrist (this fraction along
+ * elbow-> fingertip), not at the open palm. The procedural fist/mitten is
+ * drawn over the joint with its back reaching -3.2u, which swallows the cut
+ * edge (~2.5u behind the palm joint). Without the cut, the painted splayed
+ * fingers poke out around the fist - two hands, neither attached.
+ */
+export const WRIST_FRACTION = 0.58
+/** Palm joint derivation (elbow->fingertip fraction); the rig's hand joint. */
+export const PALM_FRACTION = 0.75
 
 /** joints, widths (logical, bulk 1.0) and span fractions per hero. */
 export const HEROES = {
@@ -24,8 +34,8 @@ export const HEROES = {
     skin: '#8a5a3c',
     joints: {
       chest: [416, 400], hip: [416, 686],
-      shoulderF: [250, 300], elbowF: [141, 462], handF: [67, 586],
-      shoulderN: [566, 300], elbowN: [666, 462], handN: [749, 586],
+      shoulderF: [250, 300], elbowF: [143, 460], handF: [62, 598],
+      shoulderN: [566, 300], elbowN: [668, 460], handN: [770, 598],
       hipF: [316, 686], kneeF: [316, 898], footF: [300, 1160],
       hipN: [499, 686], kneeN: [499, 898], footN: [524, 1160],
     },
@@ -35,8 +45,8 @@ export const HEROES = {
     skin: '#a8442f',
     joints: {
       chest: [416, 374], hip: [416, 686],
-      shoulderF: [266, 300], elbowF: [150, 437], handF: [67, 537],
-      shoulderN: [566, 300], elbowN: [682, 437], handN: [765, 537],
+      shoulderF: [266, 300], elbowF: [188, 392], handF: [70, 546],
+      shoulderN: [566, 300], elbowN: [646, 394], handN: [762, 546],
       hipF: [349, 699], kneeF: [333, 898], footF: [316, 1173],
       hipN: [482, 699], kneeN: [499, 898], footN: [516, 1173],
     },
@@ -46,8 +56,8 @@ export const HEROES = {
     skin: '#d9ad86',
     joints: {
       chest: [416, 374], hip: [416, 686],
-      shoulderF: [283, 312], elbowF: [166, 437], handF: [92, 549],
-      shoulderN: [549, 312], elbowN: [666, 437], handN: [740, 549],
+      shoulderF: [283, 312], elbowF: [199, 407], handF: [85, 558],
+      shoulderN: [549, 312], elbowN: [633, 407], handN: [747, 558],
       hipF: [349, 699], kneeF: [333, 898], footF: [316, 1173],
       hipN: [482, 699], kneeN: [499, 898], footN: [516, 1173],
     },
@@ -57,8 +67,8 @@ export const HEROES = {
     skin: '#c79a63',
     joints: {
       chest: [816, 187], hip: [816, 343],
-      shoulderF: [734, 169], elbowF: [637, 225], handF: [555, 256],
-      shoulderN: [898, 169], elbowN: [996, 225], handN: [1077, 256],
+      shoulderF: [734, 169], elbowF: [683, 207], handF: [557, 238],
+      shoulderN: [898, 169], elbowN: [949, 207], handN: [1075, 238],
       hipF: [767, 350], kneeF: [751, 449], footF: [734, 593],
       hipN: [865, 350], kneeN: [881, 449], footN: [898, 593],
     },
@@ -68,8 +78,8 @@ export const HEROES = {
     skin: '#f4d0ac',
     joints: {
       chest: [360, 384], hip: [360, 602],
-      shoulderF: [238, 333], elbowF: [130, 474], handF: [50, 602],
-      shoulderN: [482, 333], elbowN: [590, 474], handN: [670, 602],
+      shoulderF: [238, 333], elbowF: [165, 458], handF: [55, 613],
+      shoulderN: [482, 333], elbowN: [555, 458], handN: [665, 613],
       hipF: [310, 640], kneeF: [302, 870], footF: [295, 1190],
       hipN: [410, 640], kneeN: [418, 870], footN: [425, 1190],
     },
@@ -80,8 +90,8 @@ export const HEROES = {
     skin: '#875640',
     joints: {
       chest: [416, 349], hip: [416, 649],
-      shoulderF: [275, 300], elbowF: [158, 449], handF: [67, 574],
-      shoulderN: [557, 300], elbowN: [674, 449], handN: [765, 574],
+      shoulderF: [275, 300], elbowF: [187, 427], handF: [62, 592],
+      shoulderN: [557, 300], elbowN: [645, 427], handN: [770, 592],
       hipF: [358, 661], kneeF: [349, 898], footF: [341, 1198],
       hipN: [474, 661], kneeN: [482, 898], footN: [491, 1198],
     },
@@ -92,8 +102,8 @@ export const HEROES = {
     skin: '#936149',
     joints: {
       chest: [416, 349], hip: [416, 624],
-      shoulderF: [275, 312], elbowF: [166, 449], handF: [75, 574],
-      shoulderN: [557, 312], elbowN: [666, 449], handN: [757, 574],
+      shoulderF: [275, 312], elbowF: [195, 426], handF: [72, 588],
+      shoulderN: [557, 312], elbowN: [637, 426], handN: [760, 588],
       hipF: [358, 649], kneeF: [349, 898], footF: [341, 1198],
       hipN: [474, 649], kneeN: [482, 898], footN: [491, 1198],
     },
@@ -104,8 +114,8 @@ export const HEROES = {
     skin: '#8f604a',
     joints: {
       chest: [416, 349], hip: [416, 649],
-      shoulderF: [275, 300], elbowF: [158, 449], handF: [67, 586],
-      shoulderN: [557, 300], elbowN: [674, 449], handN: [765, 586],
+      shoulderF: [275, 300], elbowF: [190, 427], handF: [62, 600],
+      shoulderN: [557, 300], elbowN: [642, 427], handN: [770, 600],
       hipF: [366, 661], kneeF: [358, 911], footF: [349, 1198],
       hipN: [466, 661], kneeN: [474, 911], footN: [482, 1198],
     },
@@ -118,8 +128,8 @@ export const HEROES = {
     skin: '#f0c8a0',
     joints: {
       chest: [416, 430], hip: [416, 640],
-      shoulderF: [300, 360], elbowF: [180, 470], handF: [80, 570],
-      shoulderN: [532, 360], elbowN: [652, 470], handN: [752, 570],
+      shoulderF: [300, 360], elbowF: [212, 470], handF: [45, 600],
+      shoulderN: [532, 360], elbowN: [620, 470], handN: [790, 600],
       hipF: [350, 660], kneeF: [340, 900], footF: [320, 1160],
       hipN: [482, 660], kneeN: [492, 900], footN: [512, 1160],
     },
@@ -130,8 +140,8 @@ export const HEROES = {
     skin: '#d8b48c',
     joints: {
       chest: [416, 420], hip: [416, 640],
-      shoulderF: [290, 360], elbowF: [170, 470], handF: [75, 570],
-      shoulderN: [545, 360], elbowN: [665, 470], handN: [755, 570],
+      shoulderF: [290, 360], elbowF: [202, 448], handF: [62, 577],
+      shoulderN: [545, 360], elbowN: [633, 448], handN: [772, 577],
       hipF: [350, 655], kneeF: [345, 890], footF: [330, 1145],
       hipN: [480, 655], kneeN: [485, 890], footN: [500, 1145],
     },
@@ -142,8 +152,8 @@ export const HEROES = {
     skin: '#cfa87e',
     joints: {
       chest: [416, 400], hip: [416, 640],
-      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
-      shoulderN: [545, 350], elbowN: [660, 460], handN: [755, 560],
+      shoulderF: [290, 350], elbowF: [199, 444], handF: [65, 582],
+      shoulderN: [545, 350], elbowN: [636, 444], handN: [770, 582],
       hipF: [350, 650], kneeF: [340, 880], footF: [320, 1140],
       hipN: [480, 650], kneeN: [490, 880], footN: [510, 1140],
     },
@@ -154,8 +164,8 @@ export const HEROES = {
     skin: '#c08a68',
     joints: {
       chest: [416, 380], hip: [416, 640],
-      shoulderF: [270, 330], elbowF: [165, 450], handF: [70, 555],
-      shoulderN: [560, 330], elbowN: [665, 450], handN: [760, 555],
+      shoulderF: [270, 330], elbowF: [182, 443], handF: [50, 608],
+      shoulderN: [560, 330], elbowN: [648, 443], handN: [780, 608],
       hipF: [340, 655], kneeF: [330, 880], footF: [310, 1140],
       hipN: [490, 655], kneeN: [500, 880], footN: [520, 1140],
     },
@@ -166,8 +176,8 @@ export const HEROES = {
     skin: '#e0bc94',
     joints: {
       chest: [416, 400], hip: [416, 645],
-      shoulderF: [290, 355], elbowF: [175, 465], handF: [75, 565],
-      shoulderN: [545, 355], elbowN: [655, 465], handN: [755, 565],
+      shoulderF: [290, 355], elbowF: [202, 457], handF: [55, 600],
+      shoulderN: [545, 355], elbowN: [633, 457], handN: [780, 600],
       hipF: [350, 660], kneeF: [340, 890], footF: [320, 1150],
       hipN: [480, 660], kneeN: [490, 890], footN: [510, 1150],
     },
@@ -178,8 +188,8 @@ export const HEROES = {
     skin: '#d4ac84',
     joints: {
       chest: [416, 400], hip: [416, 630],
-      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
-      shoulderN: [545, 350], elbowN: [655, 460], handN: [755, 560],
+      shoulderF: [290, 350], elbowF: [202, 449], handF: [55, 592],
+      shoulderN: [545, 350], elbowN: [633, 449], handN: [780, 592],
       hipF: [350, 645], kneeF: [340, 880], footF: [320, 1140],
       hipN: [480, 645], kneeN: [490, 880], footN: [510, 1140],
     },
@@ -190,8 +200,8 @@ export const HEROES = {
     skin: '#d2a87c',
     joints: {
       chest: [416, 400], hip: [416, 640],
-      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
-      shoulderN: [545, 350], elbowN: [655, 460], handN: [755, 560],
+      shoulderF: [290, 350], elbowF: [202, 449], handF: [58, 592],
+      shoulderN: [545, 350], elbowN: [633, 449], handN: [777, 592],
       hipF: [350, 655], kneeF: [340, 885], footF: [320, 1150],
       hipN: [480, 655], kneeN: [490, 885], footN: [510, 1150],
     },
@@ -202,8 +212,8 @@ export const HEROES = {
     skin: '#e8c4a0',
     joints: {
       chest: [416, 410], hip: [416, 650],
-      shoulderF: [290, 360], elbowF: [175, 470], handF: [75, 570],
-      shoulderN: [545, 360], elbowN: [655, 470], handN: [755, 570],
+      shoulderF: [290, 360], elbowF: [205, 451], handF: [62, 582],
+      shoulderN: [545, 360], elbowN: [630, 451], handN: [773, 582],
       hipF: [350, 665], kneeF: [340, 890], footF: [320, 1150],
       hipN: [480, 665], kneeN: [490, 890], footN: [510, 1150],
     },
@@ -214,8 +224,8 @@ export const HEROES = {
     skin: '#e4c09a',
     joints: {
       chest: [416, 400], hip: [416, 640],
-      shoulderF: [290, 350], elbowF: [175, 460], handF: [75, 560],
-      shoulderN: [545, 350], elbowN: [655, 460], handN: [755, 560],
+      shoulderF: [290, 350], elbowF: [202, 449], handF: [58, 588],
+      shoulderN: [545, 350], elbowN: [633, 449], handN: [777, 588],
       hipF: [350, 650], kneeF: [340, 880], footF: [320, 1140],
       hipN: [480, 650], kneeN: [490, 880], footN: [510, 1140],
     },
@@ -292,7 +302,7 @@ export async function prepareHero(id) {
   for (const side of ['F', 'N']) {
     const e = J[`elbow${side}`]
     const t = J[`hand${side}`]
-    J[`hand${side}`] = [e[0] + (t[0] - e[0]) * 0.75, e[1] + (t[1] - e[1]) * 0.75]
+    J[`hand${side}`] = [e[0] + (t[0] - e[0]) * PALM_FRACTION, e[1] + (t[1] - e[1]) * PALM_FRACTION]
     J[`foot${side}`][1] -= img.height * 0.08
   }
   const joints = J
@@ -329,6 +339,19 @@ export async function prepareHero(id) {
     c.translate(-a[0], -a[1])
     c.drawImage(img, 0, 0)
     floodKey(c, cw, chh, KEY_TOLERANCE)
+    if (p.name === 'foreArmF' || p.name === 'foreArmN') {
+      // BODY-19 wrist cut: erase everything past the wrist row. The cell
+      // axis runs elbow (A) at pre/(pre+1+post) to palm (B) one span later,
+      // and the wrist sits at WRIST_FRACTION of elbow->fingertip, i.e.
+      // WRIST_FRACTION/PALM_FRACTION along A->B.
+      const f = WRIST_FRACTION / PALM_FRACTION
+      const wristRow = Math.round(((p.pre + f) / (p.pre + 1 + p.post)) * chh)
+      const im = c.getImageData(0, 0, cw, chh)
+      for (let y = wristRow; y < chh; y += 1) {
+        for (let x = 0; x < cw; x += 1) im.data[(y * cw + x) * 4 + 3] = 0
+      }
+      c.putImageData(im, 0, 0)
+    }
     if (p.name.endsWith('F')) {
       c.save()
       c.globalCompositeOperation = 'source-atop'
@@ -375,7 +398,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-1',
+        revision: 'body-2',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },

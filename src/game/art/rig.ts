@@ -57,6 +57,13 @@ export interface Skeleton {
   headRot: number
   /** A floored figure is drawn lying down and skips the ground shadow logic. */
   lying?: boolean
+  /**
+   * Weapon anchor override (BODY-19 down-pose drop). The weapon is drawn
+   * through this point instead of the hand, so a released hand can rest
+   * beside the dropped weapon instead of gripping it. Unset in every other
+   * pose, where the anchor is the gripping hand.
+   */
+  weaponAnchor?: Pt
 }
 
 /** How heavy a given kind is built. Applied over the shared pose tables. */

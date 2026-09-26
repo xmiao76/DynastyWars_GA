@@ -216,7 +216,13 @@ export function drawFigure(
   if (gripDistTail < 3 && !pose.lying) {
     drawFingertips(ctx, pose.handF, pose.weaponRot, plan.build.bulk, hmTail.skinShade, hmTail.skinForm)
   }
-  drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, hmTail)
+  // BODY-19: a prone fighter's hand is OPEN on the dropped weapon, not
+  // wrapped around a haft held up in mid-air.
+  if (pose.lying) {
+    drawRelaxedHand(ctx, pose.handN, pose.elbowN, plan.build.bulk, hmTail.skin, hmTail.skinForm)
+  } else {
+    drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, hmTail)
+  }
 
   // Feet last as well: BODY-9 - the painted boot tips are dark-on-dark at
   // gameplay size, robe hems swallow the ankles, and the weapon butt hangs
@@ -288,7 +294,9 @@ function drawRelaxedHand(
   ctx.rotate(ang)
   ctx.fillStyle = skin
   // Mitten: palm block with finger grooves, pointing along the forearm.
-  limbPath(ctx, { x: -1.5 * bulk, y: 0 }, { x: 5.2 * bulk, y: 0 }, 6.2 * bulk, 5 * bulk)
+  // BODY-19: the back reaches -3.2 to swallow the wrist-cut forearm cell's
+  // edge (the painted forearm ends at the wrist, ~2.5u behind the joint).
+  limbPath(ctx, { x: -3.2 * bulk, y: 0 }, { x: 5.2 * bulk, y: 0 }, 6.2 * bulk, 5 * bulk)
   ctx.fill()
   ctx.strokeStyle = form
   ctx.lineWidth = 1
@@ -313,14 +321,16 @@ function drawGripHand(
   ctx.save()
   ctx.translate(hand.x, hand.y)
   // Fist follows the forearm; the haft passes through it along weaponRot.
+  // BODY-19: the back reaches -3.2 to swallow the wrist-cut forearm cell's
+  // edge (the painted forearm ends at the wrist, ~2.5u behind the joint).
   ctx.rotate(ang)
   ctx.fillStyle = m.skin
-  limbPath(ctx, { x: -1.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 6.4 * bulk, 5.4 * bulk)
+  limbPath(ctx, { x: -3.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 6.4 * bulk, 5.4 * bulk)
   ctx.fill()
   // Form shadow along the lower edge so the fist reads as volume.
   ctx.save()
   ctx.beginPath()
-  limbPath(ctx, { x: -1.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 6.4 * bulk, 5.4 * bulk)
+  limbPath(ctx, { x: -3.2 * bulk, y: 0 }, { x: 5.6 * bulk, y: 0 }, 6.4 * bulk, 5.4 * bulk)
   ctx.clip()
   ctx.fillStyle = m.skinForm
   ctx.fillRect(-4 * bulk, 1.6 * bulk, 12 * bulk, 5 * bulk)
@@ -376,14 +386,15 @@ function drawGripHandFar(
   const sa = Math.sin(ang)
   // Fist-frame point (x along forearm, y across) to figure coords.
   const r = (x: number, y: number): Pt => ({ x: hand.x + x * ca - y * sa, y: hand.y + x * sa + y * ca })
-  // Back of the hand.
+  // Back of the hand. BODY-19: the back reaches -3.2 to swallow the
+  // wrist-cut forearm cell's edge (same geometry as drawGripHand).
   ctx.fillStyle = skin
-  limbPath(ctx, r(-1.2 * bulk, 0), r(5.6 * bulk, 0), 6.4 * bulk, 5.4 * bulk)
+  limbPath(ctx, r(-3.2 * bulk, 0), r(5.6 * bulk, 0), 6.4 * bulk, 5.4 * bulk)
   ctx.fill()
   // Form shadow hugging the lower edge (a capsule, not a clipped rect,
   // so no save/clip/restore sequence is needed).
   ctx.fillStyle = form
-  limbPath(ctx, r(-1 * bulk, 1.8 * bulk), r(5.5 * bulk, 2 * bulk), 2.2 * bulk, 2 * bulk)
+  limbPath(ctx, r(-3 * bulk, 1.8 * bulk), r(5.5 * bulk, 2 * bulk), 2.2 * bulk, 2 * bulk)
   ctx.fill()
   // Thumb wrapping toward the haft's far side.
   ctx.fillStyle = skin
@@ -632,7 +643,10 @@ export function figureShapes(
   // see drawHands.
   if (farArm) {
     mark('upperArmF')
-    mark('foreArmF')
+    // BODY-19: a gripping far forearm crosses the chest IN FRONT of the
+    // torso to reach the haft (its mark moves below the torso); the upper
+    // arm stays behind, rooted at the far shoulder.
+    if (!gripping) mark('foreArmF')
     if (!gripping) {
       add((c) => {
         drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
@@ -641,17 +655,17 @@ export function figureShapes(
         limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
       }, 'rgba(0,0,0,0)', false)
     }
-  } else {
+  } else if (!gripping) {
     add(
       (c) => chainPath(c, [p.shoulderF, p.elbowF, p.handF], [9 * b, 7.2 * b, 5.4 * b]),
       m.clothShade,
     )
-    if (!gripping) {
-      add((c) => {
-        drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
-        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
-      }, 'rgba(0,0,0,0)', false)
-    }
+    add((c) => {
+      drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
+      limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+    }, 'rgba(0,0,0,0)', false)
+  } else {
+    add((c) => limbPath(c, p.shoulderF, p.elbowF, 9 * b, 7.2 * b), m.clothShade)
   }
   if (farLeg) {
     mark('thighF')
@@ -680,6 +694,16 @@ export function figureShapes(
     )
   }
 
+  // BODY-19: the gripping far forearm, in front of the torso (its upper
+  // arm stays behind, above) but under the near arm and the far fist.
+  if (gripping) {
+    if (farArm) {
+      mark('foreArmF')
+    } else {
+      add((c) => limbPath(c, p.elbowF, p.handF, 7.2 * b, 5.4 * b), m.clothShade)
+    }
+  }
+
   // Near leg, in front of the skirt.
   if (nearLeg) {
     mark('thighN')
@@ -690,8 +714,12 @@ export function figureShapes(
     add((c) => footShape(c, p.footN, b), m.leather)
   }
 
-  // Neck and head.
-  add((c) => limbPath(c, p.neck, p.chest, 9 * b, 14 * b), m.skinShade)
+  // Neck and head. BODY-19 (G7): the flat skin wedge only fills the
+  // throat slit on the fully procedural path - over a painted torso it
+  // paints dead skin across the collar, and the collar is already under it.
+  if (!has('torso')) {
+    add((c) => limbPath(c, p.neck, p.chest, 9 * b, 14 * b), m.skinShade)
+  }
   if (body) {
     // BODY-11: a soft neck shadow over the painted torso top masks the
     // head-collar/shoulder seam (painted heads carry their own collars).

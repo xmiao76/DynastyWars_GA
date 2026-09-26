@@ -3904,3 +3904,31 @@ and the three pre-redesign enhancements - all DONE and verified)
   test/game/{hudlayout,hudart}.test.ts (12), e2e/hud-look.spec.ts (4).
 - Non-goals: no sim/HUD-data changes; damage ghost is presentation-only
   (decayGhost in hudlayout, ghost field separate from ratio).
+
+### UI-5 - Flow screens: scene cards, result, game over, complete, pause/continue (overhaul phase 5)
+
+- Status: DONE (attempt 1, 2026-09-24 05:20 UTC - owner overhaul goal,
+  verified full-green same night)
+- Dependency: UI-1 DONE.
+- Requirement: new skippable scene-intro parchment card as a HudScene overlay
+  (no new scene; tick-based autopilot auto-skip; `STAGE_LORE` copy table in the
+  game layer); victory tally / game-over / game-complete / continue / pause
+  cards in the new kit. Same scene keys + bridge fields.
+- Acceptance criteria:
+  - [x] Autopilot/selfplay/marathon never hang on the card (new
+        e2e/introcard.spec.ts, 4 tests: tick-dismissal, real-play Enter
+        dismissal, fresh card per stage, defeat/complete/pause captures).
+  - [x] stageclear/continue/scenerestart specs preserved (plus pause,
+        touchpause, hud, hudpanels, layout all green); vision captures
+        reviewed.
+  - [x] Full gates green: lint, typecheck, unit 323/323 (+5), e2e 71/71
+        (+4 introcard), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
+- Delivered: src/game/data/stagelore.ts (9 lore beats), src/game/art/
+  flowart.ts (parchment intro/dialog/victory/defeat cards + stat chip +
+  ensureFlowArt), HudScene intro overlay (1.6s stagger, tick-based
+  autopilot dismiss, Enter/tap/3s dismiss; overlays sit above it),
+  parchment pause/continue/result/gameover/complete cards with dark-ink
+  recolors, type.ts STAGE 1..9, test/game/flowart.test.ts (5),
+  artifacts/ui5-review-cards.mjs (13/13 pixel checks), screenshots
+  artifacts/look/ui5-{intro,victory,gameover,pause,complete}.png.
+- Non-goals: no flow/state-machine changes; no new scenes.

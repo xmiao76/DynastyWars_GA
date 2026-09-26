@@ -144,3 +144,93 @@ locked. -> BODY-22 (motion pass) after BODY-19 fixes the anatomy.
 **Proportions.** Heads now 1:5.0-6.2 (fine). Fists are 1.3-1.5x a
 realistic hand for the arm they end; weapon length vs height (polearms
 ~1.1-1.25x height) is plausible for guandao/spear art. -> BODY-22 table.
+
+### 2026-09-26 (BODY-19 vision check, post-enhancement)
+
+Material: regenerated `artifacts/look/moves/*.png` + `*-arms.png` (17
+fighters x 14 movements) against the `moves-before19/` baseline; close
+cells (guanyu idle/attack/down at 8x); raw re-cut cells
+(`raw-weiyan-foreArmF.png`); down whole-body crops (guanyu, lubu).
+Close human pass on 10 fighters covering every weapon path and all
+build extremes - guanyu/lubu/zhangfei/xuchu (polearm; huge+heavy),
+huangzhong/archer (bow), weiyan (long dao, one-hand), caocao/soldier
+(sword; boss+grunt), zhaoyun (spear, lean) - plus the all-17 mechanical
+gates (handgrip every pose, parity, face-clear, legibility); the other
+7 fighters share these code paths. Scores below are ANATOMY (arms/hands
+attached and natural); hands stay 1-2 as objects (cartoon capsules ->
+BODY-20) and weapons 2 (clip-art -> BODY-21).
+
+**Whole cast: the arms are back (anatomy 4 in every movement).**
+
+- "Both hands on the weapon, and I can see whose arms they are." -
+  idle/walk/hurt on polearms: the far hand moved from 12u below the grip
+  (37u from its shoulder - a floating fist over the belt) to a reachable
+  point on the haft, usually ABOVE the near hand at chest height; the far
+  forearm now paints IN FRONT of the torso, so a sleeve visibly runs from
+  the body to the fist. Upright carry reads like a person holding a
+  staff. Verified on guanyu (8x cell), lubu, zhangfei, xuchu.
+- "The near hand is one hand again." - the forearm cells end at the wrist
+  (raw cell: sleeve, cuff, wrist, clean cut - no splayed fingers) and the
+  fist's back reaches past the cut, so sleeve -> wrist -> fist is one
+  continuous limb. The T-pose open palm peeking around the fist is gone in
+  every reviewed cell.
+- "The arms keep their length." - recover was a 1 (3u forearm, fist on
+  the elbow); now the arm folds into a bent guard with full-length
+  segments and the elbow pointing down-back. Chop raises the hands
+  instead of shrinking them to the chest. Windup separates the fists
+  along the haft. Measured: every segment 100.0% of natural in all
+  17x14 (test), worst protraction 5.9u on xuchu:thrust - and the
+  thrust still reads as a committed lunge, not a detachment.
+- "He dropped it." - down: the weapon lies across the body, the OPEN
+  hand rests palm-down on the haft, the far hand lies on the ground.
+  No fist grips mid-air; nothing crosses the face. Whole-body crops
+  confirm the full read + no box clipping (pike/ji fit with margin).
+- "Archers hold the bow like archers." - bow arm fairly straight (as it
+  should be); strikes cant the bow up into high bashes instead of
+  sweeping it horizontally through the head; the bow clears the face in
+  all 14 poses (pixel gate) while the hand stays within arm's reach.
+- "One hand on the sword, the other balancing." - sword/dao: single
+  fist on the grip, counterbalance arm behind. Watch item, not a
+  defect: the free hand rides at chest height (kept for visibility);
+  BODY-22 may let it hang lower at idle.
+- "The skin bib is gone." - the flat neck wedge over the collar (G7)
+  is removed on painted torsos; throats now show collar/beard with no
+  transparent slit (verified guanyu/lubu close cells).
+
+**Movement by movement (polearms; one-handers/bows analogous).**
+
+| Movement | Score | Human comment |
+|---|---|---|
+| idle | 4 | Real two-hand carry; far sleeve crosses the chest to the high fist. Fists still capsules (BODY-20). |
+| walk0/walk1 | 3 | Lengths hold through the stride, but arms stay frozen (no counter-swing) - motion, not anatomy -> BODY-22. |
+| windup | 4 | Diagonal load; fists separated with a gap; elbow folds, never vanishes. |
+| attack/thrust | 4 | Best frames: strong line, hands separated, thrust nearly straight (correct); broad fighters lunge the shoulder. |
+| attack2/chop | 4 | Hands reach up-forward; elbows bend down/back. Chop finally raises the hands. |
+| sweep | 4 | Wide crouch; hands ride the low haft; far arm crosses in front. |
+| recover | 4 | Was 1: now a natural bent guard recoiling the weapon. |
+| jump | 4 | Tucked legs; weapon held forward-up, arms natural. |
+| hurt | 4 | Head snaps back; both hands stay on the weapon. |
+| down | 4 | Was 1: dropped weapon + open resting hand. ~2u hover kept for the silhouette gate; reads as resting at size. |
+| special | 4 | Strong downward line; hands separated; natural. |
+
+**New findings filed, not fixed here.** (1) A purple/white blob sits
+at the dao blade socket in some poses (weiyan walk1/windup/down/hurt) -
+PRE-EXISTING in the baseline (verified side by side), weapon geometry,
+-> BODY-21. (2) Fists remain 1.3-1.5x oversized red/tan capsules with
+ink outlines -> BODY-20 (painted hands). (3) Walk arms frozen, no
+in-betweens, torso never rotates -> BODY-22 (motion). (4) Standing
+heads were never chin-dropped (the BODY-16 drop is dead code on the
+standing branch - found because applying it grazes the face gate);
+kept as-is for stability, flagged for BODY-22's ratio pass.
+
+**Motion (video).** Reviewed `motion/guanyu-sheet.png` (162
+frames: walk, three-hit combo, jump, special, enemy hurt/down in frame)
+and `motion/huangzhong-sheet.png` (bow bashes + arrow flight); all 5
+hero clips re-captured post-change. The combo reads as alternating
+compact/extended keys with visible windup->strike->recover phasing;
+elbows track the hands with no popping between keys (IK, not frozen
+table); the bow swings diagonally forward in bashes and never crosses
+the head; arrows still fire (sim untouched); the downed enemy lies
+prone with the weapon across. Residual motion limits (frozen walk
+arms, no in-betweens, static torso) are unchanged keys, not anatomy
+-> BODY-22.

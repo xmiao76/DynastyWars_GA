@@ -1,3 +1,4 @@
+import { fitBow, fitDown, fitFarHand, ikHeadRadius, naturalArmLengths, relaxedFarTarget, solveArm } from './armik'
 import { WEAPONS, type FigurePlan } from './figures'
 import { HEAD_CHIN_DROP } from './hero-resources'
 import type { Materials } from './palette'
@@ -149,9 +150,11 @@ export function traceBow(c: CanvasRenderingContext2D, halfLength: number): void 
 }
 
 /**
- * Art-only grip corrections. Keep the bow in front of the face and a dropped
- * weapon above the prone face; attacks, simulation geometry and timing do not
- * use these joints.
+ * Art-only grip corrections. IK arms with constant segment lengths
+ * (BODY-19), the bow canted clear of the face, and a dropped weapon across
+ * the prone body; attacks, simulation geometry and timing do not use these
+ * joints. The weapon anchor (handN) and tip reach never move except the bow
+ * fit and the down-pose drop.
  */
 export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
   // BODY-16 chin-anchored re-seat for the scaled painted heads: the chin
@@ -166,39 +169,55 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
       ? { x: pose.head.x + (ldx / llen) * HEAD_CHIN_DROP, y: pose.head.y + (ldy / llen) * HEAD_CHIN_DROP }
       : { x: pose.head.x, y: pose.head.y + HEAD_CHIN_DROP },
   }
+  const nat = naturalArmLengths(plan.build)
+  const headR = ikHeadRadius(plan.build.head)
+  // NOTE: the BODY-16 chin drop in `base` only ever applied to the lying
+  // branch - the standing branch historically returned `pose`, not `base`,
+  // so standing heads were never dropped. Preserved deliberately: applying
+  // it now would shift every standing head down 4.8u (the face ellipse
+  // moves with it and grazes blades that clear today). If BODY-22 re-seats
+  // heads, it must re-verify the face gate with the drop applied.
   if (pose.lying) {
+    // The dropped weapon lies across the body with the released hand
+    // resting on the haft; both arms IK-fold to their rest positions.
+    const down = fitDown(base, headR)
+    const near = solveArm(base.shoulderN, down.handN, base.elbowN, nat.upperN, nat.foreN)
+    const far = solveArm(base.shoulderF, base.handF, base.elbowF, nat.upperF, nat.foreF)
     return {
       ...base,
-      handN: { x: base.handN.x, y: base.handN.y - 9 },
-      elbowN: { x: base.elbowN.x, y: base.elbowN.y - 4.5 },
+      shoulderN: near.shoulder, elbowN: near.elbow, handN: down.handN,
+      shoulderF: far.shoulder, elbowF: far.elbow,
+      weaponAnchor: down.anchor, weaponRot: down.rot,
     }
   }
-  const adjusted = plan.weapon === 'bow'
-    ? { ...pose, handN: { x: pose.handN.x + 14, y: pose.handN.y }, elbowN: { x: pose.elbowN.x + 7, y: pose.elbowN.y } }
-    : pose
-  // BODY-15 far-hand choreography: the far arm hung inside the torso span
-  // in every pose, so only one hand ever read. Polearms get a true
-  // two-handed grip (far fist on the haft behind the near fist);
+  let handN = pose.handN
+  let weaponRot = pose.weaponRot
+  if (plan.weapon === 'bow') {
+    const fit = fitBow(pose.handN, pose.shoulderN, pose.weaponRot, pose.weaponGrip,
+      WEAPONS[plan.weapon].length, pose.head, pose.headRot, headR, nat.upperN + nat.foreN)
+    handN = { x: pose.handN.x + fit.shift, y: pose.handN.y }
+    weaponRot = fit.rot
+  }
+  const near = solveArm(pose.shoulderN, handN, pose.elbowN, nat.upperN, nat.foreN)
+  // BODY-15 far-hand choreography, reach-limited by BODY-19: the far arm
+  // hung inside the torso span in every pose, so only one hand ever read.
+  // Polearms get a true two-handed grip (far fist on the haft where the
+  // far shoulder can comfortably reach, both directions searched);
   // one-handers and bows get a visible counterbalance arm swung out back.
-  // The weapon anchor (handN) never moves, so tip reach is byte-stable.
   const twoHanded = ['crescent', 'serpent', 'leaf', 'ji'].includes(WEAPONS[plan.weapon].head)
-  // 12u of separation: each fist spans ~4u along the haft and the near
-  // fist's blob reaches ~6u, so 10u still buried the far fist under it
-  // in extended strikes (measured 4px); 12u leaves a real gap while
-  // staying on the haft (the butt is ~20u behind the grip).
-  const handF = twoHanded
-    ? {
-        x: adjusted.handN.x - 12 * Math.cos(adjusted.weaponRot),
-        y: adjusted.handN.y - 12 * Math.sin(adjusted.weaponRot),
-      }
-    : { x: adjusted.shoulderF.x - 14, y: adjusted.shoulderF.y + 12 }
-  const mx = (adjusted.shoulderF.x + handF.x) / 2
-  const my = (adjusted.shoulderF.y + handF.y) / 2
-  const dx = mx - adjusted.chest.x
-  const dy = my - adjusted.chest.y
-  const len = Math.hypot(dx, dy) || 1
-  const elbowF = { x: mx + (dx / len) * 3.5, y: my + (dy / len) * 3.5 }
-  return { ...adjusted, handF, elbowF }
+  let handF = relaxedFarTarget(pose.shoulderF, nat.upperF + nat.foreF)
+  if (twoHanded) {
+    const spec = WEAPONS[plan.weapon]
+    const fit = fitFarHand(handN, weaponRot, pose.weaponGrip, spec.length,
+      pose.shoulderF, nat.upperF + nat.foreF)
+    if (fit.gripping) handF = fit.handF
+  }
+  const far = solveArm(pose.shoulderF, handF, pose.elbowF, nat.upperF, nat.foreF)
+  return {
+    ...pose, handN, weaponRot,
+    shoulderN: near.shoulder, elbowN: near.elbow,
+    handF, shoulderF: far.shoulder, elbowF: far.elbow,
+  }
 }
 /**
  * BODY-10 painted materials. Each overlay runs inside its shape's clip, in
@@ -294,7 +313,8 @@ export function addWeapon(
   m: Materials,
 ): void {
   const spec = WEAPONS[plan.weapon]
-  const hand = p.handN
+  // BODY-19: a dropped weapon anchors away from the released hand.
+  const hand = p.weaponAnchor ?? p.handN
   const back = -spec.length * p.weaponGrip
   const fore = spec.length * (1 - p.weaponGrip)
   const oriented = (trace: (c: CanvasRenderingContext2D) => void) => (c: CanvasRenderingContext2D) => {
