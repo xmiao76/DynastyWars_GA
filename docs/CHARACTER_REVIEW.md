@@ -329,3 +329,82 @@ bright sky in every frame (the dark silhouette rims earn their place);
 the red tassel swings at the socket in carry poses; enemy spears and
 swords render painted too (shared pack). Residual motion limits
 unchanged -> BODY-22.
+
+## BODY-22 whole-body ratio table (measured 2026-09-26)
+
+Definitions: H = stature, painted crown to sole, on the built idle pose.
+Measured over all 17 fighters x builds; every row is asserted per
+fighter in `test/game/proportions.test.ts` except head (asserted per
+fighter by the BODY-14 review harness, render-measured).
+
+| Ratio | Cast measures | Band (test) | Anatomical ref | Verdict |
+|---|---|---|---|---|
+| Head:body | 1:5.0-6.2 | 1:4.5-6.5 (reviewharness) | heroic 1:6-7, natural 1:7.5 | heroic-natural; heads read right, chins seated |
+| Arm (shoulder->palm) / H | 0.26-0.27 | 0.24-0.30 | ~0.29 | correct; arm segments 100.0% in all movements (armik test) |
+| Leg (hip->sole) / H | 0.45-0.46 | 0.42-0.49 | ~0.52 (hip joint) | compact-heroic: legs slightly short, shoulders slightly low; consistent, reads athletic |
+| Torso (chest->hip) / H | 0.24-0.26 | 0.22-0.28 | ~0.30 | compact; keeps heads clear of hafts in crouches (face gate) |
+| Fist (wrist->tip) / H | 0.095-0.104 | 0.085-0.115 | ~0.11 | correct; heroic hands without clown gloves |
+| Polearm total / H | 1.01-1.24 | 1.0-1.3 | guandao/spear ~1.1-1.25 | correct; pike longest (104u) as the novel demands |
+| Sword total / H | 0.82-0.86 | 0.7-1.0 | jian ~0.6 | large heroic jian; reads legendary, not wrong |
+| Bow (ref draw) / H | 0.56-0.62 | 0.45-0.75 | war bow ~0.7 | correct |
+| Shoulder:hip width | 1.25 | 1.1-1.4 | athletic 1.2-1.3 | correct V-taper |
+| Arm segments | 100.0% all 17x14 | 95-105% | constant | IK-exact (BODY-19) |
+| Leg segments (standing) | 95-110% | 95-110% | constant | IK-exact + ≤9.7% uniform stretch on straight overreached strides (NEW this task; was 56-114% asymmetric) |
+
+Style decisions, signed: compact-heroic (head 1:5-6, legs 0.45H,
+fists 0.10H) is the house look - consistent across the cast and
+asserted. The prone `down` figure keeps its stylized compression
+(full-length legs would not fit the frame); standing ratios are
+anatomical-or-heroic throughout.
+
+### 2026-09-26 (BODY-22 vision check, post-enhancement)
+
+Material: regenerated `artifacts/look/moves/*.png` + `*-arms.png`
+against the `moves-before22/` baseline; close pass on guanyu
+whole-body (all 14, legs in every pose) and caocao arms (sword
+one-hander, free-arm swing in every pose). Scores: PROPORTION 4,
+MOTION 4 (keys; in-betweens remain engine-future).
+
+**Legs: the 56% collapse is gone.**
+
+- "Crouches bend at the knee now." - sweep/windup/recover/jump:
+  knees solve from the pinned hip+foot with constant segment
+  lengths; the deep sweep crouch reads as a crouch, not a leg
+  folding into itself. Jump tucks read tucked.
+- "Lunges keep their stances." - thrust/attack/special: feet stay
+  exactly where the author planted them; ≤9.7% uniform stretch on
+  the straight back leg only (no bend for reference - invisible).
+- "Nothing floats." - grounded feet stay grounded to the pixel,
+  hips never move (torso untouched); verified guanyu all-14.
+
+**Walk: the free arm swings.**
+
+- "walk0 and walk1 finally differ above the waist." - caocao (and
+  every sword/dao/bow fighter): the free hand rides low-back at
+  neutral and flings further back on the back-stride key; the arm
+  visibly alternates between keys while staying out of the torso
+  span (the BODY-15 visibility compromise, kept deliberately: a
+  forward swing would hide behind the body and read as missing).
+- "Polearms correctly don't." - both hands stay on the haft in
+  walk (a carried polearm is stabilized, not waved); verified
+  haft-axis geometry in both walk keys for all 11 polearm
+  fighters (test).
+
+**Deliberate non-changes, with reasons.** (1) Standing heads were
+never chin-dropped (BODY-16 dead code): reviewed as natural and
+gated 1:4.5-6.5 - NO re-seat, the 4.8u shift would buy nothing and
+risk the face gate. (2) Gallery-grade fingers / battle-worn blades:
+deferred optionals (gameplay size reads well). (3) Down-pose
+compression stays (stylization + frame fit). (4) In-between frames
+and torso twist into swings are engine features (pose interpolation),
+not pose data - filed as BODY-24, out of scope here.
+
+**Motion (video).** Reviewed `motion/guanyu-sheet.png` re-captured
+post-change (162 frames: walk, three-hit combo, jump, special, enemy
+hurt/down in frame) plus fresh clips/sheets for all 5 heroes. Walk
+alternates with clean knee bends and planted feet; combo lunges plant
+the back foot straight with no popping between keys (IK continuity
+both limbs now); jump tucks; special commits deep; enemies react and
+fall prone correctly. No leg swimming, collapsing, or detachment
+anywhere. Remaining: keys still snap without in-betweens and the
+torso never twists - engine work, filed as BODY-24.

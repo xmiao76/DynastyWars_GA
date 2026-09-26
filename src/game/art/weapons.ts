@@ -1,8 +1,9 @@
-import { fitBow, fitDown, fitFarHand, ikHeadRadius, naturalArmLengths, relaxedFarTarget, solveArm } from './armik'
+import { fitBow, fitDown, fitFarHand, fitLeg, ikHeadRadius, naturalArmLengths, naturalLegLengths, solveArm, swungFreeTarget } from './armik'
 import { WEAPONS, type FigurePlan } from './figures'
 import { HEAD_CHIN_DROP } from './hero-resources'
 import type { Materials } from './palette'
-import { limbPath, ovalPath, polyPath, type Skeleton } from './rig'
+import { IDLE } from './poses'
+import { applyBuild, limbPath, ovalPath, polyPath, type Skeleton } from './rig'
 
 export type BladeHead = 'crescent' | 'serpent' | 'leaf' | 'dao'
 export type WeaponTrace = (c: CanvasRenderingContext2D) => void
@@ -150,11 +151,12 @@ export function traceBow(c: CanvasRenderingContext2D, halfLength: number): void 
 }
 
 /**
- * Art-only grip corrections. IK arms with constant segment lengths
- * (BODY-19), the bow canted clear of the face, and a dropped weapon across
- * the prone body; attacks, simulation geometry and timing do not use these
- * joints. The weapon anchor (handN) and tip reach never move except the bow
- * fit and the down-pose drop.
+ * Art-only grip corrections. IK arms AND legs with constant segment
+ * lengths (BODY-19/22), the bow canted clear of the face, a gait-swinging
+ * free arm, and a dropped weapon across the prone body; attacks,
+ * simulation geometry and timing do not use these joints. The weapon
+ * anchor (handN) and tip reach never move except the bow fit and the
+ * down-pose drop.
  */
 export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
   // BODY-16 chin-anchored re-seat for the scaled painted heads: the chin
@@ -170,16 +172,19 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
       : { x: pose.head.x, y: pose.head.y + HEAD_CHIN_DROP },
   }
   const nat = naturalArmLengths(plan.build)
+  const legNat = naturalLegLengths(plan.build)
   const headR = ikHeadRadius(plan.build.head)
   // NOTE: the BODY-16 chin drop in `base` only ever applied to the lying
   // branch - the standing branch historically returned `pose`, not `base`,
   // so standing heads were never dropped. Preserved deliberately: applying
   // it now would shift every standing head down 4.8u (the face ellipse
-  // moves with it and grazes blades that clear today). If BODY-22 re-seats
-  // heads, it must re-verify the face gate with the drop applied.
+  // moves with it and grazes blades that clear today). BODY-22 reviewed
+  // the heads as natural and gated (1:4.5-6.5) and chose NOT to re-seat.
   if (pose.lying) {
     // The dropped weapon lies across the body with the released hand
     // resting on the haft; both arms IK-fold to their rest positions.
+    // Legs keep the table knees: the prone figure is a deliberate
+    // stylized compression (full-length legs would not fit the frame).
     const down = fitDown(base, headR)
     const near = solveArm(base.shoulderN, down.handN, base.elbowN, nat.upperN, nat.foreN)
     const far = solveArm(base.shoulderF, base.handF, base.elbowF, nat.upperF, nat.foreF)
@@ -199,13 +204,17 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
     weaponRot = fit.rot
   }
   const near = solveArm(pose.shoulderN, handN, pose.elbowN, nat.upperN, nat.foreN)
-  // BODY-15 far-hand choreography, reach-limited by BODY-19: the far arm
-  // hung inside the torso span in every pose, so only one hand ever read.
-  // Polearms get a true two-handed grip (far fist on the haft where the
-  // far shoulder can comfortably reach, both directions searched);
-  // one-handers and bows get a visible counterbalance arm swung out back.
+  // BODY-15 far-hand choreography, reach-limited by BODY-19, gait-swung by
+  // BODY-22: the far arm hung inside the torso span in every pose, so only
+  // one hand ever read. Polearms get a true two-handed grip (far fist on
+  // the haft where the far shoulder can comfortably reach, both directions
+  // searched); one-handers and bows get a visible counterbalance arm that
+  // swings with the stride instead of freezing at idle.
   const twoHanded = ['crescent', 'serpent', 'leaf', 'ji'].includes(WEAPONS[plan.weapon].head)
-  let handF = relaxedFarTarget(pose.shoulderF, nat.upperF + nat.foreF)
+  const idleBuilt = applyBuild(IDLE, plan.build)
+  const lead = pose.footN.x - pose.footF.x
+  const idleLead = idleBuilt.footN.x - idleBuilt.footF.x
+  let handF = swungFreeTarget(pose.shoulderF, nat.upperF + nat.foreF, lead, idleLead)
   if (twoHanded) {
     const spec = WEAPONS[plan.weapon]
     const fit = fitFarHand(handN, weaponRot, pose.weaponGrip, spec.length,
@@ -213,10 +222,17 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
     if (fit.gripping) handF = fit.handF
   }
   const far = solveArm(pose.shoulderF, handF, pose.elbowF, nat.upperF, nat.foreF)
+  // BODY-22 leg IK: table knees let segments collapse to 56% in crouches.
+  // Knees solve from hip+foot (both pinned: hips keep the torso, feet keep
+  // their planted stances); the authored knee picks the bend branch.
+  // Overreached strides stretch slightly via fitLeg (never joint moves).
+  const legF = fitLeg(pose.hipF, pose.footF, pose.kneeF, legNat.thighF, legNat.shinF)
+  const legN = fitLeg(pose.hipN, pose.footN, pose.kneeN, legNat.thighN, legNat.shinN)
   return {
     ...pose, handN, weaponRot,
     shoulderN: near.shoulder, elbowN: near.elbow,
     handF, shoulderF: far.shoulder, elbowF: far.elbow,
+    kneeF: legF.knee, kneeN: legN.knee,
   }
 }
 /**

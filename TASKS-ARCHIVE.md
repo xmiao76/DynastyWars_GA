@@ -3992,3 +3992,22 @@ and the three pre-redesign enhancements - all DONE and verified)
   props were restyled instead. Neither flash existed before either; both
   were added as presentation-only real-play juice.
 - Non-goals: no loot/drop-rate/combat changes.
+
+### BODY-1 - Reference briefs + pilots: one hero body, one boss head (owner-approved plan)
+
+- Status: DONE (attempt 1, 2026-09-24 - owner approved the pilots)
+- Dependency: ART-18 DONE.
+- Requirement: `docs/BODY_STYLE_GUIDE.md` (brushwork, palette, cloth/armor/
+  skin/muscle treatment, joint-overlap conventions, per-hero body notes tied
+  to ART-18 head identities) + `docs/BOSS_HEAD_REFERENCE.md` (per-boss
+  source quotes vs interpretation, HERO_FACE_REFERENCE.md pattern). Pilots
+  reviewed in real UI/gameplay before bulk work: one full hero body
+  (Zhao Yun) + one boss head (Cao Cao).
+- Acceptance criteria:
+  - [x] Both briefs written; quotations separated from interpretation.
+  - [x] Pilots reviewed at select/HUD/gameplay sizes; owner approval to
+        proceed (approved, no changes requested).
+- Delivered: the two briefs + `docs/BODY_PARTS_SPEC.md` (pre-designed
+  BODY-2 part inventory), pilots in artifacts/look/body1-*, baselines,
+  parity-harness validation, joint inventory, insertion-contract mapping.
+- Non-goals: no pipeline code; no other fighters.

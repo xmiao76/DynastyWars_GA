@@ -48,6 +48,28 @@ export function naturalArmLengths(build: Build): ArmLengths {
   }
 }
 
+/** Natural leg segment lengths for one build, in canonical units. */
+export interface LegLengths {
+  thighF: number
+  shinF: number
+  thighN: number
+  shinN: number
+}
+
+/**
+ * The built idle-pose leg lengths. Like the arms, the idle stance is the
+ * relaxed reference every other pose bends from.
+ */
+export function naturalLegLengths(build: Build): LegLengths {
+  const idle = applyBuild(IDLE, build)
+  return {
+    thighF: dist(idle.hipF, idle.kneeF),
+    shinF: dist(idle.kneeF, idle.footF),
+    thighN: dist(idle.hipN, idle.kneeN),
+    shinN: dist(idle.kneeN, idle.footN),
+  }
+}
+
 export interface IkSolution {
   /** Solved elbow position (exact L1/L2 lengths, modulo float error). */
   elbow: Pt
@@ -62,14 +84,28 @@ export interface IkSolution {
  * elbow branch nearer the authored hint (the pose-table elbow). If the hand
  * is out of reach the shoulder protracts toward it just enough to leave a
  * hair of bend, so the elbow stays defined and the segments stay exact.
+ * Legs call with protract=false: hips cannot lunge (they would drag the
+ * torso), so an overreached leg goes straight instead - the most planted
+ * legs overreach is 0.6% (idle), absorbed by the length band.
  */
-export function solveArm(shoulder: Pt, hand: Pt, hint: Pt, l1: number, l2: number): IkSolution {
+export function solveArm(shoulder: Pt, hand: Pt, hint: Pt, l1: number, l2: number, protract = true): IkSolution {
   const reach = l1 + l2
   let sx = shoulder.x
   let sy = shoulder.y
   let protracted = 0
   let d = dist(shoulder, hand)
   if (d > reach && d > 0.001) {
+    if (!protract) {
+      // Straight limb along shoulder->hand; the far joint overshoots by
+      // d-reach (sub-percent in practice; the band absorbs it).
+      const ux = (hand.x - shoulder.x) / d
+      const uy = (hand.y - shoulder.y) / d
+      return {
+        elbow: { x: shoulder.x + ux * l1, y: shoulder.y + uy * l1 },
+        shoulder: { ...shoulder },
+        protracted: 0,
+      }
+    }
     const target = reach * 0.995
     const k = (d - target) / d
     sx = shoulder.x + (hand.x - shoulder.x) * k
@@ -262,21 +298,54 @@ export function fitFarHand(
   return { handF: best, gripping: true }
 }
 
+export interface LegFit {
+  /** Solved knee position. */
+  knee: Pt
+  /** Segment scale applied (1 unless a small stretch absorbed overreach). */
+  stretched: number
+}
+
 /**
- * Relaxed counterbalance target for one-handed weapons (BODY-15's swung-out-
- * back arm), clamped to 97% of the far arm's reach so IK never stretches.
- * The authored offset (|(-14,+12)| = 18.4u) fits every fighter's reach, so
- * the clamp is a guard, not a behavior change.
+ * Fit one leg (BODY-22): solve the knee from the pinned hip and foot.
+ * Underreach bends the knee (the authored knee picks the branch);
+ * overreach (d > thigh+shin, always a straight striding/lunging leg)
+ * stretches the segments uniformly instead of moving any joint - up to
+ * 9.7% measured, imperceptible without a bend for reference, and it
+ * preserves every authored stance exactly (sliding lunge feet inward
+ * would narrow stances by up to 6u and collapse near-vertical strides).
+ * Hips and feet are never touched.
  */
-export function relaxedFarTarget(shoulderF: Pt, reachF: number): Pt {
-  const t = { x: shoulderF.x - 14, y: shoulderF.y + 12 }
-  const d = dist(shoulderF, t)
-  const limit = reachF * 0.97
-  if (d <= limit) return t
-  return {
-    x: shoulderF.x + ((t.x - shoulderF.x) / d) * limit,
-    y: shoulderF.y + ((t.y - shoulderF.y) / d) * limit,
+export function fitLeg(hip: Pt, foot: Pt, hint: Pt, l1: number, l2: number): LegFit {
+  const reach = l1 + l2
+  const d = dist(hip, foot)
+  if (d <= reach) {
+    const s = solveArm(hip, foot, hint, l1, l2, false)
+    return { knee: s.elbow, stretched: 1 }
   }
+  const r = d / reach
+  const s = solveArm(hip, foot, hint, l1 * r, l2 * r, false)
+  return { knee: s.elbow, stretched: r }
+}
+
+/**
+ * Gait counter-swing for the free (non-gripping) arm (BODY-22). Before,
+ * the free arm was a frozen copy of the idle offset in every movement.
+ * The stride phase comes from the leg lead (near foot ahead of far foot)
+ * relative to the idle stance; the hand swings on a near-full-length arc
+ * biased BACKWARD (-35 deg at neutral, flung to -47 deg at full
+ * back-stride) so it never crosses behind the torso silhouette (the
+ * BODY-15 visibility rule: a far hand hidden inside the body reads as a
+ * missing arm). Two-handed haft grips bypass this entirely.
+ */
+export function swungFreeTarget(
+  shoulderF: Pt, reachF: number, lead: number, idleLead: number,
+): Pt {
+  const backness = Math.max(0, Math.min(1, -(lead - idleLead) / 12.6))
+  const ang = (-35 - 12 * backness) * (Math.PI / 180)
+  const R = reachF * 0.97
+  // From straight-down, toward the back (-x). sin/cos of a negative angle:
+  // x goes negative, y stays positive (down).
+  return { x: shoulderF.x + Math.sin(ang) * R, y: shoulderF.y + Math.cos(ang) * R }
 }
 
 export interface DownFit {

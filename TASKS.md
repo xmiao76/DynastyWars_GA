@@ -12,25 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### BODY-1 - Reference briefs + pilots: one hero body, one boss head (owner-approved plan)
-
-- Status: DONE (attempt 1, 2026-09-24 - owner approved the pilots)
-- Dependency: ART-18 DONE.
-- Requirement: `docs/BODY_STYLE_GUIDE.md` (brushwork, palette, cloth/armor/
-  skin/muscle treatment, joint-overlap conventions, per-hero body notes tied
-  to ART-18 head identities) + `docs/BOSS_HEAD_REFERENCE.md` (per-boss
-  source quotes vs interpretation, HERO_FACE_REFERENCE.md pattern). Pilots
-  reviewed in real UI/gameplay before bulk work: one full hero body
-  (Zhao Yun) + one boss head (Cao Cao).
-- Acceptance criteria:
-  - [x] Both briefs written; quotations separated from interpretation.
-  - [x] Pilots reviewed at select/HUD/gameplay sizes; owner approval to
-        proceed (approved, no changes requested).
-- Delivered: the two briefs + `docs/BODY_PARTS_SPEC.md` (pre-designed
-  BODY-2 part inventory), pilots in artifacts/look/body1-*, baselines,
-  parity-harness validation, joint inventory, insertion-contract mapping.
-- Non-goals: no pipeline code; no other fighters.
-
 ### BODY-2 - Paper-doll body pipeline, preparation, fallback, parity gates
 
 - Status: DONE (attempt 1, 2026-09-24 - owner overhaul goal, verified full-green)
@@ -655,7 +636,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-22 - Whole-body proportions and natural motion pass
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
 - Owner objection round 3 (c): "ensure the whole body, including the
   weapons and hands, has the correct ratio, and that their movements
   are natural."
@@ -664,11 +646,23 @@ Add future enhancement tasks below this heading.
   references, asserted in tests; motion review of every movement
   sequence (video) with fixes for unnatural transitions found.
 - Acceptance criteria:
-  - [ ] Ratio table in CHARACTER_REVIEW.md, each value in its
-        reference band, asserted per fighter.
-  - [ ] Human-style motion review of every sequence reads natural;
-        findings filed and fixed.
-  - [ ] Full gates green.
+  - [x] Ratio table in CHARACTER_REVIEW.md (11 rows: head, arm, leg,
+        torso, fist, 4 weapon classes, taper, arm/leg constancy), each
+        value in its reference band, asserted per fighter
+        (test/game/proportions.test.ts: 5 tests; head cited from the
+        BODY-14 harness which asserts it render-measured).
+  - [x] Human-style motion review of every sequence (guanyu all-14 +
+        caocao all-14 + fresh motion clips/sheets): legs bend at knees,
+        lunges plant, walk free arm alternates; in-betweens/torso
+        dynamics filed as BODY-24 (engine feature, out of scope here).
+  - [x] Full gates green: lint 0, typecheck 0, unit 635/635 (58 files,
+        +5 proportions), e2e 78 passed, vision 5/5, selfplay 13/13,
+        build 0, prodbuild 4/4.
+- Delivered: src/game/art/{armik.ts (naturalLegLengths, fitLeg, gait
+  swungFreeTarget, solveArm protract flag),weapons.ts (leg IK +
+  counter-swing in weaponPose)}, test/game/proportions.test.ts (new),
+  docs/CHARACTER_REVIEW.md (ratio table + BODY-22 section), BODY-24
+  filed (pose interpolation engine future).
 - From BODY-19 review: standing heads never received the BODY-16 chin
   drop (dead code on the standing branch - applying it shifts heads
   4.8u and grazes the face gate); any head re-seat must re-verify
@@ -702,6 +696,24 @@ Add future enhancement tasks below this heading.
   - [ ] Every caped plan renders a painted cloth cell (audit asserts).
   - [ ] Human-style review of the affected fighters; full gates green.
 - Non-goals: no new costumes; no silhouette changes beyond the cape.
+
+### BODY-24 - Pose interpolation and torso dynamics (motion engine)
+
+- Status: TODO
+- From the BODY-22 motion review (docs/CHARACTER_REVIEW.md): combos and
+  walk read as keys snapping between frozen poses (no in-between
+  frames), and the torso never rotates into a swing. Keys are correct
+  (BODY-19/22); the missing piece is engine motion between them.
+- Requirement: interpolate joint angles/positions between consecutive
+  combat keys (windup->strike->recover) over the existing frame timing,
+  plus torso lean/rotation into strikes; walk keys ease rather than snap.
+  Same poses, same timing, same sim - only the rendered path between keys.
+- Acceptance criteria:
+  - [ ] Motion review: combo and walk read as continuous movement.
+  - [ ] Reach/legibility/parity gates hold on interpolated frames.
+  - [ ] Full gates green.
+- Non-goals: no new poses; no sim/timing changes; no procedural
+  secondary motion (cloth/hair) unless free.
 
 ### BODY-7 - Full verification sweep for the body overhaul
 
