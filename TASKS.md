@@ -12,38 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### BODY-2 - Paper-doll body pipeline, preparation, fallback, parity gates
-
-- Status: DONE (attempt 1, 2026-09-24 - owner overhaul goal, verified full-green)
-- Dependency: BODY-1 DONE.
-- Requirement: `src/game/art/body-parts.ts` (part list, pivots, draw order
-  interleaved with ART-18 head layers); renderer positioning parts from
-  pose-skeleton joints (mirror/lying/mounted handled); ART-18-style asset
-  chain (masters + provenance + preparation.json, shipping derivatives,
-  Vite-hashed imports, bounded boot preload, signature verification,
-  atomic per-fighter procedural fallback); ArtResources generalized to
-  fighter-id keys (heroArtResources kept working); silhouette-parity unit
-  gate (old-vs-new outline IoU floor per pose).
-- Acceptance criteria:
-  - [x] Unit tests (test/game/bodyparts.test.ts, 12): part table, fixture
-        preparation determinism + sha256/signatures, pivots/alpha bounds,
-        render presence + order, registry threading incl. headless mook
-        path, fallback byte-identity, publish atomicity (missing/
-        undersized/tampered rejected, heads preserved), mask-IoU unit
-        checks, 14-pose parity gate at 0.90.
-  - [x] Rig semantics unchanged (all 14 poses render for the wired
-        fixture pilot; production catalog empty so every shipped pixel
-        is still procedural).
-  - [x] Full gates green: lint, typecheck, unit 350/350 (+12), e2e
-        75/75, vision 5/5, selfplay 13/13, build, prodbuild 4/4.
-- Delivered: body-parts.ts (part defs, BodyArt, bodyPainter with axial
-  stretch + bulk lateral, maskIou, PARITY_FLOOR), draw.ts markers +
-  generalized paintWithHead + threading, registry bodies lookup,
-  ArtResources.bodies, body-art.ts adapter (explicit-catalog publish,
-  registry merge), BootScene wiring (no-op), scripts/
-  make-body-fixtures.mjs + .d.mts, committed fixtures + prepared.json.
-- Non-goals: no new fighter art beyond pipeline fixtures; no sim changes.
-
 ### BODY-3 - Five hero paper-doll bodies
 
 - Status: DONE (attempt 1, 2026-09-25 - owner overhaul goal, verified
@@ -678,7 +646,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-23 - Clean painted cells: holes, capes, boots
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC - owner round-3 goal,
+  verified full-green same day)
 - From the BODY-18 audit (docs/ART_AUDIT.md G5/G6/G8): (G6) the
   black-ground flood key eats near-black costume - interior keyed-hole
   share per cell 16-36% on Cao Cao, 12-22% Xiahou Dun, 8-24% Zhang
@@ -692,9 +661,30 @@ Add future enhancement tasks below this heading.
   boot overlay reduced to a ground-contact shadow so the painted boot
   shows.
 - Acceptance criteria:
-  - [ ] artaudit HOLE_CEILING lowered from 0.40 to 0.08 and green.
-  - [ ] Every caped plan renders a painted cloth cell (audit asserts).
-  - [ ] Human-style review of the affected fighters; full gates green.
+  - [x] artaudit HOLE_CEILING lowered 0.40 -> 0.08 and green (the
+        re-key is chroma-aware + interior fill: all keyed cells measure
+        0% interior holes; generated hand cells exempt - wrapF's pad
+        gaps are design).
+  - [x] Every caped plan renders a painted cloth cell (audit asserts;
+        6 plans: green/gold guanyu, blue/red zhaoyun, red/gold lubu,
+        purple/gold caocao, green/green zhangliao, green/green zhanghe;
+        lying mirror keeps the prone trail toward the feet).
+  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-23 section;
+        delegated eyes-on pass - this session's image display served
+        crossed previews): capes OK incl. prone, armour solid, boots
+        readable (lit welt/toe), hands unchanged. Root cause found:
+        the prep's 8% ankle raise mis-seated painted boots below the
+        ground (rig foot = sole line) - fixed; foot gate re-pointed at
+        the painted boots (17/17). Full gates green: lint 0, typecheck
+        0, unit 635/635 (58 files), e2e 78 passed, vision 5/5, selfplay
+        13/13, build 0, prodbuild 4/4.
+- Delivered: scripts/prepare-body-parts.mjs (chroma-aware re-key +
+  interior fill, foot = sole, generated cloth cells + lying mirror),
+  src/game/art/{draw.ts (contact shadow + welt/glint),body-parts.ts
+  (lying mirror)}, test/game/{artaudit.test.ts (0.08 ceiling + cloth
+  assertion),footcheck.test.ts (re-pointed),bodyparts.test.ts (cloth
+  exemption)}, 17 body sheets + 3 prepared.json (revision body-4),
+  docs updates.
 - Non-goals: no new costumes; no silhouette changes beyond the cape.
 
 ### BODY-24 - Pose interpolation and torso dynamics (motion engine)

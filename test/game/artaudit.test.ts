@@ -28,8 +28,17 @@ const PAINTED_BODY: BodyPartName[] = [
   'gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF',
 ]
 const HEAD_FILES = ['portrait', 'head', 'front', 'rear'] as const
-/** Max interior keyed-hole share per body cell (ratchet; see BODY-23). */
-const HOLE_CEILING = 0.4
+/**
+ * Keyed cells: cut from the masters and run through the BODY-23 re-key.
+ * The hole ceiling applies to these only. Hand cells are GENERATED
+ * (no keying): wrapF's row spans legitimately cross the gaps between its
+ * three fingertip pads (36% by design), and grip/relax cells are solid.
+ */
+const KEYED_CELLS: BodyPartName[] = [
+  'torso', 'upperArmF', 'foreArmF', 'thighF', 'shinF', 'thighN', 'shinN', 'upperArmN', 'foreArmN',
+]
+/** Max interior keyed-hole share per keyed cell (BODY-23 ratchet closed). */
+const HOLE_CEILING = 0.08
 /** Drawn by code for every fighter today (draw.ts / weapons.ts). */
 const PROCEDURAL_PARTS = [
   'boot overlays (drawBoot)',
@@ -113,13 +122,15 @@ describe('BODY-18 art-materials audit', () => {
         }
         const fill = opaque / (c.w * c.h)
         const holeFrac = holes / Math.max(1, inner)
-        // Floor: a cell under 15% is effectively missing (Wei Yan's forearm
-        // cells are ~20%: the sleeve lives in the upper arm, the forearm cell
-        // is almost only the open hand - ART_AUDIT gap G3).
+        // Floor: a cell under 15% is effectively missing (this caught Wei
+        // Yan's hand-only forearm cells - gap G3, fixed in BODY-19).
         if (fill < 0.15) gaps.push(`${id}: body cell ${name} nearly empty (${(fill * 100).toFixed(0)}% opaque)`)
-        // Ratchet, not a pass mark: today's worst is Cao Cao at 36%. BODY-23
-        // re-keys the dark costumes and lowers this to 8%.
-        if (holeFrac > HOLE_CEILING) gaps.push(`${id}: body cell ${name} ${(holeFrac * 100).toFixed(0)}% keyed holes`)
+        // Ratchet closed (BODY-23): keyed cells hold 0% interior holes -
+        // the re-key restores every row-span hole to the master's matte.
+        // Generated hand cells are exempt (wrapF's pad gaps are design).
+        if (KEYED_CELLS.includes(name) && holeFrac > HOLE_CEILING) {
+          gaps.push(`${id}: body cell ${name} ${(holeFrac * 100).toFixed(0)}% keyed holes`)
+        }
         row[`body.${name}`] = `painted (${(fill * 100).toFixed(0)}% fill, ${(holeFrac * 100).toFixed(0)}% holes)`
         const s = Math.min((cw - 10) / c.w, (chh - 10) / c.h)
         const ox = (i % cols) * cw
@@ -129,9 +140,18 @@ describe('BODY-18 art-materials audit', () => {
         g.fillText(`${name}`, ox + 4, oy + 13)
       }
       writeFileSync(`artifacts/look/audit/${id}-cells.png`, board.toBuffer('image/png'))
-      // Cloth/cape: painted slot exists in the table but no master was cut
-      // for it; a caped plan therefore keeps the procedural cape.
-      row['body.cloth'] = plan.cape ? (parts.cloth ? 'painted' : 'procedural (cape plan, no cut)') : 'n/a (no cape)'
+      // Cloth/cape: BODY-23 paints cloth cells for every caped plan (G5),
+      // so a caped plan WITHOUT one is a gap, not a disposition note.
+      if (plan.cape) {
+        if (parts.cloth) {
+          row['body.cloth'] = 'painted'
+        } else {
+          row['body.cloth'] = 'MISSING'
+          gaps.push(`${id}: caped plan lacks a painted cloth cell`)
+        }
+      } else {
+        row['body.cloth'] = 'n/a (no cape)'
+      }
       for (const p of PROCEDURAL_PARTS) row[p] = 'procedural'
       row.weaponKind = plan.weapon
       inventory[id] = row

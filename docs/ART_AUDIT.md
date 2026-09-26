@@ -20,12 +20,12 @@ not from the numbers alone.
 | Upper arms N/F | painted cells | yes | fine | - |
 | Forearms N/F | painted cells, **cut from T-pose masters, ending in an OPEN PALM** | yes | the palm reads as a flesh paddle under the procedural fist: "two hands" | G2 -> BODY-19 |
 | Thighs/shins N/F | painted cells | yes | fine; see holes, G6 | G6 -> BODY-23 |
-| Cloth/cape | **procedural flat polygon** (no cloth cell is cut) for the 6 caped plans: guanyu, zhaoyun, lubu, caocao, zhangliao, zhanghe | no painted source | a flat single-tone sheet behind painted armour | G5 -> BODY-23 |
+| Cloth/cape | painted cloth cells (BODY-23), generated in the fighters' colours with fold shading + trim hem | 6 caped plans | painted cloth, not flat polygon | G5 resolved by BODY-23 |
 | Near grip fist | painted cell `gripN` on the body sheet, skin-matched | all 17 | soft-shaded fist, no ink | G1 resolved by BODY-20 |
 | Far grip fist + fingertips | painted cells `gripF` + `wrapF` (far shaded) | all 17 | fist rides under the haft, fingertips cross over it | G1 resolved by BODY-20 |
 | Relaxed far hand | painted cells `relaxN`/`relaxF` (open hands) | all 17 | - | G1 resolved by BODY-20 |
 | Weapon (haft, head, tassel, ferrule, butt) | painted shared sheet `weapons-sheet.png`, 7 kinds + tassel | all 17 | wood/steel/brass/cloth, no ink; same length/grip/rotation | G4 resolved by BODY-21 |
-| Boots | **procedural** overlay (`drawBoot`) over the painted shin cells | code for all | tan/brown pills; they hide the painted boot | G8 -> BODY-23 |
+| Boots | ground-contact shadow + lit sole welt/toe glint (BODY-23) over the painted shin boots | all 17 | painted boots show; welt keeps dark toes readable | G8 resolved by BODY-23 |
 | Neck | **procedural** flat skin tube (`limbPath(neck, chest)`) | code for all | a flat skin wedge over the painted collar (Lu Bu, Xiahou Dun, Xu Chu, soldier) | G7 -> BODY-19 |
 | Horse (mount) | painted `horse/horse-sheet.png` from `horse-master.jpg` | 1 shared | fine (ART-era review) | - |
 
@@ -50,18 +50,25 @@ not from the numbers alone.
   within 3u, reach gates re-verified on painted renders). Boot
   signature-verifies the pack; a missing/corrupt pack falls back to the
   procedural weapons for the whole cast.
-- **G5 - capes are procedural** on the 6 caped plans. -> BODY-23.
-- **G6 - keyed holes in dark costumes.** The black-ground flood key
-  (tolerance 10) eats near-black lacquer and cloth. Interior-hole share
-  by row span: Cao Cao 16-36% on every cell, Xiahou Dun 12-22%, Zhang
-  Liao 8-24%, Zhang He 11-21%, Lu Bu shinF 23%. In game this reads as
-  moth-eaten, speckled edges on the boss bodies. -> BODY-23 (re-key with
-  an interior fill / matte, not a looser tolerance). The audit test
-  ratchets the ceiling at 40% today; BODY-23 lowers it to 8%.
+- **G5 - RESOLVED by BODY-23.** The 6 caped plans (guanyu, zhaoyun,
+  lubu, caocao, zhangliao, zhanghe) now render generated painted cloth
+  cells in their plan colours with fold shading and a trim hem (the
+  procedural quad silhouette kept for parity); the audit asserts every
+  caped plan ships one.
+- **G6 - RESOLVED by BODY-23.** The re-key is chroma-aware (background
+  is dark AND achromatic - chromatic dark is costume and is never keyed)
+  plus an interior fill (row-span holes keep the master's matte). All
+  keyed cells measure 0% interior holes; the audit ceiling is lowered
+  to 0.08 and green.
 - **G7 - flat neck tube** over the painted collar. -> BODY-19.
-- **G8 - procedural boots** hide the painted boots in the shin cells.
-  -> BODY-23 (let the painted boot show; keep only a ground-contact
-  shadow).
+- **G8 - RESOLVED by BODY-23.** The boot overlays are reduced to a
+  ground-contact shadow plus a lit sole welt and toe glint (the one
+  readability element of the overlay, kept in miniature for dark
+  lacquer boots which measure mean toe luminance 16 without it). Root
+  cause found en route: the prep derived the foot joint at the ANKLE
+  (an 8% raise) while the rig foot joint is the SOLE line - the painted
+  boots hung below the ground and the overlay covered the gap. Fixed:
+  feet now land on the master's sole.
 
 ## 3. Every master under `art/` and its consumer
 

@@ -15,6 +15,21 @@ export const DENSITY = 4
 /** Flood-key tolerance. 16 ate into near-black costume (trouser folds);
  * 10 keeps the key while sparing anything the painter actually painted. */
 export const KEY_TOLERANCE = 10
+/**
+ * BODY-23 (G6) re-key. The old border flood crawled through the master's
+ * dark OUTLINE into near-black costume and ate whole interior regions -
+ * measured 16-36% interior-hole share on Cao Cao's lacquer armour. Two
+ * changes, neither of them a looser tolerance:
+ *
+ * 1. Background is dark AND ACHROMATIC (chroma <= KEY_CHROMA): the flood's
+ *    ground is true black, while costume carries hue even at near-black
+ *    luminance. Chromatic dark pixels are costume and are NEVER keyed,
+ *    so the key cannot leak through a blue-black or brown-black garment.
+ * 2. Interior fill: transparent pixels NOT connected to the cell border
+ *    stay opaque with the master's matte - "holes not connected to the
+ *    cell border stay opaque / matte from the master".
+ */
+export const KEY_CHROMA = 6
 export const FAR_SHADE = 0.82
 /**
  * BODY-19 wrist cut: forearm cells end at the wrist (this fraction along
@@ -257,6 +272,7 @@ export const HEROES = {
   guanyu: {
     master: 'art/fighter-bodies/guanyu-body-master.jpg',
     skin: '#a8442f',
+    cape: { body: '#2a7a2a', trim: '#d8c060' },
     joints: {
       chest: [416, 374], hip: [416, 686],
       shoulderF: [266, 300], elbowF: [188, 392], handF: [70, 546],
@@ -290,6 +306,7 @@ export const HEROES = {
   zhaoyun: {
     master: 'art/fighter-bodies/zhaoyun-body-master.jpg',
     skin: '#f4d0ac',
+    cape: { body: '#2f5fb3', trim: '#c84a4a' },
     joints: {
       chest: [360, 384], hip: [360, 602],
       shoulderF: [238, 333], elbowF: [165, 458], handF: [55, 613],
@@ -340,6 +357,7 @@ export const HEROES = {
     master: 'art/fighter-bodies/lubu-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
     skin: '#f0c8a0',
+    cape: { body: '#a82222', trim: '#e8c828' },
     joints: {
       chest: [416, 430], hip: [416, 640],
       shoulderF: [300, 360], elbowF: [212, 470], handF: [45, 600],
@@ -352,6 +370,7 @@ export const HEROES = {
     master: 'art/fighter-bodies/caocao-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
     skin: '#d8b48c',
+    cape: { body: '#452073', trim: '#c8a828' },
     joints: {
       chest: [416, 420], hip: [416, 640],
       shoulderF: [290, 360], elbowF: [202, 448], handF: [62, 577],
@@ -388,6 +407,7 @@ export const HEROES = {
     master: 'art/fighter-bodies/zhangliao-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
     skin: '#e0bc94',
+    cape: { body: '#1f4a33', trim: '#5aa87e' },
     joints: {
       chest: [416, 400], hip: [416, 645],
       shoulderF: [290, 355], elbowF: [202, 457], handF: [55, 600],
@@ -424,6 +444,7 @@ export const HEROES = {
     master: 'art/fighter-bodies/zhanghe-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
     skin: '#e8c4a0',
+    cape: { body: '#2d5a49', trim: '#6ec0a0' },
     joints: {
       chest: [416, 410], hip: [416, 650],
       shoulderF: [290, 360], elbowF: [205, 451], handF: [62, 582],
@@ -458,6 +479,83 @@ const PARTS = [
   { name: 'foreArmN', from: 'elbowN', to: 'handN', wA: 7.4, wB: 5.6, pre: 0.2, post: 0.5 },
 ]
 
+/**
+ * BODY-23 (G5) painted cape. The procedural cape is a flat quad
+ * (figureShapes' clothShade polygon); the painted cell keeps that
+ * silhouette - parity and appendage unchanged - and paints actual cloth:
+ * fold fans, a lit shoulder band, a trim hem and a dark rim so the
+ * silhouette holds against bright skies. Pivot at the shoulderN end, +y
+ * toward the hip (the painter rotates there), trail side at -x (behind
+ * the figure). A lying figure mirrors the cell in the painter, so the
+ * cape trails toward the feet there too.
+ */
+function paintClothCell(cape) {
+  const W = 26 * DENSITY
+  const H = 48 * DENSITY
+  const cell = createCanvas(W, H)
+  const c = cell.getContext('2d')
+  c.translate(22 * DENSITY, 5.5 * DENSITY)
+  c.scale(DENSITY, DENSITY)
+  const shape = () => {
+    c.beginPath()
+    c.moveTo(-12, -4)
+    c.lineTo(1, -4)
+    c.quadraticCurveTo(-2, 22, -7, 41)
+    c.quadraticCurveTo(-13, 39, -21, 33)
+    c.quadraticCurveTo(-18, 14, -12, -4)
+    c.closePath()
+  }
+  c.fillStyle = cape.body
+  shape()
+  c.fill()
+  c.save()
+  shape()
+  c.clip()
+  // Depth: darker toward the trail edge, lit at the shoulder; darker hem.
+  const across = c.createLinearGradient(-21, 0, 1, 0)
+  across.addColorStop(0, 'rgba(0,0,0,0.38)')
+  across.addColorStop(0.45, 'rgba(0,0,0,0.08)')
+  across.addColorStop(0.8, 'rgba(255,246,228,0.12)')
+  across.addColorStop(1, 'rgba(255,246,228,0.22)')
+  c.fillStyle = across
+  c.fillRect(-24, -6, 30, 50)
+  const down = c.createLinearGradient(0, -4, 0, 42)
+  down.addColorStop(0, 'rgba(255,246,228,0.16)')
+  down.addColorStop(0.4, 'rgba(255,246,228,0)')
+  down.addColorStop(1, 'rgba(0,0,0,0.32)')
+  c.fillStyle = down
+  c.fillRect(-24, -6, 30, 50)
+  // Fold fan from the shoulder toward the hem.
+  c.strokeStyle = 'rgba(0,0,0,0.16)'
+  c.lineWidth = 1.6
+  c.lineCap = 'round'
+  for (const [x0, x1] of [[-3, -9], [-8, -15], [-12.5, -19]]) {
+    c.beginPath()
+    c.moveTo(x0, -1)
+    c.quadraticCurveTo((x0 + x1) / 2 + 1, 20, x1, 36)
+    c.stroke()
+  }
+  // Trim hem band along the hem edge (clipped to half its width).
+  c.strokeStyle = cape.trim
+  c.lineWidth = 3.2
+  c.beginPath()
+  c.moveTo(-7, 41)
+  c.quadraticCurveTo(-13, 39, -21, 33)
+  c.stroke()
+  c.restore()
+  // Dark interior rim: the painted body colours read dark already, but
+  // the lit side must still hold an edge (BODY-21's outline-gate lesson).
+  c.save()
+  shape()
+  c.clip()
+  c.strokeStyle = 'rgba(26,18,10,0.85)'
+  c.lineWidth = 0.8
+  shape()
+  c.stroke()
+  c.restore()
+  return { cell, cw: W, ch: H }
+}
+
 function signature(im) {
   let hex = ''
   for (let by = 0; by < 32; by++) for (let bx = 0; bx < 48; bx++) {
@@ -474,33 +572,66 @@ function signature(im) {
   return hex
 }
 
-function floodKey(ctx, w, h, tol) {
+/**
+ * BODY-23 (G6) re-key: dark + achromatic = background; chromatic dark =
+ * costume, never keyed. Transparent pixels not connected to the cell
+ * border are then restored to the master's matte (interior fill).
+ */
+function keyCell(ctx, w, h, tol) {
   const im = ctx.getImageData(0, 0, w, h)
   const d = im.data
-  const lum = (x, y) => {
-    const p = (y * w + x) * 4
-    return (d[p] + d[p + 1] + d[p + 2]) / 3
+  const bg = new Uint8Array(w * h)
+  for (let y = 0; y < h; y += 1) {
+    for (let x = 0; x < w; x += 1) {
+      const i = y * w + x
+      const p = i * 4
+      const r = d[p]
+      const g = d[p + 1]
+      const b = d[p + 2]
+      const lum = (r + g + b) / 3
+      const chroma = Math.max(r, g, b) - Math.min(r, g, b)
+      if (lum <= tol && chroma <= KEY_CHROMA) {
+        bg[i] = 1
+        d[p + 3] = 0
+      }
+    }
   }
-  // Seed EVERY dark border pixel, not just the corners: figure content may
-  // touch an edge (torso shoulders span nearly the full cell width), and
-  // corner-only seeding then strands whole background regions unkeyed.
+  // Interior fill: flood the border-connected background, then restore
+  // every transparent pixel the flood could NOT reach - those are interior
+  // holes and keep the master's matte instead of punching through.
   const seen = new Uint8Array(w * h)
   const stack = []
-  for (let x = 0; x < w; x += 1) {
-    stack.push([x, 0], [x, h - 1])
-  }
-  for (let y = 0; y < h; y += 1) {
-    stack.push([0, y], [w - 1, y])
-  }
+  for (let x = 0; x < w; x += 1) stack.push([x, 0], [x, h - 1])
+  for (let y = 0; y < h; y += 1) stack.push([0, y], [w - 1, y])
   while (stack.length > 0) {
     const [x, y] = stack.pop()
     if (x < 0 || y < 0 || x >= w || y >= h) continue
     const i = y * w + x
     if (seen[i]) continue
-    if (lum(x, y) > tol) continue
+    if (!bg[i]) continue
     seen[i] = 1
-    d[i * 4 + 3] = 0
     stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1])
+  }
+  for (let i = 0; i < w * h; i += 1) {
+    if (bg[i] && !seen[i]) d[i * 4 + 3] = 255
+  }
+  // Interior fill part two: every transparent pixel INSIDE a row's painted
+  // span (opaque on both sides of its row) is a hole by the audit's own
+  // definition - the moth-eaten look, whatever flood path reaches it. Such
+  // pixels keep the master's matte. Gaps that open to a cell edge before
+  // the first or after the last opaque pixel (true silhouette, and the
+  // continuation of neighbouring cells' separations) stay transparent.
+  for (let y = 0; y < h; y += 1) {
+    let x = 0
+    while (x < w) {
+      if (!bg[y * w + x]) { x += 1; continue }
+      const x0 = x
+      while (x < w && bg[y * w + x]) x += 1
+      const x1 = x - 1
+      if (x0 > 0 && x1 < w - 1) {
+        for (let k = x0; k <= x1; k += 1) d[(y * w + k) * 4 + 3] = 255
+      }
+    }
   }
   ctx.putImageData(im, 0, 0)
 }
@@ -517,7 +648,10 @@ export async function prepareHero(id) {
     const e = J[`elbow${side}`]
     const t = J[`hand${side}`]
     J[`hand${side}`] = [e[0] + (t[0] - e[0]) * PALM_FRACTION, e[1] + (t[1] - e[1]) * PALM_FRACTION]
-    J[`foot${side}`][1] -= img.height * 0.08
+    // BODY-23 (G8): the foot joint STAYS at the master's boot sole - the rig
+    // foot joint is the sole line (drawBoot draws its sole at the joint =
+    // GROUND). The old 8% raise mapped the ANKLE to the ground, so the boot
+    // hung below the frame and the boot overlay covered the gap.
   }
   const joints = J
   // Logical scale: master px per logical unit from the torso span.
@@ -552,7 +686,7 @@ export async function prepareHero(id) {
     c.scale(s, s)
     c.translate(-a[0], -a[1])
     c.drawImage(img, 0, 0)
-    floodKey(c, cw, chh, KEY_TOLERANCE)
+    keyCell(c, cw, chh, KEY_TOLERANCE)
     if (p.name === 'foreArmF' || p.name === 'foreArmN') {
       // BODY-19 wrist cut: erase everything past the wrist row. The cell
       // axis runs elbow (A) at pre/(pre+1+post) to palm (B) one span later,
@@ -592,6 +726,13 @@ export async function prepareHero(id) {
     sheetW += cw
     sheetH = Math.max(sheetH, chh)
   }
+  // BODY-23 painted cape (G5): a generated cloth cell for caped fighters.
+  if (spec.cape) {
+    const { cell, cw, ch } = paintClothCell(spec.cape)
+    cells.push({ name: 'cloth', cell, cw, ch, px: 22 * DENSITY, py: 5.5 * DENSITY })
+    sheetW += cw
+    sheetH = Math.max(sheetH, ch)
+  }
   const sheet = createCanvas(sheetW, sheetH)
   const sctx = sheet.getContext('2d')
   let ox = 0
@@ -625,7 +766,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-3',
+        revision: 'body-4',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },

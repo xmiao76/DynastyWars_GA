@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-27 01:20 UTC - BODY-23 (attempt 1, clean painted cells)
+
+- Status before: BODY-23 TODO (BODY-18 audit G5/G6/G8: moth-eaten
+  keyed holes, procedural capes, boot overlays hiding painted boots).
+- Work completed: (G6) chroma-aware re-key (background = dark +
+  achromatic; chromatic dark is costume and never keyed) plus interior
+  fill (row-span holes keep the master's matte) - every keyed cell
+  measures 0% interior holes, ceiling 0.08 green; (G5) generated
+  painted cloth cells for the 6 caped plans in plan colours with fold
+  shading + trim hem, mirrored for the prone trail; (G8) boot overlays
+  reduced to a ground-contact shadow with a lit sole welt + toe glint
+  (dark lacquer boots measured mean toe lum 16 without it). Root cause
+  found: the prep's 8% ankle raise mis-seated painted boots below the
+  ground line (the rig foot joint is the SOLE) - feet now land on the
+  master's sole; the BODY-9 foot gate re-pointed at the painted boots
+  (contract unchanged: drawn, not dark-on-dark, tonally structured).
+  Eyes-on review delegated to a fresh reviewer (this session's image
+  display served crossed/stale previews; noted in the review doc).
+- Files changed: scripts/prepare-body-parts.mjs,
+  src/game/art/{draw.ts,body-parts.ts},
+  test/game/{artaudit.test.ts,footcheck.test.ts,bodyparts.test.ts},
+  17 body sheets + 3 prepared.json (revision body-4),
+  docs/{ART_AUDIT.md (G5/G6/G8 resolved),CHARACTER_REVIEW.md (BODY-23
+  section)}, TASKS.md (BODY-23 DONE, BODY-2 archived),
+  TASKS-ARCHIVE.md (BODY-2), PROGRESS.md.
+- Verification run: eslint 0; tsc 0; vitest 635/635 (58 files);
+  browser gates (artifacts/run-body2-gates.ps1): E2E=0 (78 passed),
+  VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Result: BODY-23 acceptance met; all three gaps closed and reviewed.
+- Status after: BODY-23 DONE.
+- Remaining work or blocker: BODY-24 (pose interpolation, engine) then
+  the BODY-7 re-review sweep; owner acceptance of round 3 outstanding.
+- Next recommended task: BODY-7 final sweep.
+
 ### 2026-09-26 23:30 UTC - BODY-22 (attempt 1, proportions + natural motion)
 
 - Status before: BODY-22 TODO (owner round-3 objection (c): correct

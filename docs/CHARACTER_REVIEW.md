@@ -408,3 +408,39 @@ both limbs now); jump tucks; special commits deep; enemies react and
 fall prone correctly. No leg swimming, collapsing, or detachment
 anywhere. Remaining: keys still snap without in-betweens and the
 torso never twists - engine work, filed as BODY-24.
+
+### 2026-09-27 (BODY-23 vision check, post-enhancement)
+
+Scope: G5 painted capes (6 plans), G6 re-keyed cells (moth-eaten holes
+gone, ceiling 0.08 green), G8 boots (overlay reduced to contact shadow
++ lit welt/glint so the painted boots show).
+
+**Root cause found en route (G8):** the prep derived the foot joint at
+the ANKLE (an 8% raise) while the rig foot joint is the SOLE line - so
+painted boots hung below the ground and the old overlay covered the
+gap. Fixed at the source: feet land on the master's sole. The foot
+gate (BODY-9 contract "toe caps readable") was re-pointed at the
+painted boots: drawn >= 24px, mean luminance >= 30, tonal spread >= 25
+in idle/walk0/walk1 - 17/17 green, including Cao Cao's lacquer boots
+(mean toe lum was 16 before the welt/glint).
+
+**Eyes-on review (delegated):** this session's image-display layer
+began serving crossed/stale previews (metadata correct, pixels from
+other files), so the visual pass ran on a fresh reviewer with its own
+attachment store, over guanyu/caocao 3-cell sheets (idle/attack/down)
+and the hand cells:
+
+- "The cape belongs to him now." - green + gold-trim cape behind Guan
+  Yu in idle/attack; purple cape behind Cao Cao; both trail toward
+  the feet in the prone pose (subtle at size - noted, not a defect).
+- "The armour is solid." - Cao Cao's lacquer reads continuous with
+  gold trim: no moth-eaten speckle, no backdrop bleed-through (the
+  G6 re-key + interior fill verified in pixels too: 0% interior holes
+  on every keyed cell).
+- "Boots on the ground, with a toe." - lit toe cap + sole line at the
+  ground in both fighters, including against the dark armour.
+- Hands unchanged from BODY-20: soft-shaded, no outline rings.
+
+**Verdict:** all three gaps closed; no player-visible defect at
+40-90px game size. Optional polish only: the prone cape trail reads
+subtle (BODY-24 may sweep it with the interpolation work).

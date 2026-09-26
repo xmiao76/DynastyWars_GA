@@ -112,12 +112,15 @@ export type BodyPainter = (ctx: CanvasRenderingContext2D, part: BodyPartName) =>
 /**
  * A painter closure over one pose: draws `part` spanning its joints. `bulk`
  * is the fighter's build bulk (fixtures are painted at 1.0). The caller
- * owns the transform stack; each part saves/restores.
+ * owns the transform stack; each part saves/restores. `lying` mirrors the
+ * cloth cell: a prone cape trails toward the feet (the procedural polygon
+ * flips its trail side the same way), so the painted cape flips with it.
  */
 export function bodyPainter(
   art: BodyArt,
   joints: Readonly<Record<string, Pt>>,
   bulk: number,
+  lying = false,
 ): BodyPainter {
   return (ctx, part) => {
     const def = BODY_PART_DEFS[part]
@@ -133,6 +136,7 @@ export function bodyPainter(
     ctx.translate(a.x, a.y)
     ctx.rotate(Math.atan2(dy, dx) - Math.PI / 2)
     ctx.scale(bulk, dist / def.naturalLen)
+    if (part === 'cloth' && lying) ctx.scale(-1, 1)
     // Source rect in device px, dest rect converted to logical units: the
     // caller draws in canonical figure space. Forgetting the density once
     // rendered every part 4x too large and buried the far side entirely.

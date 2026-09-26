@@ -4011,3 +4011,35 @@ and the three pre-redesign enhancements - all DONE and verified)
   BODY-2 part inventory), pilots in artifacts/look/body1-*, baselines,
   parity-harness validation, joint inventory, insertion-contract mapping.
 - Non-goals: no pipeline code; no other fighters.
+
+### BODY-2 - Paper-doll body pipeline, preparation, fallback, parity gates
+
+- Status: DONE (attempt 1, 2026-09-24 - owner overhaul goal, verified full-green)
+- Dependency: BODY-1 DONE.
+- Requirement: `src/game/art/body-parts.ts` (part list, pivots, draw order
+  interleaved with ART-18 head layers); renderer positioning parts from
+  pose-skeleton joints (mirror/lying/mounted handled); ART-18-style asset
+  chain (masters + provenance + preparation.json, shipping derivatives,
+  Vite-hashed imports, bounded boot preload, signature verification,
+  atomic per-fighter procedural fallback); ArtResources generalized to
+  fighter-id keys (heroArtResources kept working); silhouette-parity unit
+  gate (old-vs-new outline IoU floor per pose).
+- Acceptance criteria:
+  - [x] Unit tests (test/game/bodyparts.test.ts, 12): part table, fixture
+        preparation determinism + sha256/signatures, pivots/alpha bounds,
+        render presence + order, registry threading incl. headless mook
+        path, fallback byte-identity, publish atomicity (missing/
+        undersized/tampered rejected, heads preserved), mask-IoU unit
+        checks, 14-pose parity gate at 0.90.
+  - [x] Rig semantics unchanged (all 14 poses render for the wired
+        fixture pilot; production catalog empty so every shipped pixel
+        is still procedural).
+  - [x] Full gates green: lint, typecheck, unit 350/350 (+12), e2e
+        75/75, vision 5/5, selfplay 13/13, build, prodbuild 4/4.
+- Delivered: body-parts.ts (part defs, BodyArt, bodyPainter with axial
+  stretch + bulk lateral, maskIou, PARITY_FLOOR), draw.ts markers +
+  generalized paintWithHead + threading, registry bodies lookup,
+  ArtResources.bodies, body-art.ts adapter (explicit-catalog publish,
+  registry merge), BootScene wiring (no-op), scripts/
+  make-body-fixtures.mjs + .d.mts, committed fixtures + prepared.json.
+- Non-goals: no new fighter art beyond pipeline fixtures; no sim changes.

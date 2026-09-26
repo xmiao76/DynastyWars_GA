@@ -1,8 +1,7 @@
-﻿import { createCanvas, loadImage } from '@napi-rs/canvas'
+import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { drawFigure } from '../../src/game/art/draw'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
-import { LEATHER, css, tint } from '../../src/game/art/palette'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 import { applyBuild } from '../../src/game/art/rig'
 import { weaponPose } from '../../src/game/art/weapons'
@@ -15,11 +14,16 @@ import type { BodyArt } from '../../src/game/art/body-parts'
  * against the background, unoccluded (drawn over hems and hafts), in
  * idle/walk0/walk1. Before the fix the painted boots were dark-on-dark
  * under the robe hems and the weapon butt.
+ *
+ * BODY-23 (G8) re-pointed: the leather boot OVERLAY is gone on painted
+ * shins - it hid the master's own boots - so the readable toe must come
+ * from the painted boot itself. The contract is unchanged: the toe zone
+ * must be drawn (>= 24 px), not dark-on-dark (mean luminance >= 30) and
+ * not a flat slab (luminance spread >= 25, i.e. a cap highlight exists).
  */
 type Ctx = CanvasRenderingContext2D
 const SCALE = 2
 const STANDING: PoseName[] = ['idle', 'walk0', 'walk1']
-const TOE = css(tint(LEATHER, 0.3))
 
 const FIGHTERS: Array<{ id: string; dir: 'hero-faces' | 'boss-faces' | 'mook-faces'; bodyDir: 'hero-bodies' | 'mook-bodies' | 'boss-bodies' | null }> = [
   { id: 'guanyu', dir: 'hero-faces', bodyDir: 'hero-bodies' },
@@ -84,23 +88,25 @@ describe('BODY-9 feet visible at gameplay size', () => {
       const data = ctx.getImageData(0, 0, 120 * SCALE, 110 * SCALE).data
       const W = 120 * SCALE
       // Toe zone: ahead of the near foot, on the ground line.
-      let toe = 0
       let lum = 0
+      let lumMin = 255
+      let lumMax = 0
       let inkedN = 0
-      const t = TOE.slice(1)
-      const tone: [number, number, number] = [parseInt(t.slice(0, 2), 16), parseInt(t.slice(2, 4), 16), parseInt(t.slice(4, 6), 16)]
       for (let y = Math.round((pose.footN.y - 4) * SCALE); y <= Math.round(pose.footN.y * SCALE); y += 1) {
         for (let x = Math.round((pose.footN.x + 1) * SCALE); x <= Math.round((pose.footN.x + 7) * SCALE); x += 1) {
           if (x < 0 || y < 0 || x >= W || y >= 110 * SCALE) continue
           const p = (y * W + x) * 4
           if ((data[p + 3] ?? 0) < 128) continue
           inkedN += 1
-          if (data[p] === tone[0] && data[p + 1] === tone[1] && data[p + 2] === tone[2]) toe += 1
-          lum += (data[p] ?? 0) * 0.299 + (data[p + 1] ?? 0) * 0.587 + (data[p + 2] ?? 0) * 0.114
+          const l = (data[p] ?? 0) * 0.299 + (data[p + 1] ?? 0) * 0.587 + (data[p + 2] ?? 0) * 0.114
+          lum += l
+          if (l < lumMin) lumMin = l
+          if (l > lumMax) lumMax = l
         }
       }
-      expect(toe, `${id}:${poseName} toe cap missing (${toe}px)`).toBeGreaterThanOrEqual(24)
+      expect(inkedN, `${id}:${poseName} toe zone empty (${inkedN}px)`).toBeGreaterThanOrEqual(24)
       expect(lum / Math.max(1, inkedN), `${id}:${poseName} toe too dark`).toBeGreaterThanOrEqual(30)
+      expect(lumMax - lumMin, `${id}:${poseName} toe flat, no cap highlight (${Math.round(lumMax - lumMin)})`).toBeGreaterThanOrEqual(25)
     }
   }, 30_000)
 })

@@ -196,7 +196,7 @@ export function drawFigure(
   // BODY-20: painted hand cells ride the body sheet; the limb painter and
   // the hand painter are dispatched through ONE BodyPainter so paintWithHead
   // keeps its single `body` hook.
-  const limbPaint = body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk) : undefined
+  const limbPaint = body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk, pose.lying === true) : undefined
   const handPaint = body ? handCellPainter(body, pose, plan.build.bulk) : undefined
   const bodyPaint: BodyPainter | undefined = body
     ? (c, part) => {
@@ -256,8 +256,54 @@ export function drawFigure(
   // into the foot zone. A painted-style boot overlay at each foot (drawn
   // over hems and haft) gives every fighter a readable toe cap and sole
   // line. Flat on the ground line, the old footShape convention.
-  drawBoot(ctx, pose.footF, plan.build.bulk, css(shade(LEATHER, 0.34)), css(LEATHER), css(shade(LEATHER, 0.5)))
-  drawBoot(ctx, pose.footN, plan.build.bulk, css(LEATHER), css(tint(LEATHER, 0.3)), css(tint(LEATHER, 0.18)))
+  //
+  // BODY-23 (G8): those overlays HID the master's own painted boots. On
+  // painted shins they reduce to a ground-contact shadow, so the painted
+  // boot shows; the full procedural boot stays on the no-art path.
+  if (body?.parts.shinF && body?.parts.shinN) {
+    drawContactShadow(ctx, pose.footF, plan.build.bulk, 'rgba(20,14,30,0.30)')
+    drawContactShadow(ctx, pose.footN, plan.build.bulk, 'rgba(20,14,30,0.40)')
+  } else {
+    drawBoot(ctx, pose.footF, plan.build.bulk, css(shade(LEATHER, 0.34)), css(LEATHER), css(shade(LEATHER, 0.5)))
+    drawBoot(ctx, pose.footN, plan.build.bulk, css(LEATHER), css(tint(LEATHER, 0.3)), css(tint(LEATHER, 0.18)))
+  }
+}
+
+/**
+ * Ground contact at the foot (BODY-23, G8): a soft dark ellipse at the
+ * sole, slightly toe-forward like the boot it replaces - plus the ONE
+ * readability element kept from the BODY-9 overlay, in miniature: a lit
+ * sole welt and a toe glint. Dark painted boots (Cao Cao's lacquer
+ * measured mean luminance 16 at the toe) are dark-on-dark again without
+ * it, which is the exact defect the overlay was built to fix; a 2-line
+ * welt restores the lit toe while the painted boot itself shows.
+ */
+function drawContactShadow(
+  ctx: CanvasRenderingContext2D,
+  foot: Pt,
+  bulk: number,
+  color: string,
+): void {
+  ctx.save()
+  ctx.translate(foot.x, foot.y)
+  const cx = 1.6 * bulk
+  const cy = -1.1
+  const g = ctx.createRadialGradient(cx, cy, 0.3, cx, cy, 7.2 * bulk)
+  g.addColorStop(0, color)
+  g.addColorStop(1, 'rgba(20,14,30,0)')
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, 7.2 * bulk, 1.7 * bulk, 0, 0, Math.PI * 2)
+  ctx.fill()
+  // Sole welt: the light line along the boot's bottom edge, at the ground.
+  ctx.fillStyle = css(tint(LEATHER, 0.34))
+  limbPath(ctx, { x: -2.4 * bulk, y: -1.7 }, { x: 6.6 * bulk, y: -1.7 }, 1.15 * bulk, 0.95 * bulk)
+  ctx.fill()
+  // Toe glint: the cap highlight that makes the toe read at 20px.
+  ctx.fillStyle = css(tint(LEATHER, 0.5))
+  ovalPath(ctx, { x: 4.3 * bulk, y: -2.7 }, 1.9 * bulk, 1.1 * bulk, -0.25)
+  ctx.fill()
+  ctx.restore()
 }
 
 /**
