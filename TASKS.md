@@ -12,37 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### UI-4 - In-game HUD: WoF top-bar language (overhaul phase 4)
-
-- Status: DONE (attempt 1, 2026-09-23 22:50 UTC - owner overhaul goal,
-  verified full-green same day)
-- Dependency: UI-1 DONE.
-- Requirement: arcade top band (P1 medallion + name + segmented HP + score +
-  lives pips); full-width boss rail on boss waves; "GO →" advance cue;
-  "WAVE n" chip; restyled combo + flaming-pearl special pip (same hp>cost rule);
-  1.2s boss-name banner via existing `showBanner` queue; touch controls
-  restyled as bronze lacquer buttons with identical hit zones/protocol.
-- Acceptance criteria:
-  - [x] HUD/layout/pause/touch/prodbuild-HUD specs pass unchanged (no
-        assertion deleted: geometry moved to hudlayout.ts with new unit
-        tests; the persistent stage label shows nameZh with the full En·Zh
-        name still present via the entry banner, which hud.spec reads).
-  - [x] Reviewed desktop + mobile portrait/landscape in combat, boss, co-op
-        (artifacts/look/ui4-{combat,boss,coop,go,touch-portrait,
-        touch-landscape,touch-boss}.png; 20/20 objective pixel checks via
-        artifacts/ui4-review.mjs; a pixel-agent audit caught the first-pass
-        2x-size baked-image defect - fixed with setDisplaySize before gates).
-  - [x] Full gates green: lint, typecheck, unit 318/318 (+12), e2e 67/67
-        (+4 hud-look), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
-- Delivered: src/game/ui/hudlayout.ts (pure geometry + ghost decay),
-  src/game/art/hudart.ts (plate/medallion/pearl/pip/chip/GO/rail/banner/touch
-  painters), HudScene.ts rewrite (WoF band, boss rail, WAVE chip, GO cue,
-  restyled combo + banner plaque, holdMs param), touch.ts bronze sheet
-  (identical zones/protocol), GameScene 1.2s boss banner, type.ts 'GO →',
-  test/game/{hudlayout,hudart}.test.ts (12), e2e/hud-look.spec.ts (4).
-- Non-goals: no sim/HUD-data changes; damage ghost is presentation-only
-  (decayGhost in hudlayout, ghost field separate from ratio).
-
 ### UI-5 - Flow screens: scene cards, result, game over, complete, pause/continue (overhaul phase 5)
 
 - Status: DONE (attempt 1, 2026-09-24 05:20 UTC - owner overhaul goal,
@@ -615,7 +584,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-18 - Art-materials completeness audit
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
 - Owner objection round 3 (d): "review all art/image materials to
   ensure each part is completed and no parts are missing."
 - Requirement: automated inventory per fighter of every part the
@@ -625,11 +595,23 @@ Add future enhancement tasks below this heading.
   (flag placeholders and orphans); visual check of each painted cell.
   docs/ART_AUDIT.md with the table and every gap filed to a task.
 - Acceptance criteria:
-  - [ ] Audit test asserts no fighter silently lacks a part it draws;
-        placeholders/orphans listed with disposition.
-  - [ ] Every gap (e.g. no painted grip hands, no painted weapons,
-        forearm cells ending in open palms) traced to a task.
-  - [ ] Full gates green.
+  - [x] Audit test asserts no fighter silently lacks a part it draws;
+        placeholders/orphans listed with disposition
+        (test/game/artaudit.test.ts: 17 fighters x head pack + 10 cells,
+        fill floor 0.15, interior-hole ratchet 0.40 -> BODY-23 lowers to
+        0.08; beardless plans must ship an empty front layer; art/raw's
+        109 inert placeholders + masters->consumers table in
+        docs/ART_AUDIT.md).
+  - [x] Every gap traced to a task: G1 no painted hands -> BODY-20; G2
+        forearm cells end in open palms, G3 Wei Yan forearm cells are
+        hand-only, G7 flat neck tube -> BODY-19; G4 procedural weapons ->
+        BODY-21; G5 procedural capes, G6 keyed holes, G8 procedural
+        boots -> BODY-23 (new).
+  - [x] Full gates green: lint 0, typecheck 0, unit 610/610 (54 files),
+        e2e 78 passed (motion spec opt-in), vision 5/5, selfplay 13/13,
+        build 0, prodbuild 4/4.
+- Delivered: test/game/artaudit.test.ts (3 tests; writes
+  artifacts/look/audit/<id>-cells.png + inventory.json), docs/ART_AUDIT.md.
 - Non-goals: no new art in this task.
 
 ### BODY-19 - Arms connected and natural in every movement
@@ -653,6 +635,10 @@ Add future enhancement tasks below this heading.
   gripping; forearm cells cut at the wrist with the painted hand as
   its own cell attached at the wrist; down pose drops the weapon
   beside the body. Weapon anchor (handN) and tip reach unchanged.
+  From BODY-18 (docs/ART_AUDIT.md): G3 - re-cut Wei Yan's forearms so
+  the sleeve end sits in the forearm cell (today 19-21% fill, hand
+  only); G7 - drop or texture the flat procedural neck tube painted
+  over the collar.
 - Acceptance criteria:
   - [ ] Every arm segment within 95-105% of natural length in every
         movement for every fighter (test); wrist-to-hand continuity
@@ -714,6 +700,27 @@ Add future enhancement tasks below this heading.
         findings filed and fixed.
   - [ ] Full gates green.
 - Non-goals: no sim/timing changes.
+
+### BODY-23 - Clean painted cells: holes, capes, boots
+
+- Status: TODO
+- From the BODY-18 audit (docs/ART_AUDIT.md G5/G6/G8): (G6) the
+  black-ground flood key eats near-black costume - interior keyed-hole
+  share per cell 16-36% on Cao Cao, 12-22% Xiahou Dun, 8-24% Zhang
+  Liao, 11-21% Zhang He, Lu Bu shinF 23% - reads moth-eaten in game;
+  (G5) the 6 caped plans keep a flat procedural cape polygon behind
+  painted armour; (G8) procedural boot overlays hide the painted boots.
+- Requirement: re-key the body cells with an interior fill (holes not
+  connected to the cell border stay opaque / matte from the master)
+  rather than loosening the tolerance; painted cape cells cut from the
+  masters (or generated in their brushwork) for the 6 caped fighters;
+  boot overlay reduced to a ground-contact shadow so the painted boot
+  shows.
+- Acceptance criteria:
+  - [ ] artaudit HOLE_CEILING lowered from 0.40 to 0.08 and green.
+  - [ ] Every caped plan renders a painted cloth cell (audit asserts).
+  - [ ] Human-style review of the affected fighters; full gates green.
+- Non-goals: no new costumes; no silhouette changes beyond the cape.
 
 ### BODY-7 - Full verification sweep for the body overhaul
 

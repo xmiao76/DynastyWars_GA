@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 18:40 UTC - BODY-18 (attempt 1, art-materials completeness audit)
+
+- Status before: BODY-18 TODO (owner round-3 objection (d): review all
+  art/image materials so every part is complete and none is missing).
+- Work completed: automated per-fighter inventory of every part the
+  renderer draws (head pack portrait/head/front/rear, the 10 paper-doll
+  cells, hands, weapon) marking painted / procedural / by-design-empty,
+  with fill and interior-hole metrics per cell; composite contact sheet
+  per fighter for the visual pass (all 17 reviewed with read_image);
+  masters->consumers table and art/raw disposition (109 inert
+  placeholders, no manifest consumer). Visual findings: forearm cells end
+  in open palms (the fist is stamped over them, so two hands show); Wei
+  Yan's forearm cells are hand-only (19-21% fill); Cao Cao / Xiahou Dun /
+  Zhang Liao / Zhang He cells carry keyed holes (8-36% interior); capes,
+  boots and weapons are procedural; neck tube is a flat shape over the
+  collar. Every gap G1-G8 filed: BODY-19 (G2/G3/G7), BODY-20 (G1),
+  BODY-21 (G4), new BODY-23 (G5/G6/G8). First gate run hit a 3-spec e2e
+  flake (title scene not ready in 15 s); those specs passed 6/6 alone and
+  the full rerun was green.
+- Files changed: test/game/artaudit.test.ts (new), docs/ART_AUDIT.md
+  (new), TASKS.md (BODY-18 DONE, BODY-19 G3/G7 lines, BODY-23 filed, UI-4
+  archived), TASKS-ARCHIVE.md (UI-4), PROGRESS.md.
+- Verification run: eslint 0; tsc 0; vitest 610/610 (54 files); browser
+  gates (artifacts/run-body2-gates.ps1): E2E=0 (78 passed), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Result: BODY-18 acceptance met; no art changed (audit only).
+- Status after: BODY-18 DONE.
+- Remaining work or blocker: BODY-19..23 then the BODY-7 re-review
+  sweep; owner acceptance of round 3 outstanding.
+- Next recommended task: BODY-19 (IK arms, wrist-cut forearm cells,
+  separate hand cell, Wei Yan re-cut, neck tube).
+
 ### 2026-09-26 16:55 UTC - BODY-17 (attempt 1, owner round-3 review harness)
 
 - Status before: BODY-17..22 filed from the owner's round-3 objections

@@ -3873,3 +3873,34 @@ and the three pre-redesign enhancements - all DONE and verified)
   2P preview and the in-game join), SelectScene.ts rewrite, type.ts strings,
   e2e/select-look.spec.ts, test/game/roster.test.ts (6).
 - Non-goals: no roster/stat changes (sim data untouched).
+
+### UI-4 - In-game HUD: WoF top-bar language (overhaul phase 4)
+
+- Status: DONE (attempt 1, 2026-09-23 22:50 UTC - owner overhaul goal,
+  verified full-green same day)
+- Dependency: UI-1 DONE.
+- Requirement: arcade top band (P1 medallion + name + segmented HP + score +
+  lives pips); full-width boss rail on boss waves; "GO →" advance cue;
+  "WAVE n" chip; restyled combo + flaming-pearl special pip (same hp>cost rule);
+  1.2s boss-name banner via existing `showBanner` queue; touch controls
+  restyled as bronze lacquer buttons with identical hit zones/protocol.
+- Acceptance criteria:
+  - [x] HUD/layout/pause/touch/prodbuild-HUD specs pass unchanged (no
+        assertion deleted: geometry moved to hudlayout.ts with new unit
+        tests; the persistent stage label shows nameZh with the full En·Zh
+        name still present via the entry banner, which hud.spec reads).
+  - [x] Reviewed desktop + mobile portrait/landscape in combat, boss, co-op
+        (artifacts/look/ui4-{combat,boss,coop,go,touch-portrait,
+        touch-landscape,touch-boss}.png; 20/20 objective pixel checks via
+        artifacts/ui4-review.mjs; a pixel-agent audit caught the first-pass
+        2x-size baked-image defect - fixed with setDisplaySize before gates).
+  - [x] Full gates green: lint, typecheck, unit 318/318 (+12), e2e 67/67
+        (+4 hud-look), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
+- Delivered: src/game/ui/hudlayout.ts (pure geometry + ghost decay),
+  src/game/art/hudart.ts (plate/medallion/pearl/pip/chip/GO/rail/banner/touch
+  painters), HudScene.ts rewrite (WoF band, boss rail, WAVE chip, GO cue,
+  restyled combo + banner plaque, holdMs param), touch.ts bronze sheet
+  (identical zones/protocol), GameScene 1.2s boss banner, type.ts 'GO →',
+  test/game/{hudlayout,hudart}.test.ts (12), e2e/hud-look.spec.ts (4).
+- Non-goals: no sim/HUD-data changes; damage ghost is presentation-only
+  (decayGhost in hudlayout, ghost field separate from ratio).
