@@ -1,6 +1,7 @@
 import { FACES, SCLERA } from './faces'
 import { HEAD_PAINTED_SCALE, headPainter, type HeroArt, type HeadPainter, type HeadLayer } from './hero-resources'
 import { bodyPainter, type BodyArt, type BodyPainter, type BodyPartName } from './body-parts'
+import { handCellPainter, isHandCell } from './hand-parts'
 import type { PoseName } from './poses'
 import type { FigurePlan } from './figures'
 import { addWeapon, weaponPose } from './weapons'
@@ -187,11 +188,22 @@ export function drawFigure(
   const m = materials(plan.body, plan.trim, plan.gear, plan.beardColor ?? 0x3a2a18, painted?.art?.skin ?? plan.skin)
   const head = painted?.art
   const body = painted?.body
+  // BODY-20: painted hand cells ride the body sheet; the limb painter and
+  // the hand painter are dispatched through ONE BodyPainter so paintWithHead
+  // keeps its single `body` hook.
+  const limbPaint = body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk) : undefined
+  const handPaint = body ? handCellPainter(body, pose, plan.build.bulk) : undefined
+  const bodyPaint: BodyPainter | undefined = body
+    ? (c, part) => {
+        if (isHandCell(part)) handPaint?.(c, part)
+        else limbPaint?.(c, part)
+      }
+    : undefined
   const shapes = figureShapes(plan, pose, m, head ? emptyHeadParts : spriteHeadParts, head !== undefined, body)
   if (head || body) {
     paintWithHead(ctx, shapes,
       head ? headPainter(head, painted?.poseName ?? 'idle', pose, plan.build.head * HEAD_PAINTED_SCALE) : undefined,
-      body ? bodyPainter(body, pose as unknown as Record<string, Pt>, plan.build.bulk) : undefined,
+      bodyPaint,
       () => {
         // BODY-11: painted torsos carry their own belts and sashes; the
         // procedural bars float over them as dead-straight capsules (the
@@ -210,18 +222,22 @@ export function drawFigure(
   // that the plain haft used to cover, so hands read as absent). BODY-15:
   // the far hand's fingertips cross the haft first, under the same grip
   // predicate as the far-fist shape - the wrap only reads when fingertips
-  // show on the near side of the haft. Drawn for every fighter.
+  // show on the near side of the haft. BODY-20: painted cells replace the
+  // procedural shapes wherever the body sheet carries them.
   const hmTail = handM(m, plan, body)
   const gripDistTail = Math.abs((pose.handF.x - pose.handN.x) * Math.sin(pose.weaponRot) - (pose.handF.y - pose.handN.y) * Math.cos(pose.weaponRot))
   if (gripDistTail < 3 && !pose.lying) {
-    drawFingertips(ctx, pose.handF, pose.weaponRot, plan.build.bulk, hmTail.skinShade, hmTail.skinForm)
+    if (handPaint && body?.parts.wrapF) handPaint(ctx, 'wrapF')
+    else drawFingertips(ctx, pose.handF, pose.weaponRot, plan.build.bulk, hmTail.skinShade, hmTail.skinForm)
   }
   // BODY-19: a prone fighter's hand is OPEN on the dropped weapon, not
   // wrapped around a haft held up in mid-air.
   if (pose.lying) {
-    drawRelaxedHand(ctx, pose.handN, pose.elbowN, plan.build.bulk, hmTail.skin, hmTail.skinForm)
+    if (handPaint && body?.parts.relaxN) handPaint(ctx, 'relaxN')
+    else drawRelaxedHand(ctx, pose.handN, pose.elbowN, plan.build.bulk, hmTail.skin, hmTail.skinForm)
   } else {
-    drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, hmTail)
+    if (handPaint && body?.parts.gripN) handPaint(ctx, 'gripN')
+    else drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, hmTail)
   }
 
   // Feet last as well: BODY-9 - the painted boot tips are dark-on-dark at
@@ -648,12 +664,17 @@ export function figureShapes(
     // arm stays behind, rooted at the far shoulder.
     if (!gripping) mark('foreArmF')
     if (!gripping) {
-      add((c) => {
-        drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
-        // Re-declare the silhouette so the shape's transparent fill clips the
-        // cel bands to the hand and does not repaint the grooves away.
-        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
-      }, 'rgba(0,0,0,0)', false)
+      if (has('relaxF')) {
+        // BODY-20 painted relaxed hand, over the far sleeve's cuff.
+        mark('relaxF')
+      } else {
+        add((c) => {
+          drawRelaxedHand(c, p.handF, p.elbowF, plan.build.bulk, hm.skinShade, hm.skinForm)
+          // Re-declare the silhouette so the shape's transparent fill clips the
+          // cel bands to the hand and does not repaint the grooves away.
+          limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+        }, 'rgba(0,0,0,0)', false)
+      }
     }
   } else if (!gripping) {
     add(
@@ -776,11 +797,16 @@ export function figureShapes(
 
   // BODY-15: the far fist on the haft - over the torso (the far arm
   // reaches from behind) but under the weapon (it is the far hand).
+  // BODY-20: the painted far fist when the sheet carries it.
   if (gripping) {
-    add((c) => {
-      drawGripHandFar(c, p.handF, p.elbowF, p.weaponRot, b, hm.skinShade, hm.skinForm)
-      limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
-    }, 'rgba(0,0,0,0)', false)
+    if (has('gripF')) {
+      mark('gripF')
+    } else {
+      add((c) => {
+        drawGripHandFar(c, p.handF, p.elbowF, p.weaponRot, b, hm.skinShade, hm.skinForm)
+        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+      }, 'rgba(0,0,0,0)', false)
+    }
   }
 
   if (!painted || !p.lying) addWeapon(add, plan, p, m)

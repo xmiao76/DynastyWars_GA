@@ -24,6 +24,12 @@ export type BodyPartName =
   | 'shinN'
   | 'upperArmN'
   | 'foreArmN'
+  /** BODY-20 painted hand cells (see hand-parts.ts); never in DRAW order. */
+  | 'gripN'
+  | 'gripF'
+  | 'relaxN'
+  | 'relaxF'
+  | 'wrapF'
 
 export interface BodyPartDef {
   /** Skeleton joints this part spans, from pivot (A) to tip (B). */
@@ -44,6 +50,15 @@ export const BODY_PART_DEFS: Record<BodyPartName, BodyPartDef> = {
   shinN: { from: 'kneeN', to: 'footN', naturalLen: 21.21 },
   upperArmN: { from: 'shoulderN', to: 'elbowN', naturalLen: 12.65 },
   foreArmN: { from: 'elbowN', to: 'handN', naturalLen: 11.05 },
+  // BODY-20 hand cells: the hand painter (hand-parts.ts) orients by these
+  // joints but never stretches to |AB| - a hand keeps its size while the
+  // arm above it varies. naturalLen is the painted cell's span, for the
+  // audit's geometry sanity only.
+  gripN: { from: 'elbowN', to: 'handN', naturalLen: 8.8 },
+  gripF: { from: 'elbowF', to: 'handF', naturalLen: 8.8 },
+  relaxN: { from: 'elbowN', to: 'handN', naturalLen: 8.4 },
+  relaxF: { from: 'elbowF', to: 'handF', naturalLen: 8.4 },
+  wrapF: { from: 'elbowF', to: 'handF', naturalLen: 8.4 },
 }
 
 /** Draw order, matching the procedural slots in `figureShapes`. */

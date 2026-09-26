@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 22:30 UTC - BODY-20 (attempt 1, painted hands)
+
+- Status before: BODY-20 IN_PROGRESS (owner round-3 objection (b):
+  "the hand not realistic" - flat cartoon capsules with ink outlines
+  on painted-realistic bodies).
+- Work completed: five painted hand cells per fighter (gripN/gripF
+  fists, relaxN/relaxF open hands, wrapF far fingertips), generated in
+  the prep script and appended to each body sheet (revision body-3):
+  skin-matched from the joints table, far cells shaded dark, soft form
+  light/shadow, thumb, scalloped digit fronts, short creases, NO ink
+  outline. Draw time: new handCellPainter orients cells by the IK arm
+  (fists/relaxed along the forearm, wrap along the haft) and swaps all
+  five hand sites to the cells with per-part procedural fallback
+  (no-art fighters keep the old capsules as the emergency path). Two
+  refinement passes driven by an art-director cell review (first cut
+  too egg-like with claw-scar creases; fixed silhouette + crease
+  direction). Incidental: prepare-body-parts.d.mts (unit tests import
+  the prep module); unused tintC removed. Gates: handgrip + the BODY-14
+  harness now match hand tones tolerantly on the painted render while
+  keeping exact matches on the procedural render.
+- Files changed: scripts/{prepare-body-parts.mjs,prepare-body-parts
+  .d.mts (new)}, src/game/art/{hand-parts.ts (new),body-parts.ts,
+  draw.ts}, 17 body sheets + 3 prepared.json (regen),
+  test/game/{handparts.test.ts (new),handgrip.test.ts,
+  reviewharness.test.ts,bodyparts.test.ts}, docs/{CHARACTER_REVIEW.md
+  (BODY-20 section),ART_AUDIT.md (G1 resolved)}, TASKS.md (BODY-20
+  DONE, polish note to BODY-22, ART-19 archived), TASKS-ARCHIVE.md
+  (ART-19), PROGRESS.md.
+- Verification run: eslint 0; tsc 0; vitest 621/621 (56 files, +5);
+  browser gates (artifacts/run-body2-gates.ps1): E2E=0 (78 passed),
+  VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4);
+  motion review re-captured (5 heroes, 1 passed).
+- Result: BODY-20 acceptance met; every fighter's hands render from
+  painted cells, read realistic + gripping, gates green.
+- Status after: BODY-20 DONE.
+- Remaining work or blocker: BODY-21..23 then the BODY-7 re-review
+  sweep; owner acceptance of round 3 outstanding.
+- Next recommended task: BODY-21 (painted weapons).
+
 ### 2026-09-26 20:30 UTC - BODY-19 (attempt 1, IK arms + connected hands)
 
 - Status before: BODY-19 TODO (owner round-3 objections (a)+(c): arms

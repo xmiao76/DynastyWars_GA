@@ -39,6 +39,13 @@ const PART_COLORS: Record<BodyPartName, [number, number, number]> = {
   shinN: [0x40, 0xe0, 0xc0],
   upperArmN: [0xe0, 0xa0, 0x30],
   foreArmN: [0xe0, 0x30, 0xa0],
+  // BODY-20 hand cells: the fixture sheet carries none (they are optional
+  // per-part), but the record must stay exhaustive over the union.
+  gripN: [0xe0, 0x60, 0x30],
+  gripF: [0xe0, 0x60, 0x30],
+  relaxN: [0xe0, 0x60, 0x30],
+  relaxF: [0xe0, 0x60, 0x30],
+  wrapF: [0xe0, 0x60, 0x30],
 }
 
 type FixtureMeta = {

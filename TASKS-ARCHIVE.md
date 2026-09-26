@@ -3932,3 +3932,32 @@ and the three pre-redesign enhancements - all DONE and verified)
   artifacts/ui5-review-cards.mjs (13/13 pixel checks), screenshots
   artifacts/look/ui5-{intro,victory,gameover,pause,complete}.png.
 - Non-goals: no flow/state-machine changes; no new scenes.
+
+### ART-19 - Painted per-stage backdrops (overhaul phase 6)
+
+- Status: DONE (attempt 1, 2026-09-24 09:05 UTC - owner overhaul goal,
+  verified full-green same morning)
+- Dependency: UI-1 DONE.
+- Requirement: extend `backdrop.ts` with per-stage landmark mid-layers and
+  palettes from the theme (rivers/bridges/temples for early stages, burning
+  warships + red cliffs + ember sky for the finale), periodic-tile Canvas2D
+  technique, optional visual-only animated overlays (smoke/embers). Ground
+  line and scroll geometry identical.
+- Acceptance criteria:
+  - [x] All 9 stages visually distinct, reviewed in screenshots + motion
+        (artifacts/look/ui19-stage{1..9}.png; 21/21 objective pixel checks
+        via artifacts/ui19-review.mjs incl. 9/9 distinct band signatures;
+        motion = parallax + rising embers asserted in the look spec).
+  - [x] Tile-seam unit test per layer (test/game/backdrop.test.ts, 12
+        tests: seam-step profile per legacy layer + all 9 landmark kinds,
+        exact wall-wrap for gorge/inferno, edge margins for interior kinds,
+        integer-period bands, band continuation; background/probe specs
+        pass in the full e2e run).
+  - [x] Full gates green (see PROGRESS entry for the exact tallies).
+- Delivered: src/game/data/stagebackdrop.ts (9 landmark kinds + ember sky
+  selection, game layer), backdrop.ts paintMarks/paintEmbers/paintSky
+  ember variant (day path byte-identical), GameScene bgMarks tileSprite
+  (depth -12, 0.6x parallax) + bgEmbers (depth -11, ADD, rises by sim
+  tick), e2e/backdrop-look.spec.ts, artifacts/ui19-review.mjs. Ground line
+  (walkBandTop-26) and scroll geometry untouched.
+- Non-goals: no parallax/camera/ground-geometry changes.

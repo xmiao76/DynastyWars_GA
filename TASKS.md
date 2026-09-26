@@ -12,35 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### ART-19 - Painted per-stage backdrops (overhaul phase 6)
-
-- Status: DONE (attempt 1, 2026-09-24 09:05 UTC - owner overhaul goal,
-  verified full-green same morning)
-- Dependency: UI-1 DONE.
-- Requirement: extend `backdrop.ts` with per-stage landmark mid-layers and
-  palettes from the theme (rivers/bridges/temples for early stages, burning
-  warships + red cliffs + ember sky for the finale), periodic-tile Canvas2D
-  technique, optional visual-only animated overlays (smoke/embers). Ground
-  line and scroll geometry identical.
-- Acceptance criteria:
-  - [x] All 9 stages visually distinct, reviewed in screenshots + motion
-        (artifacts/look/ui19-stage{1..9}.png; 21/21 objective pixel checks
-        via artifacts/ui19-review.mjs incl. 9/9 distinct band signatures;
-        motion = parallax + rising embers asserted in the look spec).
-  - [x] Tile-seam unit test per layer (test/game/backdrop.test.ts, 12
-        tests: seam-step profile per legacy layer + all 9 landmark kinds,
-        exact wall-wrap for gorge/inferno, edge margins for interior kinds,
-        integer-period bands, band continuation; background/probe specs
-        pass in the full e2e run).
-  - [x] Full gates green (see PROGRESS entry for the exact tallies).
-- Delivered: src/game/data/stagebackdrop.ts (9 landmark kinds + ember sky
-  selection, game layer), backdrop.ts paintMarks/paintEmbers/paintSky
-  ember variant (day path byte-identical), GameScene bgMarks tileSprite
-  (depth -12, 0.6x parallax) + bgEmbers (depth -11, ADD, rises by sim
-  tick), e2e/backdrop-look.spec.ts, artifacts/ui19-review.mjs. Ground line
-  (walkBandTop-26) and scroll geometry untouched.
-- Non-goals: no parallax/camera/ground-geometry changes.
-
 ### ART-20 - Props, pickups & combat-feedback pass (overhaul phase 7)
 
 - Status: DONE (attempt 1, 2026-09-24 10:40 UTC - owner overhaul goal,
@@ -639,7 +610,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-20 - Realistic painted hands
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
 - Owner objection round 3 (b): "the hand ... not realistic." The grip
   fists and relaxed mittens are flat cartoon capsules with ink
   outlines on painted-realistic bodies.
@@ -648,10 +620,29 @@ Add future enhancement tasks below this heading.
   replacing the procedural fists/mittens at the same joints; no ink
   outlines on painted hands.
 - Acceptance criteria:
-  - [ ] Every fighter's hands render from painted cells in every
-        movement (test); procedural hands only on the emergency path.
-  - [ ] Human-style review: hands read realistic and gripping.
-  - [ ] Full gates green.
+  - [x] Every fighter's hands render from painted cells in every
+        movement (test/game/handparts.test.ts: 5 tests - byte-identical
+        regeneration, all 17x5 cells non-empty + skin-matched +
+        hand-sized + ink-free, painted-vs-procedural liveness, per-part
+        procedural fallback; handgrip now asserts the painted render
+        tolerantly + the bare render exactly).
+  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-20 section):
+        soft-shaded fists/open hands/fingertip wraps, skinned per
+        fighter, scalloped digits, no ink; close pass on guanyu (all 14
+        movements 4x + whole-body 2x), weiyan, zhangfei + fresh motion
+        clips/sheets; residual polish filed (finger articulation, thumb
+        separation -> BODY-22).
+  - [x] Full gates green: lint 0, typecheck 0, unit 621/621 (56 files,
+        +5 handparts), e2e 78 passed, vision 5/5, selfplay 13/13, build
+        0, prodbuild 4/4.
+- Delivered: scripts/prepare-body-parts.mjs (hand cell painter: fist /
+  open-hand silhouettes, form shading, thumb, creases; 5 cells appended
+  to each body sheet, revision body-3), scripts/prepare-body-parts.d.mts
+  (new), src/game/art/hand-parts.ts (new: dispatch painter),
+  body-parts.ts (5 hand defs), draw.ts (painted near/far/relaxed/wrap
+  at all 5 hand sites, procedural fallback intact), 17 sheets + 3
+  prepared.json regenerated, test/game/handparts.test.ts (new),
+  handgrip + review-harness tolerant matches.
 - Non-goals: no finger animation; no new poses.
 
 ### BODY-21 - Realistic painted weapons
@@ -694,6 +685,10 @@ Add future enhancement tasks below this heading.
   drop (dead code on the standing branch - applying it shifts heads
   4.8u and grazes the face gate); any head re-seat must re-verify
   weapons.test. Walk arms are frozen copies of idle (no counter-swing).
+- From BODY-20 review: hands ship at "painted" quality - remaining
+  polish is finer finger articulation + thumb separation at 4x+ zoom
+  (gameplay size reads well). Revisit if the owner wants gallery-grade
+  digits; candidate route is generator refinement, no new pipeline.
 - Non-goals: no sim/timing changes.
 
 ### BODY-23 - Clean painted cells: holes, capes, boots

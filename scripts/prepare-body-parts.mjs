@@ -27,6 +27,220 @@ export const WRIST_FRACTION = 0.58
 /** Palm joint derivation (elbow->fingertip fraction); the rig's hand joint. */
 export const PALM_FRACTION = 0.75
 
+/**
+ * BODY-20 painted hands. The masters are T-poses with open palms, so there
+ * is no fist to cut from them; the fists/wraps/relaxed hands are PAINTED
+ * here per fighter, skin-matched from the joints table, with soft form
+ * shading and NO ink outline (the old procedural fists were flat cel
+ * capsules with 1u ink borders - the round-3 "cartoon sticker" complaint).
+ *
+ * Five cells per fighter, each 12x10 logical units at density 4 (48x40
+ * device px), pivot at the hand joint (local 6,5 -> device 24,20), painted
+ * pointing +x along the forearm (wrapF: along the haft):
+ *   gripN  near fist wrapping the haft      gripF  same, far-arm shaded
+ *   relaxN near open relaxed hand           relaxF same, far-arm shaded
+ *   wrapF  far fingertips crossing the haft (drawn over the weapon)
+ * Device px per logical unit is exactly DENSITY for every fighter (the
+ * body cells key off pxPerUnit and cancel out), so one paint routine
+ * serves the whole cast and the recorded density stays truthful.
+ */
+export const HAND_CELL_W = 12
+export const HAND_CELL_H = 10
+export const HAND_CELLS = ['gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF']
+
+const shadeC = (rgb, amount) => {
+  const r = Math.round(((rgb >> 16) & 0xff) * (1 - amount))
+  const g = Math.round(((rgb >> 8) & 0xff) * (1 - amount))
+  const b = Math.round((rgb & 0xff) * (1 - amount))
+  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`
+}
+
+/** Fist silhouette pointing +x: flat knuckle ridge, scalloped finger front. */
+function fistPath(c) {
+  c.beginPath()
+  // Wrist end and the flatter back-of-hand top (a fist is not an egg).
+  c.moveTo(-2.9, -2.1)
+  c.bezierCurveTo(-1.0, -2.85, 1.2, -3.05, 2.7, -2.85)
+  c.lineTo(3.5, -2.75)
+  // Knuckle ridge into the finger block: three bumps, two DEEP notches
+  // (0.9u, so digit grouping survives to 20px).
+  c.quadraticCurveTo(4.7, -2.5, 5.3, -1.9)
+  c.quadraticCurveTo(4.25, -1.2, 4.7, -0.65)
+  c.quadraticCurveTo(5.5, -0.3, 5.55, 0.2)
+  c.quadraticCurveTo(4.3, 0.7, 4.85, 1.25)
+  c.quadraticCurveTo(5.35, 1.85, 4.85, 2.3)
+  // Fingers back into the palm, then the palm bottom to the wrist.
+  c.bezierCurveTo(4.1, 2.8, 3.0, 2.9, 1.8, 2.85)
+  c.bezierCurveTo(0, 2.85, -1.4, 2.5, -2.9, 2.05)
+  c.quadraticCurveTo(-3.5, 0, -2.9, -2.1)
+  c.closePath()
+}
+
+/** Open relaxed hand: palm wedge into grouped fingers, scalloped tips. */
+function relaxPath(c) {
+  c.beginPath()
+  c.moveTo(-2.9, -2.0)
+  c.bezierCurveTo(-1.0, -2.65, 0.6, -2.8, 1.9, -2.7)
+  c.lineTo(2.6, -2.6)
+  // Finger group edge: three tips, two deep notches between them.
+  c.quadraticCurveTo(4.15, -2.35, 5.15, -1.75)
+  c.quadraticCurveTo(4.1, -1.0, 4.55, -0.5)
+  c.quadraticCurveTo(5.35, -0.1, 5.45, 0.4)
+  c.quadraticCurveTo(4.4, 0.9, 4.7, 1.4)
+  c.quadraticCurveTo(5.15, 2.0, 4.55, 2.4)
+  c.bezierCurveTo(3.4, 2.85, 1.6, 2.85, 0, 2.8)
+  c.bezierCurveTo(-1.3, 2.75, -2.1, 2.45, -2.9, 2.0)
+  c.quadraticCurveTo(-3.45, 0, -2.9, -2.0)
+  c.closePath()
+}
+
+function ellipse(c, cx, cy, rx, ry, rot) {
+  c.beginPath()
+  c.ellipse(cx, cy, rx, ry, rot, 0, Math.PI * 2)
+  c.closePath()
+}
+
+/** Volume + creases shared by the fist and the open hand. */
+function formShade(c, kind, colors) {
+  // Clip to the silhouette for every overlay that follows.
+  c.save()
+  if (kind === 'grip') fistPath(c)
+  else relaxPath(c)
+  c.clip()
+  // Light from up-left (the sheet-wide light), soft radial bloom.
+  const lg = c.createRadialGradient(0.5, -1.5, 0.2, 0.5, -1.5, 6.2)
+  lg.addColorStop(0, colors.lightAlpha)
+  lg.addColorStop(1, 'rgba(255,255,255,0)')
+  c.fillStyle = lg
+  c.fillRect(-4, -4, 10, 9)
+  // Form shadow on the lower half, deepest at the rim.
+  const sg = c.createLinearGradient(0, 0.3, 0, 3.2)
+  sg.addColorStop(0, 'rgba(0,0,0,0)')
+  sg.addColorStop(0.75, colors.formAlpha)
+  sg.addColorStop(1, colors.deepAlpha)
+  c.fillStyle = sg
+  c.fillRect(-4, 0, 10, 4)
+  // Finger separators: short creases running along the finger direction
+  // (+x), soft. (Long 45° diagonals read as claw scars at 20px - measured
+  // on the first cut of the cells.)
+  c.strokeStyle = colors.creaseAlpha
+  c.lineWidth = 0.38
+  c.lineCap = 'round'
+  const xs = kind === 'grip' ? 3.5 : 2.4
+  for (const y of [-1.15, 0.05, 1.15]) {
+    c.beginPath()
+    c.moveTo(xs, y - 0.12)
+    c.quadraticCurveTo(xs + 0.55, y + 0.1, xs + 1.15, y + 0.28)
+    c.stroke()
+  }
+  // Knuckle ridge line across the fist's top third (the curled fingers'
+  // tops) and the fingertip highlights on the open hand.
+  if (kind === 'grip') {
+    c.strokeStyle = colors.creaseAlpha
+    c.lineWidth = 0.5
+    c.beginPath()
+    c.moveTo(2.1, -2.35)
+    c.quadraticCurveTo(3.2, -1.85, 3.75, -1.05)
+    c.stroke()
+    c.fillStyle = colors.lightAlpha
+    ellipse(c, 3.35, -1.75, 1.15, 0.6, -0.22)
+    c.fill()
+  } else {
+    c.fillStyle = colors.lightAlpha
+    ellipse(c, 4.45, -1.35, 0.95, 0.5, -0.28)
+    c.fill()
+    ellipse(c, 4.9, 0.35, 0.7, 0.4, -0.2)
+    c.fill()
+  }
+  // Wrist fold.
+  c.strokeStyle = colors.creaseAlpha
+  c.lineWidth = 0.38
+  c.beginPath()
+  c.moveTo(-2.25, -1.55)
+  c.quadraticCurveTo(-1.8, 0, -2.2, 1.6)
+  c.stroke()
+  c.restore()
+}
+
+function paintHandCell(c, kind, skin) {
+  const far = kind.endsWith('F')
+  const base = far ? shadeC(skin, 1 - FAR_SHADE) : `#${skin.toString(16).padStart(6, '0')}`
+  const colors = {
+    formAlpha: far ? 'rgba(0,0,0,0.34)' : 'rgba(0,0,0,0.30)',
+    deepAlpha: far ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.46)',
+    lightAlpha: far ? 'rgba(255,244,224,0.16)' : 'rgba(255,246,228,0.26)',
+    creaseAlpha: far ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.22)',
+    thumbShade: far ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.33)',
+  }
+  // Work in logical units, origin at the hand joint (cell center = pivot).
+  c.translate((HAND_CELL_W * DENSITY) / 2, (HAND_CELL_H * DENSITY) / 2)
+  c.scale(DENSITY, DENSITY)
+  if (kind === 'wrapF') {
+    // Far fingertips crossing the haft (x along the haft): three tapering
+    // pads wrapping from the far side over the top, drawn OVER the weapon.
+    const padBase = shadeC(skin, 1 - FAR_SHADE)
+    for (const [i, cx] of [-1.55, 0.65, 2.85].entries()) {
+      const len = 3.1 + (i === 1 ? 0.55 : 0.15)
+      c.fillStyle = padBase
+      c.beginPath()
+      c.moveTo(cx - 0.72, 2.35)
+      c.lineTo(cx - 0.6, -len + 0.5)
+      c.quadraticCurveTo(cx - 0.5, -len - 0.15, cx, -len - 0.2)
+      c.quadraticCurveTo(cx + 0.5, -len - 0.15, cx + 0.6, -len + 0.5)
+      c.lineTo(cx + 0.72, 2.35)
+      c.quadraticCurveTo(cx, 2.75, cx - 0.72, 2.35)
+      c.closePath()
+      c.fill()
+      // Underside shadow on the near half, tip highlight at the far end.
+      c.save()
+      c.clip()
+      const sg = c.createLinearGradient(cx, 0.4, cx, 2.5)
+      sg.addColorStop(0, 'rgba(0,0,0,0)')
+      sg.addColorStop(1, 'rgba(0,0,0,0.42)')
+      c.fillStyle = sg
+      c.fillRect(cx - 1, 0.3, 2, 2.5)
+      c.fillStyle = 'rgba(255,246,228,0.2)'
+      ellipse(c, cx, -len + 0.35, 0.42, 0.3, 0)
+      c.fill()
+      c.restore()
+    }
+    return
+  }
+  const isGrip = kind.startsWith('grip')
+  // Silhouette, then the thumb (over the top edge), then shared form work.
+  c.fillStyle = base
+  if (isGrip) fistPath(c)
+  else relaxPath(c)
+  c.fill()
+  c.fillStyle = base
+  ellipse(c, isGrip ? 1.7 : 0.3, isGrip ? -2.75 : -2.5, isGrip ? 1.8 : 1.55, isGrip ? 1.0 : 0.95, -0.32)
+  c.fill()
+  // Thumb's underside crease so it reads as a separate digit.
+  c.save()
+  ellipse(c, isGrip ? 1.7 : 0.3, isGrip ? -2.75 : -2.5, isGrip ? 1.8 : 1.55, isGrip ? 1.0 : 0.95, -0.32)
+  c.clip()
+  c.strokeStyle = colors.thumbShade
+  c.lineWidth = 0.5
+  c.beginPath()
+  c.moveTo(-0.7, 0.35)
+  c.quadraticCurveTo(0, 0.75, 0.8, 0.5)
+  c.stroke()
+  c.restore()
+  formShade(c, isGrip ? 'grip' : 'relax', colors)
+  // Soft shadow-side rim only (no ink outline anywhere).
+  c.save()
+  if (isGrip) fistPath(c)
+  else relaxPath(c)
+  c.clip()
+  c.strokeStyle = colors.deepAlpha
+  c.lineWidth = 0.55
+  c.beginPath()
+  c.moveTo(-2.7, 2.2)
+  c.bezierCurveTo(-0.5, 2.8, 1.5, 2.9, 3.4, 2.6)
+  c.stroke()
+  c.restore()
+}
+
 /** joints, widths (logical, bulk 1.0) and span fractions per hero. */
 export const HEROES = {
   zhangfei: {
@@ -359,20 +573,33 @@ export async function prepareHero(id) {
       c.fillRect(0, 0, cw, chh)
       c.restore()
     }
-    cells.push({ name: p.name, cell, cw, ch: chh })
+    cells.push({
+      name: p.name, cell, cw, ch: chh,
+      px: Math.round(cw / 2),
+      py: Math.round((p.pre / (p.pre + 1 + p.post)) * chh),
+    })
+    sheetW += cw
+    sheetH = Math.max(sheetH, chh)
+  }
+  // BODY-20 painted hands: five generated cells appended to the row.
+  const skinNum = parseInt(spec.skin.slice(1), 16)
+  for (const kind of HAND_CELLS) {
+    const cw = HAND_CELL_W * DENSITY
+    const chh = HAND_CELL_H * DENSITY
+    const cell = createCanvas(cw, chh)
+    paintHandCell(cell.getContext('2d'), kind, skinNum)
+    cells.push({ name: kind, cell, cw, ch: chh, px: (cw / 2), py: (chh / 2) })
     sheetW += cw
     sheetH = Math.max(sheetH, chh)
   }
   const sheet = createCanvas(sheetW, sheetH)
   const sctx = sheet.getContext('2d')
   let ox = 0
-  for (const { name, cell, cw, ch } of cells) {
+  for (const { name, cell, cw, ch, px, py } of cells) {
     sctx.drawImage(cell, ox, 0)
-    const p = PARTS.find((q) => q.name === name)
     parts[name] = {
       x: ox, y: 0, w: cw, h: ch,
-      pivotX: Math.round(cw / 2),
-      pivotY: Math.round((p.pre / (p.pre + 1 + p.post)) * ch),
+      pivotX: Math.round(px), pivotY: Math.round(py),
     }
     ox += cw
   }
@@ -398,7 +625,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-2',
+        revision: 'body-3',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },

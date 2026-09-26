@@ -24,18 +24,17 @@ import { ALL_FIGHTERS, CAST } from './cast-art'
  */
 const PAINTED_BODY: BodyPartName[] = [
   'torso', 'upperArmF', 'foreArmF', 'thighF', 'shinF', 'thighN', 'shinN', 'upperArmN', 'foreArmN',
+  // BODY-20 painted hand cells ride the same sheets.
+  'gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF',
 ]
 const HEAD_FILES = ['portrait', 'head', 'front', 'rear'] as const
 /** Max interior keyed-hole share per body cell (ratchet; see BODY-23). */
 const HOLE_CEILING = 0.4
 /** Drawn by code for every fighter today (draw.ts / weapons.ts). */
 const PROCEDURAL_PARTS = [
-  'near grip fist (drawGripHand)',
-  'far grip fist + fingertips (drawGripHandFar / drawFingertips)',
-  'relaxed far hand (drawRelaxedHand)',
   'weapon (addWeapon: haft, head, tassel, butt cap)',
   'boot overlays (drawBoot)',
-  'neck tube (limbPath neck->chest, flat skin)',
+  'procedural fists/mittens (emergency path only since BODY-20)',
 ] as const
 
 function packs(id: string): { face: string; body: string } {
@@ -82,7 +81,8 @@ describe('BODY-18 art-materials audit', () => {
       const cols = 5
       const cw = 150
       const chh = 220
-      const board = createCanvas(cols * cw, 2 * (chh + 18))
+      const rows = Math.ceil(PAINTED_BODY.length / cols)
+      const board = createCanvas(cols * cw, rows * (chh + 18))
       const g = board.getContext('2d')
       g.fillStyle = '#6a6470'
       g.fillRect(0, 0, board.width, board.height)

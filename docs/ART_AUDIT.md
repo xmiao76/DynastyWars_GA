@@ -21,9 +21,9 @@ not from the numbers alone.
 | Forearms N/F | painted cells, **cut from T-pose masters, ending in an OPEN PALM** | yes | the palm reads as a flesh paddle under the procedural fist: "two hands" | G2 -> BODY-19 |
 | Thighs/shins N/F | painted cells | yes | fine; see holes, G6 | G6 -> BODY-23 |
 | Cloth/cape | **procedural flat polygon** (no cloth cell is cut) for the 6 caped plans: guanyu, zhaoyun, lubu, caocao, zhangliao, zhanghe | no painted source | a flat single-tone sheet behind painted armour | G5 -> BODY-23 |
-| Near grip fist | **procedural** cel capsule (`drawGripHand`) | code for all | "cartoon sticker" | G1 -> BODY-20 |
-| Far grip fist + fingertips | **procedural** (`drawGripHandFar`, `drawFingertips`) | code for all | floating, no arm | G1 -> BODY-20, G2 -> BODY-19 |
-| Relaxed far hand | **procedural** mitten (`drawRelaxedHand`) | code for all | "oven mitt" | G1 -> BODY-20 |
+| Near grip fist | painted cell `gripN` on the body sheet, skin-matched | all 17 | soft-shaded fist, no ink | G1 resolved by BODY-20 |
+| Far grip fist + fingertips | painted cells `gripF` + `wrapF` (far shaded) | all 17 | fist rides under the haft, fingertips cross over it | G1 resolved by BODY-20 |
+| Relaxed far hand | painted cells `relaxN`/`relaxF` (open hands) | all 17 | - | G1 resolved by BODY-20 |
 | Weapon (haft, head, tassel, ferrule, butt) | **procedural** vector with ink outline (`addWeapon`), 7 kinds | code for all | "clip-art" beside painted bodies | G4 -> BODY-21 |
 | Boots | **procedural** overlay (`drawBoot`) over the painted shin cells | code for all | tan/brown pills; they hide the painted boot | G8 -> BODY-23 |
 | Neck | **procedural** flat skin tube (`limbPath(neck, chest)`) | code for all | a flat skin wedge over the painted collar (Lu Bu, Xiahou Dun, Xu Chu, soldier) | G7 -> BODY-19 |
@@ -31,10 +31,11 @@ not from the numbers alone.
 
 ## 2. Gaps (each traced to its fixing task)
 
-- **G1 - no painted hands anywhere.** All three hand states are vector cel
-  shapes, so realism is inconsistent on every fighter in every movement.
-  -> BODY-20 (painted grip / far-grip / relaxed hand cells, skin-matched
-  per fighter).
+- **G1 - RESOLVED by BODY-20.** Five painted hand cells per fighter now
+  ride the body sheets (`gripN`/`gripF` fists, `relaxN`/`relaxF` open
+  hands, `wrapF` far fingertips), skin-matched from the joints table,
+  soft-shaded with no ink. The procedural capsules remain only as the
+  no-art emergency path (drawn for no production fighter today).
 - **G2 - forearm cells end in open palms.** The T-pose masters show
   splayed hands. The prep script cuts elbow->fingertip and puts the hand
   joint at 75%, so the palm and fingers stay in the forearm cell.

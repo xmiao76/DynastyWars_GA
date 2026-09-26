@@ -138,13 +138,18 @@ describe('BODY-14 review harness sheets (permanent generator)', () => {
           const near = rgb(skinNum)
           const farT = rgb(shade(skinNum, 0.22))
           const count = (cx: number, cy: number, tone: [number, number, number]): number => {
+            // BODY-20: painted hands shade form light/shadow over the base
+            // tone, so reads are tolerant per channel (the sheet-level
+            // modal-tone fidelity is gated exactly in handparts.test.ts).
             let n = 0
             for (let y = Math.round((cy + oy - 3) * SCALE); y <= Math.round((cy + oy + 3) * SCALE); y += 1) {
               for (let x = Math.round((cx + ox - 3) * SCALE); x <= Math.round((cx + ox + 3) * SCALE); x += 1) {
                 if (x < 0 || y < 0 || x >= cell.w || y >= cell.h) continue
                 const p = (y * cell.w + x) * 4
                 if ((im[p + 3] ?? 0) < 128) continue
-                if (im[p] === tone[0] && im[p + 1] === tone[1] && im[p + 2] === tone[2]) n += 1
+                if (Math.abs(im[p]! - tone[0]) <= 50
+                  && Math.abs(im[p + 1]! - tone[1]) <= 50
+                  && Math.abs(im[p + 2]! - tone[2]) <= 50) n += 1
               }
             }
             return n

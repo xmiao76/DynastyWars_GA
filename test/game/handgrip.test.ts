@@ -84,13 +84,15 @@ describe('BODY-8 hands at the grip', () => {
     const painted = head || body ? { art: head, poseName: 'idle' as PoseName, body } : undefined
     for (const poseName of POSES) {
       const pose = weaponPose(plan, applyBuild(POSE_TABLE[poseName], plan.build))
-      const canvas = createCanvas(120 * SCALE, 110 * SCALE)
-      const ctx = canvas.getContext('2d')
-      ctx.scale(SCALE, SCALE)
-      const art = painted ? { ...painted, poseName } : undefined
-      drawFigure(ctx as unknown as Ctx, plan, POSE_TABLE[poseName], art)
-      const data = ctx.getImageData(0, 0, 120 * SCALE, 110 * SCALE).data
-      const near = (cx: number, cy: number, tone: [number, number, number], r = 3): number => {
+      const near = (
+        cx: number, cy: number, tone: [number, number, number], r = 3, tol = 0,
+      ): number => {
+        const canvas = createCanvas(120 * SCALE, 110 * SCALE)
+        const ctx = canvas.getContext('2d')
+        ctx.scale(SCALE, SCALE)
+        drawFigure(ctx as unknown as Ctx, plan, POSE_TABLE[poseName],
+          painted ? { ...painted, poseName } : undefined)
+        const data = ctx.getImageData(0, 0, 120 * SCALE, 110 * SCALE).data
         let n = 0
         const W = 120 * SCALE
         const H = 110 * SCALE
@@ -99,21 +101,53 @@ describe('BODY-8 hands at the grip', () => {
             if (x < 0 || y < 0 || x >= W || y >= H) continue
             const p = (y * W + x) * 4
             if ((data[p + 3] ?? 0) < 128) continue
-            if (data[p] === tone[0] && data[p + 1] === tone[1] && data[p + 2] === tone[2]) n += 1
+            if (tol > 0
+              ? Math.abs(data[p]! - tone[0]) <= tol
+                && Math.abs(data[p + 1]! - tone[1]) <= tol
+                && Math.abs(data[p + 2]! - tone[2]) <= tol
+              : data[p] === tone[0] && data[p + 1] === tone[1] && data[p + 2] === tone[2]) n += 1
           }
         }
         return n
       }
-      const grip = near(pose.handN.x, pose.handN.y, handSkin)
-      expect(grip, `${id}:${poseName} grip hand missing (${grip}px)`).toBeGreaterThanOrEqual(24)
+      // Procedural emergency path (no art at all): flat cel tones, so the
+      // ORIGINAL exact-match gate still applies, unchanged.
+      const bareNear = (() => {
+        const canvas = createCanvas(120 * SCALE, 110 * SCALE)
+        const ctx = canvas.getContext('2d')
+        ctx.scale(SCALE, SCALE)
+        drawFigure(ctx as unknown as Ctx, plan, POSE_TABLE[poseName], undefined)
+        const data = ctx.getImageData(0, 0, 120 * SCALE, 110 * SCALE).data
+        let n = 0
+        const W = 120 * SCALE
+        for (let y = Math.round((pose.handN.y - 3) * SCALE); y <= Math.round((pose.handN.y + 3) * SCALE); y += 1) {
+          for (let x = Math.round((pose.handN.x - 3) * SCALE); x <= Math.round((pose.handN.x + 3) * SCALE); x += 1) {
+            const p = (y * W + x) * 4
+            if ((data[p + 3] ?? 0) < 128) continue
+            if (data[p] === handSkin[0] && data[p + 1] === handSkin[1] && data[p + 2] === handSkin[2]) n += 1
+          }
+        }
+        return n
+      })()
+      expect(bareNear, `${id}:${poseName} procedural grip hand missing (${bareNear}px)`).toBeGreaterThanOrEqual(24)
+      // Painted path (BODY-20): the cells shade form shadow and highlight
+      // over the base tone, so matches are tolerant per channel. The cell's
+      // own colour fidelity (modal tone == the fighter's skin) is gated
+      // exactly in handparts.test.ts on the sheet itself.
+      if (painted) {
+        const grip = near(pose.handN.x, pose.handN.y, handSkin, 3, 50)
+        expect(grip, `${id}:${poseName} painted grip hand missing (${grip}px)`).toBeGreaterThanOrEqual(24)
+      }
       // BODY-15: the far hand is choreographed visible in every pose but
       // down (far fist on the haft for polearms, counterbalance mitten
-      // for one-handers) - both paint in the shaded tone.
+      // for one-handers). BODY-20: painted far cells sit at shade(skin,
+      // 0.18) with overlays; the procedural path painted 0.22 exactly.
       if (poseName !== 'down') {
-        // Wider box: the far fist wraps the haft, so its visible tone is
-        // the side slivers plus the fingertips crossing the haft - not
-        // just the covered center.
-        const far = near(pose.handF.x, pose.handF.y, farTone, 5)
+        const farPainted = rgb(shade(skinNum, 0.18))
+        const far = Math.max(
+          near(pose.handF.x, pose.handF.y, farTone, 5, 0),
+          near(pose.handF.x, pose.handF.y, farPainted, 5, 50),
+        )
         expect(far, `${id}:${poseName} far hand missing (${far}px)`).toBeGreaterThanOrEqual(12)
       }
     }

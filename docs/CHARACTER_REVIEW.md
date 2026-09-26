@@ -234,3 +234,52 @@ the head; arrows still fire (sim untouched); the downed enemy lies
 prone with the weapon across. Residual motion limits (frozen walk
 arms, no in-betweens, static torso) are unchanged keys, not anatomy
 -> BODY-22.
+
+### 2026-09-26 (BODY-20 vision check, post-enhancement)
+
+Material: hand cells at 4x for every skin extreme (guanyu/zhangfei/
+zhaoyun/weiyan red-dark-light-tan + far variants); regenerated
+`artifacts/look/moves/*.png` + `*-arms.png` against the
+`moves-before20/` baseline; close pass on guanyu (all 14 movements at
+4x + whole body at 2x) and weiyan (one-handed dao, free hand on show).
+Scores below are HANDS (realistic, gripping); anatomy stays 4 from
+BODY-19, weapons stay 2 (-> BODY-21).
+
+**Whole cast: painted hands, cartoon stickers gone (hands 4).**
+
+- "Now they read as hands." - Fists show a knuckle mass with three
+  scalloped finger fronts, a thumb bump, soft lit/shadow form; open
+  hands show grouped digits. No ink anywhere. Against painted bodies
+  they finally belong to the same game.
+- "The right colour for everybody." - Each fighter's cells use their
+  own skin; dark zhangfei (0x8a5a3c) reads warm brown with the shade
+  intact, light zhaoyun reads pale without blowing out. Far hands
+  paint darker with the same geometry, so near/far separate.
+- "Gripping, not hovering." - Near fists wrap the haft in all five
+  strikes (attack/thrust/sweep read best); the far fist rides under
+  the weapon with the three fingertip pads crossing OVER it
+  (wrapF), which is what sells the two-handed grip. Down still rests
+  the open hand on the dropped haft.
+- Refinement history, honestly: the first cut painted too egg-like
+  with three 45 deg creases that read as claw scars; two review
+  passes fixed the silhouette (flat knuckle side, 0.9u-deep digit
+  notches) and flattened/softened the creases to 1.1u runs along
+  the finger direction.
+- Watch item, not a defect: at 4x+ a reviewer can still see this is
+  stylized paintwork (finer finger articulation + a separated thumb
+  would be gallery-grade). At gameplay size it reads well. Filed as
+  BODY-22 polish (generator refinement, no new pipeline).
+
+**New findings filed, not fixed here.** (1) Weapons unchanged -
+clip-art hafts/outlines/tassels remain the worst visual on the
+figures -> BODY-21 next. (2) No regressions seen vs the
+moves-before20 baseline (same poses, same reach, retracted phases
+still narrow).
+
+**Motion (video).** Reviewed `motion/guanyu-sheet.png` re-captured
+post-change (162 frames: walk, three-hit combo, jump, special, enemy
+hurt/down in frame) plus fresh clips/sheets for all 5 heroes. Hands
+track the grips through the sequence with no popping or detachment
+(change of cells, not joints - IK from BODY-19); combo alternation and
+phasing read as before; downed enemy still prone with the weapon
+across. Residual motion limits unchanged -> BODY-22.
