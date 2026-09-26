@@ -484,7 +484,10 @@ describe('BODY-2 mask IoU', () => {
       }
     }
     expect(covered, 'production packs must cover heroes + mooks + bosses').toBe(17)
-  })
+    // 17 fighters x 14 poses x 2 renders: ~3.3 s alone, and the 5 s default
+    // was exceeded under full-suite contention (BODY-17 added the per-movement
+    // sheet generator). A budget, not a relaxed assertion.
+  }, 60_000)
 
   it('seats every painted part on its own joint segment', async () => {
     // The precise breakage test whole-figure IoU cannot be: render each

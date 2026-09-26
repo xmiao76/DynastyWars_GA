@@ -353,7 +353,7 @@ export function addWeapon(
     ),
     m.trim, true, metalMat(),
   )
-  // Ã§ÂºÂ¢Ã§Â¼Â¨: the red tassel at the socket. Cloth hangs DOWN, whatever the weapon
+  // 红缨: the red tassel at the socket. Cloth hangs DOWN, whatever the weapon
   // is doing - so the tuft is drawn in a gravity-aligned frame: translate to
   // the socket, then UNDO the weapon's rotation before drawing it hanging +y.
   // Rotating with the weapon instead had it sticking sideways-forward at idle
@@ -417,7 +417,7 @@ export function addWeapon(
       }), STEEL_EDGE, false)
       break
     case 'jian':
-      // A straight double-edged jian - right for Cao Cao's Ã¥â‚¬Å¡Ã¥Â¤Â©Ã¥â€°â€˜ - with a
+      // A straight double-edged jian - right for Cao Cao's 倚天剑 - with a
       // Chinese DISC guard. The old crossguard was European and wrong for the
       // setting on every wielder.
       add(
@@ -448,8 +448,8 @@ export function addWeapon(
       }), STEEL_EDGE, false)
       break
     case 'ji':
-      // Ã¦â€“Â¹Ã¥Â¤Â©Ã§â€Â»Ã¦Ë†Å¸ - the central spearhead plus the PAIR of crescent wings that
-      // give the halberd its name (Ã¦â€“Â¹Ã¥Â¤Â© = the double wing). The classic weapon
+      // 方天画戟 - the central spearhead plus the PAIR of crescent wings that
+      // give the halberd its name (方天 = the double wing). The classic weapon
       // carries them pointing FORWARD past the spearhead's base, not curled
       // back over it, so they are drawn as forward crescents here.
       add(oriented((c) => ovalPath(c, { x: fore + 4, y: 0 }, 11, 4.4, 0)), m.steel, true, steelMat(fore))

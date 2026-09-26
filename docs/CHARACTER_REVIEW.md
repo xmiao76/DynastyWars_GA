@@ -8,13 +8,34 @@ cast looks natural and good.
 ## The loop (binding on every BODY enhancement task)
 
 1. Implement the enhancement (tests + full gates as usual).
-2. Regenerate `artifacts/look/review-harness.png` (the permanent
-   generator test) and read it with vision.
-3. Record per-figure verdicts in the Findings table below (append a
-   dated row; never rewrite history).
-4. File anything still unnatural as the NEXT task's requirement
-   (or a new task if nothing covers it). The loop ends only when a
-   full pass finds nothing unnatural AND the owner re-reviews.
+2. Regenerate the review material (BODY-17, owner round 3):
+   - `npx vitest run test/game/movesheets.test.ts` -> for EVERY fighter
+     `artifacts/look/moves/<id>.png` (all 14 movements, whole body) and
+     `<id>-arms.png` (the same movements, upper body at 4x);
+   - `MOTION_REVIEW=1 npx playwright test --project=chromium
+     e2e/motion-review.spec.ts` -> real gameplay per hero
+     `artifacts/look/motion/<hero>.webm` + `<hero>-sheet.png` (walk,
+     three-hit combo, jump, special; enemies supply hurt/down);
+   - the BODY-14 `review-harness-{a,b}.png` ratio sheets.
+3. Review it LIKE A HUMAN ART DIRECTOR, not a pixel check: look at every
+   movement of every fighter and write what a player would notice, in
+   plain words, against the rubric below. "The flag is green" is not a
+   verdict. Append dated comments; never rewrite history.
+4. Every flagged item gets a root cause (which code/asset produces it)
+   and the task that fixes it. The loop ends only when a full pass
+   finds nothing a player would call unnatural AND the owner re-reviews.
+
+## Human-review rubric (score each movement 1-5, comment below 4)
+
+1. Silhouette - does the pose read instantly at gameplay size?
+2. Anatomy - both arms present, shoulder->elbow->wrist->hand connected,
+   segments their natural length, elbows bend the right way.
+3. Hands - realistic, gripping the weapon they hold, matching the
+   painted body (no cartoon mittens on painted realism).
+4. Weapon - believable material and scale, held where hands are.
+5. Proportion - head, hands, arms, legs, weapon in one consistent scale.
+6. Weight/balance - feet planted, torso over the base, force direction.
+7. Motion - frames flow windup -> strike -> recover; walk alternates.
 
 ## What the harness sheet shows (per fighter x idle/attack)
 
@@ -51,3 +72,75 @@ cast looks natural and good.
 | Figure | Fine | Unnatural | Needs work |
 |---|---|---|---|
 | All 17 | Ratios 1:5.0-6.2, natural heroic read; chins seated on necks with no gaps (chin-anchoring worked); beards/helmets/hands/weapons/feet all intact | Nothing remaining | None - the cast reads natural and good; loop ends, BODY-7 re-review next |
+
+### 2026-09-26 (BODY-17 baseline human review, owner round 3)
+
+Material: `artifacts/look/moves/*.png` + `*-arms.png` (17 fighters x 14
+movements) and `artifacts/look/motion/*.webm` + contact sheets (5 heroes,
+162 frames each). The owner is right; round 2's "nothing unnatural" was
+a flag check, not a look. Comments as a reviewer would give them:
+
+**Whole cast, every movement (scores: anatomy 1-2, hands 1, weapon 2).**
+
+- "Where is his other arm?" - Zhang Fei idle: the second fist sits on
+  the haft below the first, but no arm reaches it; it floats over his
+  belt. Same on every polearm fighter in idle/walk/hurt. Root cause: the
+  far arm is painted BEHIND the torso (BODY_PART_ORDER) while the far
+  fist is drawn in front of it; and the arm is stretched to ~37u to a
+  hand placed 12u down the haft (natural arm 24.5u), so even where it
+  shows it is a thin smear. -> BODY-19.
+- "The arms end in a skin blob and then a separate cartoon fist." - every
+  near arm: the painted forearm cell still carries the master's OPEN
+  PALM (cut from a T-pose), so the wrist ends in a flesh paddle and the
+  procedural fist is stamped on top a few units away. Two hands, neither
+  attached. -> BODY-19 (cut at wrist) + BODY-20 (painted hand).
+- "The arms change length every frame." - near arm 13u in chop/recover
+  vs 27u in thrust for Zhang Fei; the elbow-to-hand segment drops to 3u
+  in recover (the forearm vanishes and the fist sits on the elbow). Root
+  cause: elbows come from the hand-authored pose table with no length
+  constraint. -> BODY-19 (two-bone IK, constant lengths).
+- "Bow and sword users wave a tan oven-mitt behind their back." -
+  Huang Zhong, archer, Cao Cao, soldier idle: the far hand is a flat
+  cel mitten at shoulder height behind the body, with no arm and not
+  hanging (a relaxed arm hangs by the thigh). -> BODY-19.
+- "The hands look like cartoon stickers." - flat cel capsules with 1u
+  ink outlines and finger grooves, on bodies painted like oil studies.
+  -> BODY-20.
+- "Is that a costume or his skin?" - a flat untextured skin wedge covers
+  the upper chest of every fighter (very visible on Lu Bu, Xiahou Dun,
+  Xu Chu, the soldier): the legacy procedural neck tube
+  (`limbPath(neck, chest, 9-14u)`) still paints in flat skin shade over
+  the painted torso. -> BODY-19 (anatomy pass; remove/texture it).
+- "The weapons are clip-art." - hafts are flat brown bars with black ink
+  outlines, tassels are red paper blocks, the butt caps grey pills, the
+  ferrules bright yellow/pink bands; beside painted armour they read as
+  a different game. -> BODY-21.
+- "He sleeps holding his spear in the air." - down: the fist and haft
+  float above the prone body, sometimes crossing the face. -> BODY-19.
+
+**Movement by movement (all polearm fighters; one-handers analogous).**
+
+| Movement | Score | Human comment | Root cause -> task |
+|---|---|---|---|
+| idle | 2 | Stands well, weapon upright, but the far fist floats with no arm; near forearm ends in a paddle then a fist. | far-arm order/stretch; palm in forearm cell -> BODY-19/20 |
+| walk0/walk1 | 2 | Legs alternate but torso/arms are frozen - a mannequin sliding; weapon never sways. | pose table arms identical to idle -> BODY-22 |
+| windup | 2 | Good diagonal load, but both fists pile up at the chest and the near arm folds to nothing. | forearm 7u vs 11u natural -> BODY-19 |
+| attack/thrust | 3 | Best-reading frames: strong line, weapon forward. Near arm straight but far arm invisible behind torso; fists stacked. | far arm behind torso -> BODY-19 |
+| attack2/chop | 2 | Arms shrink to ~60% length; fists stuck to the chest; a chop should raise the hands, it does not. | pose table elbows -> BODY-19/22 |
+| sweep | 3 | Wide, readable; same stacked fists. | BODY-19 |
+| recover | 1 | Forearm length 3u: the fist sits on the elbow; reads as a broken arm. | BODY-19 |
+| jump | 2 | Legs tucked OK; arms same as recover. | BODY-19 |
+| hurt | 2 | Head snaps back well; far fist floats. | BODY-19 |
+| down | 1 | Weapon held up in the air by a floating fist while lying down. | BODY-19 |
+| special | 3 | Strong forward line; same arm/hand issues. | BODY-19/20 |
+
+**Motion (video).** The combo reads as three distinct swings and the
+windup->strike->recover phasing is visible, which is good. But every
+transition snaps between frozen keys (no in-between), the torso never
+rotates into a swing, and the free arm never moves; a player sees
+"a paper cut-out swapping poses". Walk has only two keys with arms
+locked. -> BODY-22 (motion pass) after BODY-19 fixes the anatomy.
+
+**Proportions.** Heads now 1:5.0-6.2 (fine). Fists are 1.3-1.5x a
+realistic hand for the arm they end; weapon length vs height (polearms
+~1.1-1.25x height) is plausible for guandao/spear art. -> BODY-22 table.
