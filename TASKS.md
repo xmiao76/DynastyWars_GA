@@ -12,37 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### ART-20 - Props, pickups & combat-feedback pass (overhaul phase 7)
-
-- Status: DONE (attempt 1, 2026-09-24 10:40 UTC - owner overhaul goal,
-  verified full-green same morning; final overhaul phase)
-- Dependency: UI-1 DONE.
-- Requirement: restyle crates/jars/meat/sword/chest + hit spark/KO burst/
-  stage-clear flash to the painted arcade style via the existing `fx:` texture
-  pipeline; unify boss-warning flash with the banner kit.
-- Acceptance criteria:
-  - [x] Sprite gate stays 256/256 in unit (338/338 incl. restyled props)
-        + vision (256/256 sprites, 85/85 weapons, 170/170 retracts).
-  - [x] weapon/probe/juice specs preserved (in the 75/75 e2e run);
-        reviewed in combat screenshots (ui20-combat with live sparks +
-        restyled crate; ui20-fx-{spark,burst,dust} texture dumps read).
-  - [x] Full gates green: lint, typecheck, unit 338/338 (+3), e2e 75/75
-        (+3 artfx), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
-- Delivered: src/game/art/fx.ts (paintSpark/paintBurst/paintDust painters),
-  BootScene bakes fx:spark (restyled starburst) + fx:burst (new KO ring)
-  + fx:dust; props.ts enriched interiors (crate brace/studs/grain, meat
-  glaze/sheen, sword fuller/grip wraps, arrow barbs/glint - same boxes);
-  koEmitter bound to fx:burst; stage-clear gold cam.flash + boss-spawn
-  crimson cam.flash (banner-kit red), both real-play only;
-  test/game/fx.test.ts (3), e2e/artfx.spec.ts (3: bindings, flash
-  recording via wrapped cam.flash, combat capture).
-- Scope note: no jar or treasure-chest kinds exist in this game (loot is
-  crate/meat/sword/arrow only) - inventing kinds would touch the sim and
-  the entity pipeline, forbidden by the non-goals, so the four existing
-  props were restyled instead. Neither flash existed before either; both
-  were added as presentation-only real-play juice.
-- Non-goals: no loot/drop-rate/combat changes.
-
 ### BODY-1 - Reference briefs + pilots: one hero body, one boss head (owner-approved plan)
 
 - Status: DONE (attempt 1, 2026-09-24 - owner approved the pilots)
@@ -647,7 +616,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-21 - Realistic painted weapons
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
 - Owner objection round 3 (b): "the ... weapons are not realistic."
   Weapons are procedural shapes with thick ink outlines, flat hafts,
   block tassels and capsule butt caps.
@@ -656,10 +626,28 @@ Add future enhancement tasks below this heading.
   the existing weapon geometry (same length, grip point and rotation,
   so reach stays byte-stable in the sim and the reach tests).
 - Acceptance criteria:
-  - [ ] All 7 weapons painted; drawn length/grip identical to the specs
-        (test); ART-14/15 reach + silhouette gates hold.
-  - [ ] Human-style review: weapons read realistic at gameplay size.
-  - [ ] Full gates green.
+  - [x] All 7 weapons painted; drawn length/grip identical to the specs
+        (test/game/weaponparts.test.ts: 9 tests - byte-identical
+        regeneration, spec parity, cell geometry, procedural-silhouette
+        IoU>0.8 incl. bow at 3 draws, reach gates re-verified on painted
+        renders, drawn width within 3u, gravity tassels, procedural
+        fallback, boot publish atomicity).
+  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-21 section):
+        wood/steel/brass/cloth with bevels and grain, no ink; close pass
+        on guanyu/huangzhong/weiyan (all 14 movements) + fresh motion
+        clips/sheets; dao socket blob gone; residual polish filed
+        (battle-worn blades -> BODY-22).
+  - [x] Full gates green: lint 0, typecheck 0, unit 630/630 (57 files,
+        +9 weaponparts), e2e 78 passed, vision 5/5, selfplay 13/13,
+        build 0, prodbuild 4/4.
+- Delivered: scripts/prepare-weapon-cells.mjs (new: 7 weapons + tassel,
+  absolute-frame paint, per-head steel shading) + .d.mts (new),
+  src/game/art/weapon-parts.ts (new: painter with per-pose grip pivot,
+  bow x-scale, gravity tassel), adapters/weapon-art.ts (new: shared
+  pack boot publish), hero-resources/BootScene/registry/drawFigure/
+  figureShapes integration (weaponPart marks, procedural fallback),
+  src/game/assets/weapons/ (new pack), test/game/weaponparts.test.ts
+  (new), cast-art weapons loading, docs updates.
 - From BODY-19 review: purple/white blob at the dao blade socket in
   some poses (walk1/windup/down/hurt) - pre-existing, verified against
   the pre-19 baseline side by side; weapon geometry, in scope here.
@@ -689,6 +677,9 @@ Add future enhancement tasks below this heading.
   polish is finer finger articulation + thumb separation at 4x+ zoom
   (gameplay size reads well). Revisit if the owner wants gallery-grade
   digits; candidate route is generator refinement, no new pipeline.
+- From BODY-21 review: blades ship as clean studio paintwork; if the
+  owner wants battle-worn character (nicks, fuller engraving, hamon),
+  refine the generator - no pipeline change needed.
 - Non-goals: no sim/timing changes.
 
 ### BODY-23 - Clean painted cells: holes, capes, boots

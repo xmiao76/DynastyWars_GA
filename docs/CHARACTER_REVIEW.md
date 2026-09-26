@@ -283,3 +283,49 @@ track the grips through the sequence with no popping or detachment
 (change of cells, not joints - IK from BODY-19); combo alternation and
 phasing read as before; downed enemy still prone with the weapon
 across. Residual motion limits unchanged -> BODY-22.
+
+### 2026-09-26 (BODY-21 vision check, post-enhancement)
+
+Material: weapon cells at 2x (all 7 kinds + tassel); regenerated
+`artifacts/look/moves/*.png` + `*-arms.png` against the
+`moves-before21/` baseline; close pass on guanyu (guandao, all 14 at
+4x), huangzhong (bow, all 14), weiyan (dao, all 14 + the socket-blob
+regression check). Scores below are WEAPON (believable material and
+scale); hands stay 4 from BODY-20, anatomy 4 from BODY-19.
+
+**Whole cast: painted steel and wood (weapons 4).**
+
+- "They look like weapons now, not clip-art." - Hafts carry wood
+  grain with a lit top edge and a soft bottom rim; blades carry
+  spine/edge bevels (bright crescent belly, serpent S-thread, leaf
+  ridge, dao belly, jian fuller + bright tip, ji ridge + wing
+  leading edges); fittings are shaded brass, not yellow bands;
+  tassels are fanning red strands with a knot, not paper blocks.
+  No ink outlines anywhere.
+- "Held where the hands are." - Grip pivots land on the fists in
+  every reviewed frame (same anchor math: L*grip from the butt);
+  the bow riser sits in the fist with the string nock-to-nock;
+  the tassel ties at the socket and hangs figure-down in every
+  rotation including near-horizontal strikes (gravity frame
+  verified in idle + attack poses).
+- "The dao blob is gone." - The purple/white socket artifact from
+  the BODY-19 findings (weiyan walk1/windup/down/hurt) does not
+  appear in any of the 14 movements: the painted cell replaced the
+  overlapping procedural stack that caused it.
+- Watch item, not a defect: at 4x+ the blades are clean studio
+  paintwork - no nicks, fuller engraving, or hamon lines. At
+  gameplay size they read as oiled steel. Filed as BODY-22 polish
+  if the owner wants battle-worn blades (generator refinement).
+
+**New findings filed, not fixed here.** (1) Capes/boots/keyed holes
+unchanged -> BODY-23. (2) No regressions vs the moves-before21
+baseline (same poses, same reach, retracted phases still narrow;
+drawn width within 3u procedural, tested).
+
+**Motion (video).** Reviewed `motion/guanyu-sheet.png` re-captured
+post-change (162 frames) plus fresh clips/sheets for all 5 heroes. The
+guandao tracks the grips with no popping; the blade holds against the
+bright sky in every frame (the dark silhouette rims earn their place);
+the red tassel swings at the socket in carry poses; enemy spears and
+swords render painted too (shared pack). Residual motion limits
+unchanged -> BODY-22.

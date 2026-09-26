@@ -3961,3 +3961,34 @@ and the three pre-redesign enhancements - all DONE and verified)
   tick), e2e/backdrop-look.spec.ts, artifacts/ui19-review.mjs. Ground line
   (walkBandTop-26) and scroll geometry untouched.
 - Non-goals: no parallax/camera/ground-geometry changes.
+
+### ART-20 - Props, pickups & combat-feedback pass (overhaul phase 7)
+
+- Status: DONE (attempt 1, 2026-09-24 10:40 UTC - owner overhaul goal,
+  verified full-green same morning; final overhaul phase)
+- Dependency: UI-1 DONE.
+- Requirement: restyle crates/jars/meat/sword/chest + hit spark/KO burst/
+  stage-clear flash to the painted arcade style via the existing `fx:` texture
+  pipeline; unify boss-warning flash with the banner kit.
+- Acceptance criteria:
+  - [x] Sprite gate stays 256/256 in unit (338/338 incl. restyled props)
+        + vision (256/256 sprites, 85/85 weapons, 170/170 retracts).
+  - [x] weapon/probe/juice specs preserved (in the 75/75 e2e run);
+        reviewed in combat screenshots (ui20-combat with live sparks +
+        restyled crate; ui20-fx-{spark,burst,dust} texture dumps read).
+  - [x] Full gates green: lint, typecheck, unit 338/338 (+3), e2e 75/75
+        (+3 artfx), vision 5/5, selfplay 13/13, build, prodbuild 4/4.
+- Delivered: src/game/art/fx.ts (paintSpark/paintBurst/paintDust painters),
+  BootScene bakes fx:spark (restyled starburst) + fx:burst (new KO ring)
+  + fx:dust; props.ts enriched interiors (crate brace/studs/grain, meat
+  glaze/sheen, sword fuller/grip wraps, arrow barbs/glint - same boxes);
+  koEmitter bound to fx:burst; stage-clear gold cam.flash + boss-spawn
+  crimson cam.flash (banner-kit red), both real-play only;
+  test/game/fx.test.ts (3), e2e/artfx.spec.ts (3: bindings, flash
+  recording via wrapped cam.flash, combat capture).
+- Scope note: no jar or treasure-chest kinds exist in this game (loot is
+  crate/meat/sword/arrow only) - inventing kinds would touch the sim and
+  the entity pipeline, forbidden by the non-goals, so the four existing
+  props were restyled instead. Neither flash existed before either; both
+  were added as presentation-only real-play juice.
+- Non-goals: no loot/drop-rate/combat changes.

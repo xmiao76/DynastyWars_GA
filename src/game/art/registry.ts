@@ -2,6 +2,7 @@ import { HORSE_H, HORSE_W, HORSE_PLAN, drawHorse, type HorsePlan } from './beast
 import { drawFigure } from './draw'
 import type { ArtResources, HeroArt } from './hero-resources'
 import type { BodyArt } from './body-parts'
+import type { WeaponArt } from './weapon-parts'
 import { horseFrameFor, paintHorseFrame } from './horse-frames'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
@@ -302,10 +303,12 @@ export function drawKindPose(
       ctx.translate(marginFor(pose), HEADROOM)
       const head = resources?.heroes[kind]
       const body = resources?.bodies?.[kind]
-      if (head || body) {
-        const painted: { art?: HeroArt; poseName: PoseName; body?: BodyArt } = { poseName: pose }
+      const weaponArt = resources?.weapons
+      if (head || body || weaponArt) {
+        const painted: { art?: HeroArt; poseName: PoseName; body?: BodyArt; weapon?: WeaponArt } = { poseName: pose }
         if (head) painted.art = head
         if (body) painted.body = body
+        if (weaponArt) painted.weapon = weaponArt
         drawFigure(ctx, entry.plan, POSE_TABLE[pose], painted)
       } else {
         drawFigure(ctx, entry.plan, POSE_TABLE[pose])

@@ -2,6 +2,7 @@ import type { PoseName } from './poses'
 import type { Skeleton } from './rig'
 import type { BodyArt } from './body-parts'
 import type { HorseArt } from './horse-frames'
+import type { WeaponArt } from './weapon-parts'
 
 /** Decoded, complete per-hero art. Pure renderers receive this explicitly. */
 export interface HeroArt {
@@ -24,6 +25,9 @@ export interface ArtResources {
   /** Painted horse frames (BODY-5). Absent (or missing a frame) renders
    * the procedural horse. */
   horse?: HorseArt
+  /** Painted weapon cells (BODY-21), one shared pack. Absent renders the
+   * procedural weapons. */
+  weapons?: WeaponArt
 }
 
 export type HeadLayer = 'rear' | 'head' | 'front'

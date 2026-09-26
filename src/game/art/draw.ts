@@ -2,8 +2,10 @@ import { FACES, SCLERA } from './faces'
 import { HEAD_PAINTED_SCALE, headPainter, type HeroArt, type HeadPainter, type HeadLayer } from './hero-resources'
 import { bodyPainter, type BodyArt, type BodyPainter, type BodyPartName } from './body-parts'
 import { handCellPainter, isHandCell } from './hand-parts'
+import { weaponCellPainter, weaponPoseOf, type WeaponArt, type WeaponPainter } from './weapon-parts'
 import type { PoseName } from './poses'
 import type { FigurePlan } from './figures'
+import { WEAPONS } from './figures'
 import { addWeapon, weaponPose } from './weapons'
 import { INK, LEATHER, SKIN, css, materials, shade, tint, type Materials } from './palette'
 import {
@@ -66,6 +68,8 @@ export interface Shape {
   headLayer?: HeadLayer
   /** A paper-doll body part marker: the raster painter draws here instead. */
   bodyPart?: BodyPartName
+  /** A painted weapon marker (BODY-21): the weapon painter draws here instead. */
+  weaponPart?: string
   /** Painted-material overlay (BODY-10): runs inside this shape's clip, in
    * the trace's own frame, after the cel bands - wood grain, steel bevels,
    * cloth folds. Restrained: a shape may carry one overlay only. */
@@ -182,12 +186,13 @@ export function drawFigure(
   ctx: CanvasRenderingContext2D,
   plan: FigurePlan,
   rawPose: Skeleton,
-  painted?: { art?: HeroArt; poseName: PoseName; body?: BodyArt },
+  painted?: { art?: HeroArt; poseName: PoseName; body?: BodyArt; weapon?: WeaponArt },
 ): void {
   const pose = weaponPose(plan, applyBuild(rawPose, plan.build))
   const m = materials(plan.body, plan.trim, plan.gear, plan.beardColor ?? 0x3a2a18, painted?.art?.skin ?? plan.skin)
   const head = painted?.art
   const body = painted?.body
+  const weapons = painted?.weapon
   // BODY-20: painted hand cells ride the body sheet; the limb painter and
   // the hand painter are dispatched through ONE BodyPainter so paintWithHead
   // keeps its single `body` hook.
@@ -199,8 +204,13 @@ export function drawFigure(
         else limbPaint?.(c, part)
       }
     : undefined
-  const shapes = figureShapes(plan, pose, m, head ? emptyHeadParts : spriteHeadParts, head !== undefined, body)
-  if (head || body) {
+  // BODY-21: the painted weapon cell when the shared pack is loaded.
+  const spec = WEAPONS[plan.weapon]
+  const weaponPaint: WeaponPainter | undefined = weapons?.parts[plan.weapon]
+    ? weaponCellPainter(weapons, weaponPoseOf(pose, spec.length, spec.tassel ?? false))
+    : undefined
+  const shapes = figureShapes(plan, pose, m, head ? emptyHeadParts : spriteHeadParts, head !== undefined, body, weaponPaint ? weapons : undefined)
+  if (head || body || weaponPaint) {
     paintWithHead(ctx, shapes,
       head ? headPainter(head, painted?.poseName ?? 'idle', pose, plan.build.head * HEAD_PAINTED_SCALE) : undefined,
       bodyPaint,
@@ -209,7 +219,8 @@ export function drawFigure(
         // procedural bars float over them as dead-straight capsules (the
         // "stuck arrow" in the objection screenshots).
         if (!body?.parts.torso) drawBodyDetails(ctx, plan, pose, m)
-      })
+      },
+      weaponPaint)
   } else {
     paintCel(ctx, shapes, FIG_W, GROUND)
   }
@@ -491,7 +502,7 @@ function handM(m: Materials, plan: FigurePlan, body?: BodyArt): Materials {
  * geometry. Either painter may be absent (procedural head under a painted
  * body, or vice versa); body details run at the front head marker when
  * there is one, otherwise just before the trailing group flushes. */
-function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: HeadPainter | undefined, body: BodyPainter | undefined, bodyDetails: () => void): void {
+function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: HeadPainter | undefined, body: BodyPainter | undefined, bodyDetails: () => void, weapon?: WeaponPainter): void {
   let group: Shape[] = []
   let detailsDone = false
   const flush = (): void => {
@@ -538,6 +549,9 @@ function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: Hea
     } else if (shape.bodyPart && body) {
       flush()
       body(ctx, shape.bodyPart)
+    } else if (shape.weaponPart && weapon) {
+      flush()
+      weapon(ctx, shape.weaponPart)
     }
     else group.push(shape)
   }
@@ -603,6 +617,7 @@ export function figureShapes(
   headParts: HeadParts = spriteHeadParts,
   painted = false,
   body?: BodyArt,
+  weapons?: WeaponArt,
 ): Shape[] {
   const b = plan.build.bulk
   const shapes: Shape[] = []
@@ -611,6 +626,13 @@ export function figureShapes(
   }
   const has = (part: BodyPartName): boolean => body?.parts[part] !== undefined
   const hm = handM(m, plan, body)
+  // BODY-21: the painted weapon cell when the shared pack carries this
+  // kind; otherwise the procedural weapon in the same slot.
+  const hasWeapon = weapons?.parts[plan.weapon] !== undefined
+  const weaponOrProcedural = (): void => {
+    if (hasWeapon) shapes.push({ trace: () => {}, fill: '', weaponPart: plan.weapon })
+    else addWeapon(add, plan, p, m)
+  }
   // BODY-15: the far hand grips iff it sits on the haft axis (the far fist
   // is choreographed there for polearms); otherwise it is a relaxed
   // counterbalance hand. Decided by geometry so no signature changes.
@@ -630,7 +652,7 @@ export function figureShapes(
 
   // A dropped weapon rests behind the prone body, not across the eyes. Its
   // geometry/reach remains identical; only the painted down-pose occlusion changes.
-  if (painted && p.lying) addWeapon(add, plan, p, m)
+  if (painted && p.lying) weaponOrProcedural()
 
   // Cape first: it sits behind everything and is most of what makes a
   // silhouette recognisable at a distance.
@@ -809,7 +831,7 @@ export function figureShapes(
     }
   }
 
-  if (!painted || !p.lying) addWeapon(add, plan, p, m)
+  if (!painted || !p.lying) weaponOrProcedural()
   return shapes
 }
 

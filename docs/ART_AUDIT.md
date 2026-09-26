@@ -24,7 +24,7 @@ not from the numbers alone.
 | Near grip fist | painted cell `gripN` on the body sheet, skin-matched | all 17 | soft-shaded fist, no ink | G1 resolved by BODY-20 |
 | Far grip fist + fingertips | painted cells `gripF` + `wrapF` (far shaded) | all 17 | fist rides under the haft, fingertips cross over it | G1 resolved by BODY-20 |
 | Relaxed far hand | painted cells `relaxN`/`relaxF` (open hands) | all 17 | - | G1 resolved by BODY-20 |
-| Weapon (haft, head, tassel, ferrule, butt) | **procedural** vector with ink outline (`addWeapon`), 7 kinds | code for all | "clip-art" beside painted bodies | G4 -> BODY-21 |
+| Weapon (haft, head, tassel, ferrule, butt) | painted shared sheet `weapons-sheet.png`, 7 kinds + tassel | all 17 | wood/steel/brass/cloth, no ink; same length/grip/rotation | G4 resolved by BODY-21 |
 | Boots | **procedural** overlay (`drawBoot`) over the painted shin cells | code for all | tan/brown pills; they hide the painted boot | G8 -> BODY-23 |
 | Neck | **procedural** flat skin tube (`limbPath(neck, chest)`) | code for all | a flat skin wedge over the painted collar (Lu Bu, Xiahou Dun, Xu Chu, soldier) | G7 -> BODY-19 |
 | Horse (mount) | painted `horse/horse-sheet.png` from `horse-master.jpg` | 1 shared | fine (ART-era review) | - |
@@ -44,9 +44,12 @@ not from the numbers alone.
   wide sleeve ends above the elbow line in the master, so a wrist cut
   would leave an almost empty cuff. -> BODY-19 must re-cut Wei Yan with
   the sleeve end in the forearm cell (sleeve drape to the wrist).
-- **G4 - no painted weapons.** -> BODY-21 (painted weapon cells for glaive,
-  pike, spear, sword, dao, ji and bow on the SAME geometry: reach stays
-  byte-stable).
+- **G4 - RESOLVED by BODY-21.** One shared painted sheet carries all 7
+  weapons + the tassel on the SAME procedural geometry (length, grip,
+  rotation unchanged; silhouette IoU>0.8 vs the traces, drawn width
+  within 3u, reach gates re-verified on painted renders). Boot
+  signature-verifies the pack; a missing/corrupt pack falls back to the
+  procedural weapons for the whole cast.
 - **G5 - capes are procedural** on the 6 caped plans. -> BODY-23.
 - **G6 - keyed holes in dark costumes.** The black-ground flood key
   (tolerance 10) eats near-black lacquer and cloth. Interior-hole share

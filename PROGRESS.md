@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-26 23:30 UTC - BODY-21 (attempt 1, painted weapons)
+
+- Status before: BODY-21 IN_PROGRESS (owner round-3 objection (b):
+  "the weapons are not realistic" - flat hafts, block tassels, capsule
+  butt caps, thick ink outlines).
+- Work completed: one shared painted sheet (7 weapons + tassel) drawn
+  over the EXACT procedural geometry - absolute-frame paint with
+  per-pose grip pivots, bow x-scaled like traceBow(fore), tassel in
+  the gravity frame. Materials: wood grain hafts, per-head steel
+  bevels (crescent belly, serpent thread, leaf ridge, jian fuller +
+  tip, dao belly, ji ridge + wings), brass fittings, cloth tassels;
+  no ink anywhere. Draw time: weaponPart marks + painter with full
+  procedural fallback; boot signature-verifies the pack. Tests gate
+  byte-identical regeneration, spec parity, procedural-silhouette
+  IoU>0.8 (incl. 3 bow draws), reach gates re-run on painted renders,
+  drawn width within 3u, gravity tassels, fallback ink presence, and
+  publish atomicity. Review: weapons 4, dao socket blob gone, no
+  regressions vs the pre-21 baseline.
+- Files changed: scripts/{prepare-weapon-cells.mjs (new),
+  prepare-weapon-cells.d.mts (new)}, src/game/art/{weapon-parts.ts
+  (new),draw.ts,registry.ts,hero-resources.ts}, src/game/adapters/
+  weapon-art.ts (new), src/game/scenes/BootScene.ts, src/game/assets/
+  weapons/ (new pack), test/game/{weaponparts.test.ts (new),cast-art.
+  ts,artaudit.test.ts}, docs/{CHARACTER_REVIEW.md (BODY-21 section),
+  ART_AUDIT.md (G4 resolved)}, TASKS.md (BODY-21 DONE, polish note to
+  BODY-22, ART-20 archived), TASKS-ARCHIVE.md (ART-20), PROGRESS.md.
+- Verification run: eslint 0; tsc 0; vitest 630/630 (57 files, +9);
+  browser gates (artifacts/run-body2-gates.ps1): E2E=0 (78 passed),
+  VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4);
+  motion review re-captured (5 heroes, 1 passed).
+- Result: BODY-21 acceptance met; all 7 weapons painted on identical
+  geometry, review reads realistic, gates green.
+- Status after: BODY-21 DONE.
+- Remaining work or blocker: BODY-22..23 then the BODY-7 re-review
+  sweep; owner acceptance of round 3 outstanding.
+- Next recommended task: BODY-22 (proportions + natural motion).
+
 ### 2026-09-26 22:30 UTC - BODY-20 (attempt 1, painted hands)
 
 - Status before: BODY-20 IN_PROGRESS (owner round-3 objection (b):

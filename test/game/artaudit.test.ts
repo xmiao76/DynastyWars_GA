@@ -32,9 +32,9 @@ const HEAD_FILES = ['portrait', 'head', 'front', 'rear'] as const
 const HOLE_CEILING = 0.4
 /** Drawn by code for every fighter today (draw.ts / weapons.ts). */
 const PROCEDURAL_PARTS = [
-  'weapon (addWeapon: haft, head, tassel, butt cap)',
   'boot overlays (drawBoot)',
   'procedural fists/mittens (emergency path only since BODY-20)',
+  'procedural weapons (emergency path only since BODY-21)',
 ] as const
 
 function packs(id: string): { face: string; body: string } {
