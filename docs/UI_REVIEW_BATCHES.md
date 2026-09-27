@@ -5,7 +5,7 @@ batch (see `docs/UI_REVIEW_LEDGER.md`) into TASKS.md Enhancements, adding the
 Status/Source/Evidence lines from the `VISUAL_REVIEW.md` section 4 template, then
 marks the batch FILED here and in the ledger. Do not edit a FILED batch.
 
-## UIR batch 1 (PENDING) - ready-to-file tasks (UI review 2026-09-26 @ 3fd3b32)
+## UIR batch 1 (FILED 2026-09-27) - ready-to-file tasks (UI review 2026-09-26 @ 3fd3b32)
 
 Findings and evidence: docs/UI_REVIEW_LEDGER.md. File these into TASKS.md
 Enhancements in this order, after the reproduce check. Shared acceptance for
@@ -57,7 +57,7 @@ ledger finding to `fixed <commit> (self-check)`.
 - Acceptance: a unit test on the painted sheet shows that the up arm's chevron apex pixel is above its centre, and likewise for the other three arms. After the recapture, the phone crop shows outward arrows.
 - Non-goals: the button layout, or the hit areas.
 
-## UIR batch 2 (PENDING) - owner-approved tasks (2026-09-26)
+## UIR batch 2 (FILED 2026-09-27) - owner-approved tasks (2026-09-26)
 
 Findings: docs/UI_REVIEW_LEDGER.md (V-9, V-11, V-13); decisions are in its
 "Owner decisions" section. File these after batch 1, in this order. The

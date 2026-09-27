@@ -42,46 +42,46 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ## Findings
 
-### V-1 - Stage name is printed over the SCORE readout (S2, LAYOUT) - batched UIR-1
+### V-1 - Stage name is printed over the SCORE readout (S2, LAYOUT) - filed UIR-1
 - Evidence: `crops/stage1-idle--centre.png`: 博望坡 sits on top of "SCORE 0"; the two lines share pixels. Kit suspect "overlapping text" on all 45 in-game screens, all 9 stages, phone and WebGL.
 - Root cause: `src/game/ui/hudlayout.ts:44-45`: STAGE_LABEL y1 (9px, top origin, spans y1-11) and SCORE y12 (9px, centre origin, spans y7-17) overlap by ~4px; created at `src/game/scenes/HudScene.ts:387-395`.
 
-### V-2 - Boss WARNING banner is drawn UNDER the boss rail (S1, DEPTH) - batched UIR-2
+### V-2 - Boss WARNING banner is drawn UNDER the boss rail (S1, DEPTH) - filed UIR-2
 - Evidence: `crops/stage1-boss-warning--banner.png`: only the subtitle "Li Dian 李典" shows; the red rail covers the WARNING title completely.
 - Root cause: `src/game/scenes/HudScene.ts:670-679` puts every banner at depth 9_800 "under the HUD plates", but the boss rail (`HudScene.ts:325-326`, depth 10_000, y40-58) appears in the same frame as the boss banner (y34-78), so the rail wins.
 
-### V-3 - Stage banner and intro card announce the same thing at the same time (S2, TIMING) - batched UIR-3
+### V-3 - Stage banner and intro card announce the same thing at the same time (S2, TIMING) - filed UIR-3
 - Evidence: `crops/stage1-intro--intro.png`: the banner's "Bowang Slope · 博望坡" still shows above the intro card, which repeats "STAGE 1" and "Bowang Slope · 博望坡". The same happens on all nine `stage*-intro` shots.
 - Root cause: `src/game/scenes/HudScene.ts:484` raises the card 1_600 ms after build, while the banner (`HudScene.ts:175`, BANNER_HOLD_MS plus 180 ms in and out) is still up. Both carry stage number and name.
 
-### V-4 - 7px body-font labels: unreadable, and a second typeface (S2, TYPE) - batched UIR-4
+### V-4 - 7px body-font labels: unreadable, and a second typeface (S2, TYPE) - filed UIR-4
 - Evidence: `screens/stage1-result.png`: LIVES / SCORE / TIME are thin grey Arial-style caps, unlike every other word on the panel. `crops/select-zhaoyun--roster.png`: LIFE / SPEED are the same sans. `screens/stage6-play.png`: "HORSE 20" is light grey sans on the gold plate. On a Pixel 7 this becomes about 6 CSS px.
 - Root cause: `liveStyle()` (`src/game/ui/type.ts`) selects BODY_STACK below DISPLAY_MIN_SIZE. The callers pass 7: `src/game/scenes/ResultScene.ts:186` (chip label), `src/game/scenes/SelectScene.ts:127-128` (stat rows), and `src/game/ui/hudlayout.ts:21` META_ROW size 7.
 
-### V-5 - Result chip row is not centred and the LIVES chip sits on the panel frame (S2, LAYOUT) - batched UIR-5
+### V-5 - Result chip row is not centred and the LIVES chip sits on the panel frame (S2, LAYOUT) - filed UIR-5
 - Evidence: `screens/stage1-result.png`: the LIVES chip's left edge is on the parchment border. The gaps are 32 and 16 logical px, and the row spans x70-390 (centre 230, not 240).
 - Root cause: `src/game/scenes/ResultScene.ts:114-116` hard-codes x offsets -170, -76 and +60 with widths 62, 120 and 90, rather than laying out from the panel rect.
 
-### V-6 - Panel titles collide with their card's top frame (S2, LAYOUT) - batched UIR-5
+### V-6 - Panel titles collide with their card's top frame (S2, LAYOUT) - filed UIR-5
 - Evidence: `crops/stage1-continue--dialog.png`: CONTINUE? crosses the gold top rule. `screens/stage1-result.png`: STAGE CLEAR! touches the top bar. By contrast, PAUSED (`crops/stage1-pause--dialog.png`) sits properly inside its identical card.
 - Root cause: `src/game/scenes/HudScene.ts:440` places CONTINUE? at y92 on a card centred at y123 (`HudScene.ts:351`), which is the card's top edge; PAUSED uses y120. `src/game/scenes/ResultScene.ts:98` places STAGE CLEAR! at y84 on the victory panel at y100.
 
-### V-7 - CONTINUE? title and countdown have no contrast on parchment (S2, COLOUR) - batched UIR-5
+### V-7 - CONTINUE? title and countdown have no contrast on parchment (S2, COLOUR) - filed UIR-5
 - Evidence: `crops/stage1-continue--dialog.png`: flat #ffd700 title and a white "9" on cream. PAUSED on the same card has a dark stroke and reads cleanly.
 - Root cause: `src/game/scenes/HudScene.ts:440-448`: `liveStyle(22, {color:'#ffd700'})` and `liveStyle(30, {color:'#ffffff'})` without the stroke used at `HudScene.ts:461`.
 
 ### V-8 - End screens show 0 score and 0.0s (harness)
 - The capture forces the result, game-over and complete screens, so the stats are empty. Number formatting and long-score fit on these screens are unjudged. Next capture fix: seed stats (see Harness backlog).
 
-### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - owner-approved, batched UIR-7
+### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - owner-approved, filed UIR-7
 - Evidence: `screens/phone-portrait-game.png`: the game fills 28% of the height; the touch buttons are about 20 CSS px, and there is no hint to rotate.
 - Root cause: `src/game/main.ts:31-32` (Scale.FIT, CENTER_BOTH) has no orientation handling in `index.html` or `src/style.css`. See Owner questions.
 
-### V-10 - Touch d-pad chevrons point inward (S2, ASSET) - batched UIR-6
+### V-10 - Touch d-pad chevrons point inward (S2, ASSET) - filed UIR-6
 - Evidence: `screens/phone-landscape-game.png`: the up arm shows a down-chevron, the left arm ">", the right arm "<" and the down arm "^". The same happens in portrait.
 - Root cause: `src/game/art/hudart.ts:487-492`: the chevron path's apex is at +y, so at angle 0 it points DOWN, but `hudart.ts:498-501` assumes angle 0 points up.
 
-### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, batched UIR-8
+### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, filed UIR-8
 - Evidence: `screens/stage1-idle.png`: a flat grey slab with a green lid (the gorge wall). `screens/stage6-play.png`: blank beige rectangles on posts (warship sails) with the hulls sunk below the horizon. `screens/stage7-play.png`: solid red slabs (the cliffs). Next to the painted heroes these read as placeholder art.
 - Root cause: `src/game/art/backdrop.ts:324-326` (gorge), `:304-305` (sail 16x6 fillRect), `:444-446` (inferno cliffs) are `fillRect` blocks without tonal bands or ink. The hulls sit below `MARKS_ROOT_DEPTH` (`src/game/scenes/GameScene.ts:67`).
 - Estimate: M (one painter, three kinds), with risk to the vision richness gate and the seam unit test.
@@ -94,7 +94,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
-## UIR batch 1 - PENDING FILING (reviewed 2026-09-26 at 3fd3b32)
+## UIR batch 1 - FILED (reviewed 2026-09-26 at 3fd3b32; filed 2026-09-27)
 
 The next producer pass files these into TASKS.md Enhancements verbatim, after first confirming on a fresh capture that each finding still reproduces (drop any that do not). Then it changes each finding's status to `filed UIR-n` and this heading to FILED.
 Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 1).
@@ -108,7 +108,7 @@ Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 1).
 | UIR-5 | V-5, V-6, V-7 | M | S2 on continue and result panels |
 | UIR-6 | V-10 | S | S2 touch controls |
 
-## UIR batch 2 - PENDING FILING (owner-approved 2026-09-26)
+## UIR batch 2 - FILED (owner-approved 2026-09-26; filed 2026-09-27)
 
 These are owner decisions, not review findings, so they do not count toward the six-task cap. File them in the SAME producer pass as batch 1, after it and in this order. Before filing, confirm that V-9, V-11 and V-13 still reproduce on the fresh capture. Then set each status to `filed UIR-n` and this heading to FILED.
 Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 2).

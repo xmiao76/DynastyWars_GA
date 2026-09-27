@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 
+### 2026-09-27 04:10 UTC - Producer pass (UIR batch 1+2 filing)
+
+- Status before: two ledger batches PENDING FILING (batch 1: UIR-1..6
+  from the 2026-09-26 UI review; batch 2: UIR-7..11 owner-approved);
+  signals last snapshotted green at the BODY-7 sweep.
+- Work completed: producer pass per eval-loop. Logic signal (selfplay)
+  13 passed; visual signal (vision) 5/5 - both green, no regressions.
+  Fresh review capture: 59 screens. Re-confirmed every batched finding
+  on the fresh capture (V-1, V-2, V-4..V-11, V-13 visually; V-3 by code
+  arithmetic - card at +1600ms vs banner visible to ~1680ms+, the
+  fresh shot missed its ~200ms window; zero src/game changed since
+  the review). No new findings (contact sheets clean beyond the
+  ledger). Filed UIR-1..UIR-11 into TASKS.md Enhancements (batch 1
+  within the six-task cap; batch 2 owner-approved, exempt); marked
+  both batches FILED in UI_REVIEW_BATCHES.md and the ledger; finding
+  statuses set to filed.
+- Files changed: TASKS.md (UIR-1..UIR-11 TODO),
+  docs/UI_REVIEW_LEDGER.md (batches FILED, statuses),
+  docs/UI_REVIEW_BATCHES.md (batches FILED), PROGRESS.md,
+  artifacts/loop/proposals-2026-09-27T03-49-44-795Z-e860f01f.md.
+- Verification run: signal 13 passed; vision 5/5; review:capture 3
+  passed (59 screens); no game code touched (producer pass).
+- Result: 11 UIR tasks filed; queue ready for consumers.
+- Status after: producer work done; no IN_PROGRESS started here.
+- Remaining work or blocker: consumers implement UIR-1.. first
+  (BODY-7 and ENH-12 stay IN_PROGRESS: owner acceptance / deferred).
+- Next recommended task: UIR-1 (consumer).
+
 ### 2026-09-27 02:10 UTC - BODY-7 (final sweep, gates + whole-cast review)
 
 - Status before: BODY-7 IN_PROGRESS (attempt 1); round-3 work
