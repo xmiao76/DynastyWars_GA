@@ -444,3 +444,60 @@ and the hand cells:
 **Verdict:** all three gaps closed; no player-visible defect at
 40-90px game size. Optional polish only: the prone cape trail reads
 subtle (BODY-24 may sweep it with the interpolation work).
+
+### 2026-09-27 (BODY-7 final sweep)
+
+Serial gates in ONE run: lint 0, typecheck 0, unit 635/635 (58 files),
+e2e 78 passed, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4.
+Art shipped: 8.60 MB PNG on disk, ~46.3 MB decoded RGBA (faces 9.0M
+px, bodies 2.4M, weapons 273K, horse 409K); boot-to-title 6.8s with
+17/17 bodies + heads + horse + weapons published.
+
+**Whole-cast review (all 17 fighters x 14 poses + motion):** every
+sheet read by a reviewer (12 fighters direct, all 17 covered incl. 3
+parallel review passes), every flagged item adjudicated with evidence.
+18 flags came in; ALL dismissed, none filed:
+
+- lubu:attack2 "rear fist floats" - DISMISSED: gripDist exactly 0.0,
+  12u separation on the haft by construction; the visible sliver is
+  the designed wrap.
+- caocao:attack2/chop + soldier:attack2 "rear fist floats" -
+  DISMISSED: 40u+ from the grip; clean counterbalance arms, verified
+  on crops (one-handers never grip with the far hand - BODY-15).
+- spearman:down "kinked shaft" - DISMISSED: straight on the crop;
+  tassel + resting hand misread.
+- archer face-cross x5 poses - DISMISSED: ZERO painted-weapon pixels
+  in the inner AND outer face ellipses across all 17x14 (probe); only
+  3-8px in `down` by the prone head (expected).
+- archer:down "clipped" - DISMISSED: full-height window cannot clip
+  vertically; B=0 bottom margin is by-design feet-on-ground.
+- caoren/xuhuang/zhanghe/lidian:hurt "missing arm" - DISMISSED:
+  fallback geometrically forced (nearest haft point 32u > 23u reach);
+  counterbalance reads naturally, verified on crops.
+- jump "detached white feet" x4 - DISMISSED: no transparent gap
+  (tonal sole boundary); before/after shows unified boot.
+- zhanghe idle/walk "detached off-hand" - DISMISSED: hand overlaps
+  the silhouette, no gap (verified on fresh JPEG; an earlier read
+  was a crossed attachment).
+- zhanghe jump "cape missing" - DISMISSED: present, partially occluded
+  by the crouch (correct).
+- zhanghe down "green shaft" - DISMISSED: prone green cape correctly
+  layered under the brown sword.
+- zhanghe "reads as spear" - DISMISSED: renders the correct jian cell
+  (disc guard, no tassel, 0 tassel px); 72u total is the blessed
+  "large heroic jian" band.
+- lidian:hurt "off-hand gap" - DISMISSED: verified attached on crop.
+
+No S1-S3 findings: no UIR tasks filed from the character sweep (UI
+screens remain the owner's track with its own ledger/batches).
+Facings: mirrored sprites (no separate left art); the face-clear gate
+covers both facings. Desktop/mobile/co-op/mounted: covered by the
+green e2e suite (touch, body-look mounted/co-op captures).
+
+**Motion (video).** Re-captured post-sweep (5 heroes, 162 frames
+each): walk alternates cleanly, combo phasing reads across all three
+hits, jump/special commit, enemies react and fall prone. No popping,
+detachment, or swimming anywhere in the sequences.
+
+**Verdict:** the cast reads natural and good in every movement. The
+remaining acceptance item is the owner's own review - see BODY-7.
