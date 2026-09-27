@@ -807,6 +807,14 @@ export function figureShapes(
   // arm stays behind, above) but under the near arm and the far fist.
   if (gripping) {
     if (farArm) {
+      // UIR-14 (J3): soft edge separation where the forearm crosses the
+      // torso - same soft-shade mechanism as the shoulder joins (BODY-11).
+      shapes.push({
+        trace: (c) => ovalPath(c, lerpPt(p.elbowF, p.handF, 0.5), 7 * b, 5.5 * b, 0),
+        fill: 'rgba(0,0,0,0)',
+        outline: false,
+        shoulder: { x: (p.elbowF.x + p.handF.x) / 2, y: (p.elbowF.y + p.handF.y) / 2, radius: 6.5 * b },
+      })
       mark('foreArmF')
     } else {
       add((c) => limbPath(c, p.elbowF, p.handF, 7.2 * b, 5.4 * b), m.clothShade)
@@ -857,6 +865,14 @@ export function figureShapes(
       })
     }
     mark('upperArmN')
+    // UIR-14 (J3): the near forearm's edge separates from the torso with
+    // the same soft shade (silver-on-silver vanishes without it).
+    shapes.push({
+      trace: (c) => ovalPath(c, lerpPt(p.elbowN, p.handN, 0.5), 6.5 * b, 5 * b, 0),
+      fill: 'rgba(0,0,0,0)',
+      outline: false,
+      shoulder: { x: (p.elbowN.x + p.handN.x) / 2, y: (p.elbowN.y + p.handN.y) / 2, radius: 6 * b },
+    })
     mark('foreArmN')
   } else {
     add((c) => ovalPath(c, p.shoulderN, 7.8 * b, 6.4 * b, -0.2), m.trim)

@@ -95,7 +95,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
 ### V-14 - Arm, wrist, hand and grip joins look wrong on every fighter (S1/S2, ASSET+DEPTH+STATE) - filed UIR-12/UIR-13/UIR-14/UIR-15
-- Fix progress 2026-09-27: **J4/J8 fixed by UIR-12** (hands with separated rounded digits; after-review judged ok). **J5/J7 fixed by UIR-13** (wrapN near-fingertips over the haft for every upright pose, widened far pads, wrist tips redraw over the haft; delegated before/after pixel passes, two rounds). J1/J3 open via UIR-14, J6 via UIR-15.
+- Fix progress 2026-09-27: **J4/J8 fixed by UIR-12**, **J5/J7 fixed by UIR-13**, **J1/J3 fixed by UIR-14** (feathered sleeve tops tuck under the pauldron; forearm edge-shade separates arm from torso). J6 open via UIR-15.
 - Owner report 2026-09-26: "every character's arm position, arm connection to the body, connection to the hand, and the hand's connection to the weapons are not right". The 2026-09-26 review missed it (see VISUAL_REVIEW.md "Why the first art-director review still missed the arms").
 - Seed evidence (a spot check, not the full pass), from `anatomy/zhaoyun.png`, `anatomy/guanyu.png`, `anatomy/lubu.png` and the matching `-xray` sheets at `09d7d06`:
   - J4: the hands are flat cream or pink mitten icons with no fingers, unlike the painted face and sleeve on every fighter.

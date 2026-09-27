@@ -721,6 +721,22 @@ export async function prepareHero(id) {
     c.translate(-a[0], -a[1])
     c.drawImage(img, 0, 0)
     keyCell(c, cw, chh, KEY_TOLERANCE)
+    if (p.name === 'upperArmF' || p.name === 'upperArmN') {
+      // UIR-14 (J1): the painted sleeve top carries pauldron fragments from
+      // the master's crop and steps against the torso's painted pauldron
+      // ("pasted-on" look). Feather the top rows so the sleeve melts under
+      // the pauldron instead of ending on a hard edge.
+      const featherRows = Math.round(chh * 0.16)
+      const fim = c.getImageData(0, 0, cw, chh)
+      for (let y = 0; y < featherRows; y += 1) {
+        const fade = y / featherRows
+        for (let x = 0; x < cw; x += 1) {
+          const i = (y * cw + x) * 4 + 3
+          fim.data[i] = Math.round((fim.data[i] ?? 0) * fade)
+        }
+      }
+      c.putImageData(fim, 0, 0)
+    }
     if (p.name === 'foreArmF' || p.name === 'foreArmN') {
       // BODY-19 wrist cut: erase everything past the wrist row. The cell
       // axis runs elbow (A) at pre/(pre+1+post) to palm (B) one span later,
@@ -800,7 +816,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-6',
+        revision: 'body-7',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },

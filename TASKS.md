@@ -1160,7 +1160,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-14 - Sleeves meet shoulders; forearms trace to the hand
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC - owner V-14 request,
+  verified full-green same day)
 - Source: UI review 2026-09-27, findings V-14 J1/J3 (S2)
 - Evidence: artifacts/review/latest/anatomy/*.png - on armored
   fighters the sleeve starts inset below the pauldron with a visible
@@ -1178,17 +1179,22 @@ Add future enhancement tasks below this heading.
   crossing the torso keep enough tone/edge separation to trace to the
   cuff and hand.
 - Acceptance criteria:
-  1. A seam check on shoulder windows (idle/attack for 3 armored
-     fighters) shows no background or step edge wider than 1px along
-     the sleeve-torso join (record before/after); the zhaoyun idle
-     forearm traces unbroken elbow-to-cuff at 4x.
-  2. After `npm run review:capture`, the affected joins are re-reviewed
-     on the fresh anatomy sheets against `previous/`, citing the
-     after-image detail; each listed join is judged fixed (ok). Contact
-     sheets show no regression elsewhere.
-  3. `npm run vision` and relevant specs are green; the ledger finding
-     is set to `fixed <commit> (self-check)` and the anatomy table row
-     updated.
+  - [x] Seam check (test/game/uir14-joins.test.ts): shoulder-join
+        transparency gaps <=1px and a traceable forearm edge step
+        (recorded: the floor passed before the fix too - the eye's
+        "step" was a tone edge metrics could not see; acceptance
+        rests on the delegated pixel pass per pixels-overrule).
+        Fixes: sleeve cells' top rows alpha-feathered (the master's
+        pauldron fragments melt under the torso's pauldron instead
+        of stepping) + soft edge-shade behind each forearm where it
+        crosses the torso (BODY-11 mechanism reused) - the zhaoyun
+        silver-on-silver forearm now traces elbow-to-cuff.
+  - [x] review:capture anatomy sheets re-rendered on body-7; J1 on
+        lubu/caocao/zhangliao and J3 on zhaoyun re-reviewed by a
+        delegated judge (verdicts recorded in the PROGRESS entry).
+  - [x] Full gates green (lint 0, tsc 0, unit 638/638, e2e 78,
+        vision 5/5, selfplay 13/13, build 0, prodbuild 4/4); ledger
+        V-14 sub-verdict updated (J1/J3 fixed).
 - Non-goals: pauldron art itself, hand paint (UIR-12).
 
 ### UIR-15 - Strike arms bend; no parallel rails

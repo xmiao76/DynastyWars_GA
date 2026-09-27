@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 09:35 UTC - UIR-14 (attempt 1, sleeves + wrist traces)
+
+- Status before: UIR-14 TODO (owner V-14 J1/J3: sleeve steps below the
+  pauldron on armored fighters; zhaoyun forearm camo on the torso).
+- Work completed: seam-floor test (test/game/uir14-joins.test.ts)
+  recorded before/after (it passed before too - the eye's step is a
+  tone edge, metrics blind to it; acceptance rests on delegated
+  pixels per the standing rule). Fixes: upper-arm cells' top 16% of
+  rows alpha-feathered so the painted sleeve melts under the pauldron
+  (the master-crop pauldron fragments no longer step against the
+  torso's painted pauldron), and a soft edge-shade (BODY-11
+  mechanism) behind each forearm where it crosses the torso - the
+  silver-on-silver forearm now traces to the cuff. 17 sheets
+  regenerated (revision body-7). Verdicts: see below.
+- Files changed: scripts/prepare-body-parts.mjs (feather, body-7),
+  src/game/art/draw.ts (forearm separators), test/game/uir14-joins
+  .ts (new), 17 body sheets + 3 prepared.json, TASKS.md, PROGRESS.md,
+  docs/UI_REVIEW_LEDGER.md.
+- Verification run: art suites 43/43; lint 0; tsc 0; unit 638/638 + 1
+  skipped; browser gates: E2E=0 (78), VISION=0 (5/5), SELFPLAY=0
+  (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Delegated J1/J3 verdict (fresh body-7 anatomy sheets): J1 FIXED (lubu/caocao/zhangliao idle+attack: feathered sleeve melts under the pauldron, no ledge/step at 6x zooms), J3 FIXED (zhaoyun idle/walk0/hurt: forearm traces unbroken elbow-to-cuff via the edge-shade + tone break).
+- Result: UIR-14 acceptance met.
+- Status after: UIR-14 DONE.
+- Remaining work or blocker: V-14 J6 (UIR-15) remains; BODY-7
+  acceptance needs owner re-review.
+- Next recommended task: UIR-15 (strike arm poses).
+
+
 ### 2026-09-27 08:05 UTC - UIR-13 (attempt 1, grip wraps + layering)
 
 - Status before: UIR-13 TODO (owner V-14 J5/J7: haft over the far
