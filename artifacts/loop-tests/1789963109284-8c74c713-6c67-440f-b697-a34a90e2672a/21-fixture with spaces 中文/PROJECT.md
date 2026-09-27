@@ -1,1 +1,0 @@
-PROJECT.md: Fixture only — 中文

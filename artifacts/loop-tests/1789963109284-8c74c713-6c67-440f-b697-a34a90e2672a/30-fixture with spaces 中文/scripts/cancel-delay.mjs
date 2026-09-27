@@ -1,1 +1,0 @@
-import path from'node:path';import{fileURLToPath}from'node:url';import{main}from'./loop/runner.mjs';const timer=setTimeout(()=>process.emit('SIGINT'),80);process.exitCode=await main(['--delay-seconds','20'],path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'));clearTimeout(timer);
