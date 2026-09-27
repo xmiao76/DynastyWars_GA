@@ -19,3 +19,4 @@ secrets/
 *credentials*
 /artifacts/review
 /artifacts/loop
+artifacts/review/

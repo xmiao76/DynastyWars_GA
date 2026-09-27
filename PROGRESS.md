@@ -22,6 +22,22 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 06:05 UTC - Owner request: untrack artifacts/review
+
+- Status before: artifacts/review/ tracked since bc5be7f; every
+  capture dirtied the tree with regenerable binaries.
+- Work completed: removed all 395 review paths from the git index
+  (local files kept, verified: 34 anatomy PNGs present) and added
+  artifacts/review/ to .gitignore so captures stay untracked.
+- Files changed: .gitignore, git index (395 removals), PROGRESS.md.
+- Verification run: git status shows no review paths; local tree
+  intact.
+- Result: review captures untracked going forward.
+- Status after: done; no queue change.
+- Remaining work or blocker: none from this request.
+- Next recommended task: none (owner-directed).
+
+
 ### 2026-09-27 05:45 UTC - Producer pass (anatomy DUE NOW, V-14 split)
 
 - Status before: ledger DUE NOW (owner flag: arm/shoulder/wrist/hand/
