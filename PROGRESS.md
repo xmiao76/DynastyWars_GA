@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 17:05 UTC - UIR-4 (attempt 1, label typography - DONE)
+
+- Status before: UIR-4 TODO (V-4: liveStyle(7) falls to the generic
+  sans below DISPLAY_MIN_SIZE 8 - LIVES/SCORE/TIME, LIFE/SPEED and the
+  HORSE row read at ~6 CSS px on a Pixel 7 in a second typeface).
+- Work completed: the three call sites raised to 9 (ResultScene chip
+  labels, SelectScene stat labels, hudlayout META_ROW) - 9 keeps the
+  display family and clears 7 CSS px on the phone (the ledger's own
+  7->~6 CSS measurement). TDD: test/game/uir4-type.test.ts scans the
+  scene/ui sources for liveStyle(<8) callers and checks the layout
+  constants. Objective kit evidence: "small text <8px" suspects 92
+  across 59 screens before -> 0 after. No new glyphs (string table /
+  font subset untouched).
+- Files changed: src/game/scenes/{ResultScene,SelectScene}.ts,
+  src/game/ui/hudlayout.ts, test/game/uir4-type.test.ts (new),
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-4 fixed
+  self-check).
+- Verification run: lint 0; tsc 0; unit 646/646 + 1 skipped (+2 new
+  pins); review capture after; browser gates: E2E=0 (78), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Delegated re-review: V-4 FIXED (result-panel and roster labels verified before/after with pixel measurements; HORSE-row instance code-confirmed at 9px, unexercised in the phone frame).
+- Result: UIR-4 acceptance met.
+- Status after: UIR-4 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-5..11.
+- Next recommended task: UIR-5 (continue/result panels).
+
+
 ### 2026-09-27 16:15 UTC - UIR-3 (attempt 1, stage announcements - DONE)
 
 - Status before: UIR-3 TODO (V-3: banner + intro card naming the same

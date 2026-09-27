@@ -871,7 +871,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-4 - No 7px body-font labels
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-4 (S2)
 - Evidence: artifacts/review/latest/screens/stage1-result.png - LIVES /
   SCORE / TIME are thin grey Arial-style caps, unlike every other word
@@ -886,17 +887,20 @@ Add future enhancement tasks below this heading.
   a Pixel 7 (at least 7 CSS px there). Any new glyphs are added to the
   display string table and font subset.
 - Acceptance criteria:
-  1. The kit suspect "small text <8px" is gone from the manifest, and a
-     unit test asserts that no `liveStyle` caller in the scenes passes
-     a size below the display minimum. The after-review of the result
-     crop, the roster crop and the phone select describes the labels as
-     legible and matching.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] The kit suspect "small text <8px" is gone from the manifest
+        (objective count: 92 suspects across 59 screens before, 0
+        after), and test/game/uir4-type.test.ts asserts that no
+        liveStyle caller in the scenes passes a size below the display
+        minimum (source scan) and the HUD layout text constants clear
+        it. The labels (LIVES/SCORE/TIME, LIFE/SPEED, HORSE row) use 9
+        - the display family and >= 7 CSS px on a Pixel 7 (7 fell to
+        the generic sans at ~6 CSS px). No new glyphs, so the display
+        string table and font subset are untouched.
+  - [x] After npm run review:capture the result crop, the roster crop
+        and the phone select are legible and matching (FIXED - result + roster labels legible and matching (pixel-measured 13px display caps vs 10px thin sans before). Caveat: the phone capture HORSE row was empty (player on foot) - that instance is code-confirmed at 9px and covered by the 92->0 suspect count, but was not visually exercised).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 646/646,
+        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: re-laying out the roster cards.
 
 ### UIR-5 - Continue and result panels: fit titles, centre chips, add contrast

@@ -185,7 +185,9 @@ function drawChip(
   const cx = x + w / 2
   scene.add
     .text(cx, y - 22, label.toUpperCase(), {
-      ...liveStyle(7, { color: '#7a5a28' }),
+      // UIR-4 (V-4): 9 (not 7) keeps the display family and clears 7 CSS
+      // px on a Pixel 7 - 7 fell to the generic sans at ~6 CSS px.
+      ...liveStyle(9, { color: '#7a5a28' }),
     })
     .setOrigin(0.5, 0)
   scene.add

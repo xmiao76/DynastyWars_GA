@@ -156,7 +156,8 @@ export class SelectScene extends Phaser.Scene {
       const tray = CARD.tray
       stats.forEach((stat, row) => {
         const y = CARD_TOP + tray.y + 7 + row * 12
-        this.add.text(left + 9, y, stat.label, { ...liveStyle(7, { color: '#d8c090' }) }).setOrigin(0, 0.5)
+        // UIR-4 (V-4): 9 keeps the display family (see ResultScene).
+        this.add.text(left + 9, y, stat.label, { ...liveStyle(9, { color: '#d8c090' }) }).setOrigin(0, 0.5)
         const lit = statPips(stat.values, stat.values[i] ?? 0)
         for (let p = 0; p < STAT_PIPS; p += 1) {
           this.add

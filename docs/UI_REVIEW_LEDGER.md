@@ -54,7 +54,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `crops/stage1-intro--intro.png`: the banner's "Bowang Slope · 博望坡" still shows above the intro card, which repeats "STAGE 1" and "Bowang Slope · 博望坡". The same happens on all nine `stage*-intro` shots.
 - Root cause: `src/game/scenes/HudScene.ts:484` raises the card 1_600 ms after build, while the banner (`HudScene.ts:175`, BANNER_HOLD_MS plus 180 ms in and out) is still up. Both carry stage number and name.
 
-### V-4 - 7px body-font labels: unreadable, and a second typeface (S2, TYPE) - filed UIR-4
+### V-4 - 7px body-font labels: unreadable, and a second typeface (S2, TYPE) - fixed (self-check)
 - Evidence: `screens/stage1-result.png`: LIVES / SCORE / TIME are thin grey Arial-style caps, unlike every other word on the panel. `crops/select-zhaoyun--roster.png`: LIFE / SPEED are the same sans. `screens/stage6-play.png`: "HORSE 20" is light grey sans on the gold plate. On a Pixel 7 this becomes about 6 CSS px.
 - Root cause: `liveStyle()` (`src/game/ui/type.ts`) selects BODY_STACK below DISPLAY_MIN_SIZE. The callers pass 7: `src/game/scenes/ResultScene.ts:186` (chip label), `src/game/scenes/SelectScene.ts:127-128` (stat rows), and `src/game/ui/hudlayout.ts:21` META_ROW size 7.
 
