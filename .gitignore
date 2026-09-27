@@ -17,3 +17,5 @@ secrets/
 .codex/*.local.toml
 # Local adapter settings and authentication never belong in version control.
 *credentials*
+/artifacts/review
+/artifacts/loop
