@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "paused": false,
+  "pauseReason": null,
+  "activeRun": null,
+  "lastRun": {
+    "runId": "2026-09-27T03-49-44-795Z-e860f01f-9fd1-4bed-81f9-0c5081784da4",
+    "mode": "Auto",
+    "startedAt": "2026-09-27T03:49:44.796Z",
+    "endedAt": "2026-09-27T04:15:30.231Z",
+    "result": "COMPLETED",
+    "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-27T03-49-44-795Z-e860f01f-9fd1-4bed-81f9-0c5081784da4.report.md",
+    "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-27T03-49-44-795Z-e860f01f-9fd1-4bed-81f9-0c5081784da4.metadata.json",
+    "pid": null,
+    "worker": "manual"
+  },
+  "updatedAt": "2026-09-27T04:15:30.243Z",
+  "transientSkips": 0,
+  "lastSkipAt": "2026-09-21T18:09:02.631Z"
+}

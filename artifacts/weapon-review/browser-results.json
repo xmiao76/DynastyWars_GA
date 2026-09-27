@@ -1,0 +1,18 @@
+[
+  {
+    "Suite": "e2e",
+    "ExitCode": 0
+  },
+  {
+    "Suite": "signal",
+    "ExitCode": 0
+  },
+  {
+    "Suite": "vision",
+    "ExitCode": 0
+  },
+  {
+    "Suite": "prodbuild",
+    "ExitCode": 0
+  }
+]

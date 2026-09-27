@@ -1,0 +1,19 @@
+{
+  "reaches": {
+    "idle": 0,
+    "walk0": 0,
+    "walk1": 0,
+    "attack": 61,
+    "attack2": 45,
+    "windup": 11,
+    "recover": 22,
+    "jump": 22,
+    "down": 27,
+    "hurt": 8,
+    "special": 60
+  },
+  "headroom": 24,
+  "highest": "guanyu:windup",
+  "faceClearanceMeasured": true,
+  "faceOverlaps": []
+}

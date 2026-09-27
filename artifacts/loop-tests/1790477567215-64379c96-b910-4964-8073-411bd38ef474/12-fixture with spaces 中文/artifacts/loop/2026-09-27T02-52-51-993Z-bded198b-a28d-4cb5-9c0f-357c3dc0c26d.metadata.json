@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "runId": "2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-27T02:52:51.993Z",
+  "status": "error",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\12-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-51-993Z-bded198b-a28d-4cb5-9c0f-357c3dc0c26d.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "pid": 8020,
+  "execution": {
+    "code": 0,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "UNKNOWN",
+  "error": "Final report must contain exactly one LOOP_RESULT marker",
+  "endedAt": "2026-09-27T02:52:52.092Z",
+  "cleanupCertain": true
+}

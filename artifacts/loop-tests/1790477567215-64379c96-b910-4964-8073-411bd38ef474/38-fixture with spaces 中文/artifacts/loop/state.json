@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "paused": true,
+  "pauseReason": "Manual report missing or oversized at C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\38-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-53-03-142Z-3a150d6a-b7ca-4831-a370-06c2e7295212.report.md; the worker must write the final report before --finish-manual",
+  "activeRun": null,
+  "lastRun": {
+    "runId": "2026-09-27T02-53-03-142Z-3a150d6a-b7ca-4831-a370-06c2e7295212",
+    "mode": "Auto",
+    "startedAt": "2026-09-27T02:53:03.144Z",
+    "endedAt": "2026-09-27T02:53:03.250Z",
+    "result": "UNKNOWN",
+    "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\38-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-53-03-142Z-3a150d6a-b7ca-4831-a370-06c2e7295212.report.md",
+    "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\38-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-53-03-142Z-3a150d6a-b7ca-4831-a370-06c2e7295212.metadata.json",
+    "pid": null,
+    "worker": "manual"
+  },
+  "transientSkips": 0,
+  "lastSkipAt": null,
+  "updatedAt": "2026-09-27T02:53:03.258Z"
+}

@@ -1,0 +1,72 @@
+﻿diff --git a/src/game/adapters/gamepad.ts b/src/game/adapters/gamepad.ts
+index 10c5d87..60d2f04 100644
+--- a/src/game/adapters/gamepad.ts
++++ b/src/game/adapters/gamepad.ts
+@@ -32,6 +32,16 @@ function padAt(index: number): Gamepad | null {
+   return null
+ }
+ 
++/**
++ * Is a gamepad visible to this page right now? Browsers may not expose a pad
++ * until it has been pressed while the page has focus, so a "no" can turn into a
++ * "yes" at any moment: callers that name the pad's controls re-ask per frame
++ * rather than deciding once at scene creation.
++ */
++export function hasGamepad(): boolean {
++  return padAt(0) !== null
++}
++
+ function isPressed(pad: Gamepad, index: number): boolean {
+   return pad.buttons[index]?.pressed === true
+ }
+diff --git a/src/game/scenes/TitleScene.ts b/src/game/scenes/TitleScene.ts
+index 475f345..bba3c1c 100644
+--- a/src/game/scenes/TitleScene.ts
++++ b/src/game/scenes/TitleScene.ts
+@@ -2,7 +2,7 @@ import Phaser from 'phaser'
+ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
+ import { audio } from '../audio/sfx'
+ import { TITLE_THEME } from '../audio/music'
+-import { watchConfirmButton } from '../adapters/gamepad'
++import { hasGamepad, watchConfirmButton } from '../adapters/gamepad'
+ import { hasTouch } from '../adapters/touch'
+ import { ensureEntityTextures } from '../adapters/sprites'
+ import { useLogicalViewport } from '../ui/viewport'
+@@ -17,10 +17,37 @@ import { consumePendingStart, type BridgeState } from '../debug/bridge'
+  * underneath; hoisting one to a high depth is what once pulled every panel in
+  * front of its own text and left the title unreadable in WebGL.
+  */
++/**
++ * The gamepad's line on the controls plate: the standard mapping's A/B/X and
++ * Start, which confirms in menus and pauses in play (ENH-11). 8px because at
++ * the plate's 9px it measures 317 against a 308-wide slab; at 8px it is 282.
++ */
++export const GAMEPAD_LINE = 'GAMEPAD   A  ATTACK   B  JUMP   X  SPECIAL   START  CONFIRM / PAUSE'
++
++/**
++ * Where the controls plate's pieces sit, without and with the gamepad line.
++ * The no-pad layout is exactly the one the plate always had; the pad layout
++ * grows the slab upward and re-spaces the lines so the fourth fits inside it
++ * while the prompt underneath stays where it is.
++ */
++const PLATE = {
++  keys: { slabY: 112, slabH: 52, lines: [124, 138], coop: 153 },
++  pad: { slabY: 104, slabH: 62, lines: [115, 128], pad: 141, coop: 154 },
++} as const
++
+ export class TitleScene extends Phaser.Scene {
+   private bridge!: BridgeState
+   /** Per-frame poll so Start confirms as well as Enter. */
+   private pollConfirm: () => void = () => {}
++  /** The controls plate, laid out for the pad or not (see `layoutPlate`). */
++  private plate: {
++    keysSlab: Phaser.GameObjects.Graphics
++    padSlab: Phaser.GameObjects.Graphics
++    lines: Phaser.GameObjects.Text[]
++    padLine: Phaser.GameObjects.Text
++    coop: Phaser.GameObjects.Text
++  } | null = null
++  private padShown = false
+ 
+   constructor() {
+     super('title')

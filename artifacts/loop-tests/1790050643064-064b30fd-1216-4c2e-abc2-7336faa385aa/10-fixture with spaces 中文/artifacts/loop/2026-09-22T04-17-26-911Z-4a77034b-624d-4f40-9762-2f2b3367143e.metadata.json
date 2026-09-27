@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "runId": "2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-22T04:17:26.911Z",
+  "status": "error",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "pid": 18240,
+  "execution": {
+    "code": 0,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "UNKNOWN",
+  "error": "ENOENT: no such file or directory, stat 'C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\10-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-26-911Z-4a77034b-624d-4f40-9762-2f2b3367143e.report.md'",
+  "endedAt": "2026-09-22T04:17:27.000Z",
+  "cleanupCertain": true
+}

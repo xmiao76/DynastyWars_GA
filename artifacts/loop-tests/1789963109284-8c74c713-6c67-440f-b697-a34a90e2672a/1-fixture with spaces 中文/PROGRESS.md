@@ -1,0 +1,1 @@
+PROGRESS.md: Fixture only — 中文

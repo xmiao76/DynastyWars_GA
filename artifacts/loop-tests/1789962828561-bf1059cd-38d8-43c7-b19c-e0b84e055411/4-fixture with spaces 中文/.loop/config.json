@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "adapter": "fake",
+  "model": null,
+  "mode": "Auto",
+  "iterations": 1,
+  "intervalSeconds": 0,
+  "timeoutSeconds": 3600,
+  "adapters": {
+    "fake": {
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789962828561-bf1059cd-38d8-43c7-b19c-e0b84e055411\\4-fixture with spaces 中文\\fake adapter 中文.mjs",
+        "{requestFile}",
+        "{resultFile}",
+        "argument with spaces",
+        "中文",
+        "& echo NOT_SHELL",
+        "quote\"value"
+      ]
+    }
+  }
+}

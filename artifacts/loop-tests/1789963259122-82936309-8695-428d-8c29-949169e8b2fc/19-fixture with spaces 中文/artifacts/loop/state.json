@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "paused": true,
+  "pauseReason": "spawn C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\19-fixture with spaces 中文\\missing-executable ENOENT",
+  "activeRun": null,
+  "lastRun": {
+    "runId": "2026-09-21T04-01-09-326Z-feef742e-20f8-4403-8f02-e270104f16f3",
+    "mode": "Auto",
+    "startedAt": "2026-09-21T04:01:09.326Z",
+    "endedAt": "2026-09-21T04:01:09.352Z",
+    "result": "UNKNOWN",
+    "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\19-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-09-326Z-feef742e-20f8-4403-8f02-e270104f16f3.report.md",
+    "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\19-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-09-326Z-feef742e-20f8-4403-8f02-e270104f16f3.metadata.json",
+    "pid": null
+  },
+  "updatedAt": "2026-09-21T04:01:09.355Z"
+}

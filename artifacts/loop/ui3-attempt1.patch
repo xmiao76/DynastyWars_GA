@@ -1,0 +1,1139 @@
+﻿diff --git a/src/game/scenes/GameScene.ts b/src/game/scenes/GameScene.ts
+index 166d0a6..92b0df5 100644
+--- a/src/game/scenes/GameScene.ts
++++ b/src/game/scenes/GameScene.ts
+@@ -16,8 +16,8 @@ import {
+   type Sim,
+ } from '../../core/sim'
+ import { enemyByKind, ENEMIES } from '../../core/enemies'
+-import { CHARACTER_ORDER } from '../../core/characters'
+ import { STAGE_ORDER } from '../../core/stage'
++import { secondPlayerCharacter } from '../players'
+ import { audio, sfxForEvent } from '../audio/sfx'
+ import { GAME_THEME } from '../audio/music'
+ import type { SimEvent } from '../../core/events'
+@@ -54,16 +54,6 @@ const CLOUDS: ReadonlyArray<readonly [number, number, number, number]> = [
+   [232, 92, 0.6, 0.10],
+ ]
+ 
+-/**
+- * Who player two plays as. A drop-in join has no select screen of its own, so
+- * it takes the first hero player one did NOT pick. Handing them the same hero
+- * would put two identical figures on the screen, which is exactly the problem
+- * the distinct headgear, beards and weapons exist to avoid.
+- */
+-function secondPlayerCharacter(firstCharId: string): string {
+-  return CHARACTER_ORDER.find((id) => id !== firstCharId) ?? CHARACTER_ORDER[0] ?? 'guanyu'
+-}
+-
+ /** Height of the distant-hill ridge texture, in logical px. */
+ const HILL_HEIGHT = RIDGE_H
+ /** How far the ridge sinks behind the ground strip, so there is no seam. */
+diff --git a/src/game/scenes/SelectScene.ts b/src/game/scenes/SelectScene.ts
+index 6339978..fb89d95 100644
+--- a/src/game/scenes/SelectScene.ts
++++ b/src/game/scenes/SelectScene.ts
+@@ -3,37 +3,68 @@ import { CHARACTER_ORDER, characterById } from '../../core/characters'
+ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
+ import { audio } from '../audio/sfx'
+ import { TITLE_THEME } from '../audio/music'
+-import {
+-  ensureEntityTextures,
+-  ensurePortraitTextures,
+-  paletteColorFor,
+-  portraitKeyFor,
+-} from '../adapters/sprites'
++import { ensureEntityTextures, ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
+ import { watchConfirmButton } from '../adapters/gamepad'
+ import { hasTouch } from '../adapters/touch'
++import {
++  CARD_TEXTURE,
++  GLOW_TEXTURE,
++  PENNANT,
++  PIP,
++  paintCursorGlow,
++  paintPennant,
++  paintPip,
++  paintRosterCard,
++  paintSelectBackdrop,
++} from '../art/selectart'
+ import { consumePendingStart, type BridgeState } from '../debug/bridge'
+-import { addVignette, drawSlab } from '../ui/panels'
++import { secondPlayerCharacter } from '../players'
++import { RENDER_SCALE } from '../render'
++import { ensureDisplayTextTexture } from '../ui/panels'
++import { CARD, CARD_TOP, STAT_PIPS, STRIP, cardCenterX, cardCenterY, statPips } from '../ui/roster'
+ import { liveStyle } from '../ui/theme'
+ import { useLogicalViewport } from '../ui/viewport'
+ 
++/** Portrait alpha by role: the pick, player two's preview, everyone else. */
++const PORTRAIT_ALPHA = { p1: 1, p2: 0.72, idle: 0.5 } as const
++
++/** Cursor colours (rgb triplets for the canvas painters). */
++const P1_RGB = '255, 210, 60'
++const P2_RGB = '90, 160, 255'
++
++interface CardView {
++  portrait: Phaser.GameObjects.Image | null
++}
++
++interface Tag {
++  setX: (x: number) => void
++}
++
+ /**
+- * Character select: the five Shu generals side by side, arcade order.
+- * Left/right to move the cursor, Enter to confirm. A card shows the hero's
+- * baked portrait when one exists, otherwise the hero's own idle sprite - the
+- * palette block it used to fall back to told a player nothing about who they
+- * were picking, which is the whole job of this screen.
++ * Character select (UI-3): the five Shu generals as framed portrait cards on
++ * a lacquer roster field over an ink-wash parchment, in the arcade
++ * select-screen idiom.
++ *
++ * Left/right moves the gold 1P cursor (wrapping), Enter or Start confirms,
++ * and tapping a card picks THAT hero. The blue 2P tag previews who a
++ * drop-in second player becomes - the same `secondPlayerCharacter` rule the
++ * game applies on join, so the preview cannot disagree with what happens.
++ *
++ * All chrome is painted once to canvas textures (selectart.ts): Phaser
++ * Graphics gradients are WebGL-only and draw nothing under canvas. Plates are
++ * added before the content they frame and stay at depth 0, so insertion order
++ * keeps every label on top of its own plate.
+  */
+ export class SelectScene extends Phaser.Scene {
+   private bridge!: BridgeState
+   /** Per-frame poll so Start confirms as well as Enter. */
+   private pollConfirm: () => void = () => {}
+   private cursor = 0
+-  private cursorFrame!: Phaser.GameObjects.Rectangle
+-  private heroArt!: Phaser.GameObjects.Image
+-  private heroNameEn!: Phaser.GameObjects.Text
+-  private heroNameZh!: Phaser.GameObjects.Text
+-  private statLabels: Phaser.GameObjects.Text[] = []
+-  private statBars!: Phaser.GameObjects.Graphics
++  private cards: CardView[] = []
++  private p1Glow!: Phaser.GameObjects.Image
++  private p2Glow!: Phaser.GameObjects.Image
++  private p1Tag!: Tag
++  private p2Tag!: Tag
+ 
+   constructor() {
+     super('select')
+@@ -45,75 +76,100 @@ export class SelectScene extends Phaser.Scene {
+     this.bridge.scene = 'select'
+     this.bridge.sim = null
+     this.cursor = 0
++    this.cards = []
+     audio.startMusic(TITLE_THEME)
+ 
+-    this.add.rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x0e151d)
+-    this.add.rectangle(SCREEN_WIDTH / 2, 20, SCREEN_WIDTH, 40, 0x16222f)
+-    this.add.rectangle(SCREEN_WIDTH / 2, 40, SCREEN_WIDTH, 2, 0x2a4a7a, 0.7)
+-    addVignette(this, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0.5)
+-
+     ensureEntityTextures(this, [...CHARACTER_ORDER])
+     ensurePortraitTextures(this, [...CHARACTER_ORDER])
+ 
+-    // Plates first, then everything that sits on them. Equal-depth objects draw
+-    // in insertion order, which is the whole reason these stay at depth 0.
+-    // The card row sits to the right of the highlighted hero's plate. Both
+-    // plates are sized from the content they hold rather than by eye: the first
+-    // pass left Wei Yan's card hanging over the right edge of its own frame and
+-    // the stat bars below the bottom of theirs.
+-    const spacing = 68
+-    const startX = SCREEN_WIDTH / 2 - (spacing * (CHARACTER_ORDER.length - 1)) / 2 + 52
+-    drawSlab(this, startX - 34, 62, spacing * (CHARACTER_ORDER.length - 1) + 68, 120, 0x2a4a7a, 0, {
+-      skew: 16,
+-    })
+-    drawSlab(this, 10, 56, 108, 150, 0xc8a828, 0, { skew: 12 })
++    // Backdrop: parchment, ink-wash ranges, the roster frame and the command
++    // strip, all in one baked texture.
++    this.add
++      .image(0, 0, this.bake('ui:select-backdrop', SCREEN_WIDTH, SCREEN_HEIGHT, (c, s) => paintSelectBackdrop(c, s)))
++      .setOrigin(0, 0)
++      .setDisplaySize(SCREEN_WIDTH, SCREEN_HEIGHT)
+ 
++    const headingKey = ensureDisplayTextTexture(this, 'CHOOSE YOUR WARRIOR', { variant: 'gold', size: 20 })
++    const heading = this.textures.get(headingKey).get()
++    const headingH = 24
+     this.add
+-      .text(SCREEN_WIDTH / 2, 18, 'CHOOSE YOUR WARRIOR', {
+-        ...liveStyle(15, { color: '#ffd700', bold: true, italic: true }),
+-      })
++      .image(SCREEN_WIDTH / 2, 17, headingKey)
+       .setOrigin(0.5)
++      .setDisplaySize((heading.width / Math.max(1, heading.height)) * headingH, headingH)
+ 
+-    // The large portrait of whoever the cursor is on, with the two stats the
+-    // sim actually distinguishes the heroes by. The old screen drew flat
+-    // palette rectangles here, which is why the art gate had to be taught to
+-    // ask whether the five were "palette swaps" in the first place.
+-    this.heroArt = this.add.image(62, 62, portraitKeyFor(CHARACTER_ORDER[0] ?? 'guanyu')).setOrigin(0.5, 0)
+-    this.heroArt.setDisplaySize(68, 76)
+-    this.heroNameEn = this.add
+-      .text(62, 146, '', { ...liveStyle(10, { color: '#ffffff', bold: true }) })
+-      .setOrigin(0.5)
+-    this.heroNameZh = this.add
+-      .text(62, 161, '', { ...liveStyle(14, { color: '#f5e6c8' }) })
+-      .setOrigin(0.5)
+-    this.statLabels = ['POWER', 'SPEED'].map((label, i) =>
+-      this.add
+-        .text(20, 180 + i * 12, label, { ...liveStyle(7, { color: '#9ab0c0' }) })
+-        .setOrigin(0, 0.5),
+-    )
+-    this.statBars = this.add.graphics().setDepth(1)
++    // Cursor halos sit BEHIND the cards, so only the rim and the outward
++    // spill show. They are added before every card for that reason.
++    const cy = cardCenterY()
++    this.p2Glow = this.add
++      .image(
++        0,
++        cy,
++        this.bake('ui:roster-glow-p2', GLOW_TEXTURE.width, GLOW_TEXTURE.height, (c, s) =>
++          paintCursorGlow(c, s, P2_RGB, 'secondary'),
++        ),
++      )
++      .setDisplaySize(GLOW_TEXTURE.width, GLOW_TEXTURE.height)
++    this.p1Glow = this.add
++      .image(
++        0,
++        cy,
++        this.bake('ui:roster-glow-p1', GLOW_TEXTURE.width, GLOW_TEXTURE.height, (c, s) =>
++          paintCursorGlow(c, s, P1_RGB, 'primary'),
++        ),
++      )
++      .setDisplaySize(GLOW_TEXTURE.width, GLOW_TEXTURE.height)
++
++    const cardKey = this.bake('ui:roster-card', CARD_TEXTURE.width, CARD_TEXTURE.height, (c, s) => paintRosterCard(c, s))
++    const pipOn = this.bake('ui:pip-on', PIP.width, PIP.height, (c, s) => paintPip(c, s, true))
++    const pipOff = this.bake('ui:pip-off', PIP.width, PIP.height, (c, s) => paintPip(c, s, false))
++    const roster = CHARACTER_ORDER.map((id) => characterById(id))
++    const stats = [
++      { label: 'LIFE', values: roster.map((c) => c.maxHp) },
++      { label: 'SPEED', values: roster.map((c) => c.walkSpeed) },
++    ]
+ 
+     CHARACTER_ORDER.forEach((charId, i) => {
+       const character = characterById(charId)
+-      const x = startX + i * spacing
+-      this.add
+-        .rectangle(x, 100, 46, 50, paletteColorFor(charId), 0.3)
+-        .setStrokeStyle(1, 0x9ab0c0, 0.5)
++      const cx = cardCenterX(i, CHARACTER_ORDER.length)
++      const left = cx - CARD.w / 2
++      this.add.image(cx, cy, cardKey).setDisplaySize(CARD.w, CARD.h)
++
++      const win = CARD.window
+       const portraitKey = portraitKeyFor(charId)
+-      if (this.textures.exists(portraitKey)) {
+-        this.add.image(x, 100, portraitKey).setDisplaySize(44, 48)
+-      }
++      const portrait = this.textures.exists(portraitKey)
++        ? this.add
++            .image(left + win.x + win.w / 2, CARD_TOP + win.y + win.h / 2, portraitKey)
++            .setDisplaySize(win.w, win.h)
++        : null
++      this.cards.push({ portrait })
++
++      const plate = CARD.plate
+       this.add
+-        .text(x, 134, character.nameEn, { ...liveStyle(8, { color: '#ffffff' }) })
++        .text(cx, CARD_TOP + plate.y + 13, character.nameZh, { ...liveStyle(16, { color: '#2a1a0a' }) })
+         .setOrigin(0.5)
+       this.add
+-        .text(x, 148, character.nameZh, { ...liveStyle(12, { color: '#f5e6c8' }) })
++        .text(cx, CARD_TOP + plate.y + 27, character.nameEn.toUpperCase(), {
++          ...liveStyle(8, { color: '#7a3a14' }),
++        })
+         .setOrigin(0.5)
++
++      const tray = CARD.tray
++      stats.forEach((stat, row) => {
++        const y = CARD_TOP + tray.y + 7 + row * 12
++        this.add.text(left + 9, y, stat.label, { ...liveStyle(7, { color: '#d8c090' }) }).setOrigin(0, 0.5)
++        const lit = statPips(stat.values, stat.values[i] ?? 0)
++        for (let p = 0; p < STAT_PIPS; p += 1) {
++          this.add
++            .image(left + 44 + p * 8, y, p < lit ? pipOn : pipOff)
++            .setDisplaySize(PIP.width, PIP.height)
++        }
++      })
++
+       // Tapping a card picks THAT hero. A blanket tap-to-confirm would just
+       // lock in whoever the cursor happened to be on, which on a touch device
+       // means you can never choose anyone but the first.
+       this.add
+-        .zone(x, 114, spacing - 4, 104)
++        .zone(cx, cy, CARD.w, CARD.h)
+         .setInteractive({ useHandCursor: true })
+         .on('pointerdown', () => {
+           this.cursor = i
+@@ -122,17 +178,27 @@ export class SelectScene extends Phaser.Scene {
+         })
+     })
+ 
+-    this.cursorFrame = this.add
+-      .rectangle(startX, 100, 52, 56)
+-      .setStrokeStyle(2, 0xffd700)
+-      .setFillStyle(0, 0)
+-    this.moveCursor(0)
++    // Player tags hang from the top rail over the card they mark.
++    this.p2Tag = this.makeTag('ui:pennant-p2', P2_RGB, '2P', '#8ec0ff')
++    this.p1Tag = this.makeTag('ui:pennant-p1', P1_RGB, '1P', '#ffd23c')
++
++    // Command strip. The strings are the device-specific ones the old screen
++    // shipped, byte for byte.
+     this.add
+-      .text(SCREEN_WIDTH / 2, 206, hasTouch() ? 'TAP A WARRIOR TO FIGHT' : 'LEFT / RIGHT to choose - ENTER to fight', {
+-        ...liveStyle(10, { color: '#9ab0c0' }),
+-      })
++      .text(
++        SCREEN_WIDTH / 2,
++        STRIP.y + STRIP.h / 2,
++        hasTouch() ? 'TAP A WARRIOR TO FIGHT' : 'LEFT / RIGHT to choose - ENTER to fight',
++        { ...liveStyle(10, { color: '#f5e6c8' }) },
++      )
+       .setOrigin(0.5)
+ 
++    // A slow breath on the 1P halo. Visual only; alpha renders the same under
++    // both renderers.
++    this.tweens.add({ targets: this.p1Glow, alpha: 0.78, duration: 700, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' })
++
++    this.moveCursor(0)
++
+     this.input.keyboard?.on('keydown-LEFT', () => this.moveCursor(-1))
+     this.input.keyboard?.on('keydown-RIGHT', () => this.moveCursor(1))
+     this.input.keyboard?.on('keydown-ENTER', () => this.confirm())
+@@ -147,46 +213,46 @@ export class SelectScene extends Phaser.Scene {
+     }
+   }
+ 
+-  private moveCursor(delta: number): void {
+-    const count = CHARACTER_ORDER.length
+-    this.cursor = (this.cursor + delta + count) % count
+-    const spacing = 68
+-    const startX = SCREEN_WIDTH / 2 - (spacing * (count - 1)) / 2 + 52
+-    this.cursorFrame.setX(startX + this.cursor * spacing)
+-    this.showHero(CHARACTER_ORDER[this.cursor] ?? 'zhaoyun')
++  /** Paint once into a canvas texture at device density; idempotent per key. */
++  private bake(key: string, w: number, h: number, paint: (ctx: CanvasRenderingContext2D, s: number) => void): string {
++    if (this.textures.exists(key)) return key
++    const canvas = document.createElement('canvas')
++    canvas.width = Math.round(w * RENDER_SCALE)
++    canvas.height = Math.round(h * RENDER_SCALE)
++    const ctx = canvas.getContext('2d')
++    if (ctx) paint(ctx, RENDER_SCALE)
++    this.textures.addCanvas(key, canvas)
++    return key
+   }
+ 
+   /**
+-   * The big portrait and the stat read-out, for whoever the cursor is on.
+-   *
+-   * POWER and SPEED come straight from `CharacterDef` - the two numbers the sim
+-   * genuinely distinguishes the heroes by - rather than from invented ratings.
+-   * Normalised across the roster, so the bars compare the five to each other
+-   * instead of to an arbitrary maximum.
++   * A pennant plus its label, as two top-level objects rather than a
++   * Container: the layout gates read the scene's own display list, and a
++   * Container would hide the label from them.
+    */
+-  private showHero(charId: string): void {
+-    const character = characterById(charId)
+-    const key = portraitKeyFor(charId)
+-    if (this.textures.exists(key)) this.heroArt.setTexture(key).setDisplaySize(68, 76)
+-    this.heroNameEn.setText(character.nameEn)
+-    this.heroNameZh.setText(character.nameZh)
+-    const all = CHARACTER_ORDER.map((id) => characterById(id))
+-    const span = (values: number[], value: number): number => {
+-      const lo = Math.min(...values)
+-      const hi = Math.max(...values)
+-      return hi === lo ? 1 : 0.25 + (0.75 * (value - lo)) / (hi - lo)
+-    }
+-    const stats = [
+-      span(all.map((c) => c.maxHp), character.maxHp),
+-      span(all.map((c) => c.walkSpeed), character.walkSpeed),
+-    ]
+-    this.statBars.clear()
+-    stats.forEach((ratio, i) => {
+-      const y = 177 + i * 12
+-      this.statBars.fillStyle(0x08070c, 0.8)
+-      this.statBars.fillRect(52, y, 50, 6)
+-      this.statBars.fillStyle(0xffd700, 1)
+-      this.statBars.fillRect(52, y, Math.max(1, Math.round(50 * ratio)), 6)
++  private makeTag(key: string, rgb: string, label: string, color: string): Tag {
++    const y = CARD_TOP - 1
++    const pennant = this.add
++      .image(0, y, this.bake(key, PENNANT.width, PENNANT.height, (c, s) => paintPennant(c, s, rgb)))
++      .setDisplaySize(PENNANT.width, PENNANT.height)
++    const text = this.add.text(0, y - 2, label, { ...liveStyle(9, { color }) }).setOrigin(0.5)
++    return { setX: (x: number) => (pennant.setX(x), text.setX(x)) }
++  }
++
++  private moveCursor(delta: number): void {
++    const count = CHARACTER_ORDER.length
++    this.cursor = (this.cursor + delta + count) % count
++    const p1Id = CHARACTER_ORDER[this.cursor] ?? 'zhaoyun'
++    const p2Index = CHARACTER_ORDER.indexOf(secondPlayerCharacter(p1Id) as (typeof CHARACTER_ORDER)[number])
++    const p1X = cardCenterX(this.cursor, count)
++    const p2X = cardCenterX(Math.max(0, p2Index), count)
++    this.p1Glow.setX(p1X)
++    this.p1Tag.setX(p1X)
++    this.p2Glow.setX(p2X)
++    this.p2Tag.setX(p2X)
++    this.cards.forEach((card, i) => {
++      const role = i === this.cursor ? 'p1' : i === p2Index ? 'p2' : 'idle'
++      card.portrait?.setAlpha(PORTRAIT_ALPHA[role])
+     })
+   }
+ 
+diff --git a/src/game/ui/type.ts b/src/game/ui/type.ts
+index e897654..3c9ba2f 100644
+--- a/src/game/ui/type.ts
++++ b/src/game/ui/type.ts
+@@ -267,7 +267,10 @@ export function displayStringTable(): string[] {
+     'SCORE',
+     'LIVES',
+     'POWER',
++    'LIFE',
+     'SPEED',
++    '1P',
++    '2P',
+     'HIT',
+     'DOWN',
+     'BOSS',
+@@ -275,6 +278,7 @@ export function displayStringTable(): string[] {
+   for (const id of CHARACTER_ORDER) {
+     const c = characterById(id)
+     strings.add(c.nameEn)
++    strings.add(c.nameEn.toUpperCase())
+     strings.add(c.nameZh)
+     strings.add(`${c.nameEn} ${c.nameZh}`)
+   }
+diff --git a/src/game/players.ts b/src/game/players.ts
+new file mode 100644
+index 0000000..23e4aae
+--- /dev/null
++++ b/src/game/players.ts
+@@ -0,0 +1,14 @@
++import { CHARACTER_ORDER } from '../core/characters'
++
++/**
++ * Who player two plays as. A drop-in join has no select screen of its own, so
++ * it takes the first hero player one did NOT pick. Handing them the same hero
++ * would put two identical figures on the screen, which is exactly the problem
++ * the distinct headgear, beards and weapons exist to avoid.
++ *
++ * Shared by GameScene (which applies it on join) and SelectScene (which shows
++ * it as the 2P preview tag), so the preview cannot drift from what happens.
++ */
++export function secondPlayerCharacter(firstCharId: string): string {
++  return CHARACTER_ORDER.find((id) => id !== firstCharId) ?? CHARACTER_ORDER[0] ?? 'guanyu'
++}
+diff --git a/src/game/ui/roster.ts b/src/game/ui/roster.ts
+new file mode 100644
+index 0000000..d29aa37
+--- /dev/null
++++ b/src/game/ui/roster.ts
+@@ -0,0 +1,56 @@
++/**
++ * Character-select roster geometry (UI-3), shared by the card painter and the
++ * scene so the baked frame and the live content cannot drift apart.
++ *
++ * Pure data + pure functions: no Phaser, no DOM - unit tests check the layout
++ * fits the 480x270 screen without running a browser.
++ */
++import { SCREEN_WIDTH } from '../../core/constants'
++
++/** One roster card, in logical px, relative to the card's top-left corner. */
++export const CARD = {
++  w: 84,
++  h: 160,
++  /** Portrait recess. 76x84 matches the 0.9 aspect of the painted portraits. */
++  window: { x: 4, y: 4, w: 76, h: 84 },
++  /** Parchment name plate. */
++  plate: { x: 4, y: 92, w: 76, h: 34 },
++  /** Stat tray. */
++  tray: { x: 4, y: 130, w: 76, h: 26 },
++} as const
++
++/** The faction-blue roster frame the cards sit in (baked into the backdrop). */
++export const FRAME = { x: 6, y: 34, w: 468, h: 176 } as const
++/** The bottom lacquer command strip (baked into the backdrop). */
++export const STRIP = { x: 20, y: 222, w: 440, h: 26 } as const
++
++/** Screen top of every card. */
++export const CARD_TOP = 42
++/** Centre-to-centre distance between neighbouring cards. */
++export const CARD_SPACING = 92
++/** How far the cursor halo reaches outside the card on each side. */
++export const GLOW_PAD = 6
++/** Pips per stat row. */
++export const STAT_PIPS = 5
++
++/** Centre x of card `index` in a row of `count`, centred on the screen. */
++export function cardCenterX(index: number, count: number): number {
++  return SCREEN_WIDTH / 2 - (CARD_SPACING * (count - 1)) / 2 + index * CARD_SPACING
++}
++
++/** Centre y of every card. */
++export function cardCenterY(): number {
++  return CARD_TOP + CARD.h / 2
++}
++
++/**
++ * Filled pips (1..pips) for `value` within the roster's spread of `values`.
++ * Normalised across the roster - the pips compare the five to each other, not
++ * to an invented maximum - and never zero, so no hero reads as having none.
++ */
++export function statPips(values: number[], value: number, pips: number = STAT_PIPS): number {
++  const lo = Math.min(...values)
++  const hi = Math.max(...values)
++  if (hi === lo) return pips
++  return 1 + Math.round(((pips - 1) * (value - lo)) / (hi - lo))
++}
+diff --git a/src/game/art/selectart.ts b/src/game/art/selectart.ts
+new file mode 100644
+index 0000000..0dc1484
+--- /dev/null
++++ b/src/game/art/selectart.ts
+@@ -0,0 +1,430 @@
++/**
++ * Procedural character-select art (UI-3): the parchment ink-wash backdrop
++ * with its faction-blue roster frame and lacquer command strip, the roster
++ * card frame, the cursor halo and the player pennant.
++ *
++ * Every piece is painted once to a canvas and shown as a texture, so canvas
++ * and WebGL draw identical pixels - Phaser Graphics gradients are WebGL-only
++ * and silently blank under canvas. Deterministic: scatter uses a fixed-seed
++ * LCG. All functions take LOGICAL coordinates and a device scale `s`.
++ * Original work in the arcade select-screen idiom (framed portraits on a
++ * lacquer field); nothing here is copied from Capcom art.
++ */
++import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
++import { CARD, FRAME, GLOW_PAD, STRIP } from '../ui/roster'
++
++type Ctx = CanvasRenderingContext2D
++
++function lcg(seed: number): () => number {
++  let s = seed >>> 0
++  return () => {
++    s = (Math.imul(s, 1664525) + 1013904223) >>> 0
++    return s / 0x100000000
++  }
++}
++
++function roundRect(ctx: Ctx, x: number, y: number, w: number, h: number, r: number): void {
++  ctx.beginPath()
++  ctx.moveTo(x + r, y)
++  ctx.lineTo(x + w - r, y)
++  ctx.quadraticCurveTo(x + w, y, x + w, y + r)
++  ctx.lineTo(x + w, y + h - r)
++  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h)
++  ctx.lineTo(x + r, y + h)
++  ctx.quadraticCurveTo(x, y + h, x, y + h - r)
++  ctx.lineTo(x, y + r)
++  ctx.quadraticCurveTo(x, y, x + r, y)
++  ctx.closePath()
++}
++
++/** One ink-wash mountain range: soft peaks fading into mist at their base. */
++function range(
++  ctx: Ctx,
++  seed: number,
++  base: number,
++  top: number,
++  ink: string,
++  alpha: number,
++  peaks: number,
++): void {
++  const r = lcg(seed)
++  const w = SCREEN_WIDTH
++  const pts: Array<[number, number]> = []
++  for (let i = 0; i <= peaks; i += 1) {
++    const x = (i / peaks) * w + (r() - 0.5) * (w / peaks) * 0.6
++    const y = i % 2 === 0 ? top + r() * (base - top) * 0.45 : base - (base - top) * (0.2 + r() * 0.3)
++    pts.push([x, y])
++  }
++  ctx.beginPath()
++  ctx.moveTo(-20, base + 30)
++  const first = pts[0]
++  if (!first) return
++  ctx.lineTo(-20, first[1])
++  for (let i = 0; i < pts.length - 1; i += 1) {
++    const a = pts[i]
++    const b = pts[i + 1]
++    if (!a || !b) continue
++    const mx = (a[0] + b[0]) / 2
++    const my = (a[1] + b[1]) / 2
++    ctx.quadraticCurveTo(a[0], a[1], mx, my)
++  }
++  const last = pts[pts.length - 1]
++  if (last) ctx.lineTo(w + 20, last[1])
++  ctx.lineTo(w + 20, base + 30)
++  ctx.closePath()
++  const g = ctx.createLinearGradient(0, top, 0, base + 30)
++  g.addColorStop(0, `rgba(${ink}, ${alpha})`)
++  g.addColorStop(0.55, `rgba(${ink}, ${alpha * 0.7})`)
++  g.addColorStop(1, `rgba(${ink}, 0)`)
++  ctx.fillStyle = g
++  ctx.fill()
++  // Dry-brush ridge line: the wash is darkest where the brush first landed.
++  ctx.strokeStyle = `rgba(${ink}, ${Math.min(1, alpha * 1.3)})`
++  ctx.lineWidth = 0.8
++  ctx.stroke()
++}
++
++/**
++ * The whole static select backdrop at SCREEN_WIDTH x SCREEN_HEIGHT logical:
++ * aged parchment, three ink-wash ranges with a vermilion sun, the lacquer
++ * roster frame with a gold double rim and fretwork, and the command strip.
++ */
++export function paintSelectBackdrop(ctx: Ctx, s: number): void {
++  const w = SCREEN_WIDTH
++  const h = SCREEN_HEIGHT
++  ctx.save()
++  ctx.scale(s, s)
++
++  // Parchment, warmer and deeper toward the foot.
++  const paper = ctx.createLinearGradient(0, 0, 0, h)
++  paper.addColorStop(0, '#f1dfb4')
++  paper.addColorStop(0.55, '#e4c994')
++  paper.addColorStop(1, '#c9a468')
++  ctx.fillStyle = paper
++  ctx.fillRect(0, 0, w, h)
++
++  // Vermilion sun, top right, beside the heading.
++  const sun = ctx.createRadialGradient(404, 17, 2, 404, 17, 15)
++  sun.addColorStop(0, 'rgba(214, 64, 36, 0.95)')
++  sun.addColorStop(0.8, 'rgba(190, 44, 28, 0.85)')
++  sun.addColorStop(1, 'rgba(190, 44, 28, 0)')
++  ctx.fillStyle = sun
++  ctx.beginPath()
++  ctx.arc(404, 17, 15, 0, Math.PI * 2)
++  ctx.fill()
++
++  // Ink-wash ranges, far to near. Visible above the frame and between cards.
++  range(ctx, 17, 96, 6, '70, 82, 104', 0.2, 9)
++  range(ctx, 41, 150, 22, '44, 52, 70', 0.3, 7)
++  range(ctx, 83, 250, 196, '26, 30, 42', 0.55, 6)
++
++  // Mist bands across the foot of the ranges.
++  for (const [y, a] of [
++    [214, 0.35],
++    [258, 0.25],
++  ] as const) {
++    const m = ctx.createLinearGradient(0, y - 8, 0, y + 8)
++    m.addColorStop(0, 'rgba(241, 223, 180, 0)')
++    m.addColorStop(0.5, `rgba(241, 223, 180, ${a})`)
++    m.addColorStop(1, 'rgba(241, 223, 180, 0)')
++    ctx.fillStyle = m
++    ctx.fillRect(0, y - 8, w, 16)
++  }
++
++  // Paper grain and fibres.
++  const gr = lcg(2207)
++  for (let i = 0; i < 1400; i += 1) {
++    ctx.fillStyle = `rgba(110, 72, 30, ${0.05 + gr() * 0.07})`
++    ctx.fillRect(gr() * w, gr() * h, 0.6 + gr() * 0.8, 0.6)
++  }
++  ctx.strokeStyle = 'rgba(120, 80, 36, 0.08)'
++  ctx.lineWidth = 0.5
++  for (let i = 0; i < 60; i += 1) {
++    const fx = gr() * w
++    const fy = gr() * h
++    ctx.beginPath()
++    ctx.moveTo(fx, fy)
++    ctx.lineTo(fx + (gr() - 0.5) * 18, fy + (gr() - 0.5) * 4)
++    ctx.stroke()
++  }
++
++  // Burnt edge: the sheet darkens toward its corners.
++  const edge = ctx.createRadialGradient(w / 2, h / 2, h * 0.35, w / 2, h / 2, w * 0.62)
++  edge.addColorStop(0, 'rgba(90, 50, 20, 0)')
++  edge.addColorStop(1, 'rgba(70, 36, 12, 0.5)')
++  ctx.fillStyle = edge
++  ctx.fillRect(0, 0, w, h)
++
++  paintRosterFrame(ctx)
++  paintCommandStrip(ctx)
++  ctx.restore()
++}
++
++/** The faction-blue lacquer field the five cards stand in. */
++function paintRosterFrame(ctx: Ctx): void {
++  const { x, y, w, h } = FRAME
++  // Drop shadow onto the parchment.
++  ctx.fillStyle = 'rgba(30, 16, 6, 0.45)'
++  roundRect(ctx, x + 2, y + 3, w, h, 4)
++  ctx.fill()
++  // Lacquer field: deep blue with a lighter band under the top rail.
++  const field = ctx.createLinearGradient(0, y, 0, y + h)
++  field.addColorStop(0, '#1d3f94')
++  field.addColorStop(0.18, '#12296a')
++  field.addColorStop(1, '#0a173e')
++  ctx.fillStyle = field
++  roundRect(ctx, x, y, w, h, 4)
++  ctx.fill()
++  // Key-fret lattice, faint, so the field has a surface rather than a fill.
++  ctx.save()
++  roundRect(ctx, x + 5, y + 5, w - 10, h - 10, 2)
++  ctx.clip()
++  ctx.strokeStyle = 'rgba(106, 150, 230, 0.12)'
++  ctx.lineWidth = 0.8
++  const step = 12
++  for (let gx = x; gx < x + w; gx += step) {
++    for (let gy = y; gy < y + h; gy += step) {
++      ctx.beginPath()
++      ctx.moveTo(gx + 2, gy + 2)
++      ctx.lineTo(gx + 10, gy + 2)
++      ctx.lineTo(gx + 10, gy + 10)
++      ctx.lineTo(gx + 5, gy + 10)
++      ctx.lineTo(gx + 5, gy + 6)
++      ctx.stroke()
++    }
++  }
++  ctx.restore()
++  // Gold double rim: bright outer, bronze inner rule.
++  const rim = ctx.createLinearGradient(0, y, 0, y + h)
++  rim.addColorStop(0, '#fff0a0')
++  rim.addColorStop(0.5, '#e8b820')
++  rim.addColorStop(1, '#8a5a1a')
++  ctx.strokeStyle = rim
++  ctx.lineWidth = 2.4
++  roundRect(ctx, x, y, w, h, 4)
++  ctx.stroke()
++  ctx.strokeStyle = 'rgba(216, 168, 104, 0.8)'
++  ctx.lineWidth = 0.8
++  roundRect(ctx, x + 4, y + 4, w - 8, h - 8, 2)
++  ctx.stroke()
++  // Corner bosses.
++  for (const [cx, cy] of [
++    [x, y],
++    [x + w, y],
++    [x, y + h],
++    [x + w, y + h],
++  ] as const) {
++    ctx.fillStyle = '#8a5a1a'
++    ctx.beginPath()
++    ctx.arc(cx, cy, 4.2, 0, Math.PI * 2)
++    ctx.fill()
++    ctx.fillStyle = '#ffd23c'
++    ctx.beginPath()
++    ctx.arc(cx - 0.6, cy - 0.6, 2.6, 0, Math.PI * 2)
++    ctx.fill()
++  }
++}
++
++/** The lacquer command strip with pointed end caps. */
++function paintCommandStrip(ctx: Ctx): void {
++  const { x, y, w, h } = STRIP
++  const cap = h / 2
++  const path = (): void => {
++    ctx.beginPath()
++    ctx.moveTo(x, y + h / 2)
++    ctx.lineTo(x + cap, y)
++    ctx.lineTo(x + w - cap, y)
++    ctx.lineTo(x + w, y + h / 2)
++    ctx.lineTo(x + w - cap, y + h)
++    ctx.lineTo(x + cap, y + h)
++    ctx.closePath()
++  }
++  ctx.fillStyle = 'rgba(30, 16, 6, 0.4)'
++  ctx.save()
++  ctx.translate(1.5, 2.5)
++  path()
++  ctx.fill()
++  ctx.restore()
++  const g = ctx.createLinearGradient(0, y, 0, y + h)
++  g.addColorStop(0, '#24305e')
++  g.addColorStop(0.4, '#101a3e')
++  g.addColorStop(1, '#070c22')
++  ctx.fillStyle = g
++  path()
++  ctx.fill()
++  ctx.strokeStyle = '#e8b820'
++  ctx.lineWidth = 1.4
++  path()
++  ctx.stroke()
++  // Inner hairline.
++  ctx.strokeStyle = 'rgba(216, 168, 104, 0.55)'
++  ctx.lineWidth = 0.6
++  ctx.beginPath()
++  ctx.moveTo(x + cap + 2, y + 3)
++  ctx.lineTo(x + w - cap - 2, y + 3)
++  ctx.moveTo(x + cap + 2, y + h - 3)
++  ctx.lineTo(x + w - cap - 2, y + h - 3)
++  ctx.stroke()
++}
++
++/** Card texture size in logical px (its canvas is this times the scale). */
++export const CARD_TEXTURE = { width: CARD.w, height: CARD.h } as const
++
++/**
++ * The roster card frame: gold rim, dark body, bronze-lined portrait recess,
++ * parchment name plate and a lacquer stat tray. The portrait and the labels
++ * are live objects laid over it at the same CARD offsets.
++ */
++export function paintRosterCard(ctx: Ctx, s: number): void {
++  const { w, h } = CARD
++  ctx.save()
++  ctx.scale(s, s)
++  // Gold rim.
++  const rim = ctx.createLinearGradient(0, 0, w, h)
++  rim.addColorStop(0, '#fff0a0')
++  rim.addColorStop(0.35, '#e8b820')
++  rim.addColorStop(0.7, '#8a5a1a')
++  rim.addColorStop(1, '#e8b820')
++  ctx.fillStyle = rim
++  roundRect(ctx, 0, 0, w, h, 3)
++  ctx.fill()
++  // Body.
++  ctx.fillStyle = '#16121c'
++  roundRect(ctx, 1.6, 1.6, w - 3.2, h - 3.2, 2)
++  ctx.fill()
++  // Portrait recess with a bronze line around it.
++  const win = CARD.window
++  ctx.fillStyle = '#0b0910'
++  ctx.fillRect(win.x, win.y, win.w, win.h)
++  ctx.strokeStyle = '#d8a868'
++  ctx.lineWidth = 0.8
++  ctx.strokeRect(win.x - 0.6, win.y - 0.6, win.w + 1.2, win.h + 1.2)
++  // Parchment name plate.
++  const pl = CARD.plate
++  const paper = ctx.createLinearGradient(0, pl.y, 0, pl.y + pl.h)
++  paper.addColorStop(0, '#f6e6c0')
++  paper.addColorStop(1, '#dcc190')
++  ctx.fillStyle = paper
++  ctx.fillRect(pl.x, pl.y, pl.w, pl.h)
++  ctx.strokeStyle = '#8a6a2a'
++  ctx.lineWidth = 0.8
++  ctx.strokeRect(pl.x + 1.5, pl.y + 1.5, pl.w - 3, pl.h - 3)
++  ctx.fillStyle = '#8a6a2a'
++  for (const [rx, ry] of [
++    [pl.x + 3.5, pl.y + 3.5],
++    [pl.x + pl.w - 3.5, pl.y + 3.5],
++    [pl.x + 3.5, pl.y + pl.h - 3.5],
++    [pl.x + pl.w - 3.5, pl.y + pl.h - 3.5],
++  ] as const) {
++    ctx.beginPath()
++    ctx.arc(rx, ry, 1, 0, Math.PI * 2)
++    ctx.fill()
++  }
++  // Stat tray.
++  const tr = CARD.tray
++  const tray = ctx.createLinearGradient(0, tr.y, 0, tr.y + tr.h)
++  tray.addColorStop(0, '#162a66')
++  tray.addColorStop(1, '#0a1433')
++  ctx.fillStyle = tray
++  ctx.fillRect(tr.x, tr.y, tr.w, tr.h)
++  ctx.fillStyle = 'rgba(216, 168, 104, 0.7)'
++  ctx.fillRect(tr.x, tr.y, tr.w, 0.8)
++  ctx.restore()
++}
++
++/** Halo canvas size in logical px: the card plus GLOW_PAD on every side. */
++export const GLOW_TEXTURE = { width: CARD.w + GLOW_PAD * 2, height: CARD.h + GLOW_PAD * 2 } as const
++
++/**
++ * A cursor halo: a bright rim at the card's edge whose glow spills outward.
++ * Drawn BEHIND the card, so only the outer spill and the rim show.
++ */
++export function paintCursorGlow(ctx: Ctx, s: number, rgb: string, strength: 'primary' | 'secondary'): void {
++  ctx.save()
++  ctx.scale(s, s)
++  const x = GLOW_PAD - 1.5
++  const y = GLOW_PAD - 1.5
++  const w = CARD.w + 3
++  const h = CARD.h + 3
++  const primary = strength === 'primary'
++  // Stacked soft strokes stand in for a blur so no canvas filter is needed.
++  // The primary (1P) halo is denser: gold on a gold-rimmed card needs more
++  // light than blue does to read as "this one".
++  const base = primary ? 0.2 : 0.08
++  const rise = primary ? 0.1 : 0.05
++  for (let i = GLOW_PAD; i >= 1; i -= 1) {
++    ctx.strokeStyle = `rgba(${rgb}, ${Math.min(1, base + (GLOW_PAD - i) * rise)})`
++    ctx.lineWidth = i * 2
++    roundRect(ctx, x, y, w, h, 4)
++    ctx.stroke()
++  }
++  ctx.strokeStyle = `rgba(${rgb}, 1)`
++  ctx.lineWidth = primary ? 3 : 1.6
++  roundRect(ctx, x, y, w, h, 4)
++  ctx.stroke()
++  if (primary) {
++    // White-hot core line, so the rim reads as lit rather than as more gold.
++    ctx.strokeStyle = 'rgba(255, 252, 236, 0.95)'
++    ctx.lineWidth = 1
++    roundRect(ctx, x, y, w, h, 4)
++    ctx.stroke()
++  }
++  ctx.restore()
++}
++
++/** Stat pip size in logical px. */
++export const PIP = { width: 7, height: 7 } as const
++
++/** A bronze stat pip: a lit gold bead when `on`, an empty socket when not. */
++export function paintPip(ctx: Ctx, s: number, on: boolean): void {
++  const c = PIP.width / 2
++  ctx.save()
++  ctx.scale(s, s)
++  ctx.fillStyle = '#3a2a10'
++  ctx.beginPath()
++  ctx.arc(c, c, 3.2, 0, Math.PI * 2)
++  ctx.fill()
++  if (on) {
++    const g = ctx.createRadialGradient(c - 0.9, c - 0.9, 0.3, c, c, 2.6)
++    g.addColorStop(0, '#fff3b0')
++    g.addColorStop(0.45, '#ffc830')
++    g.addColorStop(1, '#8a5a1a')
++    ctx.fillStyle = g
++  } else {
++    ctx.fillStyle = '#0a1024'
++  }
++  ctx.beginPath()
++  ctx.arc(c, c, 2.4, 0, Math.PI * 2)
++  ctx.fill()
++  ctx.strokeStyle = on ? 'rgba(255, 240, 180, 0.6)' : 'rgba(216, 168, 104, 0.45)'
++  ctx.lineWidth = 0.5
++  ctx.stroke()
++  ctx.restore()
++}
++
++/** Pennant size in logical px. */
++export const PENNANT = { width: 24, height: 14 } as const
++
++/** A small player pennant: dark lacquer with a coloured rim and a point. */
++export function paintPennant(ctx: Ctx, s: number, rgb: string): void {
++  const { width: w, height: h } = PENNANT
++  ctx.save()
++  ctx.scale(s, s)
++  const path = (): void => {
++    ctx.beginPath()
++    ctx.moveTo(1, 1)
++    ctx.lineTo(w - 1, 1)
++    ctx.lineTo(w - 1, h - 5)
++    ctx.lineTo(w / 2, h - 1)
++    ctx.lineTo(1, h - 5)
++    ctx.closePath()
++  }
++  ctx.fillStyle = '#0e0b14'
++  path()
++  ctx.fill()
++  ctx.strokeStyle = `rgba(${rgb}, 1)`
++  ctx.lineWidth = 1.4
++  path()
++  ctx.stroke()
++  ctx.restore()
++}
+diff --git a/e2e/select-look.spec.ts b/e2e/select-look.spec.ts
+new file mode 100644
+index 0000000..5165955
+--- /dev/null
++++ b/e2e/select-look.spec.ts
+@@ -0,0 +1,105 @@
++import { expect, test } from '@playwright/test'
++import { CHARACTER_ORDER } from '../src/core/characters'
++
++/**
++ * UI-3 roster select: the screen is built from the baked kit, the cursors
++ * mark the right cards as they move, and review captures are written for
++ * desktop and phone.
++ */
++
++interface Marks {
++  p1: number | null
++  p2: number | null
++  cards: number[]
++}
++
++/** Card centres and where the 1P/2P halos currently sit, from the live scene. */
++function readMarks(): Marks {
++  const scene = window.__DW_GAME__?.scene.getScene('select')
++  const list = scene?.children.list ?? []
++  const cards = list
++    .filter((c) => c.type === 'Zone')
++    .map((c) => Math.round((c as unknown as { x: number }).x))
++    .sort((a, b) => a - b)
++  const glowX = (key: string): number | null => {
++    const g = list.find(
++      (c) => c.type === 'Image' && (c as unknown as { texture: { key: string } }).texture.key === key,
++    ) as unknown as { x: number } | undefined
++    return g ? Math.round(g.x) : null
++  }
++  return { p1: glowX('ui:roster-glow-p1'), p2: glowX('ui:roster-glow-p2'), cards }
++}
++
++test('UI-3 roster select renders through the baked kit and the cursors track', async ({ page, browser }) => {
++  const errors: string[] = []
++  page.on('pageerror', (e) => errors.push(String(e)))
++  await page.setViewportSize({ width: 960, height: 540 })
++  await page.goto('/?renderer=canvas&autopilot=1')
++  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
++  await page.keyboard.press('Enter')
++  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('select')
++  await page.waitForTimeout(500)
++
++  const kit = await page.evaluate(() => {
++    const tex = window.__DW_GAME__?.textures
++    return ['ui:select-backdrop', 'ui:roster-card', 'ui:roster-glow-p1', 'ui:roster-glow-p2', 'ui:pip-on', 'ui:pip-off'].filter(
++      (k) => tex?.exists(k) !== true,
++    )
++  })
++  expect(kit, 'select kit textures missing').toEqual([])
++
++  // Every card carries its hero's painted portrait and bilingual name.
++  const labels = await page.evaluate(() =>
++    (window.__DW_GAME__?.scene.getScene('select')?.children.list ?? [])
++      .filter((c) => c.type === 'Text')
++      .map((c) => (c as unknown as { text: string }).text),
++  )
++  for (const id of CHARACTER_ORDER) {
++    const portrait = await page.evaluate(
++      (key) =>
++        (window.__DW_GAME__?.scene.getScene('select')?.children.list ?? []).some(
++          (c) => c.type === 'Image' && (c as unknown as { texture: { key: string } }).texture.key === key,
++        ),
++      `portrait:${id}`,
++    )
++    expect(portrait, `${id} card has no portrait`).toBe(true)
++  }
++  expect(labels).toEqual(expect.arrayContaining(['關羽', 'GUAN YU', '魏延', 'WEI YAN', '1P', '2P']))
++
++  // 1P starts on card 0; 2P previews the drop-in rule (first hero 1P did not
++  // pick), which is card 1. Moving left wraps 1P to the last card and 2P back
++  // to card 0.
++  const start = await page.evaluate(readMarks)
++  expect(start.cards.length).toBe(5)
++  expect(start.p1).toBe(start.cards[0])
++  expect(start.p2).toBe(start.cards[1])
++  await page.screenshot({ path: 'artifacts/look/ui3-select-desktop.png' })
++
++  await page.keyboard.press('ArrowLeft')
++  await expect.poll(() => page.evaluate(readMarks)).toMatchObject({ p1: start.cards[4], p2: start.cards[0] })
++  await page.keyboard.press('ArrowRight')
++  await page.waitForTimeout(90)
++  await page.keyboard.press('ArrowRight')
++  await page.waitForTimeout(90)
++  await page.keyboard.press('ArrowRight')
++  await expect.poll(() => page.evaluate(readMarks)).toMatchObject({ p1: start.cards[2], p2: start.cards[0] })
++  await page.screenshot({ path: 'artifacts/look/ui3-select-zhaoyun.png' })
++  expect(errors).toEqual([])
++
++  const ctx = await browser.newContext({ viewport: { width: 412, height: 732 }, hasTouch: true })
++  const phone = await ctx.newPage()
++  await phone.goto('/?renderer=canvas&autopilot=1')
++  await expect.poll(() => phone.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
++  await phone.keyboard.press('Enter')
++  await expect.poll(() => phone.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('select')
++  await phone.waitForTimeout(500)
++  const hint = await phone.evaluate(() =>
++    (window.__DW_GAME__?.scene.getScene('select')?.children.list ?? [])
++      .filter((c) => c.type === 'Text')
++      .map((c) => (c as unknown as { text: string }).text)
++      .find((t) => t.includes('WARRIOR TO FIGHT') || t.includes('ENTER to fight')),
++  )
++  expect(hint).toBe('TAP A WARRIOR TO FIGHT')
++  await phone.screenshot({ path: 'artifacts/look/ui3-select-phone.png' })
++  await ctx.close()
++})
+diff --git a/test/game/roster.test.ts b/test/game/roster.test.ts
+new file mode 100644
+index 0000000..5dc8a5e
+--- /dev/null
++++ b/test/game/roster.test.ts
+@@ -0,0 +1,91 @@
++import { describe, expect, it } from 'vitest'
++import { CHARACTER_ORDER, characterById } from '../../src/core/characters'
++import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../src/core/constants'
++import { secondPlayerCharacter } from '../../src/game/players'
++import {
++  CARD,
++  CARD_SPACING,
++  CARD_TOP,
++  FRAME,
++  GLOW_PAD,
++  STAT_PIPS,
++  STRIP,
++  cardCenterX,
++  statPips,
++} from '../../src/game/ui/roster'
++
++describe('UI-3 roster geometry', () => {
++  const n = CHARACTER_ORDER.length
++
++  it('fits five cards, with their halos, inside the roster frame', () => {
++    const first = cardCenterX(0, n) - CARD.w / 2 - GLOW_PAD
++    const last = cardCenterX(n - 1, n) + CARD.w / 2 + GLOW_PAD
++    expect(first).toBeGreaterThanOrEqual(FRAME.x)
++    expect(last).toBeLessThanOrEqual(FRAME.x + FRAME.w)
++    expect(CARD_TOP - GLOW_PAD).toBeGreaterThanOrEqual(FRAME.y)
++    expect(CARD_TOP + CARD.h + GLOW_PAD).toBeLessThanOrEqual(FRAME.y + FRAME.h)
++    // Neighbouring halos may touch but cards never overlap.
++    expect(CARD_SPACING).toBeGreaterThan(CARD.w)
++  })
++
++  it('centres the row and keeps the frame and strip on screen, apart', () => {
++    expect(cardCenterX(0, n) + cardCenterX(n - 1, n)).toBeCloseTo(SCREEN_WIDTH, 6)
++    for (const r of [FRAME, STRIP]) {
++      expect(r.x).toBeGreaterThanOrEqual(0)
++      expect(r.y).toBeGreaterThanOrEqual(0)
++      expect(r.x + r.w).toBeLessThanOrEqual(SCREEN_WIDTH)
++      expect(r.y + r.h).toBeLessThanOrEqual(SCREEN_HEIGHT)
++    }
++    expect(STRIP.y).toBeGreaterThan(FRAME.y + FRAME.h)
++  })
++
++  it('stacks the card sections without overlap inside the card', () => {
++    const parts = [CARD.window, CARD.plate, CARD.tray]
++    for (let i = 0; i < parts.length; i += 1) {
++      const p = parts[i]
++      if (!p) continue
++      expect(p.x + p.w).toBeLessThanOrEqual(CARD.w)
++      expect(p.y + p.h).toBeLessThanOrEqual(CARD.h)
++      const next = parts[i + 1]
++      if (next) expect(next.y).toBeGreaterThanOrEqual(p.y + p.h)
++    }
++    // Painted portraits are 432x480 (0.9); the recess keeps that shape.
++    expect(CARD.window.w / CARD.window.h).toBeCloseTo(432 / 480, 1)
++  })
++})
++
++describe('UI-3 stat pips', () => {
++  it('spans 1..STAT_PIPS across the roster spread, never zero', () => {
++    const values = [110, 120, 125, 130, 140]
++    expect(statPips(values, 110)).toBe(1)
++    expect(statPips(values, 140)).toBe(STAT_PIPS)
++    for (const v of values) {
++      const p = statPips(values, v)
++      expect(p).toBeGreaterThanOrEqual(1)
++      expect(p).toBeLessThanOrEqual(STAT_PIPS)
++    }
++    expect(statPips([3, 3, 3], 3)).toBe(STAT_PIPS)
++  })
++
++  it('orders the real roster the way its stats do', () => {
++    const roster = CHARACTER_ORDER.map((id) => characterById(id))
++    for (const key of ['maxHp', 'walkSpeed'] as const) {
++      const values = roster.map((c) => c[key])
++      for (const a of roster) {
++        for (const b of roster) {
++          if (a[key] > b[key]) expect(statPips(values, a[key])).toBeGreaterThanOrEqual(statPips(values, b[key]))
++        }
++      }
++    }
++  })
++})
++
++describe('2P preview rule', () => {
++  it('never hands player two the hero player one picked', () => {
++    for (const id of CHARACTER_ORDER) {
++      const second = secondPlayerCharacter(id)
++      expect(second).not.toBe(id)
++      expect(CHARACTER_ORDER).toContain(second)
++    }
++  })
++})

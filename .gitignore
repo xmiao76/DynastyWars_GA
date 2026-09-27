@@ -2,7 +2,6 @@ node_modules/
 dist/
 playwright-report/
 test-results/
-artifacts/
 art/raw/
 *.log
 .env

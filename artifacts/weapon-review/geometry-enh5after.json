@@ -1,0 +1,22 @@
+{
+  "reaches": {
+    "idle": 0,
+    "walk0": 0,
+    "walk1": 0,
+    "attack": 61,
+    "attack2": 45,
+    "thrust": 65,
+    "chop": 30,
+    "sweep": 61,
+    "windup": 11,
+    "recover": 22,
+    "jump": 22,
+    "down": 27,
+    "hurt": 8,
+    "special": 60
+  },
+  "headroom": 25,
+  "highest": "lidian:chop",
+  "faceClearanceMeasured": true,
+  "faceOverlaps": []
+}

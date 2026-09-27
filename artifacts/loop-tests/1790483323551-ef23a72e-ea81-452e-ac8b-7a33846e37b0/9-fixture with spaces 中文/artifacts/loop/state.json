@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "paused": true,
+  "pauseReason": "Adapter exited with code 7 (signal none)",
+  "activeRun": null,
+  "lastRun": {
+    "runId": "2026-09-27T04-28-47-439Z-bfcc7296-a7a8-40da-97f3-1e0ab26dd110",
+    "mode": "Auto",
+    "startedAt": "2026-09-27T04:28:47.439Z",
+    "endedAt": "2026-09-27T04:28:47.539Z",
+    "result": "UNKNOWN",
+    "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790483323551-ef23a72e-ea81-452e-ac8b-7a33846e37b0\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T04-28-47-439Z-bfcc7296-a7a8-40da-97f3-1e0ab26dd110.report.md",
+    "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790483323551-ef23a72e-ea81-452e-ac8b-7a33846e37b0\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T04-28-47-439Z-bfcc7296-a7a8-40da-97f3-1e0ab26dd110.metadata.json",
+    "pid": 14592,
+    "worker": "adapter"
+  },
+  "transientSkips": 0,
+  "lastSkipAt": null,
+  "updatedAt": "2026-09-27T04:28:47.541Z"
+}

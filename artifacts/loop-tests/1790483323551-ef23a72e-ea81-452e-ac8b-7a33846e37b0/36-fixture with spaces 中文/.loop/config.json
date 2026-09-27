@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "adapter": null,
+  "model": null,
+  "mode": "Auto",
+  "iterations": 1,
+  "intervalSeconds": 0,
+  "timeoutSeconds": 3600,
+  "adapters": {}
+}

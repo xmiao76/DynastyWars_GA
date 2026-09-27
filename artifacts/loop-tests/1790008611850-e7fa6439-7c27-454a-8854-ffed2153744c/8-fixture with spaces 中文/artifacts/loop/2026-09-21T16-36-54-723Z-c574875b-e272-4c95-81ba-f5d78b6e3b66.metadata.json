@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "runId": "2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-21T16:36:54.723Z",
+  "status": "finished",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790008611850-e7fa6439-7c27-454a-8854-ffed2153744c\\8-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T16-36-54-723Z-c574875b-e272-4c95-81ba-f5d78b6e3b66.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "pid": 12588,
+  "execution": {
+    "code": 0,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "REGRESSION",
+  "endedAt": "2026-09-21T16:36:54.824Z"
+}

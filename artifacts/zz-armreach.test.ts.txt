@@ -1,0 +1,39 @@
+import { readFileSync } from 'node:fs'
+import { it } from 'vitest'
+import { ENEMY_FIGURES, HERO_FIGURES, WEAPONS } from '../../src/game/art/figures'
+import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
+import { applyBuild } from '../../src/game/art/rig'
+import { weaponPose } from '../../src/game/art/weapons'
+import { HEROES } from '../../scripts/prepare-body-parts.mjs'
+
+// Scratch measurement (not committed): needed near-arm reach per fighter vs
+// painted arm length.
+it('arm reach table', () => {
+  const rows: string[] = []
+  const d = (a: { x: number; y: number }, b: { x: number; y: number }): number => Math.hypot(a.x - b.x, a.y - b.y)
+  for (const [id, spec] of Object.entries(HEROES as Record<string, { joints: Record<string, number[]> }>)) {
+    const plan = HERO_FIGURES[id] ?? ENEMY_FIGURES[id]
+    if (!plan) continue
+    const j = spec.joints
+    const L = (a: string, b: string): number => Math.hypot(j[b]![0]! - j[a]![0]!, j[b]![1]! - j[a]![1]!)
+    const ppu = L('chest', 'hip') / 22
+    const armTip = (L('shoulderN', 'elbowN') + L('elbowN', 'handN')) / ppu
+    const h = plan.build.height
+    let maxN = 0
+    let minN = 99
+    let maxName = ''
+    const per: string[] = []
+    for (const name of Object.keys(POSE_TABLE) as PoseName[]) {
+      if (name === 'down') continue
+      const p = weaponPose(plan, applyBuild(POSE_TABLE[name], plan.build))
+      const dn = d(p.shoulderN, p.handN)
+      if (dn > maxN) { maxN = dn; maxName = name }
+      minN = Math.min(minN, dn)
+      per.push(`${name}:${dn.toFixed(1)}`)
+    }
+    rows.push(`${id.padEnd(11)} ${plan.weapon.padEnd(6)} h=${h} sh=${plan.build.shoulders} bulk=${plan.build.bulk} head=${plan.build.head} armTip(painted,xh)=${(armTip * h).toFixed(1)} palm75=${((L('shoulderN', 'elbowN') + 0.75 * L('elbowN', 'handN')) / ppu * h).toFixed(1)} needN max=${maxN.toFixed(1)}(${maxName}) min=${minN.toFixed(1)} len=${WEAPONS[plan.weapon].length}`)
+    rows.push('    ' + per.join(' '))
+  }
+  readFileSync // keep import
+  console.log(rows.join('\n'))
+})

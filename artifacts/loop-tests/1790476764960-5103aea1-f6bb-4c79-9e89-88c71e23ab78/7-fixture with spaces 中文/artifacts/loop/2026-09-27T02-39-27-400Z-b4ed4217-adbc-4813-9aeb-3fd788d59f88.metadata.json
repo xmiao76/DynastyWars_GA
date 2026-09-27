@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "runId": "2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-27T02:39:27.400Z",
+  "status": "finished",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\7-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-27-400Z-b4ed4217-adbc-4813-9aeb-3fd788d59f88.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "pid": 17468,
+  "execution": {
+    "code": 0,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "BLOCKED",
+  "endedAt": "2026-09-27T02:39:27.538Z"
+}

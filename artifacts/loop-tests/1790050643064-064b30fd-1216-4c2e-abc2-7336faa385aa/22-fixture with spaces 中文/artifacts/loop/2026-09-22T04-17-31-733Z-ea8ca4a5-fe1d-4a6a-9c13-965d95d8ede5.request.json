@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "repoRoot": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\22-fixture with spaces 中文",
+  "mode": "Auto",
+  "model": null,
+  "promptFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\22-fixture with spaces 中文\\.loop\\continue.md",
+  "instructionsFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\22-fixture with spaces 中文\\AGENTS.md",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\22-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-31-733Z-ea8ca4a5-fe1d-4a6a-9c13-965d95d8ede5.input.md",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\22-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-31-733Z-ea8ca4a5-fe1d-4a6a-9c13-965d95d8ede5.report.md",
+  "runId": "2026-09-22T04-17-31-733Z-ea8ca4a5-fe1d-4a6a-9c13-965d95d8ede5",
+  "iteration": 1,
+  "scheduled": false,
+  "createdAt": "2026-09-22T04:17:31.733Z",
+  "workspaceFiles": [
+    "AGENTS.md",
+    "PROJECT.md",
+    "TASKS.md",
+    "PROGRESS.md"
+  ],
+  "policy": {
+    "sandbox": "workspace-write",
+    "approvalPolicy": "never",
+    "networkAccess": false
+  }
+}

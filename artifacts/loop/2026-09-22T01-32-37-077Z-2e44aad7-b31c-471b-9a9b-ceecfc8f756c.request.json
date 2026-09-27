@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "repoRoot": "C:\\GitHub\\DynastyWars_GA",
+  "mode": "Auto",
+  "model": null,
+  "promptFile": "C:\\GitHub\\DynastyWars_GA\\.loop\\continue.md",
+  "instructionsFile": "C:\\GitHub\\DynastyWars_GA\\AGENTS.md",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-22T01-32-37-077Z-2e44aad7-b31c-471b-9a9b-ceecfc8f756c.input.md",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-22T01-32-37-077Z-2e44aad7-b31c-471b-9a9b-ceecfc8f756c.report.md",
+  "runId": "2026-09-22T01-32-37-077Z-2e44aad7-b31c-471b-9a9b-ceecfc8f756c",
+  "iteration": 1,
+  "scheduled": false,
+  "createdAt": "2026-09-22T01:32:37.077Z",
+  "workspaceFiles": [
+    "AGENTS.md",
+    "PROJECT.md",
+    "TASKS.md",
+    "PROGRESS.md"
+  ],
+  "policy": {
+    "sandbox": "workspace-write",
+    "approvalPolicy": "never",
+    "networkAccess": false
+  }
+}

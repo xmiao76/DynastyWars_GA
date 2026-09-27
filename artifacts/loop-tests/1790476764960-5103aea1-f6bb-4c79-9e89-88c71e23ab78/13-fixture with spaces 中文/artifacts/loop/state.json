@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "paused": true,
+  "pauseReason": "Final nonempty report line must be exactly LOOP_RESULT: <valid status>",
+  "activeRun": null,
+  "lastRun": {
+    "runId": "2026-09-27T02-39-30-269Z-89a7d76f-7c89-4d63-bb50-6738e6736b43",
+    "mode": "Auto",
+    "startedAt": "2026-09-27T02:39:30.269Z",
+    "endedAt": "2026-09-27T02:39:30.368Z",
+    "result": "UNKNOWN",
+    "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\13-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-30-269Z-89a7d76f-7c89-4d63-bb50-6738e6736b43.report.md",
+    "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\13-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-30-269Z-89a7d76f-7c89-4d63-bb50-6738e6736b43.metadata.json",
+    "pid": 18268,
+    "worker": "adapter"
+  },
+  "transientSkips": 0,
+  "lastSkipAt": null,
+  "updatedAt": "2026-09-27T02:39:30.371Z"
+}

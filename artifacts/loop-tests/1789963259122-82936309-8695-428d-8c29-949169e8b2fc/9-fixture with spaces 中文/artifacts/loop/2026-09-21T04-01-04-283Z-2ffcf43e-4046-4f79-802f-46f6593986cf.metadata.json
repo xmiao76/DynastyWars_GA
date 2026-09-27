@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "runId": "2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-21T04:01:04.283Z",
+  "status": "error",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1789963259122-82936309-8695-428d-8c29-949169e8b2fc\\9-fixture with spaces 中文\\artifacts\\loop\\2026-09-21T04-01-04-283Z-2ffcf43e-4046-4f79-802f-46f6593986cf.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "pid": 8400,
+  "execution": {
+    "code": 7,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "UNKNOWN",
+  "error": "Adapter exited with code 7 (signal none)",
+  "endedAt": "2026-09-21T04:01:04.432Z",
+  "cleanupCertain": true
+}

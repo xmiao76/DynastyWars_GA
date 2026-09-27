@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "runId": "2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-22T04:17:30.284Z",
+  "status": "error",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-30-284Z-84a63264-c51c-42f8-9400-db21195ec96c.stderr.log",
+  "executable": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\missing-executable",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "execution": {
+    "code": null,
+    "error": "spawn C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\missing-executable ENOENT",
+    "cleanupCertain": true
+  },
+  "result": "UNKNOWN",
+  "error": "spawn C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\20-fixture with spaces 中文\\missing-executable ENOENT",
+  "endedAt": "2026-09-22T04:17:30.298Z",
+  "cleanupCertain": true
+}

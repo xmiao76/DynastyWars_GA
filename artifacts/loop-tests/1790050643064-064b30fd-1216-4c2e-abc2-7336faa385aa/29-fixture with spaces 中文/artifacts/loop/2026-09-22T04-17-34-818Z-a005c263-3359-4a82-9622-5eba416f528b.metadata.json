@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "runId": "2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-22T04:17:34.819Z",
+  "status": "error",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\29-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-34-818Z-a005c263-3359-4a82-9622-5eba416f528b.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 0.6,
+  "pid": 19996,
+  "execution": {
+    "code": null,
+    "cleanupCertain": false,
+    "timedOut": true,
+    "cancelled": false,
+    "error": "Adapter exceeded timeout (0.6s)"
+  },
+  "result": "UNKNOWN",
+  "error": "Adapter exceeded timeout (0.6s); process-tree cleanup uncertain, retaining lock for manual recovery",
+  "endedAt": "2026-09-22T04:17:37.524Z",
+  "cleanupCertain": false
+}

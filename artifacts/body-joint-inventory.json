@@ -1,0 +1,2845 @@
+{
+ "idle": {
+  "joints": {
+   "hip": {
+    "x": 48,
+    "y": 52
+   },
+   "chest": {
+    "x": 48,
+    "y": 30
+   },
+   "neck": {
+    "x": 48,
+    "y": 25
+   },
+   "head": {
+    "x": 49,
+    "y": 15
+   },
+   "shoulderF": {
+    "x": 43,
+    "y": 31
+   },
+   "elbowF": {
+    "x": 40,
+    "y": 43
+   },
+   "handF": {
+    "x": 42,
+    "y": 55
+   },
+   "shoulderN": {
+    "x": 53,
+    "y": 31
+   },
+   "elbowN": {
+    "x": 57,
+    "y": 43
+   },
+   "handN": {
+    "x": 58,
+    "y": 54
+   },
+   "hipF": {
+    "x": 44,
+    "y": 53
+   },
+   "kneeF": {
+    "x": 42,
+    "y": 71
+   },
+   "footF": {
+    "x": 40,
+    "y": 92
+   },
+   "hipN": {
+    "x": 52,
+    "y": 53
+   },
+   "kneeN": {
+    "x": 55,
+    "y": 71
+   },
+   "footN": {
+    "x": 58,
+    "y": 92
+   },
+   "weaponRot": -1.4,
+   "weaponGrip": 0.34,
+   "headRot": 0
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 48,
+     "y": 52
+    },
+    "to": {
+     "x": 48,
+     "y": 30
+    },
+    "length": 22,
+    "angleDeg": -90
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 48,
+     "y": 30
+    },
+    "to": {
+     "x": 48,
+     "y": 25
+    },
+    "length": 5,
+    "angleDeg": -90
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 43,
+     "y": 31
+    },
+    "to": {
+     "x": 40,
+     "y": 43
+    },
+    "length": 12.37,
+    "angleDeg": 104
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 40,
+     "y": 43
+    },
+    "to": {
+     "x": 42,
+     "y": 55
+    },
+    "length": 12.17,
+    "angleDeg": 81
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 53,
+     "y": 31
+    },
+    "to": {
+     "x": 57,
+     "y": 43
+    },
+    "length": 12.65,
+    "angleDeg": 72
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 57,
+     "y": 43
+    },
+    "to": {
+     "x": 58,
+     "y": 54
+    },
+    "length": 11.05,
+    "angleDeg": 85
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 44,
+     "y": 53
+    },
+    "to": {
+     "x": 42,
+     "y": 71
+    },
+    "length": 18.11,
+    "angleDeg": 96
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 42,
+     "y": 71
+    },
+    "to": {
+     "x": 40,
+     "y": 92
+    },
+    "length": 21.1,
+    "angleDeg": 95
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 52,
+     "y": 53
+    },
+    "to": {
+     "x": 55,
+     "y": 71
+    },
+    "length": 18.25,
+    "angleDeg": 81
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 55,
+     "y": 71
+    },
+    "to": {
+     "x": 58,
+     "y": 92
+    },
+    "length": 21.21,
+    "angleDeg": 82
+   }
+  ]
+ },
+ "walk0": {
+  "joints": {
+   "hip": {
+    "x": 48,
+    "y": 53
+   },
+   "chest": {
+    "x": 47,
+    "y": 31
+   },
+   "neck": {
+    "x": 47,
+    "y": 26
+   },
+   "head": {
+    "x": 48,
+    "y": 16
+   },
+   "shoulderF": {
+    "x": 43,
+    "y": 32
+   },
+   "elbowF": {
+    "x": 38,
+    "y": 42
+   },
+   "handF": {
+    "x": 37,
+    "y": 54
+   },
+   "shoulderN": {
+    "x": 53,
+    "y": 32
+   },
+   "elbowN": {
+    "x": 59,
+    "y": 42
+   },
+   "handN": {
+    "x": 60,
+    "y": 52
+   },
+   "hipF": {
+    "x": 45,
+    "y": 54
+   },
+   "kneeF": {
+    "x": 38,
+    "y": 70
+   },
+   "footF": {
+    "x": 33,
+    "y": 92
+   },
+   "hipN": {
+    "x": 52,
+    "y": 54
+   },
+   "kneeN": {
+    "x": 60,
+    "y": 68
+   },
+   "footN": {
+    "x": 64,
+    "y": 90
+   },
+   "weaponRot": -1.44,
+   "weaponGrip": 0.34,
+   "headRot": 0
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 48,
+     "y": 53
+    },
+    "to": {
+     "x": 47,
+     "y": 31
+    },
+    "length": 22.02,
+    "angleDeg": -93
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 47,
+     "y": 31
+    },
+    "to": {
+     "x": 47,
+     "y": 26
+    },
+    "length": 5,
+    "angleDeg": -90
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 43,
+     "y": 32
+    },
+    "to": {
+     "x": 38,
+     "y": 42
+    },
+    "length": 11.18,
+    "angleDeg": 117
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 38,
+     "y": 42
+    },
+    "to": {
+     "x": 37,
+     "y": 54
+    },
+    "length": 12.04,
+    "angleDeg": 95
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 53,
+     "y": 32
+    },
+    "to": {
+     "x": 59,
+     "y": 42
+    },
+    "length": 11.66,
+    "angleDeg": 59
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 59,
+     "y": 42
+    },
+    "to": {
+     "x": 60,
+     "y": 52
+    },
+    "length": 10.05,
+    "angleDeg": 84
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 45,
+     "y": 54
+    },
+    "to": {
+     "x": 38,
+     "y": 70
+    },
+    "length": 17.46,
+    "angleDeg": 114
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 38,
+     "y": 70
+    },
+    "to": {
+     "x": 33,
+     "y": 92
+    },
+    "length": 22.56,
+    "angleDeg": 103
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 52,
+     "y": 54
+    },
+    "to": {
+     "x": 60,
+     "y": 68
+    },
+    "length": 16.12,
+    "angleDeg": 60
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 60,
+     "y": 68
+    },
+    "to": {
+     "x": 64,
+     "y": 90
+    },
+    "length": 22.36,
+    "angleDeg": 80
+   }
+  ]
+ },
+ "walk1": {
+  "joints": {
+   "hip": {
+    "x": 48,
+    "y": 51
+   },
+   "chest": {
+    "x": 49,
+    "y": 29
+   },
+   "neck": {
+    "x": 49,
+    "y": 24
+   },
+   "head": {
+    "x": 50,
+    "y": 14
+   },
+   "shoulderF": {
+    "x": 44,
+    "y": 30
+   },
+   "elbowF": {
+    "x": 44,
+    "y": 42
+   },
+   "handF": {
+    "x": 47,
+    "y": 53
+   },
+   "shoulderN": {
+    "x": 54,
+    "y": 30
+   },
+   "elbowN": {
+    "x": 55,
+    "y": 42
+   },
+   "handN": {
+    "x": 54,
+    "y": 53
+   },
+   "hipF": {
+    "x": 45,
+    "y": 52
+   },
+   "kneeF": {
+    "x": 50,
+    "y": 69
+   },
+   "footF": {
+    "x": 56,
+    "y": 90
+   },
+   "hipN": {
+    "x": 52,
+    "y": 52
+   },
+   "kneeN": {
+    "x": 47,
+    "y": 71
+   },
+   "footN": {
+    "x": 41,
+    "y": 92
+   },
+   "weaponRot": -1.22,
+   "weaponGrip": 0.34,
+   "headRot": 0
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 48,
+     "y": 51
+    },
+    "to": {
+     "x": 49,
+     "y": 29
+    },
+    "length": 22.02,
+    "angleDeg": -87
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 49,
+     "y": 29
+    },
+    "to": {
+     "x": 49,
+     "y": 24
+    },
+    "length": 5,
+    "angleDeg": -90
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 44,
+     "y": 30
+    },
+    "to": {
+     "x": 44,
+     "y": 42
+    },
+    "length": 12,
+    "angleDeg": 90
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 44,
+     "y": 42
+    },
+    "to": {
+     "x": 47,
+     "y": 53
+    },
+    "length": 11.4,
+    "angleDeg": 75
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 54,
+     "y": 30
+    },
+    "to": {
+     "x": 55,
+     "y": 42
+    },
+    "length": 12.04,
+    "angleDeg": 85
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 55,
+     "y": 42
+    },
+    "to": {
+     "x": 54,
+     "y": 53
+    },
+    "length": 11.05,
+    "angleDeg": 95
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 45,
+     "y": 52
+    },
+    "to": {
+     "x": 50,
+     "y": 69
+    },
+    "length": 17.72,
+    "angleDeg": 74
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 50,
+     "y": 69
+    },
+    "to": {
+     "x": 56,
+     "y": 90
+    },
+    "length": 21.84,
+    "angleDeg": 74
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 52,
+     "y": 52
+    },
+    "to": {
+     "x": 47,
+     "y": 71
+    },
+    "length": 19.65,
+    "angleDeg": 105
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 47,
+     "y": 71
+    },
+    "to": {
+     "x": 41,
+     "y": 92
+    },
+    "length": 21.84,
+    "angleDeg": 106
+   }
+  ]
+ },
+ "attack": {
+  "joints": {
+   "hip": {
+    "x": 46,
+    "y": 53
+   },
+   "chest": {
+    "x": 48,
+    "y": 31
+   },
+   "neck": {
+    "x": 49,
+    "y": 26
+   },
+   "head": {
+    "x": 51,
+    "y": 16
+   },
+   "shoulderF": {
+    "x": 44,
+    "y": 32
+   },
+   "elbowF": {
+    "x": 50,
+    "y": 38
+   },
+   "handF": {
+    "x": 58,
+    "y": 36
+   },
+   "shoulderN": {
+    "x": 54,
+    "y": 31
+   },
+   "elbowN": {
+    "x": 64,
+    "y": 33
+   },
+   "handN": {
+    "x": 74,
+    "y": 34
+   },
+   "hipF": {
+    "x": 42,
+    "y": 54
+   },
+   "kneeF": {
+    "x": 36,
+    "y": 70
+   },
+   "footF": {
+    "x": 30,
+    "y": 92
+   },
+   "hipN": {
+    "x": 51,
+    "y": 54
+   },
+   "kneeN": {
+    "x": 60,
+    "y": 70
+   },
+   "footN": {
+    "x": 66,
+    "y": 92
+   },
+   "weaponRot": -0.12,
+   "weaponGrip": 0.3,
+   "headRot": 0.06
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 46,
+     "y": 53
+    },
+    "to": {
+     "x": 48,
+     "y": 31
+    },
+    "length": 22.09,
+    "angleDeg": -85
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 48,
+     "y": 31
+    },
+    "to": {
+     "x": 49,
+     "y": 26
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 44,
+     "y": 32
+    },
+    "to": {
+     "x": 50,
+     "y": 38
+    },
+    "length": 8.49,
+    "angleDeg": 45
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 50,
+     "y": 38
+    },
+    "to": {
+     "x": 58,
+     "y": 36
+    },
+    "length": 8.25,
+    "angleDeg": -14
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 54,
+     "y": 31
+    },
+    "to": {
+     "x": 64,
+     "y": 33
+    },
+    "length": 10.2,
+    "angleDeg": 11
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 64,
+     "y": 33
+    },
+    "to": {
+     "x": 74,
+     "y": 34
+    },
+    "length": 10.05,
+    "angleDeg": 6
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 42,
+     "y": 54
+    },
+    "to": {
+     "x": 36,
+     "y": 70
+    },
+    "length": 17.09,
+    "angleDeg": 111
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 36,
+     "y": 70
+    },
+    "to": {
+     "x": 30,
+     "y": 92
+    },
+    "length": 22.8,
+    "angleDeg": 105
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 51,
+     "y": 54
+    },
+    "to": {
+     "x": 60,
+     "y": 70
+    },
+    "length": 18.36,
+    "angleDeg": 61
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 60,
+     "y": 70
+    },
+    "to": {
+     "x": 66,
+     "y": 92
+    },
+    "length": 22.8,
+    "angleDeg": 75
+   }
+  ]
+ },
+ "attack2": {
+  "joints": {
+   "hip": {
+    "x": 48,
+    "y": 52
+   },
+   "chest": {
+    "x": 48,
+    "y": 30
+   },
+   "neck": {
+    "x": 49,
+    "y": 25
+   },
+   "head": {
+    "x": 50,
+    "y": 15
+   },
+   "shoulderF": {
+    "x": 44,
+    "y": 31
+   },
+   "elbowF": {
+    "x": 52,
+    "y": 35
+   },
+   "handF": {
+    "x": 60,
+    "y": 30
+   },
+   "shoulderN": {
+    "x": 54,
+    "y": 30
+   },
+   "elbowN": {
+    "x": 60,
+    "y": 32
+   },
+   "handN": {
+    "x": 66,
+    "y": 26
+   },
+   "hipF": {
+    "x": 44,
+    "y": 53
+   },
+   "kneeF": {
+    "x": 40,
+    "y": 70
+   },
+   "footF": {
+    "x": 36,
+    "y": 92
+   },
+   "hipN": {
+    "x": 52,
+    "y": 53
+   },
+   "kneeN": {
+    "x": 58,
+    "y": 70
+   },
+   "footN": {
+    "x": 62,
+    "y": 92
+   },
+   "weaponRot": -0.45,
+   "weaponGrip": 0.3,
+   "headRot": 0.02
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 48,
+     "y": 52
+    },
+    "to": {
+     "x": 48,
+     "y": 30
+    },
+    "length": 22,
+    "angleDeg": -90
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 48,
+     "y": 30
+    },
+    "to": {
+     "x": 49,
+     "y": 25
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 44,
+     "y": 31
+    },
+    "to": {
+     "x": 52,
+     "y": 35
+    },
+    "length": 8.94,
+    "angleDeg": 27
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 52,
+     "y": 35
+    },
+    "to": {
+     "x": 60,
+     "y": 30
+    },
+    "length": 9.43,
+    "angleDeg": -32
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 54,
+     "y": 30
+    },
+    "to": {
+     "x": 60,
+     "y": 32
+    },
+    "length": 6.32,
+    "angleDeg": 18
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 60,
+     "y": 32
+    },
+    "to": {
+     "x": 66,
+     "y": 26
+    },
+    "length": 8.49,
+    "angleDeg": -45
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 44,
+     "y": 53
+    },
+    "to": {
+     "x": 40,
+     "y": 70
+    },
+    "length": 17.46,
+    "angleDeg": 103
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 40,
+     "y": 70
+    },
+    "to": {
+     "x": 36,
+     "y": 92
+    },
+    "length": 22.36,
+    "angleDeg": 100
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 52,
+     "y": 53
+    },
+    "to": {
+     "x": 58,
+     "y": 70
+    },
+    "length": 18.03,
+    "angleDeg": 71
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 58,
+     "y": 70
+    },
+    "to": {
+     "x": 62,
+     "y": 92
+    },
+    "length": 22.36,
+    "angleDeg": 80
+   }
+  ]
+ },
+ "thrust": {
+  "joints": {
+   "hip": {
+    "x": 44,
+    "y": 56
+   },
+   "chest": {
+    "x": 47,
+    "y": 33
+   },
+   "neck": {
+    "x": 48,
+    "y": 28
+   },
+   "head": {
+    "x": 50,
+    "y": 18
+   },
+   "shoulderF": {
+    "x": 43,
+    "y": 34
+   },
+   "elbowF": {
+    "x": 51,
+    "y": 40
+   },
+   "handF": {
+    "x": 60,
+    "y": 38
+   },
+   "shoulderN": {
+    "x": 53,
+    "y": 33
+   },
+   "elbowN": {
+    "x": 64,
+    "y": 36
+   },
+   "handN": {
+    "x": 77,
+    "y": 36
+   },
+   "hipF": {
+    "x": 40,
+    "y": 57
+   },
+   "kneeF": {
+    "x": 33,
+    "y": 72
+   },
+   "footF": {
+    "x": 26,
+    "y": 92
+   },
+   "hipN": {
+    "x": 49,
+    "y": 57
+   },
+   "kneeN": {
+    "x": 60,
+    "y": 71
+   },
+   "footN": {
+    "x": 70,
+    "y": 92
+   },
+   "weaponRot": -0.05,
+   "weaponGrip": 0.3,
+   "headRot": 0.08
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 44,
+     "y": 56
+    },
+    "to": {
+     "x": 47,
+     "y": 33
+    },
+    "length": 23.19,
+    "angleDeg": -83
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 47,
+     "y": 33
+    },
+    "to": {
+     "x": 48,
+     "y": 28
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 43,
+     "y": 34
+    },
+    "to": {
+     "x": 51,
+     "y": 40
+    },
+    "length": 10,
+    "angleDeg": 37
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 51,
+     "y": 40
+    },
+    "to": {
+     "x": 60,
+     "y": 38
+    },
+    "length": 9.22,
+    "angleDeg": -13
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 53,
+     "y": 33
+    },
+    "to": {
+     "x": 64,
+     "y": 36
+    },
+    "length": 11.4,
+    "angleDeg": 15
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 64,
+     "y": 36
+    },
+    "to": {
+     "x": 77,
+     "y": 36
+    },
+    "length": 13,
+    "angleDeg": 0
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 40,
+     "y": 57
+    },
+    "to": {
+     "x": 33,
+     "y": 72
+    },
+    "length": 16.55,
+    "angleDeg": 115
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 33,
+     "y": 72
+    },
+    "to": {
+     "x": 26,
+     "y": 92
+    },
+    "length": 21.19,
+    "angleDeg": 109
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 49,
+     "y": 57
+    },
+    "to": {
+     "x": 60,
+     "y": 71
+    },
+    "length": 17.8,
+    "angleDeg": 52
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 60,
+     "y": 71
+    },
+    "to": {
+     "x": 70,
+     "y": 92
+    },
+    "length": 23.26,
+    "angleDeg": 65
+   }
+  ]
+ },
+ "chop": {
+  "joints": {
+   "hip": {
+    "x": 45,
+    "y": 55
+   },
+   "chest": {
+    "x": 46,
+    "y": 32
+   },
+   "neck": {
+    "x": 47,
+    "y": 27
+   },
+   "head": {
+    "x": 49,
+    "y": 17
+   },
+   "shoulderF": {
+    "x": 42,
+    "y": 33
+   },
+   "elbowF": {
+    "x": 45,
+    "y": 40
+   },
+   "handF": {
+    "x": 53,
+    "y": 36
+   },
+   "shoulderN": {
+    "x": 52,
+    "y": 32
+   },
+   "elbowN": {
+    "x": 58,
+    "y": 34
+   },
+   "handN": {
+    "x": 63,
+    "y": 29
+   },
+   "hipF": {
+    "x": 41,
+    "y": 56
+   },
+   "kneeF": {
+    "x": 35,
+    "y": 71
+   },
+   "footF": {
+    "x": 29,
+    "y": 92
+   },
+   "hipN": {
+    "x": 50,
+    "y": 56
+   },
+   "kneeN": {
+    "x": 59,
+    "y": 71
+   },
+   "footN": {
+    "x": 66,
+    "y": 92
+   },
+   "weaponRot": -0.65,
+   "weaponGrip": 0.35,
+   "headRot": 0.05
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 45,
+     "y": 55
+    },
+    "to": {
+     "x": 46,
+     "y": 32
+    },
+    "length": 23.02,
+    "angleDeg": -88
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 46,
+     "y": 32
+    },
+    "to": {
+     "x": 47,
+     "y": 27
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 42,
+     "y": 33
+    },
+    "to": {
+     "x": 45,
+     "y": 40
+    },
+    "length": 7.62,
+    "angleDeg": 67
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 45,
+     "y": 40
+    },
+    "to": {
+     "x": 53,
+     "y": 36
+    },
+    "length": 8.94,
+    "angleDeg": -27
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 52,
+     "y": 32
+    },
+    "to": {
+     "x": 58,
+     "y": 34
+    },
+    "length": 6.32,
+    "angleDeg": 18
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 58,
+     "y": 34
+    },
+    "to": {
+     "x": 63,
+     "y": 29
+    },
+    "length": 7.07,
+    "angleDeg": -45
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 41,
+     "y": 56
+    },
+    "to": {
+     "x": 35,
+     "y": 71
+    },
+    "length": 16.16,
+    "angleDeg": 112
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 35,
+     "y": 71
+    },
+    "to": {
+     "x": 29,
+     "y": 92
+    },
+    "length": 21.84,
+    "angleDeg": 106
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 50,
+     "y": 56
+    },
+    "to": {
+     "x": 59,
+     "y": 71
+    },
+    "length": 17.49,
+    "angleDeg": 59
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 59,
+     "y": 71
+    },
+    "to": {
+     "x": 66,
+     "y": 92
+    },
+    "length": 22.14,
+    "angleDeg": 72
+   }
+  ]
+ },
+ "sweep": {
+  "joints": {
+   "hip": {
+    "x": 44,
+    "y": 61
+   },
+   "chest": {
+    "x": 45,
+    "y": 39
+   },
+   "neck": {
+    "x": 46,
+    "y": 34
+   },
+   "head": {
+    "x": 48,
+    "y": 24
+   },
+   "shoulderF": {
+    "x": 41,
+    "y": 40
+   },
+   "elbowF": {
+    "x": 49,
+    "y": 45
+   },
+   "handF": {
+    "x": 57,
+    "y": 43
+   },
+   "shoulderN": {
+    "x": 51,
+    "y": 39
+   },
+   "elbowN": {
+    "x": 62,
+    "y": 42
+   },
+   "handN": {
+    "x": 74,
+    "y": 44
+   },
+   "hipF": {
+    "x": 40,
+    "y": 62
+   },
+   "kneeF": {
+    "x": 32,
+    "y": 74
+   },
+   "footF": {
+    "x": 24,
+    "y": 92
+   },
+   "hipN": {
+    "x": 49,
+    "y": 62
+   },
+   "kneeN": {
+    "x": 61,
+    "y": 74
+   },
+   "footN": {
+    "x": 72,
+    "y": 92
+   },
+   "weaponRot": 0.1,
+   "weaponGrip": 0.3,
+   "headRot": 0.12
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 44,
+     "y": 61
+    },
+    "to": {
+     "x": 45,
+     "y": 39
+    },
+    "length": 22.02,
+    "angleDeg": -87
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 45,
+     "y": 39
+    },
+    "to": {
+     "x": 46,
+     "y": 34
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 41,
+     "y": 40
+    },
+    "to": {
+     "x": 49,
+     "y": 45
+    },
+    "length": 9.43,
+    "angleDeg": 32
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 49,
+     "y": 45
+    },
+    "to": {
+     "x": 57,
+     "y": 43
+    },
+    "length": 8.25,
+    "angleDeg": -14
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 51,
+     "y": 39
+    },
+    "to": {
+     "x": 62,
+     "y": 42
+    },
+    "length": 11.4,
+    "angleDeg": 15
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 62,
+     "y": 42
+    },
+    "to": {
+     "x": 74,
+     "y": 44
+    },
+    "length": 12.17,
+    "angleDeg": 9
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 40,
+     "y": 62
+    },
+    "to": {
+     "x": 32,
+     "y": 74
+    },
+    "length": 14.42,
+    "angleDeg": 124
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 32,
+     "y": 74
+    },
+    "to": {
+     "x": 24,
+     "y": 92
+    },
+    "length": 19.7,
+    "angleDeg": 114
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 49,
+     "y": 62
+    },
+    "to": {
+     "x": 61,
+     "y": 74
+    },
+    "length": 16.97,
+    "angleDeg": 45
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 61,
+     "y": 74
+    },
+    "to": {
+     "x": 72,
+     "y": 92
+    },
+    "length": 21.1,
+    "angleDeg": 59
+   }
+  ]
+ },
+ "windup": {
+  "joints": {
+   "hip": {
+    "x": 46,
+    "y": 54
+   },
+   "chest": {
+    "x": 45,
+    "y": 32
+   },
+   "neck": {
+    "x": 46,
+    "y": 27
+   },
+   "head": {
+    "x": 47,
+    "y": 17
+   },
+   "shoulderF": {
+    "x": 41,
+    "y": 33
+   },
+   "elbowF": {
+    "x": 37,
+    "y": 43
+   },
+   "handF": {
+    "x": 40,
+    "y": 52
+   },
+   "shoulderN": {
+    "x": 51,
+    "y": 32
+   },
+   "elbowN": {
+    "x": 60,
+    "y": 40
+   },
+   "handN": {
+    "x": 56,
+    "y": 34
+   },
+   "hipF": {
+    "x": 43,
+    "y": 55
+   },
+   "kneeF": {
+    "x": 39,
+    "y": 70
+   },
+   "footF": {
+    "x": 36,
+    "y": 92
+   },
+   "hipN": {
+    "x": 51,
+    "y": 55
+   },
+   "kneeN": {
+    "x": 58,
+    "y": 70
+   },
+   "footN": {
+    "x": 62,
+    "y": 92
+   },
+   "weaponRot": -0.8,
+   "weaponGrip": 0.4,
+   "headRot": -0.1
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 46,
+     "y": 54
+    },
+    "to": {
+     "x": 45,
+     "y": 32
+    },
+    "length": 22.02,
+    "angleDeg": -93
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 45,
+     "y": 32
+    },
+    "to": {
+     "x": 46,
+     "y": 27
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 41,
+     "y": 33
+    },
+    "to": {
+     "x": 37,
+     "y": 43
+    },
+    "length": 10.77,
+    "angleDeg": 112
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 37,
+     "y": 43
+    },
+    "to": {
+     "x": 40,
+     "y": 52
+    },
+    "length": 9.49,
+    "angleDeg": 72
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 51,
+     "y": 32
+    },
+    "to": {
+     "x": 60,
+     "y": 40
+    },
+    "length": 12.04,
+    "angleDeg": 42
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 60,
+     "y": 40
+    },
+    "to": {
+     "x": 56,
+     "y": 34
+    },
+    "length": 7.21,
+    "angleDeg": -124
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 43,
+     "y": 55
+    },
+    "to": {
+     "x": 39,
+     "y": 70
+    },
+    "length": 15.52,
+    "angleDeg": 105
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 39,
+     "y": 70
+    },
+    "to": {
+     "x": 36,
+     "y": 92
+    },
+    "length": 22.2,
+    "angleDeg": 98
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 51,
+     "y": 55
+    },
+    "to": {
+     "x": 58,
+     "y": 70
+    },
+    "length": 16.55,
+    "angleDeg": 65
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 58,
+     "y": 70
+    },
+    "to": {
+     "x": 62,
+     "y": 92
+    },
+    "length": 22.36,
+    "angleDeg": 80
+   }
+  ]
+ },
+ "recover": {
+  "joints": {
+   "hip": {
+    "x": 47,
+    "y": 53
+   },
+   "chest": {
+    "x": 47,
+    "y": 31
+   },
+   "neck": {
+    "x": 48,
+    "y": 26
+   },
+   "head": {
+    "x": 50,
+    "y": 17
+   },
+   "shoulderF": {
+    "x": 43,
+    "y": 32
+   },
+   "elbowF": {
+    "x": 49,
+    "y": 39
+   },
+   "handF": {
+    "x": 55,
+    "y": 38
+   },
+   "shoulderN": {
+    "x": 53,
+    "y": 31
+   },
+   "elbowN": {
+    "x": 57,
+    "y": 37
+   },
+   "handN": {
+    "x": 59,
+    "y": 39
+   },
+   "hipF": {
+    "x": 43,
+    "y": 54
+   },
+   "kneeF": {
+    "x": 37,
+    "y": 70
+   },
+   "footF": {
+    "x": 32,
+    "y": 92
+   },
+   "hipN": {
+    "x": 51,
+    "y": 54
+   },
+   "kneeN": {
+    "x": 59,
+    "y": 70
+   },
+   "footN": {
+    "x": 64,
+    "y": 92
+   },
+   "weaponRot": -0.75,
+   "weaponGrip": 0.32,
+   "headRot": 0.04
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 47,
+     "y": 53
+    },
+    "to": {
+     "x": 47,
+     "y": 31
+    },
+    "length": 22,
+    "angleDeg": -90
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 47,
+     "y": 31
+    },
+    "to": {
+     "x": 48,
+     "y": 26
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 43,
+     "y": 32
+    },
+    "to": {
+     "x": 49,
+     "y": 39
+    },
+    "length": 9.22,
+    "angleDeg": 49
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 49,
+     "y": 39
+    },
+    "to": {
+     "x": 55,
+     "y": 38
+    },
+    "length": 6.08,
+    "angleDeg": -9
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 53,
+     "y": 31
+    },
+    "to": {
+     "x": 57,
+     "y": 37
+    },
+    "length": 7.21,
+    "angleDeg": 56
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 57,
+     "y": 37
+    },
+    "to": {
+     "x": 59,
+     "y": 39
+    },
+    "length": 2.83,
+    "angleDeg": 45
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 43,
+     "y": 54
+    },
+    "to": {
+     "x": 37,
+     "y": 70
+    },
+    "length": 17.09,
+    "angleDeg": 111
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 37,
+     "y": 70
+    },
+    "to": {
+     "x": 32,
+     "y": 92
+    },
+    "length": 22.56,
+    "angleDeg": 103
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 51,
+     "y": 54
+    },
+    "to": {
+     "x": 59,
+     "y": 70
+    },
+    "length": 17.89,
+    "angleDeg": 63
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 59,
+     "y": 70
+    },
+    "to": {
+     "x": 64,
+     "y": 92
+    },
+    "length": 22.56,
+    "angleDeg": 77
+   }
+  ]
+ },
+ "jump": {
+  "joints": {
+   "hip": {
+    "x": 48,
+    "y": 50
+   },
+   "chest": {
+    "x": 48,
+    "y": 29
+   },
+   "neck": {
+    "x": 48,
+    "y": 24
+   },
+   "head": {
+    "x": 49,
+    "y": 14
+   },
+   "shoulderF": {
+    "x": 43,
+    "y": 30
+   },
+   "elbowF": {
+    "x": 38,
+    "y": 36
+   },
+   "handF": {
+    "x": 36,
+    "y": 26
+   },
+   "shoulderN": {
+    "x": 53,
+    "y": 30
+   },
+   "elbowN": {
+    "x": 58,
+    "y": 36
+   },
+   "handN": {
+    "x": 62,
+    "y": 36
+   },
+   "hipF": {
+    "x": 44,
+    "y": 51
+   },
+   "kneeF": {
+    "x": 38,
+    "y": 64
+   },
+   "footF": {
+    "x": 44,
+    "y": 76
+   },
+   "hipN": {
+    "x": 52,
+    "y": 51
+   },
+   "kneeN": {
+    "x": 60,
+    "y": 62
+   },
+   "footN": {
+    "x": 62,
+    "y": 76
+   },
+   "weaponRot": -0.75,
+   "weaponGrip": 0.38,
+   "headRot": -0.08
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 48,
+     "y": 50
+    },
+    "to": {
+     "x": 48,
+     "y": 29
+    },
+    "length": 21,
+    "angleDeg": -90
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 48,
+     "y": 29
+    },
+    "to": {
+     "x": 48,
+     "y": 24
+    },
+    "length": 5,
+    "angleDeg": -90
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 43,
+     "y": 30
+    },
+    "to": {
+     "x": 38,
+     "y": 36
+    },
+    "length": 7.81,
+    "angleDeg": 130
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 38,
+     "y": 36
+    },
+    "to": {
+     "x": 36,
+     "y": 26
+    },
+    "length": 10.2,
+    "angleDeg": -101
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 53,
+     "y": 30
+    },
+    "to": {
+     "x": 58,
+     "y": 36
+    },
+    "length": 7.81,
+    "angleDeg": 50
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 58,
+     "y": 36
+    },
+    "to": {
+     "x": 62,
+     "y": 36
+    },
+    "length": 4,
+    "angleDeg": 0
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 44,
+     "y": 51
+    },
+    "to": {
+     "x": 38,
+     "y": 64
+    },
+    "length": 14.32,
+    "angleDeg": 115
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 38,
+     "y": 64
+    },
+    "to": {
+     "x": 44,
+     "y": 76
+    },
+    "length": 13.42,
+    "angleDeg": 63
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 52,
+     "y": 51
+    },
+    "to": {
+     "x": 60,
+     "y": 62
+    },
+    "length": 13.6,
+    "angleDeg": 54
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 60,
+     "y": 62
+    },
+    "to": {
+     "x": 62,
+     "y": 76
+    },
+    "length": 14.14,
+    "angleDeg": 82
+   }
+  ]
+ },
+ "down": {
+  "joints": {
+   "hip": {
+    "x": 50,
+    "y": 82
+   },
+   "chest": {
+    "x": 37,
+    "y": 80
+   },
+   "neck": {
+    "x": 32,
+    "y": 79
+   },
+   "head": {
+    "x": 25,
+    "y": 77
+   },
+   "shoulderF": {
+    "x": 37,
+    "y": 83
+   },
+   "elbowF": {
+    "x": 31,
+    "y": 87
+   },
+   "handF": {
+    "x": 24,
+    "y": 88
+   },
+   "shoulderN": {
+    "x": 37,
+    "y": 76
+   },
+   "elbowN": {
+    "x": 30,
+    "y": 71
+   },
+   "handN": {
+    "x": 22,
+    "y": 70
+   },
+   "hipF": {
+    "x": 50,
+    "y": 85
+   },
+   "kneeF": {
+    "x": 62,
+    "y": 87
+   },
+   "footF": {
+    "x": 74,
+    "y": 89
+   },
+   "hipN": {
+    "x": 50,
+    "y": 79
+   },
+   "kneeN": {
+    "x": 63,
+    "y": 78
+   },
+   "footN": {
+    "x": 75,
+    "y": 82
+   },
+   "weaponRot": -0.34,
+   "weaponGrip": 0.5,
+   "headRot": -0.5,
+   "lying": true
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 50,
+     "y": 82
+    },
+    "to": {
+     "x": 37,
+     "y": 80
+    },
+    "length": 13.15,
+    "angleDeg": -171
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 37,
+     "y": 80
+    },
+    "to": {
+     "x": 32,
+     "y": 79
+    },
+    "length": 5.1,
+    "angleDeg": -169
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 37,
+     "y": 83
+    },
+    "to": {
+     "x": 31,
+     "y": 87
+    },
+    "length": 7.21,
+    "angleDeg": 146
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 31,
+     "y": 87
+    },
+    "to": {
+     "x": 24,
+     "y": 88
+    },
+    "length": 7.07,
+    "angleDeg": 172
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 37,
+     "y": 76
+    },
+    "to": {
+     "x": 30,
+     "y": 71
+    },
+    "length": 8.6,
+    "angleDeg": -144
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 30,
+     "y": 71
+    },
+    "to": {
+     "x": 22,
+     "y": 70
+    },
+    "length": 8.06,
+    "angleDeg": -173
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 50,
+     "y": 85
+    },
+    "to": {
+     "x": 62,
+     "y": 87
+    },
+    "length": 12.17,
+    "angleDeg": 9
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 62,
+     "y": 87
+    },
+    "to": {
+     "x": 74,
+     "y": 89
+    },
+    "length": 12.17,
+    "angleDeg": 9
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 50,
+     "y": 79
+    },
+    "to": {
+     "x": 63,
+     "y": 78
+    },
+    "length": 13.04,
+    "angleDeg": -4
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 63,
+     "y": 78
+    },
+    "to": {
+     "x": 75,
+     "y": 82
+    },
+    "length": 12.65,
+    "angleDeg": 18
+   }
+  ]
+ },
+ "hurt": {
+  "joints": {
+   "hip": {
+    "x": 50,
+    "y": 53
+   },
+   "chest": {
+    "x": 52,
+    "y": 32
+   },
+   "neck": {
+    "x": 53,
+    "y": 27
+   },
+   "head": {
+    "x": 56,
+    "y": 19
+   },
+   "shoulderF": {
+    "x": 48,
+    "y": 33
+   },
+   "elbowF": {
+    "x": 44,
+    "y": 43
+   },
+   "handF": {
+    "x": 41,
+    "y": 50
+   },
+   "shoulderN": {
+    "x": 58,
+    "y": 33
+   },
+   "elbowN": {
+    "x": 64,
+    "y": 41
+   },
+   "handN": {
+    "x": 66,
+    "y": 49
+   },
+   "hipF": {
+    "x": 46,
+    "y": 54
+   },
+   "kneeF": {
+    "x": 45,
+    "y": 71
+   },
+   "footF": {
+    "x": 42,
+    "y": 92
+   },
+   "hipN": {
+    "x": 54,
+    "y": 54
+   },
+   "kneeN": {
+    "x": 59,
+    "y": 71
+   },
+   "footN": {
+    "x": 64,
+    "y": 92
+   },
+   "weaponRot": -1.1,
+   "weaponGrip": 0.4,
+   "headRot": 0.3
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 50,
+     "y": 53
+    },
+    "to": {
+     "x": 52,
+     "y": 32
+    },
+    "length": 21.1,
+    "angleDeg": -85
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 52,
+     "y": 32
+    },
+    "to": {
+     "x": 53,
+     "y": 27
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 48,
+     "y": 33
+    },
+    "to": {
+     "x": 44,
+     "y": 43
+    },
+    "length": 10.77,
+    "angleDeg": 112
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 44,
+     "y": 43
+    },
+    "to": {
+     "x": 41,
+     "y": 50
+    },
+    "length": 7.62,
+    "angleDeg": 113
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 58,
+     "y": 33
+    },
+    "to": {
+     "x": 64,
+     "y": 41
+    },
+    "length": 10,
+    "angleDeg": 53
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 64,
+     "y": 41
+    },
+    "to": {
+     "x": 66,
+     "y": 49
+    },
+    "length": 8.25,
+    "angleDeg": 76
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 46,
+     "y": 54
+    },
+    "to": {
+     "x": 45,
+     "y": 71
+    },
+    "length": 17.03,
+    "angleDeg": 93
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 45,
+     "y": 71
+    },
+    "to": {
+     "x": 42,
+     "y": 92
+    },
+    "length": 21.21,
+    "angleDeg": 98
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 54,
+     "y": 54
+    },
+    "to": {
+     "x": 59,
+     "y": 71
+    },
+    "length": 17.72,
+    "angleDeg": 74
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 59,
+     "y": 71
+    },
+    "to": {
+     "x": 64,
+     "y": 92
+    },
+    "length": 21.59,
+    "angleDeg": 77
+   }
+  ]
+ },
+ "special": {
+  "joints": {
+   "hip": {
+    "x": 44,
+    "y": 56
+   },
+   "chest": {
+    "x": 47,
+    "y": 34
+   },
+   "neck": {
+    "x": 48,
+    "y": 29
+   },
+   "head": {
+    "x": 51,
+    "y": 20
+   },
+   "shoulderF": {
+    "x": 43,
+    "y": 35
+   },
+   "elbowF": {
+    "x": 52,
+    "y": 43
+   },
+   "handF": {
+    "x": 60,
+    "y": 45
+   },
+   "shoulderN": {
+    "x": 53,
+    "y": 34
+   },
+   "elbowN": {
+    "x": 64,
+    "y": 41
+   },
+   "handN": {
+    "x": 73,
+    "y": 45
+   },
+   "hipF": {
+    "x": 40,
+    "y": 57
+   },
+   "kneeF": {
+    "x": 33,
+    "y": 72
+   },
+   "footF": {
+    "x": 27,
+    "y": 92
+   },
+   "hipN": {
+    "x": 50,
+    "y": 57
+   },
+   "kneeN": {
+    "x": 60,
+    "y": 72
+   },
+   "footN": {
+    "x": 68,
+    "y": 92
+   },
+   "weaponRot": 0.3,
+   "weaponGrip": 0.28,
+   "headRot": 0.12
+  },
+  "segments": [
+   {
+    "part": "torso",
+    "from": {
+     "x": 44,
+     "y": 56
+    },
+    "to": {
+     "x": 47,
+     "y": 34
+    },
+    "length": 22.2,
+    "angleDeg": -82
+   },
+   {
+    "part": "neck",
+    "from": {
+     "x": 47,
+     "y": 34
+    },
+    "to": {
+     "x": 48,
+     "y": 29
+    },
+    "length": 5.1,
+    "angleDeg": -79
+   },
+   {
+    "part": "upperArmF",
+    "from": {
+     "x": 43,
+     "y": 35
+    },
+    "to": {
+     "x": 52,
+     "y": 43
+    },
+    "length": 12.04,
+    "angleDeg": 42
+   },
+   {
+    "part": "foreArmF",
+    "from": {
+     "x": 52,
+     "y": 43
+    },
+    "to": {
+     "x": 60,
+     "y": 45
+    },
+    "length": 8.25,
+    "angleDeg": 14
+   },
+   {
+    "part": "upperArmN",
+    "from": {
+     "x": 53,
+     "y": 34
+    },
+    "to": {
+     "x": 64,
+     "y": 41
+    },
+    "length": 13.04,
+    "angleDeg": 32
+   },
+   {
+    "part": "foreArmN",
+    "from": {
+     "x": 64,
+     "y": 41
+    },
+    "to": {
+     "x": 73,
+     "y": 45
+    },
+    "length": 9.85,
+    "angleDeg": 24
+   },
+   {
+    "part": "thighF",
+    "from": {
+     "x": 40,
+     "y": 57
+    },
+    "to": {
+     "x": 33,
+     "y": 72
+    },
+    "length": 16.55,
+    "angleDeg": 115
+   },
+   {
+    "part": "shinF",
+    "from": {
+     "x": 33,
+     "y": 72
+    },
+    "to": {
+     "x": 27,
+     "y": 92
+    },
+    "length": 20.88,
+    "angleDeg": 107
+   },
+   {
+    "part": "thighN",
+    "from": {
+     "x": 50,
+     "y": 57
+    },
+    "to": {
+     "x": 60,
+     "y": 72
+    },
+    "length": 18.03,
+    "angleDeg": 56
+   },
+   {
+    "part": "shinN",
+    "from": {
+     "x": 60,
+     "y": 72
+    },
+    "to": {
+     "x": 68,
+     "y": 92
+    },
+    "length": 21.54,
+    "angleDeg": 68
+   }
+  ]
+ }
+}

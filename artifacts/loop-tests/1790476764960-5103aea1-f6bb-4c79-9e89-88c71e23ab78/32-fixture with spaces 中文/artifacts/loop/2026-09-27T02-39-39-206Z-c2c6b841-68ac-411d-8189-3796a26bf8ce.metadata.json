@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "runId": "2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "codex",
+  "model": "fake-model",
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-27T02:39:39.206Z",
+  "status": "finished",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-39-206Z-c2c6b841-68ac-411d-8189-3796a26bf8ce.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 17,
+  "timeoutSeconds": 3600,
+  "pid": 5392,
+  "execution": {
+    "code": 0,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "IDLE",
+  "endedAt": "2026-09-27T02:39:39.293Z"
+}

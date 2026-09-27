@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "paused": true,
+  "pauseReason": "--scheduled cannot use an adapter with inheritStdin:true",
+  "activeRun": null,
+  "lastRun": null,
+  "updatedAt": "2026-09-21T03:58:43.323Z"
+}

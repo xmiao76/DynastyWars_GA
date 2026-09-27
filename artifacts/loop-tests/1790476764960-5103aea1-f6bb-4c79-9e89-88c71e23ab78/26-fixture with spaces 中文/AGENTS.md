@@ -1,0 +1,1 @@
+AGENTS.md: Fixture only — 中文

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "runId": "2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "quotafake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\.loop\\config.json",
+  "startedAt": "2026-09-21T16:37:36.618Z",
+  "status": "skipped-transient",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop\\2026-09-21T16-37-36-618Z-7c999707-5db8-4440-8c96-335b77c6c309.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 3,
+  "timeoutSeconds": 3600,
+  "pid": 4168,
+  "execution": {
+    "code": 7,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "TRANSIENT_SKIP",
+  "endedAt": "2026-09-21T16:37:36.701Z",
+  "transientMatch": {
+    "source": "429 Too Many Requests",
+    "line": "ERROR: exceeded retry limit, last status: 429 Too Many Requests, request id: fixture"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":1,"adapter":"codex","model":"fake-model","mode":"Auto","iterations":1,"intervalSeconds":0,"timeoutSeconds":3600,"adapters":{"codex":{"executable":"C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\32-fixture with spaces 中文\\fake npm bin 中文\\node_modules\\@openai\\codex\\bin\\codex.js"}}}

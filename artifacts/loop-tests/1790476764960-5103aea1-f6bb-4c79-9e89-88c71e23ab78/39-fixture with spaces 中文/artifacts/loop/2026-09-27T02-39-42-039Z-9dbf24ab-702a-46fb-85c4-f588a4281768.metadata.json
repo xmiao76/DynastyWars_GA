@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "runId": "2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768",
+  "mode": "Producer",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "manual",
+  "worker": "manual",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-27T02:39:42.040Z",
+  "status": "manual-begun",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790476764960-5103aea1-f6bb-4c79-9e89-88c71e23ab78\\39-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-39-42-039Z-9dbf24ab-702a-46fb-85c4-f588a4281768.stderr.log",
+  "executable": null,
+  "argumentCount": 0,
+  "timeoutSeconds": null,
+  "pid": null
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "screen": "title",
+    "coverage": 0.664,
+    "colorRichness": 2413,
+    "saturation": 0.409,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "select",
+    "coverage": 0.869,
+    "colorRichness": 1288,
+    "saturation": 0.739,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "game_idle",
+    "coverage": 0.928,
+    "colorRichness": 1191,
+    "saturation": 0.727,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "game_combat",
+    "coverage": 0.924,
+    "colorRichness": 1356,
+    "saturation": 0.718,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "boss_fight",
+    "coverage": 0.916,
+    "colorRichness": 1225,
+    "saturation": 0.4,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "game_combat_zhangfei",
+    "coverage": 0.921,
+    "colorRichness": 1233,
+    "saturation": 0.715,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "result",
+    "coverage": 0.808,
+    "colorRichness": 553,
+    "saturation": 0.752,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "game_over",
+    "coverage": 0.547,
+    "colorRichness": 255,
+    "saturation": 0.636,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  },
+  {
+    "screen": "game_complete",
+    "coverage": 0.697,
+    "colorRichness": 846,
+    "saturation": 0.583,
+    "regionFill": 9,
+    "pass": true,
+    "failures": []
+  }
+]

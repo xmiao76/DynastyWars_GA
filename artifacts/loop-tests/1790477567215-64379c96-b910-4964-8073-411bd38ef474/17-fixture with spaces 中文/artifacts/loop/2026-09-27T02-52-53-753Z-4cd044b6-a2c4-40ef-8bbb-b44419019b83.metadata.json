@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "runId": "2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-27T02:52:53.753Z",
+  "status": "skipped-transient",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790477567215-64379c96-b910-4964-8073-411bd38ef474\\17-fixture with spaces 中文\\artifacts\\loop\\2026-09-27T02-52-53-753Z-4cd044b6-a2c4-40ef-8bbb-b44419019b83.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 3600,
+  "pid": 12940,
+  "execution": {
+    "code": 7,
+    "signal": null,
+    "cleanupCertain": true
+  },
+  "result": "TRANSIENT_SKIP",
+  "endedAt": "2026-09-27T02:52:53.847Z",
+  "transientMatch": {
+    "source": "429 Too Many Requests",
+    "line": "ERROR: exceeded retry limit, last status: 429 Too Many Requests, request id: fixture"
+  }
+}

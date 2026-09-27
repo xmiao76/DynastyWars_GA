@@ -1,0 +1,14 @@
+# Tasks Archive
+
+Oldest DONE tasks, moved out of TASKS.md once the count passed
+20. Never read during an iteration; consult only for completed work detail.
+
+### TASK-001 - Project setup and working verification commands
+
+- Status: DONE
+- Requirement:
+  Make this repository buildable and testable, so that every later iteration has
+  something real to verify against. Every command listed under `Commands` in
+  `PROJECT.md` must actually run. Choose the stack and tooling that suit the
+  requirements in `PROJECT.md`, and update that command list if the names differ
+  from what was guessed before the project existed.

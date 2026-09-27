@@ -1,0 +1,128 @@
+[
+  {
+    "screen": "title",
+    "canvas": {
+      "coverage": 0.6639814814814815,
+      "colorRichness": 2513,
+      "saturation": 0.40879933063728907,
+      "regionFill": 9,
+      "meanLuminance": 39.404431584361404
+    },
+    "webgl": {
+      "coverage": 0.6741435185185185,
+      "colorRichness": 2427,
+      "saturation": 0.4020876970092367,
+      "regionFill": 9,
+      "meanLuminance": 39.47449588477496
+    },
+    "failures": []
+  },
+  {
+    "screen": "select",
+    "canvas": {
+      "coverage": 0.8693672839506172,
+      "colorRichness": 1308,
+      "saturation": 0.7381823022987486,
+      "regionFill": 9,
+      "meanLuminance": 90.98036779836566
+    },
+    "webgl": {
+      "coverage": 0.8723302469135803,
+      "colorRichness": 1304,
+      "saturation": 0.7351708033329205,
+      "regionFill": 9,
+      "meanLuminance": 91.1035519547439
+    },
+    "failures": []
+  },
+  {
+    "screen": "game_idle",
+    "canvas": {
+      "coverage": 0.9294135802469136,
+      "colorRichness": 1216,
+      "saturation": 0.7303905290074054,
+      "regionFill": 9,
+      "meanLuminance": 90.83146347737356
+    },
+    "webgl": {
+      "coverage": 0.9304320987654321,
+      "colorRichness": 1232,
+      "saturation": 0.7256020699263583,
+      "regionFill": 9,
+      "meanLuminance": 91.06443672840392
+    },
+    "failures": []
+  },
+  {
+    "screen": "game_combat",
+    "canvas": {
+      "coverage": 0.9694984567901235,
+      "colorRichness": 1345,
+      "saturation": 0.7611244200020693,
+      "regionFill": 9,
+      "meanLuminance": 94.8411676954908
+    },
+    "webgl": {
+      "coverage": 0.9718441358024691,
+      "colorRichness": 1342,
+      "saturation": 0.7558574366221784,
+      "regionFill": 9,
+      "meanLuminance": 95.11579989714053
+    },
+    "failures": []
+  },
+  {
+    "screen": "boss_fight",
+    "canvas": {
+      "coverage": 0.9178626543209877,
+      "colorRichness": 1194,
+      "saturation": 0.46004791727964356,
+      "regionFill": 9,
+      "meanLuminance": 90.68602109052759
+    },
+    "webgl": {
+      "coverage": 0.9153163580246914,
+      "colorRichness": 1144,
+      "saturation": 0.39710010537407797,
+      "regionFill": 9,
+      "meanLuminance": 75.01107253086307
+    },
+    "failures": []
+  },
+  {
+    "screen": "result",
+    "canvas": {
+      "coverage": 0.808395061728395,
+      "colorRichness": 553,
+      "saturation": 0.7519662492364081,
+      "regionFill": 9,
+      "meanLuminance": 81.58998456789988
+    },
+    "webgl": {
+      "coverage": 0.8234490740740741,
+      "colorRichness": 568,
+      "saturation": 0.7381722092598318,
+      "regionFill": 9,
+      "meanLuminance": 81.8448096707806
+    },
+    "failures": []
+  },
+  {
+    "screen": "game_over",
+    "canvas": {
+      "coverage": 0.5470216049382716,
+      "colorRichness": 255,
+      "saturation": 0.6361610291420995,
+      "regionFill": 9,
+      "meanLuminance": 64.0594933127528
+    },
+    "webgl": {
+      "coverage": 0.5616358024691358,
+      "colorRichness": 257,
+      "saturation": 0.6205830631422762,
+      "regionFill": 9,
+      "meanLuminance": 64.36025205761675
+    },
+    "failures": []
+  }
+]

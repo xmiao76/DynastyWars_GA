@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "runId": "2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87",
+  "mode": "Auto",
+  "iteration": 1,
+  "scheduled": false,
+  "adapter": "fake",
+  "model": null,
+  "configFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\.loop\\config.json",
+  "startedAt": "2026-09-22T04:17:37.673Z",
+  "status": "error",
+  "reportPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87.report.md",
+  "requestFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87.request.json",
+  "inputFile": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87.input.md",
+  "metadataPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87.metadata.json",
+  "stdoutPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87.stdout.log",
+  "stderrPath": "C:\\GitHub\\DynastyWars_GA\\artifacts\\loop-tests\\1790050643064-064b30fd-1216-4c2e-abc2-7336faa385aa\\30-fixture with spaces 中文\\artifacts\\loop\\2026-09-22T04-17-37-673Z-e54b1ece-31bf-4c49-a951-094d8a840c87.stderr.log",
+  "executable": "C:\\Program Files\\nodejs\\node.exe",
+  "argumentCount": 7,
+  "timeoutSeconds": 10,
+  "pid": 12640,
+  "execution": {
+    "code": null,
+    "cleanupCertain": false,
+    "timedOut": false,
+    "cancelled": true,
+    "error": "Runner cancelled"
+  },
+  "result": "UNKNOWN",
+  "error": "Runner cancelled; process-tree cleanup uncertain, retaining lock for manual recovery",
+  "endedAt": "2026-09-22T04:17:40.103Z",
+  "cleanupCertain": false
+}
