@@ -198,12 +198,13 @@ describe('BODY-20 painted hand cells', () => {
         if (s.minLum < 20) failures.push(`${id}:${cell} has ink-dark pixels (lum ${s.minLum})`)
         if (s.darkShare > 0.06) failures.push(`${id}:${cell} dark ring (${(s.darkShare * 100).toFixed(1)}% of pixels)`)
         if (!s.bbox) { failures.push(`${id}:${cell} no bbox`); continue }
-        // wrapF measures along the haft (h); hands along the arm (w).
+        // wrapF/wrapN measure along the haft (h); hands along the arm (w).
         // Fingertip pads are shorter than a whole fist.
-        const spanAlong = cell === 'wrapF' ? s.bbox.h : s.bbox.w
-        const spanAcross = cell === 'wrapF' ? s.bbox.w : s.bbox.h
-        const alongMin = cell === 'wrapF' ? 5.5 : 7.2
-        const alongMax = cell === 'wrapF' ? 8.5 : 11.6
+        const wrap = cell === 'wrapF' || cell === 'wrapN'
+        const spanAlong = wrap ? s.bbox.h : s.bbox.w
+        const spanAcross = wrap ? s.bbox.w : s.bbox.h
+        const alongMin = wrap ? 5.5 : 7.2
+        const alongMax = wrap ? 8.5 : 11.6
         if (spanAlong < alongMin || spanAlong > alongMax) failures.push(`${id}:${cell} length ${spanAlong.toFixed(1)}u`)
         if (spanAcross < 4.2 || spanAcross > 9.2) failures.push(`${id}:${cell} width ${spanAcross.toFixed(1)}u`)
       }

@@ -61,7 +61,7 @@ export const PALM_FRACTION = 0.75
  */
 export const HAND_CELL_W = 12
 export const HAND_CELL_H = 10
-export const HAND_CELLS = ['gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF']
+export const HAND_CELLS = ['gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF', 'wrapN']
 
 const shadeC = (rgb, amount) => {
   const r = Math.round(((rgb >> 16) & 0xff) * (1 - amount))
@@ -206,20 +206,26 @@ function paintHandCell(c, kind, skin) {
   // Work in logical units, origin at the hand joint (cell center = pivot).
   c.translate((HAND_CELL_W * DENSITY) / 2, (HAND_CELL_H * DENSITY) / 2)
   c.scale(DENSITY, DENSITY)
-  if (kind === 'wrapF') {
-    // Far fingertips crossing the haft (x along the haft): three tapering
-    // pads wrapping from the far side over the top, drawn OVER the weapon.
-    const padBase = shadeC(skin, 1 - FAR_SHADE)
+  if (kind === 'wrapF' || kind === 'wrapN') {
+    // Fingertips crossing the haft (x along the haft): three tapering pads
+    // wrapping over the top of the weapon. wrapF is the far hand (under
+    // shading), wrapN the near hand (UIR-13: BOTH grips show fingers
+    // crossing the haft, so it passes through the fist rather than lying
+    // on top of it). Pads widened 0.72->0.82 and lengthened 3.1->3.5
+    // (UIR-13) so the wrap reads at gameplay size.
+    const padBase = kind === 'wrapF'
+      ? shadeC(skin, 1 - FAR_SHADE)
+      : `#${skin.toString(16).padStart(6, '0')}`
     for (const [i, cx] of [-1.55, 0.65, 2.85].entries()) {
-      const len = 3.1 + (i === 1 ? 0.55 : 0.15)
+      const len = 3.5 + (i === 1 ? 0.55 : 0.15)
       c.fillStyle = padBase
       c.beginPath()
-      c.moveTo(cx - 0.72, 2.35)
-      c.lineTo(cx - 0.6, -len + 0.5)
-      c.quadraticCurveTo(cx - 0.5, -len - 0.15, cx, -len - 0.2)
-      c.quadraticCurveTo(cx + 0.5, -len - 0.15, cx + 0.6, -len + 0.5)
-      c.lineTo(cx + 0.72, 2.35)
-      c.quadraticCurveTo(cx, 2.75, cx - 0.72, 2.35)
+      c.moveTo(cx - 0.82, 2.35)
+      c.lineTo(cx - 0.68, -len + 0.5)
+      c.quadraticCurveTo(cx - 0.55, -len - 0.15, cx, -len - 0.2)
+      c.quadraticCurveTo(cx + 0.55, -len - 0.15, cx + 0.68, -len + 0.5)
+      c.lineTo(cx + 0.82, 2.35)
+      c.quadraticCurveTo(cx, 2.75, cx - 0.82, 2.35)
       c.closePath()
       c.fill()
       // Underside shadow on the near half, tip highlight at the far end.
@@ -794,7 +800,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-5',
+        revision: 'body-6',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },

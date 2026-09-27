@@ -25,7 +25,7 @@ import { ALL_FIGHTERS, CAST } from './cast-art'
 const PAINTED_BODY: BodyPartName[] = [
   'torso', 'upperArmF', 'foreArmF', 'thighF', 'shinF', 'thighN', 'shinN', 'upperArmN', 'foreArmN',
   // BODY-20 painted hand cells ride the same sheets.
-  'gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF',
+  'gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF', 'wrapN',
 ]
 const HEAD_FILES = ['portrait', 'head', 'front', 'rear'] as const
 /**

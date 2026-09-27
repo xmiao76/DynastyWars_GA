@@ -237,7 +237,22 @@ export function drawFigure(
   // procedural shapes wherever the body sheet carries them.
   const hmTail = handM(m, plan, body)
   const gripDistTail = Math.abs((pose.handF.x - pose.handN.x) * Math.sin(pose.weaponRot) - (pose.handF.y - pose.handN.y) * Math.cos(pose.weaponRot))
-  if (gripDistTail < 3 && !pose.lying) {
+  const grippingTail = gripDistTail < 3 && !pose.lying
+  if (bodyPaint && body) {
+    // UIR-13 (J7): the haft no longer cuts the gripping wrists. The
+    // painted cuff/wrist tips redraw OVER the weapon in a small disc at
+    // each hand - the same cells, so the tone matches exactly.
+    for (const [part, hand] of [['foreArmF', pose.handF], ['foreArmN', pose.handN]] as const) {
+      if (!body.parts[part]) continue
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(hand.x, hand.y, 4.6 * plan.build.bulk, 0, Math.PI * 2)
+      ctx.clip()
+      bodyPaint(ctx, part)
+      ctx.restore()
+    }
+  }
+  if (grippingTail) {
     if (handPaint && body?.parts.wrapF) handPaint(ctx, 'wrapF')
     else drawFingertips(ctx, pose.handF, pose.weaponRot, plan.build.bulk, hmTail.skinShade, hmTail.skinForm)
   }
@@ -250,6 +265,11 @@ export function drawFigure(
     if (handPaint && body?.parts.gripN) handPaint(ctx, 'gripN')
     else drawGripHand(ctx, pose.handN, pose.elbowN, pose.weaponRot, plan.build.bulk, hmTail)
   }
+  // UIR-13 (J5): the near fingertips cross the haft's face over the fist -
+  // the haft passes THROUGH the grip instead of lying on top of it. The
+  // NEAR hand is the weapon anchor and always grips (unlike the far hand's
+  // BODY-15 counterbalance rule), so only the prone pose excludes it.
+  if (!pose.lying && handPaint && body?.parts.wrapN) handPaint(ctx, 'wrapN')
 
   // Feet last as well: BODY-9 - the painted boot tips are dark-on-dark at
   // gameplay size, robe hems swallow the ankles, and the weapon butt hangs

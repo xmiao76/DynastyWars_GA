@@ -30,6 +30,7 @@ export type BodyPartName =
   | 'relaxN'
   | 'relaxF'
   | 'wrapF'
+  | 'wrapN'
 
 export interface BodyPartDef {
   /** Skeleton joints this part spans, from pivot (A) to tip (B). */
@@ -59,6 +60,7 @@ export const BODY_PART_DEFS: Record<BodyPartName, BodyPartDef> = {
   relaxN: { from: 'elbowN', to: 'handN', naturalLen: 8.4 },
   relaxF: { from: 'elbowF', to: 'handF', naturalLen: 8.4 },
   wrapF: { from: 'elbowF', to: 'handF', naturalLen: 8.4 },
+  wrapN: { from: 'elbowN', to: 'handN', naturalLen: 8.4 },
 }
 
 /** Draw order, matching the procedural slots in `figureShapes`. */

@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 08:05 UTC - UIR-13 (attempt 1, grip wraps + layering)
+
+- Status before: UIR-13 TODO (owner V-14 J5/J7: haft over the far
+  fist, fists beside the haft, haft cutting the wrist/cuff).
+- Work completed: before-pass (delegated 8x crop inspection)
+  CONFIRMED all three claims in pixels. Fixes: new painted wrapN cell
+  (near fingertips crossing the haft's face over the fist, near-
+  shaded), wrapF pads widened/lengthened (0.72->0.82, 3.1->3.5), and
+  painted wrist/cuff tips redraw over the haft in a small disc at
+  each hand (colour-exact cell redraw) so the bar no longer cuts the
+  arm. Root cause found on the after-pass: the near wrap was gated
+  on gripDistTail (the FAR-hand grip test), so one-handers (caocao,
+  far hand = BODY-15 counterbalance) never got wrapN; the near hand
+  is the weapon anchor and always grips, so the predicate is now
+  simply !lying. After-pass (delegated, two rounds incl. wider
+  re-crops): all claims FIXED on every verifiable pixel; far-fist
+  wrap N/A on one-handers by design. 17 sheets regenerated
+  (revision body-6). Region-floor test
+  (test/game/uir13-gripwrap.test.ts) records before/after hand-tone
+  coverage in the grip bands.
+- Files changed: src/game/art/{hand-parts.ts (wrapN cell),
+  body-parts.ts (wrapN def), draw.ts (wrist bridges + wrapN tail)},
+  scripts/prepare-body-parts.mjs (wrapN painter + widened pads,
+  body-6), test/game/{handparts.test.ts,artaudit.test.ts,
+  bodyparts.test.ts,uir13-gripwrap.test.ts (new)}, 17 body sheets +
+  3 prepared.json, TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md.
+- Verification run: lint 0; tsc 0; unit 637/637 + 1 skipped (638 pre-cleanup with the scratch render test);
+  hand suites 28/28; review:capture + fresh grip renders; delegated
+  before/after review. Browser gates: E2E=0 (78), VISION=0 (5/5),
+  SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Result: UIR-13 acceptance met.
+- Status after: UIR-13 DONE.
+- Remaining work or blocker: V-14 J1/J3 (UIR-14) and J6 (UIR-15)
+  remain; BODY-7 acceptance needs owner re-review.
+- Next recommended task: UIR-14 (sleeve/shoulder joins + wrist trace).
+
+
 ### 2026-09-27 07:10 UTC - UIR-12 (attempt 1, hands with fingers)
 
 - Status before: UIR-12 TODO (owner V-14 J4/J8: mitten hands on every

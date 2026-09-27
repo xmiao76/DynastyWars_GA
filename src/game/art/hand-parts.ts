@@ -20,8 +20,8 @@
 import type { BodyArt, BodyPartName } from './body-parts'
 import type { Skeleton } from './rig'
 
-/** The five hand cells, as painted into every body sheet. */
-export const HAND_CELL_NAMES = ['gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF'] as const
+/** The hand cells, as painted into every body sheet. */
+export const HAND_CELL_NAMES = ['gripN', 'gripF', 'relaxN', 'relaxF', 'wrapF', 'wrapN'] as const
 export type HandCellName = (typeof HAND_CELL_NAMES)[number]
 
 export const isHandCell = (part: BodyPartName): part is HandCellName =>
@@ -42,9 +42,10 @@ export function handCellPainter(
     const cell = art.parts[part]
     if (!cell) return
     const near = part.endsWith('N')
+    const wrap = part === 'wrapF' || part === 'wrapN'
     const hand = part === 'wrapF' ? pose.handF : near ? pose.handN : pose.handF
     const elbow = near ? pose.elbowN : pose.elbowF
-    const ang = part === 'wrapF' ? pose.weaponRot : Math.atan2(hand.y - elbow.y, hand.x - elbow.x)
+    const ang = wrap ? pose.weaponRot : Math.atan2(hand.y - elbow.y, hand.x - elbow.x)
     ctx.save()
     ctx.translate(hand.x, hand.y)
     ctx.rotate(ang)
