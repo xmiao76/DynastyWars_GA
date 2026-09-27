@@ -257,6 +257,8 @@ export interface HaftFit {
 
 /** Minimum fist separation along the haft (BODY-15 measured 12u). */
 export const HAFT_MIN_SEP = 12
+/** UIR-15: strikes spread the fists further so the chains break parallel. */
+export const STRIKE_MIN_SEP = 18
 
 /**
  * Far-hand placement on the haft for two-handed weapons (BODY-19). Searches
@@ -264,11 +266,27 @@ export const HAFT_MIN_SEP = 12
  * comfortable 85%-of-reach bend, keeping 12u of fist separation and staying
  * off the butt fitting and the ferrule/blade. Returns gripping:false when
  * nothing is reachable (the caller relaxes the arm instead) - a floating
- * stretched fist is worse than a relaxed arm.
+ * stretched fist is worse than a relaxed arm. UIR-15: strikes pass a larger
+ * minSep so the far fist slides toward the butt - the two shoulder->hand
+ * chains stop running parallel (the "rails" read).
  */
 export function fitFarHand(
   handN: Pt, rot: number, grip: number, length: number,
   shoulderF: Pt, reachF: number,
+  minSep: number = HAFT_MIN_SEP,
+): HaftFit {
+  // UIR-15: strikes prefer a wider spread; a spread that leaves no valid
+  // grip must not cost the far hand its hold (zhaoyun:attack lost it in
+  // the first cut), so fall back to the minimum separation.
+  const wide = fitFarHandAt(handN, rot, grip, length, shoulderF, reachF, minSep)
+  if (wide.gripping || minSep <= HAFT_MIN_SEP) return wide
+  return fitFarHandAt(handN, rot, grip, length, shoulderF, reachF, HAFT_MIN_SEP)
+}
+
+function fitFarHandAt(
+  handN: Pt, rot: number, grip: number, length: number,
+  shoulderF: Pt, reachF: number,
+  minSep: number,
 ): HaftFit {
   const dx = Math.cos(rot)
   const dy = Math.sin(rot)
@@ -277,12 +295,20 @@ export function fitFarHand(
   const sMin = Math.ceil(back + 4)
   const sMax = Math.floor(fore - 14)
   const comfort = reachF * 0.85
-  const limit = reachF * 0.99
+  // UIR-15: the strike search may reach 4% further (solveArm protracts the
+  // shoulder up to 9.7%, BODY-22) so a wide spread still finds its grip.
+  const limit = reachF * (minSep > HAFT_MIN_SEP ? 1.04 : 0.99)
+  // A two-handed grip rides with the far hand BEHIND the near hand. The
+  // strike search takes back grips only (a forward grab reads as a long
+  // straight reach - the rails again); the permissive fallback in
+  // fitFarHand still guards the hold when no back grip exists.
+  const backOnly = minSep > HAFT_MIN_SEP
   let best: Pt | null = null
   let bestScore = Infinity
   let bestBack = false
   for (let s = sMin; s <= sMax; s += 1) {
-    if (Math.abs(s) < HAFT_MIN_SEP) continue
+    if (Math.abs(s) < minSep) continue
+    if (backOnly && s > 0) continue
     const p = { x: handN.x + s * dx, y: handN.y + s * dy }
     const d = dist(shoulderF, p)
     if (d > limit) continue

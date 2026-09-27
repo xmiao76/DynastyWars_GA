@@ -1,4 +1,4 @@
-import { fitBow, fitDown, fitFarHand, fitLeg, ikHeadRadius, naturalArmLengths, naturalLegLengths, solveArm, swungFreeTarget } from './armik'
+import { fitBow, fitDown, fitFarHand, fitLeg, ikHeadRadius, naturalArmLengths, naturalLegLengths, solveArm, STRIKE_MIN_SEP, swungFreeTarget } from './armik'
 import { WEAPONS, type FigurePlan } from './figures'
 import { HEAD_CHIN_DROP } from './hero-resources'
 import type { Materials } from './palette'
@@ -214,14 +214,33 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
   const idleBuilt = applyBuild(IDLE, plan.build)
   const lead = pose.footN.x - pose.footF.x
   const idleLead = idleBuilt.footN.x - idleBuilt.footF.x
+  // UIR-15 (V-14 J6): on strikes the far elbow bows to the OPPOSITE side
+  // of the haft from the near elbow - two elbows on one side of the bar
+  // read as parallel rails. On long weapons at thrust the rear arm is at
+  // full extension (the butt itself sits at ~reach), so the bend side is
+  // what breaks the rails there. The hint's reflection across the
+  // shoulder->hand line flips solveArm's bend branch.
+  const strikeElbowHint = (sk: { elbowF: Pt; shoulderF: Pt }, target: Pt): Pt => {
+    if (!sk.strike) return sk.elbowF
+    const ux = target.x - sk.shoulderF.x
+    const uy = target.y - sk.shoulderF.y
+    const len2 = ux * ux + uy * uy
+    if (len2 < 0.01) return sk.elbowF
+    const t = ((sk.elbowF.x - sk.shoulderF.x) * ux + (sk.elbowF.y - sk.shoulderF.y) * uy) / len2
+    const px = sk.shoulderF.x + t * ux
+    const py = sk.shoulderF.y + t * uy
+    return { x: 2 * px - sk.elbowF.x, y: 2 * py - sk.elbowF.y }
+  }
   let handF = swungFreeTarget(pose.shoulderF, nat.upperF + nat.foreF, lead, idleLead)
   if (twoHanded) {
     const spec = WEAPONS[plan.weapon]
+    // UIR-15: strikes spread the fists wider along the haft so the two
+    // arm chains stop running parallel (V-14 J6 rails).
     const fit = fitFarHand(handN, weaponRot, pose.weaponGrip, spec.length,
-      pose.shoulderF, nat.upperF + nat.foreF)
+      pose.shoulderF, nat.upperF + nat.foreF, pose.strike ? STRIKE_MIN_SEP : undefined)
     if (fit.gripping) handF = fit.handF
   }
-  const far = solveArm(pose.shoulderF, handF, pose.elbowF, nat.upperF, nat.foreF)
+  const far = solveArm(pose.shoulderF, handF, strikeElbowHint(pose, handF), nat.upperF, nat.foreF)
   // BODY-22 leg IK: table knees let segments collapse to 56% in crouches.
   // Knees solve from hip+foot (both pinned: hips keep the torso, feet keep
   // their planted stances); the authored knee picks the bend branch.

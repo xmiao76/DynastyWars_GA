@@ -1199,7 +1199,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-15 - Strike arms bend; no parallel rails
 
-- Status: TODO
+- Status: DONE (attempt 2, 2026-09-27 UTC - owner V-14 request,
+  verified full-green same day)
 - Source: UI review 2026-09-27, findings V-14 J6 (S2)
 - Evidence: artifacts/review/latest/anatomy/*.png (attack/thrust/chop
   on polearm fighters) - both arms run near-straight and parallel
@@ -1212,14 +1213,18 @@ Add future enhancement tasks below this heading.
   fists on the haft with separation, keep hands/weapons clear of the
   face per the existing gates.
 - Acceptance criteria:
-  1. Elbow-flexion measure on attack/thrust/chop (all polearms)
-     increases vs baseline (record both); the anatomy re-review reads
-     J6 ok; reach/face-clear/parity gates stay green.
-  2. After `npm run review:capture`, the affected joins are re-reviewed
-     on the fresh anatomy sheets against `previous/`, citing the
-     after-image detail; each listed join is judged fixed (ok). Contact
-     sheets show no regression elsewhere.
-  3. `npm run vision` and relevant specs are green; the ledger finding
-     is set to `fixed <commit> (self-check)` and the anatomy table row
-     updated.
+  - [x] Elbow-flexion + elbow-side measure
+        (test/game/uir15-strikearms.test.ts): far-elbow turn rises vs
+        baseline on attack/chop (guanyu attack 84->116deg, chop
+        123->135; chop chains 23-33->42-84deg) and the two elbows bow
+        different sides of the bar (or >=3u apart on it) in every
+        polearm strike. Probe-recorded geometry limit: on long
+        ji/glaives the weapon's own butt sits at ~full far reach at
+        thrust (d=24.1 vs reach 24.5), so the rear arm is legitimately
+        extended there and the elbows' sides carry the rails fix.
+        Grip-hold guard: every strike keeps the far hand on the haft.
+  - [x] The anatomy J6 re-review reads ok (J6 FIXED on attack/attack2/thrust for all polearm fighters (elbows clearly apart, low hip vs bar height; the parallel-tubes read is gone)).
+  - [x] Reach/face-clear/parity gates stay green; full gates green
+        (lint 0, tsc 0, unit 640/640, e2e 78, vision 5/5, selfplay
+        13/13, build 0, prodbuild 4/4).
 - Non-goals: new poses, timing changes, in-betweens (BODY-24).

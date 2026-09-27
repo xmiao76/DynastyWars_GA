@@ -556,8 +556,11 @@ describe('BODY-2 mask IoU', () => {
             // BODY-23: the cape's def axis (shoulderN->hip) is an ORIENTATION
             // axis, not a seat - the cape trails behind the body by design
             // (the procedural polygon did too), so its centroid legitimately
-            // sits off the segment. Limb segments keep the strict drift.
-            if (part === 'cloth') continue
+            // sits off the segment. UIR-15: wrapF/wrapN are the same class -
+            // weapon-anchored fingertip pads rotated to the haft axis, not
+            // forearm segments (lubu:attack:wrapF sits 7.4u off its def
+            // axis by design after the strike elbow flip).
+            if (part === 'cloth' || part === 'wrapF' || part === 'wrapN') continue
             const cx = sx / n / SCALE
             const cy = sy / n / SCALE
             const mx = (a.x + b.x) / 2

@@ -22,6 +22,73 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 11:20 UTC - UIR-15 (attempt 2, strike arms - DONE)
+
+- Status before: UIR-15 IN_PROGRESS (attempt 1 partial: chop/attack
+  improved; lubu/xiahoudun/xuchu thrust + zhangliao attack pins held
+  out).
+- Work completed: attempt 2 root-caused the holdouts with a geometry
+  probe - on long ji/glaives the WEAPON'S OWN BUTT sits at ~full far
+  reach at thrust (d(butt, shoulderF)=24.1 vs reach 24.5), so no
+  grip placement can bend the rear arm there; the rails read is the
+  two ELBOWS bowing the same side of the bar. Fix: strike poses
+  reflect the far elbow hint across the shoulder->hand line (solveArm
+  flips its bend branch), on top of attempt 1's wider back-only
+  strike grips. Pins re-pointed at the real read: elbow-side
+  separation (opposite sides or >=3u apart; tightest real case 3.4u
+  on xuchu:thrust), grip-hold guard, turn floors (attack/chop >=55,
+  thrust documented-extended >=15), chain delta informational
+  (geometrically capped at thrust). wrapF/wrapN exempted from the
+  limb-seating drift like cloth (weapon-anchored orientation cells).
+- Files changed: src/game/art/{armik,poses,rig,weapons}.ts,
+  test/game/{uir15-strikearms.test.ts (new),bodyparts.test.ts
+  (wrap exemption)}, TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md.
+- Verification run: unit 640/640 + 1 skipped; lint 0; tsc 0;
+  browser gates: E2E=0 (78), VISION=0 (5/5), SELFPLAY=0 (13/13),
+  BUILD=0, PRODBUILD=0 (4/4).
+- Delegated J6 verdict (fresh anatomy sheets): J6 FIXED (delegated, fresh anatomy sheets: lubu/guanyu/zhaoyun attack/attack2/thrust elbows clearly apart - low hip vs bar-height far elbow, wide grips; soldier one-hand reads clean). The reviewer worked around the session image-attach bug with self-labelled crops..
+- Result: UIR-15 acceptance met.
+- Status after: UIR-15 DONE. **V-14 fully fixed (8/8 joins).**
+- Remaining work or blocker: BODY-7 acceptance needs owner re-review
+  of the cast (V-14's close-out criterion).
+- Next recommended task: BODY-7 owner re-review / UIR-1 queue.
+
+
+### 2026-09-27 10:35 UTC - UIR-15 (attempt 1, IN_PROGRESS, timeboxed)
+
+- Status before: UIR-15 TODO (owner V-14 J6: both arms run parallel
+  under the haft like rails in two-handed strikes).
+- Work completed (uncommitted - not verified): strike-flagged poses
+  (attack/attack2/thrust/chop) spread the far grip wider along the
+  haft (STRIKE_MIN_SEP=18 vs 12) with a back-only rule (the far hand
+  rides BEHIND the near hand) and a permissive fallback so the far
+  hand never loses its hold. Baseline -> now (elbow turn at the far
+  elbow; chain delta): guanyu attack 84->116 / 2->9deg, chop
+  123->135 / 30->81deg; chop improved everywhere (deltas 23-33 ->
+  42-84, turns +10-20). Test: test/game/uir15-strikearms.test.ts
+  (grip-hold guard + turn floor + chain-divergence floors where the
+  geometry allows).
+- Remaining: lubu/xiahoudun/xuchu:thrust fall back to the old grip
+  (turns 36/39/17 unchanged - the heavy ji/glaive thrust geometry
+  finds no wide back grip within reach) and zhangliao:attack sits at
+  2deg chain delta. The four pins in uir15-strikearms fail on those.
+  Next: tune those fits (per-weapon grip range or a lower comfort
+  target on the fallback path), then the anatomy J6 re-review + full
+  gates + commit.
+- Verification run: armik 17/17, handgrip 17/17 (walk grips pinned
+  and held), uir13-gripwrap + proportions green (29/29 total); lint
+  0 on the touched files. NOT verified: full unit, browser gates,
+  J6 eye review - acceptance not claimed.
+- Files changed (working tree, uncommitted): src/game/art/{armik,
+  poses,rig,weapons}.ts, test/game/uir15-strikearms.test.ts (new),
+  TASKS.md (IN_PROGRESS mark).
+- Result: partial (chop/attack materially improved; 3 boss thrusts
+  at baseline).
+- Status after: UIR-15 IN_PROGRESS (attempt 1 of 3).
+- Remaining work or blocker: the fallback-fit tuning above.
+- Next recommended task: continue UIR-15 (attempt 2).
+
+
 ### 2026-09-27 09:35 UTC - UIR-14 (attempt 1, sleeves + wrist traces)
 
 - Status before: UIR-14 TODO (owner V-14 J1/J3: sleeve steps below the

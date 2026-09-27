@@ -107,6 +107,7 @@ export const WALK1: Skeleton = {
 /** Weapon driven out horizontally: the pose the reach check measures. */
 export const ATTACK: Skeleton = {
   ...IDLE,
+  strike: true,
   hip: { x: 46, y: 53 },
   chest: { x: 48, y: 31 },
   neck: { x: 49, y: 26 },
@@ -179,6 +180,7 @@ export const WINDUP: Skeleton = {
   */
 export const ATTACK2: Skeleton = {
   ...IDLE,
+  strike: true,
   hip: { x: 48, y: 52 },
   chest: { x: 48, y: 30 },
   neck: { x: 49, y: 25 },
@@ -209,6 +211,7 @@ export const ATTACK2: Skeleton = {
  */
 export const THRUST: Skeleton = {
   ...IDLE,
+  strike: true,
   hip: { x: 44, y: 56 },
   chest: { x: 47, y: 33 },
   neck: { x: 48, y: 28 },
@@ -244,6 +247,7 @@ export const THRUST: Skeleton = {
   */
 export const CHOP: Skeleton = {
   ...IDLE,
+  strike: true,
   hip: { x: 45, y: 55 },
   chest: { x: 46, y: 32 },
   neck: { x: 47, y: 27 },

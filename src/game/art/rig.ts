@@ -57,6 +57,9 @@ export interface Skeleton {
   headRot: number
   /** A floored figure is drawn lying down and skips the ground shadow logic. */
   lying?: boolean
+  /** UIR-15: a two-handed strike - the far grip spreads wider along the
+   * haft so the two arm chains stop running parallel (V-14 J6). */
+  strike?: boolean
   /**
    * Weapon anchor override (BODY-19 down-pose drop). The weapon is drawn
    * through this point instead of the hand, so a released hand can rest
