@@ -73,7 +73,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 ### V-8 - End screens show 0 score and 0.0s (harness)
 - The capture forces the result, game-over and complete screens, so the stats are empty. Number formatting and long-score fit on these screens are unjudged. Next capture fix: seed stats (see Harness backlog).
 
-### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - owner
+### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - owner-approved, batched UIR-7
 - Evidence: `screens/phone-portrait-game.png`: the game fills 28% of the height; the touch buttons are about 20 CSS px, and there is no hint to rotate.
 - Root cause: `src/game/main.ts:31-32` (Scale.FIT, CENTER_BOTH) has no orientation handling in `index.html` or `src/style.css`. See Owner questions.
 
@@ -81,7 +81,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `screens/phone-landscape-game.png`: the up arm shows a down-chevron, the left arm ">", the right arm "<" and the down arm "^". The same happens in portrait.
 - Root cause: `src/game/art/hudart.ts:487-492`: the chevron path's apex is at +y, so at angle 0 it points DOWN, but `hudart.ts:498-501` assumes angle 0 points up.
 
-### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - open (next batch, first)
+### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, batched UIR-8
 - Evidence: `screens/stage1-idle.png`: a flat grey slab with a green lid (the gorge wall). `screens/stage6-play.png`: blank beige rectangles on posts (warship sails) with the hulls sunk below the horizon. `screens/stage7-play.png`: solid red slabs (the cliffs). Next to the painted heroes these read as placeholder art.
 - Root cause: `src/game/art/backdrop.ts:324-326` (gorge), `:304-305` (sail 16x6 fillRect), `:444-446` (inferno cliffs) are `fillRect` blocks without tonal bands or ink. The hulls sit below `MARKS_ROOT_DEPTH` (`src/game/scenes/GameScene.ts:67`).
 - Estimate: M (one painter, three kinds), with risk to the vision richness gate and the seam unit test.
@@ -90,10 +90,14 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `crops/stage1-boss--boss.png`: the grunt faces are photographic, flat-lit and large for the body, with no neck blend.
 - Owned by the BODY track (BODY-24 and BODY-7 are open; see `CHARACTER_REVIEW.md`). No duplicate task is filed; re-check after BODY-7.
 
+### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - owner-approved, batched UIR-9..UIR-11
+- Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
+- Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
+
 ## UIR batch 1 - PENDING FILING (reviewed 2026-09-26 at 3fd3b32)
 
 The next producer pass files these into TASKS.md Enhancements verbatim, after first confirming on a fresh capture that each finding still reproduces (drop any that do not). Then it changes each finding's status to `filed UIR-n` and this heading to FILED.
-Ready-to-file task text: `artifacts/loop/proposals-uir-batch1.md`. That folder is gitignored, so if the file is missing, rebuild the tasks from the findings with the `docs/VISUAL_REVIEW.md` section 4 template.
+Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 1).
 
 | Task | Findings | Size | Why this order |
 | --- | --- | --- | --- |
@@ -104,10 +108,27 @@ Ready-to-file task text: `artifacts/loop/proposals-uir-batch1.md`. That folder i
 | UIR-5 | V-5, V-6, V-7 | M | S2 on continue and result panels |
 | UIR-6 | V-10 | S | S2 touch controls |
 
+## UIR batch 2 - PENDING FILING (owner-approved 2026-09-26)
+
+These are owner decisions, not review findings, so they do not count toward the six-task cap. File them in the SAME producer pass as batch 1, after it and in this order. Before filing, confirm that V-9, V-11 and V-13 still reproduce on the fresh capture. Then set each status to `filed UIR-n` and this heading to FILED.
+Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 2).
+
+| Task | Findings | Size | Scope |
+| --- | --- | --- | --- |
+| UIR-7 | V-9 | M | "Rotate your phone" overlay in portrait, with gameplay paused behind it |
+| UIR-8 | V-11 | M | Repaint the landmark strip (all nine kinds) in the painted style |
+| UIR-9 | V-13 | M | Painted sky and clouds (day and ember) |
+| UIR-10 | V-13 | M | Painted hill ridges with atmospheric depth |
+| UIR-11 | V-13 | M | Painted ground per stage (grass, earth, river bank, deck) |
+
+## Owner decisions
+
+1. 2026-09-26, **portrait phones (V-9):** approved the "rotate your phone" overlay (not a portrait layout). -> UIR-7.
+2. 2026-09-26, **backdrop art direction:** approved repainting the backdrop layers (sky, clouds, ridges, ground, landmarks) in the painted semi-realist style of the heroes and title key art. -> UIR-8..UIR-11.
+
 ## Owner questions
 
-1. **Portrait phones (V-9).** Should portrait show a "rotate your phone" overlay (recommended; a standard mobile-game pattern and a small change), or should portrait be made playable with a taller layout (a large change)?
-2. **Backdrop art direction.** The heroes are painted semi-realism, while the sky, clouds, hills and ground are flat vector shapes (every `stage*-play`). Should a later batch repaint the backdrop layers in the painted style? This is a direction-level change, so it is not filed.
+- (none open)
 
 ## Known blind spots (checked by every review)
 

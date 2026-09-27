@@ -71,7 +71,10 @@ Renderer parity matters because the game ships WebGL, not just the test canvas.
    pass, using the VISUAL_REVIEW.md section 4 template. First re-confirm on the
    fresh capture that each one still reproduces. Only S4 ideas fall under step 6's
    one-proposal limit. Open findings that are not filed stay `open` in the
-   ledger for the next pass.
+   ledger for the next pass. For a batch marked PENDING, copy its task text
+   from `docs/UI_REVIEW_BATCHES.md`, then mark it FILED in that file and in the
+   ledger. Batches that record an owner decision are owner-approved scope, not
+   counted toward the six-task cap.
 7. Accepted proposals go in TASKS.md's Enhancements section with the next free
    identifier, TODO status, evidence/finding ID, bounded requirement, measurable
    acceptance criteria, and non-goals. Rank real defects before proactive work;
