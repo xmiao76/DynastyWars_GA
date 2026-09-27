@@ -19,4 +19,16 @@ secrets/
 *credentials*
 /artifacts/review
 /artifacts/loop
-artifacts/review/
+/artifacts/vision
+/artifacts/look
+/artifacts/pause
+/artifacts/arrows
+/artifacts/weapon-review
+/artifacts/migration-ga
+/artifacts/gates
+/artifacts/anim-walk.png
+/artifacts/e2e-title.png
+/artifacts/selfplay-zhaoyun.png
+/artifacts/guanyu-blade.png
+/artifacts/elbow-zoom.png
+/artifacts/body-cells-*.png
