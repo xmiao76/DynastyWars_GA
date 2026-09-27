@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 16:15 UTC - UIR-3 (attempt 1, stage announcements - DONE)
+
+- Status before: UIR-3 TODO (V-3: banner + intro card naming the same
+  stage at once; the card rose at 1_600ms into the banner's life).
+- Work completed: sequencing by state gate - the intro card refuses
+  to rise while any stageBanner shows (alpha > 0.05), plus a derived
+  nominal delay (INTRO_CARD_DELAY_MS = hold + 2 sweeps + slack;
+  BANNER_SWEEP_MS extracted so the tween and the math share one
+  source). TDD: e2e/introcard.spec.ts UIR-3 samples every animation
+  frame across a stage entry and asserts no co-show; pinned failing
+  first (offenders recorded: "t=1642ms card=0.21 banner=1.00" etc.
+  - the tween's alpha tail outlived the naive duration sum, which is
+  why the state gate is the real contract). Autopilot tick dismissal
+  unchanged (existing tests green).
+- Files changed: src/game/scenes/HudScene.ts, e2e/introcard.spec.ts,
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-3 fixed
+  self-check).
+- Verification run: lint 0; tsc 0; unit 646/646 + 1 skipped; spec
+  5/5 (incl. the new pin); review capture after; browser gates:
+  E2E=0 (78), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4).
+- Delegated re-review: V-3 FIXED (each capture moment shows exactly one stage announcement; no double announcement across the flow sheet).
+- Result: UIR-3 acceptance met.
+- Status after: UIR-3 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-4..11.
+- Next recommended task: UIR-4 (no 7px body-font labels).
+
+
 ### 2026-09-27 15:10 UTC - UIR-2 (attempt 1, WARNING banner - DONE)
 
 - Status before: UIR-2 TODO (V-2 S1: the boss WARNING title hidden

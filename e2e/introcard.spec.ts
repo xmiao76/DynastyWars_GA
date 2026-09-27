@@ -241,3 +241,44 @@ test('defeat, complete and pause get the parchment kit too', async ({ page }) =>
   await page.screenshot({ path: 'artifacts/look/ui5-complete.png' })
   expect(pageErrors).toEqual([])
 })
+
+/**
+ * UIR-3 (V-3): the stage banner and the intro card both name the stage -
+ * they used to overlap for ~260ms (the card rose at 1_600ms while the
+ * banner's life ran to ~1_876ms). Contract: no frame may show the card
+ * at alpha > 0 while the banner is at alpha > 0.05. Samples every
+ * animation frame through a whole stage entry.
+ */
+test('UIR-3: the intro card and the stage banner never show at once', async ({ page }) => {
+  test.setTimeout(60_000)
+  const pageErrors: string[] = []
+  page.on('pageerror', (err) => pageErrors.push(String(err)))
+  await boot(page, true)
+  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage1'))
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
+    .toBe('game')
+
+  const offenders = await page.evaluate(async () => {
+    const hud = window.__DW_GAME__?.scene.getScene('hud')
+    const bad: string[] = []
+    const start = performance.now()
+    while (performance.now() - start < 3_000) {
+      await new Promise((r) => requestAnimationFrame(r))
+      const find = (name: string): { alpha?: number; visible?: boolean } | undefined =>
+        hud?.children.list.find((c) => c.name === name) as
+          | { alpha?: number; visible?: boolean }
+          | undefined
+      const card = find('introCard')
+      const banner = find('stageBanner')
+      const ca = card?.visible === false ? 0 : (card?.alpha ?? 0)
+      const ba = banner?.visible === false ? 0 : (banner?.alpha ?? 0)
+      if (ca > 0 && ba > 0.05) {
+        bad.push(`t=${(performance.now() - start).toFixed(0)}ms card=${ca.toFixed(2)} banner=${ba.toFixed(2)}`)
+      }
+    }
+    return bad
+  })
+  expect(offenders, 'introCard and stageBanner shared the screen').toEqual([])
+  expect(pageErrors).toEqual([])
+})

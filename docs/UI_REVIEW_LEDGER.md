@@ -50,7 +50,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `crops/stage1-boss-warning--banner.png`: only the subtitle "Li Dian 李典" shows; the red rail covers the WARNING title completely.
 - Root cause: `src/game/scenes/HudScene.ts:670-679` puts every banner at depth 9_800 "under the HUD plates", but the boss rail (`HudScene.ts:325-326`, depth 10_000, y40-58) appears in the same frame as the boss banner (y34-78), so the rail wins.
 
-### V-3 - Stage banner and intro card announce the same thing at the same time (S2, TIMING) - filed UIR-3
+### V-3 - Stage banner and intro card announce the same thing at the same time (S2, TIMING) - fixed (self-check)
 - Evidence: `crops/stage1-intro--intro.png`: the banner's "Bowang Slope · 博望坡" still shows above the intro card, which repeats "STAGE 1" and "Bowang Slope · 博望坡". The same happens on all nine `stage*-intro` shots.
 - Root cause: `src/game/scenes/HudScene.ts:484` raises the card 1_600 ms after build, while the banner (`HudScene.ts:175`, BANNER_HOLD_MS plus 180 ms in and out) is still up. Both carry stage number and name.
 

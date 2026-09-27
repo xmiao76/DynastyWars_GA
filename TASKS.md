@@ -835,7 +835,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-3 - One stage announcement, not two at once
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-3 (S2)
 - Evidence: artifacts/review/previous/crops/stage1-intro--intro.png - the
   banner's "Bowang Slope" still shows above the intro card, which repeats
@@ -850,15 +851,22 @@ Add future enhancement tasks below this heading.
   is visible. Sequence them, or drop the duplicate stage name from one
   of them.
 - Acceptance criteria:
-  1. A spec shows that no frame has the introCard at alpha > 0 while
-     stageBanner is at alpha > 0.05. Autopilot still dismisses the card
-     by tick count, so `run()` never stalls.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] A spec shows that no frame has the introCard at alpha > 0
+        while stageBanner is at alpha > 0.05 (e2e/introcard.spec.ts
+        UIR-3: samples every animation frame across a stage entry;
+        pinned failing first - the offenders list recorded the old
+        overlap, e.g. "t=1642ms card=0.21 banner=1.00"). Autopilot
+        still dismisses the card by tick count (existing test green;
+        run() never stalls).
+  - [x] After npm run review:capture the stage-entry screens show one
+        announcement at a time (FIXED - intro-card moment shows the card alone, banner moment shows the banner alone, no doubles across the flow sheet (delegated)). Sequencing is enforced
+        by a state gate (the card refuses to rise while a stageBanner
+        shows - the banner tween's alpha tail outlives a naive
+        duration sum) plus a derived nominal delay
+        (INTRO_CARD_DELAY_MS).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 646/646,
+        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: the lore text, or the card art.
 
 ### UIR-4 - No 7px body-font labels

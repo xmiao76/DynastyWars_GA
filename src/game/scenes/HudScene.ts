@@ -89,6 +89,15 @@ type ArcadeBar = ReturnType<typeof makeArcadeBar>
 const RED = 0xd33a3a
 /** Banners: stage nameplate holds, boss warning holds the spec's 1.2s. */
 const BANNER_HOLD_MS = 1_500
+/** Banner sweep in/out (the tween's yoyo halves) - one source of truth. */
+const BANNER_SWEEP_MS = 180
+/**
+ * UIR-3 (V-3): the intro card waits out the stage banner's whole life
+ * (sweep in + hold + sweep out) plus slack, so the two stage
+ * announcements never show at once. The old 1_600ms raised the card in
+ * the banner's tail (~260ms of shared screen).
+ */
+const INTRO_CARD_DELAY_MS = BANNER_HOLD_MS + 2 * BANNER_SWEEP_MS + 120
 
 export class HudScene extends Phaser.Scene {
   /** The Sim this HUD was built for; a different one means a new stage. */
@@ -483,7 +492,11 @@ export class HudScene extends Phaser.Scene {
     // materialized by syncIntroCard once the stage banner has had its beat.
     this.teardownIntro()
     this.introPending = true
-    this.introShowAtMs = this.time.now + 1_600
+    // UIR-3 (V-3): wait out the stage banner's whole life - INTRO_CARD_DELAY_MS
+    // sequences them nominally, and syncIntroCard additionally refuses to rise
+    // while any stageBanner is still showing (the banner tween's alpha tail
+    // outlives a naive duration sum, so the state gate is the real contract).
+    this.introShowAtMs = this.time.now + INTRO_CARD_DELAY_MS
   }
 
   /**
@@ -592,6 +605,12 @@ export class HudScene extends Phaser.Scene {
    */
   private syncIntroCard(sim: Sim, autopilot: boolean): void {
     if (!this.introCard && this.introPending && this.time.now >= this.introShowAtMs) {
+      // UIR-3 (V-3): never raise the card while the stage banner still
+      // shows - the two carry the same stage number and name.
+      const banner = this.children.list.find((c) => c.name === 'stageBanner') as
+        | { alpha?: number }
+        | undefined
+      if (banner && (banner.alpha ?? 0) > 0.05) return
       this.raiseIntroCard(sim)
       return
     }
@@ -707,7 +726,7 @@ export class HudScene extends Phaser.Scene {
     this.tweens.add({
       targets: container,
       scaleX: 1,
-      duration: 180,
+      duration: BANNER_SWEEP_MS,
       ease: 'Cubic.easeOut',
       hold: holdMs,
       yoyo: true,
