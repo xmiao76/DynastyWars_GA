@@ -11,6 +11,9 @@ import {
   vectorArtFor,
 } from '../art/registry'
 import type { PoseName } from '../art/poses'
+import { POSE_TABLE } from '../art/poses'
+import { blendEase, leanEnvelope, lerpSkeleton, torsoLean } from '../art/interpolate'
+import { blendBoxFor, blendMarginFor, drawKindSkeleton } from '../art/registry'
 import { RENDER_SCALE } from '../render'
 import { heroArtResources } from './hero-art'
 
@@ -203,4 +206,44 @@ function ensureVectorKey(scene: Phaser.Scene, kind: string, key: string, pose: P
   if (!ctx) return
   if (!drawKindPose(ctx, kind, pose as PoseName, RENDER_SCALE, heroArtResources(scene))) return
   scene.textures.addCanvas(key, canvas)
+}
+
+/**
+ * BODY-24: one in-between frame between two keys, as a texture. Cached by
+ * pair and step, so a transition costs at most two rasterizations for the
+ * whole session. The skeleton blends with eased t and the strike lean.
+ */
+export function blendKeyFor(kind: string, from: Pose, to: Pose, step: 1 | 2): string {
+  // The entity: prefix is a contract: e2e lookups (and any key-based
+  // sprite finder) match `entity:${kind}` to locate a fighter's sprite.
+  return `entity:${kind}:blend:${from}>${to}:${step}`
+}
+
+export function ensureBlendKey(
+  scene: Phaser.Scene,
+  kind: string,
+  from: Pose,
+  to: Pose,
+  step: 1 | 2,
+): string | undefined {
+  const entry = vectorArtFor(kind)
+  if (!entry || entry.type !== 'figure') return undefined
+  const a = POSE_TABLE[from as PoseName]
+  const b = POSE_TABLE[to as PoseName]
+  if (!a || !b) return undefined
+  const key = blendKeyFor(kind, from, to, step)
+  if (scene.textures.exists(key)) return key
+  const box = blendBoxFor(kind, from as PoseName, to as PoseName)
+  if (!box) return undefined
+  const t = blendEase(step === 1 ? 1 / 3 : 2 / 3)
+  const sk = torsoLean(lerpSkeleton(a, b, t), leanEnvelope(a, b, t))
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.round(box.width * RENDER_SCALE)
+  canvas.height = Math.round(box.height * RENDER_SCALE)
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return undefined
+  const margin = blendMarginFor(from as PoseName, to as PoseName)
+  if (!drawKindSkeleton(ctx, kind, sk, to as PoseName, RENDER_SCALE, heroArtResources(scene), margin)) return undefined
+  scene.textures.addCanvas(key, canvas)
+  return key
 }

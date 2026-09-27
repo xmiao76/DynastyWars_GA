@@ -25,7 +25,7 @@ import type { Entity } from '../../core/types'
 import { KeyboardAdapter, PLAYER_TWO_KEYS } from '../adapters/keyboard'
 import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gamepad'
 import { NO_TOUCH } from '../adapters/touch'
-import { ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
+import { ensureBlendKey, ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
 import { artDisplayHeight } from '../art/registry'
 import {
   EMBERS_H,
@@ -141,6 +141,10 @@ export class GameScene extends Phaser.Scene {
   } = NO_TOUCH
   private pollStartButton!: () => void
   private sprites = new Map<number, Phaser.GameObjects.Sprite>()
+  /** BODY-24: in-between frames queued per entity on a pose swap. */
+  private blendQ = new Map<number, { steps: string[]; to: Pose }>()
+  /** The last settled pose per entity - the blend's `from` side. */
+  private lastPose = new Map<number, Pose>()
   private shadows = new Map<number, Phaser.GameObjects.Ellipse>()
   private accumulator = 0
   private cloudLayer!: Phaser.GameObjects.Container
@@ -605,9 +609,39 @@ export class GameScene extends Phaser.Scene {
             ? horsePoseFor(entity, playerOf(this.sim))
             : poseForEntity(entity)
         const key = textureKeyForPose(entity.kind, pose)
-        if (sprite.texture.key !== key) {
-          sprite.setTexture(key)
+        const q = this.blendQ.get(entity.id)
+        if (q && q.to !== pose) this.blendQ.delete(entity.id) // re-target mid-blend
+        const blending = this.blendQ.has(entity.id)
+        if (sprite.texture.key !== key && !blending) {
+          // BODY-24: figures ease between keys instead of snapping. Two
+          // cached in-between frames (lerpSkeleton + strike lean) play at
+          // the swap; sim timing and hits are untouched. Skipped for the
+          // horse rig and the death fade.
+          const from = this.lastPose.get(entity.id)
+          const steps =
+            entity.kind !== 'horse' && entity.state !== 'dying' && from && from !== pose
+              ? [
+                  ensureBlendKey(this, entity.kind, from, pose, 1),
+                  ensureBlendKey(this, entity.kind, from, pose, 2),
+                ].filter((k): k is string => k !== undefined)
+              : []
+          if (steps.length === 2) {
+            this.blendQ.set(entity.id, { steps: [...steps, key], to: pose })
+            sprite.setTexture(steps[0]!)
+          } else {
+            sprite.setTexture(key)
+          }
           this.fitSprite(sprite, entity.kind)
+          this.lastPose.set(entity.id, pose)
+        } else if (blending) {
+          const qq = this.blendQ.get(entity.id)!
+          qq.steps.shift()
+          const show = qq.steps[0] ?? key
+          if (qq.steps.length <= 1) this.blendQ.delete(entity.id) // settling on target
+          if (sprite.texture.key !== show) {
+            sprite.setTexture(show)
+            this.fitSprite(sprite, entity.kind)
+          }
         }
       }
       // The rider sits on the horse: raised sprite offset while mounted.

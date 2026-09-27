@@ -1,4 +1,5 @@
 import { fitBow, fitDown, fitFarHand, fitLeg, ikHeadRadius, naturalArmLengths, naturalLegLengths, solveArm, STRIKE_MIN_SEP, swungFreeTarget } from './armik'
+import type { Pt } from './rig'
 import { WEAPONS, type FigurePlan } from './figures'
 import { HEAD_CHIN_DROP } from './hero-resources'
 import type { Materials } from './palette'
@@ -220,7 +221,7 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
   // full extension (the butt itself sits at ~reach), so the bend side is
   // what breaks the rails there. The hint's reflection across the
   // shoulder->hand line flips solveArm's bend branch.
-  const strikeElbowHint = (sk: { elbowF: Pt; shoulderF: Pt }, target: Pt): Pt => {
+  const strikeElbowHint = (sk: { elbowF: Pt; shoulderF: Pt; strike?: boolean }, target: Pt): Pt => {
     if (!sk.strike) return sk.elbowF
     const ux = target.x - sk.shoulderF.x
     const uy = target.y - sk.shoulderF.y

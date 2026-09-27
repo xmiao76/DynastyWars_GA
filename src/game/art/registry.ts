@@ -8,7 +8,7 @@ import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
 import { drawPortraitFigure } from './portrait'
 import { PROPS, drawProp, type PropPlan } from './props'
-import { BODY_X, FIG_H, FIG_W, applyBuild } from './rig'
+import { BODY_X, FIG_H, FIG_W, applyBuild, type Skeleton } from './rig'
 
 /**
  * Every kind the game draws, and how.
@@ -108,6 +108,21 @@ export interface ArtBox {
 
 function figureBoxFor(pose: PoseName): ArtBox {
   return { width: FIG_W + marginFor(pose) * 2, height: FIG_H + HEADROOM, standH: FIG_H }
+}
+
+/**
+ * BODY-24: the box and margin for an interpolated frame between two keys.
+ * Heights are uniform across poses; the width takes the wider of the two
+ * reach margins so a blend frame can never clip either key's weapon.
+ */
+export function blendBoxFor(kind: string, from: PoseName, to: PoseName): ArtBox | undefined {
+  const entry = VECTOR_ART[kind]
+  if (!entry || entry.type !== 'figure') return undefined
+  return { width: FIG_W + blendMarginFor(from, to) * 2, height: FIG_H + HEADROOM, standH: FIG_H }
+}
+
+export function blendMarginFor(from: PoseName, to: PoseName): number {
+  return Math.max(marginFor(from), marginFor(to))
 }
 
 /**
@@ -281,6 +296,42 @@ export function drawKindPortrait(
   const posed = applyBuild(POSE_TABLE.idle, entry.plan.build)
   ctx.translate(-BODY_X, -posed.head.y)
   drawPortraitFigure(ctx, entry.plan, POSE_TABLE.idle, detail)
+  ctx.restore()
+  return true
+}
+
+/**
+ * BODY-24: draw a PREPARED (possibly interpolated) skeleton for a kind.
+ * Same box convention as drawKindPose, but the caller owns the skeleton -
+ * the blend frames are `lerpSkeleton(a, b, t)` plus `torsoLean`. `pose`
+ * only selects the painted head's expression and the reach margin.
+ */
+export function drawKindSkeleton(
+  ctx: CanvasRenderingContext2D,
+  kind: string,
+  sk: Skeleton,
+  pose: PoseName,
+  scale: number,
+  resources?: ArtResources,
+  margin?: number,
+): boolean {
+  const entry = VECTOR_ART[kind]
+  if (!entry || entry.type !== 'figure') return false
+  ctx.save()
+  ctx.scale(scale, scale)
+  ctx.translate(margin ?? marginFor(pose), HEADROOM)
+  const head = resources?.heroes[kind]
+  const body = resources?.bodies?.[kind]
+  const weaponArt = resources?.weapons
+  if (head || body || weaponArt) {
+    const painted: { art?: HeroArt; poseName: PoseName; body?: BodyArt; weapon?: WeaponArt } = { poseName: pose }
+    if (head) painted.art = head
+    if (body) painted.body = body
+    if (weaponArt) painted.weapon = weaponArt
+    drawFigure(ctx, entry.plan, sk, painted)
+  } else {
+    drawFigure(ctx, entry.plan, sk)
+  }
   ctx.restore()
   return true
 }

@@ -22,6 +22,70 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 13:10 UTC - BODY-24 (attempt 2, motion engine - DONE)
+
+- Status before: BODY-24 IN_PROGRESS (attempt 1: interpolate.ts core
+  + frame gates green; wiring pending).
+- Work completed: the sprite wiring - registry.drawKindSkeleton +
+  blendBoxFor/blendMarginFor (the blend box takes the wider reach
+  margin so neither key's weapon clips), adapters/sprites.ts
+  ensureBlendKey (lazy cached in-between textures, t=eased 1/3 and
+  2/3, lerpSkeleton + strike lean) and GameScene's per-entity blend
+  queue (two in-between frames step one per update at each pose
+  swap; re-targeting mid-blend restarts; horse rig and the death
+  fade swap directly). Sim timing, poses and hits untouched.
+- Files changed: src/game/art/{interpolate.ts (attempt 1),
+  registry.ts}, src/game/adapters/sprites.ts,
+  src/game/scenes/GameScene.ts, test/game/{interpolate,
+  body24-frames}.test.ts (attempt 1), TASKS.md, PROGRESS.md.
+- Verification run: lint 0; tsc 0; unit 646/646 + 1 skipped;
+  motion re-capture (delegated review: CONTINUOUS - eased in-between poses between every walk and combo key on guanyu/zhangfei/zhaoyun sheets, no snapping/jitter/double-image); browser gates: E2E=0 (78),
+  VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Result: BODY-24 acceptance met.
+- Status after: BODY-24 DONE.
+- Remaining work or blocker: BODY-7 acceptance needs the owner's
+  cast review (the standing goal's last gate).
+- Next recommended task: BODY-7 owner re-review; then UIR-1 queue.
+
+
+### 2026-09-27 12:15 UTC - BODY-24 (attempt 1, IN_PROGRESS, motion engine core)
+
+- Status before: BODY-24 TODO (queue pick: V-14 closed; BODY-7 and
+  ENH-12 are owner-gated; BODY-24 is the first TODO by file order).
+- Work completed (uncommitted - not verified end to end): the motion
+  engine CORE - src/game/art/interpolate.ts: lerpSkeleton (exact
+  endpoints, short-path angles, nearer-key flags, anchor blend),
+  blendEase (smoothstep - walk keys ease, not snap), torsoLean
+  (upper body rotates about the pinned hip; hands stay put so the
+  IK refills the arms) and leanEnvelope (sine arch peaking
+  mid-transition, signed by strike direction). Tests:
+  test/game/interpolate.test.ts 6/6 (endpoints exact, monotone
+  easing, angle wrap, flags, lean determinism, envelope shape) and
+  test/game/body24-frames.test.ts green - the reach/legibility
+  acceptance pillar: face-clear + figure-ink on INTERPOLATED frames
+  (heroes x windup->attack + attack->recover x t=0.25/0.5/0.75).
+  Finding recorded: the raw blend sweeps huangzhong's bow through
+  the face mid-transition (63px at t=0.25), but the RENDERER derives
+  the weapon through weaponPose on every frame and its fits re-clear
+  it - measured on the engine's actual path the interpolated frames
+  pass. Draw-side is interpolation-ready.
+- Remaining: the sprite wiring (adapters/sprites.ts blend textures +
+  GameScene's pose-swap queue inserting 2 in-between frames per
+  transition), the motion-review re-capture (acceptance 1) and full
+  gates + commit. Design: blend frames = lerpSkeleton(from, to, t) +
+  leanEnvelope, t in {1/3, 2/3} inserted at the pose swap (2 render
+  frames; sim timing untouched).
+- Verification run: interpolate 6/6, body24-frames green; lint 0,
+  tsc 0, full unit 646/646 + 1 skipped (647 = 640 + the 6+1 new).
+- Files changed (working tree, uncommitted): src/game/art/
+  interpolate.ts (new), test/game/{interpolate,body24-frames}.test.ts
+  (new), TASKS.md (IN_PROGRESS mark).
+- Result: core landed + gated; wiring pending.
+- Status after: BODY-24 IN_PROGRESS (attempt 1 of 3).
+- Remaining work or blocker: the wiring/review/gates above.
+- Next recommended task: continue BODY-24 (attempt 2).
+
+
 ### 2026-09-27 11:20 UTC - UIR-15 (attempt 2, strike arms - DONE)
 
 - Status before: UIR-15 IN_PROGRESS (attempt 1 partial: chop/attack
