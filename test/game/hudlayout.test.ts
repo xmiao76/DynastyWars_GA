@@ -12,6 +12,8 @@ import {
   PLATE,
   RAIL,
   RAIL_BAR,
+  SCORE,
+  STAGE_LABEL,
   bossSegments,
   decayGhost,
   mirrorX,
@@ -97,5 +99,33 @@ describe('UI-4 damage ghost', () => {
     const next = decayGhost(0.9, 0.6, 450)
     expect(next).toBeLessThan(0.9)
     expect(next).toBeGreaterThanOrEqual(0.6)
+  })
+})
+
+/**
+ * UIR-1 (V-1): the HUD centre column's three lines never share pixels.
+ * Extents match the origins HudScene creates them with: STAGE_LABEL is
+ * top-origin (y .. y + size + 2 for the font's descent), SCORE is
+ * centre-origin (y - size/2 - 1 .. y + size/2 + 1), the CHIP is a
+ * top-origin image of height h. Before the fix STAGE_LABEL spanned
+ * y1-11 and SCORE y6.5-17.5 - ~5px of shared pixels (博望坡 printed
+ * over "SCORE 0").
+ */
+describe('UIR-1 HUD centre column never shares pixels (V-1)', () => {
+  const stageSpan = [STAGE_LABEL.y, STAGE_LABEL.y + STAGE_LABEL.size + 2] as const
+  const scoreSpan = [SCORE.y - SCORE.size / 2 - 1, SCORE.y + SCORE.size / 2 + 1] as const
+  const chipSpan = [CHIP.y, CHIP.y + CHIP.h] as const
+  const gap = (a: readonly [number, number], b: readonly [number, number]): number =>
+    (a[0] <= b[0] ? b[0] - a[1] : a[0] - b[1])
+
+  it('stage label, score and chip extents are disjoint with >= 1px gaps', () => {
+    expect(gap(stageSpan, scoreSpan)).toBeGreaterThanOrEqual(1)
+    expect(gap(scoreSpan, chipSpan)).toBeGreaterThanOrEqual(1)
+    expect(gap(stageSpan, chipSpan)).toBeGreaterThanOrEqual(1)
+  })
+
+  it('the column stays inside its 40px centre band', () => {
+    expect(stageSpan[0]).toBeGreaterThanOrEqual(0)
+    expect(chipSpan[1]).toBeLessThanOrEqual(40)
   })
 })

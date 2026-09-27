@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 14:10 UTC - UIR-1 (attempt 1, HUD centre column - DONE)
+
+- Status before: UIR-1 TODO (V-1: stage name printed over SCORE on
+  every in-game screen; hudlayout STAGE_LABEL y1 top-origin spanned
+  y1-11 into SCORE y12 centre-origin spanning y6.5-17.5).
+- Work completed: re-spaced the centre column inside its 40px band
+  (stage label y0, score y18, chip y25 - 1.5px gaps, above the boss
+  rail at y40). TDD: test/game/hudlayout.test.ts extent model
+  (matching HudScene's origins) pinned failing first, green after.
+  Objective kit evidence: "overlapping text" suspects 42 across 59
+  screens before -> 0 after. Before/after capture pair retained
+  (manual rotation again: the latest->previous rename hits the
+  persistent Windows EPERM; copy+delete with per-dir mkdirs worked).
+  Delegated re-review: V-1 FIXED (before: glyphs share pixels and both texts unreadable; after: three cleanly stacked lines with clear gaps; no regressions on 21 screens or the phone HUD).
+- Files changed: src/game/ui/hudlayout.ts, test/game/hudlayout.test.ts
+  (UIR-1 block), TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md
+  (V-1 fixed self-check).
+- Verification run: lint 0; tsc 0; unit 646/646 + 1 skipped; review
+  capture before+after; browser gates: E2E=0 (78), VISION=0 (5/5),
+  SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Result: UIR-1 acceptance met.
+- Status after: UIR-1 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-2..11 in
+  the queue.
+- Next recommended task: UIR-2 (boss WARNING banner depth).
+
+
 ### 2026-09-27 13:10 UTC - BODY-24 (attempt 2, motion engine - DONE)
 
 - Status before: BODY-24 IN_PROGRESS (attempt 1: interpolate.ts core

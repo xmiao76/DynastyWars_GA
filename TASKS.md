@@ -776,7 +776,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-1 - Separate the stage name from the SCORE readout
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-1 (S2)
 - Evidence: artifacts/review/latest/crops/stage1-idle--centre.png - the
   stage name "博望坡" shares pixels with "SCORE 0" (re-confirmed fresh).
@@ -788,16 +789,18 @@ Add future enhancement tasks below this heading.
   chip) so the three lines never share pixels, keeping them inside the
   40px band.
 - Acceptance criteria:
-  1. A unit test on hudlayout asserts that the STAGE_LABEL, SCORE and CHIP
-     vertical extents (font size and origin) are disjoint with a gap of at
-     least 1px. The kit suspect "overlapping text" is gone from every
-     manifest entry.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] A unit test on hudlayout asserts the STAGE_LABEL, SCORE and
+        CHIP vertical extents (font size and origin) are disjoint with
+        a gap of at least 1px (test/game/hudlayout.test.ts; pinned
+        failing first - the old 1/12/23 stack overlapped ~5px). The kit
+        suspect "overlapping text" is gone from every manifest entry
+        (objective count: 42 suspects across 59 screens before, 0
+        after).
+  - [x] After npm run review:capture the affected screens are
+        re-reviewed against previous/ (V-1 FIXED - before crop shows the glyph overlap, after shows three cleanly stacked lines; contact sheets and phone HUD clean (delegated)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 646/646,
+        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: moving the plates, or changing font sizes except as needed.
 
 ### UIR-2 - Boss WARNING banner must read above the boss rail

@@ -42,7 +42,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ## Findings
 
-### V-1 - Stage name is printed over the SCORE readout (S2, LAYOUT) - filed UIR-1
+### V-1 - Stage name is printed over the SCORE readout (S2, LAYOUT) - fixed (self-check)
 - Evidence: `crops/stage1-idle--centre.png`: 博望坡 sits on top of "SCORE 0"; the two lines share pixels. Kit suspect "overlapping text" on all 45 in-game screens, all 9 stages, phone and WebGL.
 - Root cause: `src/game/ui/hudlayout.ts:44-45`: STAGE_LABEL y1 (9px, top origin, spans y1-11) and SCORE y12 (9px, centre origin, spans y7-17) overlap by ~4px; created at `src/game/scenes/HudScene.ts:387-395`.
 

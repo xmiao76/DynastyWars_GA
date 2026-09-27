@@ -40,10 +40,15 @@ export const RAIL_BAR = { x: 112, y: 45, w: 304, h: 8 } as const
 export const RAIL_NAME = { x: 8, y: 44 } as const
 export const RAIL_TAG = { x: 422, y: 44 } as const
 
-/** Centre column between the plates. */
-export const STAGE_LABEL = { x: SCREEN_WIDTH / 2, y: 1, size: 9 } as const
-export const SCORE = { x: SCREEN_WIDTH / 2, y: 12, size: 9 } as const
-export const CHIP = { w: 56, h: 14, x: SCREEN_WIDTH / 2, y: 23 } as const
+/** Centre column between the plates (the 40px band above the boss rail).
+ * UIR-1 (V-1): the three lines never share pixels. The stage label is
+ * top-origin, the score centre-origin (HudScene's setOrigin pair) - the
+ * old 1/12/23 stack put the label's descent into the score's ascent
+ * ("博望坡" printed over "SCORE 0"). Gaps >= 1px, pinned in
+ * test/game/hudlayout.test.ts. */
+export const STAGE_LABEL = { x: SCREEN_WIDTH / 2, y: 0, size: 9 } as const
+export const SCORE = { x: SCREEN_WIDTH / 2, y: 18, size: 9 } as const
+export const CHIP = { w: 56, h: 14, x: SCREEN_WIDTH / 2, y: 25 } as const
 
 /** Advance cue: chevrons at the screen right once the camera unlocks. */
 export const GO = { w: 44, h: 14, x: SCREEN_WIDTH - 58, y: 114 } as const
