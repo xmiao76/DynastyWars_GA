@@ -1,14 +1,12 @@
 // UI review capture runner (docs/VISUAL_REVIEW.md section 1).
 // Rotates artifacts/review/latest -> previous, then runs the capture spec on
-// one worker. It owns browser port 5177, so it refuses to start while a loop
-// iteration holds the runner lock.
+// one worker. Its web server takes browser port 5177 with --strictPort, so a
+// concurrent browser check makes it fail fast instead of sharing a server.
+// It deliberately does NOT refuse on artifacts/loop/run.lock: the runner holds
+// that lock for the whole iteration, and loop iterations must run this.
 import { spawnSync } from 'node:child_process'
 import { existsSync, renameSync, rmSync } from 'node:fs'
 
-if (existsSync('artifacts/loop/run.lock')) {
-  console.error('review:capture: artifacts/loop/run.lock exists - a loop iteration is running; retry after it finishes.')
-  process.exit(2)
-}
 const latest = 'artifacts/review/latest'
 const previous = 'artifacts/review/previous'
 if (existsSync(latest)) {
