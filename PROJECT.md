@@ -72,6 +72,15 @@ running game and flattens it to one colour, so it does not involve the
 background at all - the silhouette still passes every shape metric, and only the
 shading metrics catch it.
 
+Metrics cannot judge taste, so the loop also runs an art-director review:
+`npm run review:capture` drives the real game to every screen a player sees:
+menus, every HUD beat and overlay, all nine stages, the end screens, co-op,
+the horse, phone portrait and landscape, and the shipped WebGL renderer. It
+writes screens, zoomed crops, scene inventories and contact sheets to
+`artifacts/review/latest/`. A reviewer judges them with the image tool against
+the rubric in `docs/VISUAL_REVIEW.md`, finds each root cause, and files UIR
+batches. Findings and their verification live in `docs/UI_REVIEW_LEDGER.md`.
+
 Screenshots land in `artifacts/vision/` for a human or model to judge;
 failures land in `artifacts/vision/findings.jsonl` and become UI-FIX tasks in
 the producer loop. The same sprite gate also runs as a unit test over the
@@ -164,6 +173,9 @@ enhancement per producer pass, with a concrete benefit, objective acceptance
 criteria, evidence, and non-goals. Check existing tasks/rejections for duplicates.
 A later consumer implements the accepted TODO; proposal and implementation must
 never happen in the same iteration. Actual regressions outrank enhancements.
+Visual-review defects (S1-S3) are not proactive enhancements. The producer
+files them as UIR batches of at most six per pass (`docs/VISUAL_REVIEW.md`).
+A due review runs even when the queue has ready work.
 
 This is not permission to rebalance DIFF-1, change core game direction, introduce
 online/backend scope, acquire copyrighted assets, change deployment/loop controls,

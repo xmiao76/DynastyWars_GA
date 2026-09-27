@@ -1,6 +1,10 @@
 Read `AGENTS.md`, `PROJECT.md`, `TASKS.md`, and `PROGRESS.md` from this repository.
 
 Execute exactly ONE bounded iteration:
+- If `docs/UI_REVIEW_LEDGER.md` has a batch marked PENDING FILING, or a UI
+  review is due by `docs/VISUAL_REVIEW.md` section 7, follow `.loop/eval-loop.md`
+  first, even when tasks are ready. The visual review is how the queue gets
+  its UI work.
 - If any task is IN_PROGRESS, follow `.loop/loop.md` for that task.
 - Otherwise, if any task is TODO, follow `.loop/loop.md` for the first TODO.
 - Otherwise, if PROJECT.md configures producer signals, follow `.loop/eval-loop.md`.

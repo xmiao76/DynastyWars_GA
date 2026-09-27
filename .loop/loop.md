@@ -16,10 +16,18 @@ Execute exactly one bounded CONSUMER iteration:
 5. Add meaningful tests for changed behavior. When pinning a defect, confirm
    the regression test fails without the fix, then passes with it. Record both.
 6. Run relevant PROJECT.md checks. UI-related work also requires `npm run vision`
-   and review of screenshots at gameplay size using an available image tool.
-   If visual inspection tools are absent, record that limitation, never invent
-   a review. Shipping changes require `npm run prodbuild`. A playable but broken
-   or unattractive render is not a completed game task. Do not weaken gates.
+   and the capture-review cycle in `docs/VISUAL_REVIEW.md` section 5:
+   - run `npm run review:capture` BEFORE editing and again after;
+   - review the affected screens and crops against `artifacts/review/previous/`
+     with the image tool at gameplay size, citing concrete after-image details;
+   - glance over the contact sheets for regressions;
+   - set each listed ledger finding to `fixed <commit> (self-check)`.
+   You may append newly noticed findings to `docs/UI_REVIEW_LEDGER.md` as
+   `open`, but do not file tasks for them. If image tools are absent, record
+   that limitation, never invent a review. Shipping changes require
+   `npm run prodbuild`. A playable but broken or unattractive render is not a
+   completed game task, and a task whose own after-review still shows its
+   defect is not DONE. Do not weaken gates.
 7. Mark `DONE` only when all acceptance criteria and applicable checks pass.
    Otherwise retain `IN_PROGRESS`, or mark a concrete unresolved prerequisite
    `BLOCKED`. If a previously passing signal regresses, prioritize it and report

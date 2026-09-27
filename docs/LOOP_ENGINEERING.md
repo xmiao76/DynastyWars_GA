@@ -233,6 +233,29 @@ the cause, then use `--resume`; neither command runs a model or resets task stat
 A live recorded process or recovery guard prevents automatic recovery. Corrupted
 state requires explicit investigation; do not discard evidence to force a run.
 
+## Visual review: the human-in-the-loop art direction
+
+Automated gates prove the game renders; they cannot say whether it looks good.
+The visual review closes that gap with a lead-artist cycle:
+
+1. `npm run review:capture` takes 59 screens covering the menus, HUD beats,
+   overlays, the nine stages, the end screens, co-op, the horse, the phone and
+   WebGL.
+2. The reviewer does a blind first look at the contact sheets, then a rubric
+   pass (R1–R9) over screens and crops.
+3. Each finding gets a `file:line` root cause.
+4. Findings are estimated and batched, at most six `UIR-n` tasks per pass.
+5. The consumer fixes and self-checks against the `previous/` capture.
+6. The next producer independently verifies or reopens each fix.
+
+Owner notes calibrate the review and grow the "Known blind spots" list. The UI
+is done after two consecutive reviews with every screen at 4 or above and no
+open S1/S2 findings, followed by owner sign-off.
+
+The procedure is in [VISUAL_REVIEW.md](VISUAL_REVIEW.md); the state is in
+[UI_REVIEW_LEDGER.md](UI_REVIEW_LEDGER.md). `.loop/continue.md` routes to the
+producer whenever a review is due or a batch awaits filing.
+
 ## Verification, checkpoints and publishing
 
 `npm run loop:test` and `npm run loop:schedule:test` use isolated fake adapters,

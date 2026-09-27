@@ -36,10 +36,18 @@ These instructions describe behavior, not a particular model, API, or agent host
    old finished progress entries to `PROGRESS-ARCHIVE.md` above 500 lines. Preserve
    unfinished-task evidence and the latest signal snapshot. Do not read archives
    during ordinary iterations.
+8a. Text files are UTF-8 (they hold 中文). Edit with UTF-8-aware tools only. In
+    Windows PowerShell 5.1, always pass `-Encoding UTF8` to `Get-Content` and
+    `Set-Content`, and never round-trip a file through a default-encoded read
+    (that caused the TASKS/ARCHIVE mojibake fixed in `dcd9fab`).
 9. Run only one development writer in this repository at a time. During ordinary
    iterations do not start nested runners, background agents, timers, or scheduled
    tasks. Scheduling is an explicit owner action outside the model iteration.
-10. When no ready task or new defect remains, the owner permits at most ONE
+10. Visual-review findings rated S1-S3, with screenshot evidence and a located
+    root cause, are defects, not proactive work. A producer files them in
+    batches of at most six `UIR-n` tasks (`docs/VISUAL_REVIEW.md` section 4).
+    The following limit covers only S4 ideas and other proactive proposals.
+    When no ready task or new defect remains, the owner permits at most ONE
     evidence-backed proactive proposal per producer pass within PROJECT.md's
     existing vision. Set measurable acceptance criteria and non-goals. Implement
     only in a later consumer iteration. Never invent work just to avoid IDLE,

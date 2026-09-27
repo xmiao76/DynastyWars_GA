@@ -17,6 +17,7 @@
     "e2e": "playwright test --project=chromium",
     "signal": "playwright test --project=selfplay",
     "vision": "playwright test --project=vision --workers=1",
+    "review:capture": "node scripts/review-capture.mjs",
     "prodbuild": "playwright test --config=playwright.prodbuild.config.ts",
     "loop": "node scripts/run-loop.mjs",
     "loop:check": "node scripts/run-loop.mjs --dry-run",
