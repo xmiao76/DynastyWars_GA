@@ -21,6 +21,34 @@ history slowly crowds out the work it is supposed to support.
 - Next recommended task:
 
 ## Entries
+### 2026-09-27 05:05 UTC - Owner request: artifacts cleanup
+
+- Status before: artifacts/ held 10,538 files / 431MB of accumulated
+  review scratch, superseded baselines and test droppings.
+- Work completed: audited every artifacts path against live code (src,
+  test, e2e, vision, scripts, configs) + docs/PROGRESS/TASKS references.
+  Deleted 8,917 files / 266MB: loop-tests droppings (9 runs, 7,820
+  files - test-loop has no cleanup, recreates per run), weapon-review
+  stale evidence (394 files - kept the 2 doc-cited PNGs), moves-before*
+  baselines x5 (verdicts in CHARACTER_REVIEW.md), joints/, boss-keyed/,
+  selfplay/, horse-dryrun/, loop/sweep/, loop-quota-check/ dirs, all
+  spent diag/crop/probe images + one-shot scripts + old gate logs +
+  stale loop tick logs. Kept: all live test/spec outputs (moves,
+  motion+frames, audit, review latest+previous, vision, arrows, pause,
+  live root PNGs), runner state/history in loop/, doc-referenced
+  evidence (migration-ga, gates, body-joint-inventory.json, enh12/ui3
+  patches, proposals), live tooling (run-*-gates.ps1, enc-check.mjs,
+  ui19/ui4/body3-review.mjs).
+- Files changed: artifacts/ only (gitignored - nothing to stage) +
+  this PROGRESS.md entry.
+- Verification run: post-cleanup inventory 1,621 files / 165MB;
+  artaudit.test.ts 3/3 green (output pipeline regenerates); root
+  holds exactly the 17 keep-files.
+- Result: cleanup complete; nothing live removed.
+- Status after: done; no queue change.
+- Remaining work or blocker: none from this request.
+- Next recommended task: none (owner-directed; resume queue work).
+
 
 ### 2026-09-27 04:10 UTC - Producer pass (UIR batch 1+2 filing)
 
