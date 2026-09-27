@@ -57,6 +57,44 @@ export const CHIP = { w: 56, h: 14, x: SCREEN_WIDTH / 2, y: 25 } as const
 /** Advance cue: chevrons at the screen right once the camera unlocks. */
 export const GO = { w: 44, h: 14, x: SCREEN_WIDTH - 58, y: 114 } as const
 
+/**
+ * UIR-5 (V-6/V-7): the continue dialog's text stack. The card is the
+ * 184x96 dialog at centre y 123 (HudScene); the title used to sit at y92
+ * ON the gold top rule. The stack keeps every text inside the panelRect
+ * with >= 4px insets (test/game/hudlayout.test.ts), the title and
+ * countdown carry PAUSED's dark stroke (V-7), and the title/countdown
+ * stay disjoint.
+ */
+export const CONTINUE_TEXT = { titleY: 102, countdownY: 132, hintY: 154 } as const
+
+/**
+ * UIR-5 (V-5): the result panel's chip row. The old hard-coded offsets
+ * spanned x70-390 (centre 230 - the LIVES chip sat on the parchment
+ * border). The row is laid out from the panel band (x 70..410) with
+ * even gaps, centred on SCREEN_WIDTH/2.
+ */
+export const RESULT_CHIP = {
+  y: 156,
+  widths: [62, 120, 90] as const,
+  gap: 20,
+  panelX0: 70,
+  panelX1: 410,
+} as const
+
+/** Chip row's left edges and span, centred in the result panel band. */
+export function resultChipRow(): { lefts: number[]; left: number; right: number } {
+  const total =
+    RESULT_CHIP.widths.reduce((a, b) => a + b, 0) + RESULT_CHIP.gap * (RESULT_CHIP.widths.length - 1)
+  const left = SCREEN_WIDTH / 2 - total / 2
+  const lefts: number[] = []
+  let x = left
+  for (const w of RESULT_CHIP.widths) {
+    lefts.push(x)
+    x += w + RESULT_CHIP.gap
+  }
+  return { lefts, left, right: left + total }
+}
+
 /** Stage/boss nameplate banner, slid under the band. */
 export const BANNER = { y: 56, w: 320, h: 44 } as const
 

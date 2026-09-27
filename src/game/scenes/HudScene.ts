@@ -448,21 +448,23 @@ export class HudScene extends Phaser.Scene {
       .setDepth(10_002)
 
     this.continueText = this.add
-      .text(SCREEN_WIDTH / 2, 92, 'CONTINUE?', {
-        ...liveStyle(22, { color: '#ffd700', bold: true }),
+      .text(SCREEN_WIDTH / 2, L.CONTINUE_TEXT.titleY, 'CONTINUE?', {
+        // UIR-5 (V-7): PAUSED's dark stroke, so the title reads on parchment.
+        ...liveStyle(22, { color: '#ffd700', bold: true, stroke: '#5a3a00', strokeThickness: 2 }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.continueCountdownText = this.add
-      .text(SCREEN_WIDTH / 2, 126, '9', {
-        ...liveStyle(30, { color: '#ffffff', bold: true }),
+      .text(SCREEN_WIDTH / 2, L.CONTINUE_TEXT.countdownY, '9', {
+        // UIR-5 (V-7): the countdown gets the same dark stroke.
+        ...liveStyle(30, { color: '#ffffff', bold: true, stroke: '#5a3a00', strokeThickness: 3 }),
       })
       .setOrigin(0.5)
       .setDepth(10_002)
       .setVisible(false)
     this.continueHintText = this.add
-      .text(SCREEN_WIDTH / 2, 154, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', {
+      .text(SCREEN_WIDTH / 2, L.CONTINUE_TEXT.hintY, hasTouch() ? 'TAP TO CONTINUE' : 'PRESS ENTER', {
         ...liveStyle(10, { color: '#4a3820', bold: true }),
       })
       .setOrigin(0.5)

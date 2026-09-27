@@ -58,15 +58,15 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `screens/stage1-result.png`: LIVES / SCORE / TIME are thin grey Arial-style caps, unlike every other word on the panel. `crops/select-zhaoyun--roster.png`: LIFE / SPEED are the same sans. `screens/stage6-play.png`: "HORSE 20" is light grey sans on the gold plate. On a Pixel 7 this becomes about 6 CSS px.
 - Root cause: `liveStyle()` (`src/game/ui/type.ts`) selects BODY_STACK below DISPLAY_MIN_SIZE. The callers pass 7: `src/game/scenes/ResultScene.ts:186` (chip label), `src/game/scenes/SelectScene.ts:127-128` (stat rows), and `src/game/ui/hudlayout.ts:21` META_ROW size 7.
 
-### V-5 - Result chip row is not centred and the LIVES chip sits on the panel frame (S2, LAYOUT) - filed UIR-5
+### V-5 - Result chip row is not centred and the LIVES chip sits on the panel frame (S2, LAYOUT) - fixed (self-check)
 - Evidence: `screens/stage1-result.png`: the LIVES chip's left edge is on the parchment border. The gaps are 32 and 16 logical px, and the row spans x70-390 (centre 230, not 240).
 - Root cause: `src/game/scenes/ResultScene.ts:114-116` hard-codes x offsets -170, -76 and +60 with widths 62, 120 and 90, rather than laying out from the panel rect.
 
-### V-6 - Panel titles collide with their card's top frame (S2, LAYOUT) - filed UIR-5
+### V-6 - Panel titles collide with their card's top frame (S2, LAYOUT) - fixed (self-check)
 - Evidence: `crops/stage1-continue--dialog.png`: CONTINUE? crosses the gold top rule. `screens/stage1-result.png`: STAGE CLEAR! touches the top bar. By contrast, PAUSED (`crops/stage1-pause--dialog.png`) sits properly inside its identical card.
 - Root cause: `src/game/scenes/HudScene.ts:440` places CONTINUE? at y92 on a card centred at y123 (`HudScene.ts:351`), which is the card's top edge; PAUSED uses y120. `src/game/scenes/ResultScene.ts:98` places STAGE CLEAR! at y84 on the victory panel at y100.
 
-### V-7 - CONTINUE? title and countdown have no contrast on parchment (S2, COLOUR) - filed UIR-5
+### V-7 - CONTINUE? title and countdown have no contrast on parchment (S2, COLOUR) - fixed (self-check)
 - Evidence: `crops/stage1-continue--dialog.png`: flat #ffd700 title and a white "9" on cream. PAUSED on the same card has a dark stroke and reads cleanly.
 - Root cause: `src/game/scenes/HudScene.ts:440-448`: `liveStyle(22, {color:'#ffd700'})` and `liveStyle(30, {color:'#ffffff'})` without the stroke used at `HudScene.ts:461`.
 

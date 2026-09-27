@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 18:10 UTC - UIR-5 (attempt 1, panels - DONE)
+
+- Status before: UIR-5 TODO (V-5/V-6/V-7: uncentred result chip row
+  with LIVES on the border; CONTINUE? and STAGE CLEAR! titles colliding
+  with their gold frames; un-stroked title/countdown on parchment).
+- Work completed: hudlayout gains the shared composition
+  (CONTINUE_TEXT stack, RESULT_CHIP + resultChipRow() laid out from
+  the x70..410 panel band with even 20px gaps, centred); HudScene's
+  continue texts move inside the card (title y92->102, countdown
+  126->132) and take PAUSED's dark stroke; ResultScene's STAGE CLEAR!
+  drops 8px clear of the top bar and the chip row uses the shared
+  layout. TDD: UIR-5 block in test/game/hudlayout.test.ts (title
+  insets >=4px + disjoint stack, chip centre within 1px, no chip
+  crosses the frame).
+- Files changed: src/game/ui/hudlayout.ts, src/game/scenes/{HudScene,
+  ResultScene}.ts, test/game/hudlayout.test.ts, TASKS.md, PROGRESS.md,
+  docs/UI_REVIEW_LEDGER.md (V-5/V-6/V-7 fixed self-check).
+- Verification run: lint 0; tsc 0; unit 654/654 + 1 skipped (+2 new
+  pins); review capture after; browser gates: E2E=0 (79), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Delegated re-review: V-5 FIXED (row centred, even gaps, chips inside frame) | V-6 FIXED (titles dropped clear of frames) | V-7 FIXED (title + countdown carry the dark stroke) - delegated review with the before state confirmed.
+- Result: UIR-5 acceptance met.
+- Status after: UIR-5 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-6..11.
+- Next recommended task: UIR-6 (touch d-pad chevrons).
+
+
 ### 2026-09-27 17:05 UTC - UIR-4 (attempt 1, label typography - DONE)
 
 - Status before: UIR-4 TODO (V-4: liveStyle(7) falls to the generic

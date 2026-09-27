@@ -6,21 +6,25 @@ import {
   BANNER,
   CHIP,
   COMBO,
+  CONTINUE_TEXT,
   GO,
   MEDAL,
   PEARL,
   PLATE,
   RAIL,
   RAIL_BAR,
+  RESULT_CHIP,
   SCORE,
   STAGE_LABEL,
   WARNING_BANNER_DROP,
   bossSegments,
   decayGhost,
   mirrorX,
+  resultChipRow,
   playerSegments,
   slotFor,
 } from '../../src/game/ui/hudlayout'
+import { DIALOG_TEX } from '../../src/game/art/flowart'
 
 const onScreen = (r: { x: number; y: number; w: number; h: number }): void => {
   expect(r.x).toBeGreaterThanOrEqual(0)
@@ -151,5 +155,40 @@ describe('UIR-2 WARNING banner clears the boss rail (V-2)', () => {
   it('stage banners keep their current look (unchanged position)', () => {
     const plain = titleSpanAt(BANNER.y)
     expect(plain[0]).toBeLessThan(railSpan[1])
+  })
+})
+
+/**
+ * UIR-5 (V-5/V-6/V-7): the continue and result panels. Titles must lie
+ * within their card/panel inset by >= 4px (the CONTINUE? title used to
+ * sit ON the dialog's gold top rule; STAGE CLEAR! touched the panel's),
+ * the result chip row is centred on the panel and no chip crosses its
+ * frame (the row used to span x70-390, centre 230, LIVES on the
+ * border), and the continue texts keep PAUSED's dark stroke.
+ */
+describe('UIR-5 panel titles and chip rows (V-5/V-6/V-7)', () => {
+  it('the continue dialog texts lie inside the card inset by >= 4px', () => {
+    const cardTop = 123 - DIALOG_TEX.height / 2
+    const cardBottom = 123 + DIALOG_TEX.height / 2
+    // Title (22px), countdown (30px), hint (10px): half-extents cover the
+    // font's ascender/descender slack.
+    const spans: Array<readonly [number, number]> = [
+      [CONTINUE_TEXT.titleY - 11, CONTINUE_TEXT.titleY + 11],
+      [CONTINUE_TEXT.countdownY - 15, CONTINUE_TEXT.countdownY + 15],
+      [CONTINUE_TEXT.hintY - 5, CONTINUE_TEXT.hintY + 5],
+    ]
+    for (const [top, bottom] of spans) {
+      expect(top).toBeGreaterThanOrEqual(cardTop + 4)
+      expect(bottom).toBeLessThanOrEqual(cardBottom - 4)
+    }
+    // Title and countdown stay disjoint too.
+    expect(spans[0]![1]).toBeLessThan(spans[1]![0])
+  })
+
+  it('the result chip row is centred and inside the panel frame', () => {
+    const row = resultChipRow()
+    expect(Math.abs((row.left + row.right) / 2 - SCREEN_WIDTH / 2)).toBeLessThanOrEqual(1)
+    expect(row.left).toBeGreaterThanOrEqual(RESULT_CHIP.panelX0)
+    expect(row.right).toBeLessThanOrEqual(RESULT_CHIP.panelX1)
   })
 })

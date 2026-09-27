@@ -5,6 +5,7 @@ import { audio } from '../audio/sfx'
 import { TITLE_THEME } from '../audio/music'
 import { addVignette } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
+import { RESULT_CHIP, resultChipRow } from '../ui/hudlayout'
 import { CHIP_PLATE_TEX, VICTORY_TEX, ensureFlowArt } from '../art/flowart'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
@@ -93,9 +94,10 @@ export class ResultScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setDisplaySize(VICTORY_TEX.width, VICTORY_TEX.height)
 
-    // Title with a second accent line.
+    // Title with a second accent line. UIR-5 (V-6): dropped 8px clear of
+    // the panel's gold top rule - it used to touch it.
     this.add
-      .text(SCREEN_WIDTH / 2, 84, 'STAGE CLEAR!', {
+      .text(SCREEN_WIDTH / 2, 92, 'STAGE CLEAR!', {
         ...liveStyle(28, { color: '#ffd700', bold: true, stroke: '#8b6a00', strokeThickness: 3 }),
       })
       .setOrigin(0.5)
@@ -108,12 +110,14 @@ export class ResultScene extends Phaser.Scene {
     }
 
     // Score / time / lives as parchment-kit chips. Each chip owns its caption,
-    // plate and value, and the widths keep all three plates inside the dialog
-    // panel (x 70..410) - the TIME plate used to run past its right edge.
-    const chipY = 156
-    drawChip(this, SCREEN_WIDTH / 2 - 170, chipY, 62, 'LIVES', `${data.lives ?? 0}`)
-    const scoreValue = drawChip(this, SCREEN_WIDTH / 2 - 76, chipY, 120, 'SCORE', '0')
-    drawChip(this, SCREEN_WIDTH / 2 + 60, chipY, 90, 'TIME', `${seconds}s`)
+    // plate and value. UIR-5 (V-5): the row is laid out from the panel band
+    // (x 70..410) with even gaps and centred - the old hard-coded offsets
+    // spanned x70-390 (centre 230) and parked the LIVES chip on the border.
+    const chipY = RESULT_CHIP.y
+    const row = resultChipRow()
+    drawChip(this, row.lefts[0]!, chipY, RESULT_CHIP.widths[0]!, 'LIVES', `${data.lives ?? 0}`)
+    const scoreValue = drawChip(this, row.lefts[1]!, chipY, RESULT_CHIP.widths[1]!, 'SCORE', '0')
+    drawChip(this, row.lefts[2]!, chipY, RESULT_CHIP.widths[2]!, 'TIME', `${seconds}s`)
     this.tweens.addCounter({
       from: 0,
       to: score,

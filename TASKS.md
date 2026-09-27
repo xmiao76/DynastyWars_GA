@@ -905,7 +905,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-5 - Continue and result panels: fit titles, centre chips, add contrast
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-5, V-6, V-7 (S2)
 - Evidence: artifacts/review/latest/screens/stage1-result.png (LIVES
   chip on the parchment border; row spans x70-390, centre 230 not 240;
@@ -924,16 +925,18 @@ Add future enhancement tasks below this heading.
   frame. The CONTINUE? title and countdown get the dark stroke PAUSED
   uses.
 - Acceptance criteria:
-  1. A unit or spec check shows that the title bounds lie within the
-     card's panelRect inset by at least 4px, that the chip row's centre
-     is within 1px of the panel's centre, and that no chip crosses the
-     panel's frame.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] A unit check shows the title bounds lie within the card's
+        panelRect inset by at least 4px (CONTINUE_TEXT stack vs the
+        184x96 dialog at cy 123; title and countdown disjoint), that
+        the chip row's centre is within 1px of the panel's centre and
+        no chip crosses the frame (resultChipRow() laid out from the
+        x 70..410 band with even 20px gaps - test/game/hudlayout.test
+        .ts UIR-5 block; the old row spanned x70-390, centre 230).
+  - [x] After npm run review:capture the continue and result panels
+        re-reviewed (FIXED - continue title fully below the gold rule with the dark stroke (countdown too), result title clear of the top bar, chip row centred with even gaps and LIVES off the border; matches PAUSED (delegated, before state confirmed in previous/)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 654/654,
+        e2e 79, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: the panel textures, or the countdown logic.
 
 ### UIR-6 - Point the touch d-pad chevrons outward
