@@ -941,7 +941,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-6 - Point the touch d-pad chevrons outward
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-10 (S2)
 - Evidence: artifacts/review/latest/screens/phone-portrait-game.png -
   the up arm shows a down-chevron, left ">", right "<", down "^"
@@ -952,15 +953,16 @@ Add future enhancement tasks below this heading.
 - Affected screens: phone-landscape-game, phone-portrait-game.
 - Requirement: each arm's chevron points in the direction the arm moves.
 - Acceptance criteria:
-  1. A unit test on the painted sheet shows that the up arm's chevron
-     apex pixel is above its centre, and likewise for the other three
-     arms. After the recapture, the phone crop shows outward arrows.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] A unit test on the painted sheet shows each arm's chevron
+        pointing the way it moves (test/game/uir6-chevrons.test.ts:
+        the chevron's combined ink+gold pixels keep the tip at the arm
+        centre and the wings behind it - pinned failing first, the old
+        path read "wings not behind (inward -2.0px)" on every arm).
+  - [x] After npm run review:capture the phone crops show outward
+        arrows (FIXED - all four arms point outward in both phone frames (pixel-level ASCII-map confirmation by the reviewer; before state confirmed all four inward)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 655/655,
+        e2e 79, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: the button layout, or the hit areas.
 
 ### UIR-7 - Ask portrait phone players to rotate

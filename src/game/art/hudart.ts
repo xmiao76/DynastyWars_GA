@@ -484,12 +484,15 @@ export function paintTouchControls(ctx: Ctx, s: number, geo: TouchGeometry): voi
     ctx.translate(cx, cy)
     ctx.rotate(angle)
     ctx.beginPath()
-    ctx.moveTo(-2.4, -3.4)
-    ctx.lineTo(0, -1)
-    ctx.lineTo(2.4, -3.4)
-    ctx.lineTo(2.4, -2.4)
+    // UIR-6 (V-10): the tip sits at the arm centre and the wings trail
+    // BEHIND (positive y), so angle 0 points up - the old path had its
+    // apex at +y, so every arm's chevron pointed the way it came FROM.
+    ctx.moveTo(-2.4, 3.4)
+    ctx.lineTo(0, 1)
+    ctx.lineTo(2.4, 3.4)
+    ctx.lineTo(2.4, 2.4)
     ctx.lineTo(0, 0)
-    ctx.lineTo(-2.4, -2.4)
+    ctx.lineTo(-2.4, 2.4)
     ctx.closePath()
     ctx.fill()
     ctx.stroke()

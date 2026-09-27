@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-27 19:20 UTC - UIR-6 (attempt 1, d-pad chevrons - DONE)
+
+- Status before: UIR-6 TODO (V-10: every d-pad chevron pointed
+  inward - hudart's chevron path had its apex at +y while the call
+  angles assumed -y).
+- Work completed: flipped the chevron path (tip at the arm centre,
+  wings trailing behind; angle 0 points up). TDD: test/game/uir6-
+  chevrons.test.ts measures the chevron's combined ink+gold pixels
+  per arm (tip at the centre plane, wings inward by >=1px) - pinned
+  failing first ("wings not behind (inward -2.0px)" on every arm),
+  green after. Debug findings recorded: the chevron is a 1u band
+  whose 0.8u ink stroke nearly covers its gold core, so the shape
+  reads as an ink arrow; the test measures the combined shape and
+  the ink match is tight (20,15,20 +/-8 - the lacquer's dark stop
+  22,16,32 must not leak into the centroid).
+- Files changed: src/game/art/hudart.ts, test/game/uir6-chevrons.test.ts
+  (new), TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-10 fixed
+  self-check).
+- Verification run: lint 0; tsc 0; unit 655/655 + 1 skipped (+1 new
+  pin); review capture after; browser gates: E2E=0 (79), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Delegated re-review: V-10 FIXED (up/down/left/right all OUTWARD in landscape + portrait; before state confirmed all four INWARD; one non-defect note: the down caret is slightly skewed at AA scale).
+- Result: UIR-6 acceptance met.
+- Status after: UIR-6 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-7..11.
+- Next recommended task: UIR-7 (rotate-your-phone overlay).
+
+
 ### 2026-09-27 18:10 UTC - UIR-5 (attempt 1, panels - DONE)
 
 - Status before: UIR-5 TODO (V-5/V-6/V-7: uncentred result chip row
