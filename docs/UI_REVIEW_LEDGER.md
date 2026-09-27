@@ -10,6 +10,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Date: 2026-09-26. Commit: `3fd3b32`. Capture: `npm run review:capture`, 59 screens, canvas + WebGL + Pixel 7 portrait/landscape.
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
 - Next review due when `git rev-list --count 3fd3b32..HEAD -- src/game` >= 4.
+- **DUE NOW (owner flag 2026-09-26):** a full review including the first section 2a anatomy pass, for V-14. It is due whatever the commit count, and the next producer pass runs it before other work.
 
 ## Coverage (deep-dive rotation)
 
@@ -19,7 +20,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 | HUD & overlays | 2026-09-26 |
 | stage flow screens | 2026-09-26 |
 | all nine stages | 2026-09-26 |
-| characters (movesheets, motion) | never (BODY track owns it; sheets not opened this pass) |
+| characters (movesheets, motion) | never (BODY track owns it; sheets not opened this pass) - MISSED V-14; anatomy pass due now |
 | phone | 2026-09-26 |
 | WebGL | 2026-09-26 (sheet level only) |
 
@@ -94,6 +95,21 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
+### V-14 - Arm, wrist, hand and grip joins look wrong on every fighter (S1/S2, ASSET+DEPTH+STATE) - open, owner-flagged; anatomy pass due
+- Owner report 2026-09-26: "every character's arm position, arm connection to the body, connection to the hand, and the hand's connection to the weapons are not right". The 2026-09-26 review missed it (see VISUAL_REVIEW.md "Why the first art-director review still missed the arms").
+- Seed evidence (a spot check, not the full pass), from `anatomy/zhaoyun.png`, `anatomy/guanyu.png`, `anatomy/lubu.png` and the matching `-xray` sheets at `09d7d06`:
+  - J4: the hands are flat cream or pink mitten icons with no fingers, unlike the painted face and sleeve on every fighter.
+  - J3: in idle, walk and hurt, zhaoyun's near hand hangs at hip level on the haft with no visible forearm leading to it. The x-ray shows the elbow-to-hand segment passing over the torso, so the hand reads as floating.
+  - J5/J7: in attack and thrust the haft lies ON TOP of the far fist and the cuff bands. The fists sit beside the haft rather than around it, and the weapon is drawn over the arm holding it.
+  - J6: in attack, thrust and chop both arms run parallel under the haft like rails.
+  - J1: the painted sleeve never meets the pauldron; the arm reads as pasted onto the torso.
+- Likely root causes, to be confirmed by the pass:
+  - Hand cells: `scripts/prepare-body-parts.mjs` (hand painter) and `src/game/art/hand-parts.ts`.
+  - Weapon draw order against the near forearm: `src/game/art/draw.ts:686-880`, `weaponOrProcedural()` at `:880`.
+  - Pose arm geometry: `src/game/art/poses.ts` and `weaponPose` in `src/game/art/weapons.ts:161`.
+  - Cell caps at the joints: `src/game/art/body-parts.ts`.
+- Next: the producer runs the full section 2a pass on all 17 fighters, fills the anatomy table, splits V-14 by root cause and files UIR tasks. Previous DISMISSED entries in `docs/CHARACTER_REVIEW.md` ("rear fist floats", "detached off-hand", "off-hand gap") must be re-judged by pixels.
+
 ## UIR batch 1 - FILED (reviewed 2026-09-26 at 3fd3b32; filed 2026-09-27)
 
 The next producer pass files these into TASKS.md Enhancements verbatim, after first confirming on a fresh capture that each finding still reproduces (drop any that do not). Then it changes each finding's status to `filed UIR-n` and this heading to FILED.
@@ -132,7 +148,15 @@ Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 2).
 
 ## Known blind spots (checked by every review)
 
-- (none yet: add one each time the owner flags something a review passed)
+1. 2026-09-26, owner: **arm, shoulder, wrist, hand and grip joins on every fighter** (V-14). The first review never opened a character sheet. Every review now runs the section 2a anatomy pass (J1-J8) on the `anatomy/` sheets, and no metric can dismiss what the image shows.
+
+## Anatomy verdicts (section 2a; one row per fighter, rewritten each full review)
+
+Each join is `ok` or `V-n`. Moves checked: idle, attack, thrust, windup, special (plus any move where the clean-sheet first look flagged something).
+
+| Fighter | J1 shoulder | J2 elbow | J3 wrist | J4 hand | J5 grip | J6 pose | J7 layering | J8 same body | Reviewed |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| (all 17) | - | - | - | - | - | - | - | - | never: first anatomy pass is due now (V-14) |
 
 ## Harness backlog
 

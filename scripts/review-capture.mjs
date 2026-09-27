@@ -18,4 +18,11 @@ const r = spawnSync(
   ['node_modules/@playwright/test/cli.js', 'test', '--project=chromium', 'e2e/ui-review.spec.ts', '--workers=1'],
   { stdio: 'inherit', env: { ...process.env, UI_REVIEW: '1' } },
 )
-process.exit(r.status ?? 1)
+if ((r.status ?? 1) !== 0) process.exit(r.status ?? 1)
+// Section 2a: per-fighter anatomy sheets (clean + x-ray) at 4x, every move.
+const a = spawnSync(
+  process.execPath,
+  ['node_modules/vitest/vitest.mjs', 'run', 'test/game/anatomy-review.test.ts'],
+  { stdio: 'inherit', env: { ...process.env, REVIEW_ANATOMY: '1' } },
+)
+process.exit(a.status ?? 1)

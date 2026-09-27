@@ -39,8 +39,10 @@ Renderer parity matters because the game ships WebGL, not just the test canvas.
    or a review is due (section 7), or a finding is `fixed` and still unverified,
    then run `npm run review:capture` and review the captured PNGs with the image
    tool, following sections 2-3: contact sheets first, then the screens and crops,
-   then the Known blind spots checklist. Metrics and inventory are hints only.
-   The pass must:
+   then the section 2a anatomy pass on the `anatomy/` sheets (clean sheet before
+   x-ray, joins J1-J8, the ledger's anatomy table filled in), then the Known
+   blind spots checklist. Metrics and inventory are hints only, and a metric
+   never dismisses a defect the image shows. The pass must:
    - re-check each `fixed` finding (section 6) and mark it `verified` or `reopened`;
    - record new findings as `V-n` with evidence, severity and a `file:line` root cause;
    - update the scoreboard and the coverage table.

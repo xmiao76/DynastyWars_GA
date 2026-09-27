@@ -33,6 +33,31 @@ This review covers the whole game as a player sees it.
 - The same iteration that implemented a fix graded it. No later pass
   re-checked it.
 
+### Why the first art-director review still missed the arms (owner catch, 2026-09-26)
+
+The owner saw at once that every fighter's arm placement, shoulder, wrist and
+hand-to-weapon joins look wrong. The 2026-09-26 review scored nothing about it.
+The causes are in the process:
+
+- **Out of scope by ownership.** The review marked characters "BODY track
+  owns it" and never opened a character sheet. The BODY track itself reviewed
+  shape, not joins. A defect that no review owns is never seen.
+- **Wrong zoom.** Actors are about 55 logical px tall, and the hero crop was a
+  2x frame with a crate over the legs. Joins are 2-4 px features there.
+- **Wrong questions.** R6 said "anatomy, hands, weapon", which is one word each.
+  A human checks a list of joins: does the sleeve meet the shoulder, the cuff
+  the wrist, the fist the haft?
+- **Accepted metrics over eyes.** Earlier character reviews DISMISSED "floating
+  fist" and "detached off-hand" notes because `gripDist` was 0 or the hand
+  overlapped the forearm. A geometric overlap is not a visual join. What
+  counts is what the pixels show.
+- **Blind to the house style.** Every pass compared the art only with the last
+  pass. None asked whether the cream mitten hands, the flat haft over a painted
+  sleeve, or a cuff that ends in mid-air ever looked right. Once an error is
+  everywhere, it reads as the house style.
+- **Arm-zoom windows cropped hands out.** The old movesheet window is
+  chest-relative, so extended hands leave the frame and cannot be judged.
+
 ## 1. Capture (auto-test)
 
 ```
@@ -53,6 +78,7 @@ pair. The run writes:
 | `sheet-flow.png`, `sheet-stages.png`, `sheet-platform.png` | Contact sheets, for cross-screen consistency and quick regression glances. |
 | `inventory/<id>.json` | The live scene graph of each capture. Records type, name, texture key, text, font, size, colour, logical bounds, depth, alpha and visibility. This maps a pixel to the object and the line that made it. |
 | `manifest.json` | Screen id, file, state (scene, stage, hero, phase, hp), review focus, crops, renderer, viewport. Also holds automatic layout suspects and the capture timestamp and commit. |
+| `anatomy/<id>.png`, `anatomy/<id>-xray.png` | Every fighter in every movement, at 4x in windows centred on the arm chain. One is the clean art; the other is the art dimmed with the skeleton, joint markers and weapon axis on top (section 2a). Written by `test/game/anatomy-review.test.ts` as the second capture step. |
 
 Layout suspects are hints, not a gate. They cover text below 8 logical px,
 visible objects extending off-screen, overlapping visible text boxes, and
@@ -107,6 +133,58 @@ review from the manifest or inventory alone.
    label is about 6 CSS px. Judge WebGL frames against their canvas twins.
 5. **Motion.** When the change or the area touches movement or transitions,
    open the motion sheets or clips. Judge sequences of frames, not one still.
+6. **Characters: the anatomy pass (section 2a).** It is mandatory in every
+   full review, whoever owns the character code. Owning a fix does not exempt
+   an area from being looked at.
+
+### 2a. Anatomy pass: look at a fighter the way a figure-drawing teacher would
+
+Material: `anatomy/<id>.png` (clean) and `anatomy/<id>-xray.png` (the same art
+dimmed, with the skeleton on top: shoulder `o`, elbow `+`, hand `x`, far arm
+cyan, near arm yellow, weapon axis magenta). There is one sheet per fighter,
+covering every movement, at 4x in windows centred on the arm chain.
+
+1. **Clean sheet first.** For each fighter, look at the clean sheet before the
+   x-ray. Write down which windows look wrong to an ordinary person, and why,
+   in one line each. Do not look for explanations yet.
+2. **The join checklist.** For each hero, each boss, and at least one mook,
+   check these joins in idle, attack, thrust, windup and special. Each gets
+   `ok` or a finding:
+   - **J1 Shoulder:** the upper sleeve starts AT the shoulder, under the
+     pauldron or collar. There is no gap, no step, and no arm growing out of
+     the chest or back.
+   - **J2 Elbow:** the upper arm and forearm meet as one limb. There is no
+     visible seam, no width jump, and the joint does not bend backwards.
+   - **J3 Wrist:** the cuff or forearm flows into the hand. There is no bare
+     cut, no floating hand, and the hand is not rotated against the forearm.
+   - **J4 Hand:** it looks like a hand in this art style. The skin tone and
+     painting match the face, the size is about the face's length, and it has
+     fingers, not a flat cream mitten or an icon.
+   - **J5 Grip:** the fingers visibly wrap the haft. The haft passes THROUGH
+     the fist and does not lie on top of it or beside it. Both hands sit on the
+     haft line for two-handed weapons, and the weapon does not float.
+   - **J6 Arm pose:** the placement is plausible for the move. The arms are
+     not both parallel to the haft like rails, they do not cross the face, and
+     the far arm is not hidden behind or passing through the torso.
+   - **J7 Layering:** near-arm parts are over the torso and weapon where a real
+     body would be, and far-arm parts are behind them. The weapon is not drawn
+     over the forearm that holds it.
+   - **J8 Same body:** the arm, hand and torso share one lighting direction,
+     one level of detail and one resolution.
+3. **Use the x-ray only for root cause.** Use it to separate a skeleton or pose
+   problem (the joint markers are in the wrong place) from a cell or art problem
+   (markers are right but the paint does not cover or meet them), and from a
+   draw-order problem.
+4. **Pixels overrule metrics.** A finding stands if the image shows it, even
+   when a geometric check passes (for example `gripDist` 0 or a hand
+   overlapping the forearm). Never dismiss a visual join defect with a number.
+   Quote the image instead.
+5. **Compare with a reference.** Hold the clean sheet next to
+   `screens/title.png` and the hero's painted portrait. A cream mitten on a
+   painted forearm is S2 even if every character has one. A defect common to
+   all fighters is ONE finding with a cast-wide scope, not "house style".
+6. **Record** the verdict for each fighter in the ledger's anatomy table:
+   every join J1-J8, `ok` or `V-n`.
 
 ### Rubric: score every screen 1–5 on each dimension
 
@@ -117,7 +195,7 @@ review from the manifest or inventory alone.
 | R3 | Typography | Legible at gameplay size and on the phone. Consistent families, sizes and weights, with a clear hierarchy. English and 中文 pairs set together cleanly. No tofu or fallback fonts, no text overflowing its panel. |
 | R4 | Colour & contrast | Stays within the THEME palette. Text contrast is enough on its real background, with no muddy or flat areas. Light comes from the upper left, per `BODY_STYLE_GUIDE.md`. |
 | R5 | Art consistency | One style everywhere: restrained painted semi-realism, the same outline weight and detail density. No vector-looking or mismatched-resolution assets. Scale is consistent between characters, props, panels and backdrop. |
-| R6 | Characters in scene | Appearance per `CHARACTER_REVIEW.md` (anatomy, hands, weapon, proportion). Characters read against the backdrop and are grounded, with feet on the ground and shadows. Facing and z-order are sane. |
+| R6 | Characters in scene | The section 2a join checklist, J1-J8, is passed for the fighters on this screen. Characters read against the backdrop and are grounded, with feet on the ground and shadows. Facing and z-order are sane. A screen cannot score R6 above the lowest anatomy verdict of the fighters in it. |
 | R7 | Motion & feedback | Tweens, banners, hits and state changes feel deliberate. Nothing pops, jitters, lingers or arrives too fast to read. |
 | R8 | Information & usability | HP, lives, score, wave and what to press are obvious. Prompts match the device (keyboard, touch or gamepad). Pause, continue and low HP read instantly. |
 | R9 | Platform | Phone portrait and landscape work: controls do not cover the action and text stays readable. WebGL matches canvas. |
@@ -250,7 +328,14 @@ A finding reopened twice becomes an owner question.
 - **When a review is due:** a review is due when at least 4 commits touching
   `src/game` exist since the ledger's "Last full review" commit, checked
   with `git rev-list --count <commit>..HEAD -- src/game`, or when the ledger
-  has no full review at all.
+  has no full review at all. A review is also due at once when the ledger's
+  "Last full review" section carries a **DUE NOW** line, which is added after
+  an owner flag or a miss analysis. The review that handles that flag removes
+  the line.
+- **Characters every time:** the section 2a anatomy pass runs in EVERY full
+  review for the fighters whose art, poses or draw code changed since the
+  last review, and for all 17 fighters at least every other full review. It
+  is not part of the deep-dive rotation, and it cannot be skipped.
 - **Deep-dive rotation:** every full review covers all contact sheets. In
   detail it covers at least one rotation area, choosing the one
   least-recently deep-reviewed in the ledger's coverage table:
@@ -279,5 +364,23 @@ something a review passed, three things happen:
    later review explicitly checks that list.
 3. The capture gains a screen or crop if the defect was not visible in any
    capture.
+4. **Miss analysis.** Write down why the review missed it: out of scope,
+   wrong zoom, wrong question, metric trusted over pixels, or an error so
+   common it read as house style. Then fix that cause in this document, not
+   just the one defect. Every miss must leave this procedure harder to fool.
+   The first worked example is "Why the first art-director review still missed
+   the arms" in the opening section.
 
 The loop learns what this owner cares about instead of repeating the miss.
+
+### Standing rules from past misses
+
+- Ownership is not coverage. Every full review looks at every area, and an
+  area owned by another track still gets findings, filed as `deferred
+  <track>` with evidence.
+- Pixels overrule metrics. A number never dismisses a defect the image shows.
+- Something wrong everywhere is still a defect. Judge against a reference
+  (the title key art, the portraits, how a real body looks), never only
+  against the previous capture.
+- Judge features at the size where they are visible. Joins, faces and small
+  type need 4x crops. A 2x screen is only enough for layout.
