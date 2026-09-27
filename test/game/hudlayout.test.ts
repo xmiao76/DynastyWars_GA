@@ -14,6 +14,7 @@ import {
   RAIL_BAR,
   SCORE,
   STAGE_LABEL,
+  WARNING_BANNER_DROP,
   bossSegments,
   decayGhost,
   mirrorX,
@@ -127,5 +128,28 @@ describe('UIR-1 HUD centre column never shares pixels (V-1)', () => {
   it('the column stays inside its 40px centre band', () => {
     expect(stageSpan[0]).toBeGreaterThanOrEqual(0)
     expect(chipSpan[1]).toBeLessThanOrEqual(40)
+  })
+})
+
+/**
+ * UIR-2 (V-2): the boss WARNING banner must read while the boss rail is
+ * up. It used to sit at BANNER.y behind the rail band (40..58) and only
+ * its subtitle showed. The fix drops the WARNING variant
+ * (WARNING_BANNER_DROP) so the banner's title clears the rail's bounds
+ * - nothing is covered, keeping the banner's "never covers a persistent
+ * readout" rule. Stage banners keep their position.
+ */
+describe('UIR-2 WARNING banner clears the boss rail (V-2)', () => {
+  const railSpan = [RAIL.y, RAIL.y + RAIL.h] as const
+  // The title sits at -8 in the banner container (HudScene.raiseBanner).
+  const titleSpanAt = (containerY: number): readonly [number, number] =>
+    [containerY - 18, containerY + 2]
+  it('the WARNING title band does not intersect the rail band', () => {
+    const warn = titleSpanAt(BANNER.y + WARNING_BANNER_DROP)
+    expect(warn[0]).toBeGreaterThanOrEqual(railSpan[1])
+  })
+  it('stage banners keep their current look (unchanged position)', () => {
+    const plain = titleSpanAt(BANNER.y)
+    expect(plain[0]).toBeLessThan(railSpan[1])
   })
 })

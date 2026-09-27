@@ -533,7 +533,7 @@ export class GameScene extends Phaser.Scene {
       // only - autopilot keeps its deterministic frames.
       if (event.type === 'spawn' && event.kind === this.sim.stage.bossKind) {
         const bossDef = enemyByKind(event.kind)
-        this.hud.showBanner('WARNING', `${bossDef.nameEn} ${bossDef.nameZh}`, 0xd33a3a, 1_200)
+        this.hud.showBanner('WARNING', `${bossDef.nameEn} ${bossDef.nameZh}`, 0xd33a3a, 1_200, true)
         if (!this.bridge.autopilot) this.cameras.main.flash(180, 178, 28, 28)
       }
       if (event.type === 'stageclear' && this.clearMsLeft < 0) {

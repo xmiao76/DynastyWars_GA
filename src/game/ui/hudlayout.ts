@@ -56,6 +56,15 @@ export const GO = { w: 44, h: 14, x: SCREEN_WIDTH - 58, y: 114 } as const
 /** Stage/boss nameplate banner, slid under the band. */
 export const BANNER = { y: 56, w: 320, h: 44 } as const
 
+/**
+ * UIR-2 (V-2): the boss WARNING drops below the boss rail instead of
+ * hiding under it. The rail band is RAIL.y..RAIL.y+RAIL.h (40..58);
+ * +22 puts the banner's title (at -8 in the container) clear of it,
+ * so the WARNING reads while the rail is up - and nothing is covered,
+ * keeping the banner's "never covers a persistent readout" rule.
+ */
+export const WARNING_BANNER_DROP = 22
+
 /** Combo readout position (the number; the 'HIT' suffix hugs its right). */
 export const COMBO = { x: SCREEN_WIDTH / 2, y: 78 } as const
 

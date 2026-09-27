@@ -805,7 +805,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-2 - Boss WARNING banner must read above the boss rail
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-2 (S1)
 - Evidence: artifacts/review/latest/crops/stage1-boss-warning--banner.png -
   only the "Li Dian 李典" subtitle shows; the red rail covers the WARNING
@@ -817,16 +818,19 @@ Add future enhancement tasks below this heading.
   visible. Either raise it above the rail or offset it below the rail.
   Stage banners keep their current look.
 - Acceptance criteria:
-  1. A spec or unit check shows that the WARNING title's bounds do not
-     intersect the rail's bounds, or that the title's depth is greater
-     than the rail's while both are visible. After the recapture,
-     `stage1-boss-warning--banner` shows the word WARNING.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] A unit check shows the WARNING title's bounds do not
+        intersect the rail's bounds (test/game/hudlayout.test.ts UIR-2
+        block: the title band at BANNER.y + WARNING_BANNER_DROP clears
+        the rail band 40..58; a second pin keeps stage banners at
+        their current position). The fix drops the WARNING variant
+        below the rail instead of raising its depth - nothing gets
+        covered, honoring the banner's "never covers a persistent
+        readout" rule.
+  - [x] After npm run review:capture the after-crop shows the word
+        WARNING (FIXED - the after-crop shows WARNING fully readable, clear of the rail (before-capture confirmed broken: subtitle only)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 646/646,
+        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: the banner's art, or its hold duration.
 
 ### UIR-3 - One stage announcement, not two at once

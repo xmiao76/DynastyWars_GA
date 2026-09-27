@@ -80,6 +80,8 @@ interface PendingBanner {
   subtitle: string
   color: number
   holdMs: number
+  /** UIR-2: the boss WARNING drops below the rail band (V-2). */
+  belowRail?: boolean
 }
 
 type ArcadeBar = ReturnType<typeof makeArcadeBar>
@@ -172,8 +174,8 @@ export class HudScene extends Phaser.Scene {
    * you read it; the boss warning snaps off at 1.2s so it cannot mask the
    * first exchange of the fight.
    */
-  showBanner(title: string, subtitle: string, color: number, holdMs = BANNER_HOLD_MS): void {
-    this.banners.push({ title, subtitle, color, holdMs })
+  showBanner(title: string, subtitle: string, color: number, holdMs = BANNER_HOLD_MS, belowRail = false): void {
+    this.banners.push({ title, subtitle, color, holdMs, belowRail })
   }
 
   update(): void {
@@ -671,11 +673,13 @@ export class HudScene extends Phaser.Scene {
    * covers a persistent readout; above the vignette (9_000) and the touch
    * controls (9_500), it still reads as being over the battlefield.
    */
-  private raiseBanner({ title, subtitle, color, holdMs }: PendingBanner): void {
+  private raiseBanner({ title, subtitle, color, holdMs, belowRail }: PendingBanner): void {
     const variant = color === RED ? 'red' : 'gold'
     const key = variant === 'red' ? 'hud:banner:red' : 'hud:banner:gold'
+    // UIR-2 (V-2): the boss WARNING drops below the rail band so its
+    // title reads while the rail is up - it used to hide behind the rail.
     const container = this.add
-      .container(SCREEN_WIDTH / 2, L.BANNER.y)
+      .container(SCREEN_WIDTH / 2, L.BANNER.y + (belowRail === true ? L.WARNING_BANNER_DROP : 0))
       .setDepth(9_800)
       .setAlpha(0)
       .setName('stageBanner')
