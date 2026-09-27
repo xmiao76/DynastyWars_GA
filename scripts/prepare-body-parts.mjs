@@ -78,11 +78,11 @@ function fistPath(c) {
   c.bezierCurveTo(-1.0, -2.85, 1.2, -3.05, 2.7, -2.85)
   c.lineTo(3.5, -2.75)
   // Knuckle ridge into the finger block: three bumps, two DEEP notches
-  // (0.9u, so digit grouping survives to 20px).
+  // (1.2u, so digit grouping reads at 4x - UIR-12).
   c.quadraticCurveTo(4.7, -2.5, 5.3, -1.9)
-  c.quadraticCurveTo(4.25, -1.2, 4.7, -0.65)
+  c.quadraticCurveTo(3.95, -1.2, 4.4, -0.65)
   c.quadraticCurveTo(5.5, -0.3, 5.55, 0.2)
-  c.quadraticCurveTo(4.3, 0.7, 4.85, 1.25)
+  c.quadraticCurveTo(4.0, 0.7, 4.55, 1.25)
   c.quadraticCurveTo(5.35, 1.85, 4.85, 2.3)
   // Fingers back into the palm, then the palm bottom to the wrist.
   c.bezierCurveTo(4.1, 2.8, 3.0, 2.9, 1.8, 2.85)
@@ -97,11 +97,12 @@ function relaxPath(c) {
   c.moveTo(-2.9, -2.0)
   c.bezierCurveTo(-1.0, -2.65, 0.6, -2.8, 1.9, -2.7)
   c.lineTo(2.6, -2.6)
-  // Finger group edge: three tips, two deep notches between them.
+  // Finger group edge: three tips, two deep notches between them
+  // (1.2u - UIR-12, matching the fist).
   c.quadraticCurveTo(4.15, -2.35, 5.15, -1.75)
-  c.quadraticCurveTo(4.1, -1.0, 4.55, -0.5)
+  c.quadraticCurveTo(3.8, -1.0, 4.25, -0.5)
   c.quadraticCurveTo(5.35, -0.1, 5.45, 0.4)
-  c.quadraticCurveTo(4.4, 0.9, 4.7, 1.4)
+  c.quadraticCurveTo(4.1, 0.9, 4.4, 1.4)
   c.quadraticCurveTo(5.15, 2.0, 4.55, 2.4)
   c.bezierCurveTo(3.4, 2.85, 1.6, 2.85, 0, 2.8)
   c.bezierCurveTo(-1.3, 2.75, -2.1, 2.45, -2.9, 2.0)
@@ -135,18 +136,31 @@ function formShade(c, kind, colors) {
   sg.addColorStop(1, colors.deepAlpha)
   c.fillStyle = sg
   c.fillRect(-4, 0, 10, 4)
-  // Finger separators: short creases running along the finger direction
-  // (+x), soft. (Long 45° diagonals read as claw scars at 20px - measured
-  // on the first cut of the cells.)
-  c.strokeStyle = colors.creaseAlpha
-  c.lineWidth = 0.38
-  c.lineCap = 'round'
-  const xs = kind === 'grip' ? 3.5 : 2.4
-  for (const y of [-1.15, 0.05, 1.15]) {
-    c.beginPath()
-    c.moveTo(xs, y - 0.12)
-    c.quadraticCurveTo(xs + 0.55, y + 0.1, xs + 1.15, y + 0.28)
-    c.stroke()
+  // Finger separators: LONG tapered creases from the knuckle zone to
+  // the finger edge (UIR-12: the old 1.15u soft runs read as a mitten at
+  // 4x). Two passes each - a wide soft bed plus a narrow dark core, both
+  // alpha-blended, never ink. They run along the finger direction (+x);
+  // long 45° diagonals still avoided (they read as claw scars).
+  const xs = kind === 'grip' ? 2.2 : 1.2
+  const xe = kind === 'grip' ? 4.6 : 3.6
+  for (const pass of [
+    { w: 0.55, style: colors.creaseAlpha },
+    { w: 0.34, style: colors.creaseCore },
+    // Light companion edge on the upper side of each separator, so the
+    // digits read rounded rather than striped (UIR-12 polish). Kept
+    // below the form bloom (creaseLight, not lightAlpha) so the modal
+    // skin tone stays inside the handparts match band.
+    { w: 0.3, style: colors.creaseLight, dy: -0.42 },
+  ]) {
+    c.strokeStyle = pass.style
+    c.lineWidth = pass.w
+    c.lineCap = 'round'
+    for (const y of [-1.15, 0.05, 1.15]) {
+      c.beginPath()
+      c.moveTo(xs, y - 0.1 + (pass.dy ?? 0))
+      c.quadraticCurveTo((xs + xe) / 2, y + 0.08 + (pass.dy ?? 0), xe, y + 0.24 + (pass.dy ?? 0))
+      c.stroke()
+    }
   }
   // Knuckle ridge line across the fist's top third (the curled fingers'
   // tops) and the fingertip highlights on the open hand.
@@ -185,6 +199,8 @@ function paintHandCell(c, kind, skin) {
     deepAlpha: far ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.46)',
     lightAlpha: far ? 'rgba(255,244,224,0.16)' : 'rgba(255,246,228,0.26)',
     creaseAlpha: far ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.22)',
+    creaseCore: far ? 'rgba(0,0,0,0.44)' : 'rgba(0,0,0,0.38)',
+    creaseLight: far ? 'rgba(255,244,224,0.12)' : 'rgba(255,246,228,0.18)',
     thumbShade: far ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.33)',
   }
   // Work in logical units, origin at the hand joint (cell center = pivot).
@@ -230,16 +246,28 @@ function paintHandCell(c, kind, skin) {
   c.fillStyle = base
   ellipse(c, isGrip ? 1.7 : 0.3, isGrip ? -2.75 : -2.5, isGrip ? 1.8 : 1.55, isGrip ? 1.0 : 0.95, -0.32)
   c.fill()
-  // Thumb's underside crease so it reads as a separate digit.
+  // Thumb's underside crease so it reads as a separate digit: a soft
+  // bed plus a darker core along a longer arc (UIR-12), then a light cap
+  // on the thumb's top.
   c.save()
   ellipse(c, isGrip ? 1.7 : 0.3, isGrip ? -2.75 : -2.5, isGrip ? 1.8 : 1.55, isGrip ? 1.0 : 0.95, -0.32)
   c.clip()
   c.strokeStyle = colors.thumbShade
   c.lineWidth = 0.5
+  c.lineCap = 'round'
   c.beginPath()
-  c.moveTo(-0.7, 0.35)
-  c.quadraticCurveTo(0, 0.75, 0.8, 0.5)
+  c.moveTo(-1.1, 0.3)
+  c.quadraticCurveTo(0, 0.8, 1.1, 0.45)
   c.stroke()
+  c.strokeStyle = colors.creaseCore
+  c.lineWidth = 0.3
+  c.beginPath()
+  c.moveTo(-0.7, 0.38)
+  c.quadraticCurveTo(0, 0.72, 0.75, 0.5)
+  c.stroke()
+  c.fillStyle = colors.lightAlpha
+  ellipse(c, isGrip ? 1.7 : 0.3, isGrip ? -3.15 : -2.9, isGrip ? 1.2 : 1.0, 0.42, -0.3)
+  c.fill()
   c.restore()
   formShade(c, isGrip ? 'grip' : 'relax', colors)
   // Soft shadow-side rim only (no ink outline anywhere).
@@ -766,7 +794,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-4',
+        revision: 'body-5',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },

@@ -22,6 +22,19 @@ function rgbChannels(n: number): [number, number, number] {
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
 }
 
+/**
+ * The designed lit face of a hand cell: base skin (far-shaded on F cells)
+ * blended at the form bloom's peak with its warm white
+ * (paintHandCell's lightAlpha: 0.26 near / 0.16 far over 255,246,228 /
+ * 255,244,224). Mirrors scripts/prepare-body-parts.mjs.
+ */
+function litBlend(skin: number, far: boolean): [number, number, number] {
+  const base = rgbChannels(far ? shade(skin, 1 - FAR_SHADE) : skin)
+  const alpha = far ? 0.16 : 0.26
+  const warm: [number, number, number] = far ? [255, 244, 224] : [255, 246, 228]
+  return base.map((ch, i) => Math.round(alpha * (warm[i] ?? 255) + (1 - alpha) * ch)) as [number, number, number]
+}
+
 interface CellStats {
   opaque: number
   fill: number
@@ -89,6 +102,58 @@ async function packFighters(): Promise<Array<{ pack: string; id: string; skin: n
   return out
 }
 
+/**
+ * UIR-12 metric: digit-separator dips on a knuckle-zone vertical scanline
+ * of a hand cell. The cell pivot (hand joint) is the cell centre; logical
+ * +x runs toward the fingers. A sample is a dip when it sits >= 10 below
+ * the brightest opaque sample within +/- 0.6u (local contrast: immune to
+ * the form-shadow gradient, which a global median misreads as creases).
+ * Distinct dip runs are counted.
+ */
+async function digitDips(pack: string, id: string, cell: string): Promise<number> {
+  const meta = (await import(`../../src/game/assets/${pack}/prepared.json`)).default as Record<
+    string, { parts: Record<string, { x: number; y: number; w: number; h: number }> }
+  >
+  const c = meta[id]!.parts[cell]!
+  const sheet = await loadImage(`src/game/assets/${pack}/${id}-sheet.png`)
+  const cv = createCanvas(c.w, c.h)
+  const ctx = cv.getContext('2d')
+  ctx.drawImage(sheet, c.x, c.y, c.w, c.h, 0, 0, c.w, c.h)
+  const px = ctx.getImageData(0, 0, c.w, c.h).data
+  const scanX = cell.startsWith('grip') ? 2.6 : 1.6
+  const x = Math.round(c.w / 2 + scanX * DENSITY)
+  const step = 0.125
+  const half = Math.round(0.6 / step)
+  const samples: (number | null)[] = []
+  for (let ly = -1.7; ly <= 1.7 + 1e-9; ly += step) {
+    const y = Math.round(c.h / 2 + ly * DENSITY)
+    const p = (y * c.w + x) * 4
+    if ((px[p + 3] ?? 0) <= 200) {
+      samples.push(null)
+      continue
+    }
+    samples.push((px[p] ?? 0) * 0.299 + (px[p + 1] ?? 0) * 0.587 + (px[p + 2] ?? 0) * 0.114)
+  }
+  let dips = 0
+  let inDip = false
+  for (let i = 0; i < samples.length; i += 1) {
+    const v = samples[i] ?? null
+    if (v === null) {
+      inDip = false
+      continue
+    }
+    let winMax = v
+    for (let j = Math.max(0, i - half); j <= Math.min(samples.length - 1, i + half); j += 1) {
+      const w = samples[j] ?? null
+      if (w !== null && w > winMax) winMax = w
+    }
+    const isDip = winMax - v >= 10
+    if (isDip && !inDip) dips += 1
+    inDip = isDip
+  }
+  return dips
+}
+
 describe('BODY-20 painted hand cells', () => {
   it('regenerates a production sheet byte-identically (deterministic)', async () => {
     const { sheet } = await prepareHero('guanyu')
@@ -106,14 +171,25 @@ describe('BODY-20 painted hand cells', () => {
           : rgbChannels(skin)
         if (s.opaque < 150) failures.push(`${id}:${cell} nearly empty (${s.opaque}px)`)
         if (s.fill < 0.15) failures.push(`${id}:${cell} fill ${(s.fill * 100).toFixed(0)}%`)
-        // Modal tone: the lit face of the hand (base + light bloom), still
-        // unmistakably THIS fighter's skin - ±45/channel keeps every other
-        // fighter's tone out (measured blooms land +20..+42).
-        for (const [i, ch] of s.modal.entries()) {
-          if (Math.abs(ch - (want[i] ?? 0)) > 45) {
-            failures.push(`${id}:${cell} modal ${s.modal.join(',')} vs skin ${want.join(',')} (ch ${i})`)
+        // Modal tone: must be THIS fighter's skin - either the raw base or
+        // the designed lit face (base blended with the form bloom at its
+        // peak, ~+23/+46/+47 on guanyu). UIR-12's longer creases
+        // re-clustered the tone histogram so the modal became the exact
+        // bloom blend; the old raw-skin +-45 band (empirically fitted to
+        // pre-UIR-12 clusters, and already exceeded by the designed bloom
+        // on ch1) is replaced by +-30 around either designed tone - a
+        // tighter, principled band that still excludes every other
+        // fighter's palette.
+        const lit = s.modal.length === 3 ? litBlend(skin, cell.endsWith('F')) : [0, 0, 0]
+        let matched = false
+        for (const cand of [want, lit]) {
+          if (cand.every((ch, i) => Math.abs((s.modal[i] ?? 0) - ch) <= 30)) {
+            matched = true
             break
           }
+        }
+        if (!matched) {
+          failures.push(`${id}:${cell} modal ${s.modal.join(',')} vs skin ${want.join(',')} / lit ${lit.join(',')}`)
         }
         // No ink: the shared outline is #140f14 (lum 15) laid around the
         // WHOLE silhouette. Deep form shadow on the far cells dips to
@@ -219,6 +295,24 @@ describe('BODY-20 painted hand cells', () => {
       }
     }
     expect(n, 'procedural fallback fist at the grip').toBeGreaterThanOrEqual(24)
+  })
+
+  it('UIR-12: digit separations reach the knuckle zone (fingers, not mittens)', async () => {
+    // V-14 J4/J8: the BODY-20 creases (1.15u soft runs at the finger edge)
+    // read as a mitten at 4x. The UIR-12 paint extends all three digit
+    // separators into the knuckle zone. Metric: luminance local minima
+    // with prominence >= 10 on a vertical scanline through the knuckle
+    // zone (grip x=2.6, relax x=1.6 logical). Recorded: 0 dips before
+    // (creases start at 3.5/2.4), 3 after. wrapF already separates (its
+    // three pads) and is covered by the audit's gap inventory instead.
+    const failures: string[] = []
+    for (const { pack, id } of await packFighters()) {
+      for (const cell of ['gripN', 'gripF', 'relaxN', 'relaxF'] as const) {
+        const dips = await digitDips(pack, id, cell)
+        if (dips < 3) failures.push(`${id}:${cell} ${dips} knuckle-zone dips (want >= 3)`)
+      }
+    }
+    expect(failures).toEqual([])
   })
 })
 

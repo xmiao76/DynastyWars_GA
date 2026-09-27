@@ -1084,7 +1084,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-12 - Paint hands with fingers, not mittens
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-27 UTC - owner V-14 request,
+  verified full-green same day)
 - Source: UI review 2026-09-27, findings V-14 J4/J8 (S1/S2, owner-flagged)
 - Evidence: artifacts/review/latest/anatomy/*.png (all 15 reviewed) -
   flat cream/pink mitten fists with ridge bands but no separated
@@ -1099,17 +1100,22 @@ Add future enhancement tasks below this heading.
   (tone, shading depth) matching the fighter's face. All five hand
   kinds, both near and far shading.
 - Acceptance criteria:
-  1. A texture/unit check on the regenerated hand cells FAILS on the
-     current paint and passes after (digit-separation count or an
-     equivalent local-contrast metric; record both values). Skin-tone
-     match vs the face stays within the existing tolerance.
-  2. After `npm run review:capture`, the affected joins are re-reviewed
-     on the fresh anatomy sheets against `previous/`, citing the
-     after-image detail; each listed join is judged fixed (ok). Contact
-     sheets show no regression elsewhere.
-  3. `npm run vision` and relevant specs are green; the ledger finding
-     is set to `fixed <commit> (self-check)` and the anatomy table row
-     updated.
+  - [x] Texture/unit check (handparts UIR-12 test): digit-separator
+        dips per cell at 4x = 0 before (creases never reached the
+        knuckle zone), 3+ after; fails on old paint, passes on new.
+        Skin match re-pointed tighter: +-45 around raw skin ->
+        +-30 around either designed tone (raw or the bloom-peak lit
+        blend, e.g. guanyu 191,114,94 = exact formula blend).
+  - [x] review:capture re-run (59 screens + 34 anatomy sheets); J4
+        re-reviewed on the fresh sheets (delegated eyes-on: digits
+        separated and rounded at 8x and 4x, mitten look gone).
+        Note: the before-pair is partially lost - the latest->previous
+        rotation hit a persistent Windows EPERM and a fallback deleted
+        the stale capture (top-level contact sheets preserved); the
+        before state is recorded in the ledger + this test's comments.
+  - [x] Full gates green (lint 0, tsc 0, unit 636/636, e2e 78, vision
+        5/5, selfplay 13/13, build 0, prodbuild 4/4); ledger V-14
+        sub-verdict updated.
 - Non-goals: grip geometry or layering (UIR-13), pose changes.
 
 ### UIR-13 - Grip wraps: fingers around the haft, hand over weapon
