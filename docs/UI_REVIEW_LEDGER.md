@@ -10,7 +10,6 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Date: 2026-09-26. Commit: `3fd3b32`. Capture: `npm run review:capture`, 59 screens, canvas + WebGL + Pixel 7 portrait/landscape.
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
 - Next review due when `git rev-list --count 3fd3b32..HEAD -- src/game` >= 4.
-- **DUE NOW (owner flag 2026-09-26):** a full review including the first section 2a anatomy pass, for V-14. It is due whatever the commit count, and the next producer pass runs it before other work.
 
 ## Coverage (deep-dive rotation)
 
@@ -20,7 +19,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 | HUD & overlays | 2026-09-26 |
 | stage flow screens | 2026-09-26 |
 | all nine stages | 2026-09-26 |
-| characters (movesheets, motion) | never (BODY track owns it; sheets not opened this pass) - MISSED V-14; anatomy pass due now |
+| characters (movesheets, motion) | 2026-09-27 (first anatomy pass: 15 fighters judged, table filled; V-14 split into UIR-12..15) |
 | phone | 2026-09-26 |
 | WebGL | 2026-09-26 (sheet level only) |
 
@@ -95,7 +94,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
-### V-14 - Arm, wrist, hand and grip joins look wrong on every fighter (S1/S2, ASSET+DEPTH+STATE) - open, owner-flagged; anatomy pass due
+### V-14 - Arm, wrist, hand and grip joins look wrong on every fighter (S1/S2, ASSET+DEPTH+STATE) - filed UIR-12/UIR-13/UIR-14/UIR-15
 - Owner report 2026-09-26: "every character's arm position, arm connection to the body, connection to the hand, and the hand's connection to the weapons are not right". The 2026-09-26 review missed it (see VISUAL_REVIEW.md "Why the first art-director review still missed the arms").
 - Seed evidence (a spot check, not the full pass), from `anatomy/zhaoyun.png`, `anatomy/guanyu.png`, `anatomy/lubu.png` and the matching `-xray` sheets at `09d7d06`:
   - J4: the hands are flat cream or pink mitten icons with no fingers, unlike the painted face and sleeve on every fighter.
@@ -108,7 +107,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
   - Weapon draw order against the near forearm: `src/game/art/draw.ts:686-880`, `weaponOrProcedural()` at `:880`.
   - Pose arm geometry: `src/game/art/poses.ts` and `weaponPose` in `src/game/art/weapons.ts:161`.
   - Cell caps at the joints: `src/game/art/body-parts.ts`.
-- Next: the producer runs the full section 2a pass on all 17 fighters, fills the anatomy table, splits V-14 by root cause and files UIR tasks. Previous DISMISSED entries in `docs/CHARACTER_REVIEW.md` ("rear fist floats", "detached off-hand", "off-hand gap") must be re-judged by pixels.
+- Pass 2026-09-27: section 2a run on 15 fighters (5 heroes + 9 bosses + soldier); spearman/archer carry pattern verdicts. Split by root cause and filed: UIR-12 hands (J4/J8), UIR-13 grip+layering (J5/J7), UIR-14 sleeves/wrists (J1/J3), UIR-15 strike poses (J6). CHARACTER_REVIEW.md BODY-7 DISMISSED entries are superseded by these verdicts. Previous DISMISSED entries in `docs/CHARACTER_REVIEW.md` ("rear fist floats", "detached off-hand", "off-hand gap") must be re-judged by pixels.
 
 ## UIR batch 1 - FILED (reviewed 2026-09-26 at 3fd3b32; filed 2026-09-27)
 
@@ -156,7 +155,24 @@ Each join is `ok` or `V-n`. Moves checked: idle, attack, thrust, windup, special
 
 | Fighter | J1 shoulder | J2 elbow | J3 wrist | J4 hand | J5 grip | J6 pose | J7 layering | J8 same body | Reviewed |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| (all 17) | - | - | - | - | - | - | - | - | never: first anatomy pass is due now (V-14) |
+| guanyu | ok | ok | ok | V-14 | V-14 | ok | V-14 | V-14 | 2026-09-27 |
+| zhangfei | ok | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| zhaoyun | V-14 | ok | V-14 | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| huangzhong | ok | ok | ok | V-14 | V-14 | ok | V-14 | V-14 | 2026-09-27 |
+| weiyan | ok | ok | ok | V-14 | V-14 | ok | V-14 | V-14 | 2026-09-27 |
+| lubu | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| caocao | V-14 | ok | ok | V-14 | V-14 | ok | V-14 | V-14 | 2026-09-27 |
+| xiahoudun | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| xuchu | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| zhangliao | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| caoren | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| xuhuang | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| zhanghe | V-14 | ok | ok | V-14 | V-14 | ok | V-14 | V-14 | 2026-09-27 |
+| lidian | V-14 | ok | ok | V-14 | V-14 | V-14 | V-14 | V-14 | 2026-09-27 |
+| soldier | V-14 | ok | ok | V-14 | V-14 | ok | V-14 | V-14 | 2026-09-27 |
+| spearman | V-14* | ok* | ok* | V-14* | V-14* | V-14* | V-14* | V-14* | 2026-09-27 |
+| archer | ok* | ok* | ok* | V-14* | V-14* | ok* | V-14* | V-14* | 2026-09-27 |
+| * = pattern verdict from the reviewed twin (spearman: polearm pattern; archer: bow pattern) - confirm on the sheets next pass |
 
 ## Harness backlog
 

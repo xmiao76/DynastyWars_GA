@@ -21,7 +21,41 @@ history slowly crowds out the work it is supposed to support.
 - Next recommended task:
 
 ## Entries
-### 2026-09-27 05:05 UTC - Owner request: artifacts cleanup
+#
+### 2026-09-27 05:45 UTC - Producer pass (anatomy DUE NOW, V-14 split)
+
+- Status before: ledger DUE NOW (owner flag: arm/shoulder/wrist/hand/
+  grip joins wrong on every fighter; BODY-7 sweep had dismissed the
+  same observations with metrics). Tree also carried 7,502 tracked
+  deletions from the owner-requested artifacts cleanup.
+- Work completed: (1) committed the cleanup deletions (43ab0c3; full
+  set preserved in bc5be7f). (2) Anatomy pass per section 2a: fresh
+  capture incl. the new anatomy step (34 sheets); clean-first review
+  of 15 fighters (5 heroes + 9 bosses + soldier) on
+  idle/attack/thrust/windup/special + x-ray root-cause check.
+  Verdicts: J4/J5/J7/J8 fail cast-wide (mitten hands, weak wrap,
+  haft-over-fist layering); J1 fails on armored/pauldron fighters;
+  J3 fails on zhaoyun (sleeve camo); J6 fails on two-handed strikes
+  (rails); J2 ok everywhere. Spearman/archer carry pattern verdicts
+  (marked, confirm next pass). (3) Split V-14 by root cause and filed
+  UIR-12 (hands), UIR-13 (grip+layering), UIR-14 (sleeves/wrists),
+  UIR-15 (strike poses) - 4 tasks, within cap. Ledger: anatomy table
+  filled, V-14 filed, DUE NOW removed, coverage updated. Signals not
+  re-run (green ~1h prior, zero src/game changes since).
+- Files changed: TASKS.md (UIR-12..15 TODO),
+  docs/UI_REVIEW_LEDGER.md (table, V-14, DUE NOW, coverage),
+  PROGRESS.md, artifacts/loop/proposals-2026-09-27T04-49-07-596Z-933e6662.md.
+  Plus the cleanup commit 43ab0c3 earlier this iteration.
+- Verification run: review:capture green (59 screens + 34 anatomy
+  sheets); anatomy-review.test.ts green as capture step 2.
+- Result: V-14 split + filed; anatomy table filled; DUE NOW cleared.
+- Status after: producer work done. BODY-7 acceptance (2) still needs
+  the owner; its DISMISSED entries are superseded by V-14.
+- Remaining work or blocker: consumers implement UIR-12..15 (then
+  UIR-1..11); owner re-review closes V-14.
+- Next recommended task: UIR-12 (consumer).
+
+## 2026-09-27 05:05 UTC - Owner request: artifacts cleanup
 
 - Status before: artifacts/ held 10,538 files / 431MB of accumulated
   review scratch, superseded baselines and test droppings.

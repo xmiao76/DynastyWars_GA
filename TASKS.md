@@ -1081,3 +1081,125 @@ Add future enhancement tasks below this heading.
      and relevant specs are green; the ledger finding is set to
      `fixed <commit> (self-check)`.
 - Non-goals: collision, or the lane depth.
+
+### UIR-12 - Paint hands with fingers, not mittens
+
+- Status: TODO
+- Source: UI review 2026-09-27, findings V-14 J4/J8 (S1/S2, owner-flagged)
+- Evidence: artifacts/review/latest/anatomy/*.png (all 15 reviewed) -
+  flat cream/pink mitten fists with ridge bands but no separated
+  digits, against painted faces and sleeves. Worst on pale-skinned
+  fighters (zhaoyun) and dark armor (caocao, xiahoudun).
+- Root cause: ASSET - scripts/prepare-body-parts.mjs (hand painter)
+  and src/game/art/hand-parts.ts: cells carry knuckle shading but no
+  digit separations, thumb mass, or face-matched paint handling.
+- Affected screens: every fighter in every movement (anatomy sheets).
+- Requirement: repaint the hand cells with separated fingers/digits
+  (flexed per cell kind), a readable thumb mass, and paint handling
+  (tone, shading depth) matching the fighter's face. All five hand
+  kinds, both near and far shading.
+- Acceptance criteria:
+  1. A texture/unit check on the regenerated hand cells FAILS on the
+     current paint and passes after (digit-separation count or an
+     equivalent local-contrast metric; record both values). Skin-tone
+     match vs the face stays within the existing tolerance.
+  2. After `npm run review:capture`, the affected joins are re-reviewed
+     on the fresh anatomy sheets against `previous/`, citing the
+     after-image detail; each listed join is judged fixed (ok). Contact
+     sheets show no regression elsewhere.
+  3. `npm run vision` and relevant specs are green; the ledger finding
+     is set to `fixed <commit> (self-check)` and the anatomy table row
+     updated.
+- Non-goals: grip geometry or layering (UIR-13), pose changes.
+
+### UIR-13 - Grip wraps: fingers around the haft, hand over weapon
+
+- Status: TODO
+- Source: UI review 2026-09-27, findings V-14 J5/J7 (S1/S2)
+- Evidence: artifacts/review/latest/anatomy/*.png (attack/thrust) -
+  the haft lies ON TOP of the far fist and cuff bands; fists read
+  beside the haft rather than around it. X-ray shows the hand markers
+  exactly on the weapon axis: geometry passes, pixels fail.
+- Root cause: DEPTH+ASSET - src/game/art/draw.ts weaponOrProcedural
+  draws the weapon over the gripping hand; hand cells lack wrap
+  geometry crossing over the haft (only fingertip pads do).
+- Affected screens: every armed fighter in grip movements (anatomy
+  sheets; worst on two-handed polearms).
+- Requirement: the gripping hand reads wrapped around the haft: finger
+  masses visibly cross OVER it on the near side, and the weapon no
+  longer covers the hand/fist that holds it (adjust draw order and/or
+  add over-wrap paint). Both hands sit on the haft line for
+  two-handed weapons.
+- Acceptance criteria:
+  1. A region check on attack/thrust renders (all weapon kinds) shows
+     hand-tone pixels overlapping the haft rect on the near side above
+     a stated share (record before/after); the far fist is not fully
+     covered by the haft in any strike.
+  2. After `npm run review:capture`, the affected joins are re-reviewed
+     on the fresh anatomy sheets against `previous/`, citing the
+     after-image detail; each listed join is judged fixed (ok). Contact
+     sheets show no regression elsewhere.
+  3. `npm run vision` and relevant specs are green; the ledger finding
+     is set to `fixed <commit> (self-check)` and the anatomy table row
+     updated.
+- Non-goals: finger detail itself (UIR-12), strike poses (UIR-15).
+
+### UIR-14 - Sleeves meet shoulders; forearms trace to the hand
+
+- Status: TODO
+- Source: UI review 2026-09-27, findings V-14 J1/J3 (S2)
+- Evidence: artifacts/review/latest/anatomy/*.png - on armored
+  fighters the sleeve starts inset below the pauldron with a visible
+  step (lubu/caocao/xiahoudun/xuchu/zhangliao/caoren/xuhuang/zhanghe/
+  lidian/soldier in strikes); on zhaoyun the silver forearm vanishes
+  on the silver torso in idle/walk/hurt so the hand floats.
+- Root cause: ASSET - src/game/art/body-parts.ts cell caps at the
+  shoulder (upper-arm pre-span too short/narrow to tuck under the
+  pauldron) and no tone separation where the forearm crosses the
+  torso (prepare-body-parts.mjs cell paint).
+- Affected screens: armored fighters' shoulders in all movements;
+  zhaoyun idle/walk/hurt wrist.
+- Requirement: upper sleeves start AT the shoulder joint, tucked under
+  the pauldron/collar with no gap or step, in all poses; forearms
+  crossing the torso keep enough tone/edge separation to trace to the
+  cuff and hand.
+- Acceptance criteria:
+  1. A seam check on shoulder windows (idle/attack for 3 armored
+     fighters) shows no background or step edge wider than 1px along
+     the sleeve-torso join (record before/after); the zhaoyun idle
+     forearm traces unbroken elbow-to-cuff at 4x.
+  2. After `npm run review:capture`, the affected joins are re-reviewed
+     on the fresh anatomy sheets against `previous/`, citing the
+     after-image detail; each listed join is judged fixed (ok). Contact
+     sheets show no regression elsewhere.
+  3. `npm run vision` and relevant specs are green; the ledger finding
+     is set to `fixed <commit> (self-check)` and the anatomy table row
+     updated.
+- Non-goals: pauldron art itself, hand paint (UIR-12).
+
+### UIR-15 - Strike arms bend; no parallel rails
+
+- Status: TODO
+- Source: UI review 2026-09-27, findings V-14 J6 (S2)
+- Evidence: artifacts/review/latest/anatomy/*.png (attack/thrust/chop
+  on polearm fighters) - both arms run near-straight and parallel
+  under the haft like rails. One-handers and the bow read fine.
+- Root cause: POSE - src/game/art/poses.ts strike arm geometry plus
+  the weapons.ts arm solution rest too straight: elbows keep little
+  flexion and the two arms share one direction.
+- Requirement: two-handed strikes keep visible elbow flexion and break
+  the parallel: differentiate the arms (lead/push roles), keep both
+  fists on the haft with separation, keep hands/weapons clear of the
+  face per the existing gates.
+- Acceptance criteria:
+  1. Elbow-flexion measure on attack/thrust/chop (all polearms)
+     increases vs baseline (record both); the anatomy re-review reads
+     J6 ok; reach/face-clear/parity gates stay green.
+  2. After `npm run review:capture`, the affected joins are re-reviewed
+     on the fresh anatomy sheets against `previous/`, citing the
+     after-image detail; each listed join is judged fixed (ok). Contact
+     sheets show no regression elsewhere.
+  3. `npm run vision` and relevant specs are green; the ledger finding
+     is set to `fixed <commit> (self-check)` and the anatomy table row
+     updated.
+- Non-goals: new poses, timing changes, in-betweens (BODY-24).
