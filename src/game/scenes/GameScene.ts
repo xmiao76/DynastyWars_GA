@@ -281,6 +281,13 @@ export class GameScene extends Phaser.Scene {
     )
     const marks = this.add.tileSprite(0, groundTop - MARKS_H + MARKS_ROOT_DEPTH, stage.length + 64, MARKS_H, marksKey)
     marks.setOrigin(0, 0).setDepth(-12)
+    // UIR-8 (V-11): the baked texture is RENDER_SCALE times the logical
+    // tile, so tileScale 0.5 maps it 1:1 onto logical pixels. At the
+    // default 1 the sprite shows only the texture's top half (tile rows
+    // 0..32) - every hull, water band and banner below row 32 was cut,
+    // which is why the warship hulls read as sunk. The paint period stays
+    // 256px either way, so scrolling is unchanged.
+    marks.setTileScale(0.5, 0.5)
     marks.setName('bgMarks')
 
     // Fire strip: embers and smoke for the burning stages, additive so the

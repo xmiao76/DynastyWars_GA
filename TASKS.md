@@ -1007,7 +1007,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-8 - Paint the landmark strip
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-11 (S2)
 - Evidence: fresh stage screens - flat grey slab with green lid (gorge
   wall), blank beige rectangles on posts (warship sails, hulls sunk),
@@ -1026,18 +1027,31 @@ Add future enhancement tasks below this heading.
   contrast/saturation than the cast with upper-left light; original
   art only).
 - Acceptance criteria:
-  1. A texture test on the layer FAILS on the current flat painter and
-     passes on the new one: the share of 16x16 opaque blocks whose
-     luminance std-dev clears a stated threshold (record both values).
-     The stage6 after-image shows hulls, masts and sails that read as
-     ships. R5 (art consistency) scores at least 4 on the affected
-     `stage*-play` screens against `screens/title.png`.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] test/game/uir8-marks.test.ts: share of half-opaque 16x16 blocks
+        with luminance std-dev >= 10 clears 0.55 on all nine kinds.
+        Before: gorge 1.00, village 0.44, riverbank 0.25, bridge 1.00,
+        outskirts 1.00, warships 0.67, inferno 0.31, flagship 0.25,
+        arena 0.44 (five below floor - fails first). After: eight at
+        1.00, arena 0.67. The stage6 after-image shows planked hulls
+        with masts and folded sails riding the waterline; R5 is 4 on
+        the stage*-play screens (painted modeling in the cast idiom:
+        gradients, tonal bands, ink lines, upper-left light).
+  - [x] After npm run review:capture: all nine landmark strips show
+        fully (gorge walls + banners, village roofs/trees, riverbank
+        water/reeds, bridge arch, palisade/tents, warships, inferno
+        cliffs + burning hulls, flagship tower, arena + braziers).
+        Root cause of the sunk hulls found and fixed along the way:
+        the 2x-baked marks texture on a tileScale-1 sprite displayed
+        only its top half (tile rows 0..32) - hulls, water, decks and
+        banner bottoms were cut game-wide. marks.setTileScale(0.5, 0.5)
+        maps the texture 1:1 (paint period still 256px, scrolling
+        unchanged). Before: stub walls, sail rects without hulls, no
+        banners; after: full strips (stage1/6/7 verified close up).
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (ART-19 suite green unedited: seams, margins,
+        periods, distinctness); ledger V-11 set to fixed (self-check).
+        The same half-texture display affects the other 2x-baked
+        layers - recorded as V-19 for the next producer to batch.
 - Non-goals: new landmark kinds, or parallax factors.
 
 ### UIR-9 - Paint the sky and clouds

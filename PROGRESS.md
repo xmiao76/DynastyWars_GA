@@ -22,6 +22,44 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 15:20 UTC - UIR-8 (attempt 1, landmark strip - DONE)
+
+- Status before: UIR-8 TODO (V-11: flat placeholder landmark paint;
+  hulls sunk).
+- Work completed: repainted all nine marks kinds in place (same
+  silhouettes/positions/periods): x-uniform graded walls + strata
+  (gorge/inferno, seam-exact), graded water with 64-periodic glints,
+  shaded reeds (32-period), planked bridge + arch + piers, shaded
+  palisade (16-period) + tents, planked hulls with sheer strakes,
+  waterlines, masts and folded sails, planked flagship tower,
+  graded arena rock with 64-periodic facets + braziers. TDD:
+  test/game/uir8-marks.test.ts (16x16 luminance-stddev share >= 0.55
+  per kind) pinned failing first (5 kinds below), green after (8x
+  1.00, arena 0.67). Found along the way that NO hull/water/low-row
+  paint could ever show: the 2x-baked texture on a tileScale-1 sprite
+  displays only its top half - proven by layer isolation + texture
+  readback + the Phaser TileSprite UV math - so marks.setTileScale
+  (0.5, 0.5) (one line, GameScene.ts). ART-19 suite green unedited
+  (a stray-triangle clip bug and a seam-touching tick fixed during
+  the work). Recorded the systemic remainder as V-19 (other layers
+  cut the same way; needs its own task + re-review, not folded in).
+- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
+  .ts (tileScale), test/game/uir8-marks.test.ts (new), TASKS.md,
+  PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-11 fixed self-check; new
+  V-19 open).
+- Verification run: lint 0; tsc 0; unit 667/667 + 1 skipped (+1 new
+  pin); review capture after; browser gates: E2E=0 (82), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4). Re-review:
+  stage6 shows planked hulls + masts + sails on the waterline;
+  stage1/7 transformed (full walls/banners, burning hulls); all nine
+  strips on the stages sheet; R5 = 4.
+- Result: UIR-8 acceptance met.
+- Status after: UIR-8 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-9..11,
+  UIR-16..19 TODO; V-19 awaiting producer batching.
+- Next recommended task: UIR-9 (painted sky and clouds).
+
+
 ### 2026-09-28 14:10 UTC - UIR-7 (attempt 1, rotate overlay - DONE)
 
 - Status before: UIR-7 IN_PROGRESS (orientation.ts + GameScene gate

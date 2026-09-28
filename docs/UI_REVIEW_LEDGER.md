@@ -82,7 +82,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `screens/phone-landscape-game.png`: the up arm shows a down-chevron, the left arm ">", the right arm "<" and the down arm "^". The same happens in portrait.
 - Root cause: `src/game/art/hudart.ts:487-492`: the chevron path's apex is at +y, so at angle 0 it points DOWN, but `hudart.ts:498-501` assumes angle 0 points up.
 
-### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, filed UIR-8
+### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, fixed (self-check)
 - Evidence: `screens/stage1-idle.png`: a flat grey slab with a green lid (the gorge wall). `screens/stage6-play.png`: blank beige rectangles on posts (warship sails) with the hulls sunk below the horizon. `screens/stage7-play.png`: solid red slabs (the cliffs). Next to the painted heroes these read as placeholder art.
 - Root cause: `src/game/art/backdrop.ts:324-326` (gorge), `:304-305` (sail 16x6 fillRect), `:444-446` (inferno cliffs) are `fillRect` blocks without tonal bands or ink. The hulls sit below `MARKS_ROOT_DEPTH` (`src/game/scenes/GameScene.ts:67`).
 - Estimate: M (one painter, three kinds), with risk to the vision richness gate and the seam unit test.
@@ -130,6 +130,10 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - filed UIR-19 (V-14 J4 residue)
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
+
+
+### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - open, awaiting producer batching
+- UIR-8 proved it for the marks strip and fixed it there: a 512x128 texture on a 1064x64 tileSprite with tileScale 1 shows texture rows 0..64 only (tile rows 0..32) - hulls, water, decks and banner bottoms were cut game-wide. Evidence: artifacts/marks-only.png (marks isolated: sails + upper masts only), the live texture readback (512x128, 21640 opaque px over rows 36..127), GameScene.ts tileSprite setup. The sky, ridge, ground, cloud and ember layers use the identical bake pattern (bakeLayer at RENDER_SCALE + tileScale 1) and are therefore cut the same way - the sky's sun (tile y176) and lower haze, and the bottom halves of the other layers, never display. Same fix shape as marks (tileScale 0.5), but it changes every screen's look, so it needs its own task with a full re-review (not folded into UIR-8).
 
 ## UIR batch 3 - FILED (fixer's review 2026-09-28 at e4872ce; filed 2026-09-28)
 

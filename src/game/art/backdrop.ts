@@ -249,13 +249,44 @@ function flameTongue(ctx: Ctx, x: number, baseY: number, w: number, h: number): 
   ctx.fillRect(x - 1, baseY - h * 0.32, 2, h * 0.3)
 }
 
-/** A war banner on a pole: pennant, crossbar and cords. */
+/** X-uniform water: vertical grade, light shore line on top, dark base. Every
+ * column identical, so full-width bands match exactly across the seam. */
+function waterBand(ctx: Ctx, y0: number, shore: string, mid: string, deep: string): void {
+  const g = ctx.createLinearGradient(0, y0, 0, MARKS_H)
+  g.addColorStop(0, shore)
+  g.addColorStop(0.3, mid)
+  g.addColorStop(1, deep)
+  ctx.fillStyle = g
+  ctx.fillRect(0, y0, TILE_W, MARKS_H - y0)
+  ctx.fillStyle = 'rgba(255,255,255,0.16)'
+  ctx.fillRect(0, y0, TILE_W, 1)
+}
+
+/** Soft 64-periodic ripple glints inside a water band (4 full periods tile). */
+function rippleBand(ctx: Ctx, y: number, h: number, color: string): void {
+  const g = ctx.createLinearGradient(0, 0, TILE_W, 0)
+  for (let i = 0; i < 4; i += 1) {
+    const c = (i * 64 + 32) / TILE_W
+    g.addColorStop(Math.max(0, c - 0.09), 'rgba(0,0,0,0)')
+    g.addColorStop(c, color)
+    g.addColorStop(Math.min(1, c + 0.09), 'rgba(0,0,0,0)')
+  }
+  ctx.fillStyle = g
+  ctx.fillRect(0, y, TILE_W, h)
+}
+
+/** A war banner on a pole: shaded pole, folded pennant, crossbar and cords. */
 function warBanner(ctx: Ctx, x: number, baseY: number, h: number, cloth: string): void {
-  ctx.fillStyle = '#4a3018'
-  ctx.fillRect(x - 1, baseY - h, 2, h)
+  ctx.fillStyle = '#5a3a1e'
+  ctx.fillRect(x - 1, baseY - h, 1, h)
+  ctx.fillStyle = '#3a2412'
+  ctx.fillRect(x, baseY - h, 1, h)
   ctx.fillStyle = '#6a4a2a'
   ctx.fillRect(x - 1, baseY - h, 11, 2)
-  ctx.fillStyle = cloth
+  const g = ctx.createLinearGradient(0, baseY - h + 2, 0, baseY - h + 12)
+  g.addColorStop(0, cloth)
+  g.addColorStop(1, 'rgba(0,0,0,0.35)')
+  ctx.fillStyle = g
   ctx.beginPath()
   ctx.moveTo(x, baseY - h + 2)
   ctx.lineTo(x + 10, baseY - h + 5)
@@ -265,13 +296,25 @@ function warBanner(ctx: Ctx, x: number, baseY: number, h: number, cloth: string)
   ctx.strokeStyle = INK
   ctx.lineWidth = 0.8
   ctx.stroke()
+  ctx.fillStyle = 'rgba(255,255,255,0.25)'
+  ctx.fillRect(x + 1, baseY - h + 3, 5, 1)
 }
 
-/** A tiled rooftop: trapezoid cap with a ridge line and upturned eaves. */
+/** A tiled rooftop: graded plaster, timber frame, shaded cap with courses. */
 function rooftop(ctx: Ctx, x: number, baseY: number, w: number, h: number): void {
-  ctx.fillStyle = '#c8b088'
+  const wall = ctx.createLinearGradient(0, baseY - h, 0, baseY)
+  wall.addColorStop(0, '#d8c098')
+  wall.addColorStop(1, '#a88868')
+  ctx.fillStyle = wall
   ctx.fillRect(x + 4, baseY - h, w - 8, h)
-  ctx.fillStyle = '#8a4a2a'
+  ctx.fillStyle = '#6a4a2c'
+  ctx.fillRect(x + 8, baseY - h, 2, h)
+  ctx.fillRect(x + w - 10, baseY - h, 2, h)
+  ctx.fillRect(x + 4, baseY - 4, w - 8, 2)
+  const roof = ctx.createLinearGradient(0, baseY - h - 10, 0, baseY - h)
+  roof.addColorStop(0, '#a05a34')
+  roof.addColorStop(1, '#6a3418')
+  ctx.fillStyle = roof
   ctx.beginPath()
   ctx.moveTo(x - 2, baseY - h)
   ctx.lineTo(x + w / 2, baseY - h - 10)
@@ -281,28 +324,80 @@ function rooftop(ctx: Ctx, x: number, baseY: number, w: number, h: number): void
   ctx.strokeStyle = INK
   ctx.lineWidth = 1
   ctx.stroke()
+  ctx.save()
+  ctx.clip()
+  ctx.fillStyle = 'rgba(0,0,0,0.25)'
+  ctx.fillRect(x - 2, baseY - h - 4, w + 4, 1)
+  ctx.fillRect(x - 2, baseY - h - 7, w + 4, 1)
+  ctx.fillStyle = 'rgba(255,220,170,0.35)'
+  ctx.fillRect(x - 2, baseY - h - 9, w + 4, 1)
+  ctx.restore()
   ctx.fillStyle = '#5a2a1a'
   ctx.fillRect(x + w / 2 - 1, baseY - h - 10, 2, 5)
 }
 
-/** A ship hull with a mast and furled sail; `burning` adds flame tongues. */
+/** A ship hull with a mast and furled sail; `burning` adds flame tongues.
+ * UIR-8: planked hull with a lit sheer strake and waterline foam, folded
+ * sail cloth - the hull reads above the waterline instead of as a sunk slab. */
 function warship(ctx: Ctx, x: number, waterY: number, w: number, burning: boolean): void {
   const hullH = 12
-  ctx.fillStyle = burning ? '#2a1a12' : '#4a3220'
-  ctx.beginPath()
-  ctx.moveTo(x, waterY - hullH)
-  ctx.lineTo(x + w, waterY - hullH)
-  ctx.lineTo(x + w - 8, waterY)
-  ctx.lineTo(x + 8, waterY)
-  ctx.closePath()
+  const hullPath = (): void => {
+    ctx.beginPath()
+    ctx.moveTo(x, waterY - hullH)
+    ctx.lineTo(x + w, waterY - hullH)
+    ctx.lineTo(x + w - 8, waterY)
+    ctx.lineTo(x + 8, waterY)
+    ctx.closePath()
+  }
+  hullPath()
+  const hull = ctx.createLinearGradient(0, waterY - hullH, 0, waterY)
+  if (burning) {
+    hull.addColorStop(0, '#4a2a1a')
+    hull.addColorStop(1, '#1a0e08')
+  } else {
+    hull.addColorStop(0, '#6a4a2c')
+    hull.addColorStop(0.35, '#4a3220')
+    hull.addColorStop(1, '#2a1a10')
+  }
+  ctx.fillStyle = hull
   ctx.fill()
+  ctx.save()
+  hullPath()
+  ctx.clip()
+  ctx.fillStyle = burning ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.3)'
+  ctx.fillRect(x, waterY - 8, w, 1)
+  ctx.fillRect(x, waterY - 4, w, 1)
+  ctx.fillStyle = burning ? '#8a5a30' : '#a07a4a'
+  ctx.fillRect(x, waterY - hullH, w, 2)
+  ctx.fillStyle = 'rgba(255,255,255,0.28)'
+  ctx.fillRect(x + 8, waterY - 1, w - 16, 1)
+  ctx.fillStyle = burning ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.25)'
+  for (let px = x + 16; px < x + w - 8; px += 16) ctx.fillRect(px, waterY - hullH + 2, 1, hullH - 3)
+  ctx.restore()
   ctx.strokeStyle = INK
   ctx.lineWidth = 1
+  hullPath()
   ctx.stroke()
-  ctx.fillStyle = burning ? '#4a2418' : '#6a4a2a'
-  ctx.fillRect(x + w / 2 - 1, waterY - hullH - 22, 2, 22)
-  ctx.fillStyle = burning ? '#5a3a28' : '#c8b890'
+  ctx.fillStyle = burning ? '#5a3020' : '#7a5632'
+  ctx.fillRect(x + w / 2 - 1, waterY - hullH - 22, 1, 22)
+  ctx.fillStyle = burning ? '#3a1e12' : '#4a3018'
+  ctx.fillRect(x + w / 2, waterY - hullH - 22, 1, 22)
+  const sail = ctx.createLinearGradient(0, waterY - hullH - 20, 0, waterY - hullH - 14)
+  if (burning) {
+    sail.addColorStop(0, '#6a4a34')
+    sail.addColorStop(1, '#3a2418')
+  } else {
+    sail.addColorStop(0, '#d8c8a0')
+    sail.addColorStop(1, '#a08a68')
+  }
+  ctx.fillStyle = sail
   ctx.fillRect(x + w / 2 - 8, waterY - hullH - 20, 16, 6)
+  ctx.fillStyle = 'rgba(0,0,0,0.25)'
+  ctx.fillRect(x + w / 2 - 8, waterY - hullH - 17, 16, 1)
+  ctx.fillRect(x + w / 2 - 8, waterY - hullH - 15, 16, 1)
+  ctx.strokeStyle = INK
+  ctx.lineWidth = 0.8
+  ctx.strokeRect(x + w / 2 - 8, waterY - hullH - 20, 16, 6)
   if (burning) {
     flameTongue(ctx, x + w * 0.3, waterY - hullH, 7, 13)
     flameTongue(ctx, x + w * 0.55, waterY - hullH, 9, 17)
@@ -321,17 +416,39 @@ export function paintMarks(ctx: Ctx, kind: MarksKind): void {
   switch (kind) {
     case 'gorge': {
       // Flanking cliff walls that meet across the seam as one gorge wall.
-      ctx.fillStyle = '#6a6a72'
+      // UIR-8: all wall paint is x-uniform (gradient + horizontal strata),
+      // so the seam columns still match exactly.
+      const wall = ctx.createLinearGradient(0, 18, 0, B)
+      wall.addColorStop(0, '#7e7e88')
+      wall.addColorStop(0.45, '#6a6a72')
+      wall.addColorStop(1, '#4c4c55')
+      ctx.fillStyle = wall
       ctx.fillRect(0, 18, 46, B - 18)
       ctx.fillRect(TILE_W - 46, 18, 46, B - 18)
-      ctx.fillStyle = '#4a4a52'
       for (const y of [28, 40, 52]) {
+        ctx.fillStyle = '#42424b'
         ctx.fillRect(0, y, 46, 2)
         ctx.fillRect(TILE_W - 46, y, 46, 2)
+        ctx.fillStyle = 'rgba(255,255,255,0.14)'
+        ctx.fillRect(0, y + 2, 46, 1)
+        ctx.fillRect(TILE_W - 46, y + 2, 46, 1)
       }
-      ctx.fillStyle = '#5a7a4a'
+      const lid = ctx.createLinearGradient(0, 14, 0, 18)
+      lid.addColorStop(0, '#6a8a5a')
+      lid.addColorStop(1, '#48663c')
+      ctx.fillStyle = lid
       ctx.fillRect(0, 14, 46, 4)
       ctx.fillRect(TILE_W - 46, 14, 46, 4)
+      const shadeL = ctx.createLinearGradient(43, 0, 46, 0)
+      shadeL.addColorStop(0, 'rgba(0,0,0,0)')
+      shadeL.addColorStop(1, 'rgba(0,0,0,0.35)')
+      ctx.fillStyle = shadeL
+      ctx.fillRect(43, 18, 3, B - 18)
+      const shadeR = ctx.createLinearGradient(213, 0, 210, 0)
+      shadeR.addColorStop(0, 'rgba(0,0,0,0)')
+      shadeR.addColorStop(1, 'rgba(0,0,0,0.35)')
+      ctx.fillStyle = shadeR
+      ctx.fillRect(210, 18, 3, B - 18)
       ctx.strokeStyle = INK
       ctx.lineWidth = 1.6
       ctx.beginPath()
@@ -353,9 +470,22 @@ export function paintMarks(ctx: Ctx, kind: MarksKind): void {
         [92, 12],
         [176, 14],
       ] as const) {
-        ctx.fillStyle = '#4a3018'
-        ctx.fillRect(tx, B - th, 3, th)
-        ctx.fillStyle = '#3a6a2a'
+        // UIR-8: shaded trunk, radial canopy, soft ground shade (all clear
+        // of the tile-edge margins).
+        const shade = ctx.createRadialGradient(tx + 1.5, B - 1, 1, tx + 1.5, B - 1, 8)
+        shade.addColorStop(0, 'rgba(0,0,0,0.3)')
+        shade.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = shade
+        ctx.fillRect(tx - 6, B - 6, 15, 6)
+        ctx.fillStyle = '#5a4020'
+        ctx.fillRect(tx, B - th, 1, th)
+        ctx.fillStyle = '#3a2412'
+        ctx.fillRect(tx + 1, B - th, 2, th)
+        const crown = ctx.createRadialGradient(tx - 1, B - th - 5, 1, tx + 1.5, B - th - 3, 7)
+        crown.addColorStop(0, '#4f8a3c')
+        crown.addColorStop(0.6, '#3a6a2a')
+        crown.addColorStop(1, '#26491e')
+        ctx.fillStyle = crown
         ctx.beginPath()
         ctx.arc(tx + 1.5, B - th - 3, 7, 0, Math.PI * 2)
         ctx.fill()
@@ -363,67 +493,147 @@ export function paintMarks(ctx: Ctx, kind: MarksKind): void {
       break
     }
     case 'riverbank': {
-      ctx.fillStyle = '#3a6a8a'
-      ctx.fillRect(0, B - 22, TILE_W, 22)
-      ctx.fillStyle = 'rgba(207, 232, 255, 0.75)'
-      for (let i = 0; i < 4; i += 1) ctx.fillRect(i * 64 + 12, B - 14, 18, 2)
-      ctx.fillStyle = '#2f5b39'
+      // UIR-8: graded water with 64-periodic glints; reeds stay exactly
+      // 32-periodic (shaded, not flat).
+      waterBand(ctx, B - 22, '#7ab5d8', '#3a6a8a', '#22445c')
+      rippleBand(ctx, B - 14, 2, 'rgba(207,232,255,0.75)')
+      rippleBand(ctx, B - 6, 2, 'rgba(207,232,255,0.4)')
+      const grass = ctx.createLinearGradient(0, B - 26, 0, B - 22)
+      grass.addColorStop(0, '#3f7a49')
+      grass.addColorStop(1, '#2a5232')
+      ctx.fillStyle = grass
       ctx.fillRect(0, B - 26, TILE_W, 4)
       for (let i = 0; i < 8; i += 1) {
         const x = i * 32 + 10
-        ctx.fillStyle = '#4a7a3a'
-        ctx.fillRect(x, B - 40, 2, 16)
+        ctx.fillStyle = '#5a8a48'
+        ctx.fillRect(x, B - 40, 1, 16)
+        ctx.fillStyle = '#35662c'
+        ctx.fillRect(x + 1, B - 40, 1, 16)
+        const leaf = ctx.createLinearGradient(0, B - 38, 0, B - 36)
+        leaf.addColorStop(0, '#5a8a48')
+        leaf.addColorStop(1, '#2f5b28')
+        ctx.fillStyle = leaf
         ctx.fillRect(x - 3, B - 38, 8, 2)
       }
       break
     }
     case 'bridge': {
       // One arch period over the tile: periodic by construction.
-      ctx.fillStyle = '#6a5a4a'
+      // UIR-8: planked deck (x-uniform in the seam band), graded arch with
+      // voussoir ticks, shaded piers. Geometry unchanged.
+      const deck = ctx.createLinearGradient(0, B - 10, 0, B)
+      deck.addColorStop(0, '#7a6a58')
+      deck.addColorStop(1, '#54483c')
+      ctx.fillStyle = deck
       ctx.fillRect(0, B - 10, TILE_W, 10)
+      ctx.fillStyle = 'rgba(0,0,0,0.3)'
+      ctx.fillRect(0, B - 7, TILE_W, 1)
+      ctx.fillRect(0, B - 4, TILE_W, 1)
       for (const px of [32, 96, 160, 224]) {
-        ctx.fillStyle = '#8a8a8a'
+        const pier = ctx.createLinearGradient(px - 3, 0, px + 3, 0)
+        pier.addColorStop(0, '#9a9a9a')
+        pier.addColorStop(0.5, '#7a7a7a')
+        pier.addColorStop(1, '#5a5a5a')
+        ctx.fillStyle = pier
         ctx.fillRect(px - 3, 28, 6, B - 28)
+        ctx.fillStyle = '#4a4a4a'
+        ctx.fillRect(px - 3, 28, 6, 2)
+        ctx.fillStyle = 'rgba(20,30,20,0.5)'
+        ctx.fillRect(px - 3, B - 12, 6, 12)
       }
-      ctx.fillStyle = '#7a5230'
-      ctx.beginPath()
-      ctx.moveTo(0, B - 10)
-      for (let x = 0; x <= TILE_W; x += 4) {
-        ctx.lineTo(x, B - 22 - 8 * Math.cos(((x / TILE_W) * Math.PI * 2)))
+      const archPath = (): void => {
+        ctx.beginPath()
+        ctx.moveTo(0, B - 10)
+        for (let x = 0; x <= TILE_W; x += 4) {
+          ctx.lineTo(x, B - 22 - 8 * Math.cos(((x / TILE_W) * Math.PI * 2)))
+        }
+        ctx.lineTo(TILE_W, B - 10)
+        ctx.closePath()
       }
-      ctx.lineTo(TILE_W, B - 10)
-      ctx.closePath()
+      archPath()
+      const arch = ctx.createLinearGradient(0, B - 32, 0, B - 10)
+      arch.addColorStop(0, '#8a6238')
+      arch.addColorStop(1, '#5a3a20')
+      ctx.fillStyle = arch
       ctx.fill()
+      ctx.save()
+      archPath()
+      ctx.clip()
+      ctx.fillStyle = 'rgba(0,0,0,0.28)'
+      // Offset 16: no tick touches the seam columns (the deck band test
+      // allows no step there).
+      for (let x = 16; x < TILE_W; x += 32) ctx.fillRect(x, B - 32, 2, 22)
+      ctx.fillStyle = 'rgba(255,235,200,0.2)'
+      ctx.fillRect(0, B - 31, TILE_W, 1)
+      ctx.restore()
       ctx.strokeStyle = INK
       ctx.lineWidth = 1.4
+      archPath()
       ctx.stroke()
       for (let x = 8; x < TILE_W; x += 16) {
         const y = B - 22 - 8 * Math.cos(((x / TILE_W) * Math.PI * 2))
-        ctx.fillStyle = '#5a3a20'
-        ctx.fillRect(x, y - 8, 2, 8)
+        ctx.fillStyle = '#6a4526'
+        ctx.fillRect(x, y - 8, 1, 8)
+        ctx.fillStyle = '#4a2e16'
+        ctx.fillRect(x + 1, y - 8, 1, 8)
       }
       break
     }
     case 'outskirts': {
+      // UIR-8: palisade keeps its exact 16-period (shaded per triangle);
+      // tents get canvas grade + seams + ground shade. Geometry unchanged.
+      const shade = ctx.createLinearGradient(0, B - 8, 0, B)
+      shade.addColorStop(0, 'rgba(0,0,0,0)')
+      shade.addColorStop(1, 'rgba(0,0,0,0.3)')
+      ctx.fillStyle = shade
+      ctx.fillRect(0, B - 8, TILE_W, 8)
       for (let x = 0; x < TILE_W; x += 16) {
-        ctx.fillStyle = '#5a4028'
-        ctx.beginPath()
-        ctx.moveTo(x, B)
-        ctx.lineTo(x + 4, B - 26)
-        ctx.lineTo(x + 8, B)
-        ctx.closePath()
+        const tri = (): void => {
+          ctx.beginPath()
+          ctx.moveTo(x, B)
+          ctx.lineTo(x + 4, B - 26)
+          ctx.lineTo(x + 8, B)
+          ctx.closePath()
+        }
+        tri()
+        const wood = ctx.createLinearGradient(0, B - 26, 0, B)
+        wood.addColorStop(0, '#7a5a38')
+        wood.addColorStop(1, '#4a3420')
+        ctx.fillStyle = wood
         ctx.fill()
+        ctx.save()
+        tri()
+        ctx.clip()
+        ctx.fillStyle = 'rgba(255,230,180,0.22)'
+        ctx.fillRect(x, B - 26, 2, 26)
+        ctx.restore()
       }
       for (const tx of [56, 168]) {
-        ctx.fillStyle = '#a89878'
-        ctx.beginPath()
-        ctx.moveTo(tx, B)
-        ctx.lineTo(tx + 20, B - 20)
-        ctx.lineTo(tx + 40, B)
-        ctx.closePath()
+        const tent = (): void => {
+          ctx.beginPath()
+          ctx.moveTo(tx, B)
+          ctx.lineTo(tx + 20, B - 20)
+          ctx.lineTo(tx + 40, B)
+          ctx.closePath()
+        }
+        tent()
+        const canvas = ctx.createLinearGradient(0, B - 20, 0, B)
+        canvas.addColorStop(0, '#bcac86')
+        canvas.addColorStop(1, '#8a785a')
+        ctx.fillStyle = canvas
         ctx.fill()
+        ctx.save()
+        tent()
+        ctx.clip()
+        ctx.fillStyle = 'rgba(0,0,0,0.25)'
+        ctx.fillRect(tx + 12, B - 20, 2, 20)
+        ctx.fillRect(tx + 26, B - 20, 2, 20)
+        ctx.fillStyle = 'rgba(255,255,255,0.2)'
+        ctx.fillRect(tx + 4, B - 20, 2, 20)
+        ctx.restore()
         ctx.strokeStyle = INK
         ctx.lineWidth = 1
+        tent()
         ctx.stroke()
       }
       warBanner(ctx, 128, B, 34, '#a01818')
@@ -431,41 +641,67 @@ export function paintMarks(ctx: Ctx, kind: MarksKind): void {
       break
     }
     case 'warships': {
-      ctx.fillStyle = '#2a4a5a'
-      ctx.fillRect(0, B - 12, TILE_W, 12)
-      ctx.fillStyle = 'rgba(207, 232, 255, 0.5)'
-      for (let i = 0; i < 4; i += 1) ctx.fillRect(i * 64 + 8, B - 8, 22, 1.6)
+      // UIR-8: graded water with 64-periodic glints; painted hulls ride
+      // visibly above the waterline. Geometry unchanged.
+      waterBand(ctx, B - 12, '#5a8aa8', '#2a4a5a', '#1a2e3c')
+      rippleBand(ctx, B - 8, 2, 'rgba(207,232,255,0.5)')
       warship(ctx, 24, B - 12, 88, false)
       warship(ctx, 152, B - 12, 88, false)
       break
     }
     case 'inferno': {
       // Red cliff walls wrapping the seam, burning hulls mid-tile.
-      ctx.fillStyle = '#8a2a1a'
+      // UIR-8: all wall paint is x-uniform (the seam stays exact); the
+      // mid water and the charred hull carry the detail. Geometry unchanged.
+      const cliff = ctx.createLinearGradient(0, 12, 0, B)
+      cliff.addColorStop(0, '#9a3420')
+      cliff.addColorStop(0.5, '#7a2415')
+      cliff.addColorStop(1, '#4a130c')
+      ctx.fillStyle = cliff
       ctx.fillRect(0, 12, 42, B - 12)
       ctx.fillRect(TILE_W - 42, 12, 42, B - 12)
-      ctx.fillStyle = '#5a1a10'
       for (const y of [26, 40, 54]) {
+        ctx.fillStyle = '#3f100a'
         ctx.fillRect(0, y, 42, 2)
         ctx.fillRect(TILE_W - 42, y, 42, 2)
+        ctx.fillStyle = 'rgba(255,150,80,0.2)'
+        ctx.fillRect(0, y + 2, 42, 1)
+        ctx.fillRect(TILE_W - 42, y + 2, 42, 1)
       }
-      ctx.fillStyle = '#2a4a5a'
+      ctx.fillStyle = 'rgba(255,110,50,0.22)'
+      ctx.fillRect(0, B - 8, 42, 8)
+      ctx.fillRect(TILE_W - 42, B - 8, 42, 8)
+      const bay = ctx.createLinearGradient(0, B - 12, 0, B)
+      bay.addColorStop(0, '#4a3a34')
+      bay.addColorStop(1, '#1c1214')
+      ctx.fillStyle = bay
       ctx.fillRect(42, B - 12, TILE_W - 84, 12)
+      rippleBand(ctx, B - 7, 2, 'rgba(255,140,70,0.45)')
       warship(ctx, 88, B - 12, 80, true)
       flameTongue(ctx, 60, B - 12, 8, 15)
       flameTongue(ctx, 196, B - 12, 8, 15)
       break
     }
     case 'flagship': {
-      ctx.fillStyle = '#2a3a5a'
-      ctx.fillRect(0, B - 12, TILE_W, 12)
+      // UIR-8: graded water, painted hull, planked command tower with its
+      // gold trim kept. Geometry unchanged.
+      waterBand(ctx, B - 12, '#5a6a9a', '#2a3a5a', '#161e34')
+      rippleBand(ctx, B - 8, 2, 'rgba(207,220,255,0.4)')
       warship(ctx, 72, B - 12, 112, false)
       // Command tower with gold trim.
-      ctx.fillStyle = '#5a4a6a'
+      const tower = ctx.createLinearGradient(116, 0, 140, 0)
+      tower.addColorStop(0, '#6a5a7a')
+      tower.addColorStop(0.5, '#54466a')
+      tower.addColorStop(1, '#3c3050')
+      ctx.fillStyle = tower
       ctx.fillRect(116, B - 40, 24, 28)
+      ctx.fillStyle = 'rgba(0,0,0,0.3)'
+      for (const px of [122, 128, 134]) ctx.fillRect(px, B - 40, 1, 28)
       ctx.fillStyle = '#c8a828'
       ctx.fillRect(116, B - 40, 24, 2)
       ctx.fillRect(116, B - 28, 24, 2)
+      ctx.fillStyle = 'rgba(255,240,190,0.5)'
+      ctx.fillRect(116, B - 40, 24, 1)
       ctx.strokeStyle = INK
       ctx.lineWidth = 1
       ctx.strokeRect(116, B - 40, 24, 28)
@@ -479,17 +715,44 @@ export function paintMarks(ctx: Ctx, kind: MarksKind): void {
       // runs a full period past each edge so every peak - including the one
       // the seam cuts - has identical incoming and outgoing joints; a path
       // that STARTED at x=0 would miter that peak differently from the rest.
-      ctx.fillStyle = '#241a26'
-      ctx.beginPath()
-      ctx.moveTo(-64, B)
-      for (let x = -64; x <= TILE_W + 64; x += 2) {
-        const u = (x / TILE_W) * 4
-        const tri = Math.abs((((u % 1) + 1) % 1)) * 2 - 1
-        ctx.lineTo(x, 30 + tri * 12)
+      // UIR-8: graded rock with 64-periodic facet ticks + shaded braziers.
+      // Everything repeats every 64px, so the period check still passes.
+      // Note: save/restore does not preserve the current path, so the ridge
+      // path is rebuilt before the stroke (stroking the last facet instead
+      // would draw one stray triangle and break the period).
+      const rockPath = (): void => {
+        ctx.beginPath()
+        ctx.moveTo(-64, B)
+        for (let x = -64; x <= TILE_W + 64; x += 2) {
+          const u = (x / TILE_W) * 4
+          const tri = Math.abs((((u % 1) + 1) % 1)) * 2 - 1
+          ctx.lineTo(x, 30 + tri * 12)
+        }
+        ctx.lineTo(TILE_W + 64, B)
+        ctx.closePath()
       }
-      ctx.lineTo(TILE_W + 64, B)
-      ctx.closePath()
+      rockPath()
+      const rock = ctx.createLinearGradient(0, 18, 0, B)
+      rock.addColorStop(0, '#443448')
+      rock.addColorStop(0.55, '#2a1f2e')
+      rock.addColorStop(1, '#16101a')
+      ctx.fillStyle = rock
       ctx.fill()
+      ctx.save()
+      rockPath()
+      ctx.clip()
+      ctx.fillStyle = 'rgba(255,200,140,0.2)'
+      for (const fx of [8, 72, 136, 200]) {
+        ctx.beginPath()
+        ctx.moveTo(fx, B)
+        ctx.lineTo(fx + 10, 34)
+        ctx.lineTo(fx + 14, 34)
+        ctx.lineTo(fx + 4, B)
+        ctx.closePath()
+        ctx.fill()
+      }
+      ctx.restore()
+      rockPath()
       ctx.strokeStyle = INK
       ctx.lineWidth = 1.4
       ctx.stroke()
