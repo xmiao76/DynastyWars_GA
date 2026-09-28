@@ -967,7 +967,7 @@ Add future enhancement tasks below this heading.
 
 ### UIR-7 - Ask portrait phone players to rotate
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1, 2026-09-27 UTC)
 - Source: UI review 2026-09-26, findings V-9 (S2) plus owner decision 1
   (rotate overlay, not a portrait layout)
 - Evidence: artifacts/review/latest/screens/phone-portrait-game.png -

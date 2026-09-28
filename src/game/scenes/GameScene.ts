@@ -26,6 +26,7 @@ import { KeyboardAdapter, PLAYER_TWO_KEYS } from '../adapters/keyboard'
 import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gamepad'
 import { NO_TOUCH } from '../adapters/touch'
 import { ensureBlendKey, ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
+import { rotateBlocked } from '../ui/orientation'
 import { artDisplayHeight } from '../art/registry'
 import {
   EMBERS_H,
@@ -410,6 +411,9 @@ export class GameScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number): void {
+    // UIR-7 (V-9): a portrait phone shows the rotate overlay and gameplay
+    // pauses behind it - no sim ticks while it is up.
+    if (rotateBlocked()) return
     // Sample the pad once per FRAME, before any sim stepping: buttons are
     // edge-detected, and a frame can run zero or several steps, so polling
     // inside the step loop would miss or repeat a press.
