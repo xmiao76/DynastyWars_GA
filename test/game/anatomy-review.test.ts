@@ -22,8 +22,12 @@ import { ALL_FIGHTERS, loadCastArt } from './cast-art'
  *                          legend below): which part is on top, per pixel.
  *   anatomy/suspects.json  arm-chain detector metrics + suspect reasons per
  *                          fighter/move (arm-chain-lib.ts) - hints only.
- *   anatomy/cells/<id>-<move>.png  6x plain|ID crops of flagged moves.
- *   index.json             also records the capture commit.
+ *   anatomy/cells/<id>-<move>.png  6x plain|ID crop of EVERY move, with its
+ *                          suspects (amber) and notes (grey).
+ *   index.json             records the capture commit AND the uncommitted
+ *                          renderer/asset files in the working tree, so a
+ *                          capture of an uncommitted fix is not mistaken for
+ *                          the commit it sits on.
  * Each window is centred on the shoulder-elbow-hand chain, so a hand is
  * never cropped away the way a fixed chest-relative window can crop it.
  */
@@ -80,10 +84,17 @@ describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
   it('writes clean and x-ray arm-chain sheets for every fighter', async () => {
     mkdirSync(`${OUT}/cells`, { recursive: true })
     const resources = await loadCastArt()
+    // Provenance: HEAD plus the uncommitted files that can change a render
+    // (src/, scripts/). A capture of an uncommitted fix records exactly which
+    // files it includes - "7b388dc-dirty" once hid that the V-15 fix was
+    // already in a capture labelled as the commit before it.
     let commit = 'unknown'
+    let dirty: string[] = []
     try {
       commit = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim()
-      if (execSync('git status --porcelain -- src scripts', { encoding: 'utf8' }).trim() !== '') commit += '-dirty'
+      dirty = execSync('git status --porcelain -- src scripts', { encoding: 'utf8' })
+        .split(/\r?\n/).map((l) => l.slice(3).trim()).filter((l) => l !== '')
+      if (dirty.length > 0) commit += '-dirty'
     } catch {
       // not a git checkout: leave 'unknown'
     }
@@ -140,7 +151,7 @@ describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
         const m = measureMove(resources, idRes, id, move, Z)
         const { walk, ...rest } = m
         rowsOut[move] = { ...rest, gapsN: walk.N.gaps.length, gapsF: walk.F.gaps.length, runN: walk.N.runU, runF: walk.F.runU }
-        if (m.suspects.length > 0) writeFileSync(`${OUT}/cells/${id}-${move}.png`, suspectCrop(resources, idRes, m).toBuffer('image/png'))
+        writeFileSync(`${OUT}/cells/${id}-${move}.png`, suspectCrop(resources, idRes, m).toBuffer('image/png'))
         for (const g of [gc, gx, gi]) {
           g.fillStyle = '#f5e6c8'
           g.font = '14px sans-serif'
@@ -153,10 +164,13 @@ describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
       writeFileSync(`${OUT}/${id}-ids.png`, idSheet.toBuffer('image/png'))
       index.push({ id, clean: `anatomy/${id}.png`, xray: `anatomy/${id}-xray.png`, ids: `anatomy/${id}-ids.png`, moves: MOVES })
     }
-    writeFileSync(`${OUT}/index.json`, JSON.stringify({ commit, fighters: index }, null, 2))
+    writeFileSync(`${OUT}/index.json`, JSON.stringify({ commit, dirty, fighters: index }, null, 2))
+    const flagged = Object.values(suspects).flatMap((r) => Object.values(r)).filter((r) => r.suspects.length > 0).length
     writeFileSync(`${OUT}/suspects.json`, JSON.stringify({
       commit,
-      note: 'Detector hints only (arm-chain-lib.ts). Judge the clean sheet first; a metric never turns an A/B verdict into N (VISUAL_REVIEW 2a step 3).',
+      dirty,
+      note: 'Detector hints only (arm-chain-lib.ts). Judge the clean sheet first; a metric never turns an A/B verdict into N (VISUAL_REVIEW 2a step 3). `suspects` are measured breaks; `notes` are expected occlusion.',
+      flagged: `${flagged} of ${ALL_FIGHTERS.length * MOVES.length} moves`,
       suspects,
     }, null, 2))
     expect(index).toHaveLength(ALL_FIGHTERS.length)

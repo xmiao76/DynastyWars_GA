@@ -43,10 +43,15 @@ Renderer parity matters because the game ships WebGL, not just the test canvas.
    - contact sheets, then the screens and crops;
    - the section 2a anatomy pass: every fighter's clean sheet, one gestalt
      verdict (N/A/B) per move for all 14 moves, then part + connection + cause
-     + crop for every A/B, then the x-ray, ID map and `suspects.json`
-     (answer every suspect: confirmed -> V-n, or dismissed with what the crop
-     shows); fill the ledger's anatomy grid;
-   - the pair sheets `anatomy/<id>-pair.png` for every `fixed` finding;
+     + crop (`anatomy/cells/<id>-<move>.png`, one per move) for every A/B,
+     then the x-ray, ID map and `suspects.json` (answer every suspect:
+     confirmed -> V-n, or dismissed with what the crop shows); fill the
+     ledger's anatomy grid;
+   - the pinned pair sheets `artifacts/review/pairs/<V-n>/<id>-pair.png` for
+     every `fixed` finding (pre-fix baseline above this pass's capture; check
+     both headers' commit and uncommitted-file labels), then
+     `npm run review:capture -- --unpin V-n` once it is verified or reopened;
+     with no baseline, write `verified <date> (no baseline)`;
    - the Known blind spots checklist.
    Metrics and inventory are hints only; a metric never dismisses a defect the
    image shows, and a clean detector row never turns A/B into N. If you use a

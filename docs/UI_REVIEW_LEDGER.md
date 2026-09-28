@@ -221,8 +221,8 @@ Cell notes (reviewer of record owns every call; dissents recorded, not hidden):
 
 ## Harness backlog
 
-- 2026-09-28: the capture wrote no cells for 3 down moves (xiahoudun-down, caoren-down, xuhuang-down: 235 of 238 cells). Down verdicts for those fighters rest on sheet+xray+ids.
-- 2026-09-28: the 7b388dc-dirty capture already contained the V-15 fix (all 235 cells byte-identical across e4872ce), and rotation deleted the f3616f1 pre-fix capture - this pass's pairs are post-vs-post. A verify pass needing pre-fix pixels must snapshot previous/ first; consider retaining two generations.
+- 2026-09-28: the capture wrote no cells for 3 down moves (xiahoudun-down, caoren-down, xuhuang-down: 235 of 238 cells). Down verdicts for those fighters rest on sheet+xray+ids. **RESOLVED (framework change after 448065f):** a crop is now written for every move (238 of 238), with suspects and notes.
+- 2026-09-28: the 7b388dc-dirty capture already contained the V-15 fix (all 235 cells byte-identical across e4872ce), and rotation deleted the f3616f1 pre-fix capture - this pass's pairs are post-vs-post. A verify pass needing pre-fix pixels must snapshot previous/ first; consider retaining two generations. **RESOLVED (same change):** `review:capture -- --pin V-n` keeps a pre-fix baseline under `artifacts/review/baselines/<V-n>/` across any number of captures, and every capture writes `artifacts/review/pairs/<V-n>/<id>-pair.png`. `anatomy/index.json` and the pair headers name the commit and every uncommitted `src/`/`scripts/` file. The suspect list was recalibrated against the 238-cell grid: 13 of 238 flagged (was 235), 9 of them A/B cells; the V-15b/V-17 heuristics are notes, not suspects (too many false alarms). VISUAL_REVIEW sections 1, 2a, 5 and 6 plus loop.md/eval-loop.md describe the flow. V-16 is pinned (baseline at 448065f).
 
 - The boss crop cuts off the boss's head (`crops/stage1-boss--boss.png`). `actorBox` must size by the actor's kind, not a fixed 112px.
 - Seed end-screen stats (score, time, lives) before forcing result, gameover and complete, so number formatting can be judged (V-8).

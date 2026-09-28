@@ -17,12 +17,14 @@ Execute exactly one bounded CONSUMER iteration:
    the regression test fails without the fix, then passes with it. Record both.
 6. Run relevant PROJECT.md checks. UI-related work also requires `npm run vision`
    and the capture-review cycle in `docs/VISUAL_REVIEW.md` section 5:
-   - run `npm run review:capture` BEFORE editing and again after;
+   - run `npm run review:capture` BEFORE editing and again after; for a
+     character finding, the BEFORE run is `npm run review:capture -- --pin V-n`
+     so its pre-fix pixels survive until the verifier has seen them;
    - review the affected screens and crops against `artifacts/review/previous/`
      with the image tool at gameplay size, citing concrete after-image details;
    - glance over the contact sheets for regressions; for character work open
-     the before/after pair sheets `anatomy/<id>-pair.png` for every fighter
-     the change can reach, all 14 moves;
+     the before/after pair sheets `artifacts/review/pairs/<V-n>/<id>-pair.png`
+     for every fighter the change can reach, all 14 moves;
    - set each listed ledger finding to `fixed <commit> (unverified)`, citing
      the pair sheet. Never write `verified` and never set anatomy-grid cells
      to `N`: only a later producer pass may, on a fresh capture.

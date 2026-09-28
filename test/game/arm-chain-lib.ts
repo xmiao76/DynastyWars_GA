@@ -334,7 +334,48 @@ export interface MoveMetrics {
   wrapFOverNearArm: number
   /** Shade pixels painted where no art is, away from the foot shadows (px at z). */
   halo: number
+  /**
+   * Gripping far fist vs the haft (V-15b): `sides` = how many of the two
+   * haft continuations 3.5-6u either side of handF read as WEAPON (>= 30%
+   * of samples; 0-2), `nearArm` = the larger near-arm share of those zones.
+   * A fist ON the haft shows haft on at least one side.
+   */
+  farHaft: { sides: number; nearArm: number }
+  /** Painted relaxed far hand pixels visible (px at z). */
+  relaxFpx: number
+  /** Measured breaks (hints for the reviewer, see suspectsOf). */
   suspects: string[]
+  /** Informational, expected occlusion (see notesOf). */
+  notes: string[]
+}
+
+function farHaftZones(ids: Uint8ClampedArray, fr: Frame, p: Skeleton): { sides: number; nearArm: number } {
+  const at = (x: number, y: number): Owner => {
+    const px = Math.round((x + fr.ox) * fr.z)
+    const py = Math.round((y + fr.oy) * fr.z)
+    if (px < 0 || py < 0 || px >= fr.w || py >= fr.h) return 'BG'
+    return owner(ids, (py * fr.w + px) * 4)
+  }
+  const d = { x: Math.cos(p.weaponRot), y: Math.sin(p.weaponRot) }
+  const n = { x: -d.y, y: d.x }
+  let sides = 0
+  let nearArm = 0
+  for (const sg of [1, -1]) {
+    let tot = 0
+    let haft = 0
+    let arm = 0
+    for (let s = 3.5; s <= 6; s += 0.25) {
+      for (const o of [-0.6, 0, 0.6]) {
+        const w = at(p.handF.x + d.x * s * sg + n.x * o, p.handF.y + d.y * s * sg + n.y * o)
+        tot += 1
+        if (w === 'WEAPON') haft += 1
+        if (w === 'upperArmN' || w === 'foreArmN') arm += 1
+      }
+    }
+    if (haft / tot >= 0.3) sides += 1
+    nearArm = Math.max(nearArm, arm / tot)
+  }
+  return { sides, nearArm: Math.round(nearArm * 100) / 100 }
 }
 
 
@@ -468,6 +509,7 @@ export function measureMove(
   let weapon = 0
   let gripF = 0
   let wrapF = 0
+  let relaxF = 0
   let halo = 0
   const un = foot.upperArmN
   const fn = foot.foreArmN
@@ -481,6 +523,7 @@ export function measureMove(
     return Math.hypot(x - p.footN.x, y - p.footN.y) < r || Math.hypot(x - p.footF.x, y - p.footF.y) < r
   }
   for (let i = 0; i < ids.length; i += 4) {
+    if ((ids[i + 3] ?? 0) >= 128 && owner(ids, i) === 'relaxF') relaxF += 1
     const inNear = ((un?.[i + 3] ?? 0) >= 200) || ((fn?.[i + 3] ?? 0) >= 200)
     if (inNear) {
       const o = owner(ids, i)
@@ -501,35 +544,75 @@ export function measureMove(
     gripFOverNearArm: gripF,
     wrapFOverNearArm: wrapF,
     halo,
+    farHaft: gripping ? farHaftZones(ids, fr, p) : { sides: 2, nearArm: 0 },
+    relaxFpx: relaxF,
     suspects: [],
+    notes: [],
   }
   m.suspects = suspectsOf(m)
+  m.notes = notesOf(m)
   return m
 }
 
 const r1 = (v: number): string => v.toFixed(1)
+/**
+ * Suspects: measured BREAKS only, calibrated 2026-09-28 against the first
+ * independent 238-cell grid (ff4528d). Each rule names the cause family.
+ * Before calibration 235 of 238 cells carried suspects - 221 of them "far
+ * upper arm hidden", which is correct layering (the far arm is behind the
+ * body) - and the list could not direct a reviewer's eye.
+ *   - chain hole: runU > 1u (the regression gate G5 allows 1.5u);
+ *   - joins: elbow overlap < 2u, cuff overlap < 1u, forearm past the hand;
+ *   - weapon over the near arm > 2u^2; shade halo > 0 px;
+ *   - near upper/forearm < 15% visible (the arm itself is lost).
+ * Heuristics for V-15b (far fist off the haft) and V-17 (floating rear
+ * hand) were scored against that grid and REJECTED as suspects: the V-15b
+ * rule flagged 36 cells the reviewer judged N and missed 4 of its 9 A/B
+ * cells; the V-17 rule missed 4 of 6. They are reported as notes with
+ * their numbers, for the reviewer to judge in the image.
+ * Everything else goes to `notes` (informational, never a finding).
+ */
 export function suspectsOf(m: MoveMetrics): string[] {
   const s: string[] = []
   for (const side of ['N', 'F'] as const) {
     const w = m.walk[side]
-    if (w.gaps.length > 0) {
+    const name = side === 'N' ? 'near' : 'far'
+    if (w.runU > 1) {
       const at = [...new Set(w.gaps.map((g) => g.where))].join('/')
       const by = [...new Set(w.gaps.map((g) => g.owner))].join('/')
-      s.push(`${side === 'N' ? 'near' : 'far'} chain gap at ${at}: ${w.gaps.length} samples, longest ${r1(w.runU)}u (shows ${by})`)
+      s.push(`${name} chain hole at ${at}: longest ${r1(w.runU)}u (shows ${by})`)
     }
     const g = m.geom[side]
-    if (g.elbowOverlap < 2) s.push(`${side === 'N' ? 'near' : 'far'} elbow join thin: overlap ${r1(g.elbowOverlap)}u (cell length / mapping)`)
-    if (g.cuffOverlap < 1) s.push(`${side === 'N' ? 'near' : 'far'} cuff stops short of the hand: overlap ${r1(g.cuffOverlap)}u (wrist cut)`)
-    if (g.cuffOvershoot > -0.5) s.push(`${side === 'N' ? 'near' : 'far'} forearm paint reaches the hand pivot: ${r1(g.cuffOvershoot)}u (fingers may poke out)`)
+    if (g.elbowOverlap < 2) s.push(`${name} elbow join thin: overlap ${r1(g.elbowOverlap)}u (cell length / mapping)`)
+    if (g.cuffOverlap < 1) s.push(`${name} cuff stops short of the hand: overlap ${r1(g.cuffOverlap)}u (wrist cut)`)
+    if (g.cuffOvershoot > -0.5) s.push(`${name} forearm paint reaches the hand pivot: ${r1(g.cuffOvershoot)}u (fingers may poke out)`)
   }
   if (m.weaponOverNearArm > 2) s.push(`weapon over the near arm: ${r1(m.weaponOverNearArm)}u^2 (draw order)`)
-  if (m.gripFOverNearArm > 0) s.push(`far fist over the near arm: ${m.gripFOverNearArm}px (draw order)`)
-  if (m.wrapFOverNearArm > 0) s.push(`far fingertips (wrapF) over the near arm: ${m.wrapFOverNearArm}px (tail draw order)`)
   if (m.halo > 0) s.push(`shade halo outside the art: ${m.halo}px (soft-shade oval not clipped to paint)`)
-  for (const [part, v] of Object.entries(m.vis)) {
-    if (v.pct < 25 && !(m.lying && part.endsWith('F'))) s.push(`${part} ${v.pct}% visible (hidden by ${v.top})`)
+  for (const part of ['upperArmN', 'foreArmN'] as const) {
+    const v = m.vis[part]
+    if (v && v.pct < 15 && !m.lying) s.push(`${part} ${v.pct}% visible (hidden by ${v.top})`)
   }
   return s
+}
+
+/** Informational observations: expected occlusion, not findings. */
+export function notesOf(m: MoveMetrics): string[] {
+  const n: string[] = []
+  for (const [part, v] of Object.entries(m.vis)) {
+    if (v.pct < 25 && part.endsWith('F')) n.push(`${part} ${v.pct}% visible (hidden by ${v.top}) - far arm behind the body`)
+  }
+  if (m.gripFOverNearArm + m.wrapFOverNearArm > 0) {
+    const off = m.farHaft.sides < 1 ? `, haft not visible beside it (near arm ${r1(m.farHaft.nearArm)})` : ''
+    n.push(`far fist/fingertips over the near arm: ${m.gripFOverNearArm}+${m.wrapFOverNearArm}px${off} - V-15b? judge in the image`)
+  }
+  if (!m.gripping && !m.lying && m.relaxFpx > 0 && (m.vis.foreArmF?.pct ?? 0) <= 30) {
+    n.push(`relaxed far hand, ${m.vis.foreArmF?.pct ?? 0}% of its forearm visible - V-17? judge in the image`)
+  }
+  const w = m.walk
+  if (w.N.runU > 0 && w.N.runU <= 1) n.push(`near chain: ${w.N.gaps.length} isolated gap samples (<= 1u, antialias rims)`)
+  if (w.F.runU > 0 && w.F.runU <= 1) n.push(`far chain: ${w.F.gaps.length} isolated gap samples (<= 1u)`)
+  return n
 }
 
 // ---------------------------------------------------------------- review images
@@ -569,9 +652,10 @@ export function idLegend(width: number): Canvas {
 }
 
 /**
- * Annotated crop for a flagged move: plain render on the left, ID map on the
- * right, both at `z`, with gap samples ringed (red near, cyan far) and the
- * joints dotted. Written only for moves with suspects.
+ * Annotated crop for ONE move (written for every cell, so every verdict has
+ * its crop): plain render on the left, ID map on the right, both at `z`,
+ * with gap samples ringed (red near, cyan far) and the joints dotted.
+ * Suspects are listed in amber, informational notes in grey.
  */
 export function suspectCrop(res: ArtResources, idRes: ArtResources, m: MoveMetrics, z = 6): Canvas {
   const p = poseOf(m.id, m.move)
@@ -581,7 +665,7 @@ export function suspectCrop(res: ArtResources, idRes: ArtResources, m: MoveMetri
   const ids = idTile(idRes, m.id, m.move, z)
   const W = win.w * z
   const H = win.h * z
-  const lines = m.suspects.length
+  const lines = Math.max(1, m.suspects.length) + m.notes.length
   const cv = createCanvas(W * 2 + 8, H + 20 + lines * 15 + 6)
   const g = cv.getContext('2d')
   g.fillStyle = '#3a3440'
@@ -612,6 +696,14 @@ export function suspectCrop(res: ArtResources, idRes: ArtResources, m: MoveMetri
   g.font = 'bold 13px sans-serif'
   g.fillText(`${m.id} ${m.move}   plain | ID map   (red o = near gap, cyan o = far gap)`, 4, 14)
   g.font = '12px sans-serif'
-  m.suspects.forEach((s, i) => g.fillText(`- ${s}`, 4, H + 20 + 15 * (i + 1)))
+  let row = 1
+  if (m.suspects.length === 0) {
+    g.fillStyle = '#a0ffb4'
+    g.fillText('- no detector suspects (hints only: judge the image)', 4, H + 20 + 15 * row++)
+  }
+  g.fillStyle = '#ffc860'
+  for (const s of m.suspects) g.fillText(`! ${s}`, 4, H + 20 + 15 * row++)
+  g.fillStyle = '#a8a0b0'
+  for (const s of m.notes) g.fillText(`  ${s}`, 4, H + 20 + 15 * row++)
   return cv
 }

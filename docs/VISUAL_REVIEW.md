@@ -104,7 +104,10 @@ and takes about 3–5 minutes. It uses the GA browser port 5177, so it must
 not run concurrently with another suite. It drives the real game through
 the debug bridge. Each run renames the previous `artifacts/review/latest/`
 to `artifacts/review/previous/`, which makes every capture a before/after
-pair. The run writes:
+pair - but only for ONE generation: the next capture deletes that
+`previous`. Evidence that must outlive two captures (the pre-fix pixels of a
+finding being fixed) is pinned under `baselines/` (see the table and
+section 5). The run writes:
 
 | Output | Contents |
 | --- | --- |
@@ -113,7 +116,11 @@ pair. The run writes:
 | `sheet-flow.png`, `sheet-stages.png`, `sheet-platform.png` | Contact sheets, for cross-screen consistency and quick regression glances. |
 | `inventory/<id>.json` | The live scene graph of each capture. Records type, name, texture key, text, font, size, colour, logical bounds, depth, alpha and visibility. This maps a pixel to the object and the line that made it. |
 | `manifest.json` | Screen id, file, state (scene, stage, hero, phase, hp), review focus, crops, renderer, viewport. Also holds automatic layout suspects and the capture timestamp and commit. |
-| `anatomy/<id>.png`, `anatomy/<id>-xray.png` | Every fighter in every movement, at 4x in windows centred on the arm chain. One is the clean art; the other is the art dimmed with the skeleton, joint markers and weapon axis on top (section 2a). Written by `test/game/anatomy-review.test.ts` as the second capture step. |
+| `anatomy/<id>.png`, `anatomy/<id>-xray.png`, `anatomy/<id>-ids.png` | Every fighter in every movement, at 4x in windows centred on the arm chain: the clean art; the art dimmed with the skeleton, joint markers and weapon axis on top; and the ID map (section 2a). Written by `test/game/anatomy-review.test.ts` as the second capture step. |
+| `anatomy/cells/<id>-<move>.png`, `anatomy/suspects.json` | A 6x plain + ID-map crop for EVERY fighter and move (so every grid verdict has its crop), with the detector's suspects (measured breaks, amber) and notes (expected occlusion and unconfirmed hints, grey). |
+| `anatomy/index.json` | The capture's commit AND its uncommitted `src/`/`scripts/` files (`dirty`). A capture of an uncommitted fix says so. |
+| `anatomy/<id>-pair.png` | Previous capture above latest, same windows. |
+| `baselines/<V-n>/`, `pairs/<V-n>/<id>-pair.png` | A pinned pre-fix capture per finding (`npm run review:capture -- --pin V-n`, taken BEFORE fixing) and, on every later capture, that baseline above the latest. Baselines are never rotated away; the verifier removes one with `-- --unpin V-n` after `verified`/`reopened`. |
 
 Layout suspects are hints, not a gate. They cover text below 8 logical px,
 visible objects extending off-screen, overlapping visible text boxes, and
@@ -186,9 +193,19 @@ the arm chain (`npm run review:capture` writes them under `anatomy/`):
   far arm cool (cyan upper, blue fore), weapon white, beard brown, torso
   grey. It shows which part is on top at every pixel.
 - `<id>-pair.png`: the previous capture above the latest, same windows. It
-  exists when `artifacts/review/previous` has anatomy sheets.
-- `suspects.json` and `cells/<id>-<move>.png`: detector hints with 6x
-  plain + ID crops. Gap samples are ringed (red near, cyan far).
+  exists when `artifacts/review/previous` has anatomy sheets. For a finding
+  under fix, judge `../pairs/<V-n>/<id>-pair.png` instead (pinned pre-fix
+  baseline above latest); both headers name the commit and any uncommitted
+  files the capture contained.
+- `suspects.json` and `cells/<id>-<move>.png`: a 6x plain + ID crop for
+  every move. Gap samples are ringed (red near, cyan far). Suspects (amber)
+  are measured breaks only - chain holes over 1u, thin elbow/cuff joins, the
+  weapon over the near arm, halos, a near arm under 15% visible - calibrated
+  against the 2026-09-28 independent grid (13 of 238 cells flagged, 9 of
+  them A/B). Notes (grey) are expected occlusion, such as the far arm behind the
+  body, plus unconfirmed hints for V-15b and V-17 that scored too many false
+  alarms to be suspects. A move without suspects is not therefore natural;
+  every A/B the reviewer sees stands.
 
 The standard is what a figure-drawing teacher expects: **every chain
 shoulder -> upper arm -> elbow -> forearm -> wrist/cuff -> hand -> grip ->
@@ -366,14 +383,17 @@ Use this task template in TASKS.md Enhancements, with the next free `UIR-n`:
 
 For any UI, art or HUD task, the consumer (`.loop/loop.md`) does five things:
 
-1. Captures before changing code. The capture becomes `previous` on the
-   next run.
+1. Captures before changing code, pinning the pre-fix pixels for each
+   character finding it works on: `npm run review:capture -- --pin V-n`
+   (once per finding; an existing pin is kept). The capture also becomes
+   `previous` on the next run, but that copy lasts only one more capture.
 2. Implements the change and adds its objective test.
 3. Recaptures and reviews the affected screens and crops against `previous`,
-   per section 2. It glances over the contact sheets for regressions.
+   per section 2, and every affected fighter's `pairs/<V-n>/<id>-pair.png`
+   for all 14 moves. It glances over the contact sheets for regressions.
 4. Updates each listed finding in the ledger to `fixed <commit> (unverified)`,
    citing the after-image detail and the pair sheet
-   (`anatomy/<id>-pair.png`) it looked at. The consumer never writes
+   (`pairs/<V-n>/<id>-pair.png`) it looked at. The consumer never writes
    `verified` and never sets anatomy-grid cells to `N`: that is the next
    producer's job. It may APPEND newly noticed findings as `open`
    observations with a crop, but must not file tasks for them.
@@ -385,13 +405,20 @@ For any UI, art or HUD task, the consumer (`.loop/loop.md`) does five things:
 The implementer never has the last word on their own work. On the next
 producer review, each `fixed ... (unverified)` finding (and each legacy
 `fixed ... (self-check)`) is re-inspected on a FRESH capture made in that
-pass. The reviewer looks at the pair sheet and the clean sheet, not at the
-fixer's description, and marks it one of two ways:
+pass. The reviewer looks at `pairs/<V-n>/<id>-pair.png` (the pinned
+pre-fix baseline above its own fresh capture) and the clean sheet, not at
+the fixer's description, and marks it one of two ways:
 
 - `verified <date>`: the defect is gone in every move it was reported in,
   and the pair sheet shows no new break in any other move.
 - `reopened <date> -> V-m`: a new finding is created that references the
   old one, plus the reason.
+
+Then it removes the pin (`npm run review:capture -- --unpin V-n`). If no
+baseline exists (a fix made before pinning existed, or a fixer that skipped
+step 1), the reviewer says so in the finding and verifies against the
+finding's own definition on fresh pixels. That is weaker evidence and must
+be recorded as `verified <date> (no baseline)`.
 
 If the images cannot be attached or viewed, nothing is verified: record the
 limitation and end BLOCKED. A reviewer subagent gets the image paths and
