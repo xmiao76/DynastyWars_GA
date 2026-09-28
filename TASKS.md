@@ -1124,7 +1124,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-11 - Paint the ground per stage
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-13 (S2)
 - Evidence: every fresh `stage*-play`: the ground is one tint with a
   dot pattern (re-confirmed fresh).
@@ -1140,17 +1141,21 @@ Add future enhancement tasks below this heading.
   0.5) so the repainted ground displays fully - required for the
   acceptance below, same as sky/ridge under UIR-9/10.)
 - Acceptance criteria:
-  1. A texture test on the layer FAILS on the current flat painter and
-     passes on the new one (16x16-block luminance std-dev share;
-     record both values). R5 scores at least 4 on the affected screens
-     against `screens/title.png`; the actor ground shadows are still
-     visible in the after-crops.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] test/game/uir11-ground.test.ts: 16x16-block luminance-stddev
+        share (threshold 7) clears 0.55 on grass and earth. Before:
+        0.19 / 0.19 (fails first). After: 0.83 / 0.72. R5 = 4 on
+        stage*-play vs title (horizon-lit falloff, mottled patches,
+        blade/clod/chip strokes, calm paint tooth); actor ground
+        shadows read clearly in the after-crops (stage1/stage4).
+  - [x] After npm run review:capture: all nine grounds show painted
+        falloff + texture in their stage palettes (stage1 grass and
+        stage4 earth verified close up); ground.setTileScale(0.5, 0.5)
+        maps the repaint 1:1 (V-19 ground part - the bottom half never
+        displayed). Before: one tint with dots.
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (ART-19 suite green unedited); ledger V-13 set to
+        fixed (self-check) - the last of its three parts (sky UIR-9,
+        ridges UIR-10, ground here).
 - Non-goals: collision, or the lane depth.
 
 ### UIR-12 - Paint hands with fingers, not mittens

@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 20:40 UTC - UIR-11 (attempt 1, ground - DONE)
+
+- Status before: UIR-11 TODO (V-13 ground part: one tint with dots).
+- Work completed: paintGround repaint (4-stop horizon-to-foreground
+  falloff, mottled earth patches, 90 blade + 70 clod + 40 chip
+  strokes on deterministic walks with 2px edge clearance, horizon
+  spill; gentle paint tooth) + ground.setTileScale(0.5, 0.5) (V-19
+  ground part - bottom half never displayed). TDD:
+  test/game/uir11-ground.test.ts pinned failing first (0.19/0.19),
+  green after (0.83/0.72). V-13 COMPLETE (sky UIR-9, ridges UIR-10,
+  ground here).
+- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
+  .ts (ground tileScale), test/game/uir11-ground.test.ts (new),
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 fixed
+  self-check; V-19 ground done).
+- Verification run: lint 0; tsc 0; unit 670/670 + 1 skipped (+1 new
+  pin); ART-19 suite green unedited; review capture after; browser
+  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4). Re-review: all nine grounds painted and calm,
+  shadows crisp (stage1/4 close up); R5 = 4.
+- Result: UIR-11 acceptance met.
+- Status after: UIR-11 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-16..20
+  TODO.
+- Next recommended task: UIR-16 (far fist off the near arm).
+
+
 ### 2026-09-28 19:00 UTC - PRODUCER (follow-up review, count-triggered - COMPLETED)
 
 - Status before: 4 src/game commits since 9fd19c2 (review due);

@@ -312,39 +312,87 @@ export function paintRidge(ctx: Ctx, hillColor: number, hazeColor: number): void
   ctx.putImageData(img, 0, 0)
 }
 
-/** The walkable field: a lit band at the horizon falling to a richer floor. */
+/** The walkable field: a lit band at the horizon falling to a richer floor.
+ * UIR-11: steeper horizon-to-foreground falloff, mottled earth patches and
+ * directional strokes (blades, clods, chips) instead of flat tint + dots.
+ * Kept calm (low alphas) so actor shadows and hit effects still read. */
 export function paintGround(ctx: Ctx, baseColor: number): void {
   const grad = ctx.createLinearGradient(0, 0, 0, GROUND_H)
-  grad.addColorStop(0, css(tint(baseColor, 0.3)))
-  grad.addColorStop(0.18, css(tint(baseColor, 0.1)))
-  grad.addColorStop(1, css(shade(baseColor, 0.28)))
+  grad.addColorStop(0, css(tint(baseColor, 0.38)))
+  grad.addColorStop(0.22, css(tint(baseColor, 0.12)))
+  grad.addColorStop(0.55, css(baseColor))
+  grad.addColorStop(1, css(shade(baseColor, 0.32)))
   ctx.fillStyle = grad
   ctx.fillRect(0, 0, TILE_W, GROUND_H)
+
+  // Mottled earth: large soft patches, darker hollows and lighter rises.
+  // Mid-tile only, so the seam columns never feel them.
+  const patch: Array<[number, number, number, string]> = [
+    [52, 34, 34, 'rgba(0,0,0,0.1)'],
+    [128, 62, 42, 'rgba(255,255,255,0.08)'],
+    [204, 36, 32, 'rgba(0,0,0,0.1)'],
+    [96, 92, 36, 'rgba(0,0,0,0.09)'],
+    [176, 94, 30, 'rgba(255,255,255,0.07)'],
+  ]
+  for (const [mx, my, mr, mc] of patch) {
+    const blob = ctx.createRadialGradient(mx, my, 1, mx, my, mr)
+    blob.addColorStop(0, mc)
+    blob.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = blob
+    ctx.fillRect(mx - mr, my - mr, mr * 2, mr * 2)
+  }
 
   // The horizon line: one ink rule, the same device as the figures' outline.
   ctx.fillStyle = INK
   ctx.globalAlpha = 0.45
   ctx.fillRect(0, 0, TILE_W, 2)
   ctx.globalAlpha = 1
+  // Horizon spill: light caught just below the line.
+  ctx.fillStyle = 'rgba(255,255,255,0.12)'
+  ctx.fillRect(0, 2, TILE_W, 3)
 
-  // Tufts and speckle. Positions are a fixed integer walk, not random, so the
-  // texture is identical on every run and the vision gate's numbers are stable.
-  ctx.fillStyle = css(tint(baseColor, 0.26))
+  // Strokes: grass blades (light, vertical), earth clods (dark, square),
+  // stone chips (pale, flat). Fixed integer walks, not random, so the
+  // texture is identical on every run and the vision gate's numbers stay
+  // stable. All marks keep 2px clear of the tile edges for the seam test.
+  const put = (x: number, y: number): [number, number] => [
+    2 + (x % (TILE_W - 4)),
+    4 + (y % (GROUND_H - 8)),
+  ]
+  ctx.fillStyle = css(tint(baseColor, 0.3))
+  ctx.globalAlpha = 0.55
+  for (let i = 0; i < 90; i += 1) {
+    const [x, y] = put(i * 47, i * 61)
+    ctx.fillRect(x, y - 2, 1, 4)
+  }
+  ctx.fillStyle = css(shade(baseColor, 0.32))
   ctx.globalAlpha = 0.5
-  for (let i = 0; i < 110; i += 1) {
-    const x = (i * 47) % TILE_W
-    const y = 10 + ((i * 61) % (GROUND_H - 14))
-    ctx.beginPath()
-    ctx.ellipse(x, y, 2.6, 1.4, 0, 0, Math.PI * 2)
-    ctx.fill()
+  for (let i = 0; i < 70; i += 1) {
+    const [x, y] = put(i * 83 + 11, i * 31 + 7)
+    ctx.fillRect(x, y, 2, 2)
   }
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)'
-  for (let i = 0; i < 48; i += 1) {
-    const x = (i * 83) % TILE_W
-    const y = 6 + ((i * 31) % (GROUND_H - 10))
-    ctx.fillRect(x, y, 2, 1)
-  }
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.16)'
   ctx.globalAlpha = 1
+  for (let i = 0; i < 40; i += 1) {
+    const [x, y] = put(i * 53 + 5, i * 97 + 3)
+    ctx.fillRect(x, y, 3, 1)
+  }
+
+  // Soil tooth: the same seam-exact 17-mod grain as sky and ridge, kept
+  // gentle so the ground stays calm under the actors.
+  const img = ctx.getImageData(0, 0, TILE_W, GROUND_H)
+  const dd = img.data
+  for (let y = 0; y < GROUND_H; y += 1) {
+    for (let x = 0; x < TILE_W; x += 1) {
+      const i = (y * TILE_W + x) * 4
+      if ((dd[i + 3] ?? 0) < 128) continue
+      const v = (((x * 73 + y * 149) % 17) - 8) * 1.2
+      dd[i] = Math.max(0, Math.min(255, (dd[i] ?? 0) + v))
+      dd[i + 1] = Math.max(0, Math.min(255, (dd[i + 1] ?? 0) + v))
+      dd[i + 2] = Math.max(0, Math.min(255, (dd[i + 2] ?? 0) + v))
+    }
+  }
+  ctx.putImageData(img, 0, 0)
 }
 
 export const CLOUD_W = 76

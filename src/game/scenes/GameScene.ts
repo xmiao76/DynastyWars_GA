@@ -320,6 +320,10 @@ export class GameScene extends Phaser.Scene {
     )
     const ground = this.add.tileSprite(0, groundTop, stage.length + 64, GROUND_H, groundKey)
     ground.setOrigin(0, 0).setDepth(-8) // in front of hills, behind actors
+    // UIR-11 (V-13 ground part + V-19 ground part): same half-texture
+    // display the marks, sky and hills had - without this only tile rows
+    // 0..58 show. tileScale 0.5 maps the repaint 1:1.
+    ground.setTileScale(0.5, 0.5)
     ground.setName('bgGround')
 
     ensureEntityTextures(this, stageArtKinds(this.sim))
