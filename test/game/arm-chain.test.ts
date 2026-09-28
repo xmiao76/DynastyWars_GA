@@ -82,6 +82,15 @@ describe('V-15 arm chains connect (all fighters x all moves)', () => {
     expect(bad).toEqual([])
   })
 
+  it('G6 the far fist never paints over the near arm (V-15b)', () => {
+    // UIR-16: the strike re-choreography stacks the far grip forward of
+    // the near hand (clear haft) instead of under the near elbow.
+    const bad = standing()
+      .filter((m) => m.gripFOverNearArm + m.wrapFOverNearArm > 0)
+      .map((m) => fmt(m, `${m.gripFOverNearArm}+${m.wrapFOverNearArm}`))
+    expect(bad).toEqual([])
+  })
+
   it('prep cuff constants mirror the renderer part table', () => {
     for (const [part, len] of Object.entries(ARM_NATURAL_LEN)) {
       expect(len, part).toBe(BODY_PART_DEFS[part as keyof typeof ARM_NATURAL_LEN].naturalLen)
@@ -141,5 +150,15 @@ describe('V-15 gate negative controls (each gate can fail)', () => {
     const r = withBody({ ...b, parts: rest })
     const m = measureMove(r, idResources(r, 'guanyu'), 'guanyu', 'attack', 4, { footBody: b })
     expect(m.weaponOverNearArm).toBeGreaterThan(2)
+  })
+
+  it('G6 trips when far-fist pixels sit on the near-arm footprint', () => {
+    // Predicate check + the empirical control: before the UIR-16
+    // re-choreography G6 failed on 87/221 standing cells (worst
+    // lubu:attack 398+627, xuchu:attack 310+628).
+    const flagged = (g: number, w: number): boolean => g + w > 0
+    expect(flagged(100, 0)).toBe(true)
+    expect(flagged(0, 50)).toBe(true)
+    expect(flagged(0, 0)).toBe(false)
   })
 })

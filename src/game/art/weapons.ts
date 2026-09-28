@@ -236,9 +236,12 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
   if (twoHanded) {
     const spec = WEAPONS[plan.weapon]
     // UIR-15: strikes spread the fists wider along the haft so the two
-    // arm chains stop running parallel (V-14 J6 rails).
+    // arm chains stop running parallel (V-14 J6 rails). UIR-16 passes the
+    // solved near-arm chain so a wide grip that would land on it stacks
+    // close instead (V-15b) - grips that already clear keep their spread.
     const fit = fitFarHand(handN, weaponRot, pose.weaponGrip, spec.length,
-      pose.shoulderF, nat.upperF + nat.foreF, pose.strike ? STRIKE_MIN_SEP : undefined)
+      pose.shoulderF, nat.upperF + nat.foreF, pose.strike ? STRIKE_MIN_SEP : undefined,
+      { shoulder: near.shoulder, elbow: near.elbow, hand: handN })
     if (fit.gripping) handF = fit.handF
   }
   const far = solveArm(pose.shoulderF, handF, strikeElbowHint(pose, handF), nat.upperF, nat.foreF)

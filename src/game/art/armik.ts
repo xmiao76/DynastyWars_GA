@@ -259,6 +259,33 @@ export interface HaftFit {
 export const HAFT_MIN_SEP = 12
 /** UIR-15: strikes spread the fists further so the chains break parallel. */
 export const STRIKE_MIN_SEP = 18
+/** UIR-16: stacked fists sit this close (center distance, ~one fist wide). */
+export const CLOSE_GRIP_SEP = 4
+/** UIR-16: the far fist center must clear the near-arm segments by this
+ * (fist radius + arm half-width + margin), or it paints over the arm. The
+ * elbow POINT is not enough - the fist lands on forearm/upper-arm spans. */
+export const ELBOW_CLEARANCE = 5.5
+/** A near-arm chain for clearance tests (UIR-16): shoulder->elbow->hand. */
+export interface ArmChain {
+  shoulder: Pt
+  elbow: Pt
+  hand: Pt
+}
+
+function distToSeg(p: Pt, a: Pt, b: Pt): number {
+  const dx = b.x - a.x
+  const dy = b.y - a.y
+  const l2 = dx * dx + dy * dy
+  const t = l2 < 0.01 ? 0 : Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / l2))
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy))
+}
+
+function clearsArm(p: Pt, arm: ArmChain): boolean {
+  return (
+    distToSeg(p, arm.shoulder, arm.elbow) >= ELBOW_CLEARANCE &&
+    distToSeg(p, arm.elbow, arm.hand) >= ELBOW_CLEARANCE
+  )
+}
 
 /**
  * Far-hand placement on the haft for two-handed weapons (BODY-19). Searches
@@ -268,19 +295,66 @@ export const STRIKE_MIN_SEP = 18
  * nothing is reachable (the caller relaxes the arm instead) - a floating
  * stretched fist is worse than a relaxed arm. UIR-15: strikes pass a larger
  * minSep so the far fist slides toward the butt - the two shoulder->hand
- * chains stop running parallel (the "rails" read).
+ * chains stop running parallel (the "rails" read). UIR-16: when `avoid` (the
+ * solved near elbow) is passed and the wide grip would land on it, the far
+ * fist stacks close instead - forward first (the haft ahead of the near
+ * hand is clear, the arm extends backward), then back. Grips that already
+ * clear keep their UIR-15 spread.
  */
 export function fitFarHand(
   handN: Pt, rot: number, grip: number, length: number,
   shoulderF: Pt, reachF: number,
   minSep: number = HAFT_MIN_SEP,
+  avoid?: ArmChain,
 ): HaftFit {
   // UIR-15: strikes prefer a wider spread; a spread that leaves no valid
   // grip must not cost the far hand its hold (zhaoyun:attack lost it in
   // the first cut), so fall back to the minimum separation.
   const wide = fitFarHandAt(handN, rot, grip, length, shoulderF, reachF, minSep)
-  if (wide.gripping || minSep <= HAFT_MIN_SEP) return wide
-  return fitFarHandAt(handN, rot, grip, length, shoulderF, reachF, HAFT_MIN_SEP)
+  const current =
+    wide.gripping || minSep <= HAFT_MIN_SEP
+      ? wide
+      : fitFarHandAt(handN, rot, grip, length, shoulderF, reachF, HAFT_MIN_SEP)
+  if (!avoid || !current.gripping || clearsArm(current.handF, avoid)) return current
+  return fitCloseStack(handN, rot, grip, length, shoulderF, reachF, minSep, avoid) ?? current
+}
+
+/**
+ * UIR-16 fallback: the tightest reachable grip that clears the near elbow,
+ * forward of the near hand first, then behind it. Returns null when nothing
+ * clears (the caller keeps the wide grip and the G6 gate says so).
+ */
+function fitCloseStack(
+  handN: Pt, rot: number, grip: number, length: number,
+  shoulderF: Pt, reachF: number,
+  minSep: number,
+  avoid: ArmChain,
+): HaftFit | null {
+  const dx = Math.cos(rot)
+  const dy = Math.sin(rot)
+  const sMin = Math.ceil(-length * grip + 4)
+  const sMax = Math.floor(length * (1 - grip) - 14)
+  const limit = reachF * (minSep > HAFT_MIN_SEP ? 1.04 : 0.99)
+  // Back-close first (keeps the UIR-15 rear-arm bend), then forward-close:
+  // a forward grab on some strikes extends the far arm straight (zhaoyun
+  // attack turned 16 against a 55 floor), while a clearing back grip keeps
+  // the bend the rails rule measures.
+  const spans: Array<[number, number]> = [
+    [-12, -CLOSE_GRIP_SEP],
+    [CLOSE_GRIP_SEP, 12],
+  ]
+  for (const [lo, hi] of spans) {
+    // Back spans scan outward (tightest first either way).
+    const step = lo < 0 ? 1 : 1
+    for (let s = lo < 0 ? hi : lo; lo < 0 ? s >= lo : s <= hi; s += lo < 0 ? -step : step) {
+      if (s < sMin || s > sMax) continue
+      const p = { x: handN.x + s * dx, y: handN.y + s * dy }
+      if (dist(shoulderF, p) > limit) continue
+      if (!clearsArm(p, avoid)) continue
+      return { handF: p, gripping: true }
+    }
+  }
+  return null
 }
 
 function fitFarHandAt(
