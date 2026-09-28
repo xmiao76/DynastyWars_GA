@@ -9,9 +9,14 @@ import { CHARACTER_ORDER } from '../src/core/characters'
  * Before this existed the game was a public URL that no phone could play: on
  * iPhone 13, Pixel 7 and iPad the canvas scaled correctly and nothing errored,
  * but a tap did nothing and the scene never left the title.
+ *
+ * UIR-7 (V-9): portrait phones now get the rotate overlay with gameplay
+ * paused behind it, so touch gameplay is exercised in LANDSCAPE - the only
+ * orientation a phone plays in. The fit/rotation tests below still cover
+ * portrait geometry explicitly.
  */
 
-test.use({ ...devices['Pixel 7'] })
+test.use({ ...devices['Pixel 7 landscape'] })
 
 /**
  * Map a point in the game's logical 480x270 space to a screen coordinate.
@@ -344,8 +349,8 @@ test('the title names the controls the device actually has', async ({ page, brow
  * on-screen controls - the d-pad at viewport y=403 and two of the three buttons
  * at 414 and 421, against a 360px window. Only C could be pressed.
  *
- * Every touch test in this file runs Pixel 7 PORTRAIT, where fitting to width
- * is the right answer, so four of them passed over a game that could not be
+ * Every touch test in this file used to run Pixel 7 PORTRAIT, where fitting
+ * to width is the right answer. UIR-7 moved gameplay to landscape (portrait
  * played in the orientation anybody would hold it in. This one checks both, and
  * checks the zones rather than the drawing, because reachability is a property
  * of the hit area.

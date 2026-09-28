@@ -3,6 +3,8 @@ import '../style.css'
 import { audio } from './audio/sfx'
 import { initialBridgeState, installBridge } from './debug/bridge'
 import { VIEW_H, VIEW_W } from './render'
+import { rotateBlocked } from './ui/orientation'
+import { LIVE_STACK } from './ui/theme'
 import { BootScene } from './scenes/BootScene'
 import { GameScene } from './scenes/GameScene'
 import { HudScene } from './scenes/HudScene'
@@ -86,3 +88,52 @@ window.addEventListener('keydown', (event) => {
     bridgeState.muted = audio.muted
   }
 })
+
+/**
+ * UIR-7 (V-9, owner decision 1): the rotate-your-phone overlay. A touch
+ * device held in portrait gets a full-screen themed overlay (phone icon +
+ * text in the display font on the letterbox gradient) over the game, and
+ * gameplay pauses behind it (GameScene.update returns early while
+ * rotateBlocked()). Rotating back to landscape removes the overlay and the
+ * game resumes where it froze. Desktop and landscape never see it. DOM, not
+ * canvas: it must cover the letterbox too, and stay crisp at any density.
+ */
+const rotateOverlay = document.createElement('div')
+rotateOverlay.id = 'rotate-overlay'
+rotateOverlay.setAttribute('role', 'alert')
+rotateOverlay.style.cssText = [
+  'position:fixed',
+  'inset:0',
+  'display:none',
+  'flex-direction:column',
+  'align-items:center',
+  'justify-content:center',
+  'gap:22px',
+  'background:linear-gradient(180deg,#0a0a0a 0%,#1a1424 55%,#0a0a0a 100%)',
+  'z-index:100',
+  `font-family:${LIVE_STACK}`,
+  'color:#e8b820',
+  'text-align:center',
+  'padding:24px',
+  'box-sizing:border-box',
+].join(';')
+rotateOverlay.innerHTML =
+  '<svg width="76" height="76" viewBox="0 0 76 76" fill="none" aria-hidden="true">' +
+  '<rect x="22" y="8" width="32" height="56" rx="7" stroke="#e8b820" stroke-width="4"/>' +
+  '<rect x="33" y="56" width="10" height="3" rx="1.5" fill="#e8b820"/>' +
+  '<path d="M60 52 A 22 22 0 0 1 60 30" stroke="#e8b820" stroke-width="4" stroke-linecap="round"/>' +
+  '<path d="M60 24 L60 34 L52 29 Z" fill="#e8b820"/>' +
+  '</svg>' +
+  '<div style="font-size:26px;font-weight:900;letter-spacing:2px">ROTATE YOUR PHONE</div>' +
+  '<div style="font-size:15px;color:#d8c8a0;max-width:340px">This game is played in landscape. Turn your phone sideways to keep playing.</div>'
+document.body.appendChild(rotateOverlay)
+
+const syncRotateOverlay = (): void => {
+  const blocked = rotateBlocked()
+  rotateOverlay.style.display = blocked ? 'flex' : 'none'
+  rotateOverlay.setAttribute('aria-hidden', blocked ? 'false' : 'true')
+}
+window.addEventListener('resize', syncRotateOverlay)
+window.addEventListener('orientationchange', syncRotateOverlay)
+window.screen?.orientation?.addEventListener?.('change', syncRotateOverlay)
+syncRotateOverlay()

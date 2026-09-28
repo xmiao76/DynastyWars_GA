@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 14:10 UTC - UIR-7 (attempt 1, rotate overlay - DONE)
+
+- Status before: UIR-7 IN_PROGRESS (orientation.ts + GameScene gate
+  committed at f3616f1; overlay + spec + capture handling unwritten).
+- Work completed: main.ts builds the #rotate-overlay DOM (phone icon +
+  ROTATE YOUR PHONE in the display font on the letterbox gradient),
+  synced on resize/orientationchange; gameplay pauses behind it via
+  the committed GameScene gate and resumes on rotate-back.
+  e2e/orientation.spec.ts pins the three contexts (portrait overlay +
+  frozen tick; landscape clear + advancing; desktop clear). ui-review
+  phone() asserts the overlay in portrait instead of waiting for
+  ticks - the known capture abort is fixed and review:capture now
+  completes (platform + anatomy + 17 pairs). touch.spec.ts and
+  touchpause.spec.ts migrated to Pixel 7 landscape (portrait no
+  longer plays; the fit/rotation tests still cover portrait
+  geometry).
+- Files changed: src/game/main.ts, e2e/orientation.spec.ts (new),
+  e2e/ui-review.spec.ts, e2e/touch.spec.ts, e2e/touchpause.spec.ts,
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-9 fixed
+  self-check; capture-abort harness entry resolved).
+- Verification run: lint 0; tsc 0; unit 666/666 + 1 skipped;
+  orientation.spec 3/3; touch specs 10/10; review:capture exit 0;
+  browser gates: E2E 81 passed / 5 skipped / 0 failed (86 total),
+  VISION 5/5, SELFPLAY 13/13, BUILD 0, PRODBUILD 4/4. Re-review:
+  portrait overlay on all 3 shots, landscape clean, WebGL intact,
+  flow/stages sheets unchanged.
+- Result: UIR-7 acceptance met.
+- Status after: UIR-7 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-8..11,
+  UIR-16..19 TODO.
+- Next recommended task: UIR-8 (landmark strip repaint).
+
+
 ### 2026-09-28 12:30 UTC - PRODUCER (visual-review pass, DUE NOW + batch 3 - COMPLETED)
 
 - Status before: DUE NOW (owner arm-chains flag) + UIR batch 3 PENDING

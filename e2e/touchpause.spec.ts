@@ -9,7 +9,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../src/core/constants'
  * wall-clock ticks advancing until the tap lands.
  */
 
-test.use({ ...devices['Pixel 7'] })
+test.use({ ...devices['Pixel 7 landscape'] })
 
 async function tapGamePoint(
   page: import('@playwright/test').Page,

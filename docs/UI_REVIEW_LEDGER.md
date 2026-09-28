@@ -74,7 +74,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 ### V-8 - End screens show 0 score and 0.0s (harness)
 - The capture forces the result, game-over and complete screens, so the stats are empty. Number formatting and long-score fit on these screens are unjudged. Next capture fix: seed stats (see Harness backlog).
 
-### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - owner-approved, filed UIR-7
+### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - fixed (self-check)
 - Evidence: `screens/phone-portrait-game.png`: the game fills 28% of the height; the touch buttons are about 20 CSS px, and there is no hint to rotate.
 - Root cause: `src/game/main.ts:31-32` (Scale.FIT, CENTER_BOTH) has no orientation handling in `index.html` or `src/style.css`. See Owner questions.
 
@@ -223,7 +223,7 @@ Cell notes (reviewer of record owns every call; dissents recorded, not hidden):
 - The boss crop cuts off the boss's head (`crops/stage1-boss--boss.png`). `actorBox` must size by the actor's kind, not a fixed 112px.
 - Seed end-screen stats (score, time, lives) before forcing result, gameover and complete, so number formatting can be judged (V-8).
 - Add a mid-combo HUD shot (combo counter) and a hit-flash still; neither is captured yet.
-- 2026-09-28: `review:capture` aborts in `e2e/ui-review.spec.ts:288` (phone portrait): the sim tick stays 0 because UIR-7's `rotateBlocked()` (in-progress owner work at `f3616f1`, `src/game/ui/orientation.ts`) pauses GameScene on the Pixel 7 portrait profile, and the capture waits for 40 ticks. Reproduced on clean `7b388dc`. The capture must treat portrait as "overlay shown, sim paused" (UIR-7's own acceptance). Until then the anatomy sheets can be produced with `REVIEW_ANATOMY=1 npx vitest run test/game/anatomy-review.test.ts`.
+- 2026-09-28: `review:capture` aborted in `e2e/ui-review.spec.ts:288` (phone portrait) - RESOLVED by UIR-7 (the phone() step asserts the overlay in portrait instead of waiting for ticks; capture now completes): the sim tick stays 0 because UIR-7's `rotateBlocked()` (in-progress owner work at `f3616f1`, `src/game/ui/orientation.ts`) pauses GameScene on the Pixel 7 portrait profile, and the capture waits for 40 ticks. Reproduced on clean `7b388dc`. The capture must treat portrait as "overlay shown, sim paused" (UIR-7's own acceptance). Until then the anatomy sheets can be produced with `REVIEW_ANATOMY=1 npx vitest run test/game/anatomy-review.test.ts`.
 
 ## Owner notes
 

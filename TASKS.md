@@ -967,7 +967,7 @@ Add future enhancement tasks below this heading.
 
 ### UIR-7 - Ask portrait phone players to rotate
 
-- Status: IN_PROGRESS (attempt 1, 2026-09-27 UTC)
+- Status: DONE (attempt 1, 2026-09-27..28 UTC, verified full-green)
 - Source: UI review 2026-09-26, findings V-9 (S2) plus owner decision 1
   (rotate overlay, not a portrait layout)
 - Evidence: artifacts/review/latest/screens/phone-portrait-game.png -
@@ -984,17 +984,24 @@ Add future enhancement tasks below this heading.
   and resumes when the phone is rotated back. Desktop and landscape
   are unchanged.
 - Acceptance criteria:
-  1. An e2e spec on a Pixel 7 portrait context shows the overlay
-     visible and the sim tick not advancing. A landscape context shows
-     no overlay, with ticks advancing. A desktop 960x540 context shows
-     no overlay. The review capture's phone-portrait shots show the
-     overlay, and the landscape shots do not.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] e2e/orientation.spec.ts: Pixel 7 portrait shows the overlay
+        with the sim tick frozen; Pixel 7 landscape shows no overlay with
+        ticks advancing; desktop 960x540 shows no overlay (3/3 green).
+        The review capture's phone-portrait shots show the overlay and
+        the landscape shots do not (ui-review phone() asserts the
+        overlay in portrait instead of waiting for ticks - this also
+        fixes the known capture abort, so review:capture now completes
+        with platform + anatomy + pair sheets).
+  - [x] After npm run review:capture: phone-portrait-title/select/game
+        show the full-screen themed overlay (gold phone icon + ROTATE
+        YOUR PHONE in the display font on the letterbox gradient);
+        landscape shows the game clean with touch controls and no
+        overlay; WebGL screens intact. Before: tiny game, no hint (V-9
+        evidence; previous/ portrait-game never captured - the abort).
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (touch.spec + touchpause.spec migrated to Pixel 7
+        landscape - portrait no longer plays; 10/10). Ledger V-9 set
+        to fixed (self-check).
 - Non-goals: a portrait gameplay layout, or forcing orientation through
   the Screen Orientation API.
 

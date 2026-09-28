@@ -277,7 +277,13 @@ async function phone(browser: Browser, label: string, profile: (typeof devices)[
   await snap(page, `phone-${label}-select`, { group: 'platform', focus: `${label} phone roster fit` })
   await start(page, 'zhaoyun', 'stage1')
   await dismissIntro(page)
-  await run(page, walk(40))
+  if (label === 'portrait') {
+    // UIR-7 (V-9): portrait shows the rotate overlay with the sim paused -
+    // no ticks will ever render, so assert the overlay instead of walking.
+    await expect(page.locator('#rotate-overlay')).toBeVisible()
+  } else {
+    await run(page, walk(40))
+  }
   await snap(page, `phone-${label}-game`, { group: 'platform', focus: `${label} touch controls vs HUD and action` })
   expect(errors.get(page)).toEqual([])
   await ctx.close()
