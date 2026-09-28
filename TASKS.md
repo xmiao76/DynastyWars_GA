@@ -1056,7 +1056,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-9 - Paint the sky and clouds
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-13 (S2)
 - Evidence: every fresh `stage*-play`: smooth two-colour gradient sky
   and hard-edged flat-filled cloud lobes (re-confirmed fresh); against
@@ -1070,16 +1071,22 @@ Add future enhancement tasks below this heading.
   edges, a lit top and a shaded belly). The ember sky stays distinct.
   Shared backdrop constraints apply (see UIR-8).
 - Acceptance criteria:
-  1. A texture test on the layer FAILS on the current flat painter and
-     passes on the new one (16x16-block luminance std-dev share;
-     record both values). R5 scores at least 4 on the affected screens
-     against `screens/title.png`.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] test/game/uir9-sky.test.ts: 16x16-block luminance-stddev
+        share (threshold 7) clears 0.55 on skies, 0.9 on the cloud.
+        Before: sky-day 0.04, sky-ember 0.25, cloud 0.80 (fails first).
+        After: 1.00 / 1.00 / 1.00. R5 = 4 on stage*-play vs title
+        (atmospheric grade, broken colour, sun-side light, modeled
+        clouds with lit tops and shaded bellies; ember stays distinct).
+  - [x] After npm run review:capture: day skies show graded atmosphere
+        with mottling, faint cirrus and modeled clouds (an early
+        five-line cirrus pass banded visibly and was cut back to three
+        faint lines; an every-9px striation pass read as corduroy and
+        was removed - the deterministic grain carries the tooth);
+        ember stage7 reads as smoky sunset, distinct from day. WebGL
+        and phone-landscape match canvas; portrait still overlays.
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (ART-19 suite green unedited); ledger V-13 noted
+        sky-done (ridges/ground pending UIR-10/11, which complete it).
 - Non-goals: weather, time of day, or animated sky.
 
 ### UIR-10 - Paint the hill ridges with atmospheric depth

@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 17:40 UTC - UIR-9 (attempt 1, sky and clouds - DONE)
+
+- Status before: UIR-9 TODO (V-13 sky part: flat gradient + hard flat
+  cloud lobes; full sky never displayed anyway - V-19).
+- Work completed: paintSky repaint (five-stop atmospheric grade,
+  mottled broken colour, 3 faint cirrus streaks, widened sun-side
+  glow + bright core, soft haze/smoke bands, deterministic 17-mod
+  paint grain that keeps the seam exact); ember kept distinct
+  (blood-red core, smoke). paintCloud repaint (per-lobe radial
+  masses with soft rims and per-lobe peaks, gradient lit-top and
+  belly, inter-lobe valley shading; geometry kept). sky.setTileScale
+  (0.5, 0.5) so the full painted sky displays (was cut at tile row
+  135 - the sun never showed). Two over-texturing attempts reverted
+  on visual review (five-line cirrus banded; 9px striations read as
+  corduroy). TDD: test/game/uir9-sky.test.ts pinned failing first
+  (0.04/0.25/0.80), green after (1.00/1.00/1.00).
+- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
+  .ts (sky tileScale), test/game/uir9-sky.test.ts (new), TASKS.md,
+  PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 sky progress; V-19
+  scope narrowed to ridge/ground/embers).
+- Verification run: lint 0; tsc 0; unit 668/668 + 1 skipped (+1 new
+  pin); ART-19 suite green unedited; review capture after; browser
+  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4). Re-review: day skies atmospheric with modeled
+  clouds, ember smoky and distinct, phone/WebGL match, R5 = 4.
+- Result: UIR-9 acceptance met.
+- Status after: UIR-9 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-10..11,
+  UIR-16..19 TODO; V-19 (ridge/ground/embers) awaiting batching.
+- Next recommended task: UIR-10 (hill ridges with depth).
+
+
 ### 2026-09-28 15:20 UTC - UIR-8 (attempt 1, landmark strip - DONE)
 
 - Status before: UIR-8 TODO (V-11: flat placeholder landmark paint;

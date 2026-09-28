@@ -236,6 +236,10 @@ export class GameScene extends Phaser.Scene {
     )
     const sky = this.add.tileSprite(0, 0, stage.length + 64, SCREEN_HEIGHT, skyKey)
     sky.setOrigin(0, 0).setDepth(-20)
+    // UIR-9 (V-13 + V-19 sky part): same half-texture display as the marks
+    // strip had - the 2x-baked sky showed only its top half (the painted
+    // sun at tile y176 never displayed). tileScale 0.5 maps it 1:1.
+    sky.setTileScale(0.5, 0.5)
     sky.setName('bgSky')
 
     // Sun + glow, drifting with the camera on a scrollFactor-0 layer.
