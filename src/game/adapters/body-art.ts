@@ -46,7 +46,7 @@ export interface BodyPreparedEntry {
   skin: string
   density: number
   sheet: { width: number; height: number }
-  parts: Record<string, { x: number; y: number; w: number; h: number; pivotX: number; pivotY: number }>
+  parts: Record<string, { x: number; y: number; w: number; h: number; pivotX: number; pivotY: number; len?: number }>
   signatures: { sheet: string }
   sha256: { sheet: string }
 }

@@ -86,6 +86,13 @@ export interface BodyPartCell {
   /** Pivot in device px from the cell's top-left (= joint A when drawn). */
   pivotX: number
   pivotY: number
+  /**
+   * Optional painted joint A->B span in device px (body-8 upper arms). When
+   * present the part is scaled so THIS span lands on |AB|, instead of
+   * naturalLen: the painted elbow meets the rig elbow even when a master's
+   * landmarks give a shorter or longer arm than the rig (V-15d).
+   */
+  len?: number
 }
 
 export interface BodyArt {
@@ -134,15 +141,16 @@ export function bodyPainter(
     const dy = b.y - a.y
     const dist = Math.hypot(dx, dy)
     if (dist < 0.01 || def.naturalLen < 0.01) return
-    ctx.save()
-    ctx.translate(a.x, a.y)
-    ctx.rotate(Math.atan2(dy, dx) - Math.PI / 2)
-    ctx.scale(bulk, dist / def.naturalLen)
-    if (part === 'cloth' && lying) ctx.scale(-1, 1)
     // Source rect in device px, dest rect converted to logical units: the
     // caller draws in canonical figure space. Forgetting the density once
     // rendered every part 4x too large and buried the far side entirely.
     const d = art.density > 0 ? art.density : 1
+    const span = cell.len !== undefined && cell.len > 0 ? cell.len / d : def.naturalLen
+    ctx.save()
+    ctx.translate(a.x, a.y)
+    ctx.rotate(Math.atan2(dy, dx) - Math.PI / 2)
+    ctx.scale(bulk, dist / span)
+    if (part === 'cloth' && lying) ctx.scale(-1, 1)
     ctx.drawImage(
       art.sheet,
       cell.x,

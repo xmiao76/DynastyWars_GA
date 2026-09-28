@@ -238,10 +238,11 @@ export function cellExtent(art: BodyArt, part: BodyPartName): Extent {
     m = new Map()
     extentCache.set(art.sheet as object, m)
   }
-  const hit = m.get(part)
-  if (hit) return hit
   const c = art.parts[part]
   if (!c) throw new Error(`no cell ${part}`)
+  const key = `${part}:${c.x},${c.y},${c.w},${c.h}`
+  const hit = m.get(key)
+  if (hit) return hit
   const cv = createCanvas(c.w, c.h)
   const g = cv.getContext('2d')
   g.drawImage(art.sheet as unknown as Canvas, c.x, c.y, c.w, c.h, 0, 0, c.w, c.h)
@@ -261,7 +262,7 @@ export function cellExtent(art: BodyArt, part: BodyPartName): Extent {
       e.last = Math.max(e.last, y)
     }
   }
-  m.set(part, e)
+  m.set(key, e)
   return e
 }
 
@@ -331,7 +332,7 @@ export interface MoveMetrics {
   /** Far hand cells over the near arm footprint (px at z). */
   gripFOverNearArm: number
   wrapFOverNearArm: number
-  /** Shade pixels painted where no art is (px at z). */
+  /** Shade pixels painted where no art is, away from the foot shadows (px at z). */
   halo: number
   suspects: string[]
 }
@@ -384,21 +385,36 @@ function walkChain(ids: Uint8ClampedArray, fr: Frame, p: Skeleton, side: Side, b
     const n = { x: -(b.y - a.y) / len, y: (b.x - a.x) / len }
     const half = ((seg === 'upper' ? 9.5 - 2.1 * f : 7.4 - 1.8 * f) / 2) * bulk
     let mine = 0
+    let cover = 0
     for (let o = -1.6 * half; o <= 1.6 * half; o += step) {
-      if (own.has(at(q.x + n.x * o, q.y + n.y * o))) mine += 1
+      const w = at(q.x + n.x * o, q.y + n.y * o)
+      if (own.has(w)) mine += 1
+      else if (w === 'BEARD' || w === 'HEAD' || w === 'torso') cover += 1
     }
     if (mine >= 2) {
       run = 0
       continue
     }
     const axis = at(q.x, q.y)
+    // Shoulder cap (first 45% of the upper arm): the torso cell paints its
+    // own shoulder and the beard front layer is drawn OVER the near arm on
+    // purpose (draw.ts headLayer 'front'), so torso/beard there - or their
+    // translucent strand edges, which classify as blends - is the join, not
+    // a hole. Background is still a hole.
+    const capCovered = seg === 'upper' && f < 0.45 && cover > 0 && axis !== 'BG'
     let gap: boolean
     if (axis === 'WEAPON') {
       out.weapon += 1
-      gap = side === 'N'
+      gap = side === 'N' && !capCovered
     } else if (side === 'N') {
-      if (axis === 'gripF' || axis === 'wrapF' || axis === 'relaxF') out.farHand += 1
-      gap = !(axis === 'BEARD' || axis === 'HEAD')
+      // The far fist/fingertips over the near arm are reported separately
+      // (farHand, V-15b): an occluder, not background showing through.
+      if (axis === 'gripF' || axis === 'wrapF' || axis === 'relaxF') {
+        out.farHand += 1
+        gap = false
+      } else {
+        gap = !(axis === 'BEARD' || axis === 'HEAD') && !capCovered
+      }
     } else {
       gap = axis === 'BG' || axis === 'mixed' || (gripping && seg === 'fore' && axis === 'torso')
     }
@@ -408,17 +424,25 @@ function walkChain(ids: Uint8ClampedArray, fr: Frame, p: Skeleton, side: Side, b
   }
   return out
 }
-export function measureMove(res: ArtResources, idRes: ArtResources, id: string, move: PoseName, z = 4): MoveMetrics {
+/**
+ * `ctl` exists only for negative controls: `plain` render options (e.g.
+ * { noSourceAtop: true }) and `footBody`, the art whose arm cells define the
+ * footprints (default: the rendered art).
+ */
+export function measureMove(
+  res: ArtResources, idRes: ArtResources, id: string, move: PoseName, z = 4,
+  ctl: { plain?: ShadeOpts; footBody?: BodyArt } = {},
+): MoveMetrics {
   const plan = planOf(id)
   const bulk = plan.build.bulk
   const p = poseOf(id, move)
   const fr = frameOf(id, move, z)
-  const body = (res.bodies as Record<string, BodyArt>)[id]
-  const idB = (idRes.bodies as Record<string, BodyArt>)[id]
+  const body = ctl.footBody ?? (res.bodies as Record<string, BodyArt>)[id]
+  const idB = ctl.footBody ? idBody(ctl.footBody) : (idRes.bodies as Record<string, BodyArt>)[id]
   if (!body || !idB) throw new Error(`no body art for ${id}`)
   const gripping = farGripping(p)
   const ids = renderMove(idRes, id, move, z, { noShade: true }).data
-  const plain = renderMove(res, id, move, z).data
+  const plain = renderMove(res, id, move, z, ctl.plain ?? {}).data
   const bare = renderMove(res, id, move, z, { noShade: true }).data
   const limb = bodyPainter(idB, p as unknown as Record<string, Pt>, bulk, p.lying === true)
   const foot: Record<string, Uint8ClampedArray> = {}
@@ -447,6 +471,15 @@ export function measureMove(res: ArtResources, idRes: ArtResources, id: string, 
   let halo = 0
   const un = foot.upperArmN
   const fn = foot.foreArmN
+  // Halo region: everywhere except the contact-shadow ellipses at the feet
+  // (draw.ts drawContactShadow: radial 7.2*bulk from 1.6*bulk toe-forward,
+  // deliberate ground contact, not an arm-chain halo).
+  const nearFoot = (px: number, py: number): boolean => {
+    const x = px / fr.z - fr.ox
+    const y = py / fr.z - fr.oy
+    const r = 7.2 * bulk + 1.6 * bulk + 1
+    return Math.hypot(x - p.footN.x, y - p.footN.y) < r || Math.hypot(x - p.footF.x, y - p.footF.y) < r
+  }
   for (let i = 0; i < ids.length; i += 4) {
     const inNear = ((un?.[i + 3] ?? 0) >= 200) || ((fn?.[i + 3] ?? 0) >= 200)
     if (inNear) {
@@ -455,7 +488,10 @@ export function measureMove(res: ArtResources, idRes: ArtResources, id: string, 
       else if (o === 'gripF') gripF += 1
       else if (o === 'wrapF') wrapF += 1
     }
-    if ((plain[i + 3] ?? 0) >= 8 && (bare[i + 3] ?? 0) < 8) halo += 1
+    if ((plain[i + 3] ?? 0) >= 8 && (bare[i + 3] ?? 0) < 8) {
+      const px = (i / 4) % fr.w
+      if (!nearFoot(px, (i / 4 - px) / fr.w)) halo += 1
+    }
   }
   const m: MoveMetrics = {
     id, move, lying: p.lying === true, gripping, vis,

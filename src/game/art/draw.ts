@@ -76,6 +76,18 @@ export interface Shape {
   mat?: (c: CanvasRenderingContext2D) => void
   /** Soft local transition on the painted head's near shoulder only. */
   shoulder?: { x: number; y: number; radius: number }
+  /** With `bodyPart`: draw the part only inside this path (UIR-13 cuff disc). */
+  bodyClip?: (c: CanvasRenderingContext2D) => void
+}
+
+/**
+ * V-15a: with a painted near arm on a standing fighter, the weapon is
+ * layered UNDER the near arm. Drawn last, the haft crossed the upper arm
+ * and elbow of the arm holding it. (The far fist stays on top: BODY-15
+ * keeps the far hand visible; see ledger V-15b for its pose-rooted overlap.)
+ */
+export function paintedWeaponFirst(body: BodyArt | undefined, pose: Skeleton): boolean {
+  return body?.parts.upperArmN !== undefined && body.parts.foreArmN !== undefined && pose.lying !== true
 }
 
 /**
@@ -586,6 +598,12 @@ function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: Hea
       }
       ctx.fillStyle = shape.fill; ctx.fill()
       ctx.clip()
+      // V-15e: a shade-only shape (transparent fill: the BODY-11/UIR-14 soft
+      // shoulder/forearm/neck ovals) shades the paint UNDER it and nothing
+      // else. Composited source-over, its radial gradient and cel bands
+      // filled the whole oval, leaving grey discs on the background beside
+      // every shoulder and forearm (258-2225 px per move at 4x).
+      if (shape.fill === 'rgba(0,0,0,0)') ctx.globalCompositeOperation = 'source-atop'
       if (shape.shoulder) {
         const { x, y, radius } = shape.shoulder
         const light = ctx.createRadialGradient(x - radius * 0.5, y - radius * 0.5, 0, x, y, radius * 1.2)
@@ -614,7 +632,16 @@ function paintWithHead(ctx: CanvasRenderingContext2D, shapes: Shape[], head: Hea
       head(ctx, shape.headLayer)
     } else if (shape.bodyPart && body) {
       flush()
-      body(ctx, shape.bodyPart)
+      if (shape.bodyClip) {
+        ctx.save()
+        ctx.beginPath()
+        shape.bodyClip(ctx)
+        ctx.clip()
+        body(ctx, shape.bodyPart)
+        ctx.restore()
+      } else {
+        body(ctx, shape.bodyPart)
+      }
     } else if (shape.weaponPart && weapon) {
       flush()
       weapon(ctx, shape.weaponPart)
@@ -850,6 +877,28 @@ export function figureShapes(
   headParts(add, plan, p, m, headRadius(plan))
   if (painted) shapes.push({ trace: () => {}, fill: '', headLayer: 'head' })
 
+  // BODY-15: the far fist on the haft - over the torso (the far arm
+  // reaches from behind) but under the weapon (it is the far hand).
+  // BODY-20: the painted far fist when the sheet carries it.
+  const farGrip = (): void => {
+    if (!gripping) return
+    if (has('gripF')) {
+      mark('gripF')
+    } else {
+      add((c) => {
+        drawGripHandFar(c, p.handF, p.elbowF, p.weaponRot, b, hm.skinShade, hm.skinForm)
+        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
+      }, 'rgba(0,0,0,0)', false)
+    }
+  }
+  // V-15a: a standing fighter with a painted near arm holds the weapon
+  // UNDER that arm, so the haft no longer crosses the upper arm and elbow
+  // of the arm holding it. The near fist and its fingertips still wrap
+  // OVER the haft (drawFigure's tail). The far fist stays visible over the
+  // near arm (BODY-15), emitted at the end below.
+  const weaponFirst = paintedWeaponFirst(body, p)
+  if (weaponFirst) weaponOrProcedural()
+
   // Pauldron, then the near arm over it. With a paper-doll near arm the
   // upper-arm part carries the shoulder, so the procedural pauldron (and
   // the painted-head shoulder cap below it) would double-draw.
@@ -899,21 +948,8 @@ export function figureShapes(
     add((c) => limbPath(c, lerpPt(p.elbowN, p.handN, 0.35), p.handN, 6.8 * b, 5.6 * b), m.skin)
   }
 
-  // BODY-15: the far fist on the haft - over the torso (the far arm
-  // reaches from behind) but under the weapon (it is the far hand).
-  // BODY-20: the painted far fist when the sheet carries it.
-  if (gripping) {
-    if (has('gripF')) {
-      mark('gripF')
-    } else {
-      add((c) => {
-        drawGripHandFar(c, p.handF, p.elbowF, p.weaponRot, b, hm.skinShade, hm.skinForm)
-        limbPath(c, { x: p.handF.x, y: p.handF.y }, { x: p.handF.x + 0.01, y: p.handF.y }, 0.1, 0.1)
-      }, 'rgba(0,0,0,0)', false)
-    }
-  }
-
-  if (!painted || !p.lying) weaponOrProcedural()
+  farGrip()
+  if (!weaponFirst && (!painted || !p.lying)) weaponOrProcedural()
   return shapes
 }
 

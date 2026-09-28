@@ -41,6 +41,19 @@ export const FAR_SHADE = 0.82
 export const WRIST_FRACTION = 0.58
 /** Palm joint derivation (elbow->fingertip fraction); the rig's hand joint. */
 export const PALM_FRACTION = 0.75
+/**
+ * UIR V-15d rig-anchored cuff (body-8). The renderer maps a forearm cell by
+ * BODY_PART_DEFS.naturalLen (body-parts.ts), NOT by the master's own
+ * elbow->palm length, so a cut at a fixed master fraction lands at a
+ * different rig distance per fighter: short-forearm masters (guanyu,
+ * huangzhong, zhangfei) left a bare gap between cuff and hand, long ones
+ * (lubu, caoren) let painted fingers poke past the fist. The cut now sits
+ * CUFF_TUCK units before the rig hand joint in RENDERED units, i.e. under
+ * the painted hand's back (which reaches 3.3u behind the joint). Mirror of
+ * BODY_PART_DEFS naturalLen - test/game/arm-chain.test.ts checks the sync.
+ */
+export const ARM_NATURAL_LEN = { upperArmF: 12.37, foreArmF: 12.17, upperArmN: 12.65, foreArmN: 11.05 }
+export const CUFF_TUCK = 1.0
 
 /**
  * BODY-20 painted hands. The masters are T-poses with open palms, so there
@@ -738,11 +751,18 @@ export async function prepareHero(id) {
       c.putImageData(fim, 0, 0)
     }
     if (p.name === 'foreArmF' || p.name === 'foreArmN') {
-      // BODY-19 wrist cut: erase everything past the wrist row. The cell
-      // axis runs elbow (A) at pre/(pre+1+post) to palm (B) one span later,
-      // and the wrist sits at WRIST_FRACTION of elbow->fingertip, i.e.
-      // WRIST_FRACTION/PALM_FRACTION along A->B.
-      const f = WRIST_FRACTION / PALM_FRACTION
+      // BODY-19 wrist cut, rig-anchored since body-8 (V-15d): erase
+      // everything past the cuff row. The cell axis runs elbow (A) at
+      // pre/(pre+1+post) to palm (B) one span later; that span is the
+      // master's own forearm, cellLen units long. bodyPainter scales the
+      // cell by dist/naturalLen, so a row at fraction f renders at
+      // f*cellLen*dist/NL from the elbow. f = (NL - tuck)/cellLen puts the
+      // cut CUFF_TUCK*(dist/NL) before the hand joint for every master:
+      // long masters (lubu, caoren) are cut on the sleeve before their
+      // painted fingers, short ones (guanyu, huangzhong) keep their bare
+      // wrist instead of leaving a gap to the hand. Capped at the palm (1).
+      const cellLen = lenPx / pxPerUnit
+      const f = Math.min(1, (ARM_NATURAL_LEN[p.name] - CUFF_TUCK) / cellLen)
       const wristRow = Math.round(((p.pre + f) / (p.pre + 1 + p.post)) * chh)
       const im = c.getImageData(0, 0, cw, chh)
       for (let y = wristRow; y < chh; y += 1) {
@@ -761,6 +781,14 @@ export async function prepareHero(id) {
       name: p.name, cell, cw, ch: chh,
       px: Math.round(cw / 2),
       py: Math.round((p.pre / (p.pre + 1 + p.post)) * chh),
+      // V-15d elbow join (body-8): upper-arm cells record their joint A->B
+      // span in device px so bodyPainter maps the painted elbow ONTO the rig
+      // elbow. Mapping by naturalLen left guanyu/huangzhong/weiyan sleeves
+      // (masters with a high elbow landmark, 8.8-9u of arm) ending ~4u
+      // short of the forearm cell.
+      ...(p.name === 'upperArmF' || p.name === 'upperArmN'
+        ? { len: Math.round((chh / (p.pre + 1 + p.post)) * 100) / 100 }
+        : {}),
     })
     sheetW += cw
     sheetH = Math.max(sheetH, chh)
@@ -786,11 +814,12 @@ export async function prepareHero(id) {
   const sheet = createCanvas(sheetW, sheetH)
   const sctx = sheet.getContext('2d')
   let ox = 0
-  for (const { name, cell, cw, ch, px, py } of cells) {
+  for (const { name, cell, cw, ch, px, py, len } of cells) {
     sctx.drawImage(cell, ox, 0)
     parts[name] = {
       x: ox, y: 0, w: cw, h: ch,
       pivotX: Math.round(px), pivotY: Math.round(py),
+      ...(len !== undefined ? { len } : {}),
     }
     ox += cw
   }
@@ -816,7 +845,7 @@ export async function main() {
       const im = sctx.getImageData(0, 0, width, height)
       writeFileSync(`${out}/${id}-sheet.png`, png)
       prepared[id] = {
-        revision: 'body-7',
+        revision: 'body-8',
         skin: HEROES[id].skin,
         density: DENSITY,
         sheet: { width, height },
