@@ -221,29 +221,68 @@ export function paintRidge(ctx: Ctx, hillColor: number, hazeColor: number): void
   // the ridge line actually rises above the ground strip in front of it - the
   // first pass sat so low that only a 30px sliver was ever on screen, which is
   // the same way the old hills layer managed to be invisible entirely.
-  ctx.fillStyle = css(tint(hillColor, 0.34))
+  // UIR-10: aerial falloff (pale crown dissolving toward haze at the base).
+  ctx.save()
   ridgePath(ctx, 36, 25, 0.8, RIDGE_H)
-  ctx.fill()
+  ctx.clip()
+  const far = ctx.createLinearGradient(0, 0, 0, RIDGE_H)
+  far.addColorStop(0, css(tint(hillColor, 0.52)))
+  far.addColorStop(0.45, css(tint(hillColor, 0.34)))
+  far.addColorStop(1, css(hazeColor))
+  ctx.fillStyle = far
+  ctx.fillRect(0, 0, TILE_W, RIDGE_H)
+  ctx.fillStyle = 'rgba(255,255,255,0.07)'
+  for (const [mx, my, mr] of [[70, 30, 26], [150, 24, 30], [210, 34, 22]] as const) {
+    const puff = ctx.createRadialGradient(mx, my, 1, mx, my, mr)
+    puff.addColorStop(0, 'rgba(255,255,255,0.16)')
+    puff.addColorStop(1, 'rgba(255,255,255,0)')
+    ctx.fillStyle = puff
+    ctx.fillRect(mx - mr, my - mr, mr * 2, mr * 2)
+  }
+  ctx.restore()
+  ridgePath(ctx, 36, 25, 0.8, RIDGE_H)
   ctx.strokeStyle = 'rgba(20, 15, 20, 0.35)'
   ctx.lineWidth = 1.6
   ctx.stroke()
 
-  // Near ridge: the stage colour, with the ink line the whole game shares.
-  ctx.fillStyle = css(hillColor)
+  // Near ridge: the stage colour graded crest-to-base, with the ink line the
+  // whole game shares. UIR-10: lit crown, rich mid, shaded flank dissolving
+  // into the haze join.
+  ctx.save()
   ridgePath(ctx, 62, 27, 2.6, RIDGE_H)
-  ctx.fill()
+  ctx.clip()
+  const near = ctx.createLinearGradient(0, 30, 0, RIDGE_H)
+  near.addColorStop(0, css(tint(hillColor, 0.32)))
+  near.addColorStop(0.35, css(hillColor))
+  near.addColorStop(0.7, css(shade(hillColor, 0.22)))
+  near.addColorStop(1, css(shade(hillColor, 0.38)))
+  ctx.fillStyle = near
+  ctx.fillRect(0, 30, TILE_W, RIDGE_H - 30)
+  for (const [mx, my, mr, ma] of [[64, 72, 30, 0.2], [140, 66, 36, 0.18], [208, 74, 28, 0.2]] as const) {
+    const shadeBlob = ctx.createRadialGradient(mx, my, 1, mx, my, mr)
+    shadeBlob.addColorStop(0, `rgba(10, 12, 10, ${ma})`)
+    shadeBlob.addColorStop(1, 'rgba(10, 12, 10, 0)')
+    ctx.fillStyle = shadeBlob
+    ctx.fillRect(mx - mr, my - mr, mr * 2, mr * 2)
+  }
+  ctx.restore()
+  ridgePath(ctx, 62, 27, 2.6, RIDGE_H)
   ctx.strokeStyle = INK
   ctx.lineWidth = 2.2
   ctx.stroke()
 
-  // Lit crest: a thin band of the sunward side, clipped to the near ridge.
+  // Lit crest: sunward light fading down from the ridgeline, clipped to the
+  // near ridge.
   ctx.save()
   ridgePath(ctx, 62, 27, 2.6, RIDGE_H)
   ctx.clip()
-  ctx.fillStyle = css(tint(hillColor, 0.24))
   for (let x = 0; x <= TILE_W; x += 2) {
     const y = ridgeY(x, 62, 27, 2.6)
-    ctx.fillRect(x, y, 2, 5)
+    const crest = ctx.createLinearGradient(0, y, 0, y + 9)
+    crest.addColorStop(0, css(tint(hillColor, 0.42)))
+    crest.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = crest
+    ctx.fillRect(x, y, 2, 9)
   }
   ctx.restore()
 
@@ -255,6 +294,22 @@ export function paintRidge(ctx: Ctx, hillColor: number, hazeColor: number): void
   ctx.globalAlpha = 0.5
   ctx.fillRect(0, RIDGE_H - 22, TILE_W, 22)
   ctx.globalAlpha = 1
+
+  // Paint tooth, same 17-mod hash as the sky (seam-exact), gentler: the
+  // ridge sits closer than the sky but darker, so ±10 reads as pigment.
+  const img = ctx.getImageData(0, 0, TILE_W, RIDGE_H)
+  const dd = img.data
+  for (let y = 0; y < RIDGE_H; y += 1) {
+    for (let x = 0; x < TILE_W; x += 1) {
+      const i = (y * TILE_W + x) * 4
+      if ((dd[i + 3] ?? 0) < 128) continue
+      const v = (((x * 73 + y * 149) % 17) - 8) * 1.25
+      dd[i] = Math.max(0, Math.min(255, (dd[i] ?? 0) + v))
+      dd[i + 1] = Math.max(0, Math.min(255, (dd[i + 1] ?? 0) + v))
+      dd[i + 2] = Math.max(0, Math.min(255, (dd[i + 2] ?? 0) + v))
+    }
+  }
+  ctx.putImageData(img, 0, 0)
 }
 
 /** The walkable field: a lit band at the horizon falling to a richer floor. */

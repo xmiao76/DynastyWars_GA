@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 18:30 UTC - UIR-10 (attempt 1, hill ridges - DONE)
+
+- Status before: UIR-10 TODO (V-13 ridge part: single-colour hills
+  with an ink line).
+- Work completed: paintRidge repaint, same silhouettes and stage
+  colours: far ridge with aerial falloff (pale crown dissolving to
+  haze) and faint puffs; near ridge with 4-stop crest-to-base grade
+  (lit crown, rich mid, shaded flank, deep base), mottled flank
+  shade, a fading lit-crest band following the ridgeline, and the
+  soft haze join kept; deterministic paint tooth (17-mod hash,
+  seam-exact). hills.setTileScale(0.5, 0.5) - the flank, base and
+  haze sit below tile row 48 and never displayed (V-19 ridge part).
+  TDD: test/game/uir10-ridge.test.ts pinned failing first
+  (0.67/0.48), green after (0.83/0.92).
+- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
+  .ts (hills tileScale), test/game/uir10-ridge.test.ts (new),
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 ridges
+  progress; V-19 narrowed to ground/embers).
+- Verification run: lint 0; tsc 0; unit 669/669 + 1 skipped (+1 new
+  pin); ART-19 suite green unedited; review capture after; browser
+  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4). Re-review: all nine stages show two-ridge depth
+  (stage1/8 close up); R5 = 4.
+- Result: UIR-10 acceptance met.
+- Status after: UIR-10 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-11,
+  UIR-16..19 TODO; V-19 (ground/embers) awaiting batching.
+- Next recommended task: UIR-11 (painted ground per stage).
+
+
 ### 2026-09-28 17:40 UTC - UIR-9 (attempt 1, sky and clouds - DONE)
 
 - Status before: UIR-9 TODO (V-13 sky part: flat gradient + hard flat

@@ -1091,7 +1091,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-10 - Paint the hill ridges with atmospheric depth
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-26, findings V-13 (S2)
 - Evidence: every fresh `stage*-play`: the ridge is a single-colour
   hill with an ink line (re-confirmed fresh).
@@ -1103,16 +1104,21 @@ Add future enhancement tasks below this heading.
   of flat colour plus outline. Shared backdrop constraints apply
   (see UIR-8).
 - Acceptance criteria:
-  1. A texture test on the layer FAILS on the current flat painter and
-     passes on the new one (16x16-block luminance std-dev share;
-     record both values). R5 scores at least 4 on the affected screens
-     against `screens/title.png`.
-  2. After `npm run review:capture`, the affected screens are re-reviewed
-     at gameplay size (and phone/WebGL where relevant) against `previous/`,
-     citing the after-image detail; each listed finding is judged fixed.
-  3. The contact sheets show no regression elsewhere; `npm run vision`
-     and relevant specs are green; the ledger finding is set to
-     `fixed <commit> (self-check)`.
+  - [x] test/game/uir10-ridge.test.ts: 16x16-block luminance-stddev
+        share (threshold 7) clears 0.75 on day and dusk ridges. Before:
+        day 0.67, dusk 0.48 (fails first). After: 0.83 / 0.92. R5 = 4
+        on stage*-play vs title (far ridge pale and hazy, near ridge
+        with lit crest, shaded flank and soft haze join; silhouettes
+        and stage colours unchanged).
+  - [x] After npm run review:capture: all nine stages show two-ridge
+        depth in their own palettes (stage1 green hills and stage8
+        purple night verified close up); hills.setTileScale(0.5, 0.5)
+        was required - the ridge base, flank shading and haze join sit
+        below tile row 48 and never displayed (same half-texture root
+        cause as V-11/V-19; no other layer touched).
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (ART-19 suite green unedited); ledger V-13 noted
+        ridges-done (ground pending UIR-11, which completes it).
 - Non-goals: new ridge silhouettes per stage, beyond the existing
   colour table.
 

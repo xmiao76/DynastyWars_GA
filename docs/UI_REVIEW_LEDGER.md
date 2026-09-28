@@ -91,7 +91,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `crops/stage1-boss--boss.png`: the grunt faces are photographic, flat-lit and large for the body, with no neck blend.
 - Owned by the BODY track (BODY-24 and BODY-7 are open; see `CHARACTER_REVIEW.md`). No duplicate task is filed; re-check after BODY-7.
 
-### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - sky+clouds fixed (self-check); ridges/ground in UIR-10/11
+### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - sky+clouds+ridges fixed (self-check); ground in UIR-11
 - Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
@@ -132,7 +132,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 
-### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky fixed under UIR-9; ridge/ground/embers open, awaiting producer batching
+### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge fixed under UIR-9/10; ground/embers open, awaiting producer batching
 - UIR-8 proved it for the marks strip and fixed it there: a 512x128 texture on a 1064x64 tileSprite with tileScale 1 shows texture rows 0..64 only (tile rows 0..32) - hulls, water, decks and banner bottoms were cut game-wide. Evidence: artifacts/marks-only.png (marks isolated: sails + upper masts only), the live texture readback (512x128, 21640 opaque px over rows 36..127), GameScene.ts tileSprite setup. The sky, ridge, ground and ember layers use the identical bake pattern (clouds were never affected - they are scaled images, not tileSprites; the sky was fixed under UIR-9) (bakeLayer at RENDER_SCALE + tileScale 1) and are therefore cut the same way - the sky's sun (tile y176) and lower haze, and the bottom halves of the other layers, never display. Same fix shape as marks (tileScale 0.5), but it changes every screen's look, so it needs its own task with a full re-review (not folded into UIR-8).
 
 ## UIR batch 3 - FILED (fixer's review 2026-09-28 at e4872ce; filed 2026-09-28)

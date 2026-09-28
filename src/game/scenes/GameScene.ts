@@ -273,6 +273,10 @@ export class GameScene extends Phaser.Scene {
     )
     const hills = this.add.tileSprite(0, hillsY, stage.length + 64, HILL_HEIGHT, hillKey)
     hills.setOrigin(0, 0).setDepth(-15)
+    // UIR-10 (V-13 + V-19 ridge part): same half-texture display the marks
+    // and sky had - without this only tile rows 0..48 show and the shaded
+    // flank + haze join never display. tileScale 0.5 maps 1:1.
+    hills.setTileScale(0.5, 0.5)
     hills.setName('bgHills')
 
     // Landmark mid-layer: the per-stage silhouette strip (gorge, village,
