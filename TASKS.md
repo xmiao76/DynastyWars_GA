@@ -1307,9 +1307,9 @@ Add future enhancement tasks below this heading.
 
 ### UIR-16 - Keep the far fist off the near arm on two-handed strikes
 
-- Status: IN_PROGRESS (attempt 1, 2026-09-28 UTC - G6 gate + close-stack
-  mechanism landed and behavior-preserving; full clearance needs the
-  near arm moved (see PROGRESS proof), continuing next attempt)
+- Status: IN_PROGRESS (attempt 2, 2026-09-28 UTC - combo-search bend
+  landed; G6 87->86 with big reductions; strikearms+guards green;
+  paint-zero needs wrap-extent work or owner scope call, see PROGRESS)
 - Source: UI review 2026-09-28, findings V-15b (S2).
 - Evidence: artifacts/review/latest/anatomy/cells/lubu-attack.png (far fist over near elbow, 398px + 627px wrap) and cells/zhangfei-attack.png (219px) - re-confirmed on the 2026-09-28 fresh capture
 - Root cause: STATE/pose - `src/game/art/armik.ts:273-325` `fitFarHand` places the far grip 12-19u behind the near hand along the haft, which on attack/attack2/thrust/sweep/special lands UNDER the near forearm and elbow (probe: 0 reachable haft points clear the near arm by 2u for guanyu/zhaoyun/spearman/lidian/zhangliao strikes). The far fist (BODY-15, drawn on top so it stays visible) then paints over the near elbow: up to 847 px at 4x (lubu attack), 794 (xuchu attack). `draw.ts` tail `wrapF` adds the fingertips.

@@ -272,6 +272,64 @@ export interface ArmChain {
   hand: Pt
 }
 
+/** UIR-16 attempt 2: forced lead-elbow bend. When the near arm rails the
+ * haft (straight, elbow on the line), no grip placement clears it - the arm
+ * itself must move. Protracts the shoulder toward the hand (shortening the
+ * span so the elbow can bow) and takes the branch on the requested haft
+ * side (`sideSign`; 0 = farther absolute). Returns null when there is no
+ * room to bend (span already short). Art-only like every solveArm result:
+ * the sim never reads these joints. The caller re-checks rails/side rules
+ * and J1 on the result. */
+export function bendElbowOffHaft(
+  shoulder: Pt,
+  hand: Pt,
+  hint: Pt,
+  l1: number,
+  l2: number,
+  haftPt: Pt,
+  haftDir: Pt,
+  protractU = 4,
+  sideSign = 0,
+): { shoulder: Pt; elbow: Pt; protracted: number } | null {
+  const reach = l1 + l2
+  const d = dist(shoulder, hand)
+  if (d < 0.001) return null
+  const p = Math.min(protractU, Math.max(0, d - 0.7 * reach))
+  if (p < 1.5) return null
+  const s: Pt = {
+    x: shoulder.x + ((hand.x - shoulder.x) / d) * p,
+    y: shoulder.y + ((hand.y - shoulder.y) / d) * p,
+  }
+  // Both bend branches off the shortened span (protraction already applied
+  // by hand, so auto-protraction stays off and the shoulder is exact).
+  const ux = hand.x - s.x
+  const uy = hand.y - s.y
+  const len2 = ux * ux + uy * uy
+  if (len2 < 0.01) return null
+  const t = ((hint.x - s.x) * ux + (hint.y - s.y) * uy) / len2
+  const mirrored: Pt = { x: 2 * (s.x + t * ux) - hint.x, y: 2 * (s.y + t * uy) - hint.y }
+  const e1 = solveArm(s, hand, hint, l1, l2, false).elbow
+  const e2 = solveArm(s, hand, mirrored, l1, l2, false).elbow
+  // Haft-side sign must match the UIR-15 side rule's convention:
+  // (elbow - handN) x haftDir, same reference point the test uses.
+  const offS = (e: Pt): number =>
+    (e.x - haftPt.x) * haftDir.y - (e.y - haftPt.y) * haftDir.x
+  const a1 = Math.abs(offS(e1))
+  const a2 = Math.abs(offS(e2))
+  let elbow: Pt
+  if (sideSign === 0) {
+    elbow = a2 > a1 + 0.5 ? e2 : e1
+  } else {
+    const s1 = offS(e1) >= 0 ? 1 : -1
+    const s2 = offS(e2) >= 0 ? 1 : -1
+    if (s1 === sideSign && s2 === sideSign) elbow = a2 > a1 ? e2 : e1
+    else if (s1 === sideSign) elbow = e1
+    else if (s2 === sideSign) elbow = e2
+    else elbow = a2 > a1 ? e2 : e1
+  }
+  return { shoulder: s, elbow, protracted: p }
+}
+
 function distToSeg(p: Pt, a: Pt, b: Pt): number {
   const dx = b.x - a.x
   const dy = b.y - a.y
@@ -280,11 +338,12 @@ function distToSeg(p: Pt, a: Pt, b: Pt): number {
   return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy))
 }
 
-function clearsArm(p: Pt, arm: ArmChain): boolean {
-  return (
-    distToSeg(p, arm.shoulder, arm.elbow) >= ELBOW_CLEARANCE &&
-    distToSeg(p, arm.elbow, arm.hand) >= ELBOW_CLEARANCE
-  )
+export function armClearance(p: Pt, arm: ArmChain): number {
+  return Math.min(distToSeg(p, arm.shoulder, arm.elbow), distToSeg(p, arm.elbow, arm.hand))
+}
+
+export function clearsArm(p: Pt, arm: ArmChain): boolean {
+  return armClearance(p, arm) >= ELBOW_CLEARANCE
 }
 
 /**
