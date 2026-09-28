@@ -1136,6 +1136,9 @@ Add future enhancement tasks below this heading.
   strokes, horizon-lit to foreground falloff) that stays calm enough
   for the actors' shadows and hit effects to read. Shared backdrop
   constraints apply (see UIR-8).
+  (Includes the V-19 ground part: set ground.setTileScale(0.5,
+  0.5) so the repainted ground displays fully - required for the
+  acceptance below, same as sky/ridge under UIR-9/10.)
 - Acceptance criteria:
   1. A texture test on the layer FAILS on the current flat painter and
      passes on the new one (16x16-block luminance std-dev share;
@@ -1364,3 +1367,20 @@ Add future enhancement tasks below this heading.
   - [ ] `npm run vision` and relevant specs are green; the ledger finding
         is set to `fixed <commit> (unverified)`.
 - Non-goals: rig or pose changes.
+
+### UIR-20 - Show the full ember sheet (tileScale)
+
+- Status: TODO
+- Source: producer pass 2026-09-28, findings V-19 remainder (S2, SYSTEM)
+- Evidence: V-19 entry (marks isolation proof + live readback applies verbatim: 512x128 texture on a 1064x64 tileSprite at tileScale 1 shows rows 0..64 only); embers painted rows 32..64 never display.
+- Root cause: SYSTEM - GameScene.ts embers tileSprite lacks setTileScale(0.5, 0.5) (same as marks/sky/hills had).
+- Affected screens: stage7/stage8 ember atmosphere.
+- Requirement: embers.setTileScale(0.5, 0.5) so the full sheet displays; keep the tick-driven drift and additive blend unchanged.
+- Acceptance criteria:
+  - [ ] Ember pixel count on a stage7-play frame rises ~2x (bottom
+        half now visible) with no other screen changes.
+  - [ ] After `npm run review:capture`, stage7/8 re-reviewed citing
+        the after-image detail; contact sheets show no regression.
+  - [ ] `npm run vision` and relevant specs are green; the ledger
+        finding is set to `fixed <commit> (unverified)`.
+- Non-goals: ember art changes, other layers.

@@ -153,3 +153,12 @@ review). Shared acceptance for every task:
 - Requirement: hand cells with painted form (knuckles, finger separation, lit/shaded planes, sleeve-matched detail level), keeping cell sizes and pivots so the rig and gates hold.
 - Acceptance: handparts/handgrip/uir13 green; reviewer rates J4 ok on all 17 clean sheets.
 - Non-goals: rig or pose changes.
+
+## UIR batch 4 (FILED 2026-09-28) - V-19 embers remainder
+
+#### UIR-20 - Show the full ember sheet (tileScale)
+- Source: V-19 remainder (S2, SYSTEM). Root cause: the bgEmbers tileSprite shows only texture rows 0..64 of its 512x128 bake (tileScale 1) - the bottom half of the sparks never displays on stage7/8 (proven for marks/sky/hills under UIR-8/9/10; embers share the identical bake pattern).
+- Affected: stage7/stage8 ember atmosphere.
+- Requirement: embers.setTileScale(0.5, 0.5) so the full sheet displays; keep the tick-driven drift and additive blend unchanged.
+- Acceptance: ember pixel count on a stage7-play frame rises ~2x (bottom half now visible) with no other screen changes; review:capture + re-review of stage7/8; vision and relevant specs green; V-19 set to fixed.
+- Non-goals: ember art changes, other layers.

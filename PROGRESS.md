@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 19:00 UTC - PRODUCER (follow-up review, count-triggered - COMPLETED)
+
+- Status before: 4 src/game commits since 9fd19c2 (review due);
+  V-9/V-11/V-10/V-13-sky/ridge fixed-unverified; V-19 (ground/embers)
+  awaiting batching.
+- Work completed: full producer pass. (1) Signals: logic 3 boot-poll
+  timeouts, same signature twice - NOT a regression (same HEAD was
+  13/13 green one tick prior; scene progressing, zero violations/
+  pageErrors; sustained box load). Vision parity failed once, green
+  on re-run (known flake signature). (2) Capture exit 0, all
+  sections. (3) Verified on fresh pixels: V-9 (overlay on all 3
+  portrait shots), V-10 (all four chevrons OUTWARD on fresh
+  phone-landscape frames - closes the hold-over), V-11 (ships on the
+  waterline, full walls/banners), V-13 sky+clouds+ridges (atmosphere
+  + two-ridge depth on all nine stages). (4) Anatomy: 289/289 files
+  byte-identical pairs (figure renderer untouched) + 56 cells
+  re-opened across guanyu/lubu/caocao/zhangfei - all consistent with
+  the carried grid; no new A/B anywhere. (5) Filed batch 4 (UIR-20,
+  embers tileScale); folded ground tileScale into UIR-11. No other
+  new findings. Baseline reset to ac59129.
+- Files changed: TASKS.md (UIR-20, UIR-11 note), PROGRESS.md,
+  docs/UI_REVIEW_LEDGER.md (verifications, batch 4, scoreboard,
+  coverage, baseline), docs/UI_REVIEW_BATCHES.md (batch 4).
+- Verification run: signal 10/13 then 0/3 on re-run (same boot
+  timeouts, environmental); vision parity 0/1 then 1/1 on re-run
+  (flake); review:capture exit 0; arm-chain gates untouched.
+- Result: accepted proposals (batch 4); review records updated.
+- Status after: UIR-11, UIR-16..20 TODO; BODY-7/ENH-12 owner-gated.
+- Remaining work or blocker: none (box load is environmental).
+- Next recommended task: UIR-11 (painted ground - completes V-13).
+
+
 ### 2026-09-28 18:30 UTC - UIR-10 (attempt 1, hill ridges - DONE)
 
 - Status before: UIR-10 TODO (V-13 ridge part: single-colour hills

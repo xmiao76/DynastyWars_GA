@@ -7,22 +7,22 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ## Last full review
 
-- Date: 2026-09-28. Commit: `9fd19c2`. Capture: flow + stages + full anatomy (fresh); platform partial (portrait title/select only - known abort). Previous full review: 2026-09-26 at `3fd3b32` (59 screens, canvas + WebGL + Pixel 7).
+- Date: 2026-09-28. Commit: `ac59129`. Capture: full (flow + stages + platform + anatomy + pairs). Previous full review: 2026-09-28 at `9fd19c2`.
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
-- Next review due when `git rev-list --count 9fd19c2..HEAD -- src/game` >= 4.
-- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh (see Anatomy verdicts), V-15a/c/d/e verified, V-15b/V-16/V-17/V-18 filed UIR-16..19. Scope note: no fresh phone/webgl frames (known capture abort); V-10 left unverified on that account.
+- Next review due when `git rev-list --count ac59129..HEAD -- src/game` >= 4.
+- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh, V-15a/c/d/e verified, batch 3 filed. Follow-up pass 2026-09-28 at `ac59129`: V-9/V-11/V-10/V-13-sky/ridge verified on fresh pixels; grid carried on 289/289 identical pairs + 56 re-opened cells (figure renderer untouched); V-19 embers filed UIR-20, ground folded into UIR-11.
 
 ## Coverage (deep-dive rotation)
 
 | Area | Last deep review |
 | --- | --- |
-| menus | 2026-09-28 (sheet level: title/select in flow sheet) |
-| HUD & overlays | 2026-09-28 (V-1..V-7 re-checks on fresh crops) |
+| menus | 2026-09-28 (sheet level) |
+| HUD & overlays | 2026-09-28 (V-9/V-10 verified fresh; V-1..V-7 holding) |
 | stage flow screens | 2026-09-28 (sheet level) |
-| all nine stages | 2026-09-28 (sheet level) |
-| characters (movesheets, motion) | 2026-09-28 (full 238-cell grid re-judged fresh; V-15a/c/d/e verified, V-15b/V-16/V-17/V-18 filed UIR-16..19) |
-| phone | 2026-09-28 (PARTIAL: portrait title/select only; landscape/gameplay missing - capture abort) |
-| WebGL | 2026-09-26 (sheet level only) |
+| all nine stages | 2026-09-28 (V-11/V-13 verified close up on 1/6/7/8 + sheet) |
+| characters (movesheets, motion) | 2026-09-28 (grid carried: 289/289 anatomy files byte-identical pairs + 56 cells re-opened across 4 sheets) |
+| phone | 2026-09-28 (full: overlay + landscape + d-pad verified fresh) |
+| WebGL | 2026-09-28 (fresh platform frames reviewed; parity re-run green) |
 
 ## Scoreboard (lowest applicable R1-R9, 1-5)
 
@@ -30,16 +30,16 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 | --- | --- | --- |
 | title | 4 | - |
 | select-* | 4 | - (V-4 verified 2026-09-28) |
-| stage*-idle/play/combat (HUD) | 3 | V-11 flat landmark blocks (V-1 verified 2026-09-28) |
+| stage*-idle/play/combat (HUD) | 4 | - (V-1, V-11 verified) |
 | stage1-boss-warning | 4 | - (V-2 verified 2026-09-28) |
 | stage*-banner / stage*-intro | 4 | - (V-3 verified 2026-09-28) |
 | stage1-pause | 4 | - |
 | stage1-continue | 4 | - (V-6, V-7 verified 2026-09-28) |
 | stage*-result | 4 | - (V-4, V-5, V-6 verified 2026-09-28) |
 | gamecomplete, gameover | 3 | V-8 harness zeros; cramped footer |
-| phone-portrait-* | 1 | V-9 |
-| phone-landscape-* | 2 | V-10 (not re-verified: no fresh phone frames, pin green) |
-| webgl-* | 3 | no fresh frames this pass (capture abort); vision parity green |
+| phone-portrait-* | 4 | - (V-9 verified: themed overlay) |
+| phone-landscape-* | 3 | - (V-10 verified on fresh frames; backdrops new) |
+| webgl-* | 4 | - (fresh frames reviewed; parity green on re-run) |
 
 ## Findings
 
@@ -74,15 +74,15 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 ### V-8 - End screens show 0 score and 0.0s (harness)
 - The capture forces the result, game-over and complete screens, so the stats are empty. Number formatting and long-score fit on these screens are unjudged. Next capture fix: seed stats (see Harness backlog).
 
-### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - fixed (self-check)
+### V-9 - Phone portrait shows a 412x232 game on an 839px-tall screen (S2, PLATFORM) - verified 2026-09-28
 - Evidence: `screens/phone-portrait-game.png`: the game fills 28% of the height; the touch buttons are about 20 CSS px, and there is no hint to rotate.
 - Root cause: `src/game/main.ts:31-32` (Scale.FIT, CENTER_BOTH) has no orientation handling in `index.html` or `src/style.css`. See Owner questions.
 
-### V-10 - Touch d-pad chevrons point inward (S2, ASSET) - fixed (self-check; 2026-09-28: no fresh phone frames - capture aborts at portrait; uir6-chevrons pin re-ran green)
+### V-10 - Touch d-pad chevrons point inward (S2, ASSET) - verified 2026-09-28 (all four OUTWARD on fresh phone-landscape frames)
 - Evidence: `screens/phone-landscape-game.png`: the up arm shows a down-chevron, the left arm ">", the right arm "<" and the down arm "^". The same happens in portrait.
 - Root cause: `src/game/art/hudart.ts:487-492`: the chevron path's apex is at +y, so at angle 0 it points DOWN, but `hudart.ts:498-501` assumes angle 0 points up.
 
-### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, fixed (self-check)
+### V-11 - Landmark strip uses flat untextured blocks (S2, ASSET) - owner-approved, verified 2026-09-28
 - Evidence: `screens/stage1-idle.png`: a flat grey slab with a green lid (the gorge wall). `screens/stage6-play.png`: blank beige rectangles on posts (warship sails) with the hulls sunk below the horizon. `screens/stage7-play.png`: solid red slabs (the cliffs). Next to the painted heroes these read as placeholder art.
 - Root cause: `src/game/art/backdrop.ts:324-326` (gorge), `:304-305` (sail 16x6 fillRect), `:444-446` (inferno cliffs) are `fillRect` blocks without tonal bands or ink. The hulls sit below `MARKS_ROOT_DEPTH` (`src/game/scenes/GameScene.ts:67`).
 - Estimate: M (one painter, three kinds), with risk to the vision richness gate and the seam unit test.
@@ -91,7 +91,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `crops/stage1-boss--boss.png`: the grunt faces are photographic, flat-lit and large for the body, with no neck blend.
 - Owned by the BODY track (BODY-24 and BODY-7 are open; see `CHARACTER_REVIEW.md`). No duplicate task is filed; re-check after BODY-7.
 
-### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - sky+clouds+ridges fixed (self-check); ground in UIR-11
+### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - sky+clouds+ridges verified 2026-09-28; ground in UIR-11
 - Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
@@ -132,8 +132,14 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 
-### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge fixed under UIR-9/10; ground/embers open, awaiting producer batching
+### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge fixed under UIR-9/10; ground folded into UIR-11; embers filed UIR-20
 - UIR-8 proved it for the marks strip and fixed it there: a 512x128 texture on a 1064x64 tileSprite with tileScale 1 shows texture rows 0..64 only (tile rows 0..32) - hulls, water, decks and banner bottoms were cut game-wide. Evidence: artifacts/marks-only.png (marks isolated: sails + upper masts only), the live texture readback (512x128, 21640 opaque px over rows 36..127), GameScene.ts tileSprite setup. The sky, ridge, ground and ember layers use the identical bake pattern (clouds were never affected - they are scaled images, not tileSprites; the sky was fixed under UIR-9) (bakeLayer at RENDER_SCALE + tileScale 1) and are therefore cut the same way - the sky's sun (tile y176) and lower haze, and the bottom halves of the other layers, never display. Same fix shape as marks (tileScale 0.5), but it changes every screen's look, so it needs its own task with a full re-review (not folded into UIR-8).
+
+## UIR batch 4 - FILED (2026-09-28; V-19 embers remainder, filed same pass)
+
+| Task | Findings | Size | Why this order |
+| --- | --- | --- | --- |
+| UIR-20 | V-19 (embers) | S | One-line tileScale with before/after ember counts; completes V-19 |
 
 ## UIR batch 3 - FILED (fixer's review 2026-09-28 at e4872ce; filed 2026-09-28)
 
