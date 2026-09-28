@@ -58,6 +58,41 @@ The causes are in the process:
 - **Arm-zoom windows cropped hands out.** The old movesheet window is
   chest-relative, so extended hands leave the frame and cannot be judged.
 
+### Why the anatomy pass still missed broken arm chains (owner catch, 2026-09-28)
+
+After the section 2a pass existed, UIR-12 to UIR-15 were marked `verified`
+and every fighter's anatomy row read `ok`. The owner still saw arms that do
+not connect from shoulder to upper arm, forearm, hand and weapon. The
+process let this through in eight ways:
+
+- **Self-grading.** The fixer wrote `fixed <commit> (self-check)`, and the
+  next pass accepted that label instead of re-judging fresh pixels. Now the
+  fixer writes `fixed <commit> (unverified)`, and only a LATER producer pass
+  may write `verified`, on a fresh capture plus the before/after pair sheet.
+- **Delegated review of labelled crops.** Subagents judged crops that came
+  with the fixer's claim of what was fixed. A reviewer now gets the raw sheets
+  and this rubric only, never the fix description.
+- **`ok` with no evidence.** A table cell said `ok` without naming what was
+  looked at. Every verdict now cites a sheet tile or crop; an uncited verdict
+  is invalid.
+- **Verdicts per fighter, not per move.** One `ok` covered 14 moves. The
+  grid now has one verdict per fighter PER MOVE.
+- **Five of fourteen moves.** Idle, attack, thrust, windup and special were
+  checked; walk, chop, sweep, recover, jump, hurt, attack2 and down were not.
+  All 14 are now checked.
+- **Details before the gestalt.** The joins checklist came first, so a
+  window that looks wrong as a whole could pass join by join. The first
+  judgement is now one word per window: natural, awkward or broken.
+- **The skeleton was trusted over the paint.** The x-ray shows the rig
+  connected even where the painted cells leave a gap or the weapon covers the
+  arm. The clean sheet is judged first; the x-ray and the ID map only locate
+  causes.
+- **Metrics blind to the defect.** Before/after checks measured seams and
+  edge steps, not whether the arm's own paint crosses every section of the
+  chain, what covers it, or whether cells overlap at the elbow and the cuff.
+  The arm-chain detector (`test/game/arm-chain-lib.ts`) measures exactly
+  those, and the pair sheets put before and after in the same window.
+
 ## 1. Capture (auto-test)
 
 ```
@@ -139,17 +174,44 @@ review from the manifest or inventory alone.
 
 ### 2a. Anatomy pass: look at a fighter the way a figure-drawing teacher would
 
-Material: `anatomy/<id>.png` (clean) and `anatomy/<id>-xray.png` (the same art
-dimmed, with the skeleton on top: shoulder `o`, elbow `+`, hand `x`, far arm
-cyan, near arm yellow, weapon axis magenta). There is one sheet per fighter,
-covering every movement, at 4x in windows centred on the arm chain.
+Material, one set per fighter, every movement, at 4x in windows centred on
+the arm chain (`npm run review:capture` writes them under `anatomy/`):
 
-1. **Clean sheet first.** For each fighter, look at the clean sheet before the
-   x-ray. Write down which windows look wrong to an ordinary person, and why,
-   in one line each. Do not look for explanations yet.
-2. **The join checklist.** For each hero, each boss, and at least one mook,
-   check these joins in idle, attack, thrust, windup and special. Each gets
-   `ok` or a finding:
+- `<id>.png`: the clean sheet, exactly what the game draws.
+- `<id>-xray.png`: the same art dimmed, with the skeleton on top (shoulder
+  `o`, elbow `+`, hand `x`, far arm cyan, near arm yellow, weapon axis
+  magenta).
+- `<id>-ids.png`: the same windows as an ID map, with every part in a flat
+  colour (legend at the bottom). Near arm warm (yellow upper, orange fore),
+  far arm cool (cyan upper, blue fore), weapon white, beard brown, torso
+  grey. It shows which part is on top at every pixel.
+- `<id>-pair.png`: the previous capture above the latest, same windows. It
+  exists when `artifacts/review/previous` has anatomy sheets.
+- `suspects.json` and `cells/<id>-<move>.png`: detector hints with 6x
+  plain + ID crops. Gap samples are ringed (red near, cyan far).
+
+The standard is what a figure-drawing teacher expects: **every chain
+shoulder -> upper arm -> elbow -> forearm -> wrist/cuff -> hand -> grip ->
+haft is connected.** The INNER side of each arm (toward the torso or the
+weapon) must be continuous. The outer contour may be covered by a
+legitimate occluder: the beard, the head, a pauldron, or the near hand.
+
+1. **Gestalt first, per move (all 14).** Open the clean sheet only. Give
+   every window one verdict: **N** natural, **A** awkward (reads as a body
+   but something is off), or **B** broken (a part is missing, detached,
+   cut or pasted on). Do not open the x-ray, ID map or suspects yet.
+2. **Locate every A and B.** Write one line with:
+   - (a) the part: shoulder, upper arm, elbow, forearm, wrist/cuff, hand,
+     grip or haft, near or far;
+   - (b) the connection that fails (J1-J9 below);
+   - (c) the rendering cause, from this list: *draw order* (name the
+     occluder from the ID map), *cell cut*, *cell length or mapping*,
+     *shading halo*, *pose or IK*, *missing or empty part*, or *other*
+     (describe it);
+   - (d) the crop path.
+   Record the verdict in the ledger's anatomy grid (`N`, `A V-n`, `B V-n`).
+3. **Then the join checklist,** J1-J9, on every A/B window and on any
+   window step 1 was unsure about. Each join gets `ok` or a finding:
    - **J1 Shoulder:** the upper sleeve starts AT the shoulder, under the
      pauldron or collar. There is no gap, no step, and no arm growing out of
      the chest or back.
@@ -171,20 +233,27 @@ covering every movement, at 4x in windows centred on the arm chain.
      over the forearm that holds it.
    - **J8 Same body:** the arm, hand and torso share one lighting direction,
      one level of detail and one resolution.
-3. **Use the x-ray only for root cause.** Use it to separate a skeleton or pose
-   problem (the joint markers are in the wrong place) from a cell or art problem
-   (markers are right but the paint does not cover or meet them), and from a
-   draw-order problem.
-4. **Pixels overrule metrics.** A finding stands if the image shows it, even
-   when a geometric check passes (for example `gripDist` 0 or a hand
-   overlapping the forearm). Never dismiss a visual join defect with a number.
-   Quote the image instead.
-5. **Compare with a reference.** Hold the clean sheet next to
+   - **J9 Inner side:** walking the inner edge of each arm from the armpit to
+     the fist, the arm's own paint never stops. There is no background, torso
+     or weapon showing through between two parts of the same arm. The outer
+     edge may be covered.
+4. **Only then the x-ray, the ID map and the suspects, for root cause.** The
+   x-ray separates a pose problem (the joint markers are in the wrong place)
+   from a cell problem (the markers are right but the paint does not cover or
+   meet them). The ID map names the draw-order occluder. Answer every entry
+   in `suspects.json` for the fighter with "confirmed -> V-n" or "dismissed:
+   <what the crop shows>".
+5. **Pixels overrule metrics, both ways.** A finding stands if the image shows
+   it, even when a geometric check passes (for example `gripDist` 0 or a hand
+   overlapping the forearm). A clean detector row never turns an A or B into
+   N. Quote the image instead.
+6. **Compare with a reference.** Hold the clean sheet next to
    `screens/title.png` and the hero's painted portrait. A cream mitten on a
    painted forearm is S2 even if every character has one. A defect common to
    all fighters is ONE finding with a cast-wide scope, not "house style".
-6. **Record** the verdict for each fighter in the ledger's anatomy table:
-   every join J1-J8, `ok` or `V-n`.
+7. **A fighter's anatomy is `ok` only when all 14 moves are N** on the
+   current capture. Pattern verdicts ("same as its twin") are not allowed:
+   every fighter's sheet is opened.
 
 ### Rubric: score every screen 1–5 on each dimension
 
@@ -302,23 +371,31 @@ For any UI, art or HUD task, the consumer (`.loop/loop.md`) does five things:
 2. Implements the change and adds its objective test.
 3. Recaptures and reviews the affected screens and crops against `previous`,
    per section 2. It glances over the contact sheets for regressions.
-4. Updates each listed finding in the ledger to `fixed <commit> (self-check)`,
-   citing the after-image detail. The consumer may APPEND newly noticed
-   findings as `open` observations, but must not file tasks for them.
+4. Updates each listed finding in the ledger to `fixed <commit> (unverified)`,
+   citing the after-image detail and the pair sheet
+   (`anatomy/<id>-pair.png`) it looked at. The consumer never writes
+   `verified` and never sets anatomy-grid cells to `N`: that is the next
+   producer's job. It may APPEND newly noticed findings as `open`
+   observations with a crop, but must not file tasks for them.
 5. Never marks the task DONE while its own after-review still shows the
    defect. "Playable but ugly" is not done.
 
 ## 6. Independent verification (producer)
 
 The implementer never has the last word on their own work. On the next
-producer review, each `fixed` finding is re-inspected on fresh captures,
-and the reviewer marks it one of two ways:
+producer review, each `fixed ... (unverified)` finding (and each legacy
+`fixed ... (self-check)`) is re-inspected on a FRESH capture made in that
+pass. The reviewer looks at the pair sheet and the clean sheet, not at the
+fixer's description, and marks it one of two ways:
 
-- `verified <date>`: the fix is confirmed.
-- `reopened <date>`: a new finding is created that references the old one,
-  plus the reason.
+- `verified <date>`: the defect is gone in every move it was reported in,
+  and the pair sheet shows no new break in any other move.
+- `reopened <date> -> V-m`: a new finding is created that references the
+  old one, plus the reason.
 
-A finding reopened twice becomes an owner question.
+If the images cannot be attached or viewed, nothing is verified: record the
+limitation and end BLOCKED. A reviewer subagent gets the image paths and
+this rubric only. A finding reopened twice becomes an owner question.
 
 ## 7. Cadence and termination
 
@@ -333,9 +410,9 @@ A finding reopened twice becomes an owner question.
   an owner flag or a miss analysis. The review that handles that flag removes
   the line.
 - **Characters every time:** the section 2a anatomy pass runs in EVERY full
-  review for the fighters whose art, poses or draw code changed since the
-  last review, and for all 17 fighters at least every other full review. It
-  is not part of the deep-dive rotation, and it cannot be skipped.
+  review for all 17 fighters and all 14 moves (the 238-cell grid). It is not
+  part of the deep-dive rotation, and it cannot be skipped. A cell that was
+  not looked at stays `?`, never `N`.
 - **Deep-dive rotation:** every full review covers all contact sheets. In
   detail it covers at least one rotation area, choosing the one
   least-recently deep-reviewed in the ledger's coverage table:
@@ -365,11 +442,12 @@ something a review passed, three things happen:
 3. The capture gains a screen or crop if the defect was not visible in any
    capture.
 4. **Miss analysis.** Write down why the review missed it: out of scope,
-   wrong zoom, wrong question, metric trusted over pixels, or an error so
-   common it read as house style. Then fix that cause in this document, not
-   just the one defect. Every miss must leave this procedure harder to fool.
-   The first worked example is "Why the first art-director review still missed
-   the arms" in the opening section.
+   wrong zoom, wrong question, metric trusted over pixels, an error so
+   common it read as house style, or a fixer grading its own fix. Then fix
+   that cause in this document, not just the one defect. Every miss must
+   leave this procedure harder to fool. The worked examples are "Why the
+   first art-director review still missed the arms" and "Why the anatomy
+   pass still missed broken arm chains" in the opening section.
 
 The loop learns what this owner cares about instead of repeating the miss.
 
@@ -384,3 +462,9 @@ The loop learns what this owner cares about instead of repeating the miss.
   against the previous capture.
 - Judge features at the size where they are visible. Joins, faces and small
   type need 4x crops. A 2x screen is only enough for layout.
+- Nobody grades their own fix. `verified` comes only from a later pass, on a
+  fresh capture and the before/after pair sheet.
+- A verdict without a cited tile or crop is invalid, and `ok` for a fighter
+  means all 14 moves were looked at and read natural.
+- An arm chain is connected when its inner side is continuous from the
+  shoulder to the fist on the haft. The outer contour may be covered.

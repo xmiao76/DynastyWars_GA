@@ -20,10 +20,14 @@ Execute exactly one bounded CONSUMER iteration:
    - run `npm run review:capture` BEFORE editing and again after;
    - review the affected screens and crops against `artifacts/review/previous/`
      with the image tool at gameplay size, citing concrete after-image details;
-   - glance over the contact sheets for regressions;
-   - set each listed ledger finding to `fixed <commit> (self-check)`.
+   - glance over the contact sheets for regressions; for character work open
+     the before/after pair sheets `anatomy/<id>-pair.png` for every fighter
+     the change can reach, all 14 moves;
+   - set each listed ledger finding to `fixed <commit> (unverified)`, citing
+     the pair sheet. Never write `verified` and never set anatomy-grid cells
+     to `N`: only a later producer pass may, on a fresh capture.
    You may append newly noticed findings to `docs/UI_REVIEW_LEDGER.md` as
-   `open`, but do not file tasks for them. If image tools are absent, record
+   `open` with a crop, but do not file tasks for them. If image tools are absent, record
    that limitation, never invent a review. Shipping changes require
    `npm run prodbuild`. A playable but broken or unattractive render is not a
    completed game task, and a task whose own after-review still shows its

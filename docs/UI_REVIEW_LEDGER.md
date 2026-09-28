@@ -1,8 +1,8 @@
-# UI review ledger
+﻿# UI review ledger
 
 The durable memory of the art-director review (`docs/VISUAL_REVIEW.md`).
 Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (in a pending batch below), `filed UIR-n`,
-`fixed <commit> (self-check)`, `verified <date>`, `reopened <date> -> V-m`,
+`fixed <commit> (unverified)` (legacy: `(self-check)`; set by the fixer, never final), `verified <date>` (only by a LATER producer pass on a fresh capture + pair sheet), `reopened <date> -> V-m`,
 `deferred <track>`, `intended`, `harness` or `owner`.
 
 ## Last full review
@@ -10,6 +10,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Date: 2026-09-26. Commit: `3fd3b32`. Capture: `npm run review:capture`, 59 screens, canvas + WebGL + Pixel 7 portrait/landscape.
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
 - Next review due when `git rev-list --count 3fd3b32..HEAD -- src/game` >= 4.
+- **DUE NOW** (owner flag 2026-09-28, arm chains; see VISUAL_REVIEW "Why the anatomy pass still missed broken arm chains"): full section 2a per-move pass, all 17 fighters x 14 moves, on a fresh capture. Re-judge the anatomy grid below from the images (it holds the fixer's pre-fix baseline, not verdicts) and verify or reopen V-15..V-18 on the pair sheets.
 
 ## Coverage (deep-dive rotation)
 
@@ -95,7 +96,8 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
 ### V-14 - Arm, wrist, hand and grip joins look wrong on every fighter (S1/S2, ASSET+DEPTH+STATE) - filed UIR-12/UIR-13/UIR-14/UIR-15
-- Fix progress 2026-09-27: **J4/J8 fixed by UIR-12**, **J5/J7 fixed by UIR-13**, **J1/J3 fixed by UIR-14**, **J6 fixed by UIR-15** (strike elbows bow opposite sides of the bar + wider strike grips). V-14 fully addressed - owner re-review closes it.
+- **reopened 2026-09-28 -> V-15, V-16, V-17, V-18.** Owner: the arm chains still do not connect. The 2026-09-27 "fully addressed" note was the fixers' self-check; no later pass judged the chains per move.
+- Fix progress 2026-09-27 (self-check, superseded): J4/J8 by UIR-12, J5/J7 by UIR-13, J1/J3 by UIR-14, J6 by UIR-15.
 - Owner report 2026-09-26: "every character's arm position, arm connection to the body, connection to the hand, and the hand's connection to the weapons are not right". The 2026-09-26 review missed it (see VISUAL_REVIEW.md "Why the first art-director review still missed the arms").
 - Seed evidence (a spot check, not the full pass), from `anatomy/zhaoyun.png`, `anatomy/guanyu.png`, `anatomy/lubu.png` and the matching `-xray` sheets at `09d7d06`:
   - J4: the hands are flat cream or pink mitten icons with no fingers, unlike the painted face and sleeve on every fighter.
@@ -109,6 +111,23 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
   - Pose arm geometry: `src/game/art/poses.ts` and `weaponPose` in `src/game/art/weapons.ts:161`.
   - Cell caps at the joints: `src/game/art/body-parts.ts`.
 - Pass 2026-09-27: section 2a run on 15 fighters (5 heroes + 9 bosses + soldier); spearman/archer carry pattern verdicts. Split by root cause and filed: UIR-12 hands (J4/J8), UIR-13 grip+layering (J5/J7), UIR-14 sleeves/wrists (J1/J3), UIR-15 strike poses (J6). CHARACTER_REVIEW.md BODY-7 DISMISSED entries are superseded by these verdicts. Previous DISMISSED entries in `docs/CHARACTER_REVIEW.md` ("rear fist floats", "detached off-hand", "off-hand gap") must be re-judged by pixels.
+
+### V-15 - Arm chains do not connect shoulder -> upper arm -> forearm -> hand -> haft (S1, cast-wide, DEPTH+ASSET) - open
+- Owner report 2026-09-28: every character's shoulder, upper arm, forearm, hand and weapon should connect; the inner side must be continuous (the outer line may be covered). Found by the reworked 2a pass at `f3616f1` (clean sheets `anatomy/<id>.png`, ID maps `anatomy/<id>-ids.png`, crops `anatomy/cells/<id>-<move>.png`, metrics `anatomy/suspects.json`). Five separate rendering causes, lettered so the grid can name them:
+- **V-15a - the weapon is drawn over the near arm that holds it (draw order, J7/J9).** Standing moves, near-arm footprint covered by the weapon: caocao walk1 92u^2, weiyan thrust 78, caoren walk1 77, weiyan sweep 75, xuhuang walk1 75, caocao idle 73; 174 of 221 standing cells >= 30u^2 or near upper arm < 15% visible. Near upper arm visible: guanyu thrust 2% (weapon 24%, beard 22%), zhangfei attack 6% (weapon 41%). Crops: `cells/zhangfei-attack.png`, `cells/caocao-walk1.png`, `cells/guanyu-thrust.png`. Cause: `src/game/art/draw.ts` `figureShapes` emits `weaponOrProcedural()` LAST (:916), after the near arm (:856-876), so the haft crosses the upper arm and elbow.
+- **V-15b - the far fist and far fingertips paint over the near arm (draw order).** Up to 847 px at 4x (lubu attack), 808 (lubu attack2), 794 (xuchu attack): the far hand reads as a second hand stuck on the near elbow. Crops: `cells/lubu-attack.png`, `cells/xuchu-attack.png`, `cells/guanyu-attack.png`. Cause: `draw.ts` `gripF` shape (:905-914) is emitted after the near arm, and the tail `wrapF` (:255-257) is drawn over everything.
+- **V-15c - visible holes in the near chain (J9).** Longest run where no near-arm paint crosses the chain section and nothing legitimate covers it: zhangfei attack 8.5u, guanyu thrust 5.5u, guanyu chop 3.75u, weiyan chop 3.75u, guanyu sweep 3.5u. Mostly a consequence of V-15a/b plus V-15d.
+- **V-15d - painted cells do not overlap at the elbow and the cuff (cell cut + mapping, J2/J3).** Elbow overlap (upper-arm paint past the elbow + forearm paint above it): guanyu -0.2u, huangzhong 0.1u, weiyan 0.8u (others 2.9-8.9u). Cuff to hand-back overlap: guanyu far -1.1u, zhangfei far -0.9u, huangzhong far -0.8u (a gap between cuff and hand). Cause: (1) BODY-19 wrist cut at `scripts/prepare-body-parts.mjs:740-752` cuts at a FIXED fraction of the master's elbow->palm span (0.58/0.75) instead of at the rig's hand joint, so on masters whose forearm is short relative to `BODY_PART_DEFS.naturalLen` the cuff stops short of the hand, and on long ones (lubu +2.0u) the painted fingers poke past it; (2) `src/game/art/body-parts.ts:140` maps every cell by `naturalLen`, but guanyu/huangzhong/weiyan upper-arm cells span only 8.8-9.0u of master arm (elbow landmarked high), so the painted sleeve ends ~4u before the elbow.
+- **V-15e - soft-shade halos outside the art (shading halo, J8).** The BODY-11/UIR-14 shade ovals (`draw.ts` :812-817, :843-848, :860-865, :870-875) paint their radial gradient and cel bands through the oval's own clip only, not the paint underneath, so a grey disc shows on the background beside the shoulder and forearm: 258-2225 px per move at 4x (200 of 221 standing cells >= 600 px). Visible as dark rings in `anatomy/zhangfei.png` attack/thrust/sweep and `anatomy/xiahoudun.png` walk0. Cause: `paintWithHead` :589-600 does not composite `source-atop`.
+
+### V-16 - Prone (down) far arm hangs below the body with a detached hand (S2, all 17, DEPTH) - open
+- Every fighter's `down` window: the far forearm is invisible (it lies under the body/ground line) and the relaxed far hand sits alone under the chest; the near upper arm is mostly hidden by the beard or head. Far-chain holes: lubu 11.5u, guanyu 6.25u, zhaoyun 6.25u, spearman/huangzhong 5.25u. Crops: `cells/guanyu-down.png`, `cells/lubu-down.png`. Cause: `src/game/art/weapons.ts:191` solves the lying far arm with the pose-table hint, which picks the elbow branch BELOW the body (elbowF y 94-95 while the hip is at 82). Needs a pose decision (which way a prone far arm folds), so it is not part of the V-15 fix.
+
+### V-17 - Relaxed rear hand floats off the torso edge (S2, huangzhong/weiyan/zhangfei, DEPTH) - open
+- In idle, walk, hurt and special the relaxed far hand hangs beside the hip with 0-15% of the far forearm visible (hidden by the torso): huangzhong 9 moves, weiyan 2, zhangfei 1. Crops: `cells/huangzhong-idle.png`, `cells/weiyan-hurt.png`. Cause: `src/game/art/armik.ts:366` `swungFreeTarget` (called from `weapons.ts:235`) places the free far hand outside the torso silhouette while the far arm is drawn behind it (`draw.ts:748-753`), so only the hand shows. The x-ray shows the rig chain is continuous; the paint is not.
+
+### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - open (V-14 J4 residue)
+- The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 ## UIR batch 1 - FILED (reviewed 2026-09-26 at 3fd3b32; filed 2026-09-27)
 
@@ -148,32 +167,36 @@ Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 2).
 
 ## Known blind spots (checked by every review)
 
-1. 2026-09-26, owner: **arm, shoulder, wrist, hand and grip joins on every fighter** (V-14). The first review never opened a character sheet. Every review now runs the section 2a anatomy pass (J1-J8) on the `anatomy/` sheets, and no metric can dismiss what the image shows.
+1. 2026-09-26, owner: **arm, shoulder, wrist, hand and grip joins on every fighter** (V-14). The first review never opened a character sheet. Every review now runs the section 2a anatomy pass (J1-J9) on the `anatomy/` sheets, and no metric can dismiss what the image shows.
+2. 2026-09-28, owner: **per-move arm-chain continuity** (V-15). The 2a pass rated fighters `ok` on 5 of 14 moves, the fixers' self-checks were accepted as verification, and the x-ray skeleton read as connected where the paint was not. Every review now fills the 17 x 14 gestalt grid from the clean sheets first, answers every `suspects.json` entry, and verifies fixes only on its own fresh capture and the pair sheets.
 
-## Anatomy verdicts (section 2a; one row per fighter, rewritten each full review)
+## Anatomy verdicts (section 2a grid; one row per fighter, one cell per move; rewritten each full review)
 
-Each join is `ok` or `V-n`. Moves checked: idle, attack, thrust, windup, special (plus any move where the clean-sheet first look flagged something).
+Cell = `N` natural, `A V-n` awkward, `B V-n` broken, `?` not looked at. Letters after V-15 name its sub-causes (a weapon over near arm, b far hand over near arm, c chain hole, d elbow/cuff overlap, e shade halo). A fighter is `ok` only when all 14 cells are N. Every cell must be backed by its tile in `anatomy/<id>.png` (and `cells/<id>-<move>.png` for A/B).
 
-| Fighter | J1 shoulder | J2 elbow | J3 wrist | J4 hand | J5 grip | J6 pose | J7 layering | J8 same body | Reviewed |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| guanyu | ok | ok | ok | ok| ok| ok | ok| ok| 2026-09-27 |
-| zhangfei | ok | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| zhaoyun | V-14 | ok | V-14 | ok| ok| ok| ok| ok| 2026-09-27 |
-| huangzhong | ok | ok | ok | ok| ok| ok | ok| ok| 2026-09-27 |
-| weiyan | ok | ok | ok | ok| ok| ok | ok| ok| 2026-09-27 |
-| lubu | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| caocao | V-14 | ok | ok | ok| ok| ok | ok| ok| 2026-09-27 |
-| xiahoudun | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| xuchu | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| zhangliao | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| caoren | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| xuhuang | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| zhanghe | V-14 | ok | ok | ok| ok| ok | ok| ok| 2026-09-27 |
-| lidian | V-14 | ok | ok | ok| ok| ok| ok| ok| 2026-09-27 |
-| soldier | V-14 | ok | ok | ok| ok| ok | ok| ok| 2026-09-27 |
-| spearman | V-14* | ok* | ok* | ok*| ok*| ok*| ok*| ok*| 2026-09-27 |
-| archer | ok* | ok* | ok* | ok*| ok*| ok* | ok*| ok*| 2026-09-27 |
-| * = pattern verdict from the reviewed twin (spearman: polearm pattern; archer: bow pattern) - confirm on the sheets next pass |
+**Status of the rows below: PRE-FIX BASELINE, NOT VERIFIED.** Written 2026-09-28 at `f3616f1` by the fixer (who then worked on V-15), from all 17 clean sheets plus the detector split per move; that is exactly the self-grading this ledger forbids, so the next producer pass must re-judge every cell from its own fresh capture (DUE NOW above). The 2026-09-27 per-fighter `ok` table was withdrawn: it covered 5 of 14 moves and rated guanyu, zhangfei, huangzhong and weiyan `ok` everywhere while V-15 was visible in them.
+
+| Fighter | idle | walk0 | walk1 | attack | attack2 | thrust | chop | sweep | windup | recover | jump | down | hurt | special |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| guanyu | A V-15de | A V-15de | A V-15de | B V-15abcde | B V-15abde | B V-15abcde | A V-15cde | A V-15abcde | A V-15de | A V-15ad | A V-15acde | B V-16 | A V-15bde | B V-15abde |
+| zhangfei | A V-15de | A V-15ade | A V-15de | B V-15abcde | B V-15abcde | B V-15abcde | B V-15abcde | B V-15abde | A V-15ade | A V-15abde | B V-15abde | B V-16 | A V-15ade V-17 | B V-15abde |
+| zhaoyun | A V-15e | A V-15ae | A V-15ae | B V-15abe | B V-15abe | B V-15abe | A V-15ace | B V-15abe | A V-15ae | N | A V-15ae | B V-16 | B V-15abe | B V-15abe |
+| huangzhong | A V-15de V-17 | A V-15de V-17 | A V-15de | A V-15ade V-17 | A V-15ade | A V-15ade V-17 | A V-15acde | A V-15ade V-17 | A V-15de V-17 | B V-15ade V-17 | A V-15de | B V-16 | A V-15de V-17 | A V-15de V-17 |
+| weiyan | A V-15de | A V-15ade | A V-15ade | A V-15ade | A V-15ade | A V-15ade | A V-15acde | A V-15ade | A V-15ade | A V-15ade | A V-15ade | B V-16 | A V-15de V-17 | A V-15ade V-17 |
+| soldier | A V-15e | A V-15e | A V-15e | A V-15e | A V-15e | A V-15ae | A V-15ce | A V-15ae | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15e | A V-15e |
+| spearman | A V-15e | A V-15e | A V-15e | B V-15abce | B V-15abe | B V-15abe | A V-15ce | B V-15abe | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15e | B V-15abe |
+| archer | A V-15e | A V-15e | A V-15e | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15e | A V-15e | B V-16 | A V-15e | A V-15e |
+| lubu | A V-15abe | B V-15abe | A V-15abe | B V-15abe | B V-15abc | B V-15abe | B V-15ab | B V-15abe | A V-15ae | A V-15abe | B V-15abe | B V-16 | A V-15ae | B V-15abe |
+| caocao | A V-15ae | A V-15ae | A V-15ae | A V-15a | A V-15a | A V-15a | A V-15a | A V-15a | A V-15a | A V-15a | A V-15ae | B V-16 | A V-15a | A V-15a |
+| xiahoudun | A V-15be | A V-15be | A V-15abe | B V-15abce | B V-15abe | B V-15abe | B V-15abce | B V-15abe | A V-15ae | A V-15abe | A V-15abe | B V-16 | A V-15e | B V-15abe |
+| xuchu | A V-15be | B V-15abe | A V-15abe | B V-15abe | B V-15abce | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15abe | B V-15abe | B V-16 | A V-15e | B V-15abe |
+| zhangliao | A V-15e | A V-15ae | A V-15ae | B V-15abe | B V-15ab | B V-15abe | B V-15abc | B V-15abe | A V-15a | A V-15a | A V-15ae | B V-16 | A V-15e | B V-15abe |
+| caoren | B V-15abe | B V-15abe | A V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15ae | B V-15abe |
+| xuhuang | B V-15abe | B V-15abe | A V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15ae | B V-15abe |
+| zhanghe | A V-15ae | A V-15ae | A V-15a | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15a | A V-15a | A V-15ae | B V-16 | A V-15ae | A V-15ae |
+| lidian | A V-15e | A V-15ae | A V-15ae | B V-15abce | B V-15abe | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15a | A V-15ae | B V-16 | A V-15ae | B V-15abe |
+
+Baseline tally: 1 N, 147 A, 90 B of 238.
 
 ## Harness backlog
 

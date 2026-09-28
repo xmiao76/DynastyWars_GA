@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createCanvas, type SKRSContext2D } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
@@ -6,6 +7,7 @@ import { ENEMY_FIGURES, HERO_FIGURES } from '../../src/game/art/figures'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 import { applyBuild, FIG_H, FIG_W, type Pt, type Skeleton } from '../../src/game/art/rig'
 import { weaponPose } from '../../src/game/art/weapons'
+import { idLegend, idResources, idTile, measureMove, suspectCrop, type MoveMetrics } from './arm-chain-lib'
 import { ALL_FIGHTERS, loadCastArt } from './cast-art'
 
 /**
@@ -16,6 +18,12 @@ import { ALL_FIGHTERS, loadCastArt } from './cast-art'
  *   anatomy/<id>-xray.png  same art dimmed, with the skeleton on top
  *                          (shoulder o, elbow +, hand x, weapon line) - used
  *                          only AFTER the clean look, to locate root causes.
+ *   anatomy/<id>-ids.png   same windows as an ID map (flat part colours,
+ *                          legend below): which part is on top, per pixel.
+ *   anatomy/suspects.json  arm-chain detector metrics + suspect reasons per
+ *                          fighter/move (arm-chain-lib.ts) - hints only.
+ *   anatomy/cells/<id>-<move>.png  6x plain|ID crops of flagged moves.
+ *   index.json             also records the capture commit.
  * Each window is centred on the shoulder-elbow-hand chain, so a hand is
  * never cropped away the way a fixed chest-relative window can crop it.
  */
@@ -70,9 +78,18 @@ function xray(g: SKRSContext2D, p: Skeleton, map: (q: Pt) => [number, number]): 
 
 describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
   it('writes clean and x-ray arm-chain sheets for every fighter', async () => {
-    mkdirSync(OUT, { recursive: true })
+    mkdirSync(`${OUT}/cells`, { recursive: true })
     const resources = await loadCastArt()
-    const index: { id: string; clean: string; xray: string; moves: string[] }[] = []
+    let commit = 'unknown'
+    try {
+      commit = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim()
+      if (execSync('git status --porcelain -- src scripts', { encoding: 'utf8' }).trim() !== '') commit += '-dirty'
+    } catch {
+      // not a git checkout: leave 'unknown'
+    }
+    const index: { id: string; clean: string; xray: string; ids: string; moves: string[] }[] = []
+    type Row = Omit<MoveMetrics, 'walk'> & { gapsN: number; gapsF: number; runN: number; runF: number }
+    const suspects: Record<string, Record<string, Row>> = {}
     for (const id of ALL_FIGHTERS) {
       const plan = HERO_FIGURES[id] ?? ENEMY_FIGURES[id]
       if (!plan) throw new Error(`no plan ${id}`)
@@ -81,11 +98,17 @@ describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
       const rows = Math.ceil(MOVES.length / COLS)
       const clean = createCanvas(COLS * cw, rows * (ch + 20))
       const ray = createCanvas(COLS * cw, rows * (ch + 20))
+      const legend = idLegend(COLS * cw)
+      const idSheet = createCanvas(COLS * cw, rows * (ch + 20) + legend.height)
       const gc = clean.getContext('2d')
       const gx = ray.getContext('2d')
-      for (const g of [gc, gx]) {
+      const gi = idSheet.getContext('2d')
+      const idRes = idResources(resources, id)
+      const rowsOut: Record<string, Row> = {}
+      suspects[id] = rowsOut
+      for (const g of [gc, gx, gi]) {
         g.fillStyle = BG
-        g.fillRect(0, 0, clean.width, clean.height)
+        g.fillRect(0, 0, idSheet.width, idSheet.height)
       }
       for (const [i, move] of MOVES.entries()) {
         const box = artBoxFor(id, move)
@@ -113,7 +136,12 @@ describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
         gx.clip()
         xray(gx, p, (q) => [x + ((q.x + ox) * Z - sx), y + 20 + ((q.y + oy) * Z - sy)])
         gx.restore()
-        for (const g of [gc, gx]) {
+        gi.drawImage(idTile(idRes, id, move, Z), sx, sy, cw, ch, x, y + 20, cw, ch)
+        const m = measureMove(resources, idRes, id, move, Z)
+        const { walk, ...rest } = m
+        rowsOut[move] = { ...rest, gapsN: walk.N.gaps.length, gapsF: walk.F.gaps.length, runN: walk.N.runU, runF: walk.F.runU }
+        if (m.suspects.length > 0) writeFileSync(`${OUT}/cells/${id}-${move}.png`, suspectCrop(resources, idRes, m).toBuffer('image/png'))
+        for (const g of [gc, gx, gi]) {
           g.fillStyle = '#f5e6c8'
           g.font = '14px sans-serif'
           g.fillText(`${id} ${move}`, x + 4, y + 15)
@@ -121,9 +149,16 @@ describe.runIf(RUN)('anatomy review sheets (review:capture only)', () => {
       }
       writeFileSync(`${OUT}/${id}.png`, clean.toBuffer('image/png'))
       writeFileSync(`${OUT}/${id}-xray.png`, ray.toBuffer('image/png'))
-      index.push({ id, clean: `anatomy/${id}.png`, xray: `anatomy/${id}-xray.png`, moves: MOVES })
+      gi.drawImage(legend, 0, rows * (ch + 20))
+      writeFileSync(`${OUT}/${id}-ids.png`, idSheet.toBuffer('image/png'))
+      index.push({ id, clean: `anatomy/${id}.png`, xray: `anatomy/${id}-xray.png`, ids: `anatomy/${id}-ids.png`, moves: MOVES })
     }
-    writeFileSync(`${OUT}/index.json`, JSON.stringify(index, null, 2))
+    writeFileSync(`${OUT}/index.json`, JSON.stringify({ commit, fighters: index }, null, 2))
+    writeFileSync(`${OUT}/suspects.json`, JSON.stringify({
+      commit,
+      note: 'Detector hints only (arm-chain-lib.ts). Judge the clean sheet first; a metric never turns an A/B verdict into N (VISUAL_REVIEW 2a step 3).',
+      suspects,
+    }, null, 2))
     expect(index).toHaveLength(ALL_FIGHTERS.length)
   }, 300_000)
 })

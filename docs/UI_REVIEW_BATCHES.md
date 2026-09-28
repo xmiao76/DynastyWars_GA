@@ -4,6 +4,9 @@ Committed so it survives artifact cleanup. The producer copies each PENDING
 batch (see `docs/UI_REVIEW_LEDGER.md`) into TASKS.md Enhancements, adding the
 Status/Source/Evidence lines from the `VISUAL_REVIEW.md` section 4 template, then
 marks the batch FILED here and in the ledger. Do not edit a FILED batch.
+From batch 3 on, acceptance for character tasks says the consumer sets its
+findings to `fixed <commit> (unverified)` with the pair sheet cited; only a
+later producer pass marks them `verified` (VISUAL_REVIEW sections 5-6).
 
 ## UIR batch 1 (FILED 2026-09-27) - ready-to-file tasks (UI review 2026-09-26 @ 3fd3b32)
 
