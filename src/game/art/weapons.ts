@@ -1,4 +1,4 @@
-import { bendElbowOffHaft, clearsArm, fitBow, fitDown, fitFarHand, fitLeg, ikHeadRadius, naturalArmLengths, naturalLegLengths, solveArm, STRIKE_MIN_SEP, swungFreeTarget } from './armik'
+import { fitBow, fitDown, fitFarHand, fitLeg, ikHeadRadius, naturalArmLengths, naturalLegLengths, solveArm, STRIKE_MIN_SEP, swungFreeTarget } from './armik'
 import type { Pt } from './rig'
 import { WEAPONS, type FigurePlan } from './figures'
 import { HEAD_CHIN_DROP } from './hero-resources'
@@ -204,7 +204,7 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
     handN = { x: pose.handN.x + fit.shift, y: pose.handN.y }
     weaponRot = fit.rot
   }
-  let near = solveArm(pose.shoulderN, handN, pose.elbowN, nat.upperN, nat.foreN)
+  const near = solveArm(pose.shoulderN, handN, pose.elbowN, nat.upperN, nat.foreN)
   // BODY-15 far-hand choreography, reach-limited by BODY-19, gait-swung by
   // BODY-22: the far arm hung inside the torso span in every pose, so only
   // one hand ever read. Polearms get a true two-handed grip (far fist on
@@ -233,8 +233,6 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
     return { x: 2 * px - sk.elbowF.x, y: 2 * py - sk.elbowF.y }
   }
   let handF = swungFreeTarget(pose.shoulderF, nat.upperF + nat.foreF, lead, idleLead)
-  // UIR-16 attempt 2: the bend search below may override the far hint.
-  let farHintOverride: Pt | null = null
   if (twoHanded) {
     const spec = WEAPONS[plan.weapon]
     // UIR-15: strikes spread the fists wider along the haft so the two
@@ -246,47 +244,8 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
       pose.shoulderF, nat.upperF + nat.foreF, pose.strike ? STRIKE_MIN_SEP : undefined,
       nearChain)
     if (fit.gripping) handF = fit.handF
-    // UIR-16 attempt 2: when the near arm rails the haft, no placement
-    // clears it (proven by s-sweep: elbow on the line, forward grips out
-    // of reach) - so search (protraction) x (near bend side) x (far hint)
-    // for a combo that clears the fist AND keeps the UIR-15 side rule.
-    // The grip stays put, so turn floors and grip-hold are untouched by
-    // construction. Prefer the smallest protraction (least visual change),
-    // then the reflected far hint (preserve UIR-15), then wider elbows.
-    // Art-only (the sim never reads solved joints); J1/J2/J6 eye-reviewed.
-    if (fit.gripping && !clearsArm(handF, nearChain)) {
-      const haftDir = { x: Math.cos(weaponRot), y: Math.sin(weaponRot) }
-      const sideOf = (e: Pt): number => (e.x - handN.x) * haftDir.y - (e.y - handN.y) * haftDir.x
-      const reflHint = strikeElbowHint(pose, handF)
-      const farHints: Array<{ hint: Pt; reflected: boolean }> = pose.strike
-        ? [{ hint: reflHint, reflected: true }, { hint: pose.elbowF, reflected: false }]
-        : [{ hint: reflHint, reflected: true }]
-      let best: { bent: { shoulder: Pt; elbow: Pt; protracted: number }; hint: Pt; score: number } | null = null
-      for (const p of [2, 3, 4, 5, 6]) {
-        for (const s of [1, -1]) {
-          const bent = bendElbowOffHaft(pose.shoulderN, handN, pose.elbowN,
-            nat.upperN, nat.foreN, handN, haftDir, p, s)
-          if (bent === null) continue
-          const bentChain = { shoulder: bent.shoulder, elbow: bent.elbow, hand: handN }
-          if (!clearsArm(handF, bentChain)) continue
-          for (const fh of farHints) {
-            const farElb = solveArm(pose.shoulderF, handF, fh.hint, nat.upperF, nat.foreF).elbow
-            const offN = sideOf(bent.elbow)
-            const offF = sideOf(farElb)
-            const sideOk = !pose.strike || offN * offF < 0 || Math.abs(offN - offF) >= 3
-            if (!sideOk) continue
-            const score = -p * 10000 + (fh.reflected ? 1000 : 0) + Math.abs(offN - offF)
-            if (best === null || score > best.score) best = { bent, hint: fh.hint, score }
-          }
-        }
-      }
-      if (best !== null) {
-        near = { shoulder: best.bent.shoulder, elbow: best.bent.elbow, protracted: best.bent.protracted }
-        farHintOverride = best.hint
-      }
-    }
   }
-  const far = solveArm(pose.shoulderF, handF, farHintOverride ?? strikeElbowHint(pose, handF), nat.upperF, nat.foreF)
+  const far = solveArm(pose.shoulderF, handF, strikeElbowHint(pose, handF), nat.upperF, nat.foreF)
   // BODY-22 leg IK: table knees let segments collapse to 56% in crouches.
   // Knees solve from hip+foot (both pinned: hips keep the torso, feet keep
   // their planted stances); the authored knee picks the bend branch.

@@ -1307,7 +1307,16 @@ Add future enhancement tasks below this heading.
 
 ### UIR-16 - Keep the far fist off the near arm on two-handed strikes
 
-- Status: IN_PROGRESS (attempt 2, 2026-09-28 UTC - combo-search bend
+- Status: BLOCKED (3 attempts exhausted 2026-09-28 UTC - G6 literal-0 is
+  unsatisfiable as specified: placement cannot clear (forward grips
+  unreachable, arm rails haft), elbow bends backfire visually
+  (guanyu-sweep 11+41 -> 142+269, forearm covers grip) and still leave
+  86 cells, masking breaks handgrip/BODY-15. NEEDS OWNER DECISION -
+  pick one: (a) rescope G6 to the 9 reviewer-A/B cells + rim tolerance
+  elsewhere; (b) authorize wrap/fist masking with handgrip
+  renegotiation; (c) authorize UIR-19 hand-art changes; (d) authorize
+  pose-table surgery with full re-review. See PROGRESS attempts 1-3
+  for proofs. Only the owner may reset to TODO.)
   landed; G6 87->86 with big reductions; strikearms+guards green;
   paint-zero needs wrap-extent work or owner scope call, see PROGRESS)
 - Source: UI review 2026-09-28, findings V-15b (S2).
