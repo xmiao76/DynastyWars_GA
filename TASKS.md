@@ -1262,3 +1262,71 @@ Add future enhancement tasks below this heading.
         (lint 0, tsc 0, unit 640/640, e2e 78, vision 5/5, selfplay
         13/13, build 0, prodbuild 4/4).
 - Non-goals: new poses, timing changes, in-betweens (BODY-24).
+
+### UIR-16 - Keep the far fist off the near arm on two-handed strikes
+
+- Status: TODO
+- Source: UI review 2026-09-28, findings V-15b (S2).
+- Evidence: artifacts/review/latest/anatomy/cells/lubu-attack.png (far fist over near elbow, 398px + 627px wrap) and cells/zhangfei-attack.png (219px) - re-confirmed on the 2026-09-28 fresh capture
+- Root cause: STATE/pose - `src/game/art/armik.ts:273-325` `fitFarHand` places the far grip 12-19u behind the near hand along the haft, which on attack/attack2/thrust/sweep/special lands UNDER the near forearm and elbow (probe: 0 reachable haft points clear the near arm by 2u for guanyu/zhaoyun/spearman/lidian/zhangliao strikes). The far fist (BODY-15, drawn on top so it stays visible) then paints over the near elbow: up to 847 px at 4x (lubu attack), 794 (xuchu attack). `draw.ts` tail `wrapF` adds the fingertips.
+- Affected screens: every polearm fighter, strike moves (grid cells lettered b).
+- Requirement: re-choreograph strike grips so the far fist is visible on the haft and not on the near arm: e.g. far grip IN FRONT of the near hand on strikes, or a near-elbow hint that lifts the near arm off the haft line, or a shorter strike separation where the arm clears. Keep UIR-15's "no rails" rule.
+- Acceptance criteria:
+  - [ ] detector `gripFOverNearArm + wrapFOverNearArm` = 0 on all standing moves (add gate G6 to arm-chain.test.ts); `uir15-strikearms` and `handgrip` stay green.
+  - [ ] After `npm run review:capture`, the affected joins are re-reviewed
+        on the fresh anatomy sheets against `previous/`, citing the
+        after-image detail; contact sheets show no regression elsewhere.
+  - [ ] `npm run vision` and relevant specs are green; the ledger finding
+        is set to `fixed <commit> (unverified)`.
+- Non-goals: new hand art (UIR-19), prone poses (UIR-17).
+
+### UIR-17 - Fold the prone far arm onto the body
+
+- Status: TODO
+- Source: UI review 2026-09-28, findings V-16 (S2).
+- Evidence: artifacts/review/latest/anatomy/cells/guanyu-down.png (far hand alone, 6.3u far-chain gap to background) - re-confirmed fresh; all down tiles rated A by the grid review
+- Root cause: pose/IK - `src/game/art/weapons.ts:191` `solveArm(base.shoulderF, base.handF, base.elbowF, ...)` for lying fighters picks the elbow branch below the body (elbowF y ~95 vs hip 82), so the far forearm vanishes under the ground line and the relaxed far hand floats alone under the chest in every fighter's `down` tile.
+- Affected screens: all 17 fighters, `down` (cells/<id>-down.png).
+- Requirement: choose the prone far-arm pose (owner may prefer the arm across the chest or tucked under the body) and solve the elbow on that branch; if the far arm is fully hidden, hide the far hand too.
+- Acceptance criteria:
+  - [ ] far-chain hole (detector `runF`) <= 1.5u on `down` for all 17 fighters (extend G5 to down); the down tiles show either a connected far arm or no far hand.
+  - [ ] After `npm run review:capture`, the affected joins are re-reviewed
+        on the fresh anatomy sheets against `previous/`, citing the
+        after-image detail; contact sheets show no regression elsewhere.
+  - [ ] `npm run vision` and relevant specs are green; the ledger finding
+        is set to `fixed <commit> (unverified)`.
+- Non-goals: standing poses, the dropped-weapon position.
+
+### UIR-18 - Connect the relaxed rear hand to a visible forearm
+
+- Status: TODO
+- Source: UI review 2026-09-28, findings V-17 (S2).
+- Evidence: artifacts/review/latest/anatomy/cells/huangzhong-idle.png (upperArmF 0% visible) and cells/weiyan-hurt.png - re-confirmed fresh
+- Root cause: pose/draw order - `src/game/art/armik.ts:366` `swungFreeTarget` swings the free far hand just outside the torso while the far arm is drawn behind it (`draw.ts:748-753`), so the hand shows at the hip with 0-15% of its forearm visible (huangzhong idle/walk/hurt/special, weiyan hurt/special, zhangfei hurt).
+- Affected screens: huangzhong (9 moves), weiyan (2), zhangfei (1): cells/huangzhong-idle.png, cells/weiyan-hurt.png.
+- Requirement: the visible far hand always has a visible cuff/forearm leading to it (swing further out, or draw the far forearm over the torso edge when the hand is outside the silhouette).
+- Acceptance criteria:
+  - [ ] for every non-gripping standing move, foreArmF visibility >= 25% whenever relaxF is visible (new detector gate); the idle/walk tiles read as one arm.
+  - [ ] After `npm run review:capture`, the affected joins are re-reviewed
+        on the fresh anatomy sheets against `previous/`, citing the
+        after-image detail; contact sheets show no regression elsewhere.
+  - [ ] `npm run vision` and relevant specs are green; the ledger finding
+        is set to `fixed <commit> (unverified)`.
+- Non-goals: gripping poses, hand art.
+
+### UIR-19 - Paint hands that match the painted sleeves
+
+- Status: TODO
+- Source: UI review 2026-09-28, findings V-18 (S2, V-14 J4 residue).
+- Evidence: artifacts/review/latest/anatomy/lubu.png (all 14 moves) - flat cream fists against photographic sleeves, re-confirmed fresh
+- Root cause: ASSET - `scripts/prepare-body-parts.mjs:194` `paintHandCell` paints flat skin shapes with bar fingers; next to photographic sleeves they read as mittens on every fighter.
+- Affected screens: every clean sheet (most visible anatomy/lubu.png, anatomy/caocao.png).
+- Requirement: hand cells with painted form (knuckles, finger separation, lit/shaded planes, sleeve-matched detail level), keeping cell sizes and pivots so the rig and gates hold.
+- Acceptance criteria:
+  - [ ] handparts/handgrip/uir13 green; reviewer rates J4 ok on all 17 clean sheets.
+  - [ ] After `npm run review:capture`, the affected joins are re-reviewed
+        on the fresh anatomy sheets against `previous/`, citing the
+        after-image detail; contact sheets show no regression elsewhere.
+  - [ ] `npm run vision` and relevant specs are green; the ledger finding
+        is set to `fixed <commit> (unverified)`.
+- Non-goals: rig or pose changes.

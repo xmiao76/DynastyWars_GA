@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-28 12:30 UTC - PRODUCER (visual-review pass, DUE NOW + batch 3 - COMPLETED)
+
+- Status before: DUE NOW (owner arm-chains flag) + UIR batch 3 PENDING
+  FILING; V-15a/c/d/e fixed-unverified; V-1..V-7/V-10 fixed self-check;
+  signals unrun at HEAD.
+- Work completed: full producer pass. (1) Signals: logic FLAKE, not
+  regression (5 boot-poll timeouts, all pass on re-run; 1 migrating
+  timeout; zero violations/pageErrors; boot-path code unchanged since
+  green except the UIR-7 overlay, which cannot affect title boot);
+  vision clean. (2) Capture aborted at phone portrait (KNOWN harness
+  issue) - flow/stages fresh, platform partial; anatomy via the
+  documented vitest fallback + pair sheets rebuilt (17). (3) 238-cell
+  grid re-judged fresh with 4 rubric-only reviewer inputs: 211N/14A/13B
+  (baseline 1/147/90). V-1..V-7 verified on fresh crops; V-15a/c/d/e
+  verified on fresh pixels + definitions + fresh arm-chain gates
+  (11/11) - the previous capture already contained the fix
+  (byte-identical cells), so pairs are post-vs-post; V-10 held
+  (no fresh phone frames; pin re-ran green). (4) Batch 3 re-confirmed
+  and filed UIR-16..19. No new V-numbers (2 reviewer novelties
+  adjudicated down with ID-map evidence). DUE NOW removed; review
+  baseline reset to 9fd19c2.
+- Files changed: TASKS.md (UIR-16..19), docs/UI_REVIEW_LEDGER.md
+  (statuses, grid, scoreboard, coverage, DUE NOW, harness notes),
+  docs/UI_REVIEW_BATCHES.md (batch 3 FILED), PROGRESS.md.
+- Verification run: signal 8/13 then 8/9 on re-run (all timeouts,
+  migrating); vision exit 0; review:capture partial (known abort);
+  anatomy fallback exit 0; arm-chain.test 11/11; uir6-chevrons 1/1.
+- Result: accepted proposals (batch 3); review records updated.
+- Status after: UIR-7 IN_PROGRESS; UIR-8..11, UIR-16..19 TODO.
+- Remaining work or blocker: phone/webgl frames unobtainable until
+  the capture abort is fixed (harness backlog); V-10 unverified.
+- Next recommended task: UIR-7 (its completion unblocks the capture).
+
+
 ### 2026-09-27 19:20 UTC - UIR-6 (attempt 1, d-pad chevrons - DONE)
 
 - Status before: UIR-6 TODO (V-10: every d-pad chevron pointed

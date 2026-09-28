@@ -111,7 +111,7 @@ Shared constraints for the backdrop tasks UIR-8 to UIR-11:
 - Acceptance: the shared constraints, plus the actor ground shadows are still visible in the after-crops.
 - Non-goals: collision, or the lane depth.
 
-## UIR batch 3 (PENDING FILING) - arm-chain residue (fixer's review 2026-09-28 @ e4872ce)
+## UIR batch 3 (FILED 2026-09-28) - arm-chain residue (fixer's review 2026-09-28 @ e4872ce)
 
 Findings: docs/UI_REVIEW_LEDGER.md V-15b, V-16, V-17, V-18. Evidence paths are
 `artifacts/review/latest/anatomy/...` from `npm run review:capture`. Before

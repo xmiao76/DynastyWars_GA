@@ -7,21 +7,21 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ## Last full review
 
-- Date: 2026-09-26. Commit: `3fd3b32`. Capture: `npm run review:capture`, 59 screens, canvas + WebGL + Pixel 7 portrait/landscape.
+- Date: 2026-09-28. Commit: `9fd19c2`. Capture: flow + stages + full anatomy (fresh); platform partial (portrait title/select only - known abort). Previous full review: 2026-09-26 at `3fd3b32` (59 screens, canvas + WebGL + Pixel 7).
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
-- Next review due when `git rev-list --count 3fd3b32..HEAD -- src/game` >= 4.
-- **DUE NOW** (owner flag 2026-09-28, arm chains; see VISUAL_REVIEW "Why the anatomy pass still missed broken arm chains"): full section 2a per-move pass, all 17 fighters x 14 moves, on a fresh capture. Re-judge the anatomy grid below from the images (it holds the fixer's pre-fix baseline, not verdicts) and verify or reopen V-15..V-18 on the pair sheets.
+- Next review due when `git rev-list --count 9fd19c2..HEAD -- src/game` >= 4.
+- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh (see Anatomy verdicts), V-15a/c/d/e verified, V-15b/V-16/V-17/V-18 filed UIR-16..19. Scope note: no fresh phone/webgl frames (known capture abort); V-10 left unverified on that account.
 
 ## Coverage (deep-dive rotation)
 
 | Area | Last deep review |
 | --- | --- |
-| menus | 2026-09-26 |
-| HUD & overlays | 2026-09-26 |
-| stage flow screens | 2026-09-26 |
-| all nine stages | 2026-09-26 |
-| characters (movesheets, motion) | 2026-09-27 (first anatomy pass: 15 fighters judged, table filled; V-14 split into UIR-12..15) |
-| phone | 2026-09-26 |
+| menus | 2026-09-28 (sheet level: title/select in flow sheet) |
+| HUD & overlays | 2026-09-28 (V-1..V-7 re-checks on fresh crops) |
+| stage flow screens | 2026-09-28 (sheet level) |
+| all nine stages | 2026-09-28 (sheet level) |
+| characters (movesheets, motion) | 2026-09-28 (full 238-cell grid re-judged fresh; V-15a/c/d/e verified, V-15b/V-16/V-17/V-18 filed UIR-16..19) |
+| phone | 2026-09-28 (PARTIAL: portrait title/select only; landscape/gameplay missing - capture abort) |
 | WebGL | 2026-09-26 (sheet level only) |
 
 ## Scoreboard (lowest applicable R1-R9, 1-5)
@@ -29,45 +29,45 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 | Screen group | Score | Held down by |
 | --- | --- | --- |
 | title | 4 | - |
-| select-* | 3 | V-4 7px sans labels |
-| stage*-idle/play/combat (HUD) | 2 | V-1 name over SCORE; V-11 flat landmark blocks |
-| stage1-boss-warning | 1 | V-2 WARNING hidden |
-| stage*-banner / stage*-intro | 3 | V-3 double announcement |
+| select-* | 4 | - (V-4 verified 2026-09-28) |
+| stage*-idle/play/combat (HUD) | 3 | V-11 flat landmark blocks (V-1 verified 2026-09-28) |
+| stage1-boss-warning | 4 | - (V-2 verified 2026-09-28) |
+| stage*-banner / stage*-intro | 4 | - (V-3 verified 2026-09-28) |
 | stage1-pause | 4 | - |
-| stage1-continue | 2 | V-6, V-7 |
-| stage*-result | 3 | V-4, V-5, V-6 |
+| stage1-continue | 4 | - (V-6, V-7 verified 2026-09-28) |
+| stage*-result | 4 | - (V-4, V-5, V-6 verified 2026-09-28) |
 | gamecomplete, gameover | 3 | V-8 harness zeros; cramped footer |
 | phone-portrait-* | 1 | V-9 |
-| phone-landscape-* | 2 | V-10 |
-| webgl-* | 3 | same defects as canvas; no parity break seen |
+| phone-landscape-* | 2 | V-10 (not re-verified: no fresh phone frames, pin green) |
+| webgl-* | 3 | no fresh frames this pass (capture abort); vision parity green |
 
 ## Findings
 
-### V-1 - Stage name is printed over the SCORE readout (S2, LAYOUT) - fixed (self-check)
+### V-1 - Stage name is printed over the SCORE readout (S2, LAYOUT) - verified 2026-09-28
 - Evidence: `crops/stage1-idle--centre.png`: 博望坡 sits on top of "SCORE 0"; the two lines share pixels. Kit suspect "overlapping text" on all 45 in-game screens, all 9 stages, phone and WebGL.
 - Root cause: `src/game/ui/hudlayout.ts:44-45`: STAGE_LABEL y1 (9px, top origin, spans y1-11) and SCORE y12 (9px, centre origin, spans y7-17) overlap by ~4px; created at `src/game/scenes/HudScene.ts:387-395`.
 
-### V-2 - Boss WARNING banner is drawn UNDER the boss rail (S1, DEPTH) - fixed (self-check)
+### V-2 - Boss WARNING banner is drawn UNDER the boss rail (S1, DEPTH) - verified 2026-09-28
 - Evidence: `crops/stage1-boss-warning--banner.png`: only the subtitle "Li Dian 李典" shows; the red rail covers the WARNING title completely.
 - Root cause: `src/game/scenes/HudScene.ts:670-679` puts every banner at depth 9_800 "under the HUD plates", but the boss rail (`HudScene.ts:325-326`, depth 10_000, y40-58) appears in the same frame as the boss banner (y34-78), so the rail wins.
 
-### V-3 - Stage banner and intro card announce the same thing at the same time (S2, TIMING) - fixed (self-check)
+### V-3 - Stage banner and intro card announce the same thing at the same time (S2, TIMING) - verified 2026-09-28
 - Evidence: `crops/stage1-intro--intro.png`: the banner's "Bowang Slope · 博望坡" still shows above the intro card, which repeats "STAGE 1" and "Bowang Slope · 博望坡". The same happens on all nine `stage*-intro` shots.
 - Root cause: `src/game/scenes/HudScene.ts:484` raises the card 1_600 ms after build, while the banner (`HudScene.ts:175`, BANNER_HOLD_MS plus 180 ms in and out) is still up. Both carry stage number and name.
 
-### V-4 - 7px body-font labels: unreadable, and a second typeface (S2, TYPE) - fixed (self-check)
+### V-4 - 7px body-font labels: unreadable, and a second typeface (S2, TYPE) - verified 2026-09-28 (result + roster instances; HORSE row and webgl-result unseen - no phone/webgl frames, see capture note)
 - Evidence: `screens/stage1-result.png`: LIVES / SCORE / TIME are thin grey Arial-style caps, unlike every other word on the panel. `crops/select-zhaoyun--roster.png`: LIFE / SPEED are the same sans. `screens/stage6-play.png`: "HORSE 20" is light grey sans on the gold plate. On a Pixel 7 this becomes about 6 CSS px.
 - Root cause: `liveStyle()` (`src/game/ui/type.ts`) selects BODY_STACK below DISPLAY_MIN_SIZE. The callers pass 7: `src/game/scenes/ResultScene.ts:186` (chip label), `src/game/scenes/SelectScene.ts:127-128` (stat rows), and `src/game/ui/hudlayout.ts:21` META_ROW size 7.
 
-### V-5 - Result chip row is not centred and the LIVES chip sits on the panel frame (S2, LAYOUT) - fixed (self-check)
+### V-5 - Result chip row is not centred and the LIVES chip sits on the panel frame (S2, LAYOUT) - verified 2026-09-28
 - Evidence: `screens/stage1-result.png`: the LIVES chip's left edge is on the parchment border. The gaps are 32 and 16 logical px, and the row spans x70-390 (centre 230, not 240).
 - Root cause: `src/game/scenes/ResultScene.ts:114-116` hard-codes x offsets -170, -76 and +60 with widths 62, 120 and 90, rather than laying out from the panel rect.
 
-### V-6 - Panel titles collide with their card's top frame (S2, LAYOUT) - fixed (self-check)
+### V-6 - Panel titles collide with their card's top frame (S2, LAYOUT) - verified 2026-09-28
 - Evidence: `crops/stage1-continue--dialog.png`: CONTINUE? crosses the gold top rule. `screens/stage1-result.png`: STAGE CLEAR! touches the top bar. By contrast, PAUSED (`crops/stage1-pause--dialog.png`) sits properly inside its identical card.
 - Root cause: `src/game/scenes/HudScene.ts:440` places CONTINUE? at y92 on a card centred at y123 (`HudScene.ts:351`), which is the card's top edge; PAUSED uses y120. `src/game/scenes/ResultScene.ts:98` places STAGE CLEAR! at y84 on the victory panel at y100.
 
-### V-7 - CONTINUE? title and countdown have no contrast on parchment (S2, COLOUR) - fixed (self-check)
+### V-7 - CONTINUE? title and countdown have no contrast on parchment (S2, COLOUR) - verified 2026-09-28
 - Evidence: `crops/stage1-continue--dialog.png`: flat #ffd700 title and a white "9" on cream. PAUSED on the same card has a dark stroke and reads cleanly.
 - Root cause: `src/game/scenes/HudScene.ts:440-448`: `liveStyle(22, {color:'#ffd700'})` and `liveStyle(30, {color:'#ffffff'})` without the stroke used at `HudScene.ts:461`.
 
@@ -78,7 +78,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `screens/phone-portrait-game.png`: the game fills 28% of the height; the touch buttons are about 20 CSS px, and there is no hint to rotate.
 - Root cause: `src/game/main.ts:31-32` (Scale.FIT, CENTER_BOTH) has no orientation handling in `index.html` or `src/style.css`. See Owner questions.
 
-### V-10 - Touch d-pad chevrons point inward (S2, ASSET) - fixed (self-check)
+### V-10 - Touch d-pad chevrons point inward (S2, ASSET) - fixed (self-check; 2026-09-28: no fresh phone frames - capture aborts at portrait; uir6-chevrons pin re-ran green)
 - Evidence: `screens/phone-landscape-game.png`: the up arm shows a down-chevron, the left arm ">", the right arm "<" and the down arm "^". The same happens in portrait.
 - Root cause: `src/game/art/hudart.ts:487-492`: the chevron path's apex is at +y, so at angle 0 it points DOWN, but `hudart.ts:498-501` assumes angle 0 points up.
 
@@ -112,8 +112,9 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
   - Cell caps at the joints: `src/game/art/body-parts.ts`.
 - Pass 2026-09-27: section 2a run on 15 fighters (5 heroes + 9 bosses + soldier); spearman/archer carry pattern verdicts. Split by root cause and filed: UIR-12 hands (J4/J8), UIR-13 grip+layering (J5/J7), UIR-14 sleeves/wrists (J1/J3), UIR-15 strike poses (J6). CHARACTER_REVIEW.md BODY-7 DISMISSED entries are superseded by these verdicts. Previous DISMISSED entries in `docs/CHARACTER_REVIEW.md` ("rear fist floats", "detached off-hand", "off-hand gap") must be re-judged by pixels.
 
-### V-15 - Arm chains do not connect shoulder -> upper arm -> forearm -> hand -> haft (S1, cast-wide, DEPTH+ASSET) - a/c/d/e fixed e4872ce (unverified); b batched UIR-16
+### V-15 - Arm chains do not connect shoulder -> upper arm -> forearm -> hand -> haft (S1, cast-wide, DEPTH+ASSET) - a/c/d/e verified 2026-09-28; b filed UIR-16
 - Status 2026-09-28: **V-15a, V-15c, V-15d, V-15e: fixed e4872ce (unverified)** - pair sheets `anatomy/<id>-pair.png` (f3616f1 before, e4872ce after), gates G1-G5 in `test/game/arm-chain.test.ts`. Detector after: weapon over near arm 0 on all standing cells (was up to 92u^2); elbow overlap >= 4.1u (was -0.2u); cuff overlap >= 1.0u and overshoot <= -0.8u (was -1.1u / +2.0u); halo 0 px (was up to 2225); longest near-chain hole 1.25u (was 8.5u). **V-15b: batched UIR-16** (the far fist still sits on the near elbow in strikes: its cause is the strike grip placement, and hiding the fist broke the BODY-15 visible-far-hand gates, so it was not changed). The next producer pass verifies or reopens on its own capture.
+- Verified 2026-09-28 on the fresh 9fd19c2 capture: (a) no weapon-over-near-arm off-grip in any ID map opened (zhangfei/guanyu full sheets, caocao-walk1 worst case) + G1 green; (c) no visible chain holes, worst residual 1.3u at a beard edge (legitimate occluder) + gates green; (d) elbows bend smoothly, cuffs flow to fists + gates green; (e) no halo discs on any sheet opened + detector 0px. Pairs are post-vs-post (see note above), so verification rests on fresh pixels + definitions + fresh gates, and shows no new break anywhere.
 - Owner report 2026-09-28: every character's shoulder, upper arm, forearm, hand and weapon should connect; the inner side must be continuous (the outer line may be covered). Found by the reworked 2a pass at `f3616f1` (clean sheets `anatomy/<id>.png`, ID maps `anatomy/<id>-ids.png`, crops `anatomy/cells/<id>-<move>.png`, metrics `anatomy/suspects.json`). Five separate rendering causes, lettered so the grid can name them:
 - **V-15a - the weapon is drawn over the near arm that holds it (draw order, J7/J9).** Standing moves, near-arm footprint covered by the weapon: caocao walk1 92u^2, weiyan thrust 78, caoren walk1 77, weiyan sweep 75, xuhuang walk1 75, caocao idle 73; 174 of 221 standing cells >= 30u^2 or near upper arm < 15% visible. Near upper arm visible: guanyu thrust 2% (weapon 24%, beard 22%), zhangfei attack 6% (weapon 41%). Crops: `cells/zhangfei-attack.png`, `cells/caocao-walk1.png`, `cells/guanyu-thrust.png`. Cause: `src/game/art/draw.ts` `figureShapes` emits `weaponOrProcedural()` LAST (:916), after the near arm (:856-876), so the haft crosses the upper arm and elbow.
 - **V-15b - the far fist and far fingertips paint over the near arm (draw order).** Up to 847 px at 4x (lubu attack), 808 (lubu attack2), 794 (xuchu attack): the far hand reads as a second hand stuck on the near elbow. Crops: `cells/lubu-attack.png`, `cells/xuchu-attack.png`, `cells/guanyu-attack.png`. Cause: `draw.ts` `gripF` shape (:905-914) is emitted after the near arm, and the tail `wrapF` (:255-257) is drawn over everything.
@@ -121,16 +122,16 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - **V-15d - painted cells do not overlap at the elbow and the cuff (cell cut + mapping, J2/J3).** Elbow overlap (upper-arm paint past the elbow + forearm paint above it): guanyu -0.2u, huangzhong 0.1u, weiyan 0.8u (others 2.9-8.9u). Cuff to hand-back overlap: guanyu far -1.1u, zhangfei far -0.9u, huangzhong far -0.8u (a gap between cuff and hand). Cause: (1) BODY-19 wrist cut at `scripts/prepare-body-parts.mjs:740-752` cuts at a FIXED fraction of the master's elbow->palm span (0.58/0.75) instead of at the rig's hand joint, so on masters whose forearm is short relative to `BODY_PART_DEFS.naturalLen` the cuff stops short of the hand, and on long ones (lubu +2.0u) the painted fingers poke past it; (2) `src/game/art/body-parts.ts:140` maps every cell by `naturalLen`, but guanyu/huangzhong/weiyan upper-arm cells span only 8.8-9.0u of master arm (elbow landmarked high), so the painted sleeve ends ~4u before the elbow.
 - **V-15e - soft-shade halos outside the art (shading halo, J8).** The BODY-11/UIR-14 shade ovals (`draw.ts` :812-817, :843-848, :860-865, :870-875) paint their radial gradient and cel bands through the oval's own clip only, not the paint underneath, so a grey disc shows on the background beside the shoulder and forearm: 258-2225 px per move at 4x (200 of 221 standing cells >= 600 px). Visible as dark rings in `anatomy/zhangfei.png` attack/thrust/sweep and `anatomy/xiahoudun.png` walk0. Cause: `paintWithHead` :589-600 does not composite `source-atop`.
 
-### V-16 - Prone (down) far arm hangs below the body with a detached hand (S2, all 17, DEPTH) - batched UIR-17
+### V-16 - Prone (down) far arm hangs below the body with a detached hand (S2, all 17, DEPTH) - filed UIR-17
 - Every fighter's `down` window: the far forearm is invisible (it lies under the body/ground line) and the relaxed far hand sits alone under the chest; the near upper arm is mostly hidden by the beard or head. Far-chain holes: lubu 11.5u, guanyu 6.25u, zhaoyun 6.25u, spearman/huangzhong 5.25u. Crops: `cells/guanyu-down.png`, `cells/lubu-down.png`. Cause: `src/game/art/weapons.ts:191` solves the lying far arm with the pose-table hint, which picks the elbow branch BELOW the body (elbowF y 94-95 while the hip is at 82). Needs a pose decision (which way a prone far arm folds), so it is not part of the V-15 fix.
 
-### V-17 - Relaxed rear hand floats off the torso edge (S2, huangzhong/weiyan/zhangfei, DEPTH) - batched UIR-18
+### V-17 - Relaxed rear hand floats off the torso edge (S2, huangzhong/weiyan/zhangfei, DEPTH) - filed UIR-18
 - In idle, walk, hurt and special the relaxed far hand hangs beside the hip with 0-15% of the far forearm visible (hidden by the torso): huangzhong 9 moves, weiyan 2, zhangfei 1. Crops: `cells/huangzhong-idle.png`, `cells/weiyan-hurt.png`. Cause: `src/game/art/armik.ts:366` `swungFreeTarget` (called from `weapons.ts:235`) places the free far hand outside the torso silhouette while the far arm is drawn behind it (`draw.ts:748-753`), so only the hand shows. The x-ray shows the rig chain is continuous; the paint is not.
 
-### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - batched UIR-19 (V-14 J4 residue)
+### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - filed UIR-19 (V-14 J4 residue)
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
-## UIR batch 3 - PENDING FILING (fixer's review 2026-09-28 at e4872ce)
+## UIR batch 3 - FILED (fixer's review 2026-09-28 at e4872ce; filed 2026-09-28)
 
 Written by the pass that fixed V-15a/c/d/e, so the producer must re-confirm each finding on its OWN fresh capture before filing (drop any that do not reproduce), then set each status to `filed UIR-n` and this heading to FILED. Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 3).
 
@@ -186,31 +187,38 @@ Ready-to-file task text: `docs/UI_REVIEW_BATCHES.md` (batch 2).
 
 Cell = `N` natural, `A V-n` awkward, `B V-n` broken, `?` not looked at. Letters after V-15 name its sub-causes (a weapon over near arm, b far hand over near arm, c chain hole, d elbow/cuff overlap, e shade halo). A fighter is `ok` only when all 14 cells are N. Every cell must be backed by its tile in `anatomy/<id>.png` (and `cells/<id>-<move>.png` for A/B).
 
-**Status of the rows below: PRE-FIX BASELINE, NOT VERIFIED.** Written 2026-09-28 at `f3616f1` by the fixer (who then worked on V-15), from all 17 clean sheets plus the detector split per move; that is exactly the self-grading this ledger forbids, so the next producer pass must re-judge every cell from its own fresh capture (DUE NOW above). The 2026-09-27 per-fighter `ok` table was withdrawn: it covered 5 of 14 moves and rated guanyu, zhangfei, huangzhong and weiyan `ok` everywhere while V-15 was visible in them.
+**Status of the rows below: JUDGED 2026-09-28 at `9fd19c2` (DUE NOW pass).** Fresh capture made in this pass (flow + stages + full anatomy at 9fd19c2; the platform section aborted on the known phone-portrait harness issue, so no fresh phone/webgl frames). Every clean sheet opened; every A/B backed by its crop (3 missing down-cells - xiahoudun/caoren/xuhuang - judged from sheet+xray+ids). The pre-fix-vs-post-fix pair comparison was impossible: the previous capture (7b388dc-dirty) already contains the V-15 fix (all 235 cells byte-identical across e4872ce, with post-fix detector numbers in both), and the rotation deleted the f3616f1 pre-fix capture. V-15a/c/d/e are therefore verified against the finding definitions on fresh pixels + the fresh arm-chain gates (11/11 green), not on a visible before/after delta. Tally: 211 N, 14 A, 13 B of 238 (baseline was 1/147/90).
+
+Cell notes (reviewer of record owns every call; dissents recorded, not hidden):
+- Down column is mixed: 7x B V-16 (detached far hand, multi-u BG gap: guanyu 6.3u, huangzhong 5.3u, lidian 4.8u, lubu 7.5u, archer 4.8u, caocao, caoren), 5x A (connected but awkward prone foreshortening, no V-number: xuhuang/zhangfei/zhanghe/zhangliao/zhaoyun per R3), 5x N (far chain continuous below: soldier/spearman/xiahoudun/xuchu/weiyan per R2). UIR-17's detector gate (runF <= 1.5u on down, all 17) scopes the fix objectively.
+- V-15b letters rest on fresh ID-map grounds (far fist off the haft, on the near arm): lubu-attack (SELF, 398px), zhangfei-attack (SELF, 219px; R3 dissents N), caoren x6 (R1, B), xuhuang-attack2 (R3, A: open hand below haft). All other strikes read N (far fist on/adjacent to the haft, correct grip) - the footprint shrank vs the f3616f1 baseline, consistent with the a/c/d/e geometry changes.
+- huangzhong-idle A V-17 is the reviewer of record's J3 call (hand outside the silhouette, ~0% forearm leading to it); R4 dissents N. weiyan's row was rewritten: R2's 14x B (duplicate-hands theory) is rejected - the ID map shows one hand; the two-tone paint is shading. weiyan idle/walk0/walk1/hurt/special = A V-17 (confirmed pattern), rest N.
+- Rejected single-cell opinions (no V-number): xuchu-walk1 far/near tone step is the designed near/far shading; caocao attack2/windup/recover/jump 0%-visible far upper behind the torso is correct J7 layering, not a J1 break.
 
 | Fighter | idle | walk0 | walk1 | attack | attack2 | thrust | chop | sweep | windup | recover | jump | down | hurt | special |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| guanyu | A V-15de | A V-15de | A V-15de | B V-15abcde | B V-15abde | B V-15abcde | A V-15cde | A V-15abcde | A V-15de | A V-15ad | A V-15acde | B V-16 | A V-15bde | B V-15abde |
-| zhangfei | A V-15de | A V-15ade | A V-15de | B V-15abcde | B V-15abcde | B V-15abcde | B V-15abcde | B V-15abde | A V-15ade | A V-15abde | B V-15abde | B V-16 | A V-15ade V-17 | B V-15abde |
-| zhaoyun | A V-15e | A V-15ae | A V-15ae | B V-15abe | B V-15abe | B V-15abe | A V-15ace | B V-15abe | A V-15ae | N | A V-15ae | B V-16 | B V-15abe | B V-15abe |
-| huangzhong | A V-15de V-17 | A V-15de V-17 | A V-15de | A V-15ade V-17 | A V-15ade | A V-15ade V-17 | A V-15acde | A V-15ade V-17 | A V-15de V-17 | B V-15ade V-17 | A V-15de | B V-16 | A V-15de V-17 | A V-15de V-17 |
-| weiyan | A V-15de | A V-15ade | A V-15ade | A V-15ade | A V-15ade | A V-15ade | A V-15acde | A V-15ade | A V-15ade | A V-15ade | A V-15ade | B V-16 | A V-15de V-17 | A V-15ade V-17 |
-| soldier | A V-15e | A V-15e | A V-15e | A V-15e | A V-15e | A V-15ae | A V-15ce | A V-15ae | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15e | A V-15e |
-| spearman | A V-15e | A V-15e | A V-15e | B V-15abce | B V-15abe | B V-15abe | A V-15ce | B V-15abe | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15e | B V-15abe |
-| archer | A V-15e | A V-15e | A V-15e | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15e | A V-15e | B V-16 | A V-15e | A V-15e |
-| lubu | A V-15abe | B V-15abe | A V-15abe | B V-15abe | B V-15abc | B V-15abe | B V-15ab | B V-15abe | A V-15ae | A V-15abe | B V-15abe | B V-16 | A V-15ae | B V-15abe |
-| caocao | A V-15ae | A V-15ae | A V-15ae | A V-15a | A V-15a | A V-15a | A V-15a | A V-15a | A V-15a | A V-15a | A V-15ae | B V-16 | A V-15a | A V-15a |
-| xiahoudun | A V-15be | A V-15be | A V-15abe | B V-15abce | B V-15abe | B V-15abe | B V-15abce | B V-15abe | A V-15ae | A V-15abe | A V-15abe | B V-16 | A V-15e | B V-15abe |
-| xuchu | A V-15be | B V-15abe | A V-15abe | B V-15abe | B V-15abce | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15abe | B V-15abe | B V-16 | A V-15e | B V-15abe |
-| zhangliao | A V-15e | A V-15ae | A V-15ae | B V-15abe | B V-15ab | B V-15abe | B V-15abc | B V-15abe | A V-15a | A V-15a | A V-15ae | B V-16 | A V-15e | B V-15abe |
-| caoren | B V-15abe | B V-15abe | A V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15ae | B V-15abe |
-| xuhuang | B V-15abe | B V-15abe | A V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15ae | A V-15ae | B V-16 | A V-15ae | B V-15abe |
-| zhanghe | A V-15ae | A V-15ae | A V-15a | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15ae | A V-15a | A V-15a | A V-15ae | B V-16 | A V-15ae | A V-15ae |
-| lidian | A V-15e | A V-15ae | A V-15ae | B V-15abce | B V-15abe | B V-15abe | B V-15abe | B V-15abe | A V-15ae | A V-15a | A V-15ae | B V-16 | A V-15ae | B V-15abe |
-
-Baseline tally: 1 N, 147 A, 90 B of 238.
+| guanyu | N | N | N | N | N | N | N | N | N | N | N | B V-16 | N | N |
+| zhangfei | N | N | N | A V-15b | N | N | N | N | N | N | N | A | N | N |
+| zhaoyun | N | N | N | N | N | N | N | N | N | N | N | A | N | N |
+| huangzhong | A V-17 | N | N | N | N | N | N | N | N | N | N | B V-16 | N | N |
+| weiyan | A V-17 | A V-17 | A V-17 | N | N | N | N | N | N | N | N | N | A V-17 | A V-17 |
+| soldier | N | N | N | N | N | N | N | N | N | N | N | N | N | N |
+| spearman | N | N | N | N | N | N | N | N | N | N | N | N | N | N |
+| archer | N | N | N | N | N | N | N | N | N | N | N | B V-16 | N | N |
+| lubu | N | N | N | A V-15b | N | N | N | N | N | N | N | B V-16 | N | N |
+| caocao | N | N | N | N | N | N | N | N | N | N | N | B V-16 | N | N |
+| xiahoudun | N | N | N | N | N | N | N | N | N | N | N | N | N | N |
+| xuchu | N | N | N | N | N | N | N | N | N | N | N | N | N | N |
+| zhangliao | N | N | N | N | N | N | N | N | N | N | N | A | N | N |
+| caoren | N | N | N | B V-15b | B V-15b | B V-15b | B V-15b | B V-15b | N | N | N | B V-16 | N | B V-15b |
+| xuhuang | N | N | N | N | A V-15b | N | N | N | N | N | N | A | N | N |
+| zhanghe | N | N | N | N | N | N | N | N | N | N | N | A | N | N |
+| lidian | N | N | N | N | N | N | N | N | N | N | N | B V-16 | N | N |
 
 ## Harness backlog
+
+- 2026-09-28: the capture wrote no cells for 3 down moves (xiahoudun-down, caoren-down, xuhuang-down: 235 of 238 cells). Down verdicts for those fighters rest on sheet+xray+ids.
+- 2026-09-28: the 7b388dc-dirty capture already contained the V-15 fix (all 235 cells byte-identical across e4872ce), and rotation deleted the f3616f1 pre-fix capture - this pass's pairs are post-vs-post. A verify pass needing pre-fix pixels must snapshot previous/ first; consider retaining two generations.
 
 - The boss crop cuts off the boss's head (`crops/stage1-boss--boss.png`). `actorBox` must size by the actor's kind, not a fixed 112px.
 - Seed end-screen stats (score, time, lives) before forcing result, gameover and complete, so number formatting can be judged (V-8).
