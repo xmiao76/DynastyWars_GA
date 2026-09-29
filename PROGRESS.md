@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-29 02:30 UTC - PRODUCER (follow-up review, count-triggered - COMPLETED)
+
+- Status before: 4 src/game commits since ac59129 (review due);
+  V-13 ground + V-19 ground fixed-unverified; UIR-16 BLOCKED.
+- Work completed: full producer pass. (1) Signals green: logic
+  13/13, vision 5/5, capture exit 0 (all fresh at ff03538; prior
+  tick ran them, this pass judged them - same HEAD, no game
+  changes between). (2) Verified on fresh pixels: V-13 ground
+  (stage1 grass + stage4 earth close-ups: horizon falloff,
+  strokes, calm paint, crisp shadows; all nine on the sheet -
+  V-13 now COMPLETE) and V-19 ground (full strips display).
+  (3) Anatomy: 289/289 files byte-identical vs the V-15b pre-bend
+  baseline + suspects.json body identical + 28 cells re-opened
+  (guanyu/lubu); UIR-16 revert verified pixel-exact
+  (guanyu-sweep back at 11+41); grid carried. Kit suspects 0/0.
+  No new findings; blind spots checked.
+- Files changed: PROGRESS.md, docs/UI_REVIEW_LEDGER.md
+  (V-13/V-19-ground verified, phone-landscape 3->4, coverage,
+  baseline ff03538).
+- Verification run: signal 13/13; vision 5/5; review:capture
+  exit 0 with V-15b/V-16 pair sheets.
+- Result: review records updated; no new work filed (nothing
+  justified).
+- Status after: UIR-17..20 TODO; UIR-16 BLOCKED (owner); BODY-7/
+  ENH-12 owner-gated.
+- Remaining work or blocker: none from this pass (UIR-16 still
+  needs the owner scope call).
+- Next recommended task: UIR-17 (prone far arm).
+
+
 ### 2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)
 
 - Status before: UIR-16 IN_PROGRESS attempt 2 (combo-search bend:

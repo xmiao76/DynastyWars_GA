@@ -7,22 +7,22 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ## Last full review
 
-- Date: 2026-09-28. Commit: `ac59129`. Capture: full (flow + stages + platform + anatomy + pairs). Previous full review: 2026-09-28 at `9fd19c2`.
+- Date: 2026-09-29. Commit: `ff03538`. Capture: full (flow + stages + platform + anatomy + pairs). Previous full review: 2026-09-28 at `ac59129`.
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
-- Next review due when `git rev-list --count ac59129..HEAD -- src/game` >= 4.
-- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh, V-15a/c/d/e verified, batch 3 filed. Follow-up pass 2026-09-28 at `ac59129`: V-9/V-11/V-10/V-13-sky/ridge verified on fresh pixels; grid carried on 289/289 identical pairs + 56 re-opened cells (figure renderer untouched); V-19 embers filed UIR-20, ground folded into UIR-11.
+- Next review due when `git rev-list --count ff03538..HEAD -- src/game` >= 4.
+- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh, V-15a/c/d/e verified, batch 3 filed. Follow-up pass 2026-09-28 at `ac59129`: V-9/V-11/V-10/V-13-sky/ridge verified on fresh pixels; grid carried on 289/289 identical pairs + 56 re-opened cells (figure renderer untouched); V-19 embers filed UIR-20, ground folded into UIR-11. Follow-up pass 2026-09-29 at `ff03538`: V-13 + V-19-ground verified on fresh pixels; grid carried on 289/289 identical files vs the V-15b baseline + 28 re-opened cells (UIR-16 bends reverted pixel-exact); no new findings.
 
 ## Coverage (deep-dive rotation)
 
 | Area | Last deep review |
 | --- | --- |
-| menus | 2026-09-28 (sheet level) |
-| HUD & overlays | 2026-09-28 (V-9/V-10 verified fresh; V-1..V-7 holding) |
-| stage flow screens | 2026-09-28 (sheet level) |
-| all nine stages | 2026-09-28 (V-11/V-13 verified close up on 1/6/7/8 + sheet) |
-| characters (movesheets, motion) | 2026-09-28 (grid carried: 289/289 anatomy files byte-identical pairs + 56 cells re-opened across 4 sheets) |
-| phone | 2026-09-28 (full: overlay + landscape + d-pad verified fresh) |
-| WebGL | 2026-09-28 (fresh platform frames reviewed; parity re-run green) |
+| menus | 2026-09-29 (sheet level) |
+| HUD & overlays | 2026-09-29 (sheet level; V-1..V-10 holding, kit suspects 0/0) |
+| stage flow screens | 2026-09-29 (sheet level) |
+| all nine stages | 2026-09-29 (V-13 ground verified close up on 1/4 + all-nine sheet) |
+| characters (movesheets, motion) | 2026-09-29 (grid carried: 289/289 files byte-identical vs V-15b baseline + 28 cells re-opened on guanyu/lubu; UIR-16 revert verified, sweep back at 11+41) |
+| phone | 2026-09-29 (sheet level; overlay + landscape holding) |
+| WebGL | 2026-09-29 (fresh platform frames reviewed; vision parity green) |
 
 ## Scoreboard (lowest applicable R1-R9, 1-5)
 
@@ -38,7 +38,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 | stage*-result | 4 | - (V-4, V-5, V-6 verified 2026-09-28) |
 | gamecomplete, gameover | 3 | V-8 harness zeros; cramped footer |
 | phone-portrait-* | 4 | - (V-9 verified: themed overlay) |
-| phone-landscape-* | 3 | - (V-10 verified on fresh frames; backdrops new) |
+| phone-landscape-* | 4 | - (V-10 verified; V-13 backdrops complete) |
 | webgl-* | 4 | - (fresh frames reviewed; parity green on re-run) |
 
 ## Findings
@@ -91,7 +91,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - Evidence: `crops/stage1-boss--boss.png`: the grunt faces are photographic, flat-lit and large for the body, with no neck blend.
 - Owned by the BODY track (BODY-24 and BODY-7 are open; see `CHARACTER_REVIEW.md`). No duplicate task is filed; re-check after BODY-7.
 
-### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - sky+clouds+ridges verified 2026-09-28; ground fixed (self-check)
+### V-13 - Backdrop layers are flat vector shapes behind painted heroes (S2, ASSET) - verified 2026-09-29 (sky UIR-9, ridges UIR-10, ground UIR-11; ground verified on fresh stage1/stage4 close-ups + all-nine sheet)
 - Evidence: every `stage*-play`: the sky is a smooth two-colour gradient; the clouds are hard-edged, flat-filled lobes; the ridge is a single-colour hill with an ink line; the ground is one tint with a dot pattern. Against the painted heroes and the painted title key art (`screens/title.png`), the game looks like two different products (R5 art consistency).
 - Root cause: `src/game/art/backdrop.ts` painters `paintSky` :63, `paintCloud` :199, `paintRidge` :110, `paintGround` :155 use flat fills and simple gradients, with no painted tonal masses, texture or atmospheric depth.
 
@@ -132,7 +132,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 
-### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge+ground fixed under UIR-9/10/11; embers filed UIR-20
+### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge+ground verified 2026-09-29; embers filed UIR-20
 - UIR-8 proved it for the marks strip and fixed it there: a 512x128 texture on a 1064x64 tileSprite with tileScale 1 shows texture rows 0..64 only (tile rows 0..32) - hulls, water, decks and banner bottoms were cut game-wide. Evidence: artifacts/marks-only.png (marks isolated: sails + upper masts only), the live texture readback (512x128, 21640 opaque px over rows 36..127), GameScene.ts tileSprite setup. The sky, ridge, ground and ember layers use the identical bake pattern (clouds were never affected - they are scaled images, not tileSprites; the sky was fixed under UIR-9) (bakeLayer at RENDER_SCALE + tileScale 1) and are therefore cut the same way - the sky's sun (tile y176) and lower haze, and the bottom halves of the other layers, never display. Same fix shape as marks (tileScale 0.5), but it changes every screen's look, so it needs its own task with a full re-review (not folded into UIR-8).
 
 ## UIR batch 4 - FILED (2026-09-28; V-19 embers remainder, filed same pass)
