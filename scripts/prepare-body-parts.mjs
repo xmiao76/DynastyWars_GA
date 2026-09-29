@@ -149,6 +149,19 @@ function formShade(c, kind, colors) {
   sg.addColorStop(1, colors.deepAlpha)
   c.fillStyle = sg
   c.fillRect(-4, 0, 10, 4)
+  c.restore()
+}
+
+/**
+ * Crease + highlight detail (UIR-12 work). Drawn AFTER formPlanes so the
+ * digit separators stay deep enough to measure (the plane washes soften
+ * anything painted under them).
+ */
+function formDetail(c, kind, colors) {
+  c.save()
+  if (kind === 'grip') fistPath(c)
+  else relaxPath(c)
+  c.clip()
   // Finger separators: LONG tapered creases from the knuckle zone to
   // the finger edge (UIR-12: the old 1.15u soft runs read as a mitten at
   // 4x). Two passes each - a wide soft bed plus a narrow dark core, both
@@ -204,6 +217,78 @@ function formShade(c, kind, colors) {
   c.restore()
 }
 
+/**
+ * UIR-19 (V-18) painted form pass: knuckle caps with valleys, planar
+ * light/shade split and finger-group tone steps. The old cells carried
+ * soft creases only - at gameplay size they read as flat cream mittens
+ * beside the photographic sleeves. Everything here is a soft wash over
+ * the base fill (the bare base stays the modal tone for the handparts
+ * band), clipped to the silhouette. Art only: cell sizes and pivots are
+ * untouched, so the rig and every gate keep their geometry.
+ */
+function formPlanes(c, kind, colors) {
+  const isGrip = kind === 'grip'
+  c.save()
+  if (isGrip) fistPath(c)
+  else relaxPath(c)
+  c.clip()
+  // Planar split along the sheet-wide up-left light: a lit plane over the
+  // upper-left of the mass, a shadow plane under the lower-right.
+  const lit = c.createLinearGradient(-3, -3, 1.6, 1.2)
+  lit.addColorStop(0, colors.planeLit)
+  lit.addColorStop(1, 'rgba(255,255,255,0)')
+  c.fillStyle = lit
+  c.fillRect(-4, -4, 9, 8)
+  const shade = c.createLinearGradient(6, 5, 0.2, 0.4)
+  shade.addColorStop(0, colors.planeShade)
+  shade.addColorStop(1, 'rgba(0,0,0,0)')
+  c.fillStyle = shade
+  c.fillRect(-1, -1, 9, 8)
+  // Finger-group tone steps: one soft band per visible digit group, the
+  // top finger catching light and the lower ones falling away (painted
+  // form, never flat bars).
+  const bands = isGrip
+    ? [[-1.75, -0.5, true], [-0.55, 0.55, false], [0.6, 1.75, false]]
+    : [[-1.7, -0.45, true], [-0.35, 0.7, false], [0.85, 1.9, false]]
+  for (const [yTop, yEnd, warm] of bands) {
+    const g = c.createLinearGradient(0, yTop, 0, yEnd)
+    g.addColorStop(0, 'rgba(255,255,255,0)')
+    g.addColorStop(0.5, warm ? colors.stepLit : colors.stepShade)
+    g.addColorStop(1, 'rgba(255,255,255,0)')
+    c.fillStyle = g
+    c.fillRect(0.6, yTop, 5.6, yEnd - yTop)
+  }
+  // Knuckle caps: grip rides the top knuckle edge (x -0.6..3), relax the
+  // vertical finger-root line (x ~1.6..2). Each cap is a lit oval with a
+  // shadow valley beside it - the painted knuckle read (V-18).
+  const caps = isGrip
+    ? [[-0.5, -2.15], [0.7, -2.4], [1.9, -2.55], [3.0, -2.45]]
+    : [[1.55, -1.75], [1.8, 0.62], [2.0, 2.3]]
+  const valleys = isGrip
+    ? [[0.12, -2.28], [1.3, -2.5], [2.45, -2.52]]
+    : [[1.65, -0.55], [1.9, 1.5]]
+  for (const [vx, vy] of valleys) {
+    c.fillStyle = colors.capValley
+    ellipse(c, vx, vy, isGrip ? 0.5 : 0.42, isGrip ? 0.85 : 0.62, isGrip ? -0.2 : 0.05)
+    c.fill()
+  }
+  for (const [kx, ky] of caps) {
+    const cg = c.createRadialGradient(kx - 0.18, ky - 0.22, 0.06, kx, ky, isGrip ? 0.95 : 0.85)
+    cg.addColorStop(0, colors.capLit)
+    cg.addColorStop(1, 'rgba(255,255,255,0)')
+    c.fillStyle = cg
+    ellipse(c, kx, ky, isGrip ? 0.95 : 0.85, isGrip ? 0.62 : 0.72, isGrip ? -0.18 : 0.05)
+    c.fill()
+  }
+  // Warm bounce along the lower-left rim (painted-cloth idiom, tiny).
+  const bounce = c.createLinearGradient(-2.9, 2.6, -1.2, 1.2)
+  bounce.addColorStop(0, colors.bounce)
+  bounce.addColorStop(1, 'rgba(255,255,255,0)')
+  c.fillStyle = bounce
+  c.fillRect(-3, 0.6, 3, 2.6)
+  c.restore()
+}
+
 function paintHandCell(c, kind, skin) {
   const far = kind.endsWith('F')
   const base = far ? shadeC(skin, 1 - FAR_SHADE) : `#${skin.toString(16).padStart(6, '0')}`
@@ -215,6 +300,17 @@ function paintHandCell(c, kind, skin) {
     creaseCore: far ? 'rgba(0,0,0,0.44)' : 'rgba(0,0,0,0.38)',
     creaseLight: far ? 'rgba(255,244,224,0.12)' : 'rgba(255,246,228,0.18)',
     thumbShade: far ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.33)',
+    // UIR-19 painted-form washes (formPlanes). Attempt 1 review: the white
+    // washes read cream against the photographic faces (J4 tone) - light
+    // washes cut, shadow side deepened so plane contrast holds without
+    // lightening the average tone.
+    planeLit: far ? 'rgba(255,244,224,0.12)' : 'rgba(255,250,238,0.15)',
+    planeShade: far ? 'rgba(0,0,0,0.22)' : 'rgba(0,0,0,0.28)',
+    stepLit: far ? 'rgba(255,244,224,0.1)' : 'rgba(255,248,232,0.11)',
+    stepShade: far ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.16)',
+    capLit: far ? 'rgba(255,246,228,0.34)' : 'rgba(255,252,242,0.32)',
+    capValley: far ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.26)',
+    bounce: far ? 'rgba(255,214,170,0.08)' : 'rgba(255,214,170,0.1)',
   }
   // Work in logical units, origin at the hand joint (cell center = pivot).
   c.translate((HAND_CELL_W * DENSITY) / 2, (HAND_CELL_H * DENSITY) / 2)
@@ -289,6 +385,11 @@ function paintHandCell(c, kind, skin) {
   c.fill()
   c.restore()
   formShade(c, isGrip ? 'grip' : 'relax', colors)
+  // UIR-19 (V-18): painted form over the base wash - knuckle caps,
+  // planar light/shade and finger-group steps.
+  formPlanes(c, isGrip ? 'grip' : 'relax', colors)
+  // Creases last (UIR-12 dips must survive the plane washes).
+  formDetail(c, isGrip ? 'grip' : 'relax', colors)
   // Soft shadow-side rim only (no ink outline anywhere).
   c.save()
   if (isGrip) fistPath(c)

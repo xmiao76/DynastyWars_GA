@@ -7558,3 +7558,123 @@ lines. Never read during an iteration; consult only for deep history.
 - Status after: UIR-4 DONE.
 - Remaining work or blocker: BODY-7 acceptance (owner); UIR-5..11.
 - Next recommended task: UIR-5 (continue/result panels).
+
+### 2026-09-27 18:10 UTC - UIR-5 (attempt 1, panels - DONE)
+
+- Status before: UIR-5 TODO (V-5/V-6/V-7: uncentred result chip row
+  with LIVES on the border; CONTINUE? and STAGE CLEAR! titles colliding
+  with their gold frames; un-stroked title/countdown on parchment).
+- Work completed: hudlayout gains the shared composition
+  (CONTINUE_TEXT stack, RESULT_CHIP + resultChipRow() laid out from
+  the x70..410 panel band with even 20px gaps, centred); HudScene's
+  continue texts move inside the card (title y92->102, countdown
+  126->132) and take PAUSED's dark stroke; ResultScene's STAGE CLEAR!
+  drops 8px clear of the top bar and the chip row uses the shared
+  layout. TDD: UIR-5 block in test/game/hudlayout.test.ts (title
+  insets >=4px + disjoint stack, chip centre within 1px, no chip
+  crosses the frame).
+- Files changed: src/game/ui/hudlayout.ts, src/game/scenes/{HudScene,
+  ResultScene}.ts, test/game/hudlayout.test.ts, TASKS.md, PROGRESS.md,
+  docs/UI_REVIEW_LEDGER.md (V-5/V-6/V-7 fixed self-check).
+- Verification run: lint 0; tsc 0; unit 654/654 + 1 skipped (+2 new
+  pins); review capture after; browser gates: E2E=0 (79), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Delegated re-review: V-5 FIXED (row centred, even gaps, chips inside frame) | V-6 FIXED (titles dropped clear of frames) | V-7 FIXED (title + countdown carry the dark stroke) - delegated review with the before state confirmed.
+- Result: UIR-5 acceptance met.
+- Status after: UIR-5 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-6..11.
+- Next recommended task: UIR-6 (touch d-pad chevrons).
+
+### 2026-09-27 19:20 UTC - UIR-6 (attempt 1, d-pad chevrons - DONE)
+
+- Status before: UIR-6 TODO (V-10: every d-pad chevron pointed
+  inward - hudart's chevron path had its apex at +y while the call
+  angles assumed -y).
+- Work completed: flipped the chevron path (tip at the arm centre,
+  wings trailing behind; angle 0 points up). TDD: test/game/uir6-
+  chevrons.test.ts measures the chevron's combined ink+gold pixels
+  per arm (tip at the centre plane, wings inward by >=1px) - pinned
+  failing first ("wings not behind (inward -2.0px)" on every arm),
+  green after. Debug findings recorded: the chevron is a 1u band
+  whose 0.8u ink stroke nearly covers its gold core, so the shape
+  reads as an ink arrow; the test measures the combined shape and
+  the ink match is tight (20,15,20 +/-8 - the lacquer's dark stop
+  22,16,32 must not leak into the centroid).
+- Files changed: src/game/art/hudart.ts, test/game/uir6-chevrons.test.ts
+  (new), TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-10 fixed
+  self-check).
+- Verification run: lint 0; tsc 0; unit 655/655 + 1 skipped (+1 new
+  pin); review capture after; browser gates: E2E=0 (79), VISION=0
+  (5/5), SELFPLAY=0 (13/13), BUILD=0, PRODBUILD=0 (4/4).
+- Delegated re-review: V-10 FIXED (up/down/left/right all OUTWARD in landscape + portrait; before state confirmed all four INWARD; one non-defect note: the down caret is slightly skewed at AA scale).
+- Result: UIR-6 acceptance met.
+- Status after: UIR-6 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-7..11.
+- Next recommended task: UIR-7 (rotate-your-phone overlay).
+
+
+
+### 2026-09-28 12:30 UTC - PRODUCER (visual-review pass, DUE NOW + batch 3 - COMPLETED)
+
+- Status before: DUE NOW (owner arm-chains flag) + UIR batch 3 PENDING
+  FILING; V-15a/c/d/e fixed-unverified; V-1..V-7/V-10 fixed self-check;
+  signals unrun at HEAD.
+- Work completed: full producer pass. (1) Signals: logic FLAKE, not
+  regression (5 boot-poll timeouts, all pass on re-run; 1 migrating
+  timeout; zero violations/pageErrors; boot-path code unchanged since
+  green except the UIR-7 overlay, which cannot affect title boot);
+  vision clean. (2) Capture aborted at phone portrait (KNOWN harness
+  issue) - flow/stages fresh, platform partial; anatomy via the
+  documented vitest fallback + pair sheets rebuilt (17). (3) 238-cell
+  grid re-judged fresh with 4 rubric-only reviewer inputs: 211N/14A/13B
+  (baseline 1/147/90). V-1..V-7 verified on fresh crops; V-15a/c/d/e
+  verified on fresh pixels + definitions + fresh arm-chain gates
+  (11/11) - the previous capture already contained the fix
+  (byte-identical cells), so pairs are post-vs-post; V-10 held
+  (no fresh phone frames; pin re-ran green). (4) Batch 3 re-confirmed
+  and filed UIR-16..19. No new V-numbers (2 reviewer novelties
+  adjudicated down with ID-map evidence). DUE NOW removed; review
+  baseline reset to 9fd19c2.
+- Files changed: TASKS.md (UIR-16..19), docs/UI_REVIEW_LEDGER.md
+  (statuses, grid, scoreboard, coverage, DUE NOW, harness notes),
+  docs/UI_REVIEW_BATCHES.md (batch 3 FILED), PROGRESS.md.
+- Verification run: signal 8/13 then 8/9 on re-run (all timeouts,
+  migrating); vision exit 0; review:capture partial (known abort);
+  anatomy fallback exit 0; arm-chain.test 11/11; uir6-chevrons 1/1.
+- Result: accepted proposals (batch 3); review records updated.
+- Status after: UIR-7 IN_PROGRESS; UIR-8..11, UIR-16..19 TODO.
+- Remaining work or blocker: phone/webgl frames unobtainable until
+  the capture abort is fixed (harness backlog); V-10 unverified.
+- Next recommended task: UIR-7 (its completion unblocks the capture).
+
+### 2026-09-28 14:10 UTC - UIR-7 (attempt 1, rotate overlay - DONE)
+
+- Status before: UIR-7 IN_PROGRESS (orientation.ts + GameScene gate
+  committed at f3616f1; overlay + spec + capture handling unwritten).
+- Work completed: main.ts builds the #rotate-overlay DOM (phone icon +
+  ROTATE YOUR PHONE in the display font on the letterbox gradient),
+  synced on resize/orientationchange; gameplay pauses behind it via
+  the committed GameScene gate and resumes on rotate-back.
+  e2e/orientation.spec.ts pins the three contexts (portrait overlay +
+  frozen tick; landscape clear + advancing; desktop clear). ui-review
+  phone() asserts the overlay in portrait instead of waiting for
+  ticks - the known capture abort is fixed and review:capture now
+  completes (platform + anatomy + 17 pairs). touch.spec.ts and
+  touchpause.spec.ts migrated to Pixel 7 landscape (portrait no
+  longer plays; the fit/rotation tests still cover portrait
+  geometry).
+- Files changed: src/game/main.ts, e2e/orientation.spec.ts (new),
+  e2e/ui-review.spec.ts, e2e/touch.spec.ts, e2e/touchpause.spec.ts,
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-9 fixed
+  self-check; capture-abort harness entry resolved).
+- Verification run: lint 0; tsc 0; unit 666/666 + 1 skipped;
+  orientation.spec 3/3; touch specs 10/10; review:capture exit 0;
+  browser gates: E2E 81 passed / 5 skipped / 0 failed (86 total),
+  VISION 5/5, SELFPLAY 13/13, BUILD 0, PRODBUILD 4/4. Re-review:
+  portrait overlay on all 3 shots, landscape clean, WebGL intact,
+  flow/stages sheets unchanged.
+- Result: UIR-7 acceptance met.
+- Status after: UIR-7 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-8..11,
+  UIR-16..19 TODO.
+- Next recommended task: UIR-8 (landmark strip repaint).

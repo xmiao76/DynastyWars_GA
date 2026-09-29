@@ -801,7 +801,13 @@ Add future enhancement tasks below this heading.
 
 ### UIR-19 - Paint hands that match the painted sleeves
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1 done 2026-09-29: form pass landed +
+  pin green; J4 review 5 ok / 4 bad (tone vs face on zhangfei/weiyan/
+  spearman, lubu fist separation) / 8 unverifiable (session image
+  tooling). Attempt 2 = per-fighter face-tone calibration (sample the
+  *-faces head cells; the faces are photographic and outside
+  prepared.json), stronger fist finger separation, then a complete
+  J4 re-review of all 17 sheets including the 8 unverified)
 - Source: UI review 2026-09-28, findings V-18 (S2, V-14 J4 residue).
 - Evidence: artifacts/review/latest/anatomy/lubu.png (all 14 moves) - flat cream fists against photographic sleeves, re-confirmed fresh
 - Root cause: ASSET - `scripts/prepare-body-parts.mjs:194` `paintHandCell` paints flat skin shapes with bar fingers; next to photographic sleeves they read as mittens on every fighter.
