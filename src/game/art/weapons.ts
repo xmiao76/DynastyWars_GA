@@ -188,7 +188,21 @@ export function weaponPose(plan: FigurePlan, pose: Skeleton): Skeleton {
     // stylized compression (full-length legs would not fit the frame).
     const down = fitDown(base, headR)
     const near = solveArm(base.shoulderN, down.handN, base.elbowN, nat.upperN, nat.foreN)
-    const far = solveArm(base.shoulderF, base.handF, base.elbowF, nat.upperF, nat.foreF)
+    // UIR-17 (V-16): the table hint picks the elbow branch BELOW the body
+    // (elbowF y ~95 vs hip 82), so the far forearm vanishes under the
+    // ground line and the relaxed hand floats alone. Mirror the hint
+    // across the shoulder->hand line (same reflection as the strike
+    // hint): the elbow folds up onto the torso and the forearm runs down
+    // to the hand - the prone far arm lies across the body.
+    const fux = base.handF.x - base.shoulderF.x
+    const fuy = base.handF.y - base.shoulderF.y
+    const flen2 = fux * fux + fuy * fuy
+    const ft = flen2 < 0.01 ? 0 : ((base.elbowF.x - base.shoulderF.x) * fux + (base.elbowF.y - base.shoulderF.y) * fuy) / flen2
+    const farHint = {
+      x: 2 * (base.shoulderF.x + ft * fux) - base.elbowF.x,
+      y: 2 * (base.shoulderF.y + ft * fuy) - base.elbowF.y,
+    }
+    const far = solveArm(base.shoulderF, base.handF, farHint, nat.upperF, nat.foreF)
     return {
       ...base,
       shoulderN: near.shoulder, elbowN: near.elbow, handN: down.handN,

@@ -17,8 +17,11 @@ import { ALL_FIGHTERS, loadCastArt } from './cast-art'
  *   G2 elbow join: upper-arm and forearm paint overlap >= 2u.
  *   G3 no soft-shade halo on the background (0 px).
  *   G4 the weapon never covers the near arm holding it (<= 2u^2, standing).
- *   G5 no visible hole in either arm chain longer than 1u (standing).
- * Prone ('down') is exempt from G4-G5: V-16 (prone far arm) is open.
+ *   G5 no visible hole in either arm chain longer than 1u (standing
+ *      both chains; prone far chain only - UIR-17).
+ * Prone ('down') is exempt from G4 (dropped weapon lies across the body)
+ * and the G5 near chain (hand rests on the haft). The G5 far chain on
+ * down is gated since UIR-17 (V-16 prone far arm).
  * Not gated: the far fist over the near arm (V-15b). Its cause is the strike
  * choreography (the far grip lands under the near forearm, and no reachable
  * haft point clears it); hiding the fist breaks the BODY-15 visible-far-hand
@@ -74,12 +77,17 @@ describe('V-15 arm chains connect (all fighters x all moves)', () => {
     // guanyu thrust 5.5); after V-15a/c/d/e the worst are 1.25u, where the
     // far fist (V-15b, not gated) sits under the near shoulder and its
     // antialiased rim classifies as blend. 1.5u is 6 samples at 0.25u.
+    // UIR-17: the prone far chain joins this gate (V-16): the down far
+    // forearm used to vanish under the ground line (runF up to 11.5u).
     const where = (w: MoveMetrics['walk']['N']): string => [...new Set(w.gaps.map((g) => g.where))].join('/')
     const bad = standing().flatMap((m) => [
       ...(m.walk.N.runU > 1.5 ? [fmt(m, `near hole ${m.walk.N.runU}u at ${where(m.walk.N)}`)] : []),
       ...(m.walk.F.runU > 1.5 ? [fmt(m, `far hole ${m.walk.F.runU}u at ${where(m.walk.F)}`)] : []),
     ])
-    expect(bad).toEqual([])
+    const downFar = rows.filter((m) => m.lying).flatMap((m) => [
+      ...(m.walk.F.runU > 1.5 ? [fmt(m, `down far hole ${m.walk.F.runU}u at ${where(m.walk.F)}`)] : []),
+    ])
+    expect([...bad, ...downFar]).toEqual([])
   })
 
   it('G6 the far fist never paints over the near arm (V-15b)', () => {
