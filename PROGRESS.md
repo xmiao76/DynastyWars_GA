@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-29 06:30 UTC - UIR-18 (attempt 1, wrist bridge - DONE)
+
+- Status before: UIR-18 TODO (V-17: relaxed far hand floats at the
+  hip with 0-15% of its forearm visible - hand reads detached).
+- Work completed: wrist-bridge disc in draw.ts - the foreArmF cuff
+  cell repaints over the torso edge at the wrist (hand pulled 3u
+  toward the elbow, r=4.5u), only for relaxed far hands (gripping
+  forearms already cross in front of the torso; prone excluded).
+  TDD: G7 gate + negative control in arm-chain.test.ts (foreArmF
+  >= 25% whenever relaxF paints, non-gripping standing rows); pinned
+  failing first on 18 rows via git-stash of draw.ts (weiyan:special
+  14%, lubu:hurt 13%, huangzhong:sweep 17%), green after. Fresh
+  capture's rendered-pixel notes confirm all 84 relaxF rows >= 27%
+  (4 informational 27-30% notes remain; 0 under the gate).
+- Display caveat: the session's image previews crossed several
+  crops (documented bug); the verdict rests on the rendered-pixel
+  detector (G7 + suspects.json notes, both from the same render) and
+  the captioned crops that matched.
+- Files changed: src/game/art/draw.ts, test/game/arm-chain.test.ts
+  (G7 + control + header), TASKS.md, TASKS-ARCHIVE.md (2 oldest DONE
+  moved: bound was 22 > 20), PROGRESS.md, docs/UI_REVIEW_LEDGER.md
+  (V-17 fixed (unverified)).
+- Verification run: lint 0; tsc 0; unit 674/676 (only the pre-existing
+  UIR-16 G6 pin fails, as intended); review capture exit 0; browser
+  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4).
+- Result: UIR-18 acceptance met.
+- Status after: UIR-18 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-16
+  BLOCKED (owner scope call); UIR-19/20 TODO.
+- Next recommended task: UIR-19 (cast-wide hand art, L).
+
+
 ### 2026-09-29 03:40 UTC - UIR-17 (attempt 1, prone far arm - DONE)
 
 - Status before: UIR-17 TODO (V-16: prone far forearm vanishes

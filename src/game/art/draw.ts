@@ -263,6 +263,29 @@ export function drawFigure(
       bodyPaint(ctx, part)
       ctx.restore()
     }
+    // UIR-18 (V-17): the relaxed far hand dangles outside the torso with
+    // its forearm hidden behind it, reading detached. Redraw the cuff
+    // over the torso edge in a disc at the wrist (hand pulled toward the
+    // elbow), same cell so the tone matches - the hand then reads as
+    // emerging from behind the body. Only for relaxed far hands
+    // (gripping forearms already cross in front of the torso).
+    if (!grippingTail && !pose.lying && body.parts.foreArmF && body.parts.relaxF) {
+      const wdx = pose.elbowF.x - pose.handF.x
+      const wdy = pose.elbowF.y - pose.handF.y
+      const wdl = Math.hypot(wdx, wdy) || 1
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(
+        pose.handF.x + (wdx / wdl) * 3,
+        pose.handF.y + (wdy / wdl) * 3,
+        4.5 * plan.build.bulk,
+        0,
+        Math.PI * 2,
+      )
+      ctx.clip()
+      bodyPaint(ctx, 'foreArmF')
+      ctx.restore()
+    }
   }
   if (grippingTail) {
     if (handPaint && body?.parts.wrapF) handPaint(ctx, 'wrapF')

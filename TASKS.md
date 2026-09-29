@@ -12,82 +12,6 @@ and scanning a long tail of finished work costs something each time.
 
 Add future enhancement tasks below this heading.
 
-### BODY-20 - Realistic painted hands
-
-- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
-  verified full-green same day)
-- Owner objection round 3 (b): "the hand ... not realistic." The grip
-  fists and relaxed mittens are flat cartoon capsules with ink
-  outlines on painted-realistic bodies.
-- Requirement: painted hand art (grip fist, far-hand wrap, relaxed
-  hand) in the body masters' brushwork, skin-matched per fighter,
-  replacing the procedural fists/mittens at the same joints; no ink
-  outlines on painted hands.
-- Acceptance criteria:
-  - [x] Every fighter's hands render from painted cells in every
-        movement (test/game/handparts.test.ts: 5 tests - byte-identical
-        regeneration, all 17x5 cells non-empty + skin-matched +
-        hand-sized + ink-free, painted-vs-procedural liveness, per-part
-        procedural fallback; handgrip now asserts the painted render
-        tolerantly + the bare render exactly).
-  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-20 section):
-        soft-shaded fists/open hands/fingertip wraps, skinned per
-        fighter, scalloped digits, no ink; close pass on guanyu (all 14
-        movements 4x + whole-body 2x), weiyan, zhangfei + fresh motion
-        clips/sheets; residual polish filed (finger articulation, thumb
-        separation -> BODY-22).
-  - [x] Full gates green: lint 0, typecheck 0, unit 621/621 (56 files,
-        +5 handparts), e2e 78 passed, vision 5/5, selfplay 13/13, build
-        0, prodbuild 4/4.
-- Delivered: scripts/prepare-body-parts.mjs (hand cell painter: fist /
-  open-hand silhouettes, form shading, thumb, creases; 5 cells appended
-  to each body sheet, revision body-3), scripts/prepare-body-parts.d.mts
-  (new), src/game/art/hand-parts.ts (new: dispatch painter),
-  body-parts.ts (5 hand defs), draw.ts (painted near/far/relaxed/wrap
-  at all 5 hand sites, procedural fallback intact), 17 sheets + 3
-  prepared.json regenerated, test/game/handparts.test.ts (new),
-  handgrip + review-harness tolerant matches.
-- Non-goals: no finger animation; no new poses.
-
-### BODY-21 - Realistic painted weapons
-
-- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
-  verified full-green same day)
-- Owner objection round 3 (b): "the ... weapons are not realistic."
-  Weapons are procedural shapes with thick ink outlines, flat hafts,
-  block tassels and capsule butt caps.
-- Requirement: painted weapon art for all 7 kinds (glaive, pike,
-  spear, sword, dao, ji, bow) in the masters' brushwork, rendered on
-  the existing weapon geometry (same length, grip point and rotation,
-  so reach stays byte-stable in the sim and the reach tests).
-- Acceptance criteria:
-  - [x] All 7 weapons painted; drawn length/grip identical to the specs
-        (test/game/weaponparts.test.ts: 9 tests - byte-identical
-        regeneration, spec parity, cell geometry, procedural-silhouette
-        IoU>0.8 incl. bow at 3 draws, reach gates re-verified on painted
-        renders, drawn width within 3u, gravity tassels, procedural
-        fallback, boot publish atomicity).
-  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-21 section):
-        wood/steel/brass/cloth with bevels and grain, no ink; close pass
-        on guanyu/huangzhong/weiyan (all 14 movements) + fresh motion
-        clips/sheets; dao socket blob gone; residual polish filed
-        (battle-worn blades -> BODY-22).
-  - [x] Full gates green: lint 0, typecheck 0, unit 630/630 (57 files,
-        +9 weaponparts), e2e 78 passed, vision 5/5, selfplay 13/13,
-        build 0, prodbuild 4/4.
-- Delivered: scripts/prepare-weapon-cells.mjs (new: 7 weapons + tassel,
-  absolute-frame paint, per-head steel shading) + .d.mts (new),
-  src/game/art/weapon-parts.ts (new: painter with per-pose grip pivot,
-  bow x-scale, gravity tassel), adapters/weapon-art.ts (new: shared
-  pack boot publish), hero-resources/BootScene/registry/drawFigure/
-  figureShapes integration (weaponPart marks, procedural fallback),
-  src/game/assets/weapons/ (new pack), test/game/weaponparts.test.ts
-  (new), cast-art weapons loading, docs updates.
-- From BODY-19 review: purple/white blob at the dao blade socket in
-  some poses (walk1/windup/down/hurt) - pre-existing, verified against
-  the pre-19 baseline side by side; weapon geometry, in scope here.
-- Non-goals: no new weapon kinds; no sim changes.
-
 ### BODY-22 - Whole-body proportions and natural motion pass
 
 - Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
@@ -846,19 +770,33 @@ Add future enhancement tasks below this heading.
 
 ### UIR-18 - Connect the relaxed rear hand to a visible forearm
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-09-29 UTC, verified full-green same
+  day)
 - Source: UI review 2026-09-28, findings V-17 (S2).
 - Evidence: artifacts/review/latest/anatomy/cells/huangzhong-idle.png (upperArmF 0% visible) and cells/weiyan-hurt.png - re-confirmed fresh
 - Root cause: pose/draw order - `src/game/art/armik.ts:366` `swungFreeTarget` swings the free far hand just outside the torso while the far arm is drawn behind it (`draw.ts:748-753`), so the hand shows at the hip with 0-15% of its forearm visible (huangzhong idle/walk/hurt/special, weiyan hurt/special, zhangfei hurt).
 - Affected screens: huangzhong (9 moves), weiyan (2), zhangfei (1): cells/huangzhong-idle.png, cells/weiyan-hurt.png.
 - Requirement: the visible far hand always has a visible cuff/forearm leading to it (swing further out, or draw the far forearm over the torso edge when the hand is outside the silhouette).
 - Acceptance criteria:
-  - [ ] for every non-gripping standing move, foreArmF visibility >= 25% whenever relaxF is visible (new detector gate); the idle/walk tiles read as one arm.
-  - [ ] After `npm run review:capture`, the affected joins are re-reviewed
-        on the fresh anatomy sheets against `previous/`, citing the
-        after-image detail; contact sheets show no regression elsewhere.
-  - [ ] `npm run vision` and relevant specs are green; the ledger finding
-        is set to `fixed <commit> (unverified)`.
+  - [x] New detector gate G7 in arm-chain.test.ts: for every
+        non-gripping standing move, foreArmF >= 25% whenever relaxF
+        paints. Pinned failing first on 18 rows (weiyan:special 14%,
+        lubu:hurt 13%, huangzhong:sweep 17% - via git-stash of the
+        fix), green after; negative control included. Mechanism: a
+        wrist-bridge disc repaints the foreArmF cuff over the torso
+        edge at the hand (same cell as UIR-13's wrist bridge), so
+        the hand reads as emerging from behind the body - the
+        idle/walk tiles read as one arm.
+  - [x] After npm run review:capture: affected joins re-reviewed
+        against previous/ (huangzhong-idle/walk, weiyan-hurt/idle,
+        zhangfei-hurt, lubu-hurt, soldier-idle control). Fresh
+        capture's rendered-pixel notes: all 84 relaxF rows >= 27%
+        (4 informational 27-30% lines remain, none under the gate);
+        far chain no gaps (G5 green). Contact sheets clean.
+  - [x] vision 5/5 and relevant specs green (unit 674/676 - the only
+        failure is the pre-existing UIR-16 G6 pin, BLOCKED; e2e 82,
+        selfplay 13/13, build 0, prodbuild 4/4). Ledger V-17 set to
+        fixed <commit> (unverified).
 - Non-goals: gripping poses, hand art.
 
 ### UIR-19 - Paint hands that match the painted sleeves

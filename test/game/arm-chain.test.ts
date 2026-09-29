@@ -19,13 +19,14 @@ import { ALL_FIGHTERS, loadCastArt } from './cast-art'
  *   G4 the weapon never covers the near arm holding it (<= 2u^2, standing).
  *   G5 no visible hole in either arm chain longer than 1u (standing
  *      both chains; prone far chain only - UIR-17).
+ *   G6 the far fist never paints over the near arm (V-15b, UIR-16 -
+ *      BLOCKED: literal-0 proven unsatisfiable via choreography alone;
+ *      fails on 87 standing cells until the owner scopes it).
+ *   G7 a visible relaxed far hand has a visible forearm leading to it:
+ *      foreArmF >= 25% whenever relaxF paints (V-17, UIR-18).
  * Prone ('down') is exempt from G4 (dropped weapon lies across the body)
  * and the G5 near chain (hand rests on the haft). The G5 far chain on
  * down is gated since UIR-17 (V-16 prone far arm).
- * Not gated: the far fist over the near arm (V-15b). Its cause is the strike
- * choreography (the far grip lands under the near forearm, and no reachable
- * haft point clears it); hiding the fist breaks the BODY-15 visible-far-hand
- * rule gated by handgrip/uir13. The detector still reports it per move.
  */
 let res: ArtResources
 const rows: MoveMetrics[] = []
@@ -99,6 +100,15 @@ describe('V-15 arm chains connect (all fighters x all moves)', () => {
     expect(bad).toEqual([])
   })
 
+  it('G7 relaxed far hands have visible forearms (V-17)', () => {
+    // UIR-18: the wrist-bridge disc repaints the cuff over the torso edge
+    // so a hand outside the silhouette reads as emerging from the body.
+    const bad = rows
+      .filter((m) => !m.gripping && !m.lying && m.relaxFpx > 0 && (m.vis.foreArmF?.pct ?? 0) < 25)
+      .map((m) => fmt(m, `foreArmF ${m.vis.foreArmF?.pct ?? 0}%`))
+    expect(bad).toEqual([])
+  })
+
   it('prep cuff constants mirror the renderer part table', () => {
     for (const [part, len] of Object.entries(ARM_NATURAL_LEN)) {
       expect(len, part).toBe(BODY_PART_DEFS[part as keyof typeof ARM_NATURAL_LEN].naturalLen)
@@ -168,5 +178,15 @@ describe('V-15 gate negative controls (each gate can fail)', () => {
     expect(flagged(100, 0)).toBe(true)
     expect(flagged(0, 50)).toBe(true)
     expect(flagged(0, 0)).toBe(false)
+  })
+
+  it('G7 trips when a visible relaxed hand lacks forearm (V-17)', () => {
+    // Predicate check + the empirical control: before the UIR-18 wrist
+    // bridge, G7 failed on 18 relaxed rows (e.g. huangzhong:sweep 17%,
+    // weiyan:special 14%, zhangliao:hurt 19%).
+    const flagged = (relaxPx: number, pct: number): boolean => relaxPx > 0 && pct < 25
+    expect(flagged(400, 17)).toBe(true)
+    expect(flagged(400, 25)).toBe(false)
+    expect(flagged(0, 10)).toBe(false)
   })
 })

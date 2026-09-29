@@ -4557,3 +4557,79 @@ and the three pre-redesign enhancements - all DONE and verified)
   body sheets + 3 prepared.json regenerated, test/game/armik.test.ts.
 - Non-goals: no sim/timing changes; pose table body joints untouched
   except arms via weaponPose.
+
+### BODY-20 - Realistic painted hands
+
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
+- Owner objection round 3 (b): "the hand ... not realistic." The grip
+  fists and relaxed mittens are flat cartoon capsules with ink
+  outlines on painted-realistic bodies.
+- Requirement: painted hand art (grip fist, far-hand wrap, relaxed
+  hand) in the body masters' brushwork, skin-matched per fighter,
+  replacing the procedural fists/mittens at the same joints; no ink
+  outlines on painted hands.
+- Acceptance criteria:
+  - [x] Every fighter's hands render from painted cells in every
+        movement (test/game/handparts.test.ts: 5 tests - byte-identical
+        regeneration, all 17x5 cells non-empty + skin-matched +
+        hand-sized + ink-free, painted-vs-procedural liveness, per-part
+        procedural fallback; handgrip now asserts the painted render
+        tolerantly + the bare render exactly).
+  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-20 section):
+        soft-shaded fists/open hands/fingertip wraps, skinned per
+        fighter, scalloped digits, no ink; close pass on guanyu (all 14
+        movements 4x + whole-body 2x), weiyan, zhangfei + fresh motion
+        clips/sheets; residual polish filed (finger articulation, thumb
+        separation -> BODY-22).
+  - [x] Full gates green: lint 0, typecheck 0, unit 621/621 (56 files,
+        +5 handparts), e2e 78 passed, vision 5/5, selfplay 13/13, build
+        0, prodbuild 4/4.
+- Delivered: scripts/prepare-body-parts.mjs (hand cell painter: fist /
+  open-hand silhouettes, form shading, thumb, creases; 5 cells appended
+  to each body sheet, revision body-3), scripts/prepare-body-parts.d.mts
+  (new), src/game/art/hand-parts.ts (new: dispatch painter),
+  body-parts.ts (5 hand defs), draw.ts (painted near/far/relaxed/wrap
+  at all 5 hand sites, procedural fallback intact), 17 sheets + 3
+  prepared.json regenerated, test/game/handparts.test.ts (new),
+  handgrip + review-harness tolerant matches.
+- Non-goals: no finger animation; no new poses.
+
+### BODY-21 - Realistic painted weapons
+
+- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
+  verified full-green same day)
+- Owner objection round 3 (b): "the ... weapons are not realistic."
+  Weapons are procedural shapes with thick ink outlines, flat hafts,
+  block tassels and capsule butt caps.
+- Requirement: painted weapon art for all 7 kinds (glaive, pike,
+  spear, sword, dao, ji, bow) in the masters' brushwork, rendered on
+  the existing weapon geometry (same length, grip point and rotation,
+  so reach stays byte-stable in the sim and the reach tests).
+- Acceptance criteria:
+  - [x] All 7 weapons painted; drawn length/grip identical to the specs
+        (test/game/weaponparts.test.ts: 9 tests - byte-identical
+        regeneration, spec parity, cell geometry, procedural-silhouette
+        IoU>0.8 incl. bow at 3 draws, reach gates re-verified on painted
+        renders, drawn width within 3u, gravity tassels, procedural
+        fallback, boot publish atomicity).
+  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-21 section):
+        wood/steel/brass/cloth with bevels and grain, no ink; close pass
+        on guanyu/huangzhong/weiyan (all 14 movements) + fresh motion
+        clips/sheets; dao socket blob gone; residual polish filed
+        (battle-worn blades -> BODY-22).
+  - [x] Full gates green: lint 0, typecheck 0, unit 630/630 (57 files,
+        +9 weaponparts), e2e 78 passed, vision 5/5, selfplay 13/13,
+        build 0, prodbuild 4/4.
+- Delivered: scripts/prepare-weapon-cells.mjs (new: 7 weapons + tassel,
+  absolute-frame paint, per-head steel shading) + .d.mts (new),
+  src/game/art/weapon-parts.ts (new: painter with per-pose grip pivot,
+  bow x-scale, gravity tassel), adapters/weapon-art.ts (new: shared
+  pack boot publish), hero-resources/BootScene/registry/drawFigure/
+  figureShapes integration (weaponPart marks, procedural fallback),
+  src/game/assets/weapons/ (new pack), test/game/weaponparts.test.ts
+  (new), cast-art weapons loading, docs updates.
+- From BODY-19 review: purple/white blob at the dao blade socket in
+  some poses (walk1/windup/down/hurt) - pre-existing, verified against
+  the pre-19 baseline side by side; weapon geometry, in scope here.
+- Non-goals: no new weapon kinds; no sim changes.
