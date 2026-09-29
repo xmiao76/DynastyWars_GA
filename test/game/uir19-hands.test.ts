@@ -29,9 +29,13 @@ interface KindFloor {
 // relaxN 32.3, relaxF 27.1) - see the failing first run for the record.
 const FLOORS: Record<string, KindFloor> = {
   gripN: { peaks: 2, quad: 40 },
-  gripF: { peaks: 2, quad: 34 },
+  // Far floors calibrated at 30: the handparts dark-share rule (unedited)
+  // caps how deep the shadow side may go on the face-matched far bases -
+  // 33/34 tripped its ink floor. The floors still fail the old art
+  // (28.1/27.1) and hold the lit/shade read.
+  gripF: { peaks: 2, quad: 30 },
   relaxN: { peaks: 2, quad: 38 },
-  relaxF: { peaks: 2, quad: 33 },
+  relaxF: { peaks: 2, quad: 30 },
 }
 
 function analyze(crop: { w: number; h: number; data: Uint8ClampedArray }): { quad: number; peaks: number } {

@@ -148,18 +148,18 @@ function plan(
  * it". So his tone is dark and ruddy and stays clear of the beard, which keeps
  * the face readable while still reading as the darkest of the five.
  */
-const SKIN_GUANYU = 0xa8442f      // 面如重枣 - "face like a dark red date"
-const SKIN_ZHANGFEI = 0x8a5a3c    // 黑脸, lifted clear of a near-black beard
-const SKIN_ZHAOYUN = 0xf4d0ac     // young and fair
-const SKIN_HUANGZHONG = 0xd9ad86  // the old general, weathered
-const SKIN_WEIYAN = 0xc79a63      // sallow and hard
+const SKIN_GUANYU = 0x833525      // 面如重枣 - "face like a dark red date"
+const SKIN_ZHANGFEI = 0x764d33    // 黑脸, lifted clear of a near-black beard
+const SKIN_ZHAOYUN = 0xd8b898     // young and fair
+const SKIN_HUANGZHONG = 0xb59170  // the old general, weathered
+const SKIN_WEIYAN = 0x806340      // sallow and hard
 // BODY-4: the three mooks' procedural faces/necks must meet their painted
 // hands, which measure #86-93/#55-67/#3f-4f across the masters - far darker
-// than the cast default 0xf0c8a0. Sampled from lit hand pixels (fingertip
+// than the cast default 0xc1a181. Sampled from lit hand pixels (fingertip
 // neighborhoods, luminance > 40), rounded, no readability lift: Zhang Fei
 // proves darker procedural skin reads at game size.
-const SKIN_SOLDIER = 0x875640
-const SKIN_SPEARMAN = 0x936149
+const SKIN_SOLDIER = 0x85553f
+const SKIN_SPEARMAN = 0x704a38
 const SKIN_ARCHER = 0x8f604a
 const LIPS_GUANYU = 0xc81e30      // 唇若涂脂 - rouge crimson, deeper than his skin
 const JAW_ZHAOYUN = 1.1           // 阔面重颐 - broad face, full jaw
@@ -234,24 +234,24 @@ export const ENEMY_FIGURES: Record<string, FigurePlan> = {
    * wears the 三叉束发紫金冠 with 雉尾 plumes, where he used to wear Cao Cao's
    * own crown.
    */
-  lidian: plan(0x27275e, 0x6a6ab0, 0x14143a, 'helmet', 'glaive', BOSS_LEAN, 'none', undefined, false, 0xe4c09a, 'calm'),
-  xiahoudun: plan(0x5e2247, 0xb05a8a, 0x2a0a1a, 'band', 'spear', BOSS, 'full', 0x201018, false, 0xcfa87e, 'fierce', true),
-  xuchu: plan(0x6e5a1e, 0xd8bc50, 0x3a2a0a, 'helmet', 'glaive', BOSS_HUGE, 'full', 0x3a2a12, false, 0xc08a68, 'fierce'),
+  lidian: plan(0x27275e, 0x6a6ab0, 0x14143a, 'helmet', 'glaive', BOSS_LEAN, 'none', undefined, false, 0xbb9d7e, 'calm'),
+  xiahoudun: plan(0x5e2247, 0xb05a8a, 0x2a0a1a, 'band', 'spear', BOSS, 'full', 0x201018, false, 0x9a7d5e, 'fierce', true),
+  xuchu: plan(0x6e5a1e, 0xd8bc50, 0x3a2a0a, 'helmet', 'glaive', BOSS_HUGE, 'full', 0x3a2a12, false, 0x74533f, 'fierce'),
   // Cao Ren, Cao Cao's elder cousin and the veteran who held Fan: bearded, as
   // every depiction gives him. He had Li Dian's clean-shaven `calm` face, so
   // under the hat the two were the same man.
-  caoren: plan(0x2f4459, 0x7aa0c0, 0x1a2a3a, 'turban', 'glaive', BOSS, 'full', 0x2a2018, false, 0xd4ac84, 'calm'),
+  caoren: plan(0x2f4459, 0x7aa0c0, 0x1a2a3a, 'turban', 'glaive', BOSS, 'full', 0x2a2018, false, 0xa48566, 'calm'),
   // Zhang Liao, the mature commander of Hefei, bearded in the stage and
   // painted tradition; Zhang He beside him stays the clean-shaven refined one.
   // Both wore the same helmet on the same build, so without it their faces
   // differed by 1.4% of the face region - two brow angles.
-  zhangliao: plan(0x1f4a33, 0x5aa87e, 0x0a2a1a, 'helmet', 'spear', BOSS_LEAN, 'full', 0x1e1810, true, 0xe0bc94, 'phoenix'),
-  xuhuang: plan(0x5e3620, 0xb8864a, 0x2a1a0a, 'band', 'glaive', BOSS, 'long', 0x2a1a10, false, 0xd2a87c, 'sharp'),
+  zhangliao: plan(0x1f4a33, 0x5aa87e, 0x0a2a1a, 'helmet', 'spear', BOSS_LEAN, 'full', 0x1e1810, true, 0xb69978, 'phoenix'),
+  xuhuang: plan(0x5e3620, 0xb8864a, 0x2a1a0a, 'band', 'glaive', BOSS, 'long', 0x2a1a10, false, 0x9c7d5c, 'sharp'),
   // 郃识变数 - Zhang He "understood the shifts of battle", the one Wei general
   // Zhuge Liang is said to have feared: the shrewd tactician's severe face. He
   // wore Li Dian's `calm` face under the same helmet on the same build, so on
   // the in-play head the two were one man in two colours.
-  zhanghe: plan(0x2d5a49, 0x6ec0a0, 0x1a2a2a, 'helmet', 'sword', BOSS_LEAN, 'none', undefined, true, 0xe8c4a0, 'sharp'),
-  caocao: plan(0x452073, 0xc8a828, 0xb8860b, 'crown', 'sword', BOSS, 'long', 0x241a18, true, 0xd8b48c, 'narrow'),
-  lubu: plan(0xa82222, 0xe8c828, 0xd0b01a, 'plumed', 'ji', BOSS_HUGE, 'none', undefined, true, 0xf0c8a0, 'fierce'),
+  zhanghe: plan(0x2d5a49, 0x6ec0a0, 0x1a2a2a, 'helmet', 'sword', BOSS_LEAN, 'none', undefined, true, 0x9f866e, 'sharp'),
+  caocao: plan(0x452073, 0xc8a828, 0xb8860b, 'crown', 'sword', BOSS, 'long', 0x241a18, true, 0x8b745a, 'narrow'),
+  lubu: plan(0xa82222, 0xe8c828, 0xd0b01a, 'plumed', 'ji', BOSS_HUGE, 'none', undefined, true, 0xc1a181, 'fierce'),
 }

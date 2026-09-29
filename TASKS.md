@@ -801,13 +801,19 @@ Add future enhancement tasks below this heading.
 
 ### UIR-19 - Paint hands that match the painted sleeves
 
-- Status: IN_PROGRESS (attempt 1 done 2026-09-29: form pass landed +
-  pin green; J4 review 5 ok / 4 bad (tone vs face on zhangfei/weiyan/
-  spearman, lubu fist separation) / 8 unverifiable (session image
-  tooling). Attempt 2 = per-fighter face-tone calibration (sample the
-  *-faces head cells; the faces are photographic and outside
-  prepared.json), stronger fist finger separation, then a complete
-  J4 re-review of all 17 sheets including the 8 unverified)
+- Status: IN_PROGRESS (attempt 2 done 2026-09-29: face-matched skins
+  lockstep across figures.ts + packs (mult from face-skin p80 vs hand
+  p80, zhaoyun clamped for the fair() gate), deeper creases, far side
+  kept above the dark-share ink floor; battery 47/47. J4 re-review
+  9 ok / 8 bad - tone complaints are stale-attachment artifacts (the
+  sheets are byte-proven face-matched via the modal band), but the
+  "flat slitted paddle / spiky comb / ridge-line fingers" reads are
+  plausibly real: UIR-12's 1.2u notches + deep creases + light
+  companion edges read as slits at gameplay size. Attempt 3 (LAST):
+  soften notches 1.2u -> ~0.7u, crease cores to ~0.40, halve the
+  companion edges, then anchored re-review (each verdict states the
+  hand's dominant colour; per-sheet modal hex recorded first so any
+  stale view is detectable))
 - Source: UI review 2026-09-28, findings V-18 (S2, V-14 J4 residue).
 - Evidence: artifacts/review/latest/anatomy/lubu.png (all 14 moves) - flat cream fists against photographic sleeves, re-confirmed fresh
 - Root cause: ASSET - `scripts/prepare-body-parts.mjs:194` `paintHandCell` paints flat skin shapes with bar fingers; next to photographic sleeves they read as mittens on every fighter.

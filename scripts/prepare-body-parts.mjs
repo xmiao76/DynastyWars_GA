@@ -294,10 +294,16 @@ function paintHandCell(c, kind, skin) {
   const base = far ? shadeC(skin, 1 - FAR_SHADE) : `#${skin.toString(16).padStart(6, '0')}`
   const colors = {
     formAlpha: far ? 'rgba(0,0,0,0.34)' : 'rgba(0,0,0,0.30)',
-    deepAlpha: far ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.46)',
+    // Far rim kept above the ink-dark floor of the dark-share rule (the
+    // face-matched bases are darker; 0.5 crossed into ink at the creases).
+    deepAlpha: far ? 'rgba(0,0,0,0.42)' : 'rgba(0,0,0,0.46)',
     lightAlpha: far ? 'rgba(255,244,224,0.16)' : 'rgba(255,246,228,0.26)',
     creaseAlpha: far ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.22)',
-    creaseCore: far ? 'rgba(0,0,0,0.44)' : 'rgba(0,0,0,0.38)',
+    // UIR-19 attempt 2: deeper crease cores for real digit separation at
+    // gameplay size (attempt 1 review: "smooth pale blobs, weak finger
+    // separation" on fist cells). Far side shallower - the darker base
+    // plus deep creases crossed the dark-share ink floor.
+    creaseCore: far ? 'rgba(0,0,0,0.42)' : 'rgba(0,0,0,0.46)',
     creaseLight: far ? 'rgba(255,244,224,0.12)' : 'rgba(255,246,228,0.18)',
     thumbShade: far ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.33)',
     // UIR-19 painted-form washes (formPlanes). Attempt 1 review: the white
@@ -408,7 +414,7 @@ function paintHandCell(c, kind, skin) {
 export const HEROES = {
   zhangfei: {
     master: 'art/fighter-bodies/zhangfei-body-master.jpg',
-    skin: '#8a5a3c',
+    skin: '#764d33',
     joints: {
       chest: [416, 400], hip: [416, 686],
       shoulderF: [250, 300], elbowF: [143, 460], handF: [62, 598],
@@ -419,7 +425,7 @@ export const HEROES = {
   },
   guanyu: {
     master: 'art/fighter-bodies/guanyu-body-master.jpg',
-    skin: '#a8442f',
+    skin: '#833525',
     cape: { body: '#2a7a2a', trim: '#d8c060' },
     joints: {
       chest: [416, 374], hip: [416, 686],
@@ -431,7 +437,7 @@ export const HEROES = {
   },
   huangzhong: {
     master: 'art/fighter-bodies/huangzhong-body-master.jpg',
-    skin: '#d9ad86',
+    skin: '#b59170',
     joints: {
       chest: [416, 374], hip: [416, 686],
       shoulderF: [283, 312], elbowF: [199, 407], handF: [85, 558],
@@ -442,7 +448,7 @@ export const HEROES = {
   },
   weiyan: {
     master: 'art/fighter-bodies/weiyan-body-master.jpg',
-    skin: '#c79a63',
+    skin: '#806340',
     joints: {
       chest: [816, 187], hip: [816, 343],
       shoulderF: [734, 169], elbowF: [683, 207], handF: [557, 238],
@@ -453,7 +459,7 @@ export const HEROES = {
   },
   zhaoyun: {
     master: 'art/fighter-bodies/zhaoyun-body-master.jpg',
-    skin: '#f4d0ac',
+    skin: '#d8b898',
     cape: { body: '#2f5fb3', trim: '#c84a4a' },
     joints: {
       chest: [360, 384], hip: [360, 602],
@@ -466,7 +472,7 @@ export const HEROES = {
   soldier: {
     master: 'art/fighter-bodies/soldier-body-master.jpg',
     out: 'src/game/assets/mook-bodies',
-    skin: '#875640',
+    skin: '#85553f',
     joints: {
       chest: [416, 349], hip: [416, 649],
       shoulderF: [275, 300], elbowF: [187, 427], handF: [62, 592],
@@ -478,7 +484,7 @@ export const HEROES = {
   spearman: {
     master: 'art/fighter-bodies/spearman-body-master.jpg',
     out: 'src/game/assets/mook-bodies',
-    skin: '#936149',
+    skin: '#704a38',
     joints: {
       chest: [416, 349], hip: [416, 624],
       shoulderF: [275, 312], elbowF: [195, 426], handF: [72, 588],
@@ -504,7 +510,7 @@ export const HEROES = {
   lubu: {
     master: 'art/fighter-bodies/lubu-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#f0c8a0',
+    skin: '#c1a181',
     cape: { body: '#a82222', trim: '#e8c828' },
     joints: {
       chest: [416, 430], hip: [416, 640],
@@ -517,7 +523,7 @@ export const HEROES = {
   caocao: {
     master: 'art/fighter-bodies/caocao-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#d8b48c',
+    skin: '#8b745a',
     cape: { body: '#452073', trim: '#c8a828' },
     joints: {
       chest: [416, 420], hip: [416, 640],
@@ -530,7 +536,7 @@ export const HEROES = {
   xiahoudun: {
     master: 'art/fighter-bodies/xiahoudun-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#cfa87e',
+    skin: '#9a7d5e',
     joints: {
       chest: [416, 400], hip: [416, 640],
       shoulderF: [290, 350], elbowF: [199, 444], handF: [65, 582],
@@ -542,7 +548,7 @@ export const HEROES = {
   xuchu: {
     master: 'art/fighter-bodies/xuchu-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#c08a68',
+    skin: '#74533f',
     joints: {
       chest: [416, 380], hip: [416, 640],
       shoulderF: [270, 330], elbowF: [182, 443], handF: [50, 608],
@@ -554,7 +560,7 @@ export const HEROES = {
   zhangliao: {
     master: 'art/fighter-bodies/zhangliao-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#e0bc94',
+    skin: '#b69978',
     cape: { body: '#1f4a33', trim: '#5aa87e' },
     joints: {
       chest: [416, 400], hip: [416, 645],
@@ -567,7 +573,7 @@ export const HEROES = {
   caoren: {
     master: 'art/fighter-bodies/caoren-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#d4ac84',
+    skin: '#a48566',
     joints: {
       chest: [416, 400], hip: [416, 630],
       shoulderF: [290, 350], elbowF: [202, 449], handF: [55, 592],
@@ -579,7 +585,7 @@ export const HEROES = {
   xuhuang: {
     master: 'art/fighter-bodies/xuhuang-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#d2a87c',
+    skin: '#9c7d5c',
     joints: {
       chest: [416, 400], hip: [416, 640],
       shoulderF: [290, 350], elbowF: [202, 449], handF: [58, 592],
@@ -591,7 +597,7 @@ export const HEROES = {
   zhanghe: {
     master: 'art/fighter-bodies/zhanghe-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#e8c4a0',
+    skin: '#9f866e',
     cape: { body: '#2d5a49', trim: '#6ec0a0' },
     joints: {
       chest: [416, 410], hip: [416, 650],
@@ -604,7 +610,7 @@ export const HEROES = {
   lidian: {
     master: 'art/fighter-bodies/lidian-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#e4c09a',
+    skin: '#bb9d7e',
     joints: {
       chest: [416, 400], hip: [416, 640],
       shoulderF: [290, 350], elbowF: [202, 449], handF: [58, 588],
