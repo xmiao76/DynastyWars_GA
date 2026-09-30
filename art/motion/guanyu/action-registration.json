@@ -1,0 +1,36 @@
+{
+  "jump": {"source":"jump-candidate-1.png","scale":0.345,"frames":[
+    {"pivotX":238,"floorY":344},{"pivotX":759,"floorY":346},{"pivotX":1282,"floorY":346},
+    {"pivotX":240,"floorY":687},{"pivotX":773,"floorY":687},{"pivotX":1287,"floorY":687},
+    {"pivotX":242,"floorY":1010},{"pivotX":768,"floorY":1011},{"pivotX":1290,"floorY":1014}
+  ]},
+  "fall": {"source":"fall-candidate-1.png","scale":0.30,"overrides":{
+    "3":{"source":"details/fall-3-corrected.png","scale":0.104,"pivotX":675,"floorY":1102},
+    "4":{"source":"details/fall-4-corrected.png","scale":0.104,"pivotX":660,"floorY":1039},
+    "5":{"source":"details/fall-5-corrected.png","scale":0.100,"pivotX":630,"floorY":938}
+  },"frames":[
+    {"pivotX":250,"floorY":391},{"pivotX":794,"floorY":392},{"pivotX":1321,"floorY":392},
+    {"pivotX":258,"floorY":732},{"pivotX":775,"floorY":721},{"pivotX":1300,"floorY":719},
+    {"pivotX":254,"floorY":1000},{"pivotX":774,"floorY":1000},{"pivotX":1300,"floorY":1000}
+  ]},
+  "getup": {"source":"getup-candidate-1.png","scale":0.30,"order":[6,7,8,5,4,3,2,1,0],"note":"Provider returned standing->prone first, so explicitly reorder to prone->standing.","frames":[
+    {"pivotX":243,"floorY":390},{"pivotX":755,"floorY":390},{"pivotX":1256,"floorY":389},
+    {"pivotX":257,"floorY":721},{"pivotX":765,"floorY":722},{"pivotX":1277,"floorY":718},
+    {"pivotX":254,"floorY":978},{"pivotX":789,"floorY":986},{"pivotX":1308,"floorY":976}
+  ]},
+  "misc": {"source":"misc-candidate-1.png","scale":0.36,"frames":[
+    {"pivotX":225,"floorY":335},{"pivotX":759,"floorY":333},{"pivotX":1289,"floorY":333},
+    {"pivotX":237,"floorY":675},{"pivotX":758,"floorY":675},{"pivotX":1245,"floorY":677},
+    {"pivotX":219,"floorY":1016},{"pivotX":746,"floorY":1012},{"pivotX":1275,"floorY":1012}
+  ]},
+  "special": {"source":"special-candidate-1.png","scale":0.335,"frames":[
+    {"pivotX":211,"floorY":350},{"pivotX":749,"floorY":351},{"pivotX":1267,"floorY":351},
+    {"pivotX":209,"floorY":649},{"pivotX":748,"floorY":643},{"pivotX":1260,"floorY":652},
+    {"pivotX":242,"floorY":1003},{"pivotX":766,"floorY":1007},{"pivotX":1292,"floorY":1006}
+  ]},
+  "rider": {"source":"rider-candidate-1.png","scale":0.32,"frames":[
+    {"pivotX":249,"floorY":329},{"pivotX":753,"floorY":329},{"pivotX":1255,"floorY":329},
+    {"pivotX":256,"floorY":658},{"pivotX":756,"floorY":658},{"pivotX":1311,"floorY":658},
+    {"pivotX":253,"floorY":993},{"pivotX":755,"floorY":1001},{"pivotX":1291,"floorY":1001}
+  ]}
+}

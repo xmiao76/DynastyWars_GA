@@ -17,7 +17,7 @@ const CELL = { width: 512, height: 341 }
 const PERIOD = 32
 const plan = HERO_FIGURES.guanyu!
 
-function mannequin(g: CanvasRenderingContext2D, p: Skeleton, plan: FigurePlan): void {
+export function mannequin(g: CanvasRenderingContext2D, p: Skeleton, plan: FigurePlan): void {
   const b = plan.build.bulk
   const fill = (trace: () => void, col: string): void => {
     trace(); g.fillStyle = col; g.fill(); g.lineWidth = 0.7; g.strokeStyle = '#303038'; g.stroke()

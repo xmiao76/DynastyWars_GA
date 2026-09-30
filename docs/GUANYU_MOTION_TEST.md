@@ -1,5 +1,7 @@
 # Guan Yu whole-character motion pilot
 
+**Historical attempt1 report.** Owner subsequently accepted regular walking and requested remaining actions. Current`?motion=1`coversallGuanYustates;see[all-actionreview](GUANYU_ACTION_REVIEW.md). The unsupported-state statements below describe theoldattempt1implementation,notcurrentruntime. Earliermeasuredweaponfindingsremainrecorded.
+
 Owner request: try complete, art-directed whole-character sprite sequences for Guan Yu first. This is a motion experiment, not a cast rollout. Status: IN_PROGRESS (attempt 1).
 
 ## Bounded scope

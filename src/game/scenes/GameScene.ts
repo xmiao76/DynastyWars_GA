@@ -26,7 +26,7 @@ import { KeyboardAdapter, PLAYER_TWO_KEYS } from '../adapters/keyboard'
 import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gamepad'
 import { NO_TOUCH } from '../adapters/touch'
 import { ensureBlendKey, ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
-import { ensureMotionKey } from '../adapters/motion-art'
+import { clearMotionPlayback, ensureMotionKey, forgetMotionEntity, motionVisualLift } from '../adapters/motion-art'
 import { heroArtResources } from '../adapters/hero-art'
 import { rotateBlocked } from '../ui/orientation'
 import { artDisplayHeight } from '../art/registry'
@@ -148,6 +148,8 @@ export class GameScene extends Phaser.Scene {
   private blendQ = new Map<number, { steps: string[]; to: Pose }>()
   /** The last settled pose per entity - the blend's `from` side. */
   private lastPose = new Map<number, Pose>()
+  /** Continue phase freezes core ticks; optional Guan Yu defeat can still finish. */
+  private motionDefeat = new Map<number, { tick: number; remainder: number }>()
   private shadows = new Map<number, Phaser.GameObjects.Ellipse>()
   private accumulator = 0
   private cloudLayer!: Phaser.GameObjects.Container
@@ -196,6 +198,8 @@ export class GameScene extends Phaser.Scene {
     destroyAllChildren(this)
     this.sprites.clear()
     this.shadows.clear()
+    clearMotionPlayback(this)
+    this.motionDefeat.clear()
     const character = characterById(data.charId ?? 'zhaoyun')
     this.sim = createSim(data.seed ?? 1, {
       charId: character.id,
@@ -496,6 +500,15 @@ export class GameScene extends Phaser.Scene {
           return
         }
       }
+      for (const entity of this.sim.entities) {
+        if (entity.state !== 'dying' || !heroArtResources(this)?.motions?.[entity.kind]) continue
+        const clock = this.motionDefeat.get(entity.id) ?? { tick: entity.stateTick, remainder: 0 }
+        clock.remainder += delta
+        const steps = Math.floor(clock.remainder / TICK_MS)
+        clock.remainder -= steps * TICK_MS
+        clock.tick = Math.min(DYING_TICKS, clock.tick + steps)
+        this.motionDefeat.set(entity.id, clock)
+      }
       this.syncSprites()
       return
     }
@@ -621,6 +634,9 @@ export class GameScene extends Phaser.Scene {
   private syncSprites(): void {
     const seen = new Set<number>()
     for (const entity of this.sim.entities) {
+      const defeat = entity.state === 'dying' && this.sim.phase === 'gameover' ? this.motionDefeat.get(entity.id) : undefined
+      const renderEntity = defeat ? { ...entity, stateTick: defeat.tick } : entity
+      if (entity.state !== 'dying') this.motionDefeat.delete(entity.id)
       seen.add(entity.id)
       let sprite = this.sprites.get(entity.id)
       if (!sprite) {
@@ -642,7 +658,7 @@ export class GameScene extends Phaser.Scene {
           entity.kind === 'horse'
             ? horsePoseFor(entity, playerOf(this.sim))
             : poseForEntity(entity)
-        const motionKey = ensureMotionKey(this, entity)
+        const motionKey = ensureMotionKey(this, renderEntity)
         if (motionKey) {
           this.blendQ.delete(entity.id)
           this.lastPose.delete(entity.id)
@@ -688,14 +704,17 @@ export class GameScene extends Phaser.Scene {
       }
       // The rider sits on the horse: raised sprite offset while mounted.
       const riderLift = entity.mountedOn !== null ? 18 : 0
-      sprite.setPosition(entity.x, entity.y - entity.z - riderLift)
+      sprite.setPosition(entity.x, entity.y - entity.z - riderLift - motionVisualLift(this, renderEntity))
       sprite.setDepth(entity.y)
       sprite.setFlipX(entity.facing === 'left')
       if (entity.state === 'hitstun') sprite.setTint(0xff6666)
       else if (entity.enraged) sprite.setTint(0xffa040)
       else sprite.clearTint()
       if (entity.state === 'dying') {
-        sprite.setAlpha(Math.max(0, 1 - entity.stateTick / DYING_TICKS))
+        sprite.setAlpha(Math.max(0, 1 - renderEntity.stateTick / DYING_TICKS))
+      } else if (entity.state === 'dead' && heroArtResources(this)?.motions?.[entity.kind]) {
+        // A completed defeat fade must not reappear at full alpha on dead.
+        sprite.setAlpha(0)
       } else {
         // Mercy i-frames render as a blink.
         sprite.setAlpha(entity.invulnerableTicks > 0 ? 0.55 : 1)
@@ -715,13 +734,15 @@ export class GameScene extends Phaser.Scene {
       shadow.setDepth(entity.y - 1)
       const shrink = 1 - Math.min(entity.z / 96, 0.4)
       shadow.setScale(shrink)
-      shadow.setAlpha(entity.state === 'dying' ? sprite.alpha * 0.35 : 0.35)
+      shadow.setAlpha(entity.state === 'dying' || (entity.state === 'dead' && heroArtResources(this)?.motions?.[entity.kind]) ? sprite.alpha * 0.35 : 0.35)
       shadow.setVisible(!isPropKind(entity.kind))
     }
     for (const [id, sprite] of this.sprites) {
       if (!seen.has(id)) {
         sprite.destroy()
         this.sprites.delete(id)
+        forgetMotionEntity(this, id)
+        this.motionDefeat.delete(id)
         this.shadows.get(id)?.destroy()
         this.shadows.delete(id)
       }
