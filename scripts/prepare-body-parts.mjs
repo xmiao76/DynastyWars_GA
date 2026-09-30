@@ -90,12 +90,14 @@ function fistPath(c) {
   c.moveTo(-2.9, -2.1)
   c.bezierCurveTo(-1.0, -2.85, 1.2, -3.05, 2.7, -2.85)
   c.lineTo(3.5, -2.75)
-  // Knuckle ridge into the finger block: three bumps, two DEEP notches
-  // (1.2u, so digit grouping reads at 4x - UIR-12).
+  // Knuckle ridge into the finger block: three bumps, two SHALLOW notches
+  // (~0.75u - UIR-19 attempt 3: the UIR-12 1.2u notches read as a comb/
+  // slitted paddle at gameplay size; digit grouping is carried by the
+  // crease lines instead).
   c.quadraticCurveTo(4.7, -2.5, 5.3, -1.9)
-  c.quadraticCurveTo(3.95, -1.2, 4.4, -0.65)
+  c.quadraticCurveTo(4.5, -1.2, 4.65, -0.65)
   c.quadraticCurveTo(5.5, -0.3, 5.55, 0.2)
-  c.quadraticCurveTo(4.0, 0.7, 4.55, 1.25)
+  c.quadraticCurveTo(4.55, 0.7, 4.7, 1.25)
   c.quadraticCurveTo(5.35, 1.85, 4.85, 2.3)
   // Fingers back into the palm, then the palm bottom to the wrist.
   c.bezierCurveTo(4.1, 2.8, 3.0, 2.9, 1.8, 2.85)
@@ -110,12 +112,12 @@ function relaxPath(c) {
   c.moveTo(-2.9, -2.0)
   c.bezierCurveTo(-1.0, -2.65, 0.6, -2.8, 1.9, -2.7)
   c.lineTo(2.6, -2.6)
-  // Finger group edge: three tips, two deep notches between them
-  // (1.2u - UIR-12, matching the fist).
+  // Finger group edge: three tips, two SHALLOW notches (~0.75u - UIR-19
+  // attempt 3, matching the fist; grouping rides the crease lines).
   c.quadraticCurveTo(4.15, -2.35, 5.15, -1.75)
-  c.quadraticCurveTo(3.8, -1.0, 4.25, -0.5)
+  c.quadraticCurveTo(4.35, -1.0, 4.5, -0.5)
   c.quadraticCurveTo(5.35, -0.1, 5.45, 0.4)
-  c.quadraticCurveTo(4.1, 0.9, 4.4, 1.4)
+  c.quadraticCurveTo(4.55, 0.9, 4.65, 1.4)
   c.quadraticCurveTo(5.15, 2.0, 4.55, 2.4)
   c.bezierCurveTo(3.4, 2.85, 1.6, 2.85, 0, 2.8)
   c.bezierCurveTo(-1.3, 2.75, -2.1, 2.45, -2.9, 2.0)
@@ -299,12 +301,13 @@ function paintHandCell(c, kind, skin) {
     deepAlpha: far ? 'rgba(0,0,0,0.42)' : 'rgba(0,0,0,0.46)',
     lightAlpha: far ? 'rgba(255,244,224,0.16)' : 'rgba(255,246,228,0.26)',
     creaseAlpha: far ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.22)',
-    // UIR-19 attempt 2: deeper crease cores for real digit separation at
-    // gameplay size (attempt 1 review: "smooth pale blobs, weak finger
-    // separation" on fist cells). Far side shallower - the darker base
-    // plus deep creases crossed the dark-share ink floor.
-    creaseCore: far ? 'rgba(0,0,0,0.42)' : 'rgba(0,0,0,0.46)',
-    creaseLight: far ? 'rgba(255,244,224,0.12)' : 'rgba(255,246,228,0.18)',
+    // UIR-19 attempt 3: creases back to moderate depth (the attempt-2
+    // 0.46 read as slits over the darker bases); far side stays under
+    // the dark-share ink floor.
+    creaseCore: far ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0.40)',
+    // Companion light edges halved (attempt-2 review: "ridge-line
+    // fingers" - the light edge read as the finger itself).
+    creaseLight: far ? 'rgba(255,244,224,0.06)' : 'rgba(255,246,228,0.09)',
     thumbShade: far ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.33)',
     // UIR-19 painted-form washes (formPlanes). Attempt 1 review: the white
     // washes read cream against the photographic faces (J4 tone) - light

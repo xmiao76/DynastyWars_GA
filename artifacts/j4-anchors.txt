@@ -1,0 +1,17 @@
+zhangfei gripN-modal rgb(153,121,97) n=12 => tan/medium
+guanyu gripN-modal rgb(163,103,86) n=11 => tan/medium
+huangzhong gripN-modal rgb(200,171,142) n=11 => pale/cream
+weiyan gripN-modal rgb(161,137,106) n=11 => tan/medium
+zhaoyun gripN-modal rgb(226,200,172) n=11 => pale/cream
+soldier gripN-modal rgb(165,127,106) n=11 => tan/medium
+spearman gripN-modal rgb(149,119,101) n=11 => tan/medium
+archer gripN-modal rgb(172,135,114) n=11 => tan/medium
+lubu gripN-modal rgb(209,183,155) n=12 => pale/cream
+caocao gripN-modal rgb(169,150,126) n=11 => tan/medium
+xiahoudun gripN-modal rgb(180,157,129) n=11 => pale/cream
+xuchu gripN-modal rgb(152,126,106) n=11 => tan/medium
+zhangliao gripN-modal rgb(201,177,148) n=11 => pale/cream
+caoren gripN-modal rgb(188,163,135) n=11 => pale/cream
+xuhuang gripN-modal rgb(182,157,127) n=11 => pale/cream
+zhanghe gripN-modal rgb(184,163,141) n=11 => pale/cream
+lidian gripN-modal rgb(205,180,152) n=11 => pale/cream

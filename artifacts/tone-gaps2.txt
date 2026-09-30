@@ -1,0 +1,17 @@
+zhangfei faceSkinN=7826 faceP80=116 gripP80=140 mult=0.827
+guanyu faceSkinN=3944 faceP80=103 gripP80=136 mult=0.755
+huangzhong faceSkinN=15154 faceP80=161 gripP80=199 mult=0.811
+weiyan faceSkinN=5464 faceP80=115 gripP80=183 mult=0.625
+zhaoyun faceSkinN=11724 faceP80=165 gripP80=223 mult=0.740
+soldier faceSkinN=7338 faceP80=132 gripP80=138 mult=0.959
+spearman faceSkinN=6354 faceP80=108 gripP80=146 mult=0.741
+archer faceSkinN=10382 faceP80=140 gripP80=145 mult=0.968
+lubu faceSkinN=9488 faceP80=170 gripP80=218 mult=0.781
+caocao faceSkinN=5233 faceP80=127 gripP80=202 mult=0.627
+xiahoudun faceSkinN=4788 faceP80=139 gripP80=193 mult=0.721
+xuchu faceSkinN=4318 faceP80=103 gripP80=175 mult=0.585
+zhangliao faceSkinN=3822 faceP80=164 gripP80=208 mult=0.788
+caoren faceSkinN=5198 faceP80=148 gripP80=197 mult=0.753
+xuhuang faceSkinN=4864 faceP80=140 gripP80=194 mult=0.720
+zhanghe faceSkinN=9442 faceP80=143 gripP80=214 mult=0.666
+lidian faceSkinN=9613 faceP80=168 gripP80=211 mult=0.796

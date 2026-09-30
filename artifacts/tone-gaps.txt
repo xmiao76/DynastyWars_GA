@@ -1,0 +1,17 @@
+zhangfei skin=#8a5a3c face=[87,56,45] lum=64 gripN=[138,107,86] lum=114 gap=50.0 wrapN=[129,85,57] lum=95
+guanyu skin=#a8442f face=[87,64,49] lum=69 gripN=[157,93,78] lum=110 gap=41.0 wrapN=[156,65,45] lum=90
+huangzhong skin=#d9ad86 face=[157,119,92] lum=127 gripN=[188,159,132] lum=165 gap=38.0 wrapN=[201,161,125] lum=169
+weiyan skin=#c79a63 face=[89,53,53] lum=64 gripN=[176,147,110] lum=152 gap=88.0 wrapN=[184,143,93] lum=150
+zhaoyun skin=#f4d0ac face=[122,87,75] lum=96 gripN=[205,181,156] lum=185 gap=89.0 wrapN=[226,193,160] lum=199
+soldier skin=#875640 face=[78,62,48] lum=65 gripN=[136,105,88] lum=112 gap=47.0 wrapN=[126,81,61] lum=92
+spearman skin=#936149 face=[63,48,35] lum=51 gripN=[144,111,94] lum=119 gap=68.0 wrapN=[137,91,69] lum=102
+archer skin=#8f604a face=[83,68,44] lum=70 gripN=[141,111,95] lum=118 gap=48.0 wrapN=[133,90,70] lum=101
+lubu skin=#f0c8a0 face=[98,82,73] lum=86 gripN=[202,176,149] lum=181 gap=95.0 wrapN=[222,185,149] lum=192
+caocao skin=#d8b48c face=[69,50,36] lum=54 gripN=[187,163,136] lum=167 gap=113.0 wrapN=[200,167,130] lum=173
+xiahoudun skin=#cfa87e face=[59,43,34] lum=47 gripN=[181,156,127] lum=160 gap=113.0 wrapN=[192,156,118] lum=162
+xuchu skin=#c08a68 face=[58,44,38] lum=48 gripN=[172,137,114] lum=145 gap=97.0 wrapN=[178,129,97] lum=140
+zhangliao skin=#e0bc94 face=[82,73,57] lum=74 gripN=[192,169,141] lum=172 gap=98.0 wrapN=[207,174,138] lum=180
+caoren skin=#d4ac84 face=[82,70,64] lum=73 gripN=[184,158,131] lum=163 gap=90.0 wrapN=[196,160,123] lum=166
+xuhuang skin=#d2a87c face=[58,46,36] lum=48 gripN=[183,156,126] lum=161 gap=113.0 wrapN=[195,156,116] lum=163
+zhanghe skin=#e8c4a0 face=[83,73,61] lum=75 gripN=[197,174,149] lum=178 gap=103.0 wrapN=[215,182,149] lum=188
+lidian skin=#e4c09a face=[97,85,80] lum=88 gripN=[195,171,145] lum=175 gap=87.0 wrapN=[211,178,143] lum=184
