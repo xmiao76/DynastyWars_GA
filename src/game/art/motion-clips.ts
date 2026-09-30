@@ -49,7 +49,13 @@ export function guanyuClips(): MotionArt['clips'] {
     const a = attackById(action === 'mountedsweep' || action === 'dismountedsweep' ? 'mounted.sweep' : `gy.${action}`)
     const endActive = a.startup + a.active, duration = endActive + a.recover
     if (action === 'mountedsweep') {
-      clips[action] = clip(duration, [[0, 'rider:0'], [2, 'rider:3'], [a.startup, 'rider:4'], [endActive, 'rider:5'], [duration - 4, 'rider:6']])
+      clips[action] = clip(duration, [[0, 'rider:0'], [2, 'rider:5'], [a.startup, 'rider:4'], [endActive, 'rider:5'], [duration - 4, 'rider:6']])
+    } else if (action === 'special') {
+      // Existing forward poses avoid the painted backward-blade windup and
+      // bridge the down-cut recovery without new character-design drift.
+      clips[action] = clip(duration, [[0, IDLE], [1, 'special:7'], [3, 'special:2'], [4, 'special:3'],
+        [a.startup, 'special:4'], [endActive, 'special:5'], [endActive + 2, 'special:3'],
+        [endActive + 4, 'special:6'], [endActive + 7, 'special:7'], [duration - 3, IDLE]])
     } else {
       const drawings = action === 'dismountedsweep' ? 'jab1' : action
       clips[action] = clip(duration, [

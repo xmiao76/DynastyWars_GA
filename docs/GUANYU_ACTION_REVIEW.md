@@ -97,6 +97,16 @@ Follow-up verification: motion/action/boundary unit total **28/28**; full units 
 
 Remaining detail consistency and opponent grab matching are still open. No new image generations, core changes or other fighter edits in this audit. Evidence: `artifacts/wholeframe/actions/transitions/`, plus refreshed all-action recordings.
 
+## Special/mounted exposure-order follow-up
+
+The original special anticipation and mounted windup pointed the blade backward before the next drawing moved it forward. Two focused image repairs fixed direction but changed adjacent body/head proportions; they were rejected after registration review. Their originals and prompts remain in [WEAPON_ARC_REVIEW.md](../art/motion/WEAPON_ARC_REVIEW.md); neither candidate ships. This exhausted the declared 12-request image budget for this pass, so no further blind image retries were made.
+
+Instead, existing forward-facing recovery/guard drawings now also serve as anticipation keys. Special recovery includes a forward-diagonal bridge between follow-through and raised guard. Attack startup/active/recovery windows are unchanged and both atlases remain byte-identical.
+
+Approximate pixel-supported direction landmarks measure maximum adjacent changes of **~53° special** (previously ~79°) and **~48° mounted** (previously ~134°). A separate 60° direction-step control rejects the old orders; it does **not** relax or replace the original weapon-length consistency criterion. Actual exposure-order sheets and in-game special/mounted strips were inspected: the mounted windup now stays forward and lowers to the strike, and the special retracts through a forward diagonal rather than a large reversal. Weapon thickness/length and some cloth detail still vary.
+
+Verification for this follow-up: three new direction/negative/pixel-landmark tests; full units **709 passed, 1 baseline G6 failure, 6 skipped**; Canvas/WebGL action and missing-pack cases **3/3**; lint passed; only six baseline UIR-19 type errors; vision **5/5** and production **6/6**. No asset pixels, other fighters or core gameplay were changed by the accepted solution. Evidence includes `special-exposure-order.png`, `mounted-exposure-order.png`, updated actual game strips and recordings.
+
 ## Verification
 
 - Lint: passed.
