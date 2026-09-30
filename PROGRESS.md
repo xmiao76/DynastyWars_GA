@@ -22,6 +22,12 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-30 - GYM-1 review-first handoff (IN_PROGRESS acceptance)
+
+- OwnerselectedcurrentGuanYubuildreviewfirst,nopairedgrabexpansion. Stopimplementationatverifieda6c6057;noadditionalart/core/otherfighterchangesinthishandoff.
+- Recheckedcleantree,coreunchangedsincef37b70b,approvedregularatlas/metaunchanged,allaction/mixedvideos+traces+reviewpageexist. Prior33motiontests,3/3mixedinteraction,2/2boundary,5/5vision,6/6prodbuildverified;711unitswithsolebaselineG6and6baselineUIR19typeerrorsremainhonest.
+- Boundedimplementation/reviewpassdelivered;sessiongoalcanclosewithoutclaimingallmotionperfect. GYM-1remainsIN_PROGRESSforownernormal-speedacceptanceanddetail/pairedgrabcaveats. Nextactionownerfeedback,noblindcontinuationornewscope. No push/deploy.
+
 ### 2026-09-30 22:40 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
 
 - Addednormal-inputmixedchoreography480ticks~8.04sCanvas,bothfacings/CanvasWebGL2/2;allattackIDs,newtexturesonly,landingwhilemoving. Fullboot/headcropscamera-scrollcorrectedandreviewed. Realdamage-drivenhurt/heavyfall/airhit/getupandwalkinggrab->throwcase1/1;viewedinteractionframes,confirmsopponentpronegrabbedposecannotaligncollarreachwithinotherfighters-unchangedscope.

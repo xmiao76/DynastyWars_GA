@@ -155,4 +155,12 @@ npx playwright test --project=chromium e2e/guanyu-actions.spec.ts e2e/guanyu-sol
 
 Regenerate added art with `node scripts/prepare-actions.mjs`; it does not modify the regular atlas.
 
-**Status: all-state coverage implemented and verified; final smoothness acceptance remains IN_PROGRESS pending owner playback and localized detail/interaction polish.**
+## Review-first handoff
+
+After seeing the remaining paired grab mismatch, the owner selected **“Review current Guan Yu build first”**, rather than authorizing held-opponent changes. The verified Guan Yu-only implementation and action-review pass is therefore handed off here; do not automatically expand the scope or generate more artwork while awaiting that review.
+
+Handoff verification at `a6c6057`: clean committed source tree; no changes in `src/core/` relative to the initial motion baseline; original regular atlas and preparation metadata unchanged; all-action and mixed-motion videos, trace JSON and local review page exist. Latest evidence remains 33 motion tests passed, mixed/real-hit browser cases 3/3, boundary cases 2/2, vision 5/5, production 6/6. Full-unit G6 and six UIR-19 type errors remain documented baseline failures, not hidden green checks.
+
+The session's bounded **implementation/review objective is delivered** with evidence and explicit limitations. This does **not** mean GYM-1's visual acceptance is DONE, that all weapon details are invariant, or that the owner has accepted jumping/falling at normal speed. GYM-1 remains IN_PROGRESS pending review. Any later refinement should follow concrete owner feedback and preserve the approved regular artwork.
+
+**Status: review-first handoff delivered; final smoothness acceptance remains IN_PROGRESS pending owner playback and localized detail/interaction polish.**
