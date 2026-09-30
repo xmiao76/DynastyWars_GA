@@ -4,6 +4,7 @@ import type { BodyArt } from './body-parts'
 import type { HorseArt } from './horse-frames'
 import type { WeaponArt } from './weapon-parts'
 import type { WholeFrameArt } from './whole-frames'
+import type { MotionArt } from './motion-clips'
 
 /** Decoded, complete per-hero art. Pure renderers receive this explicitly. */
 export interface HeroArt {
@@ -32,6 +33,8 @@ export interface ArtResources {
   /** Whole-frame pilot (`?frames=1` only): per-fighter painted whole poses.
    * A pose without a frame renders the fighter's existing art. */
   frames?: Readonly<Partial<Record<string, WholeFrameArt>>>
+  /** Optional simulation-timed whole-character motion experiment. */
+  motions?: Readonly<Partial<Record<string, MotionArt>>>
 }
 
 export type HeadLayer = 'rear' | 'head' | 'front'

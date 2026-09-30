@@ -1,0 +1,61 @@
+{
+  "walk": {
+    "source": "walk-candidate-1.png",
+    "scale": 0.36,
+    "note": "Diagnostic candidate, not quality-approved. One fixed source scale. Pivot from waist/hip centre; soles registered to component floor, not per-frame resizing. Unmeasured landmarks remain null.",
+    "frames": [
+      {"pivotX": 229, "floorY": 331, "headWidth": null, "weaponLength": 323.7, "weaponEndpoints": [[228, 328], [277, 8]], "landmarkNote": "Approximate manually observed butt and blade-tip source coordinates, +/-3px."},
+      {"pivotX": 748, "floorY": 331, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1277, "floorY": 331, "headWidth": null, "weaponLength": null},
+      {"pivotX": 251, "floorY": 672, "headWidth": null, "weaponLength": null},
+      {"pivotX": 780, "floorY": 672, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1286, "floorY": 672, "headWidth": null, "weaponLength": null},
+      {"pivotX": 235, "floorY": 1009, "headWidth": null, "weaponLength": null},
+      {"pivotX": 758, "floorY": 1010, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1283, "floorY": 1009, "headWidth": null, "weaponLength": null}
+    ]
+  },
+  "jab1": {
+    "source": "jab1-candidate-1.png", "scale": 0.332,
+    "note": "Component extraction retains figures crossing nominal cells; fixed per-sheet scale only, no anatomy warp.",
+    "frames": [
+      {"pivotX": 235, "floorY": 361, "headWidth": null, "weaponLength": null},
+      {"pivotX": 766, "floorY": 360, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1255, "floorY": 360, "headWidth": null, "weaponLength": null},
+      {"pivotX": 253, "floorY": 655, "headWidth": null, "weaponLength": null},
+      {"pivotX": 755, "floorY": 652, "headWidth": null, "weaponLength": 224.3, "weaponEndpoints": [[790, 496], [1014, 484]], "landmarkNote": "Visible rear haft endpoint to blade tip; no hidden haft extension inferred. Approximate +/-3px."},
+      {"pivotX": 1262, "floorY": 652, "headWidth": null, "weaponLength": null},
+      {"pivotX": 255, "floorY": 1016, "headWidth": null, "weaponLength": null},
+      {"pivotX": 780, "floorY": 1016, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1277, "floorY": 1017, "headWidth": null, "weaponLength": null}
+    ]
+  },
+  "jab2": {
+    "source": "jab2-candidate-1.png", "scale": 0.345,
+    "frames": [
+      {"pivotX": 239, "floorY": 345, "headWidth": null, "weaponLength": null},
+      {"pivotX": 783, "floorY": 343, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1285, "floorY": 345, "headWidth": null, "weaponLength": null},
+      {"pivotX": 237, "floorY": 664, "headWidth": null, "weaponLength": null},
+      {"pivotX": 749, "floorY": 664, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1270, "floorY": 664, "headWidth": null, "weaponLength": null},
+      {"pivotX": 238, "floorY": 1011, "headWidth": null, "weaponLength": null},
+      {"pivotX": 782, "floorY": 1012, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1274, "floorY": 1013, "headWidth": null, "weaponLength": null}
+    ]
+  },
+  "finisher": {
+    "source": "finisher-candidate-1.png", "scale": 0.358,
+    "frames": [
+      {"pivotX": 223, "floorY": 334, "headWidth": null, "weaponLength": null},
+      {"pivotX": 747, "floorY": 334, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1266, "floorY": 336, "headWidth": null, "weaponLength": null},
+      {"pivotX": 252, "floorY": 663, "headWidth": null, "weaponLength": null},
+      {"pivotX": 747, "floorY": 662, "headWidth": null, "weaponLength": 234.7, "weaponEndpoints": [[793, 535], [1000, 620]], "landmarkNote": "Visible rear haft endpoint to blade tip, approximate +/-3px."},
+      {"pivotX": 1248, "floorY": 661, "headWidth": null, "weaponLength": null},
+      {"pivotX": 238, "floorY": 1003, "headWidth": null, "weaponLength": null},
+      {"pivotX": 774, "floorY": 1002, "headWidth": null, "weaponLength": null},
+      {"pivotX": 1280, "floorY": 1002, "headWidth": null, "weaponLength": null}
+    ]
+  }
+}

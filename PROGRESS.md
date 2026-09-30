@@ -22,6 +22,17 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-30 10:40 UTC - GYM-1 (attempt 1 - IN_PROGRESS)
+
+- Status before: owner approved Guan Yu-only motion test after static whole-frame pilot; no queue/loop infrastructure changes.
+- Work: authored8-frame gait and full combo guides;7original sequence-sheet requests (walk3, sweep2, jab2/chop1 each). Fixed sheet-level scale/recorded translation registration,36cell diagnostic atlas; opt-in `?motion=1` simulation-tick playback with shared idle bookends, atomic technical integrity fallback. No old-art textures in210samples of supported idle/walk/combo per renderer, both facings; unsupported actions explicitly retain old art.
+- Evidence: actual in-game Canvas/WebGL videos and tick traces under artifacts/wholeframe/motion; prepared drawing sheet/full-res crops/recording contact strips inspected. Canvas420ticks in~7.0s; software WebGL~23.8s (not normal-speed proof). Video playback itself left for owner: tool reviews stills only.
+- Visual result: ITERATE / NO-GO for these candidate drawings, not an accepted animation set. Walk opposite-leg alternation fails after3requests. Approximate visible endpoint landmarks show116.5u idle vs74.5u sweep (~36%shorter) and84.0u chop. Other landmarks null/unverified; quality evaluator rejects incomplete evidence. Cloth/stance/weapon jumps and direct stop-to-idle remain; no criteria weakened.
+- Verification: lint0; motion units8/8; full units686passed/1failed/4skipped (only documented baseline arm-chainG6). Typecheck six pre-existing uir19-hands possibly-undefined errors, no new errors; untouched. Motion browser4/4; default regression subset passed; vision5/5; prodbuild6/6 including2new flag/default cases.
+- Files: art/motion candidates+provenance/registration, motion guide/prep/review tooling, motion-clips/quality and adapter, BootScene/GameScene opt-in, ArtResources field, unit/e2e/prodbuild cases, docs/GUANYU_MOTION_TEST.md, TASKS/PROGRESS. No old body/hand code changed, no push/deploy/scheduler.
+- Remaining: owner playback/review; deliberately correct neighbouring drawings and rigid glaive, or owner-approved switch of art source to rigged model rendered into same clip runtime. Do not keep retrying whole sheets blindly or expand cast.
+- Status after: GYM-1 IN_PROGRESS (attempt1), UIR-19/20 untouched. Diagnostic test packaged; not DONE.
+
 ### 2026-09-29 09:40 UTC - UIR-19 (attempt 2 - IN_PROGRESS)
 
 - Status before: UIR-19 IN_PROGRESS attempt 1 (form pass landed;

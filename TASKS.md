@@ -8,6 +8,18 @@ Keep this file short. Once more than 20 tasks are `DONE`, move the oldest of the
 to `TASKS-ARCHIVE.md`; every iteration reads this file to find the first `TODO`,
 and scanning a long tail of finished work costs something each time.
 
+## Owner-directed motion experiment
+
+### GYM-1 - Guan Yu whole-character walk and combo pilot
+
+- Status: IN_PROGRESS (attempt 1, 2026-09-30; diagnostic implementation verified, artwork NOT accepted).
+- Owner request: test complete art-directed sprite sequences for Guan Yu only, following the static whole-frame pilot.
+- Delivered: fixed-registration guides, original candidate sheets, opt-in `?motion=1` clip playback from simulation ticks, atomic integrity fallback, temporal traces/recordings and negative controls. No old textures in supported idle/walk/combo clips. Other actions remain explicitly outside this trial.
+- Acceptance: no old-art flashes, exact hit-window alignment, coherent alternating walk, <=10% head/weapon variation, no conspicuous action seams; criteria and results in `docs/GUANYU_MOTION_TEST.md`.
+- Evidence: 8 technical unit tests, 4 capture/fallback browser cases, 2 built opt-in cases pass. Visual acceptance FAILS: walk alternation unreliable across 3 candidates; visible glaive shrinks ~36% at sweep. No floor loosened, no cast rollout.
+- Remaining: deliberate neighbouring-drawing/weapon correction, then normal-speed owner review. Prompt-only sheet regeneration reached walk's 3-request cap and is not a justified next step. Rigged-model-to-sprites is a separate owner scope choice, not authorized here.
+- Existing UIR-19/20 and blocked UIR-16 are unchanged; this explicit owner task takes priority, not an automatic queue restart.
+
 ## Enhancements
 
 Add future enhancement tasks below this heading.
