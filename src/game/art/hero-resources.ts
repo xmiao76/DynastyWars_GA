@@ -3,6 +3,7 @@ import type { Skeleton } from './rig'
 import type { BodyArt } from './body-parts'
 import type { HorseArt } from './horse-frames'
 import type { WeaponArt } from './weapon-parts'
+import type { WholeFrameArt } from './whole-frames'
 
 /** Decoded, complete per-hero art. Pure renderers receive this explicitly. */
 export interface HeroArt {
@@ -28,6 +29,9 @@ export interface ArtResources {
   /** Painted weapon cells (BODY-21), one shared pack. Absent renders the
    * procedural weapons. */
   weapons?: WeaponArt
+  /** Whole-frame pilot (`?frames=1` only): per-fighter painted whole poses.
+   * A pose without a frame renders the fighter's existing art. */
+  frames?: Readonly<Partial<Record<string, WholeFrameArt>>>
 }
 
 export type HeadLayer = 'rear' | 'head' | 'front'

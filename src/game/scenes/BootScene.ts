@@ -5,6 +5,7 @@ import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
 import { publishBodyArt, queueBodyArt } from '../adapters/body-art'
 import { publishHorseArt, queueHorseArt } from '../adapters/horse-art'
 import { publishWeaponArt, queueWeaponArt } from '../adapters/weapon-art'
+import { framesEnabled, publishFrameArt, queueFrameArt } from '../adapters/frame-art'
 import { loadDisplayFont } from '../ui/type'
 import displayFontUrl from '../assets/fonts/zcool-qingke-huangyou-subset.woff2?url'
 import titleKeyartUrl from '../assets/title/keyart-backdrop.jpg?url'
@@ -51,6 +52,8 @@ export class BootScene extends Phaser.Scene {
     queueBodyArt(this)
     queueHorseArt(this)
     queueWeaponArt(this)
+    // Whole-frame pilot: only behind ?frames=1, so normal play never loads it.
+    if (framesEnabled()) queueFrameArt(this)
     // Title key art: a missing file only costs the photo backdrop - TitleScene
     // paints the procedural dusk battle instead (same atomic-art philosophy).
     this.load.image('ui:keyart-photo', titleKeyartUrl)
@@ -61,6 +64,7 @@ export class BootScene extends Phaser.Scene {
     publishBodyArt(this)
     publishHorseArt(this)
     publishWeaponArt(this)
+    if (framesEnabled()) publishFrameArt(this)
     this.generateFxTextures()
     // Display face before the first text-bearing scene. Bounded and silent on
     // failure: every live style already names the system fallback, so a
