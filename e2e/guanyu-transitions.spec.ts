@@ -53,6 +53,18 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         { ticks: 1, values: { state: 'idle', stateTick: 0, z: 0 }, expected: 'jump:7' },
         { ticks: 1, values: { state: 'walk', stateTick: 1, mountedOn: 91 }, expected: 'rider:0' },
       ] },
+      { name: 'thrown-impact', steps: [
+        { ticks: 1, values: { state: 'thrown', stateTick: 8, z: 10 }, expected: 'fall:4' },
+        { ticks: 1, values: { state: 'knockdown', stateTick: 0, z: 0 }, expected: 'fall:4' },
+        { ticks: 2, values: { stateTick: 2 }, expected: 'fall:5' },
+        { ticks: 3, values: { stateTick: 5 }, expected: 'fall:6' },
+      ] },
+      { name: 'getup-defeat', steps: [
+        { ticks: 1, values: { state: 'getup', stateTick: 5, z: 0 }, expected: 'getup:2' },
+        { ticks: 1, values: { state: 'dying', stateTick: 0 }, expected: 'getup:2' },
+        { ticks: 2, values: { stateTick: 2 }, expected: 'getup:1' },
+        { ticks: 3, values: { stateTick: 5 }, expected: 'fall:6' },
+      ] },
       { name: 'mount-break-strike', steps: [
         { ticks: 1, values: { state: 'attack', attackId: 'mounted.sweep', stateTick: 12, mountedOn: 91 }, expected: 'rider:4' },
         { ticks: 1, values: { stateTick: 13, mountedOn: null }, expected: 'jab1:4' },

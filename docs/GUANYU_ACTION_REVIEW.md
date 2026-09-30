@@ -107,6 +107,20 @@ Approximate pixel-supported direction landmarks measure maximum adjacent changes
 
 Verification for this follow-up: three new direction/negative/pixel-landmark tests; full units **709 passed, 1 baseline G6 failure, 6 skipped**; Canvas/WebGL action and missing-pack cases **3/3**; lint passed; only six baseline UIR-19 type errors; vision **5/5** and production **6/6**. No asset pixels, other fighters or core gameplay were changed by the accepted solution. Evidence includes `special-exposure-order.png`, `mounted-exposure-order.png`, updated actual game strips and recordings.
 
+## Mixed-input and real-interaction review
+
+The final mixed choreography runs **480 simulation ticks in ~8.04 seconds** under Canvas, without resetting the player between actions: rightward walk → jump → apex kick → moving landing → complete combo → special, then mirrored walk → late aerial kick → moving landing → combo → special. It passes on Canvas and WebGL with no old Guan Yu textures, all expected attack IDs and both facings. Two-tick sampling can skip the core's one-tick landing idle, so the control accepts contact returning to either idle or walk while separately requiring the compression frame.
+
+Actual screen-space crops (camera scroll accounted for, full boots visible) were reviewed. The character bends for launch, tucks, strikes and compresses into moving landing without model switching; mirrored late input retains descent before active kick. Post-landing combo uses the unchanged regular artwork. These still-strip observations are not a native normal-speed video verdict.
+
+A separate unchanged-simulation interaction test starts an enemy near attack activation, then feeds ordinary inputs. It verifies real hitstun damage, heavy knockdown/getup, midair hit-stop/fall and walking grab → thrown opponent. Screenshot `interactions/grab-throw-05.png` confirms the remaining mismatch is **the opponent's prone grabbed pose**, not a missing Guan Yu clip. Fixing that paired composition would change another fighter's presentation, outside this Guan Yu-only implementation scope. Guan Yu reaching artwork was not bent or rescaled to disguise it.
+
+Two more defensive controls failed before repair: thrown → knockdown and defeat during seated getup inserted an upright recoil. Playback now keeps the low frame, settles thrown impact through ground-contact/prone keys, and reverses existing getup keys when a low recovery is interrupted. No new art or core state/timing changes. Actual Canvas/WebGL `thrown-impact` and `getup-defeat` strips reviewed: bodies remain low while settling, with no stand-up insertion. These stress cases are not normal player hit paths, because core getup is invulnerable and player throw/grabbed states are not normally assigned.
+
+Mixed/real-hit browser controls **3/3**, defensive boundary capture **2/2**. Motion units now **33/33**; full **711 passed, 1 baseline G6 failure, 6 skipped**; lint passes, typecheck retains six baseline UIR-19 errors; vision **5/5**, production **6/6**. Runtime and artwork outside Guan Yu are unchanged.
+
+Review evidence: `artifacts/wholeframe/actions/mixed/canvas-choreography.webm`, mirrored/full-frame JSON traces and contact strips; `interactions/` actual hit/grab screenshots; refreshed `transitions/` stress strips. Final smoothness acceptance remains open due to artwork length/detail variation, paired grab mismatch and owner normal-speed review—not falsely closed by these technical controls.
+
 ## Verification
 
 - Lint: passed.

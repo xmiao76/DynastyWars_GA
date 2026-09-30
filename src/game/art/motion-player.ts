@@ -12,6 +12,7 @@ export interface MotionPlayback {
   transition?: { action: 'landing' | 'kicklanding' | 'release' | 'dismount'; since: number }
   fallLift?: { height: number; sinceStateTick: number }
   airborneFall?: { frame: string; sinceStateTick: number }
+  lowCollapse?: { frames: string[] }
   alreadyDown?: boolean
 }
 export interface MotionSample { frame: string; lift: number; playback: MotionPlayback }
@@ -29,6 +30,7 @@ export function advanceMotion(art: MotionArt, entity: MotionEntity, tick: number
     out.transition = prev.transition
     out.fallLift = prev.fallLift
     out.airborneFall = prev.airborneFall
+    out.lowCollapse = prev.lowCollapse
     out.alreadyDown = prev.alreadyDown
     const grounded = groundState(entity.state) && entity.mountedOn === null
     if (entity.mountedOn !== null) out.transition = undefined
@@ -38,7 +40,14 @@ export function advanceMotion(art: MotionArt, entity: MotionEntity, tick: number
     if (entity.state === 'dying' && prev.state !== 'dying') {
       out.alreadyDown = (prev.state === 'knockdown' && prev.frame === 'fall:6') || prev.state === 'dead'
     }
-    if ((entity.state === 'knockdown' || entity.state === 'dying') && prev.state !== entity.state && prev.z > 0) {
+    const enteringFall = (entity.state === 'knockdown' || entity.state === 'dying') && prev.state !== entity.state
+    if (enteringFall && prev.state === 'thrown') out.lowCollapse = { frames: [prev.frame, 'fall:5', 'fall:6'] }
+    if (enteringFall && (prev.state === 'getup' || prev.state === 'knockdown')) {
+      const low = /^getup:([1-7])$/.exec(prev.frame)
+      if (low) out.lowCollapse = { frames: [prev.frame, ...Array.from({ length: Number(low[1]) - 1 }, (_, i) => `getup:${Number(low[1]) - i - 1}`), 'fall:6'] }
+      else if (prev.frame === 'fall:6') out.lowCollapse = { frames: ['fall:6'] }
+    }
+    if (enteringFall && prev.z > 0) {
       out.fallLift = { height: prev.z, sinceStateTick: 0 }
       if (prev.state === 'jump' || prev.state === 'jumpattack') out.airborneFall = { frame: prev.frame, sinceStateTick: 0 }
     }
@@ -55,6 +64,10 @@ export function advanceMotion(art: MotionArt, entity: MotionEntity, tick: number
     // at the tipping drawings: never insert a straight-legged standing recoil.
     out.frame = age < 2 ? out.airborneFall.frame : sampleClip(art, 'fall', age + 3)
   } else out.airborneFall = undefined
+  if (out.lowCollapse && (entity.state === 'knockdown' || entity.state === 'dying')) {
+    const index = Math.min(out.lowCollapse.frames.length - 1, Math.floor(Math.max(0, entity.stateTick) / 2))
+    out.frame = out.lowCollapse.frames[index]!
+  } else out.lowCollapse = undefined
   let lift = 0
   if (out.fallLift && (entity.state === 'knockdown' || entity.state === 'dying')) {
     const age = entity.stateTick - out.fallLift.sinceStateTick

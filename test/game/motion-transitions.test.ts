@@ -101,6 +101,22 @@ describe('Guan Yu action boundary negative controls', () => {
     expect(motionFrameForEntity(art, { ...dropped, stateTick: 14 })).toBe('jab1:5')
   })
 
+  it('thrown body impact cannot restart an upright fall', () => {
+    const flight = advanceMotion(art, { ...idle, state: 'thrown', stateTick: 8, z: 10 }, 8)
+    const impact = advanceMotion(art, { ...idle, state: 'knockdown' }, 9, flight.playback)
+    expect(impact.frame).toBe(flight.frame)
+    expect(advanceMotion(art, { ...idle, state: 'knockdown', stateTick: 2 }, 11, impact.playback).frame).toBe('fall:5')
+    expect(advanceMotion(art, { ...idle, state: 'knockdown', stateTick: 5 }, 14, impact.playback).frame).toBe('fall:6')
+  })
+
+  it('defeat interrupting seated getup keeps low posture instead of replaying standing recoil', () => {
+    const seated = advanceMotion(art, { ...idle, state: 'getup', stateTick: 5 }, 45)
+    const defeat = advanceMotion(art, { ...idle, state: 'dying' }, 46, seated.playback)
+    expect(defeat.frame).toBe(seated.frame)
+    expect(advanceMotion(art, { ...idle, state: 'dying', stateTick: 2 }, 48, defeat.playback).frame).toBe('getup:1')
+    expect(advanceMotion(art, { ...idle, state: 'dying', stateTick: 5 }, 51, defeat.playback).frame).toBe('fall:6')
+  })
+
   it('fall lift is presentation-only, advances on state ticks and expires on getup', () => {
     const air = advanceMotion(art, { ...idle, state: 'jump', stateTick: 18, airTicks: 18, z: 48 }, 18)
     const e = { ...idle, state: 'knockdown' as const }
