@@ -6,7 +6,7 @@ import type { WholeFrameCell } from './whole-frames'
 export const MOTION_ACTIONS = ['walk', 'jab1', 'jab2', 'finisher'] as const
 export const ACTION_SHEETS = ['jump', 'fall', 'getup', 'misc', 'special', 'rider'] as const
 export type MotionAction = (typeof MOTION_ACTIONS)[number]
-export type ActionClip = 'jump' | 'jumpattack' | 'landing' | 'hurt' | 'fall' | 'getup' | 'special' | 'grab' | 'release' | 'mounted' | 'mountedwalk' | 'mountedsweep' | 'dismount'
+export type ActionClip = 'jump' | 'jumpattack' | 'landing' | 'kicklanding' | 'hurt' | 'fall' | 'getup' | 'special' | 'grab' | 'release' | 'mounted' | 'mountedwalk' | 'mountedsweep' | 'dismountedsweep' | 'dismount'
 export interface MotionClip {
   loop: boolean
   /** Inclusive simulation tick at which a drawing starts. */
@@ -35,6 +35,7 @@ export function guanyuClips(): MotionArt['clips'] {
     jump: clip(JUMP_DURATION, [[0, IDLE], [1, 'jump:1'], [4, 'jump:2'], [9, 'jump:3'], [22, 'jump:5'], [28, 'jump:6'], [33, 'jump:6']]),
     jumpattack: clip(24, [[0, 'jump:3'], [4, 'jump:4'], [24 - 1, 'jump:4']]),
     landing: clip(8, [[0, 'jump:7'], [3, 'jump:1'], [6, IDLE]]),
+    kicklanding: clip(9, [[0, 'jump:5'], [1, 'jump:7'], [4, 'jump:1'], [7, IDLE]]),
     hurt: clip(PLAYER_HITSTUN_TICKS, [[0, 'misc:1'], [3, 'misc:2'], [10, 'misc:3'], [17, IDLE]]),
     fall: clip(KNOCKDOWN_TICKS, [[0, 'fall:1'], [2, 'fall:2'], [4, 'fall:3'], [7, 'fall:4'], [10, 'fall:5'], [13, DOWN]]),
     getup: clip(GETUP_TICKS, [[0, DOWN], [2, 'getup:1'], [5, 'getup:2'], [8, 'getup:3'], [11, 'getup:4'], [14, 'getup:5'], [17, 'getup:6'], [20, 'getup:7'], [23, IDLE]]),
@@ -44,18 +45,19 @@ export function guanyuClips(): MotionArt['clips'] {
     mountedwalk: clip(24, [[0, 'rider:0'], [6, 'rider:1'], [12, 'rider:2'], [18, 'rider:1']], true),
     dismount: clip(8, [[0, 'rider:7'], [4, 'jump:1'], [7, IDLE]]),
   } as MotionArt['clips']
-  for (const action of ['jab1', 'jab2', 'finisher', 'special', 'mountedsweep'] as const) {
-    const a = attackById(action === 'mountedsweep' ? 'mounted.sweep' : `gy.${action}`)
+  for (const action of ['jab1', 'jab2', 'finisher', 'special', 'mountedsweep', 'dismountedsweep'] as const) {
+    const a = attackById(action === 'mountedsweep' || action === 'dismountedsweep' ? 'mounted.sweep' : `gy.${action}`)
     const endActive = a.startup + a.active, duration = endActive + a.recover
     if (action === 'mountedsweep') {
       clips[action] = clip(duration, [[0, 'rider:0'], [2, 'rider:3'], [a.startup, 'rider:4'], [endActive, 'rider:5'], [duration - 4, 'rider:6']])
     } else {
+      const drawings = action === 'dismountedsweep' ? 'jab1' : action
       clips[action] = clip(duration, [
-        [0, IDLE], [Math.max(1, Math.floor(a.startup * 0.25)), `${action}:1`],
-        [Math.floor(a.startup * 0.5), `${action}:2`], [a.startup - 2, `${action}:3`],
-        [a.startup, `${action}:4`], [endActive, `${action}:5`],
-        [endActive + Math.floor(a.recover * 0.25), `${action}:6`],
-        [endActive + Math.floor(a.recover * 0.55), `${action}:7`], [duration - 3, IDLE],
+        [0, IDLE], [Math.max(1, Math.floor(a.startup * 0.25)), `${drawings}:1`],
+        [Math.floor(a.startup * 0.5), `${drawings}:2`], [a.startup - 2, `${drawings}:3`],
+        [a.startup, `${drawings}:4`], [endActive, `${drawings}:5`],
+        [endActive + Math.floor(a.recover * 0.25), `${drawings}:6`],
+        [endActive + Math.floor(a.recover * 0.55), `${drawings}:7`], [duration - 3, IDLE],
       ])
     }
   }
@@ -111,7 +113,7 @@ export function motionFrameForEntity(art: MotionArt, entity: MotionEntity): stri
     case 'walk': case 'fleeing': return sampleClip(art, 'walk', t)
     case 'attack': {
       const id = entity.attackId
-      if (id === 'mounted.sweep') return sampleClip(art, 'jab1', t) // dismount mid-swing
+      if (id === 'mounted.sweep') return sampleClip(art, 'dismountedsweep', t) // retain original hit window after losing horse
       const action = id?.slice(3)
       if (action === 'jab1' || action === 'jab2' || action === 'finisher') return sampleClip(art, action, t)
       return IDLE // Defensive unknown attack remains new art, not broken rig.
@@ -119,8 +121,10 @@ export function motionFrameForEntity(art: MotionArt, entity: MotionEntity): stri
     case 'jump': return sampleClip(art, 'jump', entity.airTicks ?? t)
     case 'jumpattack': {
       const a = attackById('gy.jumpkick'), air = entity.airTicks ?? t
-      if (t < a.startup) return 'jump:3'
-      if (t < a.startup + a.active && air < JUMP_DURATION - 5) return 'jump:4'
+      // Pressing attack does not restart the jump; follow the airborne pose
+      // during startup, especially when input arrives on descent.
+      if (t < a.startup) return sampleClip(art, 'jump', air)
+      if (t < a.startup + a.active) return 'jump:4' // visible strike must match every airborne active tick
       return air < JUMP_DURATION - 1 ? 'jump:5' : 'jump:6'
     }
     case 'special': return sampleClip(art, 'special', t)

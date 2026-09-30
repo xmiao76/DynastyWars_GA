@@ -22,6 +22,13 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-30 21:20 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
+
+- Code-only boundaryaudit,13newcontrolswithobservedfailuresbeforefix:idle/walkhitstoplanding,mountinterruptgroundtransitions,freeze-safedismountclock,lateairinputstartup,allactivekickticks/retractatcontact,midairfallkeepsairpose,brokensweepwindow,late-first-renderfallnotrestart. Noartgeneration;approvedregularpixels/core/otherfightersunchanged.
+- ActualCanvas/WebGLadversarialcaptures2/2plusnormalallactioncases4/4;reviewedair-hit,late-kick,landing-walk,landing-mountstrips. Restartchecksnewidle. Productiongatecaughtlate-renderfallregression,addedcontrolandfixedsamplerinsteadofweakeningexpecteddownframe.
+- Checks:lint0;motion/action/boundary28/28;full706passed/1failed/6skipped(onlybaselineG6);typecheck6baselineUIR19errors;combinedbrowser6/6andfinalrepeat2/2;vision5/5;prodbuild6/6. Evidenceartifacts/wholeframe/actions/transitions;reportupdated.
+- Remain:weapon/clothdetailvariation/opponentgrabmatchingandownernormal-speedacceptance;goalstillactive,noall-smoothclaim. Thisiscontinuationofattempt2,notadditionalwhole-sheetretry. No push/deploy/infrastructurechanges.
+
 ### 2026-09-30 20:05 UTC - GYM-1 (attempt 2 - IN_PROGRESS)
 
 - Owner approvesregularmovement,requests allactionsespeciallyjump/fall. Preservedoriginalatlas/meta byte-identical; nootherfighters/core/schedulerchanges.

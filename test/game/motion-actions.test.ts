@@ -24,7 +24,7 @@ describe('all-action Guan Yu coverage and continuity', () => {
     const a = attackById('gy.jumpkick')
     for (let t = 0; t < a.startup + a.active; t++) {
       const frame = motionFrameForEntity(art, { ...base, state: 'jumpattack', stateTick: t, airTicks: t + 4 })
-      expect(frame).toBe(t < a.startup ? 'jump:3' : 'jump:4')
+      expect(frame).toBe(t < a.startup ? motionFrameForEntity(art, { ...base, state: 'jump', airTicks: t + 4 }) : 'jump:4')
     }
     expect(motionFrameForEntity(art, { ...base, state: 'jumpattack', stateTick: 24, airTicks: 30 })).toBe('jump:5')
   })

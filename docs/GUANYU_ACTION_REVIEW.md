@@ -79,6 +79,24 @@ The updated actual knockdown strip shows **upright → forward diagonal → near
 - The still-image tools support contact-strip inspection, not native video playback. Actual videos are supplied for owner normal-speed review. Frame-strip review is not misrepresented as human video inspection.
 - Software headless WebGL recordings run slower than the normal-speed Canvas capture; they are renderer sanity evidence, not a smoothness proof.
 
+## Transition audit follow-up (same owner-requested pass)
+
+A code-only adversarial review found and pinned additional boundary defects before fixing them. Both art atlases remain unchanged:
+
+- Landing keeps one freeze-safe clock across `idle ↔ walk`; hit-stop followed by movement no longer skips landing compression.
+- Mounting immediately interrupts a ground landing or grab-release transition. A broken mount's dismount clock starts on presentation time rather than delayed world ticks.
+- Aerial attack startup follows the actual jump phase, so late input cannot snap a descending fighter to an apex tuck.
+- Every airborne active kick tick still displays the kicking drawing. If active until floor contact, a one-tick retraction precedes landing compression; no early cosmetic retraction hides an actual live strike.
+- Midair knockdown briefly retains the visible airborne silhouette, then goes directly into tipping frames rather than straightening into a standing recoil.
+- A mounted sweep that loses its horse retains the mounted attack's exact active window (8–13), using existing standing sweep artwork, rather than shortening it to jab1's timing.
+- A late first render samples the already-elapsed fall; it cannot restart impact or visual height after the fighter should be down.
+
+Thirteen unit controls include failing-before negative cases. Two Canvas/WebGL boundary tests drive the actual scene with explicit test-only states and capture screenshots; they also restart the scene and verify new idle without history leakage. These are adversarial transition checks, not a substitute for normal input recordings. Reviewed actual `air-hit`, `late-kick`, `landing-walk` and `landing-mount` contact strips. The observed midair sequence now starts with the same tucked silhouette, holds under hit-stop, tips backward and descends; late kick retains descent on input, strikes, retracts and compresses. The horse itself is intentionally absent in the mounting boundary injection, so that strip verifies pose selection, not complete saddle composition.
+
+Follow-up verification: motion/action/boundary unit total **28/28**; full units **706 passed, 1 baseline G6 failure, 6 skipped**; combined action/boundary browser **6/6** and final boundary repeat **2/2**; lint passed; typecheck retains only six baseline UIR-19 errors; vision **5/5**; production **6/6**, unchanged expectations. The production test caught the late-render fall bug and was not weakened.
+
+Remaining detail consistency and opponent grab matching are still open. No new image generations, core changes or other fighter edits in this audit. Evidence: `artifacts/wholeframe/actions/transitions/`, plus refreshed all-action recordings.
+
 ## Verification
 
 - Lint: passed.
