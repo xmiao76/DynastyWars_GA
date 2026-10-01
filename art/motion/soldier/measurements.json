@@ -1,0 +1,295 @@
+{
+  "fighter": "soldier",
+  "method": {
+    "head": "top-band content width of upright figures (bbox w/h <= 0.85); prone/tumbled frames unverified",
+    "blade": "steel-pixel mask (luma > 168, chroma < 28) extent diagonal; frames with the blade occluded or touching the content edge are unverified",
+    "scale": 0.662952,
+    "density": 2
+  },
+  "headSize": {
+    "n": 8,
+    "mean": 46.38,
+    "min": 38,
+    "max": 94,
+    "spreadPct": 120.75
+  },
+  "weaponLength": {
+    "n": 11,
+    "mean": 279.27,
+    "min": 182,
+    "max": 391,
+    "spreadPct": 74.84
+  },
+  "frames": [
+    {
+      "id": "locomotion:0",
+      "aliasedFrom": null,
+      "head": 39,
+      "blade": 300
+    },
+    {
+      "id": "locomotion:1",
+      "aliasedFrom": null,
+      "head": 39,
+      "blade": 305
+    },
+    {
+      "id": "locomotion:2",
+      "aliasedFrom": null,
+      "head": 39,
+      "blade": 289
+    },
+    {
+      "id": "locomotion:3",
+      "aliasedFrom": null,
+      "head": 39,
+      "blade": 292
+    },
+    {
+      "id": "locomotion:4",
+      "aliasedFrom": null,
+      "head": 39,
+      "blade": 268
+    },
+    {
+      "id": "locomotion:5",
+      "aliasedFrom": null,
+      "head": 38,
+      "blade": 207
+    },
+    {
+      "id": "locomotion:6",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "locomotion:7",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "locomotion:8",
+      "aliasedFrom": "locomotion:0",
+      "head": 38,
+      "blade": 296
+    },
+    {
+      "id": "swing:0",
+      "aliasedFrom": "locomotion:0",
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:1",
+      "aliasedFrom": null,
+      "head": 94,
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:2",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:3",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:4",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:5",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:6",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:7",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "swing:8",
+      "aliasedFrom": "locomotion:0",
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:0",
+      "aliasedFrom": "locomotion:0",
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:1",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:2",
+      "aliasedFrom": null,
+      "head": 44,
+      "blade": 283
+    },
+    {
+      "id": "hitstun-held:3",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:4",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:5",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:6",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:7",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "hitstun-held:8",
+      "aliasedFrom": "locomotion:0",
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:0",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:1",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:2",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:3",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:4",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:5",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:6",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:7",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "fall-thrown:8",
+      "aliasedFrom": "fall-thrown:3",
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "getup-death:0",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": 391
+    },
+    {
+      "id": "getup-death:1",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "getup-death:2",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": 310
+    },
+    {
+      "id": "getup-death:3",
+      "aliasedFrom": "fall-thrown:3",
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "getup-death:4",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "getup-death:5",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": "unverified"
+    },
+    {
+      "id": "getup-death:6",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": 245
+    },
+    {
+      "id": "getup-death:7",
+      "aliasedFrom": null,
+      "head": "unverified",
+      "blade": 182
+    },
+    {
+      "id": "getup-death:8",
+      "aliasedFrom": "locomotion:0",
+      "head": 40,
+      "blade": 287
+    }
+  ]
+}

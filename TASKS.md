@@ -80,9 +80,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   deterministic pack: manifest 7f40bf2f, 45 frames (37 unique + 8 aliases),
   one 2003x1369 page, decoded 7.45 MiB <= 16 MiB, 0 budget errors ->
   PROVENANCE.md; toolkit fit/alias support + 26 unit tests green.
-  Remaining: head-size/weapon-length measurements (<=10% spread, unknowns
-  unverified), offline continuity review citing frame IDs/crops,
-  acceptance checklist. Attempt 1 was tooling-BLOCKED - diagnosis +
+  Remaining: acceptance 4 ONLY - comparable visible head-size and fully
+  observable weapon-length spread <=10% needs producer/owner landmark
+  confirmation (7 fully-observable blade frames measure 7.5% spread, within
+  10%; occluded/foreshortened/head proxies recorded `unverified` per
+  contract - unknowns cannot establish compliance; 45 manual-review crops
+  ready in artifacts/motion/soldier/landmarks/, evidence in
+  CONTINUITY.md/measurements.json). All other acceptance items checked.
+  Attempt 1 was tooling-BLOCKED - diagnosis +
   fingerprint-review protocol in [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).

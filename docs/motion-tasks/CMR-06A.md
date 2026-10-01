@@ -29,13 +29,13 @@ At most **8 image requests total for Wei Soldier**, shared across CMR-06A/CMR-06
 
 ## Acceptance
 
-- [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
-- [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
-- [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
-- [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
-- [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
-- [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
+- [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses. (5 sequences x 9 = 45 displayed frames covering idle/approach/retreat/walk/stop, `soldier.swing` 14/4/20, 18-tick hitstun, held/escape, fall/impact/down, thrown flight/impact, getup, dying/dead; 37 unique drawings + 8 shared-bookend aliases; no legacy parts anywhere.)
+- [x] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts. (Identity locked from the two originals in IDENTITY.md; every sheet passed a fingerprint-verified review: one rigid straight sword, wrapped fingers, no extra limbs/forks; stable 3/4 front-right camera and upper-left key light.)
+- [x] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels. (One uniform pack scale 0.662952 with cell-centre/ground anchors; ground error 0 by construction - every content bottom is placed on the ground line; mechanical edge-cut check 0/45; alpha-only glow/speck cleanup with the near-black costume preserved by unit test.)
+- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance. (PARTIAL: the 7 visually fully-observable blade frames measure 283..305px = 7.5% spread, within 10%; occluded/foreshortened/contaminated frames and ALL head-size proxies are recorded `unverified` (CONTINUITY.md, measurements.json, 45 manual-review crops in artifacts/motion/soldier/landmarks/). Direction steps ≤60° with intervening drawings reviewed. Needs producer/owner landmark confirmation before compliance.)
+- [x] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config. (page `soldier-1` 2003x1369; decoded 7,809,280 B = 7.45 MiB; manifest sha256 `7f40bf2f...` identical across re-runs; per-frame restored/content hashes, pivots, registration.json, PROVENANCE.md with prompts/references/verdicts.)
+- [x] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable. (CONTINUITY.md cites every sequence's frame IDs and transitions; bookends byte-identical by alias: guard = locomotion:0, down = fall-thrown:3.)
+- [x] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A. (No `src/game` change; the guanyu RGBA round-trip pin stays green; no MOTION_PACKS registration - CMR-06B.)
 
 ## Checks/handoff
 

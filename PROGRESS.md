@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 18:52 UTC - CMR-06A (attempt 2, IN_PROGRESS - measurements + continuity review; acceptance 4 needs landmark confirmation)
+
+- Status before: CMR-06A IN_PROGRESS attempt 2 (pack prepared at 601ffba;
+  remaining was measurements + continuity review + checklist).
+- Work completed: (1) measurement pass `scripts/measure-soldier.mjs` over
+  the 45 fitted frames with honest unknowns - weapon length (steel-mask
+  bbox diagonal, angle-independent) measures 283..305px on the 7 visually
+  fully-observable unoccluded frames = 7.5% spread (WITHIN 10%); frames
+  with occlusion/foreshortening/armour-steel contamination measure
+  182..391 and are recorded `unverified`; the head-size top-band proxy is
+  method-contaminated (weapon tips read as narrow bands) and is recorded
+  `unverified` in full. 45 manual-review landmark crops exported to
+  artifacts/motion/soldier/landmarks/ plus measurements.json. (2) Offline
+  continuity review `art/motion/soldier/CONTINUITY.md` citing exact frame
+  IDs per sequence (locomotion:0..8, swing:0..8, hitstun-held:0..8,
+  fall-thrown:0..8, getup-death:0..8), transitions, <=60deg direction
+  steps with intervening drawings, and the shared bookends byte-identical
+  by alias (guard=locomotion:0, down=fall-thrown:3). (3) CMR-06A acceptance
+  checklist filled: 6/7 checked; item 4 (head/weapon spread <=10%) left
+  UNCHECKED - per contract "Unknowns cannot establish compliance", it needs
+  producer/owner landmark confirmation from the 45 crops.
+- Files changed: scripts/measure-soldier.mjs, art/motion/soldier/
+  {CONTINUITY.md,measurements.json}, docs/motion-tasks/CMR-06A.md,
+  TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; the 601ffba unit snapshot
+  stands (808 passed | 1 failed known G6 | 6 skipped) - this tick changed
+  no library code.
+- Result: attempt 2 has produced a complete, deterministic, in-budget pack;
+  exactly one acceptance item remains, and it is evidence-limited, not
+  work-limited.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: acceptance 4 - producer/owner landmark
+  confirmation of head sizes and full weapon extents (45 crops ready).
+  If confirmed <=10%, the task closes and CMR-06B starts; if a length drift
+  is confirmed real, the budget holds 3 repair requests.
+- Next recommended task: producer landmark pass on
+  artifacts/motion/soldier/landmarks/ (or owner confirmation), then
+  CMR-06A DONE -> CMR-06B.
+
 ### 2026-10-01 18:35 UTC - CMR-06A (attempt 2, IN_PROGRESS - registration/fit + pack prepared)
 
 - Status before: CMR-06A IN_PROGRESS attempt 2 (authoring complete at
