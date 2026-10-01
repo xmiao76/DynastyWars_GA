@@ -10,13 +10,19 @@ transparent background, no glow/shadow/text/panels/effects, full helmet
 finial + boots + blade inside every cell.
 
 Budget ledger (`art/motion/generation-budget.json`, authoritative): mook cap
-8, two whole-sheet candidates per sequence. Used 2 (see slips below), 6
-remaining.
+8, two whole-sheet candidates per sequence. Used 5 (one slip recorded
+below), 3 remaining.
 
 | seq | candidate | sha256 | verdict |
 | --- | --- | --- | --- |
 | locomotion | locomotion-candidate-1.png | `cf731091cd4ed6cdea58e0bb0fd655345db109109085100bf3979eb56a7aee4c` | ACCEPT - 9/9 figures in 9 cells (idle, walk contact/pass/far-leg/pass2, stop, retreat x2, guard bookend); identity/sword/scale consistent; full boots/blade/finial in frame; mechanical grid check + fingerprint-verified visual review both pass |
 | swing | swing-candidate-1.png | `7c9c01a75adc8537c33ccacc4dd89d2f85b3a95a93c08bb638394e0bf90a1661` | ACCEPT - 9/9 cells (guard, windup, startup, strike x2, recover x3, guard bookend = cell 1); sword length constant, no forks; direction steps <= 60 deg with intervening drawings; 3 bbox-overlap suspects = wide sweep crossing nominal territory (reviewed, not merges: component count is 9/9) |
+| hitstun-held | hitstun-held-candidate-1.png | `626255b0f0e9ea1363398b1ed06df0512f957daf882ed38de2e251b779ad7d21` | ACCEPT - 9/9 cells (guard, hitstun recoil/fold/stagger, held upright x2 with both arms pinned and sword still gripped, escape shove/reset, guard bookend); coherent progression, rigid sword, no forks/mittens/extra limbs |
+| fall-thrown | fall-thrown-candidate-1.png | `99b596d3bb87edf2340ff30f72663a80f2924ad2e230b8de91c4e90ec2a689d8` | ACCEPT - 9/9 cells (topple, airborne, impact, DOWN bookend, thrown tumble x2, side impact x2, DOWN bookend); prep note: the two DOWN cells drifted slightly -> enforce shared down bookend by mapping position 9 to cell 4's pixels |
+| getup-death | getup-death-candidate-1.png | `9571e79002a88deeefed85e88cb81b1e5d26fe4352a1d7829a0f81d464fce43a` | ACCEPT - 9/9 cells (elbow push-up, kneel, crouch, DOWN bookend, fatal jolt, knee collapse, crumple, dead on side, guard bookend); prep note: shared guard/down bookends are drawn independently on each sheet -> enforce by mapping every bookend position to ONE reference cell across the pack |
+
+All five candidates: mechanical grid checks pass (9 figures / 9 cells /
+no sheet-edge cuts) and the reviews were fingerprint-verified reads.
 
 ## Process slips recorded (not hidden)
 
@@ -33,7 +39,9 @@ pixels were cross-checked against a mechanical fingerprint of the file
 (dims/aspect/alpha share) before any verdict. One locomotion preview was
 mispaired and discarded; the accepted verdicts rest on verified reads.
 
-## Remaining budget plan (6 left)
+## Remaining budget plan (3 left)
 
-3 whole-sheet candidates (hitstun-held, fall-thrown, getup-death) at one
-request each = 3, leaving 3 for targeted repairs/second candidates.
+Authoring is COMPLETE at 5/8 (five whole-sheet candidates, one per
+sequence, all accepted on first candidate). The 3 remaining requests are
+reserved for targeted repairs / second candidates during preparation and
+review.

@@ -22,6 +22,41 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 17:58 UTC - CMR-06A (attempt 2, IN_PROGRESS - authoring complete, 5/5 sheets accepted)
+
+- Status before: CMR-06A IN_PROGRESS attempt 2 (identity lock + sheets 1-2
+  accepted at a7f919a; budget 2/8).
+- Work completed: authoring phase CLOSED - sheets 3-5 reserved, generated,
+  grid-checked and fingerprint-verified in review, all accepted on their
+  first candidate: hitstun-held (recoil/fold/stagger, upright-held with
+  both arms pinned and sword still gripped, escape shove/reset), fall-thrown
+  (topple/airborne/impact, DOWN bookend, thrown tumbles x2, side impacts x2)
+  and getup-death (elbow push/kneel/crouch, DOWN bookend, fatal jolt/knee
+  collapse/crumple/dead, guard bookend). All five sheets: 9 figures in 9
+  cells, zero sheet-edge cuts, identity/sword/scale consistent, no forks,
+  mittens or extra limbs, distinct drawings. Prep notes recorded: shared
+  guard/down bookends are drawn independently per sheet (and the fall
+  sheet's two DOWN cells drifted) -> preparation will enforce ONE reference
+  cell for each bookend across the pack.
+- Budget: 5/8 used (one earlier retroactive-reserve slip recorded), 3
+  reserved for targeted repairs.
+- Files changed: art/motion/soldier/{hitstun-held-candidate-1.png,
+  fall-thrown-candidate-1.png, getup-death-candidate-1.png,PROVENANCE.md},
+  art/motion/generation-budget.json, TASKS.md, PROGRESS.md. No code changed
+  this tick; the a7f919a gates stand (unit 805 passed | 1 failed known G6 |
+  6 skipped).
+- Verification: mechanical grid checks (9 figures / 9 cells / no edge cuts
+  per sheet) + fingerprint-verified visual reviews for all three sheets.
+- Result: attempt 2 on plan; authoring done within budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: the per-sheet registration/fit step (uniform
+  scale + recorded translations into the canonical box; shared guard/down
+  bookend enforcement; trim within the box), pack preparation through the
+  CMR-04 toolkit + measurements (head-size/weapon-length spread <=10%,
+  unknowns unverified), offline continuity review citing frame IDs/crops,
+  acceptance checklist. No blocker.
+- Next recommended task: continue CMR-06A (registration/fit + preparation).
+
 ### 2026-10-01 17:45 UTC - CMR-06A (attempt 2, IN_PROGRESS - identity lock + sheets 1-2 accepted)
 
 - Status before: owner reset CMR-06A to TODO ("reset CMR-06A to TODO then

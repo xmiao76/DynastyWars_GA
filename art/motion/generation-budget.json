@@ -30,10 +30,13 @@
     "soldier": {
       "role": "mook",
       "cap": 8,
-      "used": 2,
+      "used": 5,
       "sheetCandidates": {
         "locomotion": 1,
-        "swing": 1
+        "swing": 1,
+        "hitstun-held": 1,
+        "fall-thrown": 1,
+        "getup-death": 1
       }
     }
   }

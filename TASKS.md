@@ -74,17 +74,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 2, owner reset 2026-10-01: identity lock
-  DONE (both masters, fingerprint-verified reads -> IDENTITY.md); sheets 1-2
-  ACCEPTED (locomotion + swing, 9/9 cells each, grid-checked + verified
-  reviews -> PROVENANCE.md); budget 2/8 used; toolkit extraction policy
-  corrected (figures may straddle nominal grid lines; merges fail the count
-  check; bbox overlaps are review hints) with 23 unit tests green.
-  Remaining: sheets 3-5 (hitstun-held, fall-thrown, getup-death), the
+  DONE (IDENTITY.md); AUTHORING COMPLETE - 5/5 sheets ACCEPTED on first
+  candidates (locomotion, swing, hitstun-held, fall-thrown, getup-death;
+  9/9 cells each, mechanical grid checks + fingerprint-verified reviews;
+  budget 5/8 used, 3 reserved for repairs -> PROVENANCE.md); toolkit
+  extraction policy corrected with 23 unit tests green. Remaining: the
   per-sheet registration/fit step (uniform scale + recorded translations
-  into the canonical box, then trim), pack preparation + measurements
-  (head/weapon spread <=10%), offline continuity review. Attempt 1 was
-  tooling-BLOCKED - diagnosis + mandatory fingerprint-review protocol in
-  [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
+  into the canonical box, shared guard/down bookend enforcement, then
+  trim), pack preparation + measurements (head/weapon spread <=10%),
+  offline continuity review citing frame IDs, acceptance checklist.
+  Attempt 1 was tooling-BLOCKED - diagnosis + fingerprint-review protocol
+  in [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
