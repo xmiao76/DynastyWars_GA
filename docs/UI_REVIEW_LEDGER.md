@@ -132,7 +132,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 
-### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge+ground verified 2026-09-29; embers filed UIR-20
+### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge+ground verified 2026-09-29; embers fixed 790c2e5 (unverified)
 - UIR-8 proved it for the marks strip and fixed it there: a 512x128 texture on a 1064x64 tileSprite with tileScale 1 shows texture rows 0..64 only (tile rows 0..32) - hulls, water, decks and banner bottoms were cut game-wide. Evidence: artifacts/marks-only.png (marks isolated: sails + upper masts only), the live texture readback (512x128, 21640 opaque px over rows 36..127), GameScene.ts tileSprite setup. The sky, ridge, ground and ember layers use the identical bake pattern (clouds were never affected - they are scaled images, not tileSprites; the sky was fixed under UIR-9) (bakeLayer at RENDER_SCALE + tileScale 1) and are therefore cut the same way - the sky's sun (tile y176) and lower haze, and the bottom halves of the other layers, never display. Same fix shape as marks (tileScale 0.5), but it changes every screen's look, so it needs its own task with a full re-review (not folded into UIR-8).
 
 ## UIR batch 4 - FILED (2026-09-28; V-19 embers remainder, filed same pass)
