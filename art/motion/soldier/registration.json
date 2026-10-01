@@ -11,10 +11,10 @@
   "sheets": {
     "locomotion": {
       "guardHeight": 336,
-      "guardAltHeight": 333,
+      "guardAltHeight": 330,
       "downHeight": 333,
-      "maxContentHeight": 337,
-      "sha256": "cf731091cd4ed6cdea58e0bb0fd655345db109109085100bf3979eb56a7aee4c",
+      "maxContentHeight": 336,
+      "sha256": "ead7c8e83af2948ae6b38c7efd6a5a5975802b18e948793eecb9fbbde8bafec5",
       "scale": 0.662952
     },
     "swing": {
@@ -38,7 +38,7 @@
       "guardAltHeight": 177,
       "downHeight": 173,
       "maxContentHeight": 346,
-      "sha256": "99b596d3bb87edf2340ff30f72663a80f2924ad2e230b8de91c4e90ec2a689d8",
+      "sha256": "b0e2e9dd5a0247cc04223713b72da828cfa0946319e3627b4e7fdc191e5ff4a5",
       "scale": 0.662952
     },
     "getup-death": {
@@ -46,7 +46,7 @@
       "guardAltHeight": 344,
       "downHeight": 146,
       "maxContentHeight": 344,
-      "sha256": "9571e79002a88deeefed85e88cb81b1e5d26fe4352a1d7829a0f81d464fce43a",
+      "sha256": "1630825eea0dc3aab22de678f952f730ac1e5fe8618104f7d61b7c7e5a2ac03d",
       "scale": 0.662952
     }
   },

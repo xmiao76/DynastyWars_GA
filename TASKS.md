@@ -73,17 +73,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 2 continues - owner directive 2026-10-01:
-  identify problem pictures, redraw, redo partial work. DONE this tick:
-  identified via a fingerprint-verified head-comparison sheet that head
-  sizes are CONSISTENT across all 37 drawings (helmet domes ~95-105px,
-  ~+/-5%) and the true blockers are 7 cells with occluded/foreshortened
-  swords (locomotion:4,5; fall-thrown:4,5; getup-death:0,6,7); drew 3
-  targeted repair sheets with the swords fully side-on in clear space
-  (budget 8/8 used -> PROVENANCE.md). NEXT: splice the repaired cells
-  (pose-matched rescale + placement), re-run prepare/measure, re-establish
-  acceptance 4 by measurement. Pack so far: manifest 7f40bf2f, 45 frames,
-  one 2003x1369 page, 7.45 MiB decoded, 6/7 acceptance.
+- Status: IN_PROGRESS (attempt 2 - owner directive executed: problem
+  pictures identified (7 occluded-sword cells; heads proved consistent
+  ~+/-5%), 3 repair sheets drawn (budget 8/8), repairs spliced in
+  (originals in previous/; 28 untouched drawings byte-identical), pack
+  RE-PREPARED deterministic (manifest f7f0fdd8, 45 frames, one 2003x1369
+  page, 7.58 MiB decoded, 0 budget errors; toolkit 26/26). Acceptance 4:
+  head half established (fixed-scale ruler comparison, +/-5%); weapon half
+  awaits the manual landmark READ of landmarks/sword-review-1..3.png (six
+  automated pixel-metric families documented unreliable on this painting
+  style). If that read confirms <=10%, CMR-06A closes.
   Evidence: [PROVENANCE.md](art/motion/soldier/PROVENANCE.md) /
   [CONTINUITY.md](art/motion/soldier/CONTINUITY.md) /
   [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))

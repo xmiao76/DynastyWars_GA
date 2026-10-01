@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 21:58 UTC - CMR-06A (attempt 2, IN_PROGRESS - repairs spliced, pack re-prepared; acceptance 4 weapon half = manual read)
+
+- Status before: 3 repair sheets drawn (5b8353b); splice + re-prep pending.
+- Work completed: (1) SPLICE - `scripts/splice-repairs.mjs` replaced
+  exactly the 7 problem cells (originals in previous/; 28 untouched
+  drawings byte-identical): pose-matched uniform rescale, offscreen pose
+  rendering with part-bridging (detached swords meet the hand), and a
+  pixel-exact disjointness search for the wide tumbles (right-to-left
+  placement order). (2) FIT MODEL - the registration fit gained the
+  accepted translation model (one scale per sheet + recorded per-frame
+  translation; drawings land centred in the canonical box, ground contact
+  on the ground line); 26/26 toolkit tests green. (3) PACK RE-PREPARED
+  deterministic: manifest f7f0fdd8, 45 frames, one 2003x1369 page,
+  7,943,600 B = 7.58 MiB <= 16 MiB, 0 budget errors. (4) ACCEPTANCE-4
+  EVIDENCE - head half established (fixed-scale ruler comparison of all 37
+  drawings: helmet domes ~95-105 sheet-px, +/-5%); weapon half: all swords
+  now side-on in clear space, three fixed-scale ruler sheets generated
+  (landmarks/sword-review-1..3.png) for the manual landmark read; six
+  automated pixel-metric families documented as UNRELIABLE on this painting
+  style (the blade highlight covers different portions per pose:
+  128..182px measured on the same rigid sword).
+- Files changed: scripts/{splice-repairs.mjs,measure-soldier.mjs,sword-
+  review-sheet.mjs,motion-pipeline.mjs,motion-pipeline.d.mts},
+  art/motion/soldier/{PROVENANCE.md,previous/...}, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean (3 unused-var fixes);
+  motion-pipeline 26/26; the pack's determinism double-run verified.
+- Result: the owner's directive is executed end to end (identify, redraw,
+  redo partial work); the pack is repaired, deterministic and in-budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: the numeric weapon-length spread verdict is a
+  MANUAL LANDMARK READ of landmarks/sword-review-1..3.png (the contract's
+  "explicit manual landmark review" path; the head half is already
+  within 10%). If that read confirms <=10%, CMR-06A closes and CMR-06B
+  starts. No tooling blocker remains.
+- Next recommended task: manual landmark read of the three sword sheets ->
+  acceptance 4 -> CMR-06A DONE.
+
 ### 2026-10-01 21:10 UTC - CMR-06A (attempt 2, IN_PROGRESS - owner directive: problem pictures identified + redrawn)
 
 - Status before: CMR-06A BLOCKED on acceptance 4; owner cleared the block

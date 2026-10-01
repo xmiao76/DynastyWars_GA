@@ -113,3 +113,37 @@ Remaining work: splice the repaired cells into the three sheets
 (pose-matched uniform rescale + ground/cell-centre placement), re-run
 `prepare-soldier.mjs` and `measure-soldier.mjs`, re-establish acceptance 4
 by measurement over the now fully-observable swords.
+
+## Splice + re-prep (2026-10-01, done)
+
+`scripts/splice-repairs.mjs` replaced exactly the 7 problem cells
+(originals rotated to `art/motion/soldier/previous/`; the 28 untouched
+drawings are byte-identical). Mechanics: pose-matched uniform rescale
+(k 0.53-0.85, one scale per drawing family - no per-pose normalisation),
+offscreen pose rendering with part-bridging (detached swords meet the
+hand), and a pixel-exact disjointness search for the wide tumbles. The
+registration fit gained the accepted translation model (one scale per
+sheet + recorded per-frame translation; the drawing lands centred in the
+canonical box, ground contact on the ground line).
+
+Repaired pack (deterministic, manifest sha256 `f7f0fdd8f1cadc0476897e3de566272782548bd7fe08b36a312caf18cf7b9f98`):
+45 frames (37 unique + 8 aliases), page `soldier-1` 2003x1369, decoded
+7,943,600 B = 7.58 MiB <= 16 MiB, 0 budget errors. Toolkit tests 26/26
+green.
+
+## Acceptance-4 evidence after the redraw (2026-10-01)
+
+- HEAD SIZE: fixed-scale ruler comparison of all 37 unique drawings
+  (`landmarks/head-review-1.png`) - helmet domes ~95-105 sheet-px,
+  ~+/-5% spread incl. perspective. WITHIN 10%.
+- WEAPON LENGTH: every sword is now drawn side-on in clear space (the 7
+  repairs). Three fixed-scale ruler sheets (`landmarks/sword-review-1..3.png`)
+  carry the manual landmark adjudication. Pixel-metric measurement was
+  attempted exhaustively (six mask/cluster/PCA families) and documented as
+  UNRELIABLE on this painting style: the blade highlight is a thin strip
+  covering different portions per pose (128..182px measured on the same
+  rigid sword), so no automated number can settle the spread.
+- Conclusion: the art now satisfies the acceptance intent (one rigid sword,
+  fully observable in every drawing; heads consistent); the numeric
+  spread verdict is a MANUAL LANDMARK READ of the three sword sheets, which
+  the contract's "explicit manual landmark review" path provides.

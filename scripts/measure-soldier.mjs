@@ -49,62 +49,77 @@ function figureAt(im, cellIndex) {
 }
 
 /**
- * Steel-mask clusters: the rigid blade is always the LARGEST steel cluster
- * (helmet and armour fittings are smaller); the helmet is the TOPMOST
- * cluster of an upright figure. Cluster separation removes the
- * armour-steel contamination of a single bbox; a blade that measures short
- * is occluded/foreshortened (the weapon is rigid by identity lock).
+ * Observable weapon length: dilate-then-cluster the bright mask so painted
+ * shading fragments of one blade unite; the longest cluster's extent is
+ * the measurement. Unknowns (no blade band found) stay unverified.
  */
-function steelClusters(im, c) {
+function bladeExtent(im, c) {
   const w = im.width
-  const seen = new Set()
   const isSteel = (x, y) => {
     const k = (y * w + x) * 4
     const r = im.data[k], g = im.data[k + 1], b = im.data[k + 2], a = im.data[k + 3]
     if (a < 200) return false
     const hi = Math.max(r, g, b), lo = Math.min(r, g, b)
-    // Painted blade steel spans highlights AND midtones (130..240 luma);
-    // the dark iron helmet (<= ~110 luma) stays out.
     return hi > 130 && hi - lo < 40
   }
-  const out = []
+  // The painted blade's highlight is a thin strip that shading can split
+  // lengthwise. DILATE the mask before clustering so the fragments of one
+  // blade unite; measure the original pixels' extent of the LONGEST
+  // cluster. Unrelated strips (boots, fittings) stay separate clusters.
+  const bw = c.x1 - c.x0 + 1
+  const bh = c.y1 - c.y0 + 1
+  const mask = new Uint8Array(bw * bh)
   for (let y = c.y0; y <= c.y1; y++) {
     for (let x = c.x0; x <= c.x1; x++) {
-      const key = y * w + x
-      if (seen.has(key) || !isSteel(x, y)) continue
-      seen.add(key)
-      const stack = [[x, y]]
-      let x0 = x, x1 = x, y0 = y, y1 = y, area = 0
-      while (stack.length) {
-        const [qx, qy] = stack.pop()
-        area++
-        if (qx < x0) x0 = qx
-        if (qx > x1) x1 = qx
-        if (qy < y0) y0 = qy
-        if (qy > y1) y1 = qy
-        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
-          const nx = qx + dx, ny = qy + dy
-          const nkey = ny * w + nx
-          if (nx < c.x0 || nx > c.x1 || ny < c.y0 || ny > c.y1) continue
-          if (seen.has(nkey) || !isSteel(nx, ny)) continue
-          seen.add(nkey)
-          stack.push([nx, ny])
-        }
-      }
-      out.push({ x0, x1, y0, y1, area })
+      if (isSteel(x, y)) mask[(y - c.y0) * bw + (x - c.x0)] = 1
     }
   }
-  return out
-}
-
-function bladeExtent(im, c) {
-  const clusters = steelClusters(im, c)
-  if (clusters.length === 0) return null
-  const blade = clusters.reduce((a, b) => (b.area > a.area ? b : a))
-  const L = Math.hypot(blade.x1 - blade.x0 + 1, blade.y1 - blade.y0 + 1)
-  const meanW = blade.area / L
-  if (blade.area < 200 || meanW > 22) return null // not blade-shaped
-  return Math.round(L)
+  const dil = new Uint8Array(bw * bh)
+  for (let y = 0; y < bh; y++) {
+    for (let x = 0; x < bw; x++) {
+      if (!mask[y * bw + x]) continue
+      for (let dy = -6; dy <= 6; dy++) {
+        for (let dx = -6; dx <= 6; dx++) {
+          const nx = x + dx
+          const ny = y + dy
+          if (nx >= 0 && ny >= 0 && nx < bw && ny < bh) dil[ny * bw + nx] = 1
+        }
+      }
+    }
+  }
+  const seen = new Uint8Array(bw * bh)
+  let best = 0
+  for (let y = 0; y < bh; y++) {
+    for (let x = 0; x < bw; x++) {
+      const s = y * bw + x
+      if (seen[s] || !dil[s]) continue
+      seen[s] = 1
+      const stack = [s]
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+      while (stack.length) {
+        const q = stack.pop()
+        const qx = q % bw
+        const qy = (q / bw) | 0
+        if (mask[q]) {
+          if (qx < x0) x0 = qx
+          if (qx > x1) x1 = qx
+          if (qy < y0) y0 = qy
+          if (qy > y1) y1 = qy
+        }
+        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+          const nx = qx + dx
+          const ny = qy + dy
+          if (nx < 0 || ny < 0 || nx >= bw || ny >= bh) continue
+          const nkey = ny * bw + nx
+          if (seen[nkey] || !dil[nkey]) continue
+          seen[nkey] = 1
+          stack.push(nkey)
+        }
+      }
+      if (x1 >= x0) best = Math.max(best, Math.hypot(x1 - x0 + 1, y1 - y0 + 1))
+    }
+  }
+  return best >= 120 ? Math.round(best) : null
 }
 
 /** Helmet/face width: topmost SKIN cluster of an upright figure (face size). */
@@ -230,6 +245,7 @@ writeFileSync(`${SRC}/measurements.json`, `${JSON.stringify(report, null, 2)}\n`
 console.log('head-size (helmet width):', JSON.stringify(headSpread))
 console.log('weapon-length (all measurable):', JSON.stringify(bladeSpread))
 console.log('weapon-length (FULL-VIEW frames only):', JSON.stringify(bladeFull))
+console.log('blade frames:', blades.filter((e) => typeof e.value === 'number').map((e) => `${e.id}=${e.value}`).join(' '))
 console.log('frames measured:', rows.length, '| unverified head:', rows.filter((r) => r.head === 'unverified').length, '| unverified blade:', rows.filter((r) => r.blade === 'unverified').length)
 const ok = headSpread.spreadPct !== undefined && headSpread.spreadPct <= 10 && bladeFull.spreadPct !== undefined && bladeFull.spreadPct <= 10 && bladeFull.n === FULL_VIEW.length
 console.log(ok ? 'ACCEPTANCE-4 ESTABLISHED (spreads <= 10% on observable evidence)' : 'ACCEPTANCE-4 NOT ESTABLISHED')

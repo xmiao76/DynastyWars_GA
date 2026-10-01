@@ -243,11 +243,11 @@ export function trimCell(frame) {
 }
 
 /**
- * Registration fit: ONE uniform scale per sheet plus a translation anchored
- * on the drawing's cell centre (horizontal) and the figure's ground contact
- * (vertical). Never a per-pose silhouette normalisation; the box's ground
- * line and centre are the only targets. `frame.content` must be BOX-space
- * (cell-relative) for trimCell.
+ * Registration fit: ONE uniform scale per sheet (never per-pose) plus a
+ * recorded per-frame translation. Horizontal: the drawing lands centred in
+ * the canonical box (translation only - the accepted "one scale per sheet
+ * with translations" model). Vertical: the figure's ground contact lands on
+ * the box's ground line. No silhouette-driven rescaling ever.
  */
 export function fitOf(frame, registration, box) {
   const scale = registration.scale ?? 1
@@ -255,7 +255,7 @@ export function fitOf(frame, registration, box) {
   const targetCx = (box.width * DENSITY) / 2
   return {
     scale,
-    tx: targetCx - scale * (frame.cell.w / 2),
+    tx: targetCx - scale * (frame.content.w / 2) - scale * (frame.content.x - frame.cell.x),
     ty: groundPx - scale * (frame.content.y - frame.cell.y + frame.content.h),
   }
 }
