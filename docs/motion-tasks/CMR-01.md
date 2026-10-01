@@ -1,6 +1,6 @@
 # CMR-01 — Freeze the reference and inventory the cast
 
-- Queue status: TODO; attempts start at zero.
+- Queue status: DONE (attempt 1, 2026-10-01; verified same day) (live queue TASKS.md is authoritative).
 - Dependencies: none. Due producer review still runs before consumer selection.
 - Owner priority: first character-rollout consumer task, not new artwork production.
 
@@ -18,12 +18,12 @@
 
 ## Acceptance
 
-- [ ] Roster/state/attack/source matrix covers all17humanoids and horse with no invented reachable capability.
-- [ ] Guan Yu displayed pixels, pivots and exposures pinned and recoverable; original images preserved.
-- [ ] Resource and generation budgets from the shared contract recorded before any generation; no limits weakened.
-- [ ] Known baseline failures reproduced and exact evidence distinguished from new regressions.
-- [ ] Next specifications CMR-02…05 can retrieve the baseline/inventory without searching progress archives.
-- [ ] No new character frames, gameplay or runtime implementation in this task.
+- [x] Roster/state/attack/source matrix covers all17humanoids and horse with no invented reachable capability.
+- [x] Guan Yu displayed pixels, pivots and exposures pinned and recoverable; original images preserved.
+- [x] Resource and generation budgets from the shared contract recorded before any generation; no limits weakened.
+- [x] Known baseline failures reproduced and exact evidence distinguished from new regressions.
+- [x] Next specifications CMR-02…05 can retrieve the baseline/inventory without searching progress archives.
+- [x] No new character frames, gameplay or runtime implementation in this task.
 
 ## Verification and handoff
 

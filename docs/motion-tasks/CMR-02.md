@@ -1,6 +1,6 @@
 # CMR-02 — Generic per-kind motion profiles and playback
 
-- Queue status: TODO; attempts start at zero.
+- Queue status: DONE (attempt 1, 2026-10-01; verified same day) (live queue TASKS.md is authoritative).
 - Dependencies: CMR-01 DONE; no dependent task starts after a failed prerequisite.
 
 ## Read first
@@ -18,12 +18,12 @@
 
 ## Acceptance
 
-- [ ] Generic fixture profiles for non-Guan hero, melee enemy, boss and archer validate/sample their actual capabilities.
-- [ ] Every bound attack tick matches existing startup/active/recovery; zero-active and shooter cues tested.
-- [ ] Two simultaneous shooters/actors cannot steal each other's cues/history. Render batching/pause/hitstop cannot delay or multiply release.
-- [ ] Guan Yu reference hash/exposure comparison and all existing boundary controls unchanged, including accepted regular walk/combo timing.
-- [ ] Negative controls reject missing required clips, unknown IDs, malformed exposure ordering and wrong role bindings.
-- [ ] No new production character artwork, gameplay or core schema changes.
+- [x] Generic fixture profiles for non-Guan hero, melee enemy, boss and archer validate/sample their actual capabilities.
+- [x] Every bound attack tick matches existing startup/active/recovery; zero-active and shooter cues tested.
+- [x] Two simultaneous shooters/actors cannot steal each other's cues/history. Render batching/pause/hitstop cannot delay or multiply release.
+- [x] Guan Yu reference hash/exposure comparison and all existing boundary controls unchanged, including accepted regular walk/combo timing.
+- [x] Negative controls reject missing required clips, unknown IDs, malformed exposure ordering and wrong role bindings.
+- [x] No new production character artwork, gameplay or core schema changes.
 
 ## Verification
 
