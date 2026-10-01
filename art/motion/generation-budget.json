@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "totalCap": 200,
+  "sheetCandidatesPerSequence": 2,
+  "roleCaps": {
+    "hero": 16,
+    "boss": 12,
+    "mook": 8,
+    "horse": 4
+  },
+  "fighters": {
+    "guanyu": {
+      "role": "hero",
+      "cap": 0,
+      "used": 17,
+      "sheetCandidates": {
+        "walk": 3,
+        "jab1": 2,
+        "jab2": 1,
+        "finisher": 1,
+        "jump": 1,
+        "fall": 2,
+        "getup": 1,
+        "misc": 1,
+        "special": 1,
+        "rider": 1
+      },
+      "note": "Grandfathered pre-CMR usage (7 regular-sequence requests + 7 action sequence sheets + 3 focused edits = 17, see art/motion/PROVENANCE.md and ACTION_PROVENANCE.md; walk's 3 sheets and fall's 2 predate the two-candidate rule). No new Guan Yu generation is authorized: cap 0."
+    }
+  }
+}

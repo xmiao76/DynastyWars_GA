@@ -4775,3 +4775,33 @@ and the three pre-redesign enhancements - all DONE and verified)
         and relevant specs are green (lint 0, tsc 0, unit 646/646,
         e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: moving the plates, or changing font sizes except as needed.
+
+### UIR-2 - Boss WARNING banner must read above the boss rail
+
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
+- Source: UI review 2026-09-26, findings V-2 (S1)
+- Evidence: artifacts/review/latest/crops/stage1-boss-warning--banner.png -
+  only the "Li Dian 李典" subtitle shows; the red rail covers the WARNING
+  title completely (re-confirmed fresh).
+- Root cause: DEPTH - src/game/scenes/HudScene.ts:670-679 (banner) against
+  :325-326 (rail depth wins while both visible).
+- Affected screens: stage1-boss-warning (every boss entry).
+- Requirement: while the rail is visible, the banner title must be fully
+  visible. Either raise it above the rail or offset it below the rail.
+  Stage banners keep their current look.
+- Acceptance criteria:
+  - [x] A unit check shows the WARNING title's bounds do not
+        intersect the rail's bounds (test/game/hudlayout.test.ts UIR-2
+        block: the title band at BANNER.y + WARNING_BANNER_DROP clears
+        the rail band 40..58; a second pin keeps stage banners at
+        their current position). The fix drops the WARNING variant
+        below the rail instead of raising its depth - nothing gets
+        covered, honoring the banner's "never covers a persistent
+        readout" rule.
+  - [x] After npm run review:capture the after-crop shows the word
+        WARNING (FIXED - the after-crop shows WARNING fully readable, clear of the rail (before-capture confirmed broken: subtitle only)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 646/646,
+        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
+- Non-goals: the banner's art, or its hold duration.

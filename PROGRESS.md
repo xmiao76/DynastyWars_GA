@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 08:18 UTC - CMR-04 (attempt 1, generic prepare/provenance tooling - DONE)
+
+- Status before: CMR-04 TODO (first queue TODO after the producer pass;
+  CMR-03 DONE, review cadence clear at e3e70cf..HEAD = 0).
+- Work completed: generic fighter-parameterized preparation toolkit
+  `scripts/motion-pipeline.mjs` (validated id -> separated
+  `art/motion/<id>` + `artifacts/motion/<id>` trees with write-guard,
+  per-sequence explicit frame counts and order permutations, alpha-only
+  cleanup that cannot eat near-black costume, merged/clipped/missing/extra/
+  wrong-order/residue/trim/budget failures all explicit, trim+2px pad,
+  dedup, <=2048 shelf packing, restored-pixel + pivot hashing, budget and
+  provenance reports with literal `unverified` unknowns) and the durable
+  request ledger `scripts/motion-budget.mjs` (hero 16 / boss 12 / mook 8 /
+  horse 4, 200 total, two whole-sheet candidates per sequence, counters
+  persist across rounds), seeded in `art/motion/generation-budget.json`
+  (guanyu: 17 grandfathered requests, cap 0 - generation closed).
+- Files changed: scripts/motion-pipeline.{mjs,d.mts},
+  scripts/motion-budget.{mjs,d.mts}, test/game/motion-pipeline.test.ts (21),
+  test/game/motion-budget.test.ts (7), art/motion/generation-budget.json,
+  docs/motion-tasks/CMR-04.md, TASKS.md. No src/game change; the Guan Yu
+  pilot scripts stay as the historical path.
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **787 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b arm-chain
+  pin, UIR-16 BLOCKED; all motion regressions green). Toolkit suites 28/28:
+  hero/mook/boss/shooter fixtures (8+5 / 6 / 20 / 4 frames, variable pages),
+  double-run determinism (identical manifest/frame/page hashes), the
+  Guan Yu round-trip (all 90 frames restore to their CMR-01 frozen RGBA in
+  guanyu-reference.json, pivot 224,272 px fixed), 10 negative controls,
+  budget separation (cloned-canvas 0, GPU = decoded <= 16 MiB, 2048 pages),
+  unique/duplicate/unused cell counts (5/2/3 of 10), provenance completeness,
+  ledger caps/persistence and the guanyu cap-0 pin. Browser/vision/prodbuild
+  intentionally not run: tooling-only change (recorded in CMR-04.md).
+- Result: CMR-04 hard acceptance 1-7 checked with evidence.
+- Status after: CMR-04 DONE (attempt 1).
+- Remaining work or blocker: none in CMR-04. Guide/drawing GENERATION stays
+  with CMR-06A+ (it consumes this toolkit; the CMR-04 acceptance covers the
+  tooling, not new art). UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
+- Next recommended task: CMR-05 (motion-aware capture/review/test harness).
+
 ### 2026-10-01 07:48 UTC - producer pass (count-triggered full UI review at e3e70cf - NO NEW FINDINGS)
 
 - Status before: consumer queue clean (CMR-03 DONE at e3e70cf); producer
@@ -67,54 +106,6 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker: none from this pass.
 - Next recommended task: consumer pass -> CMR-04 (generic authoring/
   preparation/provenance tooling).
-
-### 2026-10-01 07:20 UTC - CMR-03 (attempt 3, stage-scoped runtime + shared frames - DONE)
-
-- Status before: CMR-03 IN_PROGRESS (attempt 2 trimmed repack done;
-  attempt 1 catalog/cache core). Remaining: stage-aware loader wiring,
-  shared-frame display, co-op/restart, browser/dist cases.
-- Work completed: stage-scoped bounded loader wired end to end.
-  `motion-art.ts`: per-kind pack catalog (guanyu, 2 pages with pinned
-  byte sizes/sha256), fetch+SHA-256+decode page loader (8s per-page abort
-  deadline; no secure-context SHA-256 -> 'unsupported'), `MotionRuntime`
-  (dedup in-flight installs, atomic per-fighter publication, refcounted
-  acquire/release + LRU eviction that uninstalls textures/registry, scope
-  cancellation + stale-callback rejection, 12s stage deadline -> legacy).
-  Display: shared atlas frames with `Frame.setTrim` trim/pivot restoration
-  instead of per-cell canvas clones (frame ids keep
-  `entity:<kind>:motion:<clip>:<idx>`; e2e sprite reads use frame name
-  with `__BASE` -> texture-key fallback). BootScene downloads nothing
-  motion-related. GameScene gates `beginStage` on the bounded prepare
-  (synchronous when the flag is off), cancels/releases on shutdown, and
-  co-op joins are immediate for cached/default heroes or prepared-then-
-  join with bounded failure -> whole-legacy.
-- Files changed: src/game/adapters/{motion-art,motion-catalog,motion-scope},
-  src/game/scenes/{BootScene,GameScene}, test/game/{motion-runtime,
-  motion-scope (new),motion-catalog,motion-clips}, prodbuild/motion.spec,
-  e2e/motion-loader.spec (new) + 6 e2e motion specs' sprite reads,
-  docs/{motion-tasks/CMR-03.md, motion-tasks/BASELINE.md, TASKS.md}.
-- Verification run: lint + tsc clean; unit 759 passed | 1 failed |
-  6 skipped (the 1 = known G6 V-15b arm-chain pin, UIR-16 BLOCKED);
-  signal 13 passed; vision 5 passed; prodbuild 8 passed (motion flag
-  matrix on Canvas+WebGL against dist incl. trim/pivot geometry pins);
-  e2e/motion-loader 5 passed (scope, measured downloads, restart, stage
-  progression, co-op, missing/wrong-signature/timeout); guanyu-solo-ko +
-  guanyu-transitions 3 passed; inline missing-pack controls passed.
-- Budgets (BASELINE re-measure, no ceiling raised): stage-entry network
-  4,328,499 B <= 12 MiB (measured in-browser); page RGBA decode
-  15,543,160 B = 14.82 MiB <= 16 MiB (stricter whole-page accounting;
-  12.72 MiB was trimmed content); GPU 15,543,160 B (one upload per page);
-  cloned-canvas 0 B (the replaced clone display held 44.3 MiB of canvases);
-  retained 14.82 MiB <= 128 MiB.
-- Result: CMR-03 hard acceptance 1-6 checked with evidence in
-  docs/motion-tasks/CMR-03.md.
-- Status after: CMR-03 DONE (3/3 attempts: 7489061, 3ff7a3d, this commit).
-- Remaining work or blocker: none in CMR-03. UIR-16, UIR-19, GYM-1,
-  BODY-7, ENH-12 stay owner-deferred BLOCKED. NOTE for the next tick:
-  `git rev-list --count 4bce5d8..HEAD -- src/game` reaches 4 with this
-  commit -> producer pass (.loop/eval-loop.md) triggers before further
-  consumer work.
-- Next recommended task: producer pass, then CMR-04.
 
 ### 2026-10-01 07:30 UTC - CMR-03 (attempt 2, trimmed repack - IN_PROGRESS)
 
