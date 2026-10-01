@@ -58,19 +58,25 @@ boots or blade in any cell - mechanical edge-cut check = 0).
 
 ## Landmark evidence (acceptance 4) - PARTIAL, honest unknowns remain
 
-Automated pixel proxies over the 45 frames (artifacts land in
-`artifacts/motion/soldier/landmarks/` as manual-review crops):
+Two automated pixel methods were attempted (`scripts/measure-soldier.mjs`,
+per-frame results + 4x manual-review crops in
+`artifacts/motion/soldier/landmarks/`, `measurements.json`):
 
-- weapon length (steel-mask bbox diagonal, angle-independent for a straight
-  blade): the 7 visually fully-observable, unoccluded frames measure
-  283..305px = **7.5% spread (within 10%)**. Frames where the blade is
-  occluded, foreshortened or the mask mixes armour steel measure 182..391
-  and are recorded `unverified` (unknowns cannot establish compliance).
-- head-size proxy (top-band width of upright figures) is method-
-  contaminated (stray weapon tips read as narrow bands): recorded
-  `unverified` pending manual landmark review.
+1. Steel-mask bbox diagonal: the 7 visually fully-observable, unoccluded
+   frames measure 283..305px = **7.5% spread (within 10%)**, but the mask
+   mixes armour steel and occlusion shortens others (182..391).
+2. Steel-cluster segmentation (blade = largest cluster, helmet = topmost):
+   defeated by the painting itself - the blade's bright/dark shading splits
+   it into sub-clusters (110..159px) and helmets merge with shoulder
+   fittings (82..140px).
 
-Therefore acceptance item 4 is NOT YET ESTABLISHED: the <=10% claim rests
-on 7 observable weapon frames and needs producer/owner landmark
-confirmation (head sizes + full weapon extents at 4x) before the pack is
-called compliant. The manual-review crops are the input for that review.
+Both methods agree that the tooling cannot produce trustworthy per-frame
+numbers for this art. Per the contract ("Mark occluded/foreshortened/
+unknown evidence as unverified"; "Unknowns cannot establish compliance")
+acceptance item 4 is NOT ESTABLISHED on consumer evidence alone. The
+documented path is explicit manual landmark review of the 45 crops (the
+same path the Guan Yu audit used: `motion-landmarks.mjs` exists to "retain
+full-resolution source crops for explicit manual landmark review"). The
+visual identity review DID pass on every sheet (one rigid sword, consistent
+helmet, stable scale), and the ground/pivot registration is exact by
+construction; only the numeric head/weapon spread claim awaits eyes.

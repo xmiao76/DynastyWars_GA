@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 18:59 UTC - CMR-06A (attempt 2, IN_PROGRESS - second measurement method; acceptance 4 conclusively tooling-limited)
+
+- Status before: CMR-06A IN_PROGRESS (acceptance 4 open after the bbox-diagonal
+  method at 463a531).
+- Work completed: second, stricter measurement method (steel-cluster
+  segmentation: blade = largest cluster, helmet = topmost cluster) to try
+  to ESTABLISH the <=10% spread without external eyes. Result: the method
+  is defeated by the art itself - painted blade shading splits the steel
+  mask into sub-clusters (110..159px) and helmets merge with shoulder
+  fittings (82..140px). Both automated methods are now recorded in
+  CONTINUITY.md with their exact failure modes; the manual-review crops
+  (45, with ids and per-frame probe values) remain the measurement input.
+- Files changed: scripts/measure-soldier.mjs (cluster method + full-view
+  evidence set), art/motion/soldier/{CONTINUITY.md,measurements.json},
+  PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; no library code changed.
+- Result: acceptance 4 cannot be established by consumer tooling; per the
+  contract unknowns stay unverified and do not pass. Everything else in
+  CMR-06A is checked (6/7).
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: ONE evidence item - numeric head-size and
+  fully-observable weapon-length spread <=10% confirmed by the documented
+  manual landmark review of the 45 crops (the Guan Yu path:
+  `motion-landmarks.mjs` exists for exactly this), or owner confirmation.
+  Budget still holds 3 repair requests if a drift is confirmed real.
+- Next recommended task: producer/owner landmark review of
+  artifacts/motion/soldier/landmarks/ -> CMR-06A DONE -> CMR-06B.
+
 ### 2026-10-01 18:52 UTC - CMR-06A (attempt 2, IN_PROGRESS - measurements + continuity review; acceptance 4 needs landmark confirmation)
 
 - Status before: CMR-06A IN_PROGRESS attempt 2 (pack prepared at 601ffba;
