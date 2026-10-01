@@ -8168,3 +8168,42 @@ lines. Never read during an iteration; consult only for deep history.
 - Remaining work or blocker: none from this pass.
 - Next recommended task: consumer pass -> CMR-04 (generic authoring/
   preparation/provenance tooling).
+
+### 2026-10-01 08:18 UTC - CMR-04 (attempt 1, generic prepare/provenance tooling - DONE)
+
+- Status before: CMR-04 TODO (first queue TODO after the producer pass;
+  CMR-03 DONE, review cadence clear at e3e70cf..HEAD = 0).
+- Work completed: generic fighter-parameterized preparation toolkit
+  `scripts/motion-pipeline.mjs` (validated id -> separated
+  `art/motion/<id>` + `artifacts/motion/<id>` trees with write-guard,
+  per-sequence explicit frame counts and order permutations, alpha-only
+  cleanup that cannot eat near-black costume, merged/clipped/missing/extra/
+  wrong-order/residue/trim/budget failures all explicit, trim+2px pad,
+  dedup, <=2048 shelf packing, restored-pixel + pivot hashing, budget and
+  provenance reports with literal `unverified` unknowns) and the durable
+  request ledger `scripts/motion-budget.mjs` (hero 16 / boss 12 / mook 8 /
+  horse 4, 200 total, two whole-sheet candidates per sequence, counters
+  persist across rounds), seeded in `art/motion/generation-budget.json`
+  (guanyu: 17 grandfathered requests, cap 0 - generation closed).
+- Files changed: scripts/motion-pipeline.{mjs,d.mts},
+  scripts/motion-budget.{mjs,d.mts}, test/game/motion-pipeline.test.ts (21),
+  test/game/motion-budget.test.ts (7), art/motion/generation-budget.json,
+  docs/motion-tasks/CMR-04.md, TASKS.md. No src/game change; the Guan Yu
+  pilot scripts stay as the historical path.
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **787 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b arm-chain
+  pin, UIR-16 BLOCKED; all motion regressions green). Toolkit suites 28/28:
+  hero/mook/boss/shooter fixtures (8+5 / 6 / 20 / 4 frames, variable pages),
+  double-run determinism (identical manifest/frame/page hashes), the
+  Guan Yu round-trip (all 90 frames restore to their CMR-01 frozen RGBA in
+  guanyu-reference.json, pivot 224,272 px fixed), 10 negative controls,
+  budget separation (cloned-canvas 0, GPU = decoded <= 16 MiB, 2048 pages),
+  unique/duplicate/unused cell counts (5/2/3 of 10), provenance completeness,
+  ledger caps/persistence and the guanyu cap-0 pin. Browser/vision/prodbuild
+  intentionally not run: tooling-only change (recorded in CMR-04.md).
+- Result: CMR-04 hard acceptance 1-7 checked with evidence.
+- Status after: CMR-04 DONE (attempt 1).
+- Remaining work or blocker: none in CMR-04. Guide/drawing GENERATION stays
+  with CMR-06A+ (it consumes this toolkit; the CMR-04 acceptance covers the
+  tooling, not new art). UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
+- Next recommended task: CMR-05 (motion-aware capture/review/test harness).

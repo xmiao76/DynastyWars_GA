@@ -73,7 +73,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
-- Status: TODO
+- Status: BLOCKED (attempt 1, 2026-10-01: tooling - image viewing
+  unreliable; 4 consecutive reads of the two identity masters served
+  provably wrong pixels (fingerprints: opaque 832x1248, 59-72% near-black
+  background; previews showed unrelated bright captures), so the mandatory
+  before-authoring inspection and the 4x sequence review cannot be done
+  honestly and a review is never invented. NO generation requested: soldier
+  budget untouched 0/8. Prepared groundwork (exact core-data manifest,
+  5-sheet/8-request budget plan, prompts skeleton) in
+  [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md). Needed: a
+  session where the image tool serves the requested file's pixels, or owner
+  inspection/verdicts on the identity masters and sheets)
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

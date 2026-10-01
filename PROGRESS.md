@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 09:35 UTC - CMR-06A (attempt 1 - BLOCKED, image-viewing tooling)
+
+- Status before: CMR-06A TODO (first TODO after CMR-05; review cadence
+  clear at e3e70cf..HEAD < 4).
+- Work completed (no generation, budget untouched 0/8): exact core-data
+  manifest for the soldier (enemies.ts: maxHp 24, speed 0.9, hitstun 18,
+  think 45; attacks.ts `soldier.swing` 14/4/20), the applicable sequence
+  manifest (idle/approach/retreat/walk/stop, swing, hitstun, fall/impact/
+  down/getup, held/escape, thrown flight/impact, dying/dead - no hero-only
+  capabilities), identity source inventory with sha256, the 5-sheet plan
+  (one request per whole-sheet candidate, 3 in reserve for targeted
+  repairs, mook cap 8) and prompt skeleton, recorded in
+  `art/motion/soldier/AUTHORING-PLAN.md`.
+- Blocker evidence: `read_image` served provably wrong pixels for 4
+  consecutive reads of the two identity masters across 2 content shas
+  (originals + cache-busted PNG copies at fresh paths). Mechanical
+  fingerprints: the requested files are opaque 832x1248 with 59-72%
+  near-black backgrounds and warm dark armour tones; the previews showed
+  unrelated bright game captures (one preview even had the wrong aspect
+  ratio). One unrelated read in the same session WAS correct, so the
+  pipeline is flaky, not dead. Policy: never invent a review (loop.md
+  step 6); the rollout contract says record the exact blocker rather than
+  publish a partial set - so no image request was made and the precious
+  8-request budget is preserved.
+- Files changed: art/motion/soldier/AUTHORING-PLAN.md,
+  docs/motion-tasks/CMR-06A.md, TASKS.md, PROGRESS.md. No code changed;
+  the green gates at d3ae849 stand (unit 803 passed | 1 failed known G6 |
+  6 skipped; lint + tsc clean; vision 5/5; prodbuild 8/8).
+- Result: BLOCKED - missing tool capability (reliable image viewing).
+- Status after: CMR-06A BLOCKED (attempt 1 of 3; only the owner resets a
+  blocked task).
+- Remaining work or blocker: exactly one blocker - the image tool must
+  serve the requested file's pixels (verify against the recorded
+  fingerprints) or the owner must visually inspect the identity masters
+  and generated sheets and record verdicts. Everything else is prepared
+  in AUTHORING-PLAN.md. UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
+- Next recommended task: owner review of this blocker; the CMR queue stays
+  sequential behind CMR-06A (CMR-06B+ cannot start).
+
 ### 2026-10-01 09:18 UTC - CMR-05 (attempt 1, motion capture/review harness - DONE)
 
 - Status before: CMR-05 TODO (first TODO after CMR-04; review cadence
@@ -69,45 +108,6 @@ history slowly crowds out the work it is supposed to support.
   GYM-1/BODY-7/ENH-12 unchanged.
 - Next recommended task: CMR-06A (Wei Soldier: author/prepare full motion
   pack).
-
-### 2026-10-01 08:18 UTC - CMR-04 (attempt 1, generic prepare/provenance tooling - DONE)
-
-- Status before: CMR-04 TODO (first queue TODO after the producer pass;
-  CMR-03 DONE, review cadence clear at e3e70cf..HEAD = 0).
-- Work completed: generic fighter-parameterized preparation toolkit
-  `scripts/motion-pipeline.mjs` (validated id -> separated
-  `art/motion/<id>` + `artifacts/motion/<id>` trees with write-guard,
-  per-sequence explicit frame counts and order permutations, alpha-only
-  cleanup that cannot eat near-black costume, merged/clipped/missing/extra/
-  wrong-order/residue/trim/budget failures all explicit, trim+2px pad,
-  dedup, <=2048 shelf packing, restored-pixel + pivot hashing, budget and
-  provenance reports with literal `unverified` unknowns) and the durable
-  request ledger `scripts/motion-budget.mjs` (hero 16 / boss 12 / mook 8 /
-  horse 4, 200 total, two whole-sheet candidates per sequence, counters
-  persist across rounds), seeded in `art/motion/generation-budget.json`
-  (guanyu: 17 grandfathered requests, cap 0 - generation closed).
-- Files changed: scripts/motion-pipeline.{mjs,d.mts},
-  scripts/motion-budget.{mjs,d.mts}, test/game/motion-pipeline.test.ts (21),
-  test/game/motion-budget.test.ts (7), art/motion/generation-budget.json,
-  docs/motion-tasks/CMR-04.md, TASKS.md. No src/game change; the Guan Yu
-  pilot scripts stay as the historical path.
-- Verification run: lint + `tsc --noEmit` clean; full unit
-  **787 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b arm-chain
-  pin, UIR-16 BLOCKED; all motion regressions green). Toolkit suites 28/28:
-  hero/mook/boss/shooter fixtures (8+5 / 6 / 20 / 4 frames, variable pages),
-  double-run determinism (identical manifest/frame/page hashes), the
-  Guan Yu round-trip (all 90 frames restore to their CMR-01 frozen RGBA in
-  guanyu-reference.json, pivot 224,272 px fixed), 10 negative controls,
-  budget separation (cloned-canvas 0, GPU = decoded <= 16 MiB, 2048 pages),
-  unique/duplicate/unused cell counts (5/2/3 of 10), provenance completeness,
-  ledger caps/persistence and the guanyu cap-0 pin. Browser/vision/prodbuild
-  intentionally not run: tooling-only change (recorded in CMR-04.md).
-- Result: CMR-04 hard acceptance 1-7 checked with evidence.
-- Status after: CMR-04 DONE (attempt 1).
-- Remaining work or blocker: none in CMR-04. Guide/drawing GENERATION stays
-  with CMR-06A+ (it consumes this toolkit; the CMR-04 acceptance covers the
-  tooling, not new art). UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
-- Next recommended task: CMR-05 (motion-aware capture/review/test harness).
 
 ### 2026-10-01 07:30 UTC - CMR-03 (attempt 2, trimmed repack - IN_PROGRESS)
 
