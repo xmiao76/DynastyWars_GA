@@ -32,7 +32,9 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-03 - Stage-aware bounded atlas loading/cache
 
-- Status: IN_PROGRESS (attempt 1, 2026-10-01: catalog/cache core done -
+- Status: IN_PROGRESS (attempt 2, 2026-10-01: trimmed repack done - pages
+  1935x903/2027x1055 <=2048, decoded 12.72 MiB <=16, per-frame round-trip
+  to the CMR-01 frozen RGBA proven; catalog/cache core (attempt 1) -
   atomic publication, dedup, cancellation/stale rejection, refcounted
   eviction, separated budgets with negative controls; remaining: stage-
   aware loader wiring/prefetch, Guan Yu <=2048 repack with RGBA/pivot/

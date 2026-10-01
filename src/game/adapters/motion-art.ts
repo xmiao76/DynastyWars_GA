@@ -79,10 +79,14 @@ export function ensureMotionKey(scene: Phaser.Scene, entity: Entity): string | u
   const key = `entity:${entity.kind}:motion:${sample.frame}`
   if (!scene.textures.exists(key)) {
     const c = art.frames[sample.frame]!
-    const cv = document.createElement('canvas'); cv.width = c.w; cv.height = c.h
+    // CMR-03 repack: trimmed cells restore at (trimX, trimY) inside the full
+    // srcW x srcH cell so displayed pixels/registration are unchanged.
+    const w = c.srcW ?? c.w
+    const h = c.srcH ?? c.h
+    const cv = document.createElement('canvas'); cv.width = w; cv.height = h
     const g = cv.getContext('2d')
     if (!g) return undefined
-    g.drawImage(c.sheet === 'actions' ? art.actionSheet : art.sheet, c.x, c.y, c.w, c.h, 0, 0, c.w, c.h)
+    g.drawImage(c.sheet === 'actions' ? art.actionSheet : art.sheet, c.x, c.y, c.w, c.h, c.trimX ?? 0, c.trimY ?? 0, c.w, c.h)
     scene.textures.addCanvas(key, cv)
   }
   return key

@@ -22,6 +22,56 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 07:30 UTC - CMR-03 (attempt 2, trimmed repack - IN_PROGRESS)
+
+- Status before: CMR-03 IN_PROGRESS attempt 1 (catalog/cache core;
+  remaining: repack, loader wiring, browser cases).
+- Work completed: the Guan Yu trim/repack. Measured first: cell
+  trims save 72.5% of area (figures are narrow in the 448x288
+  cells) -> trimmed decoded 12.72 MiB <= the 16 MiB per-fighter cap
+  (the pre-repack 44.3 MiB could never meet it). Repack (one-shot
+  vitest tool): each cell trimmed to content + 2px transparent pad
+  (keeps the padded-edges gate's premise), shelf-packed into two
+  named pages 1935x903 / 2027x1055 (both <=2048), prepared JSONs
+  rewritten with trimX/trimY/srcW/srcH provenance (audit, box,
+  density preserved; sha256 + signatures regenerated). PROOF BEFORE
+  WRITE: every one of the 90 frames reconstructs (trimmed content
+  at trim offset in the full srcW x srcH cell) to its CMR-01 frozen
+  RGBA hash; clipsHash 513e9ff0 unchanged. Display plumbing:
+  MotionFrameCell gains the trim fields (additive), validMotionPack
+  validates the full-cell size via srcW/srcH (legacy cells default
+  to w/h), ensureMotionKey clones srcW x srcH with content restored
+  at the trim offset - displayed pixels/registration identical.
+  Permanent pin: test/game/motion-repack.test.ts (round-trip all 90
+  frames, pages <=2048, decoded <=16 MiB, clipsHash, box/density).
+  One existing test needed a FORMAT conformance fix (motion-
+  weapon-arc's landmark pixel lookup restored the trim offset like
+  the display blit - assertions unchanged, recorded here).
+- Files changed: src/game/assets/motion/* (pages + prepared jsons),
+  src/game/art/motion-clips.ts, src/game/adapters/motion-art.ts,
+  test/game/motion-repack.test.ts (new), test/game/motion-weapon-
+  arc.test.ts (format conformance), docs/motion-tasks/BASELINE.md
+  (repacked measurements), TASKS.md, PROGRESS.md.
+- Verification run: tsc 0; lint 0; full unit 737 passed | 1 failed
+  (G6-only, the UIR-16 BLOCKED pin) | 6 skipped (all 7 motion
+  suites green incl. pilot/allactions/boundary/weapon-arc); signal
+  13/0. Browser/vision NOT run this attempt (no runtime behavior
+  change beyond the data-path conformance; final attempt runs the
+  full set).
+- Result: acceptance item 5 MET (round-trip + registration + ref
+  unchanged); item 1 half-met (pages + decoded done; stage-entry
+  downloads need the loader wiring). Task NOT DONE.
+- Status after: CMR-03 IN_PROGRESS (attempt 2 of 3).
+- Remaining work / attempt 3 (LAST): stage-aware loader wiring +
+  prefetch + default-2P readiness + co-op join (bounded failure-to-
+  legacy), loader/stage/co-op/restart browser cases, opt-in flag
+  behavior vs dist + Canvas/WebGL, no-all-cast-boot fixture proof,
+  stage-entry download measurement, full gates (incl. vision/
+  prodbuild). Budget warning: if any of these cannot meet the caps,
+  report measurements and block - never raise the ceilings.
+- Next recommended task: CMR-03 attempt 3 (same task).
+
+
 ### 2026-10-01 06:20 UTC - CMR-03 (attempt 1, atlas catalog/cache core - IN_PROGRESS)
 
 - Status before: CMR-03 TODO (dependency CMR-02 DONE, satisfied).

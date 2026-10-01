@@ -9,12 +9,12 @@ no limit may be raised to fit generated content.
 
 | Item | Value |
 | --- | --- |
-| regular atlas PNG | 1,827,406 bytes (1344×3456) |
-| actions atlas PNG | 2,616,482 bytes (2688×2592) |
-| combined download | 4,443,888 bytes (≈4.24 MiB) |
-| combined decoded RGBA | 46,448,640 bytes (44.3 MiB) |
-| per-frame cell | 448×288 device = 516,096 RGBA bytes × 90 frames |
-| frame display | one `entity:<kind>:motion:<frame>` canvas key per sampled frame, blitted from the baked page rect (no per-frame decode) |
+| regular atlas PNG | 1,782,790 bytes (1935×903, trimmed repack 2026-10-01) |
+| actions atlas PNG | 2,545,709 bytes (2027×1055, trimmed repack 2026-10-01) |
+| combined download | 4,328,499 bytes (≈4.13 MiB; was 4.24 MiB pre-repack) |
+| combined decoded RGBA | 13,334,128 bytes (12.72 MiB trimmed - was 46,448,640 / 44.3 MiB pre-repack; the 16 MiB cap is met by trim+pack) |
+| per-frame cell | trimmed content rect + 2px pad; full 448×288 cell preserved via trimX/trimY/srcW/srcH (round-trip proven per frame) |
+| frame display | one `entity:<kind>:motion:<frame>` canvas key per sampled frame; the clone is srcW×srcH with the trimmed content restored at (trimX, trimY) - displayed RGBA identical to pre-repack |
 | canvas-copy cost | 1 blit (`drawImage` of the cell rect) per frame-display; page decode happens once per page at load |
 | load behavior | `?motion=1` gate (`motionEnabled`); `queueMotionArt` requests the two pages + two prepared JSONs; `publishMotionArtRecord` composes `MotionPrepared` → per-frame keys on demand |
 
@@ -22,10 +22,10 @@ no limit may be raised to fit generated content.
 
 | Scope | Cap | Current Guan Yu reference | Headroom |
 | --- | --- | --- | --- |
-| per fighter | 16 MiB download | 4.24 MiB | 11.76 MiB |
-| per fighter | 128 MiB cache (decoded pages + keys) | 44.3 MiB decoded + frame-key canvases | ≥83 MiB |
+| per fighter | 16 MiB download | 4.13 MiB | 11.87 MiB |
+| per fighter | 128 MiB cache (decoded pages + keys) | 12.72 MiB decoded + frame-key canvases (was 44.3 MiB pre-repack) | ≥115 MiB |
 | per stage | 12 MiB staged assets | motion is fighter-scoped (2 pages); stage bands keep sprites ≤256 | n/a for this pack |
-| per page | 2048 px on the long edge | regular 3456 long edge — **the accepted reference EXCEEDS 2048**; repacks (CMR-21) must repack to ≤2048 pages while reproducing every pinned RGBA/exposure hash | record only |
+| per page | 2048 px on the long edge | regular 1935×903, actions 2027×1055 - **MET** by the CMR-03 trimmed repack (2026-10-01); every frame round-trips to the CMR-01 frozen RGBA hash (test/game/motion-repack.test.ts) and clipsHash is unchanged | 0 |
 
 ## Generation cap ledger (contract: 200 requests total)
 
@@ -40,6 +40,17 @@ no limit may be raised to fit generated content.
 Per-actor cap is a hard ceiling (contract): attempt ≤3 patches and ≤1 finalize
 per window; a budget-exhausted actor stays unaccepted with evidence and an
 owner decision — never pad missing sequences with old parts.
+
+## Repack record (CMR-03, 2026-10-01)
+
+Cells trimmed to non-transparent content + 2px transparent pad (72.5% area
+saved), shelf-packed into the two named pages above; `prepared.json` /
+`actions-prepared.json` rewritten with trimX/trimY/srcW/srcH provenance
+(audit and box/density preserved); signatures and sha256 regenerated.
+Proof: every displayed frame reconstructs to its CMR-01 frozen RGBA hash
+and the 20-clip timing hash `513e9ff0...` is unchanged - permanent pin in
+test/game/motion-repack.test.ts. The weapon-landmark pixel test restores
+the trim offset exactly like the display blit (assertions unchanged).
 
 ## Known baseline failures reproduced (2026-10-01, commit `ba9680c` tree)
 

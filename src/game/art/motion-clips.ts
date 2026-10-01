@@ -13,6 +13,16 @@ export interface MotionClip {
   keys: Array<{ tick: number; frame: string }>
   duration: number
 }
+export interface MotionFrameCell extends WholeFrameCell {
+  sheet?: 'actions'
+  /** CMR-03 repack: trimmed content rect inside the full cell; the display
+   *  restores it at (trimX, trimY) inside a srcW x srcH canvas so every
+   *  displayed RGBA/registration is unchanged. Legacy cells omit these. */
+  trimX?: number
+  trimY?: number
+  srcW?: number
+  srcH?: number
+}
 export interface MotionArt {
   id: string
   revision: string
@@ -20,7 +30,7 @@ export interface MotionArt {
   sheet: CanvasImageSource
   actionSheet: CanvasImageSource
   box: { width: number; height: number; groundY: number }
-  frames: Record<string, WholeFrameCell & { sheet?: 'actions' }>
+  frames: Record<string, MotionFrameCell>
   clips: Record<MotionAction | ActionClip | 'idle', MotionClip>
 }
 const IDLE = 'walk:0'
@@ -82,11 +92,17 @@ export function validMotionPack(meta: MotionPackGeometry): boolean {
   if (width <= 0 || height <= 0 || groundY <= 0 || groundY >= height) return false
   for (const [groups, image, sheet] of [[MOTION_ACTIONS, meta.sheet, undefined], [ACTION_SHEETS, meta.actionSheet, 'actions']] as const) {
     const cells: WholeFrameCell[] = []
-    for (const action of groups) for (let i = 0; i < 9; i++) {
+    for (const action of groups) for (let i = 0; i < 9; i += 1) {
       const c = meta.frames[`${action}:${i}`]
       if (!c || c.sheet !== sheet || ![c.x, c.y, c.w, c.h].every(Number.isFinite)) return false
-      if (c.x < 0 || c.y < 0 || c.w !== width * meta.density || c.h !== height * meta.density) return false
+      if (c.x < 0 || c.y < 0 || c.w <= 0 || c.h <= 0) return false
+      // The FULL cell (srcW/srcH when trimmed) must match the art box; the
+      // trimmed rect only needs to sit inside the page without overlapping.
+      const sw = c.srcW ?? c.w
+      const sh = c.srcH ?? c.h
+      if (sw !== width * meta.density || sh !== height * meta.density) return false
       if (c.x + c.w > image.width || c.y + c.h > image.height) return false
+      if ((c.trimX ?? 0) < 0 || (c.trimY ?? 0) < 0 || (c.trimX ?? 0) + c.w > sw || (c.trimY ?? 0) + c.h > sh) return false
       if (cells.some((b) => c.x < b.x + b.w && c.x + c.w > b.x && c.y < b.y + b.h && c.y + c.h > b.y)) return false
       cells.push(c)
     }

@@ -28,16 +28,21 @@ describe('Guan Yu special/mounted weapon direction continuity', () => {
   })
   it('landmark endpoints are actually supported by drawn sprite pixels', async () => {
     const sheets = [await loadImage('src/game/assets/motion/guanyu-motion-sheet.png'), await loadImage('src/game/assets/motion/guanyu-actions-sheet.png')]
-    const frames = { ...regular.guanyu.frames, ...actions.frames } as Record<string, { x: number; y: number; w: number; h: number; sheet?: string }>
+    const frames = { ...regular.guanyu.frames, ...actions.frames } as Record<string, { x: number; y: number; w: number; h: number; sheet?: string; trimX?: number; trimY?: number; srcW?: number; srcH?: number }>
     for (const [id, mark] of Object.entries(landmarks)) {
       const c = frames[id]!, image = sheets[c.sheet ? 1 : 0]!
-      const cv = createCanvas(c.w, c.h), g = cv.getContext('2d'); g.drawImage(image, c.x, c.y, c.w, c.h, 0, 0, c.w, c.h)
-      const data = g.getImageData(0, 0, c.w, c.h).data
+      // CMR-03 repack: restore the trimmed content at (trimX, trimY) inside
+      // the full cell, exactly as the display blit does - landmarks live in
+      // full-cell coordinates.
+      const cw = c.srcW ?? c.w, ch = c.srcH ?? c.h
+      const cv = createCanvas(cw, ch), g = cv.getContext('2d')
+      g.drawImage(image, c.x, c.y, c.w, c.h, c.trimX ?? 0, c.trimY ?? 0, c.w, c.h)
+      const data = g.getImageData(0, 0, cw, ch).data
       for (const [name, [x, y]] of Object.entries(mark)) {
         let found = false
-        for (let yy = Math.max(0, Math.round(y * 2) - 6); yy <= Math.min(c.h - 1, Math.round(y * 2) + 6); yy++) {
-          for (let xx = Math.max(0, Math.round(x * 2) - 6); xx <= Math.min(c.w - 1, Math.round(x * 2) + 6); xx++) {
-            if (data[(yy * c.w + xx) * 4 + 3]! >= 96) found = true
+        for (let yy = Math.max(0, Math.round(y * 2) - 6); yy <= Math.min(ch - 1, Math.round(y * 2) + 6); yy++) {
+          for (let xx = Math.max(0, Math.round(x * 2) - 6); xx <= Math.min(cw - 1, Math.round(x * 2) + 6); xx++) {
+            if (data[(yy * cw + xx) * 4 + 3]! >= 96) found = true
           }
         }
         expect(found, `${id}:${name} landmark has no nearby drawn pixel`).toBe(true)
