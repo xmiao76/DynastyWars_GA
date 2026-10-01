@@ -1,0 +1,73 @@
+{
+  "fighter": "soldier",
+  "model": "one uniform scale per sheet + cell-centre/ground anchors; shared bookends by alias",
+  "box": {
+    "width": 224,
+    "height": 122,
+    "groundY": 120
+  },
+  "density": 2,
+  "contentCapPx": 238,
+  "sheets": {
+    "locomotion": {
+      "guardHeight": 336,
+      "guardAltHeight": 333,
+      "downHeight": 333,
+      "maxContentHeight": 337,
+      "sha256": "cf731091cd4ed6cdea58e0bb0fd655345db109109085100bf3979eb56a7aee4c",
+      "scale": 0.662952
+    },
+    "swing": {
+      "guardHeight": 337,
+      "guardAltHeight": 335,
+      "downHeight": 335,
+      "maxContentHeight": 337,
+      "sha256": "7c9c01a75adc8537c33ccacc4dd89d2f85b3a95a93c08bb638394e0bf90a1661",
+      "scale": 0.662952
+    },
+    "hitstun-held": {
+      "guardHeight": 336,
+      "guardAltHeight": 338,
+      "downHeight": 331,
+      "maxContentHeight": 359,
+      "sha256": "626255b0f0e9ea1363398b1ed06df0512f957daf882ed38de2e251b779ad7d21",
+      "scale": 0.662952
+    },
+    "fall-thrown": {
+      "guardHeight": 325,
+      "guardAltHeight": 177,
+      "downHeight": 173,
+      "maxContentHeight": 346,
+      "sha256": "99b596d3bb87edf2340ff30f72663a80f2924ad2e230b8de91c4e90ec2a689d8",
+      "scale": 0.662952
+    },
+    "getup-death": {
+      "guardHeight": 238,
+      "guardAltHeight": 344,
+      "downHeight": 146,
+      "maxContentHeight": 344,
+      "sha256": "9571e79002a88deeefed85e88cb81b1e5d26fe4352a1d7829a0f81d464fce43a",
+      "scale": 0.662952
+    }
+  },
+  "aliases": {
+    "locomotion": {
+      "8": 0
+    },
+    "swing": {
+      "0": "locomotion:0",
+      "8": "locomotion:0"
+    },
+    "hitstun-held": {
+      "0": "locomotion:0",
+      "8": "locomotion:0"
+    },
+    "fall-thrown": {
+      "8": 3
+    },
+    "getup-death": {
+      "3": "fall-thrown:3",
+      "8": "locomotion:0"
+    }
+  }
+}

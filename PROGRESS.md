@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 18:35 UTC - CMR-06A (attempt 2, IN_PROGRESS - registration/fit + pack prepared)
+
+- Status before: CMR-06A IN_PROGRESS attempt 2 (authoring complete at
+  3f4d7b8; 5/8 budget; remaining was registration/fit + preparation).
+- Work completed: (1) CMR-04 toolkit gained the accepted registration
+  model - ONE uniform per-pack scale + drawing-cell-centre/ground anchors
+  (`fitOf`/`fitContent`, fit-aware trim/restore with deterministic scaled
+  draw), shared-bookend enforcement via aliases (same-sheet or cross-sheet
+  `sequence:position`; aliased source cells counted unused), and position-
+  invariant content hashing for dedup. 3 new negative-control tests (26
+  pipeline tests green). (2) `scripts/prepare-soldier.mjs` drives the pack:
+  scale sized so the TALLEST drawing (359px) fits its cell with trim pad
+  (scale 0.662952; standing figures 223px content = 111.5 display px,
+  below hero hierarchy), scale-consistency measured on standing drawings
+  (0.30% / 2.37% spreads), DOWN-cell height difference adjudicated as pose
+  variance (alias unifies the displayed pose). (3) PACK PREPARED and
+  deterministic (manifest sha256 `7f40bf2f...` re-ran identical): 45 frames
+  (37 unique + 8 bookend aliases), one `soldier-1` page 2003x1369
+  (<=2048^2), decoded 7,809,280 B = 7.45 MiB <= 16 MiB, GPU equal, cloned
+  0, 0 budget errors, 9 wide-sweep bbox hints reviewed. No catalog
+  activation (CMR-06B).
+- Files changed: scripts/{motion-pipeline.mjs,motion-pipeline.d.mts,
+  prepare-soldier.mjs}, test/game/motion-pipeline.test.ts,
+  art/motion/soldier/PROVENANCE.md, TASKS.md, PROGRESS.md (+ generated
+  outputs under artifacts/motion/soldier/, ignored).
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **808 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b pin,
+  UIR-16 BLOCKED); deterministic double-run of the preparation.
+- Result: attempt 2 on plan; the pack exists, verified, within budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: head-size/weapon-length measurements (<=10%
+  spread, unknowns unverified - needs the landmark measurement pass),
+  offline continuity review citing frame IDs/crops, acceptance checklist.
+  No blocker.
+- Next recommended task: continue CMR-06A (measurements + continuity
+  review).
+
 ### 2026-10-01 17:58 UTC - CMR-06A (attempt 2, IN_PROGRESS - authoring complete, 5/5 sheets accepted)
 
 - Status before: CMR-06A IN_PROGRESS attempt 2 (identity lock + sheets 1-2

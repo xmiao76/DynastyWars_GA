@@ -39,9 +39,50 @@ pixels were cross-checked against a mechanical fingerprint of the file
 (dims/aspect/alpha share) before any verdict. One locomotion preview was
 mispaired and discarded; the accepted verdicts rest on verified reads.
 
+## Preparation record (2026-10-01, `scripts/prepare-soldier.mjs`)
+
+Registration model (the accepted one): ONE uniform scale for the whole
+pack, sized so the tallest drawn figure (359px) fits its cell with the
+2px transparent trim pad (scale `0.662952`; standing figures land at 223px
+content = 111.5 display px, below the hero hierarchy - Guan Yu motion
+displays 144). Anchors: drawing-cell centre (horizontal) and figure ground
+contact (vertical) onto the canonical box `224x122, groundY 120` at
+density 2 (448x244 cells). No per-pose normalisation.
+
+Scale-consistency evidence (standing drawings only - prone/crouch bbox
+heights vary with pose, not scale): standing guard bookends 336/337/336px
+(0.30% spread); all guard cells incl. getup-death's 336/337/336/344px
+(2.37%). The shared DOWN cells differ by pose drawing (knees-bent 173 vs
+flat 146) and are irrelevant: the alias unifies the displayed down pose.
+
+Shared-bookend enforcement by alias (aliased source cells count as
+unused): locomotion[8]=locomotion[0]; swing[0,8]=locomotion[0];
+hitstun-held[0,8]=locomotion[0]; fall-thrown[8]=fall-thrown[3];
+getup-death[3]=fall-thrown[3], getup-death[8]=locomotion[0].
+
+Pack result (deterministic - manifest sha256 re-ran identical):
+
+| field | value |
+| --- | --- |
+| manifest sha256 | `7f40bf2fbbf7b326f02dc065dd0be3eb7c30b67612f66602db15094790a2564b` |
+| frames | 45 (37 displayed unique + 8 shared-bookend aliases) |
+| pages | `soldier-1` 2003x1369 (<= 2048^2) |
+| decoded RGBA | 7,809,280 B (7.45 MiB <= 16 MiB) |
+| GPU (shared atlas) | 7,809,280 B; cloned-canvas 0 B |
+| counts | sourceCells 45 / displayedUnique 37 / duplicate 8 / unused 8 |
+| suspects | 9 bbox-overlap hints (wide sweep cells crossing nominal territory; reviewed, component counts exact) |
+
+Outputs: `artifacts/motion/soldier/soldier/` (manifest.json, report.json,
+pages/) - temporary output; accepted sources remain in `art/motion/soldier/`.
+No runtime catalog activation (that is CMR-06B).
+
+Still unverified (cannot establish compliance): head-size and
+weapon-length spreads (<=10% requirement) and the offline continuity
+review citing frame IDs - next unit of work.
+
 ## Remaining budget plan (3 left)
 
 Authoring is COMPLETE at 5/8 (five whole-sheet candidates, one per
 sequence, all accepted on first candidate). The 3 remaining requests are
-reserved for targeted repairs / second candidates during preparation and
+reserved for targeted repairs / second candidates during measurement
 review.

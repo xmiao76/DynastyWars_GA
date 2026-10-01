@@ -48,6 +48,17 @@ export interface SequenceSpec {
   cols: number
   order?: number[]
   identities?: Record<number, string>
+  /** Shared-bookend enforcement: draw position p from position alias[p]
+   *  (a number = same sheet position, a string = `sequence:position`). */
+  alias?: Record<number, number | string>
+  /** Per-sheet uniform registration (never per-pose). */
+  registration?: { scale?: number }
+}
+
+export interface FrameFit {
+  scale: number
+  tx: number
+  ty: number
 }
 
 export interface FighterSpec {
@@ -68,6 +79,9 @@ export interface PreparedFrame extends FrameHit {
   contentSha256: string
   source: Pixels
   identityPinned?: boolean
+  /** Sheet-space content rect when a registration fit is applied. */
+  src?: CellRect
+  fit?: FrameFit
 }
 
 export interface PackedPage {
@@ -137,9 +151,11 @@ export declare function cleanAlpha(im: Pixels, cleanup?: CleanupSpec): { compone
 export declare function extractSequence(im: Pixels, fighter: FighterSpec, sequence: SequenceSpec): { frames: FrameHit[]; cleaned: ReturnType<typeof cleanAlpha>; suspects: string[] }
 export declare function trimCell(frame: FrameHit): Trim
 export declare function pivotOf(trim: Trim, fighter: FighterSpec): Pivot
-export declare function restoreCellPixels(im: Pixels, frame: FrameHit, trim: Trim): Uint8ClampedArray
-export declare function restoredHash(im: Pixels, frame: FrameHit, trim: Trim): string
-export declare function contentHash(im: Pixels, frame: FrameHit, trim: Trim): string
+export declare function restoreCellPixels(im: Pixels, frame: FrameHit, trim: Trim, fit?: FrameFit): Uint8ClampedArray
+export declare function restoredHash(im: Pixels, frame: FrameHit, trim: Trim, fit?: FrameFit): string
+export declare function contentHash(im: Pixels, frame: FrameHit, trim: Trim, fit?: FrameFit): string
+export declare function fitOf(frame: FrameHit, registration: { scale?: number }, box: { width: number; height: number; groundY: number }): FrameFit
+export declare function fitContent(frame: FrameHit, fit: FrameFit): CellRect
 export declare function packFrames(items: Array<{ frame: FrameHit; trim: Trim; source: Pixels }>, opts?: { pageLimit?: number; pagePrefix?: string }): PackedPage[]
 export declare function validateBudget(fighter: FighterSpec, frames: Array<{ trim: Trim }>, pages: Array<{ width: number; height: number; name: string }>): BudgetReport
 export declare function buildReport(fighter: FighterSpec, frames: PreparedFrame[], pages: PackedPage[], extra?: Record<string, unknown>): PackReport

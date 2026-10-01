@@ -232,14 +232,42 @@ export function extractSequence(im, fighter, sequence) {
 /** Trim descriptor for one figure: full cell, content rect + pad inside it. */
 export function trimCell(frame) {
   const sw = frame.cell.w, sh = frame.cell.h
-  const x = frame.content.x - frame.cell.x - TRIM_PAD
-  const y = frame.content.y - frame.cell.y - TRIM_PAD
-  const w = frame.content.w + TRIM_PAD * 2
-  const h = frame.content.h + TRIM_PAD * 2
+  const x = Math.round(frame.content.x - frame.cell.x) - TRIM_PAD
+  const y = Math.round(frame.content.y - frame.cell.y) - TRIM_PAD
+  const w = Math.round(frame.content.w) + TRIM_PAD * 2
+  const h = Math.round(frame.content.h) + TRIM_PAD * 2
   if (x < 0 || y < 0 || x + w > sw || y + h > sh) {
     throw new Error(`trim error: ${frame.name} content+pad (${x},${y} ${w}x${h}) leaves the ${sw}x${sh} cell`)
   }
   return { srcW: sw, srcH: sh, trimX: x, trimY: y, w, h }
+}
+
+/**
+ * Registration fit: ONE uniform scale per sheet plus a translation anchored
+ * on the drawing's cell centre (horizontal) and the figure's ground contact
+ * (vertical). Never a per-pose silhouette normalisation; the box's ground
+ * line and centre are the only targets. `frame.content` must be BOX-space
+ * (cell-relative) for trimCell.
+ */
+export function fitOf(frame, registration, box) {
+  const scale = registration.scale ?? 1
+  const groundPx = box.groundY * DENSITY
+  const targetCx = (box.width * DENSITY) / 2
+  return {
+    scale,
+    tx: targetCx - scale * (frame.cell.w / 2),
+    ty: groundPx - scale * (frame.content.y - frame.cell.y + frame.content.h),
+  }
+}
+
+/** Map a sheet-space content rect into the canonical box through a fit. */
+export function fitContent(frame, fit) {
+  return {
+    x: fit.scale * (frame.content.x - frame.cell.x) + fit.tx,
+    y: fit.scale * (frame.content.y - frame.cell.y) + fit.ty,
+    w: fit.scale * frame.content.w,
+    h: fit.scale * frame.content.h,
+  }
 }
 
 /** Pivot in full-cell pixels: fixed registration, never silhouette-driven. */
@@ -250,15 +278,28 @@ export function pivotOf(trim, fighter) {
 /**
  * Display-equivalent restore: the trimmed rect placed at its trim offset in
  * the untrimmed full cell (identical placement to the shared-atlas display).
- * Pure pixel copy - no canvas round trips, so the hash measures the bytes
- * the display actually shows.
+ * `frame.src` is the sheet-space content rect when a registration fit is
+ * applied; without a fit (scale 1) this is a pure pixel copy, so the hash
+ * measures the bytes the display actually shows.
  */
-export function restoreCellPixels(im, frame, trim) {
+export function restoreCellPixels(im, frame, trim, fit) {
+  const src = frame.src ?? frame.content
+  if (fit && fit.scale !== 1) {
+    const from = createCanvas(im.width, im.height)
+    const fg = from.getContext('2d')
+    const id = fg.createImageData(im.width, im.height)
+    id.data.set(im.data)
+    fg.putImageData(id, 0, 0)
+    const rt = createCanvas(trim.srcW, trim.srcH)
+    const g = rt.getContext('2d')
+    g.drawImage(from, src.x - TRIM_PAD, src.y - TRIM_PAD, src.w + TRIM_PAD * 2, src.h + TRIM_PAD * 2, trim.trimX, trim.trimY, trim.w, trim.h)
+    return g.getImageData(0, 0, trim.srcW, trim.srcH).data
+  }
   const out = new Uint8ClampedArray(trim.srcW * trim.srcH * 4)
   for (let y = 0; y < trim.h; y++) {
     for (let x = 0; x < trim.w; x++) {
-      const sx = frame.content.x - TRIM_PAD + x
-      const sy = frame.content.y - TRIM_PAD + y
+      const sx = src.x - TRIM_PAD + x
+      const sy = src.y - TRIM_PAD + y
       const dx = trim.trimX + x
       const dy = trim.trimY + y
       if (dx < 0 || dy < 0 || dx >= trim.srcW || dy >= trim.srcH) continue
@@ -275,25 +316,22 @@ export function restoreCellPixels(im, frame, trim) {
 }
 
 /** sha256 of a figure restored into its untrimmed full cell (display pixels). */
-export function restoredHash(im, frame, trim) {
-  return createHash('sha256').update(Buffer.from(restoreCellPixels(im, frame, trim))).digest('hex')
+export function restoredHash(im, frame, trim, fit) {
+  return createHash('sha256').update(Buffer.from(restoreCellPixels(im, frame, trim, fit))).digest('hex')
 }
 
-/** Frame pixel hash of the trimmed content rect itself (dedup key). */
-export function contentHash(im, frame, trim) {
-  const { width: w, height: h, data } = im
+/** Position-invariant content hash (dedup key): the trimmed content pixels. */
+export function contentHash(im, frame, trim, fit) {
+  const restored = restoreCellPixels(im, frame, trim, fit)
   const out = Buffer.alloc(trim.w * trim.h * 4)
   let o = 0
   for (let y = 0; y < trim.h; y++) {
     for (let x = 0; x < trim.w; x++) {
-      const sx = frame.content.x - TRIM_PAD + x
-      const sy = frame.content.y - TRIM_PAD + y
-      const inside = sx >= 0 && sy >= 0 && sx < w && sy < h
-      const k = (sy * w + sx) * 4
-      out[o] = inside ? data[k] : 0
-      out[o + 1] = inside ? data[k + 1] : 0
-      out[o + 2] = inside ? data[k + 2] : 0
-      out[o + 3] = inside ? data[k + 3] : 0
+      const k = ((trim.trimY + y) * trim.srcW + (trim.trimX + x)) * 4
+      out[o] = restored[k]
+      out[o + 1] = restored[k + 1]
+      out[o + 2] = restored[k + 2]
+      out[o + 3] = restored[k + 3]
       o += 4
     }
   }
@@ -461,6 +499,8 @@ export function preparePack(fighter, sheets) {
   let unused = 0
   const seenContent = new Set()
   const suspects = []
+  let aliasedCells = 0
+  const extractedBySeq = new Map()
   for (const seq of sequences) {
     const im = sheets[seq.name]
     if (!im) throw new Error(`${fighter.id}: missing sheet for sequence ${seq.name}`)
@@ -468,18 +508,49 @@ export function preparePack(fighter, sheets) {
     suspects.push(...extracted.suspects)
     sourceCells += seq.rows * seq.cols
     unused += seq.rows * seq.cols - seq.count
-    for (const frame of extracted.frames) {
-      const trim = trimCell(frame)
+    extractedBySeq.set(seq.name, { im, extracted })
+  }
+  const builtByName = new Map()
+  const aliasOf = (seq, pos) => (seq.alias ? seq.alias[pos] : undefined)
+  for (const seq of sequences) {
+    const { im, extracted } = extractedBySeq.get(seq.name)
+    const boxCell = { x: 0, y: 0, w: fighter.box.width * DENSITY, h: fighter.box.height * DENSITY }
+    // Non-aliased positions first so shared bookends can alias them.
+    const ordered = [...extracted.frames].sort((a, b) => Number(aliasOf(seq, a.position) !== undefined) - Number(aliasOf(seq, b.position) !== undefined))
+    for (const frame of ordered) {
+      const name = `${seq.name}:${frame.position}`
+      const aliasPos = aliasOf(seq, frame.position)
+      if (aliasPos !== undefined) {
+        // Shared-bookend enforcement: the alias position draws the target's
+        // pixels exactly; its own sheet drawing counts as an unused source
+        // cell rather than a subtly different "shared" pose.
+        const targetName = typeof aliasPos === 'number' ? `${seq.name}:${aliasPos}` : aliasPos
+        const target = builtByName.get(targetName)
+        if (!target) throw new Error(`${seq.name}: alias target ${targetName} not built`)
+        if (seenContent.has(target.contentSha256)) duplicateCount++
+        seenContent.add(target.contentSha256)
+        builtByName.set(name, { ...target, name, position: frame.position, cellIndex: frame.cellIndex })
+        frames.push({ ...target, name, position: frame.position, cellIndex: frame.cellIndex })
+        aliasedCells++
+        continue
+      }
+      const fit = seq.registration ? fitOf(frame, seq.registration, fighter.box) : undefined
+      const fitted = fit
+        ? { ...frame, cell: boxCell, content: fitContent(frame, fit), src: frame.content, fit }
+        : frame
+      const trim = trimCell(fitted)
       const pivot = pivotOf(trim, fighter)
-      const restoredSha256 = restoredHash(im, frame, trim)
-      const contentSha256 = contentHash(im, frame, trim)
-      const pinned = seq.identities ? seq.identities[frame.position] : undefined
+      const restoredSha256 = restoredHash(im, fitted, trim, fit)
+      const contentSha256 = contentHash(im, fitted, trim, fit)
+      const pinned = seq.identities ? seq.identities[fitted.position] : undefined
       if (pinned !== undefined && pinned !== restoredSha256) {
-        throw new Error(`wrong order: ${frame.name} restored identity ${restoredSha256} != pinned ${pinned}`)
+        throw new Error(`wrong order: ${name} restored identity ${restoredSha256} != pinned ${pinned}`)
       }
       if (seenContent.has(contentSha256)) duplicateCount++
       seenContent.add(contentSha256)
-      frames.push({ ...frame, trim, pivot, restoredSha256, contentSha256, source: im, identityPinned: seq.identities ? true : undefined })
+      const built = { ...fitted, name, trim, pivot, restoredSha256, contentSha256, source: im, identityPinned: seq.identities ? true : undefined }
+      builtByName.set(name, built)
+      frames.push(built)
     }
   }
   const packed = packFrames(frames.map((frame) => ({ frame, trim: frame.trim, source: frame.source })), { pagePrefix: `${fighter.id}-` })
@@ -505,7 +576,7 @@ export function preparePack(fighter, sheets) {
     sourceCells,
     displayedUniqueDrawings: seenContent.size,
     duplicateSourceCells: duplicateCount,
-    unusedSourceCells: unused,
+    unusedSourceCells: unused + aliasedCells,
     suspects,
     budgets: budget,
   })

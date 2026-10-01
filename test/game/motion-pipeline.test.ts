@@ -289,6 +289,38 @@ describe('negative controls fail explicitly', () => {
     expect(r.suspects.join(' ')).toContain('bounds overlap - review for merge')
   })
 
+  it('shared bookends: an alias draws the target pixels and counts the source cell unused', () => {
+    const im = sheetOf(3, 1, 48, [{ at: 0, size: 20 }, { at: 1, size: 22 }, { at: 2, size: 24 }])
+    const pack = preparePack(fighter('alias-test', 'mook', [{ name: 'walk', count: 3, rows: 1, cols: 3, alias: { 2: 0 } }]), { walk: im })
+    expect(pack.frames[2]!.contentSha256, 'alias draws the target pixels').toBe(pack.frames[0]!.contentSha256)
+    expect(pack.report.counts.unusedSourceCells, 'the aliased source drawing is unused').toBe(1)
+    expect(pack.report.counts.displayedUniqueDrawings).toBe(2)
+    expect(pack.report.counts.duplicateSourceCells).toBe(1)
+  })
+
+  it('registration: uniform sheet scale, cell-centre and ground anchors', () => {
+    // Figures of different heights both land on the ground line with ONE
+    // sheet scale - no per-pose normalisation.
+    const box = { width: 24, height: 20, groundY: 19 } // cell 48x40, ground at 38
+    const im = sheetOf(2, 1, 48, [{ at: 0, size: 30 }, { at: 1, size: 20, dy: 8 }])
+    const pack = preparePack(fighter('fit-test', 'mook', [{ name: 'walk', count: 2, rows: 1, cols: 2, registration: { scale: 1 } }], { box }), { walk: im })
+    for (const fr of pack.frames) {
+      expect(fr.fit!.scale).toBe(1)
+      expect(fr.trim.trimY + fr.trim.h, 'content pad bottom sits on the ground line + pad').toBe(40)
+    }
+    expect(pack.frames[0]!.trim.h).toBe(30 + 4)
+    expect(pack.frames[1]!.trim.h).toBe(20 + 4)
+  })
+
+  it('registration scale resamples uniformly and is recorded', () => {
+    const im = sheetOf(1, 1, 96, [{ at: 0, size: 40 }])
+    const box = { width: 48, height: 32, groundY: 30 } // cell 96x64
+    const pack = preparePack(fighter('scale-test', 'mook', [{ name: 'walk', count: 1, rows: 1, cols: 1, registration: { scale: 0.5 } }], { box }), { walk: im })
+    expect(pack.frames[0]!.fit!.scale).toBe(0.5)
+    expect(pack.frames[0]!.trim.w).toBe(24) // 40*0.5 content + 2*2 pad
+    expect(pack.frames[0]!.trim.h).toBe(24)
+  })
+
   it('clipped figures at the sheet edge', () => {
     const im = sheetOf(2, 1, 48, [{ at: 0, size: 20, dx: -20 }, { at: 1, size: 20 }])
     expect(() => preparePack(fighter('neg-clipped', 'mook', [{ name: 'walk', count: 2, rows: 1, cols: 2 }]), { walk: im }))

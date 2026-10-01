@@ -74,17 +74,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 2, owner reset 2026-10-01: identity lock
-  DONE (IDENTITY.md); AUTHORING COMPLETE - 5/5 sheets ACCEPTED on first
-  candidates (locomotion, swing, hitstun-held, fall-thrown, getup-death;
-  9/9 cells each, mechanical grid checks + fingerprint-verified reviews;
-  budget 5/8 used, 3 reserved for repairs -> PROVENANCE.md); toolkit
-  extraction policy corrected with 23 unit tests green. Remaining: the
-  per-sheet registration/fit step (uniform scale + recorded translations
-  into the canonical box, shared guard/down bookend enforcement, then
-  trim), pack preparation + measurements (head/weapon spread <=10%),
-  offline continuity review citing frame IDs, acceptance checklist.
-  Attempt 1 was tooling-BLOCKED - diagnosis + fingerprint-review protocol
-  in [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
+  DONE (IDENTITY.md); AUTHORING COMPLETE 5/5 sheets accepted, budget 5/8;
+  REGISTRATION + PREPARATION DONE - one uniform pack scale with
+  cell-centre/ground anchors, shared guard/down bookends enforced by alias,
+  deterministic pack: manifest 7f40bf2f, 45 frames (37 unique + 8 aliases),
+  one 2003x1369 page, decoded 7.45 MiB <= 16 MiB, 0 budget errors ->
+  PROVENANCE.md; toolkit fit/alias support + 26 unit tests green.
+  Remaining: head-size/weapon-length measurements (<=10% spread, unknowns
+  unverified), offline continuity review citing frame IDs/crops,
+  acceptance checklist. Attempt 1 was tooling-BLOCKED - diagnosis +
+  fingerprint-review protocol in [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
