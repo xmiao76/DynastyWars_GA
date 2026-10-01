@@ -22,6 +22,52 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 07:48 UTC - producer pass (count-triggered full UI review at e3e70cf - NO NEW FINDINGS)
+
+- Status before: consumer queue clean (CMR-03 DONE at e3e70cf); producer
+  trigger `git rev-list --count 4bce5d8..HEAD -- src/game` = 4 -> the
+  ledger's review was DUE, so this iteration ran `.loop/eval-loop.md`.
+- Work completed: both producer signals evaluated and the due full visual
+  review (VISUAL_REVIEW sections 1-4) run on a fresh capture.
+- Commands/results: `npm run signal` -> 13 passed (8.0m; co-op + solo
+  invariants 0 violations, perf 11 ms/kTick); `npm run vision` -> 5 passed
+  (9/9 screens pass, renderer parity green, sprite + HUD gates green, both
+  negative controls fail correctly = detectors valid); `npm run
+  review:capture` -> fresh artifacts/review/latest at e3e70cf (previous =
+  4bce5d8); `npm run review:capture -- --unpin V-16` (verified pin
+  released; the V-15b pin stays for owner-blocked UIR-16).
+- Reviewed with the image tool: sheet-flow, sheet-stages, sheet-platform
+  (blind first look + detail), crops/stage1-boss-warning--banner (the
+  largest delta), anatomy/zhangfei.png cell-by-cell, the guanyu sheet via
+  pairs/V-16/guanyu-pair.png's AFTER row, and anatomy/cells/{caoren,
+  guanyu}-down.png re-judged on current pixels.
+- Evidence/decisions: capture vs 4bce5d8 = 386/488 files byte-identical;
+  238/238 anatomy cells + all clean/xray/ids sheets byte-identical -> grid
+  CARRIED (ledger note added); suspects.json identical except the commit
+  label -> no new suspects; inventory diffs = per-run Phaser object UUIDs
+  only; screen/crop deltas = capture jitter (0 differing pixels on most,
+  <=0.05% scattered AA on animated titles, boss-warning delta = its slide-
+  tween band). Down column: the V-16 detached-hand cause is GONE on both
+  re-opened cells (UIR-17 fold present), leaving the recorded A-class prone
+  foreshortening; the five remaining B V-16 labels are historical and kept
+  pending the next full grid re-judgement (their pixels = the V-16-verified
+  capture). V-15b letters unchanged.
+- Proposals: none accepted, none rejected-as-duplicate. No new S1-S3
+  findings -> no UIR batch. No proactive proposal: the queue has ready CMR
+  work (eval-loop step 6 needs an empty queue). Limitations recorded: the
+  V-16 pin (448065f) predates the capture-framework change, so its pair
+  sheets compare old/new framing cells (same limitation as the V-15
+  post-vs-post pairs); five down cells kept historical labels rather than a
+  fresh full-grid re-judgement.
+- Signal snapshot: logic 13 passed | 0 failed; vision 5 passed, 0 findings
+  (artifacts/vision/findings.jsonl empty).
+- Status after: producer pass complete; review cadence re-armed (next due
+  when `git rev-list --count e3e70cf..HEAD -- src/game` >= 4); UIR-16
+  (V-15b) and UIR-19 (V-18) remain owner-blocked.
+- Remaining work or blocker: none from this pass.
+- Next recommended task: consumer pass -> CMR-04 (generic authoring/
+  preparation/provenance tooling).
+
 ### 2026-10-01 07:20 UTC - CMR-03 (attempt 3, stage-scoped runtime + shared frames - DONE)
 
 - Status before: CMR-03 IN_PROGRESS (attempt 2 trimmed repack done;
