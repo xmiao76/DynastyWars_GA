@@ -73,22 +73,27 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 2, owner reset 2026-10-01: identity lock
-  DONE (IDENTITY.md); AUTHORING COMPLETE 5/5 sheets accepted, budget 5/8;
-  REGISTRATION + PREPARATION DONE - one uniform pack scale with
-  cell-centre/ground anchors, shared guard/down bookends enforced by alias,
-  deterministic pack: manifest 7f40bf2f, 45 frames (37 unique + 8 aliases),
-  one 2003x1369 page, decoded 7.45 MiB <= 16 MiB, 0 budget errors ->
-  PROVENANCE.md; toolkit fit/alias support + 26 unit tests green.
-  Remaining: acceptance 4 ONLY - comparable visible head-size and fully
-  observable weapon-length spread <=10% needs producer/owner landmark
-  confirmation (7 fully-observable blade frames measure 7.5% spread, within
-  10%; occluded/foreshortened/head proxies recorded `unverified` per
-  contract - unknowns cannot establish compliance; 45 manual-review crops
-  ready in artifacts/motion/soldier/landmarks/, evidence in
-  CONTINUITY.md/measurements.json). All other acceptance items checked.
-  Attempt 1 was tooling-BLOCKED - diagnosis +
-  fingerprint-review protocol in [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
+- Status: BLOCKED (attempt 2, 2026-10-01: exhausted consumer retry budget
+  on ONE acceptance item after 3 consecutive unsuccessful measurement
+  attempts - the pack itself is complete and verified: deterministic
+  manifest 7f40bf2f, 45 frames (37 unique + 8 shared-bookend aliases), one
+  2003x1369 page, decoded 7.45 MiB <= 16 MiB, identity/continuity/scale all
+  checked, 6/7 acceptance items pass. EXACT BLOCKER: numeric
+  head-size and fully-observable weapon-length spread <=10% cannot be
+  established by consumer tooling - four pixel methods fail on this art
+  (mask bbox-diagonal: occlusion/armour-steel contamination; steel-cluster
+  strict/loose: painted shading splits the blade, helmets merge with
+  shoulder fittings; skin-cluster: profile-vs-frontal + hands) and the
+  ruler-composite eyeball review is below the needed precision. The
+  documented path is the explicit manual landmark review of the 45 labeled
+  crops + gridded review sheet in artifacts/motion/soldier/landmarks/
+  (the Guan Yu path: `motion-landmarks.mjs` "explicit manual landmark
+  review"). Owner input needed: either perform/confirm that review, or
+  authorize how to establish item 4. Budget holds 3 repair requests if the
+  review finds real drift. Everything else is recorded in
+  [PROVENANCE.md](art/motion/soldier/PROVENANCE.md) /
+  [CONTINUITY.md](art/motion/soldier/CONTINUITY.md) /
+  [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

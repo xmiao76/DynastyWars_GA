@@ -22,6 +22,42 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 19:23 UTC - CMR-06A (attempt 2 -> BLOCKED: acceptance-4 measurement retry budget exhausted)
+
+- Status before: CMR-06A IN_PROGRESS (6/7 acceptance items checked; item 4
+  - numeric head-size / fully-observable weapon-length spread <=10% -
+  open at 85b460e).
+- Attempt accounting (AGENTS.md rule 5): acceptance 4 saw THREE
+  consecutive unsuccessful establishment attempts inside attempt 2:
+  (1) 18:52 steel-mask bbox-diagonal (7.5% on 7 clear frames; occluded/
+  contaminated frames unverifiable), (2) 18:59 steel-cluster segmentation
+  (painted shading splits the blade; helmets merge with shoulder fittings),
+  (3) 19:23 loose-threshold clusters + skin-cluster face metric (88..188px
+  blades; 27..44px faces - profile-vs-frontal and hand-vs-face ambiguity)
+  AND a gridded ruler review composite (landmark-review-sheet.png, read
+  with fingerprint verification - ruler too fine at preview scale to beat
+  ~10%). Fourth attempt prohibited -> task BLOCKED per rule 5.
+- Files changed: scripts/measure-soldier.mjs (skin-cluster head metric,
+  steel-cluster variants), scripts/landmark-review-sheet.mjs (gridded 2x
+  crops, ruler in sheet px), art/motion/soldier/measurements.json,
+  TASKS.md, docs/motion-tasks/CMR-06A.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; the unit snapshot stands
+  (808 passed | 1 failed known G6 | 6 skipped); no library code changed.
+- Result: the pack is complete and verified (deterministic manifest
+  7f40bf2f, 45 frames, one 2003x1369 page, 7.45 MiB decoded, identity +
+  continuity + scale + budgets all checked, 6/7 acceptance). Exactly one
+  numeric evidence item remains and consumer tooling cannot produce it.
+- Status after: CMR-06A BLOCKED (attempt 2).
+- Remaining work or blocker: EXACT BLOCKER - the numeric head-size and
+  fully-observable weapon-length spread <=10% confirmation. Missing input:
+  the documented explicit manual landmark review of the 45 labeled crops +
+  gridded review sheet in artifacts/motion/soldier/landmarks/ (the
+  `motion-landmarks.mjs` "explicit manual landmark review" path used for
+  Guan Yu). Budget holds 3 repair requests if the review finds real drift.
+- Next action (owner): perform/confirm the landmark review on the crops
+  (or authorize an alternative way to establish item 4), then reset CMR-06A
+  -> TODO; if confirmed, the task closes and CMR-06B starts.
+
 ### 2026-10-01 18:59 UTC - CMR-06A (attempt 2, IN_PROGRESS - second measurement method; acceptance 4 conclusively tooling-limited)
 
 - Status before: CMR-06A IN_PROGRESS (acceptance 4 open after the bbox-diagonal

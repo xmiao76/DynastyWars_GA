@@ -63,7 +63,9 @@ function steelClusters(im, c) {
     const r = im.data[k], g = im.data[k + 1], b = im.data[k + 2], a = im.data[k + 3]
     if (a < 200) return false
     const hi = Math.max(r, g, b), lo = Math.min(r, g, b)
-    return hi > 168 && hi - lo < 28
+    // Painted blade steel spans highlights AND midtones (130..240 luma);
+    // the dark iron helmet (<= ~110 luma) stays out.
+    return hi > 130 && hi - lo < 40
   }
   const out = []
   for (let y = c.y0; y <= c.y1; y++) {
@@ -105,15 +107,48 @@ function bladeExtent(im, c) {
   return Math.round(L)
 }
 
-/** Helmet width: topmost steel cluster of an upright figure. */
+/** Helmet/face width: topmost SKIN cluster of an upright figure (face size). */
 function helmetWidth(im, c) {
   const h = c.y1 - c.y0 + 1
   const w = c.x1 - c.x0 + 1
   if (h / w < 1.15) return null // not upright: head is not the topmost element
-  const clusters = steelClusters(im, c).filter((cl) => cl.area > 150)
-  if (clusters.length === 0) return null
-  const helmet = clusters.reduce((a, b) => (b.y0 < a.y0 ? b : a))
-  return helmet.x1 - helmet.x0 + 1
+  const iw = im.width
+  const isSkin = (x, y) => {
+    const k = (y * iw + x) * 4
+    const r = im.data[k], g = im.data[k + 1], b = im.data[k + 2], a = im.data[k + 3]
+    return a >= 200 && r > 105 && r > g + 12 && g > b && b < 170
+  }
+  const seen = new Set()
+  let best = null
+  for (let y = c.y0; y <= c.y1; y++) {
+    for (let x = c.x0; x <= c.x1; x++) {
+      const key = y * iw + x
+      if (seen.has(key) || !isSkin(x, y)) continue
+      seen.add(key)
+      const stack = [[x, y]]
+      let x0 = x, x1 = x, y0 = y, y1 = y, area = 0
+      while (stack.length) {
+        const [qx, qy] = stack.pop()
+        area++
+        if (qx < x0) x0 = qx
+        if (qx > x1) x1 = qx
+        if (qy < y0) y0 = qy
+        if (qy > y1) y1 = qy
+        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+          const nx = qx + dx, ny = qy + dy
+          const nkey = ny * iw + nx
+          if (nx < c.x0 || nx > c.x1 || ny < c.y0 || ny > c.y1) continue
+          if (seen.has(nkey) || !isSkin(nx, ny)) continue
+          seen.add(nkey)
+          stack.push([nx, ny])
+        }
+      }
+      const cluster = { x0, x1, y0, y1, area }
+      if (cluster.area > 150 && (best === null || cluster.y0 < best.y0)) best = cluster
+    }
+  }
+  if (!best) return null
+  return best.x1 - best.x0 + 1
 }
 
 const heads = []

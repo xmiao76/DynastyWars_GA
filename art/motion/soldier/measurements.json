@@ -14,18 +14,18 @@
     "density": 2
   },
   "headSize": {
-    "n": 5,
-    "mean": 112.8,
-    "min": 82,
-    "max": 140,
-    "spreadPct": 51.42
+    "n": 11,
+    "mean": 37.27,
+    "min": 27,
+    "max": 44,
+    "spreadPct": 45.61
   },
   "weaponLength": {
-    "n": 7,
-    "mean": 137.71,
-    "min": 110,
-    "max": 159,
-    "spreadPct": 35.58
+    "n": 12,
+    "mean": 149.75,
+    "min": 88,
+    "max": 188,
+    "spreadPct": 66.78
   },
   "weaponLengthFullyObservable": {
     "n": 1,
@@ -33,7 +33,7 @@
     "values": [
       {
         "id": "locomotion:0",
-        "value": 149,
+        "value": 154,
         "aliasedFrom": null
       }
     ]
@@ -42,38 +42,38 @@
     {
       "id": "locomotion:0",
       "aliasedFrom": null,
-      "head": 122,
-      "blade": 149
+      "head": 36,
+      "blade": 154
     },
     {
       "id": "locomotion:1",
       "aliasedFrom": null,
-      "head": 140,
-      "blade": 159
+      "head": 38,
+      "blade": 177
     },
     {
       "id": "locomotion:2",
       "aliasedFrom": null,
-      "head": 105,
-      "blade": 131
+      "head": 38,
+      "blade": 145
     },
     {
       "id": "locomotion:3",
       "aliasedFrom": null,
-      "head": 115,
-      "blade": 142
+      "head": 40,
+      "blade": 149
     },
     {
       "id": "locomotion:4",
       "aliasedFrom": null,
-      "head": 82,
-      "blade": 110
+      "head": 38,
+      "blade": 121
     },
     {
       "id": "locomotion:5",
       "aliasedFrom": null,
-      "head": "unverified",
-      "blade": "unverified"
+      "head": 37,
+      "blade": 156
     },
     {
       "id": "locomotion:6",
@@ -90,8 +90,8 @@
     {
       "id": "locomotion:8",
       "aliasedFrom": "locomotion:0",
-      "head": 119,
-      "blade": 145
+      "head": 36,
+      "blade": 154
     },
     {
       "id": "swing:0",
@@ -102,13 +102,13 @@
     {
       "id": "swing:1",
       "aliasedFrom": null,
-      "head": "unverified",
+      "head": 30,
       "blade": "unverified"
     },
     {
       "id": "swing:2",
       "aliasedFrom": null,
-      "head": "unverified",
+      "head": 41,
       "blade": "unverified"
     },
     {
@@ -132,7 +132,7 @@
     {
       "id": "swing:6",
       "aliasedFrom": null,
-      "head": "unverified",
+      "head": 44,
       "blade": "unverified"
     },
     {
@@ -162,8 +162,8 @@
     {
       "id": "hitstun-held:2",
       "aliasedFrom": null,
-      "head": "unverified",
-      "blade": "unverified"
+      "head": 41,
+      "blade": 162
     },
     {
       "id": "hitstun-held:3",
@@ -192,7 +192,7 @@
     {
       "id": "hitstun-held:7",
       "aliasedFrom": null,
-      "head": "unverified",
+      "head": 27,
       "blade": "unverified"
     },
     {
@@ -259,7 +259,7 @@
       "id": "getup-death:0",
       "aliasedFrom": null,
       "head": "unverified",
-      "blade": 135
+      "blade": 154
     },
     {
       "id": "getup-death:1",
@@ -271,13 +271,13 @@
       "id": "getup-death:2",
       "aliasedFrom": null,
       "head": "unverified",
-      "blade": "unverified"
+      "blade": 131
     },
     {
       "id": "getup-death:3",
       "aliasedFrom": "fall-thrown:3",
       "head": "unverified",
-      "blade": "unverified"
+      "blade": 158
     },
     {
       "id": "getup-death:4",
@@ -289,25 +289,25 @@
       "id": "getup-death:5",
       "aliasedFrom": null,
       "head": "unverified",
-      "blade": "unverified"
+      "blade": 88
     },
     {
       "id": "getup-death:6",
       "aliasedFrom": null,
       "head": "unverified",
-      "blade": 138
+      "blade": 188
     },
     {
       "id": "getup-death:7",
       "aliasedFrom": null,
       "head": "unverified",
-      "blade": "unverified"
+      "blade": 172
     },
     {
       "id": "getup-death:8",
       "aliasedFrom": "locomotion:0",
-      "head": "unverified",
-      "blade": "unverified"
+      "head": 37,
+      "blade": 147
     }
   ]
 }

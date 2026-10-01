@@ -1,6 +1,6 @@
 # CMR-06A — Wei Soldier: author and prepare complete whole-character pack
 
-- Queue status: attempt 2 IN_PROGRESS (owner reset 2026-10-01; attempt 1 was tooling-BLOCKED on the diagnosed DSH image-association bug - see [AUTHORING-PLAN.md](../../art/motion/soldier/AUTHORING-PLAN.md)). Live status is authoritative in [TASKS.md](../../TASKS.md).
+- Queue status: BLOCKED (attempt 2, 2026-10-01 - the pack is complete and verified with 6/7 acceptance items passing; the ONE blocker is the numeric head-size / fully-observable weapon-length spread confirmation (item 4), which four automated pixel methods and a ruler-composite review could not establish on this art. The documented manual landmark review of the 45 labeled crops in `artifacts/motion/soldier/landmarks/` is the missing input). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-05 DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-06B](CMR-06B.md) is the separate runtime/capture task.
 
