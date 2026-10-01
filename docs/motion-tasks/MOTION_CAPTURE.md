@@ -57,6 +57,14 @@ provenance** (rows not from the commit they claim) and **clock defects**
 `assertIndexIntegrity` rejects an **unseen pose labelled natural** and any
 **null/unseen landmark** — those can never pass.
 
+The runner additionally rejects **blank/black crops** (a frame that is ~all
+black is a capture bug, never review evidence). This guard exists because
+the first webgl capture produced 100% black crops silently: the spec drew
+`game.canvas` outside the render frame, and with `preserveDrawingBuffer:
+false` a WebGL drawing buffer is already cleared there. Crops now come from
+`game.renderer.snapshot()` (post-render `gl.readPixels`), which is correct
+on both renderers.
+
 Coverage cells are `captured` or `unseen`; there is no silent `N`.
 `--strict` fails a run whose landmarks are unverified; without it they are
 listed as OPEN items (consumer self-check only — producers verify fresh).

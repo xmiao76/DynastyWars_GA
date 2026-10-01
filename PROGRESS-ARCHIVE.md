@@ -8255,3 +8255,29 @@ lines. Never read during an iteration; consult only for deep history.
   GYM-1/BODY-7/ENH-12 unchanged.
 - Next recommended task: CMR-06A (Wei Soldier: author/prepare full motion
   pack).
+
+### 2026-10-01 10:23 UTC - IDLE tick (tool-health probe: image viewing recovered)
+
+- Status before: queue owner-gated (CMR-06A BLOCKED attempt 1 on
+  image-viewing tooling; 34 TODOs all behind it; review trigger 0; no
+  IN_PROGRESS).
+- Work completed: none startable by the framework (no ready work), so no
+  task work was attempted. One diagnostic tool-health probe instead:
+  `read_image` served the soldier body master CORRECTLY, matching the
+  recorded mechanical fingerprint (832x1248, 85.2% near-black background;
+  helmeted light infantry with a rigid upright sword). Probe trend on the
+  same file: 08:53 wrong pixels, 09:53 wrong pixels, 10:23 correct - the
+  tooling blocker condition is GONE as of 10:23 UTC.
+- Files changed: TASKS.md (CMR-06A note updated: ready for owner reset),
+  PROGRESS.md. No code changed; gates at c8e524b/d3ae849 stand.
+- Result: IDLE - NO READY WORK (CMR-06A stays BLOCKED; only the owner
+  resets a blocked task).
+- Status after: unchanged queue; one owner action (reset CMR-06A to TODO)
+  unblocks the whole sequential CMR chain (CMR-06B..24).
+- Remaining work or blocker: owner reset of CMR-06A (its blocker condition
+  is resolved - the image tool serves correct pixels again); UIR-16/UIR-19/
+  GYM-1/BODY-7/ENH-12 remain owner-deferred.
+- Next recommended task: on owner reset, CMR-06A attempt 2 starts at the
+  identity inspection (both masters, fingerprint-verified previews) per
+  art/motion/soldier/AUTHORING-PLAN.md; request budget still untouched
+  0/8.

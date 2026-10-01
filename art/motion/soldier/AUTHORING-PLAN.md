@@ -94,3 +94,29 @@ Needed to proceed: a session where the image tool serves the requested
 file's pixels (verify against the fingerprint table above), or the owner
 visually inspects/reviews the identity masters and generated sheets and
 records the verdicts.
+
+## Diagnosis (2026-10-01, owner investigation) - harness bug, not files/model
+
+Controlled reproduction proved the cause is the DSH harness's image-
+attachment association, NOT the model's vision and NOT these source files:
+
+- `artifacts/tmpcheck/RED-A.png` (200x120, 2656 B, red panel reading
+  "RED-A") was requested; the tool metadata was exactly right (sha256
+  `6d75963d...`, "request preview 200x120px") but the pixels delivered were
+  an unrelated 896x576 session image. `artifacts/tmpcheck/BLUE-B.png` read
+  correctly the same hour -> intermittent (~50% in this session).
+- The attachment object store verifies 100% (1,098/1,098 objects hash to
+  their own keys) and the request-image cache is keyed by
+  digest(attachmentId + target + transform version) - collision-proof - so
+  storage/cache are exonerated; the wrong BYTES get paired at message
+  assembly (the tool-result text is built from the attachment ref while the
+  attached image comes from the per-attachment request version).
+- The source masters are pristine (clean tree, committed long ago in
+  BODY-4/BODY-12), and fingerprint-verified reads served them correctly.
+
+**Review protocol for attempt 2 (mandatory):** before trusting any preview,
+verify it against a mechanical fingerprint of the requested file (size,
+aspect, dominant colours/background share computed with @napi-rs/canvas).
+The tool prints the true sha256 and dimensions in its text; the DISPLAYED
+pixels can still be another attachment's. If a preview fails its
+fingerprint, re-read it (correct reads do occur) instead of reviewing it.

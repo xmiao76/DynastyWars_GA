@@ -81,6 +81,24 @@ const r = spawnSync(
 )
 if ((r.status ?? 1) !== 0) process.exit(r.status ?? 1)
 
+// ---- blank-crop guard: black frames are a harness bug, never evidence ----
+// (The webgl capture once produced 100% black crops because a WebGL canvas
+// is cleared outside the render frame; the trace still looked perfect.)
+const frameFiles = existsSync(`${run}/frames`)
+  ? readdirSync(`${run}/frames`).filter((f) => f.endsWith('.png')).sort()
+  : []
+const blanks = []
+for (const f of frameFiles) {
+  const img = await loadImage(`${run}/frames/${f}`)
+  const cv = createCanvas(img.width, img.height)
+  const g = cv.getContext('2d')
+  g.drawImage(img, 0, 0)
+  const d = g.getImageData(0, 0, img.width, img.height).data
+  let lit = 0
+  for (let i = 0; i < d.length; i += 4) if (d[i] + d[i + 1] + d[i + 2] > 24) lit++
+  if (lit / (d.length / 4) < 0.01) blanks.push(f)
+}
+
 // ---- validate the live capture through the review core ----
 const trace = JSON.parse(readFileSync(`${run}/trace.json`, 'utf8'))
 const rows = trace.rows
@@ -140,6 +158,7 @@ const report = {
   validation: verdict,
   integrity: { hard, open },
   pacing: pacingReport(rows),
+  blanks,
   resources: resourceReport({
     networkBytes: 4_328_499,
     sourceBytes: 4_328_499,
@@ -156,9 +175,6 @@ writeFileSync(`${run}/report.json`, `${JSON.stringify(report, null, 2)}\n`)
 writeFileSync(`${run}/index.json`, `${JSON.stringify(index, null, 2)}\n`)
 
 // ---- contact sheet + before/after pair sheets ----
-const frameFiles = existsSync(`${run}/frames`)
-  ? readdirSync(`${run}/frames`).filter((f) => f.endsWith('.png')).sort()
-  : []
 if (frameFiles.length > 0) {
   const cols = Math.min(4, frameFiles.length)
   const cell = 320
@@ -206,8 +222,9 @@ console.log(`motion-capture: ${fighter}/${role}/${renderer} commit ${commit}${di
 console.log(`  rows ${rows.length}; trace errors ${verdict.errors.length}; hard integrity ${hard.length}; open items ${open.length}`)
 console.log(`  coverage captured ${report.coverageSummary.captured} / unseen ${report.coverageSummary.unseen} (unseen stays unseen)`)
 for (const e of [...verdict.errors, ...hard]) console.log(`  DEFECT: ${e}`)
+for (const f of blanks) console.log(`  DEFECT: blank/black crop ${f} (capture bug, not evidence)`)
 for (const e of open) console.log(`  OPEN (cannot pass): ${e}`)
-if (verdict.errors.length > 0 || hard.length > 0 || (strict && open.length > 0)) {
+if (verdict.errors.length > 0 || hard.length > 0 || blanks.length > 0 || (strict && open.length > 0)) {
   console.log('motion-capture: FAILED')
   process.exit(1)
 }

@@ -44,6 +44,15 @@
   recovery; verified mechanically (0.0% card-parchment pixels) because
   reviewer image previews were unreliable this session (noted as an
   inspection limitation).
+- Correction (owner-found, same day): the webgl capture's crops were 100%
+  black - `drawImage(game.canvas)` reads a WebGL drawing buffer that is
+  cleared outside the render frame (`preserveDrawingBuffer: false`), so the
+  canvas renderer hid the bug. Fixed: crops come from
+  `game.renderer.snapshot()` (post-render readback) and the runner now
+  REJECTS blank/black crops as a capture-bug defect. Re-run verified:
+  webgl frames mean-lum ~125 (was 0.0), webgl contact sheet 105 (was 3.6),
+  matching canvas on both renderers. The 33-row traces/keys were never
+  affected.
 
 ## Verification
 

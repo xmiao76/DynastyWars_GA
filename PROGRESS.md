@@ -22,31 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
-### 2026-10-01 10:23 UTC - IDLE tick (tool-health probe: image viewing recovered)
+### 2026-10-01 15:52 UTC - owner investigation (image failures) + CMR-05 harness fix
 
-- Status before: queue owner-gated (CMR-06A BLOCKED attempt 1 on
-  image-viewing tooling; 34 TODOs all behind it; review trigger 0; no
-  IN_PROGRESS).
-- Work completed: none startable by the framework (no ready work), so no
-  task work was attempted. One diagnostic tool-health probe instead:
-  `read_image` served the soldier body master CORRECTLY, matching the
-  recorded mechanical fingerprint (832x1248, 85.2% near-black background;
-  helmeted light infantry with a rigid upright sword). Probe trend on the
-  same file: 08:53 wrong pixels, 09:53 wrong pixels, 10:23 correct - the
-  tooling blocker condition is GONE as of 10:23 UTC.
-- Files changed: TASKS.md (CMR-06A note updated: ready for owner reset),
-  PROGRESS.md. No code changed; gates at c8e524b/d3ae849 stand.
-- Result: IDLE - NO READY WORK (CMR-06A stays BLOCKED; only the owner
-  resets a blocked task).
-- Status after: unchanged queue; one owner action (reset CMR-06A to TODO)
-  unblocks the whole sequential CMR chain (CMR-06B..24).
-- Remaining work or blocker: owner reset of CMR-06A (its blocker condition
-  is resolved - the image tool serves correct pixels again); UIR-16/UIR-19/
-  GYM-1/BODY-7/ENH-12 remain owner-deferred.
-- Next recommended task: on owner reset, CMR-06A attempt 2 starts at the
-  identity inspection (both masters, fingerprint-verified previews) per
-  art/motion/soldier/AUTHORING-PLAN.md; request budget still untouched
-  0/8.
+- Status before: queue owner-gated (CMR-06A BLOCKED); owner asked (a) the
+  root cause of the recorded image-viewing failure and (b) why review
+  artifacts look "almost dark".
+- (a) Verdict: a DSH harness image-ATTACHMENT ASSOCIATION bug - not the
+  model, not previous work. Evidence: the attachment store verifies 100%
+  (1,098/1,098 objects hash to their own keys); the request-image cache is
+  keyed by digest(attachmentId+target+transform) = collision-proof; the
+  masters are pristine (clean tree; BODY-4/BODY-12 commits); controlled
+  repro: reading `artifacts/tmpcheck/RED-A.png` (200x120 red panel)
+  returned EXACTLY correct metadata (sha 6d75963d..., "request preview
+  200x120px") while delivering an unrelated 896x576 session image, and
+  BLUE-B.png read correctly minutes later -> intermittent (~50%). The
+  delivered image's dimensions never matched the requested file - a vision
+  error cannot produce that; my descriptions faithfully reported the wrong
+  pixels delivered. Suspected seam: message assembly pairing image blocks
+  with per-attachment request versions (dsh-llm builds the handle text from
+  the ref, bytes from the version); failures began after session checkpoint
+  compaction. Repro artifacts kept at artifacts/tmpcheck/.
+- (b) Owner's dark artifacts = a REAL defect in my CMR-05 capture harness
+  (unrelated to (a)): every guanyu-webgl crop was 100% black (mean-lum 0.0
+  vs canvas ~125) because the spec drew `game.canvas` outside the render
+  frame - a WebGL drawing buffer is cleared there (preserveDrawingBuffer:
+  false); the canvas renderer hid the bug. Fixed: crops use
+  `game.renderer.snapshot()` (post-render readback), and the runner now
+  REJECTS blank/black crops as a capture-bug defect (new negative control).
+- Files changed: e2e/motion-capture.spec.ts, scripts/motion-capture.mjs,
+  docs/motion-tasks/{MOTION_CAPTURE.md,CMR-05.md} (correction recorded),
+  art/motion/soldier/AUTHORING-PLAN.md (diagnosis + mandatory
+  fingerprint-review protocol), PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; motion-review-core units
+  16/16; three live captures re-run (webgl x2 incl. pairs, canvas x1) with
+  0 blank-crop defects; brightness verified mechanically (webgl contact
+  sheet 105.0 mean-lum, was 3.6; webgl frames ~125, was 0.0; canvas
+  unchanged).
+- Result: both owner questions answered with repro; CMR-05 harness defect
+  fixed and guarded.
+- Status after: queue unchanged (CMR-06A still BLOCKED, owner reset).
+- Remaining work or blocker: CMR-06A awaits the owner reset (its tooling
+  blocker is understood; attempt 2 must use the fingerprint-review
+  protocol); DSH bug reportable upstream with the RED-A repro.
+- Next recommended task: owner reset of CMR-06A -> attempt 2.
 
 ### 2026-10-01 09:35 UTC - CMR-06A (attempt 1 - BLOCKED, image-viewing tooling)
 

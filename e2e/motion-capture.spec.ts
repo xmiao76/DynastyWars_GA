@@ -110,7 +110,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       await page.evaluate(() => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r()))))
       await page.waitForTimeout(120)
     }
-    const row = await page.evaluate(({ action, facing, origin, source, renderer, commit, shot, elapsed }) => {
+    const row = await page.evaluate(async ({ action, facing, origin, source, renderer, commit, shot, elapsed }) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
       const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
       g.syncSprites()
@@ -125,12 +125,22 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
         h: Math.round(worldH * 2),
       }
       if (shot) {
-        const game = window.__DW_GAME__!
+        // Capture via the renderer's own post-render snapshot, never by
+        // drawing game.canvas out of band: with preserveDrawingBuffer=false
+        // a WebGL canvas is already cleared to black outside the render
+        // frame (the canvas renderer hid the bug - webgl crops came out
+        // 100% black).
+        const dataUrl = await new Promise<string>((resolve) => {
+          window.__DW_GAME__!.renderer.snapshot((snap) => resolve((snap as HTMLImageElement).src))
+        })
+        const snap = new Image()
+        snap.src = dataUrl
+        await snap.decode()
         const cv = document.createElement('canvas')
         cv.width = box.w * 2 // 4x of logical art
         cv.height = box.h * 2
         const ctx = cv.getContext('2d')!
-        ctx.drawImage(game.canvas, Math.max(0, box.x), Math.max(0, box.y), box.w, box.h, 0, 0, cv.width, cv.height)
+        ctx.drawImage(snap, Math.max(0, box.x), Math.max(0, box.y), box.w, box.h, 0, 0, cv.width, cv.height)
         const store = (window as unknown as { __MOTION_CROPS__?: Record<string, string> })
         store.__MOTION_CROPS__ ??= {}
         store.__MOTION_CROPS__[shot] = cv.toDataURL('image/png')
