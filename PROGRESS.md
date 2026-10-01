@@ -22,6 +22,44 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 21:10 UTC - CMR-06A (attempt 2, IN_PROGRESS - owner directive: problem pictures identified + redrawn)
+
+- Status before: CMR-06A BLOCKED on acceptance 4; owner cleared the block
+  with the directive "identify the art pictures what cause the problem and
+  block the acceptance test, redraw the raw art picture and redo partial of
+  the work if necessary".
+- Work completed: (1) IDENTIFICATION - built a fixed-scale, ruler-gridded
+  head-comparison sheet of all 37 unique drawings (fingerprint-verified
+  read after defeating the harness mispairing with fresh-bytes retries;
+  the bug hit 4 times this round). Finding: HEAD SIZES ARE CONSISTENT
+  across all 37 (helmet domes ~95-105 sheet-px, ~+/-5% incl. perspective)
+  - the art passes the head half and the earlier head-metric failures were
+  purely tooling. The true blockers are 7 cells where the sword is
+  occluded or foreshortened (locomotion:4, locomotion:5, fall-thrown:4,
+  fall-thrown:5, getup-death:0, getup-death:6, getup-death:7). (2) REDRAW -
+  3 targeted repair sheets drawn with the swords fully side-on in clear
+  space (locomotion-repair 8c1fb2a5, fall-thrown-repair c1ef4cde,
+  getup-death-repair 6999b1bb); budget exhausted at 8/8 exactly per the
+  plan's repair reserve. Mechanically validated (figures located; fall
+  tumbles ~405px vs 330 requested and getup blades drawn detached -
+  both handled at splice by pose-matched rescale and per-pose component
+  grouping).
+- Files changed: scripts/head-review-sheet.mjs, art/motion/soldier/
+  {locomotion-repair-candidate-1.png,fall-thrown-repair-candidate-1.png,
+  getup-death-repair-candidate-1.png,PROVENANCE.md}, TASKS.md,
+  PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean (one unused-var fix in the
+  review-sheet script); unit snapshot stands (808 passed | 1 failed known
+  G6 | 6 skipped).
+- Result: the acceptance-4 blocker is precisely identified and its raw art
+  is redrawn within budget; nothing else in the pack needs changing.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: splice the 7 repaired cells into the three
+  sheets (pose-matched uniform rescale + ground/cell-centre placement),
+  re-run prepare-soldier + measure-soldier, and re-establish acceptance 4
+  by measurement over the now fully-observable swords. No blocker.
+- Next recommended task: continue CMR-06A (splice + re-prep + re-measure).
+
 ### 2026-10-01 19:23 UTC - CMR-06A (attempt 2 -> BLOCKED: acceptance-4 measurement retry budget exhausted)
 
 - Status before: CMR-06A IN_PROGRESS (6/7 acceptance items checked; item 4

@@ -73,25 +73,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 2, 2026-10-01: exhausted consumer retry budget
-  on ONE acceptance item after 3 consecutive unsuccessful measurement
-  attempts - the pack itself is complete and verified: deterministic
-  manifest 7f40bf2f, 45 frames (37 unique + 8 shared-bookend aliases), one
-  2003x1369 page, decoded 7.45 MiB <= 16 MiB, identity/continuity/scale all
-  checked, 6/7 acceptance items pass. EXACT BLOCKER: numeric
-  head-size and fully-observable weapon-length spread <=10% cannot be
-  established by consumer tooling - four pixel methods fail on this art
-  (mask bbox-diagonal: occlusion/armour-steel contamination; steel-cluster
-  strict/loose: painted shading splits the blade, helmets merge with
-  shoulder fittings; skin-cluster: profile-vs-frontal + hands) and the
-  ruler-composite eyeball review is below the needed precision. The
-  documented path is the explicit manual landmark review of the 45 labeled
-  crops + gridded review sheet in artifacts/motion/soldier/landmarks/
-  (the Guan Yu path: `motion-landmarks.mjs` "explicit manual landmark
-  review"). Owner input needed: either perform/confirm that review, or
-  authorize how to establish item 4. Budget holds 3 repair requests if the
-  review finds real drift. Everything else is recorded in
-  [PROVENANCE.md](art/motion/soldier/PROVENANCE.md) /
+- Status: IN_PROGRESS (attempt 2 continues - owner directive 2026-10-01:
+  identify problem pictures, redraw, redo partial work. DONE this tick:
+  identified via a fingerprint-verified head-comparison sheet that head
+  sizes are CONSISTENT across all 37 drawings (helmet domes ~95-105px,
+  ~+/-5%) and the true blockers are 7 cells with occluded/foreshortened
+  swords (locomotion:4,5; fall-thrown:4,5; getup-death:0,6,7); drew 3
+  targeted repair sheets with the swords fully side-on in clear space
+  (budget 8/8 used -> PROVENANCE.md). NEXT: splice the repaired cells
+  (pose-matched rescale + placement), re-run prepare/measure, re-establish
+  acceptance 4 by measurement. Pack so far: manifest 7f40bf2f, 45 frames,
+  one 2003x1369 page, 7.45 MiB decoded, 6/7 acceptance.
+  Evidence: [PROVENANCE.md](art/motion/soldier/PROVENANCE.md) /
   [CONTINUITY.md](art/motion/soldier/CONTINUITY.md) /
   [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)

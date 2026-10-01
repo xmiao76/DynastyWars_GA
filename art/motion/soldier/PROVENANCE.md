@@ -80,9 +80,36 @@ Still unverified (cannot establish compliance): head-size and
 weapon-length spreads (<=10% requirement) and the offline continuity
 review citing frame IDs - next unit of work.
 
-## Remaining budget plan (3 left)
+## Redraw round (owner directive, 2026-10-01 - acceptance-4 repair)
 
-Authoring is COMPLETE at 5/8 (five whole-sheet candidates, one per
-sequence, all accepted on first candidate). The 3 remaining requests are
-reserved for targeted repairs / second candidates during measurement
-review.
+Owner: "identify the art pictures what cause the problem and block the
+acceptance test, redraw the raw art picture and redo partial of the work
+if necessary."
+
+Identification (fingerprint-verified head-comparison sheet, all 37 unique
+drawings at one scale with a ruler - `artifacts/motion/soldier/landmarks/
+head-review-1.png`):
+
+- HEAD SIZE: consistent across all 37 drawings (helmet domes ~95-105
+  sheet-px, ~+/-5% incl. perspective on tilted heads) - the head half of
+  acceptance 4 is satisfied by the art; earlier head-metric failures were
+  tooling artifacts.
+- PROBLEM PICTURES (the cells where the sword is occluded or foreshortened,
+  which made "fully observable weapon-length" unmeasurable): `locomotion:4`
+  (far-leg walk), `locomotion:5` (stop), `fall-thrown:4`, `fall-thrown:5`
+  (tumbles), `getup-death:0` (elbow getup), `getup-death:6` (crumple),
+  `getup-death:7` (dead).
+
+Repair candidates drawn (budget 8/8 used - targeted edits, not whole
+sheets):
+
+| seq | candidate | sha256 | contents |
+| --- | --- | --- | --- |
+| locomotion-repair | locomotion-repair-candidate-1.png | `8c1fb2a5fb26a9f3edb31a7bdebb70bfe56e945e70bec9cb2299e9d78b661e06` | redraw of walk far-leg + stop with the entire sword side-on in clear space (2 figures in cells (1,1)/(2,1)) |
+| fall-thrown-repair | fall-thrown-repair-candidate-1.png | `c1ef4cde6f4e1a2279c9759febdfe683c48b2dfa8f046b6c79f96a2f2ed053da` | redraw of both tumbles, sword held out clear (2 figures, ~405px tall vs 330 requested - pose-matched rescale at splice) |
+| getup-death-repair | getup-death-repair-candidate-1.png | `6999b1bbbab7a16ec990b0f0320921693baed7b0bddce514a3bc1700acc1e7eb` | redraw of elbow getup + crumple + dead, sword always fully visible (3 figures; blades drawn detached -> group components per pose at splice) |
+
+Remaining work: splice the repaired cells into the three sheets
+(pose-matched uniform rescale + ground/cell-centre placement), re-run
+`prepare-soldier.mjs` and `measure-soldier.mjs`, re-establish acceptance 4
+by measurement over the now fully-observable swords.
