@@ -72,16 +72,16 @@ function analyze(crop: { w: number; h: number; data: Uint8ClampedArray }): { qua
   const peakScan = (line: number[]): number => {
     let peaks = 0
     for (let x = 5; x < line.length - 5; x += 1) {
-      const v = line[x]
+      const v = line[x] ?? Number.NaN
       if (Number.isNaN(v)) continue
       // Count each bump once: rising edge of a plateau, not a strict max.
-      const prev = line[x - 1]
+      const prev = line[x - 1] ?? Number.NaN
       if (Number.isNaN(prev) || v <= prev) continue
       let isTop = true
       let prom = Infinity
       for (let k = -4; k <= 4; k += 1) {
         if (k === 0) continue
-        const u = line[x + k]
+        const u = line[x + k] ?? Number.NaN
         if (Number.isNaN(u)) continue
         if (u > v) isTop = false
         prom = Math.min(prom, v - u)
