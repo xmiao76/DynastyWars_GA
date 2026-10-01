@@ -22,6 +22,51 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 05:10 UTC - CMR-02 (attempt 1, per-kind motion profiles - DONE)
+
+- Status before: CMR-02 TODO (dependency CMR-01 DONE, satisfied).
+- Work completed: new presentation-only module
+  src/game/art/motion-profiles.ts lifting the Guan Yu pilot's three
+  hard-codings (pack id, gy-prefix slicing, uniform action-page
+  requirement) into a per-kind MotionProfile contract: role
+  (hero/melee/boss/shooter), exact attack-id -> clip bindings derived
+  from CHARACTERS/ENEMIES/ATTACKS (read-only core), capability
+  matrix (enemies carry NO jump/special/mounted pages), per-kind
+  hitstun, and cues (archer fireInterval 90 + spawn-driven release;
+  hz.special zero-active with no invented melee window).
+  validateMotionProfile + validateClipExposures reject unknown ids,
+  unknown clips, non-attack clip bindings, wrong role bindings
+  (shooter with melee attacks, hero without jump attack, boss
+  without charge/combo/heavy, melee claiming hero abilities),
+  missing cadence and malformed exposure ordering.
+  clipsForProfile builds each kind's clip table from the EXACT
+  attack windows (strike key at startup, recovery key at
+  startup+active; guanyuClips parity incl. mountedsweep).
+- Tests: test/game/motion-profiles.test.ts (14 tests, TDD): fixture
+  profiles validate/sample for zhangfei/zhaoyun/huangzhong/weiyan +
+  soldier/spearman + 9-boss set + archer; bound ticks == source
+  windows; zero-active + shooter cues; two simultaneous actors keep
+  separate histories and cannot be double-advanced by extra renders;
+  guanyuClips pinned to the CMR-01 frozen clipsHash
+  513e9ff0... (normalization matched the freeze probe exactly);
+  negative controls for every rule. Two real defects surfaced and
+  fixed during TDD (bindings-to-locomotion-clips rule was wrong;
+  the hash pin needed the probe's normalized shape).
+- Files changed: src/game/art/motion-profiles.ts (new), test/game/
+  motion-profiles.test.ts (new), TASKS.md, PROGRESS.md. No core,
+  gameplay, artwork or existing-file changes (acceptance 6).
+- Verification run: tsc 0; lint 0; full unit 725 passed | 1 failed
+  (G6-only, the UIR-16 BLOCKED pin) | 6 skipped; signal 13/0;
+  vision + prodbuild green (vision 5/5, prodbuild 6/6); Guan Yu boundary/allactions/pilot
+  suites green unchanged (acceptance 4).
+- Result: CMR-02 acceptance all 6 items met.
+- Status after: CMR-02 DONE.
+- Remaining work or blocker: none for CMR-02. Presentation adapters
+  still consume guanyuClips directly - wiring per-kind profiles into
+  the loader/playback is CMR-03/04 territory per the specs.
+- Next recommended task: CMR-03 (stage-aware bounded atlas loading).
+
+
 ### 2026-10-01 03:50 UTC - CMR-01 (attempt 1, reference/inventory/budgets - DONE)
 
 - Status before: CMR-01 TODO (first task of the owner's whole-cast

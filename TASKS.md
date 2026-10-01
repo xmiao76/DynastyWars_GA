@@ -24,7 +24,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-02 - Generic per-kind motion profiles/playback
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
 - Dependency: CMR-01 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-02](docs/motion-tasks/CMR-02.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Non-Guan hero/melee/boss/archer fixtures; exact per-actor windows/cues and interruption tests; preserve Guan Yu output and core schemas.
@@ -355,49 +355,6 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ## Enhancements
 
 Add future enhancement tasks below this heading.
-
-### BODY-23 - Clean painted cells: holes, capes, boots
-
-- Status: DONE (attempt 1, 2026-09-27 UTC - owner round-3 goal,
-  verified full-green same day)
-- From the BODY-18 audit (docs/ART_AUDIT.md G5/G6/G8): (G6) the
-  black-ground flood key eats near-black costume - interior keyed-hole
-  share per cell 16-36% on Cao Cao, 12-22% Xiahou Dun, 8-24% Zhang
-  Liao, 11-21% Zhang He, Lu Bu shinF 23% - reads moth-eaten in game;
-  (G5) the 6 caped plans keep a flat procedural cape polygon behind
-  painted armour; (G8) procedural boot overlays hide the painted boots.
-- Requirement: re-key the body cells with an interior fill (holes not
-  connected to the cell border stay opaque / matte from the master)
-  rather than loosening the tolerance; painted cape cells cut from the
-  masters (or generated in their brushwork) for the 6 caped fighters;
-  boot overlay reduced to a ground-contact shadow so the painted boot
-  shows.
-- Acceptance criteria:
-  - [x] artaudit HOLE_CEILING lowered 0.40 -> 0.08 and green (the
-        re-key is chroma-aware + interior fill: all keyed cells measure
-        0% interior holes; generated hand cells exempt - wrapF's pad
-        gaps are design).
-  - [x] Every caped plan renders a painted cloth cell (audit asserts;
-        6 plans: green/gold guanyu, blue/red zhaoyun, red/gold lubu,
-        purple/gold caocao, green/green zhangliao, green/green zhanghe;
-        lying mirror keeps the prone trail toward the feet).
-  - [x] Human-style review (docs/CHARACTER_REVIEW.md BODY-23 section;
-        delegated eyes-on pass - this session's image display served
-        crossed previews): capes OK incl. prone, armour solid, boots
-        readable (lit welt/toe), hands unchanged. Root cause found:
-        the prep's 8% ankle raise mis-seated painted boots below the
-        ground (rig foot = sole line) - fixed; foot gate re-pointed at
-        the painted boots (17/17). Full gates green: lint 0, typecheck
-        0, unit 635/635 (58 files), e2e 78 passed, vision 5/5, selfplay
-        13/13, build 0, prodbuild 4/4.
-- Delivered: scripts/prepare-body-parts.mjs (chroma-aware re-key +
-  interior fill, foot = sole, generated cloth cells + lying mirror),
-  src/game/art/{draw.ts (contact shadow + welt/glint),body-parts.ts
-  (lying mirror)}, test/game/{artaudit.test.ts (0.08 ceiling + cloth
-  assertion),footcheck.test.ts (re-pointed),bodyparts.test.ts (cloth
-  exemption)}, 17 body sheets + 3 prepared.json (revision body-4),
-  docs updates.
-- Non-goals: no new costumes; no silhouette changes beyond the cape.
 
 ### BODY-7 - Full verification sweep for the body overhaul
 
