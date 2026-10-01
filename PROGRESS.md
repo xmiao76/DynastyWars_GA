@@ -22,6 +22,14 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-09-30 - CMR rollout planning handoff (owner-approved, no implementation)
+
+- Owner accepts Guan Yu enhancements and requests all-character implementation only by loop threads. Approved prioritizing rollout over older active work and retaining opt-in until separate owner normal-play approval.
+- Published docs/CAST_MOTION_ROLLOUT.md and 40 bounded specs under docs/motion-tasks:5foundations,16fighterA/Bpairs,horse,pairedintegration,finalcastreview. Sequential dependencies, exact per-role action/timing requirements, resource budgets,200request cap, producer verification and no runtime/source implementation here.
+- Queued CMR-01 first; GYM-1/BODY-7/ENH-12/UIR-19 owner-deferred asBLOCKED with attempts/evidence preserved. UIR-16 remains blocked,UIR-20 later. Existing loop policies/runner/config/schedules untouched; due producer review still precedes consumers.
+- Planning verification passed:40spec/queueIDs, linear dependencies,263localdoclinks,16fighterpairs and200requestcap; zero remaining IN_PROGRESS legacy entries; diff whitespace clean and files restricted to planning docs/queue/progress. No gamechecks claimed for unchanged source. Local planning commit only; no generation,consumer/subagent/runnerlaunch,source/tests/assets edits,push/deploy.
+- Next action: existingloopthread reads .loop/continue.md; perform due producer review then CMR-01. Main thread stops after handoff,not implementation.
+
 ### 2026-09-30 - GYM-1 review-first handoff (IN_PROGRESS acceptance)
 
 - OwnerselectedcurrentGuanYubuildreviewfirst,nopairedgrabexpansion. Stopimplementationatverifieda6c6057;noadditionalart/core/otherfighterchangesinthishandoff.

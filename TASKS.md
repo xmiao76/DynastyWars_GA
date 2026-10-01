@@ -8,22 +8,349 @@ Keep this file short. Once more than 20 tasks are `DONE`, move the oldest of the
 to `TASKS-ARCHIVE.md`; every iteration reads this file to find the first `TODO`,
 and scanning a long tail of finished work costs something each time.
 
+## Owner-prioritized whole-cast motion rollout
+
+The owner accepts Guan Yu's enhancements and authorizes all characters through later loop threads. This main-thread handoff is planning only. Full contract: [CAST_MOTION_ROLLOUT.md](docs/CAST_MOTION_ROLLOUT.md). Remain opt-in until owner activation approval.
+
+Selection: due producer review first, then the earliest ready CMR task; continue it while IN_PROGRESS. A failed prerequisite prevents later CMR tasks from starting. One repository writer/one task per iteration; do not bypass existing retry, verification or permission rules. Older active tracks below are owner-deferred with evidence intact. No runner/scheduler policy changes.
+
+### CMR-01 - Reference, roster/action inventory and budgets
+
+- Status: TODO
+- Dependency: None; due producer review still precedes consumer selection
+- Specification: [CMR-01](docs/motion-tasks/CMR-01.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Pin Guan Yu displayed pixels/pivots/exposures; inventory 17 humanoids and horse; reproduce baseline failures and record resource/generation budgets.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-02 - Generic per-kind motion profiles/playback
+
+- Status: TODO
+- Dependency: CMR-01 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-02](docs/motion-tasks/CMR-02.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Non-Guan hero/melee/boss/archer fixtures; exact per-actor windows/cues and interruption tests; preserve Guan Yu output and core schemas.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-03 - Stage-aware bounded atlas loading/cache
+
+- Status: TODO
+- Dependency: CMR-02 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-03](docs/motion-tasks/CMR-03.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Atomic per-fighter verification, stage/co-op/prefetch/eviction; shared atlas frames; 2048 pages,16MiB/fighter,128MiBcache,12MiB stage-entry ceilings.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-04 - Generic authoring/preparation/provenance tooling
+
+- Status: TODO
+- Dependency: CMR-03 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-04](docs/motion-tasks/CMR-04.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Variable frame/page counts, stable pivots/trim/dedup, deterministic output and durable candidate/request budgets; no new cast art yet.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-05 - Actual-motion capture/review/test harness
+
+- Status: TODO
+- Dependency: CMR-04 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-05](docs/motion-tasks/CMR-05.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: New runtime path in before/after capture and independent producer review; actual sequence/state/clock coverage and meaningful negative controls.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-06A - Wei Soldier: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-06B - Wei Soldier: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-06A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-06B](docs/motion-tasks/CMR-06B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic soldier pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-07A - Wei Spearman: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-07B - Wei Spearman: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-07A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-07B](docs/motion-tasks/CMR-07B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic spearman pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-08A - Wei Archer: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-07B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-08A](docs/motion-tasks/CMR-08A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable archer identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-08B - Wei Archer: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-08A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-08B](docs/motion-tasks/CMR-08B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic archer pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-09A - Zhang Fei: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-09B - Zhang Fei: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-09A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-09B](docs/motion-tasks/CMR-09B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic zhangfei pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-10A - Zhao Yun: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-10B - Zhao Yun: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-10A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-10B](docs/motion-tasks/CMR-10B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic zhaoyun pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-11A - Wei Yan: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-11B - Wei Yan: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-11A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-11B](docs/motion-tasks/CMR-11B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic weiyan pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-12A - Huang Zhong: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-12B - Huang Zhong: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-12A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-12B](docs/motion-tasks/CMR-12B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic huangzhong pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-13A - Li Dian: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-13B - Li Dian: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-13A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-13B](docs/motion-tasks/CMR-13B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic lidian pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-14A - Xiahou Dun: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-14B - Xiahou Dun: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-14A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-14B](docs/motion-tasks/CMR-14B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic xiahoudun pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-15A - Xu Chu: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-14B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-15A](docs/motion-tasks/CMR-15A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable xuchu identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-15B - Xu Chu: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-15A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-15B](docs/motion-tasks/CMR-15B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic xuchu pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-16A - Cao Ren: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-15B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-16A](docs/motion-tasks/CMR-16A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable caoren identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-16B - Cao Ren: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-16A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-16B](docs/motion-tasks/CMR-16B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic caoren pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-17A - Zhang Liao: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-16B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-17A](docs/motion-tasks/CMR-17A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable zhangliao identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-17B - Zhang Liao: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-17A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-17B](docs/motion-tasks/CMR-17B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic zhangliao pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-18A - Xu Huang: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-17B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-18A](docs/motion-tasks/CMR-18A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable xuhuang identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-18B - Xu Huang: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-18A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-18B](docs/motion-tasks/CMR-18B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic xuhuang pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-19A - Zhang He: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-18B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-19A](docs/motion-tasks/CMR-19A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable zhanghe identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-19B - Zhang He: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-19A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-19B](docs/motion-tasks/CMR-19B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic zhanghe pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-20A - Cao Cao: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-19B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-20A](docs/motion-tasks/CMR-20A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable caocao identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-20B - Cao Cao: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-20A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-20B](docs/motion-tasks/CMR-20B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic caocao pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-21A - Lu Bu: author/prepare full motion pack
+
+- Status: TODO
+- Dependency: CMR-20B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-21A](docs/motion-tasks/CMR-21A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete applicable lubu identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-21B - Lu Bu: integrate/review in motion
+
+- Status: TODO
+- Dependency: CMR-21A DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-21B](docs/motion-tasks/CMR-21B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Verified atomic lubu pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-22 - Shared horse locomotion/rider composition
+
+- Status: TODO
+- Dependency: CMR-21B DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-22](docs/motion-tasks/CMR-22.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Complete trot/run/fleeing, hoof/saddle registration, correct co-op rider association; preserve hero pixels and mount gameplay.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-23 - Paired grabs/throws and saddle integration
+
+- Status: TODO
+- Dependency: CMR-22 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-23](docs/motion-tasks/CMR-23.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: 5 heroes x12enemykinds x2facings; upright held/contact/depth/release/impact alignment; presentation-only correction, core physics unchanged.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-24 - Full-cast verification and owner presentation
+
+- Status: TODO
+- Dependency: CMR-23 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-24](docs/motion-tasks/CMR-24.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: All17humanoids+horse action coverage, full serial gates/independent review/resource report; indexed videos; opt-in until owner activation.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
 ## Owner-directed motion experiment
 
 ### GYM-1 - Guan Yu whole-character walk and combo pilot
 
-- Status: IN_PROGRESS (attempt 2, 2026-09-30; owner accepts regular movement, all-state extension verified, remaining detail/transition polish and owner playback open).
+- Status: BLOCKED (owner-deferred for prioritized cast rollout; preserve attempt 2 evidence, not an exhausted-retry reset).
+- Owner acceptance: the owner now accepts the Guan Yu enhancements as the rollout reference. Preserve displayed walk/combo pixels and timing. Historical weapon/landmark findings remain documented; visual acceptance is not a fabricated strict-metric pass. CMR tasks handle the generalized cast rollout, not regeneration of this pilot.
 - Owner request: test complete art-directed sprite sequences for Guan Yu only, following the static whole-frame pilot.
 - Delivered: fixed-registration guides, original candidate sheets, opt-in `?motion=1` clip playback from simulation ticks, atomic integrity fallback, temporal traces/recordings and negative controls. Attempt1 coveredidle/walk/combo; attempt2nowcoversallGuanYustateswithoutoldtextures.
 - Acceptance: no old-art flashes, exact hit-window alignment, coherent alternating walk, <=10% head/weapon variation, no conspicuous action seams; criteria and results in `docs/GUANYU_MOTION_TEST.md`.
-- Evidence: 8 technical unit tests, 4 capture/fallback browser cases, 2 built opt-in cases pass. Visual acceptance FAILS: walk alternation unreliable across 3 candidates; visible glaive shrinks ~36% at sweep. No floor loosened, no cast rollout.
+- Historical attempt-1 evidence: 8 technical unit tests, 4 capture/fallback browser cases, 2 built opt-in cases passed. Author visual assessment failed walk alternation and measured glaive shrink (~36%). Latest owner accepts the enhanced result above; those historical metrics remain visible, not a current prohibition of the approved CMR cast rollout.
 - Attempt2: owner requested all Guan Yu actions. Separate54cellactionatlas+3targetedfallrepairs coversjump/kick/landing,hurt,fall/getup,special,grab/release,mounted/dismount,KO anddefensivestressstates. Bothatlasesloadatomically;regularpixelsunchanged. Landing/visualfallclockfreeze-safe,inputinterruptible;soloCONTINUEdefeatfinisheswithoutcoreticks. No oldtexturesinallactioncapture4/4;regularmotion4/4;units15/15;vision5/5;prodbuild6/6. Details/results: docs/GUANYU_ACTION_REVIEW.md.
 - Transitionaudit:13newnegative-controltests fixhitstop+idle/walklanding,mountinterrupt,lateairattackstartup,activekick/retractcontact,midairuprightpop,brokensweepwindow andskipped-renderfallrestart. ActualCanvas/WebGLboundarycaptures2/2;combinedallactions6/6;full706passed/1baselineG6;vision5/5;prodbuild6/6unchanged. Artatlases/coreunchanged. Thisfollow-upbelongs toattempt2 (not a fourth generation attempt).
 - Special/mountedexposureaudit:twoimagecandidatesrejectedforsizedrift;existingforwardguardsusedinstead. Maxdirectionstep~79->53special,~134->48mounted,pixel-supported60deggateandold-ordernegativecontrols. Atlases/coreunchanged;3newunitchecks,allaction3/3,vision5/5,prodbuild6/6;full709passed/1baselineG6. Imagebudget12exhaustedforcurrentpass,noblindretries.
 - Mixedreview:480tick~8.04snormalinputchoreographybothfacings/CanvasWebGL2/2,realhit/knockdown/getup/grabthrowcase1/1. Screensconfirmopponentpronegrabposeisscoperemainder. Defensive thrownimpact/getupdefeatfixed lowpostureinsteadofuprightrecoil,2newunitcontrols/captures2/2. Full711passed/1baselineG6,vision5/5,prodbuild6/6;approvedart/core/otherfightersunchanged.
-- Handoff: ownerselected“Review current Guan Yu build first”ratherthanpairedgrabexpansion. Verifiedimplementation/actionreviewdelivered;awaitconcreteownerfeedback,nofurtherautomaticartgeneration/scopeexpansion. ThisisNOTvisualacceptanceDONE.
-- Remaining: ownernormal-speedreview,weapon/clothdetailvariation andopponentgrabposematchingnotcertified. Allstatecoverageisnotblanketperfectsmoothness. Do not re-generate approvedwalking. Rigged-modelproduction remainsseparateownerchoice.
-- Existing UIR-19/20 and blocked UIR-16 are unchanged; this explicit owner task takes priority, not an automatic queue restart.
+- Historical handoff: owner first chose review of Guan Yu before paired-grab expansion. Latest request accepts the enhancements and authorizes CMR whole-cast work, including paired presentation, only through later loop threads. No main-thread character implementation.
+- Remaining deferred pilot details: historical weapon/cloth measurements not certified. Paired grab matching moves to CMR-23 with full-cast evidence; owner has now approved the Guan Yu enhancements visually. Do not regenerate approved walking. Rigged-model production remains a separate owner choice.
+- Current priority: CMR queue first, older GYM-1/BODY-7/ENH-12/UIR-19 explicitly deferred; UIR-16 remains blocked and UIR-20 remains later TODO. Evidence and attempt counts are preserved, not reset.
 
 ## Enhancements
 
@@ -144,8 +471,8 @@ Add future enhancement tasks below this heading.
 
 ### BODY-7 - Full verification sweep for the body overhaul
 
-- Status: IN_PROGRESS (sweep complete 2026-09-27 UTC, awaiting owner
-  acceptance - the one gate only the owner can close)
+- Status: BLOCKED (owner-deferred for prioritized cast rollout; sweep complete 2026-09-27 UTC, whole-cast legacy acceptance unresolved).
+- Preserve prior sweep evidence and remaining acceptance criteria; this deferral is not a DONE claim or retry reset.
 - Dependency: BODY-3, BODY-4, BODY-5, BODY-6 DONE.
 - Requirement: whole-cast review (all fighters x poses x facings,
   desktop + mobile, co-op + mounted), byte/decode-memory/boot-time
@@ -163,7 +490,8 @@ Add future enhancement tasks below this heading.
 
 ### ENH-12 - Name the gamepad where the UI names controls
 
-- Status: IN_PROGRESS (attempt 1 interrupted; source restored, unverified draft saved)
+- Status: BLOCKED (owner-deferred for prioritized cast rollout; preserve interrupted attempt 1, restored source and saved unverified draft).
+- Resume only on an explicit owner queue decision after rollout priority; do not restart or discard the draft.
 - Owner priority: deferred again - first ART-18 (now DONE), now the approved
   UI/art overhaul (UI-1/UI-2 DONE, UI-3..5 + ART-19/20 next). Draft:
   artifacts/loop/enh12-attempt1-partial.patch.
@@ -818,7 +1146,8 @@ Add future enhancement tasks below this heading.
 
 ### UIR-19 - Paint hands that match the painted sleeves
 
-- Status: IN_PROGRESS (attempt 2 done 2026-09-29: face-matched skins
+- Status: BLOCKED (owner-deferred for prioritized cast rollout; attempt 2 evidence retained, not reset).
+- Previous in-progress evidence (attempt 2 done 2026-09-29: face-matched skins
   lockstep across figures.ts + packs (mult from face-skin p80 vs hand
   p80, zhaoyun clamped for the fair() gate), deeper creases, far side
   kept above the dark-share ink floor; battery 47/47. J4 re-review
