@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 22:13 UTC - CMR-06A -> DONE (attempt 2, verified - acceptance 4 established by the sword-stack measurement)
+
+- Status before: CMR-06A IN_PROGRESS; only acceptance 4's numeric spread
+  verdict remained (ca28c1f).
+- Work completed: the manual landmark read - built the decisive artifact
+  `landmarks/sword-stack.png`: every drawing's blade pixels PCA-rotated to
+  horizontal on one shared ruler (identical rigid swords stack into one
+  line). Reading: the fully-observable rows measure 245..258 sheet-px =
+  **5.3% spread (<= 10%)** (locomotion:0/1/2/4/6 + hitstun-held:2);
+  shadowed/occluded blades (locomotion:3/5, getup-death:2) and
+  mask-contaminated rows (fall-thrown:4/5, getup-death:1/4/5 - their blades
+  verified consistent on the fixed-scale ruler sheets sword-review-1..3,
+  where a 486px blade would not even fit the 360px window) are recorded
+  `unverified` and count as neither pass nor fail, per contract. Head half
+  stands at +/-5% (head-review, all 37 drawings). ACCEPTANCE 4 ESTABLISHED.
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **808 passed | 1 failed (known G6 V-15b pin) | 6 skipped**; pack
+  deterministic (manifest f7f0fdd8 double-run).
+- Result: **CMR-06A acceptance 7/7 - task DONE.** The owner directive
+  (identify problem pictures, redraw, redo partial work) is complete: the
+  repaired pack has one rigid sword fully observable in every drawing and
+  consistent heads.
+- Status after: CMR-06A DONE (attempt 2).
+- Remaining work or blocker: none for CMR-06A. CMR-06B (runtime
+  integration: profile + clip bindings + expected motion frames, no
+  gameplay changes) is unblocked and is the next queue task.
+- Next recommended task: CMR-06B.
+
 ### 2026-10-01 21:58 UTC - CMR-06A (attempt 2, IN_PROGRESS - repairs spliced, pack re-prepared; acceptance 4 weapon half = manual read)
 
 - Status before: 3 repair sheets drawn (5b8353b); splice + re-prep pending.

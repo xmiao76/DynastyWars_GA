@@ -103,7 +103,7 @@ for (let s = 0; s * perSheet < frames.length; s++) {
   g.fillRect(0, 0, sheet.width, sheet.height)
   g.fillStyle = '#ffd27f'
   g.font = 'bold 22px sans-serif'
-  g.fillText(`SOLDIER SWORD COMPARISON ${s + 1} - fixed 360x260 windows, one scale, ruler in sheet px (CMR-06A)`, 12, 26)
+  g.fillText(`SOLDIER SWORD COMPARISON ${s + 1} - fixed 360x260 windows, one scale, ruler in sheet px (CMR-06A r2)`, 12, 26)
   for (const [idx, f] of slice.entries()) {
     const ox = (idx % COLS) * CELL_W
     const oy = 34 + Math.floor(idx / COLS) * CELL_H
