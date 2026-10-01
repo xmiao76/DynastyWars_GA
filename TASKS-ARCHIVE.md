@@ -4841,3 +4841,195 @@ and the three pre-redesign enhancements - all DONE and verified)
         and relevant specs are green (lint 0, tsc 0, unit 646/646,
         e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
 - Non-goals: the lore text, or the card art.
+
+### BODY-7 - Full verification sweep for the body overhaul
+
+- Status: BLOCKED (owner-deferred for prioritized cast rollout; sweep complete 2026-09-27 UTC, whole-cast legacy acceptance unresolved).
+- Preserve prior sweep evidence and remaining acceptance criteria; this deferral is not a DONE claim or retry reset.
+- Dependency: BODY-3, BODY-4, BODY-5, BODY-6 DONE.
+- Requirement: whole-cast review (all fighters x poses x facings,
+  desktop + mobile, co-op + mounted), byte/decode-memory/boot-time
+  report, full serial gates (lint, typecheck, unit, e2e, selfplay,
+  vision Canvas/WebGL parity, build, prodbuild), final owner
+  presentation.
+- Acceptance criteria:
+  - [x] Every gate green in one serial run; report recorded (this
+        round: lint 0, tsc 0, unit 635/635, e2e 78, vision 5/5,
+        selfplay 13/13, build 0, prodbuild 4/4; whole-cast review of
+        all 17x14 + motion, 18 flags all dismissed with evidence, no
+        UIR filings; byte/decode/boot report in PROGRESS).
+  - [ ] Owner accepts the final cast (unresolved objections stay open).
+- Non-goals: no new art in this task; fixes only.
+
+### UIR-4 - No 7px body-font labels
+
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
+- Source: UI review 2026-09-26, findings V-4 (S2)
+- Evidence: artifacts/review/latest/screens/stage1-result.png - LIVES /
+  SCORE / TIME are thin grey Arial-style caps, unlike every other word
+  on the panel (re-confirmed fresh); same sans on the roster LIFE /
+  SPEED rows and the HORSE row.
+- Root cause: TYPE - `liveStyle()` (src/game/ui/type.ts) selects
+  BODY_STACK below DISPLAY_MIN_SIZE. Callers: ResultScene.ts:186,
+  SelectScene.ts:127-128, hudlayout.ts:21 (META_ROW).
+- Affected screens: select-*, stage*-result, webgl-result, stage2/6-play
+  (HORSE row), and the phone screens.
+- Requirement: these labels use the display family at a size legible on
+  a Pixel 7 (at least 7 CSS px there). Any new glyphs are added to the
+  display string table and font subset.
+- Acceptance criteria:
+  - [x] The kit suspect "small text <8px" is gone from the manifest
+        (objective count: 92 suspects across 59 screens before, 0
+        after), and test/game/uir4-type.test.ts asserts that no
+        liveStyle caller in the scenes passes a size below the display
+        minimum (source scan) and the HUD layout text constants clear
+        it. The labels (LIVES/SCORE/TIME, LIFE/SPEED, HORSE row) use 9
+        - the display family and >= 7 CSS px on a Pixel 7 (7 fell to
+        the generic sans at ~6 CSS px). No new glyphs, so the display
+        string table and font subset are untouched.
+  - [x] After npm run review:capture the result crop, the roster crop
+        and the phone select are legible and matching (FIXED - result + roster labels legible and matching (pixel-measured 13px display caps vs 10px thin sans before). Caveat: the phone capture HORSE row was empty (player on foot) - that instance is code-confirmed at 9px and covered by the 92->0 suspect count, but was not visually exercised).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 646/646,
+        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
+- Non-goals: re-laying out the roster cards.
+
+### UIR-5 - Continue and result panels: fit titles, centre chips, add contrast
+
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
+- Source: UI review 2026-09-26, findings V-5, V-6, V-7 (S2)
+- Evidence: artifacts/review/latest/screens/stage1-result.png (LIVES
+  chip on the parchment border; row spans x70-390, centre 230 not 240;
+  STAGE CLEAR! touches the top bar) and
+  crops/stage1-continue--dialog.png (CONTINUE? crosses the gold top
+  rule; flat #ffd700 title + white "9" on cream) - all re-confirmed
+  fresh. PAUSED on the same card sits properly inside with a dark
+  stroke.
+- Root cause: LAYOUT and COLOUR - HudScene.ts:440-448 (title at y92 on
+  a card centred at y123 = its top edge; un-stroked liveStyle 22/30)
+  and ResultScene.ts:98 and 114-116 (hard-coded chip offsets).
+- Affected screens: stage1-continue, stage1-result, stage9-result,
+  webgl-result.
+- Requirement: the titles sit inside their card with the same inset as
+  PAUSED. The chip row is centred on the panel and stays inside its
+  frame. The CONTINUE? title and countdown get the dark stroke PAUSED
+  uses.
+- Acceptance criteria:
+  - [x] A unit check shows the title bounds lie within the card's
+        panelRect inset by at least 4px (CONTINUE_TEXT stack vs the
+        184x96 dialog at cy 123; title and countdown disjoint), that
+        the chip row's centre is within 1px of the panel's centre and
+        no chip crosses the frame (resultChipRow() laid out from the
+        x 70..410 band with even 20px gaps - test/game/hudlayout.test
+        .ts UIR-5 block; the old row spanned x70-390, centre 230).
+  - [x] After npm run review:capture the continue and result panels
+        re-reviewed (FIXED - continue title fully below the gold rule with the dark stroke (countdown too), result title clear of the top bar, chip row centred with even gaps and LIVES off the border; matches PAUSED (delegated, before state confirmed in previous/)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 654/654,
+        e2e 79, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
+- Non-goals: the panel textures, or the countdown logic.
+
+### UIR-6 - Point the touch d-pad chevrons outward
+
+- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
+  day)
+- Source: UI review 2026-09-26, findings V-10 (S2)
+- Evidence: artifacts/review/latest/screens/phone-portrait-game.png -
+  the up arm shows a down-chevron, left ">", right "<", down "^"
+  (re-confirmed fresh; same in landscape).
+- Root cause: ASSET - src/game/art/hudart.ts:487-492: the chevron
+  path's apex is at +y, so at angle 0 it points DOWN, but
+  hudart.ts:498-501 assumes angle 0 points up.
+- Affected screens: phone-landscape-game, phone-portrait-game.
+- Requirement: each arm's chevron points in the direction the arm moves.
+- Acceptance criteria:
+  - [x] A unit test on the painted sheet shows each arm's chevron
+        pointing the way it moves (test/game/uir6-chevrons.test.ts:
+        the chevron's combined ink+gold pixels keep the tip at the arm
+        centre and the wings behind it - pinned failing first, the old
+        path read "wings not behind (inward -2.0px)" on every arm).
+  - [x] After npm run review:capture the phone crops show outward
+        arrows (FIXED - all four arms point outward in both phone frames (pixel-level ASCII-map confirmation by the reviewer; before state confirmed all four inward)).
+  - [x] Contact sheets show no regression elsewhere; npm run vision
+        and relevant specs are green (lint 0, tsc 0, unit 655/655,
+        e2e 79, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
+- Non-goals: the button layout, or the hit areas.
+
+### UIR-7 - Ask portrait phone players to rotate
+
+- Status: DONE (attempt 1, 2026-09-27..28 UTC, verified full-green)
+- Source: UI review 2026-09-26, findings V-9 (S2) plus owner decision 1
+  (rotate overlay, not a portrait layout)
+- Evidence: artifacts/review/latest/screens/phone-portrait-game.png -
+  the game fills ~28% of the height; touch buttons ~20 CSS px; no hint
+  to rotate (re-confirmed fresh).
+- Root cause: PLATFORM - src/game/main.ts:31-32 (Scale.FIT,
+  CENTER_BOTH) has no orientation handling in index.html or
+  src/style.css.
+- Affected screens: phone-portrait-title, -select, -game.
+- Requirement: on a touch device in portrait (height greater than
+  width), show a full-screen themed "rotate your phone" overlay (a
+  phone icon plus the text, in the display font, on the letterbox
+  gradient) over the game. Gameplay is paused while the overlay shows
+  and resumes when the phone is rotated back. Desktop and landscape
+  are unchanged.
+- Acceptance criteria:
+  - [x] e2e/orientation.spec.ts: Pixel 7 portrait shows the overlay
+        with the sim tick frozen; Pixel 7 landscape shows no overlay with
+        ticks advancing; desktop 960x540 shows no overlay (3/3 green).
+        The review capture's phone-portrait shots show the overlay and
+        the landscape shots do not (ui-review phone() asserts the
+        overlay in portrait instead of waiting for ticks - this also
+        fixes the known capture abort, so review:capture now completes
+        with platform + anatomy + pair sheets).
+  - [x] After npm run review:capture: phone-portrait-title/select/game
+        show the full-screen themed overlay (gold phone icon + ROTATE
+        YOUR PHONE in the display font on the letterbox gradient);
+        landscape shows the game clean with touch controls and no
+        overlay; WebGL screens intact. Before: tiny game, no hint (V-9
+        evidence; previous/ portrait-game never captured - the abort).
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (touch.spec + touchpause.spec migrated to Pixel 7
+        landscape - portrait no longer plays; 10/10). Ledger V-9 set
+        to fixed (self-check).
+- Non-goals: a portrait gameplay layout, or forcing orientation through
+  the Screen Orientation API.
+
+### UIR-12 - Paint hands with fingers, not mittens
+
+- Status: DONE (attempt 1, 2026-09-27 UTC - owner V-14 request,
+  verified full-green same day)
+- Source: UI review 2026-09-27, findings V-14 J4/J8 (S1/S2, owner-flagged)
+- Evidence: artifacts/review/latest/anatomy/*.png (all 15 reviewed) -
+  flat cream/pink mitten fists with ridge bands but no separated
+  digits, against painted faces and sleeves. Worst on pale-skinned
+  fighters (zhaoyun) and dark armor (caocao, xiahoudun).
+- Root cause: ASSET - scripts/prepare-body-parts.mjs (hand painter)
+  and src/game/art/hand-parts.ts: cells carry knuckle shading but no
+  digit separations, thumb mass, or face-matched paint handling.
+- Affected screens: every fighter in every movement (anatomy sheets).
+- Requirement: repaint the hand cells with separated fingers/digits
+  (flexed per cell kind), a readable thumb mass, and paint handling
+  (tone, shading depth) matching the fighter's face. All five hand
+  kinds, both near and far shading.
+- Acceptance criteria:
+  - [x] Texture/unit check (handparts UIR-12 test): digit-separator
+        dips per cell at 4x = 0 before (creases never reached the
+        knuckle zone), 3+ after; fails on old paint, passes on new.
+        Skin match re-pointed tighter: +-45 around raw skin ->
+        +-30 around either designed tone (raw or the bloom-peak lit
+        blend, e.g. guanyu 191,114,94 = exact formula blend).
+  - [x] review:capture re-run (59 screens + 34 anatomy sheets); J4
+        re-reviewed on the fresh sheets (delegated eyes-on: digits
+        separated and rounded at 8x and 4x, mitten look gone).
+        Note: the before-pair is partially lost - the latest->previous
+        rotation hit a persistent Windows EPERM and a fallback deleted
+        the stale capture (top-level contact sheets preserved); the
+        before state is recorded in the ledger + this test's comments.
+  - [x] Full gates green (lint 0, tsc 0, unit 636/636, e2e 78, vision
+        5/5, selfplay 13/13, build 0, prodbuild 4/4); ledger V-14
+        sub-verdict updated.
+- Non-goals: grip geometry or layering (UIR-13), pose changes.
+
