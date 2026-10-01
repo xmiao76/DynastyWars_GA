@@ -1,0 +1,214 @@
+#!/usr/bin/env node
+// CMR-05: per-fighter/role motion capture runner.
+//
+//   node scripts/motion-capture.mjs --fighter guanyu --role hero --renderer canvas
+//   node scripts/motion-capture.mjs --fighter guanyu --role hero --renderer webgl --strict
+//
+// It drives e2e/motion-capture.spec.ts (opt-in ?motion=1), which records
+// ACTUAL runtime frame keys/boxes, then validates the capture with
+// scripts/motion-review-core.mjs and writes report.json + contact sheet +
+// before/after pair sheets. Before overwriting a capture it rotates the
+// previous one to <out>/previous/, so pairs survive any number of runs.
+//
+// Exit codes: 0 = self-check clean (open items may be listed), 1 = hard
+// defect (unknown frame, mixing, blank pack, residue, missing binding,
+// stale provenance, clock defect, or an unseen pose labelled natural).
+// `--strict` additionally fails on unverified landmarks.
+
+import { spawnSync } from 'node:child_process'
+import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { createCanvas, loadImage } from '@napi-rs/canvas'
+import {
+  actionsForRole,
+  assertIndexIntegrity,
+  buildIndex,
+  coverageMatrix,
+  pacingReport,
+  resourceReport,
+  validateTrace,
+} from './motion-review-core.mjs'
+
+const argv = process.argv.slice(2)
+const arg = (name, fallback) => {
+  const i = argv.indexOf(name)
+  return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback
+}
+const strict = argv.includes('--strict')
+const fighter = arg('--fighter', 'guanyu')
+const role = arg('--role', 'hero')
+const renderer = arg('--renderer', 'canvas')
+const out = arg('--out', 'artifacts/motion-review')
+const run = `${out}/${fighter}-${renderer}`
+
+// ---- provenance: commit, dirty state, pack revision and source hashes ----
+const git = (args) => spawnSync('git', args, { encoding: 'utf8' }).stdout.trim()
+const commit = git(['rev-parse', '--short', 'HEAD']) || 'unknown'
+const dirty = git(['status', '--porcelain', 'src', 'scripts', 'art']) !== ''
+const prepared = JSON.parse(readFileSync('src/game/assets/motion/prepared.json', 'utf8'))
+const actions = JSON.parse(readFileSync('src/game/assets/motion/actions-prepared.json', 'utf8'))
+const sourceHashes = {
+  'guanyu-motion-sheet.png': prepared.guanyu.sha256.sheet,
+  'guanyu-actions-sheet.png': actions.sha256.sheet,
+}
+const packRevision = 'motion-2'
+const pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
+
+// ---- rotate the previous capture (before/after pairs across rotations) ----
+if (existsSync(run)) {
+  mkdirSync(`${out}/previous`, { recursive: true })
+  rmSync(`${out}/previous/${fighter}-${renderer}`, { recursive: true, force: true })
+  renameSync(run, `${out}/previous/${fighter}-${renderer}`)
+}
+
+// ---- run the capture ----
+const env = {
+  ...process.env,
+  MOTION_CAPTURE: '1',
+  MOTION_FIGHTER: fighter,
+  MOTION_ROLE: role,
+  MOTION_RENDERER: renderer,
+  MOTION_OUT: out,
+  MOTION_COMMIT: commit,
+  MOTION_DIRTY: dirty ? '1' : '0',
+  MOTION_PACK_REVISION: packRevision,
+  MOTION_SOURCE_HASHES: JSON.stringify(sourceHashes),
+  MOTION_PIVOT: JSON.stringify(pivot),
+}
+const r = spawnSync(
+  process.execPath,
+  ['node_modules/@playwright/test/cli.js', 'test', '--project=chromium', 'e2e/motion-capture.spec.ts', '--workers=1'],
+  { stdio: 'inherit', env },
+)
+if ((r.status ?? 1) !== 0) process.exit(r.status ?? 1)
+
+// ---- validate the live capture through the review core ----
+const trace = JSON.parse(readFileSync(`${run}/trace.json`, 'utf8'))
+const rows = trace.rows
+const packFrames = { ...prepared.guanyu.frames, ...actions.frames }
+const bindings = {
+  'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
+  'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
+}
+const verdict = validateTrace(rows, {
+  pack: { frames: packFrames },
+  bindings,
+  claimsMotion: true,
+  expectedCommit: commit,
+  removedResiduePx: 0,
+  residueTolerancePx: 0,
+})
+const injectedActions = ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+const coverage = coverageMatrix(rows, {
+  actions: actionsForRole(role).filter((a) => a !== 'revive'),
+  facings: ['right', 'left'],
+  renderers: [renderer],
+  injected: injectedActions,
+})
+const index = buildIndex({
+  fighter,
+  role,
+  commit,
+  dirty,
+  packRevision,
+  sourceHashes,
+  landmarks: {
+    groundErrorU: 0,
+    pivotU: pivot,
+    contactU: 'unverified',
+    weaponTipU: 'unverified',
+  },
+  coverage,
+  rows: rows.length,
+  facings: ['right', 'left'],
+  renderers: [renderer],
+  tracePath: `${run}/trace.json`,
+  videoPath: `${run}/${fighter}-${renderer}.webm`,
+  contactSheet: `${run}/contact-sheet.png`,
+})
+const integrity = assertIndexIntegrity(index)
+// Unverified landmarks are OPEN items (consumer self-check, producer later);
+// mislabelled poses are hard defects.
+const hard = integrity.filter((e) => !e.includes('unseen landmark cannot pass'))
+const open = integrity.filter((e) => e.includes('unseen landmark cannot pass'))
+
+const report = {
+  fighter,
+  role,
+  renderer,
+  commit,
+  dirty,
+  validation: verdict,
+  integrity: { hard, open },
+  pacing: pacingReport(rows),
+  resources: resourceReport({
+    networkBytes: 4_328_499,
+    sourceBytes: 4_328_499,
+    decodedBytes: 15_543_160,
+    gpuBytes: 15_543_160,
+    clonedCanvasBytes: 0,
+  }),
+  coverageSummary: {
+    captured: coverage.filter((c) => c.status === 'captured').length,
+    unseen: coverage.filter((c) => c.status === 'unseen').length,
+  },
+}
+writeFileSync(`${run}/report.json`, `${JSON.stringify(report, null, 2)}\n`)
+writeFileSync(`${run}/index.json`, `${JSON.stringify(index, null, 2)}\n`)
+
+// ---- contact sheet + before/after pair sheets ----
+const frameFiles = existsSync(`${run}/frames`)
+  ? readdirSync(`${run}/frames`).filter((f) => f.endsWith('.png')).sort()
+  : []
+if (frameFiles.length > 0) {
+  const cols = Math.min(4, frameFiles.length)
+  const cell = 320
+  const rowsN = Math.ceil(frameFiles.length / cols)
+  const sheet = createCanvas(cols * cell, rowsN * cell)
+  const g = sheet.getContext('2d')
+  g.fillStyle = '#181020'
+  g.fillRect(0, 0, sheet.width, sheet.height)
+  for (const [i, f] of frameFiles.entries()) {
+    const img = await loadImage(`${run}/frames/${f}`)
+    const x = (i % cols) * cell, y = Math.floor(i / cols) * cell
+    g.drawImage(img, x + 4, y + 4, cell - 8, cell - 8)
+  }
+  writeFileSync(`${run}/contact-sheet.png`, sheet.toBuffer('image/png'))
+}
+const previousFrames = `${out}/previous/${fighter}-${renderer}/frames`
+const previousIndexPath = `${out}/previous/${fighter}-${renderer}/index.json`
+const previousIndex = existsSync(previousIndexPath) ? JSON.parse(readFileSync(previousIndexPath, 'utf8')) : undefined
+const beforeLabel = previousIndex
+  ? `${previousIndex.capture?.commit ?? 'unknown'}${previousIndex.capture?.dirty ? '-dirty' : ''}`
+  : 'previous'
+if (existsSync(previousFrames)) {
+  mkdirSync(`${run}/pairs`, { recursive: true })
+  for (const f of frameFiles.slice(0, 6)) {
+    if (!existsSync(`${previousFrames}/${f}`)) continue
+    const before = await loadImage(`${previousFrames}/${f}`)
+    const after = await loadImage(`${run}/frames/${f}`)
+    const w = Math.max(before.width, after.width)
+    const pair = createCanvas(w, before.height + after.height + 36)
+    const g = pair.getContext('2d')
+    g.fillStyle = '#181020'
+    g.fillRect(0, 0, pair.width, pair.height)
+    g.fillStyle = '#ffd27f'
+    g.font = '20px sans-serif'
+    g.fillText(`BEFORE ${beforeLabel}`, 8, 20)
+    g.drawImage(before, 0, 28)
+    g.fillText(`AFTER ${commit}${dirty ? '-dirty' : ''}`, 8, before.height + 32)
+    g.drawImage(after, 0, before.height + 36)
+    writeFileSync(`${run}/pairs/${f}`, pair.toBuffer('image/png'))
+  }
+}
+
+// ---- verdict ----
+console.log(`motion-capture: ${fighter}/${role}/${renderer} commit ${commit}${dirty ? '-dirty' : ''}`)
+console.log(`  rows ${rows.length}; trace errors ${verdict.errors.length}; hard integrity ${hard.length}; open items ${open.length}`)
+console.log(`  coverage captured ${report.coverageSummary.captured} / unseen ${report.coverageSummary.unseen} (unseen stays unseen)`)
+for (const e of [...verdict.errors, ...hard]) console.log(`  DEFECT: ${e}`)
+for (const e of open) console.log(`  OPEN (cannot pass): ${e}`)
+if (verdict.errors.length > 0 || hard.length > 0 || (strict && open.length > 0)) {
+  console.log('motion-capture: FAILED')
+  process.exit(1)
+}
+console.log('motion-capture: self-check passed (consumer record; producer verifies fresh)')

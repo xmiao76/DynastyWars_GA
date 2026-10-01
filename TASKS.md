@@ -59,7 +59,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-05 - Actual-motion capture/review/test harness
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day) - capture/
+  review harness for the actual `?motion=1` path: `scripts/motion-capture.mjs`
+  + `e2e/motion-capture.spec.ts` + `scripts/motion-review-core.mjs` (negative
+  controls, coverage with honest `unseen`, pacing/resource reports,
+  before/after pairs across rotations); live Guan Yu captures on canvas+webgl
+  validated clean; commands documented in
+  [MOTION_CAPTURE.md](docs/motion-tasks/MOTION_CAPTURE.md)
 - Dependency: CMR-04 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-05](docs/motion-tasks/CMR-05.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: New runtime path in before/after capture and independent producer review; actual sequence/state/clock coverage and meaningful negative controls.
@@ -426,42 +432,6 @@ Add future enhancement tasks below this heading.
     legend rewording, no DIFF-1 impact.
 - Evidence:
   - artifacts/loop/proposals-gamepadnaming-enh12.md (this pass's review).
-
-### UIR-3 - One stage announcement, not two at once
-
-- Status: DONE (attempt 1, 2026-09-27 UTC, verified full-green same
-  day)
-- Source: UI review 2026-09-26, findings V-3 (S2)
-- Evidence: artifacts/review/previous/crops/stage1-intro--intro.png - the
-  banner's "Bowang Slope" still shows above the intro card, which repeats
-  it; code-certain overlap (card at +1600ms vs banner visible to ~1680ms+;
-  HudScene.ts:484 vs :175/:706). The fresh capture missed the ~200ms
-  window; zero src/game changed since, so it still reproduces.
-- Root cause: TIMING - src/game/scenes/HudScene.ts:484 raises the card
-  1_600 ms after build, while the banner (:175, BANNER_HOLD_MS plus 180
-  ms in and out) is still up. Both carry stage number and name.
-- Affected screens: stage1-9 banner and intro.
-- Requirement: the intro card must not be raised while the stage banner
-  is visible. Sequence them, or drop the duplicate stage name from one
-  of them.
-- Acceptance criteria:
-  - [x] A spec shows that no frame has the introCard at alpha > 0
-        while stageBanner is at alpha > 0.05 (e2e/introcard.spec.ts
-        UIR-3: samples every animation frame across a stage entry;
-        pinned failing first - the offenders list recorded the old
-        overlap, e.g. "t=1642ms card=0.21 banner=1.00"). Autopilot
-        still dismisses the card by tick count (existing test green;
-        run() never stalls).
-  - [x] After npm run review:capture the stage-entry screens show one
-        announcement at a time (FIXED - intro-card moment shows the card alone, banner moment shows the banner alone, no doubles across the flow sheet (delegated)). Sequencing is enforced
-        by a state gate (the card refuses to rise while a stageBanner
-        shows - the banner tween's alpha tail outlives a naive
-        duration sum) plus a derived nominal delay
-        (INTRO_CARD_DELAY_MS).
-  - [x] Contact sheets show no regression elsewhere; npm run vision
-        and relevant specs are green (lint 0, tsc 0, unit 646/646,
-        e2e 78, vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
-- Non-goals: the lore text, or the card art.
 
 ### UIR-4 - No 7px body-font labels
 

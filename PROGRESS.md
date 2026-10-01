@@ -22,6 +22,54 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 09:18 UTC - CMR-05 (attempt 1, motion capture/review harness - DONE)
+
+- Status before: CMR-05 TODO (first TODO after CMR-04; review cadence
+  clear at e3e70cf..HEAD < 4).
+- Work completed: capture/review harness for the ACTUAL `?motion=1`
+  runtime path. `scripts/motion-review-core.mjs`: `validateTrace` negative
+  controls (unknown frames, old/new texture mixing PER FIGHTER so a co-op
+  pair never false-positives, blank/missing packs, residue, missing
+  bindings, stale provenance, per-actor clock defects outside freeze/
+  pause), coverage matrix (`captured`/`unseen` only), `assertIndexIntegrity`
+  (rejects unseen-labelled-natural and null/unseen landmarks), pacing
+  report with stated limitations, resource report in the CMR-03 budget
+  vocabulary, index builder (commit/dirty/source hashes, pack revision,
+  landmarks). `scripts/motion-capture.mjs`: per-fighter/role/renderer
+  runner (provenance, rotation to previous/ + commit-labelled pair sheets,
+  contact sheets, `--strict`). `e2e/motion-capture.spec.ts`: parameterized
+  live capture (isolated named actions both facings labelled `injected`,
+  real-input walk/mixed labelled `gameplay`, co-op rows from both players,
+  4x crops of the full untrimmed cell box with HUD hidden, clock context
+  per row). `docs/motion-tasks/MOTION_CAPTURE.md` documents the commands.
+- Files changed: scripts/motion-review-core.{mjs,d.mts},
+  scripts/motion-capture.mjs, e2e/motion-capture.spec.ts,
+  test/game/motion-review-core.test.ts (16),
+  docs/motion-tasks/{MOTION_CAPTURE.md,CMR-05.md}, TASKS.md, PROGRESS.md.
+  No `src/game` change.
+- Verification run: lint + `tsc --noEmit` clean; targeted units 16/16;
+  full unit **803 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b
+  arm-chain pin, UIR-16 BLOCKED); live Guan Yu captures canvas x2 (second
+  run exercises rotation/pairs) and webgl: 33 rows each, 0 trace errors,
+  0 hard integrity, 2 honest open items (unverified contactU/weaponTipU);
+  default legacy co-op e2e 6/6; `npm run vision` 5/5; `npm run prodbuild`
+  8/8. Signal NOT run: no observation adapter or `src/game` file changed.
+- Self-check caught a real capture defect: the CONTINUE overlay occluded
+  review crops (the death segments spent `sim.lives`, so the core re-emits
+  `gameover` and the card re-appeared). Crops now capture with full state
+  recovery and the HUD hidden; verified mechanically (0.0% card-parchment
+  pixels vs >25% with the card) because reviewer image previews were
+  unreliable this session (stale attachments) - recorded as an inspection
+  limitation in MOTION_CAPTURE.md.
+- Result: CMR-05 hard acceptance 1-6 checked with evidence.
+- Status after: CMR-05 DONE (attempt 1).
+- Remaining work or blocker: contactU/weaponTipU stay `unverified`
+  (producer measures them later; they cannot pass silently); the 22 unseen
+  coverage cells are future per-character integration work. UIR-16/UIR-19/
+  GYM-1/BODY-7/ENH-12 unchanged.
+- Next recommended task: CMR-06A (Wei Soldier: author/prepare full motion
+  pack).
+
 ### 2026-10-01 08:18 UTC - CMR-04 (attempt 1, generic prepare/provenance tooling - DONE)
 
 - Status before: CMR-04 TODO (first queue TODO after the producer pass;
@@ -60,52 +108,6 @@ history slowly crowds out the work it is supposed to support.
   with CMR-06A+ (it consumes this toolkit; the CMR-04 acceptance covers the
   tooling, not new art). UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
 - Next recommended task: CMR-05 (motion-aware capture/review/test harness).
-
-### 2026-10-01 07:48 UTC - producer pass (count-triggered full UI review at e3e70cf - NO NEW FINDINGS)
-
-- Status before: consumer queue clean (CMR-03 DONE at e3e70cf); producer
-  trigger `git rev-list --count 4bce5d8..HEAD -- src/game` = 4 -> the
-  ledger's review was DUE, so this iteration ran `.loop/eval-loop.md`.
-- Work completed: both producer signals evaluated and the due full visual
-  review (VISUAL_REVIEW sections 1-4) run on a fresh capture.
-- Commands/results: `npm run signal` -> 13 passed (8.0m; co-op + solo
-  invariants 0 violations, perf 11 ms/kTick); `npm run vision` -> 5 passed
-  (9/9 screens pass, renderer parity green, sprite + HUD gates green, both
-  negative controls fail correctly = detectors valid); `npm run
-  review:capture` -> fresh artifacts/review/latest at e3e70cf (previous =
-  4bce5d8); `npm run review:capture -- --unpin V-16` (verified pin
-  released; the V-15b pin stays for owner-blocked UIR-16).
-- Reviewed with the image tool: sheet-flow, sheet-stages, sheet-platform
-  (blind first look + detail), crops/stage1-boss-warning--banner (the
-  largest delta), anatomy/zhangfei.png cell-by-cell, the guanyu sheet via
-  pairs/V-16/guanyu-pair.png's AFTER row, and anatomy/cells/{caoren,
-  guanyu}-down.png re-judged on current pixels.
-- Evidence/decisions: capture vs 4bce5d8 = 386/488 files byte-identical;
-  238/238 anatomy cells + all clean/xray/ids sheets byte-identical -> grid
-  CARRIED (ledger note added); suspects.json identical except the commit
-  label -> no new suspects; inventory diffs = per-run Phaser object UUIDs
-  only; screen/crop deltas = capture jitter (0 differing pixels on most,
-  <=0.05% scattered AA on animated titles, boss-warning delta = its slide-
-  tween band). Down column: the V-16 detached-hand cause is GONE on both
-  re-opened cells (UIR-17 fold present), leaving the recorded A-class prone
-  foreshortening; the five remaining B V-16 labels are historical and kept
-  pending the next full grid re-judgement (their pixels = the V-16-verified
-  capture). V-15b letters unchanged.
-- Proposals: none accepted, none rejected-as-duplicate. No new S1-S3
-  findings -> no UIR batch. No proactive proposal: the queue has ready CMR
-  work (eval-loop step 6 needs an empty queue). Limitations recorded: the
-  V-16 pin (448065f) predates the capture-framework change, so its pair
-  sheets compare old/new framing cells (same limitation as the V-15
-  post-vs-post pairs); five down cells kept historical labels rather than a
-  fresh full-grid re-judgement.
-- Signal snapshot: logic 13 passed | 0 failed; vision 5 passed, 0 findings
-  (artifacts/vision/findings.jsonl empty).
-- Status after: producer pass complete; review cadence re-armed (next due
-  when `git rev-list --count e3e70cf..HEAD -- src/game` >= 4); UIR-16
-  (V-15b) and UIR-19 (V-18) remain owner-blocked.
-- Remaining work or blocker: none from this pass.
-- Next recommended task: consumer pass -> CMR-04 (generic authoring/
-  preparation/provenance tooling).
 
 ### 2026-10-01 07:30 UTC - CMR-03 (attempt 2, trimmed repack - IN_PROGRESS)
 
