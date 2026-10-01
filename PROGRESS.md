@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 23:12 UTC - CMR-06B (attempt 1, IN_PROGRESS - render-path dispatch fixed: soldier art now reaches soldier frames)
+
+- Status before: CMR-06B work 1-2 done (3ddb204); capture path prep next.
+- Work completed: while preparing the enemy capture harness, found a REAL
+  render-path bug: `motionFrameForEntity` is called for EVERY kind but its
+  state switch returns HERO frame names ('walk:0', 'fall:6', 'misc:2',
+  'fall:3/4') - none of which exist in the soldier pack. With motion on, a
+  soldier would sample unknown frames. Fixed generally: MotionArt gained an
+  optional `frameDispatch` (publishMotionArtRecord wires the soldier's
+  dispatcher per kind; guanyu keeps its path unchanged) and
+  motionFrameForEntity delegates first. Verified by a new routing test
+  (every sampled frame is a pack frame; idle routes to locomotion:0).
+- Files changed: src/game/art/motion-clips.ts,
+  src/game/art/motion-clips-soldier.ts (attack binding fallback already in),
+  src/game/adapters/motion-art.ts, test/game/motion-soldier.test.ts.
+- Verification run: lint + `tsc --noEmit` clean; soldier+clips+actions
+  suites 28/28.
+- Result: the soldier's registered art is now end-to-end renderable (pack
+  -> catalog -> publish -> per-kind dispatch -> pack frames).
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: bounded work 3-5 - extend the CMR-05 capture
+  harness to enemy kinds (spawn + drive a soldier target), captures both
+  facings/Canvas/WebGL/mobile, full-sequence review, producer handoff.
+  No blocker.
+- Next recommended task: continue CMR-06B (enemy capture harness + run).
+
 ### 2026-10-01 23:04 UTC - CMR-06B (attempt 1, IN_PROGRESS - every state/attack/clock bound and exercised)
 
 - Status before: CMR-06B bounded work 1 done (5c2f75f).

@@ -4,7 +4,7 @@ import { STAGES, STAGE_ORDER } from '../../core/stage'
 import type { ArtResources } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import { guanyuClips, validMotionPack, type MotionArt, type MotionFrameCell, type MotionPackGeometry } from '../art/motion-clips'
-import { soldierClips, validSoldierPack } from '../art/motion-clips-soldier'
+import { soldierClips, validSoldierPack, motionFrameForSoldier } from '../art/motion-clips-soldier'
 import { advanceMotion, type MotionPlayback } from '../art/motion-player'
 import { ART_RESOURCE_KEY, heroArtResources } from './hero-art'
 import {
@@ -520,7 +520,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : undefined }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }

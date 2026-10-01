@@ -34,6 +34,8 @@ export interface MotionArt {
   clips: Record<string, MotionClip>
   /** Exact attack-id -> clip-name bindings (hero packs derive their own). */
   attackBindings?: Record<string, string>
+  /** Per-kind state dispatch (soldier frame names differ from the hero set). */
+  frameDispatch?: (art: MotionArt, entity: MotionEntity) => string
 }
 const IDLE = 'walk:0'
 const DOWN = 'fall:6'
@@ -129,6 +131,7 @@ export function sampleClip(art: MotionArt, action: string, tick: number): string
   return frame
 }
 export function motionFrameForEntity(art: MotionArt, entity: MotionEntity): string {
+  if (art.frameDispatch) return art.frameDispatch(art, entity)
   const t = entity.stateTick
   if (entity.mountedOn !== null) {
     if (entity.state === 'attack') return sampleClip(art, 'mountedsweep', t)

@@ -95,20 +95,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06B - Wei Soldier: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; bounded work 1-2 DONE 23:04: pack
-  registered behind `?motion=1` (catalog/clips/validator, single atlas page
-  1,786,372 B sha 55f3300d 1984x1142 after shared-rect bookends) AND every
-  state/attack/clock bound + exercised by test/game/motion-soldier.test.ts
-  (12 tests: pack validation + negative controls, shared guard/down
-  bookends byte-identical via shared atlas rects, core-data clip timings
-  (swing 14/4/20, hitstun 18), dispatch at key ticks for all 11 states,
-  visible strike on every active tick, clamps, unknown-attack fallback to
-  guard, every dispatched frame exists in the pack). Toolkit fix: aliased
-  bookends now share their target's atlas rect (page shrinks, bookends
-  cannot drift). Motion suites 52/52; full unit 821|1 known G6|6.
-  Remaining: work 3-5 - tick/edge exercise in browser, captures both
-  facings/Canvas/WebGL/mobile via the CMR-05 path, full-sequence review,
-  producer handoff.)
+- Status: IN_PROGRESS (attempt 1; bounded work 1-2 DONE; 23:12 fix: the
+  render path now routes soldier art through the SOLDIER state dispatch -
+  `motionFrameForEntity` previously returned hero frame names ('walk:0',
+  'fall:6', 'misc:2') for every kind, which do not exist in the soldier
+  pack; MotionArt gained an optional frameDispatch (publish wires it per
+  kind), verified by a routing test (28 motion tests green). Pack: single
+  atlas page 1,786,372 B sha 55f3300d 1984x1142, shared-rect bookends.
+  Remaining: work 3-5 - extend the CMR-05 capture harness to enemy kinds
+  (spawn + drive a soldier target), in-game captures both facings/
+  Canvas/WebGL/mobile, full-sequence review, producer handoff.)
 - Dependency: CMR-06A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06B](docs/motion-tasks/CMR-06B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic soldier pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

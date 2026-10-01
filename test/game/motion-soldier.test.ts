@@ -4,7 +4,7 @@ import { DYING_TICKS, GETUP_TICKS, KNOCKDOWN_TICKS } from '../../src/core/consta
 import { ENEMIES } from '../../src/core/enemies'
 import { soldierPreparedRecord, motionPackManifest, MOTION_PACKS } from '../../src/game/adapters/motion-art'
 import type { MotionArt, MotionEntity } from '../../src/game/art/motion-clips'
-import { sampleClip } from '../../src/game/art/motion-clips'
+import { sampleClip, motionFrameForEntity } from '../../src/game/art/motion-clips'
 import {
   motionFrameForSoldier,
   soldierClips,
@@ -169,5 +169,21 @@ describe('soldier state dispatch (every state, key ticks)', () => {
         expect(allFrames.has(frame), `${action}@${t} -> ${frame}`).toBe(true)
       }
     }
+  })
+
+  it('the shared dispatch routes soldier art to the soldier frame names', () => {
+    // The render path calls motionFrameForEntity for EVERY kind; soldier art
+    // must reach the soldier dispatch, never the hero clip names.
+    const routed: MotionArt = { ...art, frameDispatch: motionFrameForSoldier }
+    for (const e of [
+      { state: 'idle', stateTick: 0, attackId: null, mountedOn: null },
+      { state: 'attack', stateTick: 15, attackId: 'soldier.swing', mountedOn: null },
+      { state: 'knockdown', stateTick: 4, attackId: null, mountedOn: null },
+      { state: 'dead', stateTick: 0, attackId: null, mountedOn: null },
+    ] as MotionEntity[]) {
+      const frame = motionFrameForEntity(routed, e)
+      expect(allFrames.has(frame), `${e.state} -> ${frame} must be a pack frame`).toBe(true)
+    }
+    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null, mountedOn: null })).toBe('locomotion:0')
   })
 })
