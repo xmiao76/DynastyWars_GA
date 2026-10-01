@@ -16,7 +16,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-01 - Reference, roster/action inventory and budgets
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
 - Dependency: None; due producer review still precedes consumer selection
 - Specification: [CMR-01](docs/motion-tasks/CMR-01.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Pin Guan Yu displayed pixels/pivots/exposures; inventory 17 humanoids and horse; reproduce baseline failures and record resource/generation budgets.
@@ -398,34 +398,6 @@ Add future enhancement tasks below this heading.
   exemption)}, 17 body sheets + 3 prepared.json (revision body-4),
   docs updates.
 - Non-goals: no new costumes; no silhouette changes beyond the cape.
-
-### BODY-24 - Pose interpolation and torso dynamics (motion engine)
-
-- Status: DONE (attempt 2, 2026-09-27 UTC, verified full-green same
-  day)
-- From the BODY-22 motion review (docs/CHARACTER_REVIEW.md): combos and
-  walk read as keys snapping between frozen poses (no in-between
-  frames), and the torso never rotates into a swing. Keys are correct
-  (BODY-19/22); the missing piece is engine motion between them.
-- Requirement: interpolate joint angles/positions between consecutive
-  combat keys (windup->strike->recover) over the existing frame timing,
-  plus torso lean/rotation into strikes; walk keys ease rather than snap.
-  Same poses, same timing, same sim - only the rendered path between keys.
-- Acceptance criteria:
-  - [x] Motion review: combo and walk read as continuous movement
-        (CONTINUOUS - eased in-between poses between every walk and combo key on all 3 hero sheets, no snapping/jitter/double-image (delegated review)). The blend frames come from lerpSkeleton +
-        torsoLean/leanEnvelope (smoothstep easing; the upper body
-        rotates into strikes about the pinned hip), inserted as two
-        cached in-between textures at each pose swap - sim timing,
-        poses and hits untouched.
-  - [x] Reach/legibility/parity gates hold on interpolated frames
-        (test/game/body24-frames.test.ts: face-clear + figure-ink on
-        blend frames, heroes x 2 chains x 3 blend points; the weapon
-        fits re-run per frame and re-clear the bow mid-sweep).
-  - [x] Full gates green (lint 0, tsc 0, unit 646/646, e2e 78,
-        vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
-- Non-goals: no new poses; no sim/timing changes; no procedural
-  secondary motion (cloth/hair) unless free.
 
 ### BODY-7 - Full verification sweep for the body overhaul
 

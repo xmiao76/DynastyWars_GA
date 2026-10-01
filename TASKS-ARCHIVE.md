@@ -4675,3 +4675,31 @@ and the three pre-redesign enhancements - all DONE and verified)
   owner wants battle-worn character (nicks, fuller engraving, hamon),
   refine the generator - no pipeline change needed.
 - Non-goals: no sim/timing changes.
+
+### BODY-24 - Pose interpolation and torso dynamics (motion engine)
+
+- Status: DONE (attempt 2, 2026-09-27 UTC, verified full-green same
+  day)
+- From the BODY-22 motion review (docs/CHARACTER_REVIEW.md): combos and
+  walk read as keys snapping between frozen poses (no in-between
+  frames), and the torso never rotates into a swing. Keys are correct
+  (BODY-19/22); the missing piece is engine motion between them.
+- Requirement: interpolate joint angles/positions between consecutive
+  combat keys (windup->strike->recover) over the existing frame timing,
+  plus torso lean/rotation into strikes; walk keys ease rather than snap.
+  Same poses, same timing, same sim - only the rendered path between keys.
+- Acceptance criteria:
+  - [x] Motion review: combo and walk read as continuous movement
+        (CONTINUOUS - eased in-between poses between every walk and combo key on all 3 hero sheets, no snapping/jitter/double-image (delegated review)). The blend frames come from lerpSkeleton +
+        torsoLean/leanEnvelope (smoothstep easing; the upper body
+        rotates into strikes about the pinned hip), inserted as two
+        cached in-between textures at each pose swap - sim timing,
+        poses and hits untouched.
+  - [x] Reach/legibility/parity gates hold on interpolated frames
+        (test/game/body24-frames.test.ts: face-clear + figure-ink on
+        blend frames, heroes x 2 chains x 3 blend points; the weapon
+        fits re-run per frame and re-clear the bow mid-sweep).
+  - [x] Full gates green (lint 0, tsc 0, unit 646/646, e2e 78,
+        vision 5/5, selfplay 13/13, build 0, prodbuild 4/4).
+- Non-goals: no new poses; no sim/timing changes; no procedural
+  secondary motion (cloth/hair) unless free.
