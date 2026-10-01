@@ -83,7 +83,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   5-sheet/8-request budget plan, prompts skeleton) in
   [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md). Needed: a
   session where the image tool serves the requested file's pixels, or owner
-  inspection/verdicts on the identity masters and sheets)
+  inspection/verdicts on the identity masters and sheets. 2026-10-01 10:23
+  probe: the image tool is HEALTHY again (body master served correctly,
+  matching its recorded fingerprint) - CMR-06A is ready to be reset to TODO
+  by the owner)
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

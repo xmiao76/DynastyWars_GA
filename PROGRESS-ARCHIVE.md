@@ -8207,3 +8207,51 @@ lines. Never read during an iteration; consult only for deep history.
   with CMR-06A+ (it consumes this toolkit; the CMR-04 acceptance covers the
   tooling, not new art). UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
 - Next recommended task: CMR-05 (motion-aware capture/review/test harness).
+
+### 2026-10-01 09:18 UTC - CMR-05 (attempt 1, motion capture/review harness - DONE)
+
+- Status before: CMR-05 TODO (first TODO after CMR-04; review cadence
+  clear at e3e70cf..HEAD < 4).
+- Work completed: capture/review harness for the ACTUAL `?motion=1`
+  runtime path. `scripts/motion-review-core.mjs`: `validateTrace` negative
+  controls (unknown frames, old/new texture mixing PER FIGHTER so a co-op
+  pair never false-positives, blank/missing packs, residue, missing
+  bindings, stale provenance, per-actor clock defects outside freeze/
+  pause), coverage matrix (`captured`/`unseen` only), `assertIndexIntegrity`
+  (rejects unseen-labelled-natural and null/unseen landmarks), pacing
+  report with stated limitations, resource report in the CMR-03 budget
+  vocabulary, index builder (commit/dirty/source hashes, pack revision,
+  landmarks). `scripts/motion-capture.mjs`: per-fighter/role/renderer
+  runner (provenance, rotation to previous/ + commit-labelled pair sheets,
+  contact sheets, `--strict`). `e2e/motion-capture.spec.ts`: parameterized
+  live capture (isolated named actions both facings labelled `injected`,
+  real-input walk/mixed labelled `gameplay`, co-op rows from both players,
+  4x crops of the full untrimmed cell box with HUD hidden, clock context
+  per row). `docs/motion-tasks/MOTION_CAPTURE.md` documents the commands.
+- Files changed: scripts/motion-review-core.{mjs,d.mts},
+  scripts/motion-capture.mjs, e2e/motion-capture.spec.ts,
+  test/game/motion-review-core.test.ts (16),
+  docs/motion-tasks/{MOTION_CAPTURE.md,CMR-05.md}, TASKS.md, PROGRESS.md.
+  No `src/game` change.
+- Verification run: lint + `tsc --noEmit` clean; targeted units 16/16;
+  full unit **803 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b
+  arm-chain pin, UIR-16 BLOCKED); live Guan Yu captures canvas x2 (second
+  run exercises rotation/pairs) and webgl: 33 rows each, 0 trace errors,
+  0 hard integrity, 2 honest open items (unverified contactU/weaponTipU);
+  default legacy co-op e2e 6/6; `npm run vision` 5/5; `npm run prodbuild`
+  8/8. Signal NOT run: no observation adapter or `src/game` file changed.
+- Self-check caught a real capture defect: the CONTINUE overlay occluded
+  review crops (the death segments spent `sim.lives`, so the core re-emits
+  `gameover` and the card re-appeared). Crops now capture with full state
+  recovery and the HUD hidden; verified mechanically (0.0% card-parchment
+  pixels vs >25% with the card) because reviewer image previews were
+  unreliable this session (stale attachments) - recorded as an inspection
+  limitation in MOTION_CAPTURE.md.
+- Result: CMR-05 hard acceptance 1-6 checked with evidence.
+- Status after: CMR-05 DONE (attempt 1).
+- Remaining work or blocker: contactU/weaponTipU stay `unverified`
+  (producer measures them later; they cannot pass silently); the 22 unseen
+  coverage cells are future per-character integration work. UIR-16/UIR-19/
+  GYM-1/BODY-7/ENH-12 unchanged.
+- Next recommended task: CMR-06A (Wei Soldier: author/prepare full motion
+  pack).
