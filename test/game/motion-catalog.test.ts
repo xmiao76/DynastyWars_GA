@@ -77,6 +77,33 @@ describe('atomic publication and negative controls', () => {
     expect(unsupported.detail).toContain('exceeds the 2048px page limit')
   })
 
+  it('loader failure messages map to unsupported/missing, not corrupt', async () => {
+    const cache = new MotionAtlasCache()
+    const noSha = await cache.request(manifest('nosh', [page('regular')]), async () => {
+      throw new Error('unsupported: SHA-256 requires a secure context')
+    })
+    expect(noSha.failure).toBe('unsupported')
+    const net = await cache.request(manifest('net', [page('regular')]), async () => {
+      throw new Error('missing: network error for x')
+    })
+    expect(net.failure).toBe('missing')
+  })
+
+  it('invalidate drops a ready slot so a later request may reload it', async () => {
+    const cache = new MotionAtlasCache()
+    const m = manifest('soldier', [page('regular')])
+    expect((await cache.request(m, okLoader)).ok).toBe(true)
+    cache.invalidate('soldier')
+    expect(cache.state('soldier')).toBe('absent')
+    let calls = 0
+    const r = await cache.request(m, async (p) => {
+      calls += 1
+      return { bytes: new Uint8Array([1]), sha256: p.sha256 }
+    })
+    expect(calls, 'an invalidated pack reloads').toBe(1)
+    expect(r.ok).toBe(true)
+  })
+
   it('a failing fighter never clears other valid art', async () => {
     const cache = new MotionAtlasCache()
     await cache.request(manifest('guanyu-ok', [page('regular')]), okLoader)
@@ -167,18 +194,31 @@ describe('reference counting, eviction and budgets', () => {
     expect(cache.state('zhangfei')).toBe('ready')
   })
 
-  it('budget report separates source, decoded, cloned-canvas and legacy costs', async () => {
+  it('budget report separates network/source/decoded/GPU/cloned-canvas costs', async () => {
     const cache = new MotionAtlasCache()
     await cache.request(manifest('soldier', [page('regular', { bytes: 2048 })]), okLoader)
     cache.noteLegacyFallback(4096)
     const rep = cache.budgetReport()
     expect(rep.perFighterDecoded['soldier']).toBe(512 * 512 * 4)
     expect(rep.sourceBytes).toBe(2048)
+    expect(rep.networkBytes).toBe(2048)
     expect(rep.clonedCanvasBytes).toBeGreaterThan(0)
+    expect(rep.gpuBytes, 'one GPU upload per page plus display clones').toBe(512 * 512 * 4 + rep.clonedCanvasBytes)
     expect(rep.legacyFallbackCost, 'legacy fallback cost must not hide').toBe(4096)
     expect(rep.caps.decodedPerFighter).toBe(16 * 1024 * 1024)
     expect(rep.caps.retainedCache).toBe(128 * 1024 * 1024)
     expect(rep.caps.stageDownloads).toBe(12 * 1024 * 1024)
+  })
+
+  it('shared-atlas display pays zero cloned-canvas bytes and one GPU upload per page', async () => {
+    const cache = new MotionAtlasCache()
+    const m = { ...manifest('guanyu', [page('regular', { bytes: 2048 }), page('actions', { bytes: 2048, sha256: B })]), display: 'shared-atlas' as const }
+    expect((await cache.request(m, okLoader)).ok).toBe(true)
+    const rep = cache.budgetReport()
+    expect(rep.clonedCanvasBytes, 'shared frames never clone a cell canvas').toBe(0)
+    expect(rep.gpuBytes).toBe(2 * 512 * 512 * 4)
+    expect(rep.networkBytes).toBe(2 * 2048)
+    expect(rep.perFighterDecoded['guanyu']).toBe(2 * 512 * 512 * 4)
   })
 
   it('per-fighter decoded cap rejects an oversized pack at load', async () => {

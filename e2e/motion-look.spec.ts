@@ -12,7 +12,7 @@ const OUT = 'artifacts/wholeframe/motion'
 type LiveGame = {
   sim: Sim
   syncSprites(): void
-  sprites: Map<number, { texture: { key: string }; originY: number }>
+  sprites: Map<number, { texture: { key: string }; frame: { name: string }; originY: number }>
 }
 
 for (const [variant, query, renderer] of [
@@ -29,11 +29,17 @@ for (const [variant, query, renderer] of [
     await page.goto(`/?renderer=${renderer}&autopilot=1${query}`)
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
     const published = await page.evaluate(() => Object.keys(window.__DW_GAME__?.scene.getScene('boot').registry.get('paintedHeroArt')?.motions ?? {}))
-    expect(published).toEqual(variant === 'current' ? [] : ['guanyu'])
-    if (variant === 'current') expect(requested).toEqual([])
+    // CMR-03: packs are stage-scoped - at title NOTHING is published or
+    // downloaded, even opted in (no all-cast boot downloads).
+    expect(published).toEqual([])
+    expect(requested, 'no motion download before stage entry').toEqual([])
     if (renderer === 'webgl') expect(await page.evaluate(() => window.__DW_GAME__?.renderer.type)).toBe(2)
     await page.evaluate(() => window.__DW__?.startGame('guanyu', 42, 'stage1'))
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+    if (variant !== 'current') {
+      await expect.poll(() => requested.length, { timeout: 15_000 }).toBe(1)
+      expect(await page.evaluate(() => Object.keys(window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual(['guanyu'])
+    }
     const introUp = (): Promise<boolean> => page.evaluate(() => !!window.__DW_GAME__?.scene.getScene('hud')?.children.list.some((o) => o.name === 'introCard'))
     await expect.poll(introUp).toBe(true) // Enter before it exists does nothing.
     await page.keyboard.press('Enter')
@@ -69,7 +75,7 @@ for (const [variant, query, renderer] of [
         window.__DW__!.run([input, { ...input, attackPressed: false }])
         while (game.sim.tick < expected) await new Promise<void>((r) => requestAnimationFrame(() => r()))
         await new Promise<void>((r) => requestAnimationFrame(() => r()))
-        const key = game.sprites.get(p.id)!.texture.key
+        const key = game.sprites.get(p.id)!.frame.name === '__BASE' ? game.sprites.get(p.id)!.texture.key : game.sprites.get(p.id)!.frame.name
         shots.push({ tick: game.sim.tick, elapsedMs: Math.round(performance.now() - began), state: p.state, stateTick: p.stateTick, attackId: p.attackId, key, facing: p.facing })
         // Remaining time approximates normal speed; recorded timestamps and
         // tick trace make any recording pace drift visible, not hidden.
@@ -86,9 +92,9 @@ for (const [variant, query, renderer] of [
         const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const p = game.sim.entities[0]!
         p.state = 'walk'; p.stateTick = 7
-        game.syncSprites(); const before = game.sprites.get(p.id)!.texture.key
+        game.syncSprites(); const before = game.sprites.get(p.id)!.frame.name
         for (let i = 0; i < 20; i++) game.syncSprites()
-        return [before, game.sprites.get(p.id)!.texture.key]
+        return [before, game.sprites.get(p.id)!.frame.name]
       })
       expect(paused[0]).toBe(paused[1])
     }
@@ -110,6 +116,6 @@ test('missing sheet rejects motion pack and keeps original character art', async
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   expect(await page.evaluate(() => {
     const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
-    return game.sprites.get(game.sim.playerId)!.texture.key
+    return game.sprites.get(game.sim.playerId)!.frame.name === '__BASE' ? game.sprites.get(game.sim.playerId)!.texture.key : game.sprites.get(game.sim.playerId)!.frame.name
   })).toBe('entity:guanyu:idle')
 })

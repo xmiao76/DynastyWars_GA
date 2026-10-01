@@ -26,7 +26,17 @@ import { KeyboardAdapter, PLAYER_TWO_KEYS } from '../adapters/keyboard'
 import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gamepad'
 import { NO_TOUCH } from '../adapters/touch'
 import { ensureBlendKey, ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
-import { clearMotionPlayback, ensureMotionKey, forgetMotionEntity, motionVisualLift } from '../adapters/motion-art'
+import {
+  clearMotionPlayback,
+  ensureMotionFrame,
+  forgetMotionEntity,
+  motionEnabled,
+  motionKindReady,
+  motionRuntime,
+  motionStageRequest,
+  motionVisualLift,
+  MOTION_PACKS,
+} from '../adapters/motion-art'
 import { heroArtResources } from '../adapters/hero-art'
 import { rotateBlocked } from '../ui/orientation'
 import { artDisplayHeight } from '../art/registry'
@@ -180,6 +190,12 @@ export class GameScene extends Phaser.Scene {
   private dustEmitter!: Phaser.GameObjects.Particles.ParticleEmitter
   /** Per-frame burst budget so a busy frame can't spawn a particle storm. */
   private juiceBudget = 6
+  /** Build gate: false while stage-entry motion packs are still preparing. */
+  private built = false
+  /** Monotonic create token; stale async continuations compare against it. */
+  private runToken = 0
+  /** A co-op join waiting on an uncached optional hero's pack (bounded). */
+  private joinPending = false
 
   constructor() {
     super('game')
@@ -187,7 +203,13 @@ export class GameScene extends Phaser.Scene {
 
   create(data: GameSceneData): void {
     this.bridge = this.registry.get('bridge') as BridgeState
-    this.bridge.scene = 'game'
+    // Build gate: motion packs load at stage entry (CMR-03, no boot-time
+    // all-cast downloads), so the stage/actors enter simulation only after the
+    // bounded prepare settles. Off by default the gate is synchronous.
+    this.built = false
+    this.joinPending = false
+    this.runToken += 1
+    this.bridge.sim = null
     this.accumulator = 0
     this.clearMsLeft = -1
     // The scene instance is reused across stages: never inherit a pause.
@@ -200,6 +222,36 @@ export class GameScene extends Phaser.Scene {
     this.shadows.clear()
     clearMotionPlayback(this)
     this.motionDefeat.clear()
+    // Scene exit/restart cancels in-flight pack loads (late callbacks reject
+    // as stale) and releases this scene's pack references for eviction.
+    this.events.once('shutdown', () => {
+      this.runToken += 1
+      this.built = false
+      this.joinPending = false
+      motionRuntime().cancelLoads()
+      motionRuntime().releaseScene(this)
+    })
+    if (!motionEnabled()) {
+      this.beginStage(data)
+      return
+    }
+    const token = this.runToken
+    // Scope: hero + the effective player two (co-op carry, else the default
+    // drop-in partner - "default/cached heroes ready for immediate join").
+    const heroId = data.charId ?? 'zhaoyun'
+    const req = motionStageRequest(data.stageId ?? 'stage1', heroId, data.char2Id ?? secondPlayerCharacter(heroId))
+    void motionRuntime()
+      .prepareStage(this, req)
+      .then(() => {
+        // Stale-callback rejection: the scene exited or restarted mid-prepare.
+        if (token !== this.runToken) return
+        this.beginStage(data)
+      })
+  }
+
+  private beginStage(data: GameSceneData): void {
+    this.bridge.scene = 'game'
+    this.built = true
     const character = characterById(data.charId ?? 'zhaoyun')
     this.sim = createSim(data.seed ?? 1, {
       charId: character.id,
@@ -441,6 +493,9 @@ export class GameScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number): void {
+    // Build gate (CMR-03): while stage-entry packs are preparing there is no
+    // sim yet - nothing steps, joins or transitions until beginStage ran.
+    if (!this.built) return
     // UIR-7 (V-9): a portrait phone shows the rotate overlay and gameplay
     // pauses behind it - no sim ticks while it is up.
     if (rotateBlocked()) return
@@ -462,7 +517,7 @@ export class GameScene extends Phaser.Scene {
     // keys mid-stage. Nothing happens until they do, so a solo run is
     // completely unaffected.
     if (this.sim.player2Id === null && (this.keyboard2Adapter.wantsToJoin() || this.gamepad2Adapter.wantsToJoin())) {
-      joinPlayer2(this.sim, secondPlayerCharacter(this.sim.charId))
+      this.joinSecondPlayer()
     }
     this.pollRejoin()
     // A harness startGame() can arrive mid-stage (menu scenes consume these
@@ -614,7 +669,9 @@ export class GameScene extends Phaser.Scene {
    */
   private fitSprite(sprite: Phaser.GameObjects.Sprite, kind: string): void {
     const motion = heroArtResources(this)?.motions?.[kind]
-    if (motion && sprite.texture.key.includes(':motion:')) {
+    // Motion frames are shared atlas frames named `entity:<kind>:motion:*`;
+    // legacy pose textures keep their plain `__BASE` frame name.
+    if (motion && sprite.frame.name.includes(':motion:')) {
       // Motion boxes share a fixed art-unit scale; extra margins never resize
       // the fighter. Ground registration is inside the padded cell.
       sprite.setScale(1 / motion.density)
@@ -663,12 +720,14 @@ export class GameScene extends Phaser.Scene {
           entity.kind === 'horse'
             ? horsePoseFor(entity, playerOf(this.sim))
             : poseForEntity(entity)
-        const motionKey = ensureMotionKey(this, renderEntity)
-        if (motionKey) {
+        const motionFrame = ensureMotionFrame(this, renderEntity)
+        if (motionFrame) {
           this.blendQ.delete(entity.id)
           this.lastPose.delete(entity.id)
-          if (sprite.texture.key !== motionKey) {
-            sprite.setTexture(motionKey)
+          // Shared atlas frame (CMR-03): the trim/pivot restores registration,
+          // so no per-cell canvas clone is ever created.
+          if (sprite.frame.name !== motionFrame.frame) {
+            sprite.setTexture(motionFrame.texture, motionFrame.frame)
             this.fitSprite(sprite, entity.kind)
           }
         } else {
@@ -864,7 +923,24 @@ export class GameScene extends Phaser.Scene {
   joinSecondPlayer(charId?: string): boolean {
     if (this.sim.player2Id !== null) return false
     const id = charId ?? secondPlayerCharacter(this.sim.charId)
-    return joinPlayer2(this.sim, id)
+    // Cached/default heroes join immediately; an uncached optional hero is
+    // prepared (bounded) BEFORE the core join, and a bounded failure joins
+    // whole-legacy: publication is atomic per fighter, never half a fighter.
+    if (!motionEnabled() || !MOTION_PACKS[id] || motionKindReady(this, id)) {
+      return joinPlayer2(this.sim, id)
+    }
+    if (this.joinPending) return true
+    this.joinPending = true
+    const token = this.runToken
+    void motionRuntime()
+      .loadKind(this, id)
+      .then(() => {
+        this.joinPending = false
+        // Stale if the stage exited/restarted, or someone already joined.
+        if (token !== this.runToken || this.sim.player2Id !== null) return
+        joinPlayer2(this.sim, id)
+      })
+    return true
   }
 
   private pollRejoin(): void {

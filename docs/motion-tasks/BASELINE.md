@@ -52,6 +52,26 @@ and the 20-clip timing hash `513e9ff0...` is unchanged - permanent pin in
 test/game/motion-repack.test.ts. The weapon-landmark pixel test restores
 the trim offset exactly like the display blit (assertions unchanged).
 
+## Stage-scoped runtime budget re-measure (CMR-03 attempt 3, 2026-10-01)
+
+Separate estimates, never merged (contract acceptance 1); every ceiling met
+without raising any of them:
+
+| estimate | measured | ceiling | headroom |
+| --- | --- | --- | --- |
+| network (stage entry, hero pack) | 4,328,499 B (1,782,790 + 2,545,709, measured in `e2e/motion-loader.spec.ts`) | 12 MiB/stage | 8.07 MiB |
+| source (per fighter, same bytes) | 4,328,499 B | 16 MiB/fighter download | 11.87 MiB |
+| decoded RGBA (two pages, the cache's accounting) | 15,543,160 B = 14.82 MiB | 16 MiB/fighter | 1.18 MiB |
+| GPU (shared atlas: one upload per page) | 15,543,160 B | (report only) | — |
+| cloned-canvas (shared-atlas display) | **0 B** | (report only) | — |
+| retained cache (one fighter) | 14.82 MiB | 128 MiB | 113 MiB |
+
+The decoded figure here is the stricter whole-page RGBA; the 12.72 MiB above
+counts trimmed content area only. Both fit the 16 MiB cap. The replaced
+per-cell clone display held one 448x288 canvas per frame (90 frames =
+46,448,640 B canvas) and uploaded each as its own texture - that path could
+never meet the decode cap, which is why CMR-03 displays shared atlas frames.
+
 ## Known baseline failures reproduced (2026-10-01, commit `ba9680c` tree)
 
 Commands and what actually ran:

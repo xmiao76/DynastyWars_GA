@@ -31,6 +31,8 @@ export interface PackPage {
   height: number
 }
 
+export type PackDisplay = 'shared-atlas' | 'cloned-cells'
+
 export interface PackManifest {
   id: string
   revision: string
@@ -39,6 +41,12 @@ export interface PackManifest {
   requiredClips: string[]
   /** Pinned clip-timing hash (e.g. the CMR-01 clipsHash). */
   clipsHash: string
+  /**
+   * Display strategy. CMR-03 shows shared atlas frames (trim/pivot restored
+   * via the frame) instead of cloning every cell into its own canvas, so a
+   * shared-atlas pack has ZERO cloned-canvas cost by construction.
+   */
+  display?: PackDisplay
 }
 
 export interface PackRecord {
@@ -46,7 +54,10 @@ export interface PackRecord {
   revision: string
   pages: PackPage[]
   decodedBytes: number
+  /** Canvas memory held by per-cell display clones (0 for shared-atlas). */
   clonedCanvasBytes: number
+  /** GPU texture bytes actually retained (pages + any display clones). */
+  gpuBytes: number
   clipsHash: string
 }
 
@@ -126,8 +137,13 @@ interface Slot {
 
 export interface BudgetReport {
   perFighterDecoded: Record<string, number>
+  /** Bytes fetched over the network for published packs (== source bytes). */
+  networkBytes: number
   retainedBytes: number
+  /** Canvas memory held by per-cell display clones (0 for shared-atlas packs). */
   clonedCanvasBytes: number
+  /** GPU texture memory retained: page uploads plus display clones. */
+  gpuBytes: number
   sourceBytes: number
   legacyFallbackCost: number
   caps: BudgetCaps
@@ -215,9 +231,13 @@ export class MotionAtlasCache {
             return { ok: false, failure: 'wrong-signature', detail: `${manifest.id}:${page.name} signature mismatch` }
           }
           decoded += page.width * page.height * 4
-          // Presentation clones at most one cell canvas per sampled frame;
-          // estimate one cell (page/9 grid) per clip key as the clone budget.
-          cloned += Math.ceil((page.width * page.height) / 9) * 4
+          // Shared-atlas display (CMR-03) holds NO per-cell display clones:
+          // the frame's trim/pivot restores registration from the shared page.
+          // The cloned-cells estimator (one page/9 cell per clip key) stays
+          // for packs that still clone each displayed cell to its own canvas.
+          if ((manifest.display ?? 'cloned-cells') === 'cloned-cells') {
+            cloned += Math.ceil((page.width * page.height) / 9) * 4
+          }
           loaded.push(page)
         }
         if (this.epoch(scope) !== startEpoch) {
@@ -234,6 +254,8 @@ export class MotionAtlasCache {
           pages: loaded,
           decodedBytes: decoded,
           clonedCanvasBytes: cloned,
+          // One GPU upload per page plus any display clones.
+          gpuBytes: decoded + cloned,
           clipsHash: manifest.clipsHash,
         }
         slot.state = 'ready'
@@ -246,7 +268,16 @@ export class MotionAtlasCache {
           return { ok: false, failure: 'cancelled', detail: `scope ${scope} cancelled` }
         }
         const msg = err instanceof Error ? err.message : String(err)
-        const failure: LoadFailure = /timeout/i.test(msg) ? 'timeout' : 'corrupt'
+        // Loaders classify by message so the six LoadFailure classes stay
+        // distinct: timeout, unsupported (no SHA-256/decoder), missing
+        // (404/network), and everything else is corrupt content.
+        const failure: LoadFailure = /timeout/i.test(msg)
+          ? 'timeout'
+          : /unsupported/i.test(msg)
+            ? 'unsupported'
+            : /missing/i.test(msg)
+              ? 'missing'
+              : 'corrupt'
         slot.state = 'failed'
         slot.failure = failure
         return { ok: false, failure, detail: msg }
@@ -279,6 +310,17 @@ export class MotionAtlasCache {
     if (slot && slot.refcount > 0) slot.refcount -= 1
   }
 
+  /**
+   * Drop a pack's slot entirely so a later request may retry it. Used when
+   * post-load publication rejects (corrupt decode/pixel signature): the pack
+   * must not stay 'ready' with nothing installed.
+   */
+  invalidate(id: string): void {
+    for (const [key, slot] of [...this.slots.entries()]) {
+      if (slot.manifest.id === id) this.slots.delete(key)
+    }
+  }
+
   /** Evict released packs least-recently-used first until under the cap. */
   evict(): string[] {
     const evicted: string[] = []
@@ -309,19 +351,27 @@ export class MotionAtlasCache {
     const perFighterDecoded: Record<string, number> = {}
     let retained = 0
     let cloned = 0
+    let gpu = 0
     let source = 0
     for (const slot of this.slots.values()) {
       if (slot.state === 'ready' && slot.record) {
         perFighterDecoded[slot.record.id] = slot.record.decodedBytes
         retained += slot.record.decodedBytes
         cloned += slot.record.clonedCanvasBytes
+        gpu += slot.record.gpuBytes
         source += slot.manifest.pages.reduce((a, p) => a + p.bytes, 0)
       }
     }
     return {
       perFighterDecoded,
+      // Network/source/decoded/GPU/cloned-canvas stay separate estimates: the
+      // download is compressed source, decode is page RGBA, GPU is the single
+      // per-page upload plus display clones, and cloned-canvas is the
+      // per-cell clone memory a shared-atlas pack never pays.
+      networkBytes: source,
       retainedBytes: retained,
       clonedCanvasBytes: cloned,
+      gpuBytes: gpu,
       sourceBytes: source,
       legacyFallbackCost: this.legacyFallbackBytes,
       caps: this.caps,

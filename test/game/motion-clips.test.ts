@@ -110,13 +110,20 @@ describe('Guan Yu motion pilot technical gates (not aesthetic acceptance)', () =
     const ctx = (w: number, h: number): CanvasRenderingContext2D => createCanvas(w, h).getContext('2d') as unknown as CanvasRenderingContext2D
     expect(publishMotionArtRecord(scene, meta, ctx)?.id).toBe('guanyu')
     expect(records).toMatchObject({ bodies: { retained: true }, motions: { guanyu: { revision: 'motion-2' } } })
+    // A second, already-valid fighter must survive every rejection below:
+    // rejecting a fighter clears THAT fighter only (CMR-03 acceptance 3).
+    const withSibling = { heroes: {}, bodies: { retained: true }, motions: { guanyu: { id: 'guanyu' }, zhangfei: { id: 'zhangfei' } } }
+    const siblingOnly = { zhangfei: { id: 'zhangfei' } }
+    records = withSibling
     expect(publishMotionArtRecord(scene, { ...meta, signatures: { ...meta.signatures, sheet: '00'.repeat(6144) } }, ctx)).toBeUndefined()
-    expect(records).toMatchObject({ motions: {}, bodies: { retained: true } })
+    expect((records as { motions: Record<string, unknown> }).motions).toEqual(siblingOnly)
+    records = withSibling
     expect(publishMotionArtRecord(scene, { ...meta, signatures: { ...meta.signatures, actions: '00'.repeat(6144) } }, ctx)).toBeUndefined()
-    expect(records).toMatchObject({ motions: {} })
+    expect((records as { motions: Record<string, unknown> }).motions).toEqual(siblingOnly)
+    records = withSibling
     exists = false
     expect(publishMotionArtRecord(scene, meta, ctx)).toBeUndefined()
-    expect(records).toMatchObject({ motions: {} })
+    expect((records as { motions: Record<string, unknown> }).motions).toEqual(siblingOnly)
   }, 40_000) // Two atlases and both corruption controls decode/scan ~11MP repeatedly.
 
   it('does NOT declare the diagnostic candidates quality-accepted', () => {

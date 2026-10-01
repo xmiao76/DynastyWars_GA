@@ -8,7 +8,7 @@ test.skip(process.env.GUANYU_ACTIONS !== '1', 'set GUANYU_ACTIONS=1 for action r
 test.describe.configure({ mode: 'serial' })
 test.use({ video: 'on' })
 const OUT = 'artifacts/wholeframe/actions'
-interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; y: number; displayHeight: number; alpha: number }> }
+interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; frame: { name: string }; y: number; displayHeight: number; alpha: number }> }
 async function ticks(page: Page, inputs: InputState[]): Promise<void> {
   const before = await page.evaluate(() => window.__DW__!.getSnapshot().tick)
   await page.evaluate((i) => window.__DW__!.run(i), inputs)
@@ -88,7 +88,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
             while (g.sim.tick < next) await new Promise<void>((r) => requestAnimationFrame(() => r()))
             await new Promise<void>((r) => requestAnimationFrame(() => r()))
             const s = g.sprites.get(p.id)!
-            out.push({ action, facing: p.facing, state: p.state, stateTick: p.stateTick, airTicks: p.airTicks, tick: g.sim.tick, key: s.texture.key, z: p.z, spriteY: s.y, elapsedMs: Math.round(performance.now() - began),
+            out.push({ action, facing: p.facing, state: p.state, stateTick: p.stateTick, airTicks: p.airTicks, tick: g.sim.tick, key: s.frame.name === '__BASE' ? s.texture.key : s.frame.name, z: p.z, spriteY: s.y, elapsedMs: Math.round(performance.now() - began),
               image: window.__DW_GAME__!.renderer.type === 1 && p.facing === 'right' && [0, 2, 4, 6, 9, 12, 15, 18, 21, 26, 30, 34, 38].includes(i) ? window.__DW_GAME__!.canvas.toDataURL('image/png') : null })
             await new Promise<void>((r) => setTimeout(r, Math.max(0, (i + 1) * 1000 / 30 - (performance.now() - began))))
           }
@@ -113,7 +113,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
       const out = []
       for (const state of ['grabbed', 'thrown', 'fleeing', 'dying', 'dead'] as const) for (const stateTick of [0, 4, 8, 14, 23, 35]) {
         p.state = state; p.stateTick = stateTick; g.sim.tick++; g.syncSprites()
-        out.push({ state, stateTick, key: g.sprites.get(p.id)!.texture.key, alpha: g.sprites.get(p.id)!.alpha })
+        out.push({ state, stateTick, key: g.sprites.get(p.id)!.frame.name === '__BASE' ? g.sprites.get(p.id)!.texture.key : g.sprites.get(p.id)!.frame.name, alpha: g.sprites.get(p.id)!.alpha })
       }
       return out
     })
@@ -132,5 +132,14 @@ test('missing additional action atlas rejects both packs rather than mixing mode
   expect(await page.evaluate(() => Object.keys(window.__DW_GAME__?.scene.getScene('boot').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
   await page.evaluate(() => window.__DW__!.startGame('guanyu', 42))
   await expect.poll(() => page.evaluate(() => window.__DW__!.getSnapshot().scene)).toBe('game')
+  // Whole-fighter rejection: one missing page means NOTHING publishes, and the
+  // hero renders legacy art rather than a mixed/partial model.
+  expect(await page.evaluate(() => Object.keys(window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
+  const legacyKey = await page.evaluate(() => {
+    const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+    game.syncSprites()
+    return game.sprites.get(game.sim.playerId)!.texture.key
+  })
+  expect(legacyKey.includes(':motion:')).toBe(false)
   await ticks(page, [neutralInput()])
 })

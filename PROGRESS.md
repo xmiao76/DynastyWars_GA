@@ -22,6 +22,54 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 07:20 UTC - CMR-03 (attempt 3, stage-scoped runtime + shared frames - DONE)
+
+- Status before: CMR-03 IN_PROGRESS (attempt 2 trimmed repack done;
+  attempt 1 catalog/cache core). Remaining: stage-aware loader wiring,
+  shared-frame display, co-op/restart, browser/dist cases.
+- Work completed: stage-scoped bounded loader wired end to end.
+  `motion-art.ts`: per-kind pack catalog (guanyu, 2 pages with pinned
+  byte sizes/sha256), fetch+SHA-256+decode page loader (8s per-page abort
+  deadline; no secure-context SHA-256 -> 'unsupported'), `MotionRuntime`
+  (dedup in-flight installs, atomic per-fighter publication, refcounted
+  acquire/release + LRU eviction that uninstalls textures/registry, scope
+  cancellation + stale-callback rejection, 12s stage deadline -> legacy).
+  Display: shared atlas frames with `Frame.setTrim` trim/pivot restoration
+  instead of per-cell canvas clones (frame ids keep
+  `entity:<kind>:motion:<clip>:<idx>`; e2e sprite reads use frame name
+  with `__BASE` -> texture-key fallback). BootScene downloads nothing
+  motion-related. GameScene gates `beginStage` on the bounded prepare
+  (synchronous when the flag is off), cancels/releases on shutdown, and
+  co-op joins are immediate for cached/default heroes or prepared-then-
+  join with bounded failure -> whole-legacy.
+- Files changed: src/game/adapters/{motion-art,motion-catalog,motion-scope},
+  src/game/scenes/{BootScene,GameScene}, test/game/{motion-runtime,
+  motion-scope (new),motion-catalog,motion-clips}, prodbuild/motion.spec,
+  e2e/motion-loader.spec (new) + 6 e2e motion specs' sprite reads,
+  docs/{motion-tasks/CMR-03.md, motion-tasks/BASELINE.md, TASKS.md}.
+- Verification run: lint + tsc clean; unit 759 passed | 1 failed |
+  6 skipped (the 1 = known G6 V-15b arm-chain pin, UIR-16 BLOCKED);
+  signal 13 passed; vision 5 passed; prodbuild 8 passed (motion flag
+  matrix on Canvas+WebGL against dist incl. trim/pivot geometry pins);
+  e2e/motion-loader 5 passed (scope, measured downloads, restart, stage
+  progression, co-op, missing/wrong-signature/timeout); guanyu-solo-ko +
+  guanyu-transitions 3 passed; inline missing-pack controls passed.
+- Budgets (BASELINE re-measure, no ceiling raised): stage-entry network
+  4,328,499 B <= 12 MiB (measured in-browser); page RGBA decode
+  15,543,160 B = 14.82 MiB <= 16 MiB (stricter whole-page accounting;
+  12.72 MiB was trimmed content); GPU 15,543,160 B (one upload per page);
+  cloned-canvas 0 B (the replaced clone display held 44.3 MiB of canvases);
+  retained 14.82 MiB <= 128 MiB.
+- Result: CMR-03 hard acceptance 1-6 checked with evidence in
+  docs/motion-tasks/CMR-03.md.
+- Status after: CMR-03 DONE (3/3 attempts: 7489061, 3ff7a3d, this commit).
+- Remaining work or blocker: none in CMR-03. UIR-16, UIR-19, GYM-1,
+  BODY-7, ENH-12 stay owner-deferred BLOCKED. NOTE for the next tick:
+  `git rev-list --count 4bce5d8..HEAD -- src/game` reaches 4 with this
+  commit -> producer pass (.loop/eval-loop.md) triggers before further
+  consumer work.
+- Next recommended task: producer pass, then CMR-04.
+
 ### 2026-10-01 07:30 UTC - CMR-03 (attempt 2, trimmed repack - IN_PROGRESS)
 
 - Status before: CMR-03 IN_PROGRESS attempt 1 (catalog/cache core;
@@ -111,89 +159,6 @@ history slowly crowds out the work it is supposed to support.
   Canvas/WebGL + loader/stage/co-op/restart browser cases (item 6);
   (4) budgets re-measured on the repacked pages (item 1).
 - Next recommended task: CMR-03 attempt 2 (loader wiring + repack).
-
-### 2026-10-01 05:10 UTC - CMR-02 (attempt 1, per-kind motion profiles - DONE)
-
-- Status before: CMR-02 TODO (dependency CMR-01 DONE, satisfied).
-- Work completed: new presentation-only module
-  src/game/art/motion-profiles.ts lifting the Guan Yu pilot's three
-  hard-codings (pack id, gy-prefix slicing, uniform action-page
-  requirement) into a per-kind MotionProfile contract: role
-  (hero/melee/boss/shooter), exact attack-id -> clip bindings derived
-  from CHARACTERS/ENEMIES/ATTACKS (read-only core), capability
-  matrix (enemies carry NO jump/special/mounted pages), per-kind
-  hitstun, and cues (archer fireInterval 90 + spawn-driven release;
-  hz.special zero-active with no invented melee window).
-  validateMotionProfile + validateClipExposures reject unknown ids,
-  unknown clips, non-attack clip bindings, wrong role bindings
-  (shooter with melee attacks, hero without jump attack, boss
-  without charge/combo/heavy, melee claiming hero abilities),
-  missing cadence and malformed exposure ordering.
-  clipsForProfile builds each kind's clip table from the EXACT
-  attack windows (strike key at startup, recovery key at
-  startup+active; guanyuClips parity incl. mountedsweep).
-- Tests: test/game/motion-profiles.test.ts (14 tests, TDD): fixture
-  profiles validate/sample for zhangfei/zhaoyun/huangzhong/weiyan +
-  soldier/spearman + 9-boss set + archer; bound ticks == source
-  windows; zero-active + shooter cues; two simultaneous actors keep
-  separate histories and cannot be double-advanced by extra renders;
-  guanyuClips pinned to the CMR-01 frozen clipsHash
-  513e9ff0... (normalization matched the freeze probe exactly);
-  negative controls for every rule. Two real defects surfaced and
-  fixed during TDD (bindings-to-locomotion-clips rule was wrong;
-  the hash pin needed the probe's normalized shape).
-- Files changed: src/game/art/motion-profiles.ts (new), test/game/
-  motion-profiles.test.ts (new), TASKS.md, PROGRESS.md. No core,
-  gameplay, artwork or existing-file changes (acceptance 6).
-- Verification run: tsc 0; lint 0; full unit 725 passed | 1 failed
-  (G6-only, the UIR-16 BLOCKED pin) | 6 skipped; signal 13/0;
-  vision + prodbuild green (vision 5/5, prodbuild 6/6); Guan Yu boundary/allactions/pilot
-  suites green unchanged (acceptance 4).
-- Result: CMR-02 acceptance all 6 items met.
-- Status after: CMR-02 DONE.
-- Remaining work or blocker: none for CMR-02. Presentation adapters
-  still consume guanyuClips directly - wiring per-kind profiles into
-  the loader/playback is CMR-03/04 territory per the specs.
-- Next recommended task: CMR-03 (stage-aware bounded atlas loading).
-
-### 2026-10-01 03:50 UTC - CMR-01 (attempt 1, reference/inventory/budgets - DONE)
-
-- Status before: CMR-01 TODO (first task of the owner's whole-cast
-  motion rollout; contract docs/CAST_MOTION_ROLLOUT.md).
-- Work completed: (1) Guan Yu reference freeze - all 4 pack files
-  byte-IDENTICAL to planning baseline 540501c (sha256 both sides);
-  90 displayed frames hashed (per-frame RGBA + exposure hashes) and
-  the 20-clip timing table pinned (clipsHash 513e9ff0...); manifest
-  committed as docs/motion-tasks/guanyu-reference.json + TSV +
-  GUANYU_REFERENCE.md. Current cells carry no trim/pivot (recorded
-  honestly - box.groundY 136 is the only anchor). (2) CAST_INVENTORY
-  .md published from exact source: 17 humanoids + horse with
-  identity/figure-weapon/build/roles/attack IDs/clocks; weapon and
-  attack-ID columns kept separate (boss attack IDs say sword/axe
-  while figures carry glaive/spear/ji); hz.special confirmed zero-
-  active projectile special (active 0, specialFiresProjectile);
-  archer fireInterval 90; boss think/enrage ranges per def; thrown
-  is THROW_TRAVEL-driven, NOT tick-fixed (corrected an unverified
-  "22 tick" narration against sim.ts); explicit N/A + defensive
-  stress states listed. (3) BASELINE.md: measured costs (4.24 MiB
-  download / 44.3 MiB decoded vs the 16/128 MiB caps; the 2048 page
-  cap is exceeded by the accepted reference - recorded for CMR-21),
-  200-request cap ledger (4x16+9x12+3x8+1x4). (4) Baseline failures
-  reproduced on the current tree: unit 1 failed | 713 passed (the
-  G6 V-15b pin, exact assertion) and tsc CLEAN - the contract's six
-  UIR-19 type errors do not reproduce (fixed in 4bce5d8 before the
-  contract was consumed); both facts recorded as exact evidence.
-- Files changed: docs/motion-tasks/{GUANYU_REFERENCE,CAST_INVENTORY,
-  BASELINE}.md, docs/motion-tasks/guanyu-reference{,-frames}.{json,
-  tsv}, TASKS.md, PROGRESS.md.
-- Verification run: unit 713/1-failed/G6-only; tsc 0; probes were
-  scratch (deleted); no runtime/game source touched (acceptance 6).
-- Result: CMR-01 acceptance all 6 items met; reference/inventory/
-  budgets retrievable for CMR-02..05 without archive digging.
-- Status after: CMR-01 DONE.
-- Remaining work or blocker: none for CMR-01. Queue continues with
-  CMR-02 (dependency: CMR-01 DONE, satisfied).
-- Next recommended task: CMR-02 (generic per-kind motion profiles).
 
 ### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
 

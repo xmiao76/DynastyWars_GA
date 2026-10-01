@@ -7,7 +7,7 @@ import type { Sim } from '../src/core/sim'
 test.skip(process.env.GUANYU_ACTIONS !== '1', 'set GUANYU_ACTIONS=1')
 test.use({ video: 'on' })
 const OUT = 'artifacts/wholeframe/actions/mixed'
-interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; y: number; x: number }> }
+interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; frame: { name: string }; y: number; x: number }> }
 
 for (const renderer of ['canvas', 'webgl'] as const) {
   test(`Guan Yu mixed real-input motion: ${renderer}`, async ({ page }) => {
@@ -53,7 +53,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         await new Promise<void>((r) => requestAnimationFrame(() => r()))
         const sprite = g.sprites.get(p.id)!
         out.push({ i, tick: g.sim.tick, elapsedMs: Math.round(performance.now() - began), state: p.state, stateTick: p.stateTick,
-          airTicks: p.airTicks, z: p.z, facing: p.facing, attackId: p.attackId, x: p.x, scrollX: g.sim.scrollX, y: sprite.y, key: sprite.texture.key,
+          airTicks: p.airTicks, z: p.z, facing: p.facing, attackId: p.attackId, x: p.x, scrollX: g.sim.scrollX, y: sprite.y, key: sprite.frame.name === '__BASE' ? sprite.texture.key : sprite.frame.name,
           image: rendererIsCanvas() && snapshots.has(i) ? window.__DW_GAME__!.canvas.toDataURL('image/png') : null })
         await new Promise<void>((r) => setTimeout(r, Math.max(0, (i + 1) * 1000 / 30 - (performance.now() - began))))
       }

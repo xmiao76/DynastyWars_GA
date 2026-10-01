@@ -18,9 +18,9 @@ test('solo continue freeze does not trap Guan Yu upright; pause still freezes pr
     g.showContinueOverlay(); g.syncSprites()
   })
   const read = (): Promise<{ frame: string; alpha: number; stateTick: number; simTick: number }> => page.evaluate(() => {
-    const g = window.__DW_GAME__!.scene.getScene('game') as unknown as { sim: Sim; sprites: Map<number, { texture: { key: string }; alpha: number }> }
+    const g = window.__DW_GAME__!.scene.getScene('game') as unknown as { sim: Sim; sprites: Map<number, { texture: { key: string }; frame: { name: string }; alpha: number }> }
     const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!, s = g.sprites.get(p.id)!
-    return { frame: s.texture.key, alpha: s.alpha, stateTick: p.stateTick, simTick: g.sim.tick }
+    return { frame: s.frame.name === '__BASE' ? s.texture.key : s.frame.name, alpha: s.alpha, stateTick: p.stateTick, simTick: g.sim.tick }
   })
   await expect.poll(async () => (await read()).frame).toBe('entity:guanyu:motion:fall:6')
   await page.keyboard.press('p')

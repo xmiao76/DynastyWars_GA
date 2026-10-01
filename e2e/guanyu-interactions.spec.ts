@@ -5,7 +5,7 @@ import type { Entity } from '../src/core/types'
 
 test.skip(process.env.GUANYU_ACTIONS !== '1', 'set GUANYU_ACTIONS=1')
 const OUT = 'artifacts/wholeframe/actions/interactions'
-interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; y: number; alpha: number }> }
+interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; frame: { name: string }; y: number; alpha: number }> }
 
 test('Guan Yu receives real hits and reaches a real grab through the unchanged simulation', async ({ page }) => {
   test.setTimeout(150_000); mkdirSync(OUT, { recursive: true })
@@ -47,7 +47,7 @@ test('Guan Yu receives real hits and reaches a real grab through the unchanged s
         while (g.sim.tick < next) await new Promise<void>((r) => requestAnimationFrame(() => r()))
         await new Promise<void>((r) => requestAnimationFrame(() => r()))
         const s = g.sprites.get(p.id)!
-        out.push({ i, state: p.state, stateTick: p.stateTick, hp: p.hp, z: p.z, key: s.texture.key, spriteY: s.y,
+        out.push({ i, state: p.state, stateTick: p.stateTick, hp: p.hp, z: p.z, key: s.frame.name === '__BASE' ? s.texture.key : s.frame.name, spriteY: s.y,
           freezeTicks: g.sim.freezeTicks,
           enemy: g.sim.entities.find((e) => e.id === 95)?.state,
           image: [0, 1, 2, 3, 5, 8, 10, 13, 18, 30, 40, 50, 60, 74].includes(i) ? window.__DW_GAME__!.canvas.toDataURL('image/png') : null })

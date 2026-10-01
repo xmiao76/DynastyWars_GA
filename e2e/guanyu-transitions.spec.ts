@@ -7,7 +7,7 @@ import type { Entity } from '../src/core/types'
 test.skip(process.env.GUANYU_ACTIONS !== '1', 'set GUANYU_ACTIONS=1')
 test.use({ video: 'on' })
 const OUT = 'artifacts/wholeframe/actions/transitions'
-interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; y: number; alpha: number }> }
+interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; frame: { name: string }; y: number; alpha: number }> }
 for (const renderer of ['canvas', 'webgl'] as const) {
   test(`Guan Yu interrupted action boundaries: ${renderer}`, async ({ page }) => {
     test.setTimeout(120_000); mkdirSync(OUT, { recursive: true })
@@ -86,7 +86,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
           const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
           Object.assign(p, values); g.sim.tick += ticks; g.syncSprites()
           const sprite = g.sprites.get(p.id)!
-          return { key: sprite.texture.key, y: sprite.y, z: p.z, stateTick: p.stateTick, tick: g.sim.tick }
+          return { key: sprite.frame.name === '__BASE' ? sprite.texture.key : sprite.frame.name, y: sprite.y, z: p.z, stateTick: p.stateTick, tick: g.sim.tick }
         }, step)
         expect(state.key, `${scenario.name}:${i}`).toBe(`entity:guanyu:motion:${step.expected}`)
         // Wait for the actual Phaser renderer to display the selected frame.
@@ -103,7 +103,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
     })).toBe(43)
     const reset = await page.evaluate(() => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
-      return g.sprites.get(g.sim.playerId)!.texture.key
+      return g.sprites.get(g.sim.playerId)!.frame.name === '__BASE' ? g.sprites.get(g.sim.playerId)!.texture.key : g.sprites.get(g.sim.playerId)!.frame.name
     })
     expect(reset).toBe('entity:guanyu:motion:walk:0')
     writeFileSync(`${OUT}/${renderer}-trace.json`, `${JSON.stringify(traces, null, 2)}\n`)
