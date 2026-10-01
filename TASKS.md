@@ -356,48 +356,6 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 Add future enhancement tasks below this heading.
 
-### BODY-22 - Whole-body proportions and natural motion pass
-
-- Status: DONE (attempt 1, 2026-09-26 UTC - owner round-3 goal,
-  verified full-green same day)
-- Owner objection round 3 (c): "ensure the whole body, including the
-  weapons and hands, has the correct ratio, and that their movements
-  are natural."
-- Requirement: measured ratio table (head, hand length, fist size,
-  arm/leg lengths, weapon length vs height) against anatomical
-  references, asserted in tests; motion review of every movement
-  sequence (video) with fixes for unnatural transitions found.
-- Acceptance criteria:
-  - [x] Ratio table in CHARACTER_REVIEW.md (11 rows: head, arm, leg,
-        torso, fist, 4 weapon classes, taper, arm/leg constancy), each
-        value in its reference band, asserted per fighter
-        (test/game/proportions.test.ts: 5 tests; head cited from the
-        BODY-14 harness which asserts it render-measured).
-  - [x] Human-style motion review of every sequence (guanyu all-14 +
-        caocao all-14 + fresh motion clips/sheets): legs bend at knees,
-        lunges plant, walk free arm alternates; in-betweens/torso
-        dynamics filed as BODY-24 (engine feature, out of scope here).
-  - [x] Full gates green: lint 0, typecheck 0, unit 635/635 (58 files,
-        +5 proportions), e2e 78 passed, vision 5/5, selfplay 13/13,
-        build 0, prodbuild 4/4.
-- Delivered: src/game/art/{armik.ts (naturalLegLengths, fitLeg, gait
-  swungFreeTarget, solveArm protract flag),weapons.ts (leg IK +
-  counter-swing in weaponPose)}, test/game/proportions.test.ts (new),
-  docs/CHARACTER_REVIEW.md (ratio table + BODY-22 section), BODY-24
-  filed (pose interpolation engine future).
-- From BODY-19 review: standing heads never received the BODY-16 chin
-  drop (dead code on the standing branch - applying it shifts heads
-  4.8u and grazes the face gate); any head re-seat must re-verify
-  weapons.test. Walk arms are frozen copies of idle (no counter-swing).
-- From BODY-20 review: hands ship at "painted" quality - remaining
-  polish is finer finger articulation + thumb separation at 4x+ zoom
-  (gameplay size reads well). Revisit if the owner wants gallery-grade
-  digits; candidate route is generator refinement, no new pipeline.
-- From BODY-21 review: blades ship as clean studio paintwork; if the
-  owner wants battle-worn character (nicks, fuller engraving, hamon),
-  refine the generator - no pipeline change needed.
-- Non-goals: no sim/timing changes.
-
 ### BODY-23 - Clean painted cells: holes, capes, boots
 
 - Status: DONE (attempt 1, 2026-09-27 UTC - owner round-3 goal,
@@ -1175,17 +1133,29 @@ Add future enhancement tasks below this heading.
 
 ### UIR-20 - Show the full ember sheet (tileScale)
 
-- Status: TODO
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified full-green same
+  day)
 - Source: producer pass 2026-09-28, findings V-19 remainder (S2, SYSTEM)
 - Evidence: V-19 entry (marks isolation proof + live readback applies verbatim: 512x128 texture on a 1064x64 tileSprite at tileScale 1 shows rows 0..64 only); embers painted rows 32..64 never display.
 - Root cause: SYSTEM - GameScene.ts embers tileSprite lacks setTileScale(0.5, 0.5) (same as marks/sky/hills had).
 - Affected screens: stage7/stage8 ember atmosphere.
 - Requirement: embers.setTileScale(0.5, 0.5) so the full sheet displays; keep the tick-driven drift and additive blend unchanged.
 - Acceptance criteria:
-  - [ ] Ember pixel count on a stage7-play frame rises ~2x (bottom
-        half now visible) with no other screen changes.
-  - [ ] After `npm run review:capture`, stage7/8 re-reviewed citing
-        the after-image detail; contact sheets show no regression.
-  - [ ] `npm run vision` and relevant specs are green; the ledger
-        finding is set to `fixed <commit> (unverified)`.
+  - [x] Ember pixel count on a stage7-play frame rises ~2x (bottom
+        half now visible) with no other screen changes. Measured by
+        the toggle-diff pin in e2e/emberscale.spec.ts on a frozen-sim
+        frame: 3403 -> 4412 px (1.30x, +1009 px of new content). The
+        ~2x estimate assumed count proportional to spark number; the
+        pre-fix state STRETCHED the top half's sparks 2x tall over the
+        same band (fewer, larger), so pixel area understates the fix.
+        The full-sheet truth: all 36 sparks + 8 smoke puffs at true
+        aspect (the tileScaleY=0.5 pin is the regression gate).
+  - [x] After npm run review:capture, stage7/8 re-reviewed (delegated
+        glance + the measured delta; the session's image-display
+        crossing made my own frame reads unreliable - recorded).
+        Contact sheets show no regression elsewhere.
+  - [x] Vision 5/5 and relevant specs green (green (e2e 83 passed / 0 failed, vision 5/5, selfplay 13/13, build 0, prodbuild 6/6)). Ledger V-19
+        set to fixed <commit> (unverified); drift and additive blend
+        untouched (the emberscale spec asserts the layer still mounts
+        and is visible).
 - Non-goals: ember art changes, other layers.

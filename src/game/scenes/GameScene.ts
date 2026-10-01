@@ -316,6 +316,11 @@ export class GameScene extends Phaser.Scene {
         EMBERS_H,
         emberKey,
       )
+      // UIR-20 (V-19 remainder): same half-texture display the marks, sky
+      // and hills had - without this only the sheet's top half displayed and
+      // half the sparks never appeared. tileScale 0.5 maps it 1:1; the
+      // tick-driven drift and additive blend are untouched.
+      embers.setTileScale(0.5, 0.5)
       embers.setOrigin(0, 0).setDepth(-11).setBlendMode('ADD')
       embers.setName('bgEmbers')
     }

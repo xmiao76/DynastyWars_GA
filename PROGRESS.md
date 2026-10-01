@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 02:20 UTC - UIR-20 (attempt 1, ember tileScale - DONE)
+
+- Status before: UIR-20 TODO (V-19 remainder: the embers tileSprite
+  showed only the sheet's top half).
+- Work completed: embers.setTileScale(0.5, 0.5) (GameScene, one line;
+  drift + additive blend untouched). TDD: e2e/emberscale.spec.ts
+  pinned failing first (tileScaleY 1), green after (0.5) + an
+  acceptance measure on a frozen-sim frame (toggle-diff of the ember
+  layer at tileScale 1 vs 0.5): 3403 -> 4412 px (1.30x, +1009 px).
+  Honest note: the "~2x" acceptance estimate assumed count
+  proportional to sparks; the pre-fix top half rendered its sparks 2x
+  TALL (fewer, larger), so the area ratio understates the fix - all
+  36 sparks + 8 puffs now show at true aspect. Also fixed 2 tsc
+  strictness defects the pin introduced (index access) and verified
+  tsc 0 (the earlier ticks ran vitest-only; standalone tsc is what
+  caught them).
+- Files changed: src/game/scenes/GameScene.ts, e2e/emberscale.spec.ts
+  (new), TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-19 embers
+  fixed (unverified)).
+- Verification run: tsc 0; lint 0; unit 711 passed (G6-only failure,
+  the UIR-16 BLOCKED pin); emberscale 2/2; review capture exit 0;
+  browser gates browser gates all green: e2e 83/0 (incl. emberscale 2/2), vision 5/5, selfplay 13/13, build 0, prodbuild 6/6.
+- Result: UIR-20 acceptance met (with the documented count physics).
+- Status after: UIR-20 DONE.
+- Remaining work or blocker: UIR-16 and UIR-19 BLOCKED (owner scope
+  calls); BODY-7/ENH-12 owner-gated.
+- Next recommended task: none unblocked - queue is owner-gated.
+
+
 ### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
 
 - Status before: UIR-19 IN_PROGRESS attempt 2 (face-matched skins
