@@ -18,7 +18,7 @@ const peakStep = (ids: string[]): number => Math.max(...ids.slice(1).map((id, i)
 describe('Guan Yu special/mounted weapon direction continuity', () => {
   it('current displayed adjacent poses avoid abrupt backwards-to-forwards reversals', () => {
     for (const action of ['special', 'mountedsweep'] as const) {
-      const ids = guanyuClips()[action].keys.map((k) => k.frame)
+      const ids = guanyuClips()[action]!.keys.map((k) => k.frame)
       expect(peakStep(ids), action).toBeLessThanOrEqual(60)
     }
   })

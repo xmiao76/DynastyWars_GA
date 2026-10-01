@@ -383,13 +383,33 @@ export function packFrames(items, { pageLimit = PAGE_LIMIT, pagePrefix = 'page' 
     }
     const cv = createCanvas(p.width, p.height)
     const g = cv.getContext('2d')
+    const sourceCanvases = new Map()
     for (const it of p.items) {
+      // Source pixels live at frame.src (sheet space) when a registration
+      // fit is applied; frame.content is the BOX-space position. Fitted
+      // frames resample onto the trimmed rect like restoreCellPixels; the
+      // unfitted path stays a pure pixel copy (byte-exact repack parity).
+      const src = it.frame.src ?? it.frame.content
+      const fit = it.frame.fit
+      if (fit && fit.scale !== 1) {
+        let sc = sourceCanvases.get(it.source)
+        if (!sc) {
+          sc = createCanvas(it.source.width, it.source.height)
+          const sg = sc.getContext('2d')
+          const sid = sg.createImageData(it.source.width, it.source.height)
+          sid.data.set(it.source.data)
+          sg.putImageData(sid, 0, 0)
+          sourceCanvases.set(it.source, sc)
+        }
+        g.drawImage(sc, src.x - TRIM_PAD, src.y - TRIM_PAD, src.w + TRIM_PAD * 2, src.h + TRIM_PAD * 2, it.x, it.y, it.trim.w, it.trim.h)
+        continue
+      }
       const id = g.createImageData(it.trim.w, it.trim.h)
       let o = 0
       for (let yy = 0; yy < it.trim.h; yy++) {
         for (let xx = 0; xx < it.trim.w; xx++) {
-          const sx = it.frame.content.x - TRIM_PAD + xx
-          const sy = it.frame.content.y - TRIM_PAD + yy
+          const sx = src.x - TRIM_PAD + xx
+          const sy = src.y - TRIM_PAD + yy
           const inside = sx >= 0 && sy >= 0 && sx < it.source.width && sy < it.source.height
           const k = (sy * it.source.width + sx) * 4
           id.data[o] = inside ? it.source.data[k] : 0
@@ -556,6 +576,10 @@ export function preparePack(fighter, sheets) {
   const packed = packFrames(frames.map((frame) => ({ frame, trim: frame.trim, source: frame.source })), { pagePrefix: `${fighter.id}-` })
   const budget = validateBudget(fighter, frames, packed)
   if (budget.errors.length > 0) throw new Error(`budget: ${budget.errors.join('; ')}`)
+  const packedByName = new Map()
+  for (const p of packed) {
+    for (const it of p.items) packedByName.set(it.frame.name, { page: p.name, x: it.x, y: it.y })
+  }
   const manifest = {
     id: fighter.id,
     revision: fighter.revision ?? 'motion-1',
@@ -568,6 +592,7 @@ export function preparePack(fighter, sheets) {
       pivot: f.pivot,
       restoredSha256: f.restoredSha256,
       contentSha256: f.contentSha256,
+      ...packedByName.get(f.name),
     })),
     pages: packed.map((p) => ({ name: p.name, width: p.width, height: p.height })),
   }

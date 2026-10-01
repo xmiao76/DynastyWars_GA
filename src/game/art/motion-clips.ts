@@ -31,7 +31,9 @@ export interface MotionArt {
   actionSheet: CanvasImageSource
   box: { width: number; height: number; groundY: number }
   frames: Record<string, MotionFrameCell>
-  clips: Record<MotionAction | ActionClip | 'idle', MotionClip>
+  clips: Record<string, MotionClip>
+  /** Exact attack-id -> clip-name bindings (hero packs derive their own). */
+  attackBindings?: Record<string, string>
 }
 const IDLE = 'walk:0'
 const DOWN = 'fall:6'
@@ -117,10 +119,12 @@ export interface MotionEntity {
   airTicks?: number
   z?: number
 }
-export function sampleClip(art: MotionArt, action: keyof MotionArt['clips'], tick: number): string {
-  const c = art.clips[action]
+export function sampleClip(art: MotionArt, action: string, tick: number): string {
+  const c = art.clips[action] ?? art.clips.idle
+  const first = c?.keys[0]?.frame ?? ''
+  if (!c) return first
   const t0 = Math.max(0, Math.floor(tick)), t = c.loop ? t0 % c.duration : Math.min(t0, c.duration - 1)
-  let frame = c.keys[0]!.frame
+  let frame = first
   for (const key of c.keys) { if (key.tick > t) break; frame = key.frame }
   return frame
 }
@@ -136,8 +140,8 @@ export function motionFrameForEntity(art: MotionArt, entity: MotionEntity): stri
     case 'attack': {
       const id = entity.attackId
       if (id === 'mounted.sweep') return sampleClip(art, 'dismountedsweep', t) // retain original hit window after losing horse
-      const action = id?.slice(3)
-      if (action === 'jab1' || action === 'jab2' || action === 'finisher') return sampleClip(art, action, t)
+      const action = (id ? art.attackBindings?.[id] : undefined) ?? id?.slice(3)
+      if (action && art.clips[action]) return sampleClip(art, action, t)
       return IDLE // Defensive unknown attack remains new art, not broken rig.
     }
     case 'jump': return sampleClip(art, 'jump', entity.airTicks ?? t)

@@ -321,6 +321,25 @@ describe('negative controls fail explicitly', () => {
     expect(pack.frames[0]!.trim.h).toBe(24)
   })
 
+  it('packed page pixels contain the drawings (fitted and unfitted)', () => {
+    // Regression guard: the page blit must read sheet-space source pixels -
+    // an earlier version copied box-space content coords and produced a
+    // blank atlas page that still hashed deterministically.
+    const lit = (p: { data: ArrayLike<number> }) => {
+      let n = 0
+      for (let i = 3; i < p.data.length; i += 4) if (p.data[i]! > 16) n++
+      return n
+    }
+    const plain = preparePack(fighter('page-plain', 'mook', [{ name: 'walk', count: 2, rows: 1, cols: 2 }]), {
+      walk: sheetOf(2, 1, 48, [{ at: 0, size: 20 }, { at: 1, size: 24 }]),
+    })
+    expect(lit(plain.pages[0]!.pixels), 'unfitted page carries pixels').toBeGreaterThan(800)
+    const fitted = preparePack(fighter('page-fit', 'mook', [{ name: 'walk', count: 2, rows: 1, cols: 2, registration: { scale: 0.5 } }], {
+      box: { width: 24, height: 20, groundY: 19 },
+    }), { walk: sheetOf(2, 1, 48, [{ at: 0, size: 30 }, { at: 1, size: 20, dy: 8 }]) })
+    expect(lit(fitted.pages[0]!.pixels), 'fitted page carries resampled pixels').toBeGreaterThan(250)
+  })
+
   it('clipped figures at the sheet edge', () => {
     const im = sheetOf(2, 1, 48, [{ at: 0, size: 20, dx: -20 }, { at: 1, size: 20 }])
     expect(() => preparePack(fighter('neg-clipped', 'mook', [{ name: 'walk', count: 2, rows: 1, cols: 2 }]), { walk: im }))

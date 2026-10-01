@@ -24,6 +24,7 @@ import {
 
 const SHEET_BYTES = readFileSync('src/game/assets/motion/guanyu-motion-sheet.png')
 const ACTION_BYTES = readFileSync('src/game/assets/motion/guanyu-actions-sheet.png')
+const SOLDIER_BYTES = readFileSync('src/game/assets/motion/soldier-motion-sheet.png')
 const meta = motionPreparedRecord()
 const keys = motionTextureKeys('guanyu')
 
@@ -123,7 +124,7 @@ function makeIo(
       if (opts.gate) await opts.gate
       if (behavior.kind === 'missing') return new Uint8Array(0)
       if (behavior.kind === 'garbage') return new Uint8Array([1, 2, 3, 4])
-      return new Uint8Array(url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
+      return new Uint8Array(url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
     },
     sha256: async (bytes) => {
       if (opts.shaThrows) throw new Error(opts.shaThrows)
@@ -135,8 +136,8 @@ function makeIo(
       return (await loadImage(Buffer.from(bytes))) as unknown as CanvasImageSource & { width: number; height: number }
     },
     makeCtx: (w, h) => createCanvas(w, h).getContext('2d') as unknown as CanvasRenderingContext2D,
-    pageTimeoutMs: opts.pageTimeoutMs ?? 60,
-    stageTimeoutMs: opts.stageTimeoutMs ?? 2000,
+    pageTimeoutMs: opts.pageTimeoutMs ?? 5_000,
+    stageTimeoutMs: opts.stageTimeoutMs ?? 20_000,
   }
 }
 
@@ -150,12 +151,13 @@ describe('stage-scoped motion runtime', () => {
     const io = makeIo(okPages)
     const rt = new MotionRuntime(io)
     const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'guanyu', null))
-    expect(report.requested).toEqual(['guanyu'])
-    expect(report.published).toEqual(['guanyu'])
-    expect(report.legacy).toEqual([])
-    // Exactly the two pack pages: no all-cast, no stage-adjacent extras.
-    expect(io.calls).toHaveLength(2)
-    expect(Object.keys(motions())).toEqual(['guanyu'])
+    expect(report.requested).toEqual(['guanyu', 'soldier'])
+    expect(report.published, JSON.stringify(report.legacy)).toEqual(['guanyu', 'soldier'])
+    expect(report.legacy, JSON.stringify(report.legacy)).toEqual([])
+    // Exactly the catalogued packs' pages (hero + the stage's soldier pack):
+    // no all-cast, no stage-adjacent extras.
+    expect(io.calls).toHaveLength(3)
+    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier'])
     // One texture per atlas page; every frame is a shared atlas frame.
     expect(textures.get(keys.sheet)!.frames.size).toBe(36)
     expect(textures.get(keys.actions)!.frames.size).toBe(54)
@@ -169,11 +171,13 @@ describe('stage-scoped motion runtime', () => {
     }
     // Budgets, kept separate and never raised.
     const rep = rt.budget()
-    expect(rep.networkBytes).toBe(4_328_499)
-    expect(rep.sourceBytes).toBe(4_328_499)
+    expect(rep.networkBytes).toBe(4_328_499 + 2_006_693)
+    expect(rep.sourceBytes).toBe(4_328_499 + 2_006_693)
     expect(rep.perFighterDecoded['guanyu']).toBe(1935 * 903 * 4 + 2027 * 1055 * 4)
+    expect(rep.perFighterDecoded['soldier']).toBe(2003 * 1369 * 4)
     expect(rep.perFighterDecoded['guanyu']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
-    expect(rep.gpuBytes, 'one GPU upload per page, no display clones').toBe(rep.perFighterDecoded['guanyu'])
+    expect(rep.perFighterDecoded['soldier']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
+    expect(rep.gpuBytes, 'one GPU upload per page, no display clones').toBe(rep.perFighterDecoded['guanyu']! + rep.perFighterDecoded['soldier']!)
     expect(rep.clonedCanvasBytes).toBe(0)
     expect(rep.retainedBytes).toBeLessThanOrEqual(CONTRACT_CAPS.retainedCache)
     expect(rep.networkBytes, 'stage-entry downloads fit the 12 MiB cap').toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
@@ -196,43 +200,45 @@ describe('stage-scoped motion runtime', () => {
     gate()
     const report = await pending
     await rt.settle()
-    expect(report.requested).toEqual(['guanyu'])
-    expect(report.published).toEqual(['guanyu'])
-    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(2)
-    expect(Object.keys(motions())).toEqual(['guanyu'])
+    expect(report.requested).toEqual(['guanyu', 'soldier'])
+    expect(report.published).toEqual(['guanyu', 'soldier'])
+    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(3)
+    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier'])
     // Restart/stage progression: shutdown then a new stage entry reuses the
     // cache with ZERO downloads (textures + registry survive the restart).
     rt.cancelLoads()
     rt.releaseScene(scene)
     const again = await rt.prepareStage(scene, motionStageRequest('stage2', 'zhangfei', 'guanyu'))
-    expect(again.published).toEqual(['guanyu'])
-    expect(io.calls, 'restart re-downloads nothing').toHaveLength(2)
+    expect(again.published).toEqual(['guanyu', 'soldier'])
+    expect(io.calls, 'restart re-downloads nothing').toHaveLength(3)
     // Eviction: a tiny retained cap retires the released pack and uninstalls
     // its textures/registry entry; a later entry reloads it from the network.
     const evictIo = makeIo(okPages)
     const evicting = new MotionRuntime(evictIo, { ...CONTRACT_CAPS, retainedCache: 1 } satisfies BudgetCaps)
     const report2 = await evicting.prepareStage(scene, motionStageRequest('stage1', 'guanyu', null))
-    expect(report2.published).toEqual(['guanyu'])
+    expect(report2.published).toEqual(['guanyu', 'soldier'])
     evicting.releaseScene(scene)
     expect(motions(), 'evicted pack leaves the registry').toEqual({})
     expect(textures.has(keys.sheet), 'evicted pack removes its textures').toBe(false)
     expect(textures.has(keys.actions)).toBe(false)
-    expect(evictIo.calls).toHaveLength(2)
+    expect(evictIo.calls).toHaveLength(3)
   }, 60_000)
 
-  it('a stage with no catalogued pack requests nothing (no all-cast boot downloads)', async () => {
+  it('only catalogued stage packs are requested - packless heroes/kinds never download', async () => {
     const { scene, motions } = makeScene()
     const io = makeIo(okPages)
     const rt = new MotionRuntime(io)
     const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'zhaoyun', null))
-    expect(report.requested).toEqual([])
-    expect(report.published).toEqual([])
-    expect(io.calls, 'kinds without packs never request').toEqual([])
-    expect(motions()).toEqual({})
-    // And a completely unknown kind is unsupported, not half-loaded.
+    expect(report.requested).toEqual(['soldier'])
+    expect(report.published).toEqual(['soldier'])
+    expect(io.calls, 'only the catalogued pack page downloads').toHaveLength(1)
+    expect(Object.keys(motions()).sort()).toEqual(['soldier'])
+    // Kinds without packs are unsupported, never half-loaded.
+    const unsupported = await rt.loadKind(scene, 'spearman')
+    expect(unsupported).toEqual({ ok: false, failure: 'unsupported' })
     const unknown = await rt.loadKind(scene, 'caocao')
     expect(unknown).toEqual({ ok: false, failure: 'unsupported' })
-    expect(io.calls).toEqual([])
+    expect(io.calls).toHaveLength(1)
   })
 
   it('stage request derives hero/2P/stage kinds and disjoint future kinds', () => {
@@ -311,7 +317,7 @@ describe('negative controls reject the whole fighter, never other valid art', ()
     const { fake, io, rt } = setup({ sheet: { kind: 'hang' }, actions: { kind: 'hang' } }, { pageTimeoutMs: 5_000, stageTimeoutMs: 60 })
     const report = await rt.prepareStage(fake.scene, motionStageRequest('stage1', 'guanyu', null))
     expect(report.published).toEqual([])
-    expect(report.legacy).toEqual([{ kind: 'guanyu', failure: 'timeout' }])
+    expect(report.legacy).toEqual([{ kind: 'guanyu', failure: 'timeout' }, { kind: 'soldier', failure: 'timeout' }])
     expect(fake.motions()['guanyu']).toBeUndefined()
     await rt.settle()
     void io

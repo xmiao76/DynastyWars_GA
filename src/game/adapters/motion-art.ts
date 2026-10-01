@@ -4,6 +4,7 @@ import { STAGES, STAGE_ORDER } from '../../core/stage'
 import type { ArtResources } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import { guanyuClips, validMotionPack, type MotionArt, type MotionFrameCell, type MotionPackGeometry } from '../art/motion-clips'
+import { soldierClips, validSoldierPack } from '../art/motion-clips-soldier'
 import { advanceMotion, type MotionPlayback } from '../art/motion-player'
 import { ART_RESOURCE_KEY, heroArtResources } from './hero-art'
 import {
@@ -21,9 +22,13 @@ import prepared from '../assets/motion/prepared.json'
 import actions from '../assets/motion/actions-prepared.json'
 import sheetUrl from '../assets/motion/guanyu-motion-sheet.png'
 import actionSheetUrl from '../assets/motion/guanyu-actions-sheet.png'
+import soldierPreparedJson from '../assets/motion/soldier-prepared.json'
+import soldierSheetUrl from '../assets/motion/soldier-motion-sheet.png'
 
 export interface MotionPrepared extends MotionPackGeometry {
   signatures: { sheet: string; actions: string }
+  /** Single-atlas packs (enemies) carry no separate action page. */
+  singlePage?: boolean
 }
 
 /** Texture key of a fighter's regular motion atlas page (shared frames). */
@@ -53,6 +58,11 @@ export function motionPreparedRecord(): MotionPrepared {
     signatures: { sheet: prepared.guanyu.signatures.sheet, actions: actions.signatures.sheet } }
 }
 
+/** Wei Soldier pack record (scripts/emit-soldier-runtime.mjs output). */
+export function soldierPreparedRecord(): MotionPrepared {
+  return soldierPreparedJson as unknown as MotionPrepared
+}
+
 // ---------------------------------------------------------------------------
 // Pack catalog. Every fighter with motion art is listed here; kinds outside
 // the catalog never request anything (no all-cast downloads).
@@ -73,6 +83,11 @@ const GUANYU_PAGES: PackPage[] = [
   { name: 'actions', sourceKey: ACTION_SOURCE_KEY, bytes: 2545709, sha256: 'ce7f7ca0c5157715c7c8a75d71ba13837d1cb96e65ebf7da933e8df4fbbe2cbd', width: 2027, height: 1055 },
 ]
 
+/** Wei Soldier single atlas page (CMR-06B; scripts/emit-soldier-runtime.mjs). */
+const SOLDIER_PAGES: PackPage[] = [
+  { name: 'sheet', sourceKey: motionTextureKeys('soldier').sheet, bytes: 2006693, sha256: '28e8aaf2c4eb45d5994deaaa958c931b76cf3aee7c3bb2d6a8cce9371c32c167', width: 2003, height: 1369 },
+]
+
 export const MOTION_PACKS: Record<string, MotionPackDef> = {
   guanyu: {
     id: 'guanyu',
@@ -81,6 +96,14 @@ export const MOTION_PACKS: Record<string, MotionPackDef> = {
     url: { sheet: sheetUrl, actions: actionSheetUrl },
     meta: motionPreparedRecord,
     clips: guanyuClips,
+  },
+  soldier: {
+    id: 'soldier',
+    revision: 'soldier-1',
+    pages: SOLDIER_PAGES,
+    url: { sheet: soldierSheetUrl, actions: soldierSheetUrl },
+    meta: soldierPreparedRecord,
+    clips: soldierClips,
   },
 }
 
@@ -461,12 +484,13 @@ export function unpublishMotionKind(scene: Phaser.Scene, kind: string): void {
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions })
 }
 
-/** Both atlases and all states are verified before any fighter motion publishes. */
+/** Both atlases (or the single atlas of an enemy pack) and all states are
+ *  verified before any fighter motion publishes. */
 export function publishMotionArtRecord(
   scene: Phaser.Scene,
   meta: MotionPrepared,
   makeCtx: (w: number, h: number) => CanvasRenderingContext2D | null = defaultCtx,
-  clips: MotionArt['clips'] = guanyuClips(),
+  clips?: MotionArt['clips'],
 ): MotionArt | undefined {
   const prev = (scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined) ?? { heroes: {} }
   // A rejection drops ONLY this fighter's motion art: other fighters' valid
@@ -477,10 +501,14 @@ export function publishMotionArtRecord(
     scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions })
     return undefined
   }
-  if (!validMotionPack(meta)) return reject()
+  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : validMotionPack(meta)
+  if (!valid) return reject()
+  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : guanyuClips())
   const keys = motionTextureKeys(meta.id)
   const images: CanvasImageSource[] = []
-  for (const [key, size, signature] of [[keys.sheet, meta.sheet, meta.signatures.sheet], [keys.actions, meta.actionSheet, meta.signatures.actions]] as const) {
+  const pageChecks: Array<[string, { width: number; height: number }, string]> = [[keys.sheet, meta.sheet, meta.signatures.sheet]]
+  if (!meta.singlePage) pageChecks.push([keys.actions, meta.actionSheet, meta.signatures.actions])
+  for (const [key, size, signature] of pageChecks) {
     if (!scene.textures.exists(key)) return reject()
     const src = scene.textures.get(key).getSourceImage() as unknown as CanvasImageSource & { width: number; height: number }
     if (src.width !== size.width || src.height !== size.height) return reject()
@@ -492,7 +520,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1]!, clips }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }

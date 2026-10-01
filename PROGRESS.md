@@ -22,6 +22,53 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 22:53 UTC - CMR-06B (attempt 1, IN_PROGRESS - pack registered in runtime; toolkit blank-page bug found + fixed)
+
+- Status before: CMR-06A DONE (d21181d); CMR-06B TODO.
+- Work completed: bounded work 1 (registration behind `?motion=1`) -
+  (1) `scripts/emit-soldier-runtime.mjs` emits soldier-prepared.json
+  (MotionPrepared record: 45 frames with page rects, 48x32 block
+  signatures, singlePage, attackBindings) + the atlas page asset.
+  (2) `src/game/art/motion-clips-soldier.ts`: soldier clip table with
+  core-data timings (swing = the real 14/4/20 window, hitstun 18,
+  knockdown/getup/dying from constants), state dispatch (idle/walk/fleeing/
+  attack/hitstun/knockdown/getup/grab/grabbed/thrown/dying/dead), and the
+  5x9 pack validator. (3) MotionArt generalized: Record<string, MotionClip>
+  + attackBindings map (guanyu keeps its slice(3) fallback, unchanged
+  behavior); motion-player's hard-coded 'fall:6' down frame generalized to
+  the fall clip's last exposure. (4) MOTION_PACKS.soldier registered with
+  the pinned page (2,006,693 B, sha 28e8aaf2..., 2003x1369); publish gate
+  validates per kind and supports single-page packs; stage runtime tests
+  updated to the two-pack catalog (only catalogued packs request; packless
+  kinds unsupported).
+- FOUND + FIXED (honest correction to CMR-06A records): the CMR-04 toolkit's
+  pack-page blit read box-space content coords after the registration-fit
+  change and produced BLANK atlas pages that still hashed deterministically
+  (my CMR-06A checks verified counts/budgets/determinism but not page
+  pixels). Guan Yu was NEVER affected (it packs through prepare-motion.mjs,
+  a different tool). Fixed (sheet-space src + scaled draws), regression
+  test added (page pixels contain the drawings, fitted and unfitted), and
+  the soldier pack re-emitted: the page now carries real pixels (27.3%
+  opaque, manifest 09666940...).
+- Files changed: scripts/{emit-soldier-runtime.mjs,motion-pipeline.mjs},
+  src/game/art/{motion-clips.ts,motion-clips-soldier.ts,motion-player.ts},
+  src/game/adapters/motion-art.ts,
+  src/game/assets/motion/{soldier-prepared.json,soldier-motion-sheet.png},
+  test/game/{motion-runtime.test.ts,motion-pipeline.test.ts,motion-weapon-arc.test.ts},
+  TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; motion suites 57/57
+  (runtime/clips/actions/transitions/profiles/player); full unit
+  **809 passed | 1 failed (known G6 V-15b pin) | 6 skipped**.
+- Result: the soldier pack loads, validates, publishes atomically and is
+  prefetch-scoped like guanyu - the integration core is in place.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: bounded work 2-5 - bind/exercise every tick
+  and edge (zero windows, pause/hit-stop, skipped render, interruptions,
+  low fall/getup/KO, restart, co-op/AI), capture baseline vs new art in
+  game (both facings/Canvas/WebGL/mobile) through the CMR-05 motion-aware
+  path, the full-sequence review, and the producer handoff. No blocker.
+- Next recommended task: continue CMR-06B (tick/edge exercise + captures).
+
 ### 2026-10-01 22:13 UTC - CMR-06A -> DONE (attempt 2, verified - acceptance 4 established by the sword-stack measurement)
 
 - Status before: CMR-06A IN_PROGRESS; only acceptance 4's numeric spread

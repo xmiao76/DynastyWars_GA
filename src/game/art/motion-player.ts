@@ -53,10 +53,15 @@ export function advanceMotion(art: MotionArt, entity: MotionEntity, tick: number
     }
     if (grounded && out.transition) {
       const elapsed = clock - out.transition.since
-      if (elapsed < art.clips[out.transition.action].duration) out.frame = sampleClip(art, out.transition.action, elapsed)
+      if (elapsed < (art.clips[out.transition.action]?.duration ?? 0)) out.frame = sampleClip(art, out.transition.action, elapsed)
       else out.transition = undefined
     } else if (entity.state !== 'idle' && entity.state !== 'walk') out.transition = undefined
-    if (entity.state === 'dying' && out.alreadyDown) out.frame = 'fall:6'
+    if (entity.state === 'dying' && out.alreadyDown) {
+      // The down drawing is the fall clip's last exposure (guanyu fall:6,
+      // soldier fall-thrown:3) - never a hard-coded frame name.
+      const fallClip = art.clips.fall
+      out.frame = fallClip?.keys[fallClip.keys.length - 1]?.frame ?? out.frame
+    }
   }
   if (out.airborneFall && (entity.state === 'knockdown' || entity.state === 'dying')) {
     const age = Math.max(0, entity.stateTick - out.airborneFall.sinceStateTick)

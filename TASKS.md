@@ -95,7 +95,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06B - Wei Soldier: integrate/review in motion
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1, started 2026-10-01 21:5x; progress 22:4x:
+  bounded work 1 DONE - the complete prepared pack is registered behind
+  `?motion=1` through the CMR-02/03 catalog: soldier-prepared.json +
+  single atlas page asset (2,006,693 B, sha 28e8aaf2, 2003x1369),
+  MOTION_PACKS.soldier with per-fighter atomic fallback and stage
+  prefetch (only catalogued packs request; packless kinds unsupported),
+  soldier clip table (core-data timings: swing 14/4/20, hitstun 18,
+  knockdown/getup/dying from constants) + state dispatch + 5x9 pack
+  validator; MotionArt gained general attackBindings (guanyu unchanged).
+  FOUND+FIXED a toolkit bug during integration: the pack page blit copied
+  box-space coords and produced BLANK atlas pages (guanyu unaffected - it
+  packs via a different tool); fixed + regression test; the soldier page
+  now carries real pixels (27.3% opaque). Motion suites 57/57; full unit
+  809|1 known G6|6. Remaining: tick/state exercise + captures (work 3-5).)
 - Dependency: CMR-06A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06B](docs/motion-tasks/CMR-06B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic soldier pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
