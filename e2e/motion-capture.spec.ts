@@ -1,6 +1,8 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 import type { Sim } from '../src/core/sim'
+import { makeCombatant } from '../src/core/entities'
+import { ENEMIES } from '../src/core/enemies'
 
 /**
  * CMR-05 capture harness for the ACTUAL whole-character motion path
@@ -17,6 +19,8 @@ test.skip(process.env.MOTION_CAPTURE !== '1', 'set MOTION_CAPTURE=1 (via scripts
 test.use({ video: 'on' })
 
 const FIGHTER = process.env.MOTION_FIGHTER ?? 'guanyu'
+/** Enemy-kind captures drive a spawned enemy target instead of the player. */
+const ENEMY_KIND = process.env.MOTION_ENEMY_KIND ?? ''
 const RENDERER = (process.env.MOTION_RENDERER ?? 'canvas') as 'canvas' | 'webgl'
 const OUT = process.env.MOTION_OUT ?? 'artifacts/motion-review'
 const COMMIT = process.env.MOTION_COMMIT ?? 'unknown'
@@ -73,17 +77,42 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   await expect.poll(introUp).toBe(false)
 
   // Isolate the subject on the real stage (test-page sim only).
-  await page.evaluate(() => {
+  await page.evaluate((enemyKind) => {
     const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
     g.sim.entities = g.sim.entities.filter((e) => e.id === g.sim.playerId)
     g.sim.cameraLocked = false
     g.sim.waveIndex = 0
     const p = g.sim.entities[0]!
+    if (enemyKind) {
+      // Enemy captures: the player stands aside as the camera anchor; the
+      // capture target enemy is spawned next (real combatant shape).
+      ;(window as unknown as { __MOTION_ENEMY_KIND__?: string }).__MOTION_ENEMY_KIND__ = enemyKind
+      p.x = 60
+      p.y = 216
+      p.invulnerableTicks = 999999
+      g.syncSprites()
+      return
+    }
     p.x = 230
     p.y = 216
     p.invulnerableTicks = 0
     g.syncSprites()
-  })
+  }, ENEMY_KIND)
+  if (ENEMY_KIND) {
+    const def = ENEMIES[ENEMY_KIND as keyof typeof ENEMIES]
+    if (!def) throw new Error(`unknown enemy kind for capture: ${ENEMY_KIND}`)
+    // The capture subject is hero-side so the sim's dead-entity cleanup keeps
+    // it for the dying/dead shots (dead heroes stay in the list; the product
+    // filter drops dead enemies). Rendering/animation read the kind, so the
+    // displayed art is exactly the enemy's.
+    const target = makeCombatant(900001, ENEMY_KIND as never, 'hero', 230, 216, def.maxHp, def.speed, 'right')
+    target.invulnerableTicks = 999999
+    await page.evaluate((t) => {
+      const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+      g.sim.entities.push(t as never)
+      g.syncSprites()
+    }, target as never)
+  }
 
   const rows: Row[] = []
   const began = Date.now()
@@ -112,7 +141,10 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     }
     const row = await page.evaluate(async ({ action, facing, origin, source, renderer, commit, shot, elapsed }) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
-      const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
+      const enemyKind = (window as unknown as { __MOTION_ENEMY_KIND__?: string }).__MOTION_ENEMY_KIND__
+      const p = enemyKind
+        ? g.sim.entities.find((e) => e.id === 900001)!
+        : g.sim.entities.find((e) => e.id === g.sim.playerId)!
       g.syncSprites()
       const s = g.sprites.get(p.id)!
       const f = s.frame
@@ -180,24 +212,53 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   }
 
   const setPlayer = async (fields: Record<string, unknown>): Promise<void> => {
+    if (ENEMY_KIND) {
+      const def = ENEMIES[ENEMY_KIND as keyof typeof ENEMIES]!
+      const fresh = makeCombatant(900001, ENEMY_KIND as never, 'hero', 230, 216, def.maxHp, def.speed, 'right')
+      await page.evaluate(({ t, f }) => {
+        const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+        let p = g.sim.entities.find((e) => e.id === 900001)
+        if (!p) {
+          g.sim.entities.push(t as never)
+          p = g.sim.entities.find((e) => e.id === 900001)
+        }
+        Object.assign(p!, { hp: p!.maxHp, airTicks: 0, z: 0, attackId: null, mountedOn: null, invulnerableTicks: 999999 }, f)
+      }, { t: fresh as never, f: fields })
+      return
+    }
     await page.evaluate((f) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
-      const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
+      const enemyKind = (window as unknown as { __MOTION_ENEMY_KIND__?: string }).__MOTION_ENEMY_KIND__
+      const p = enemyKind
+        ? g.sim.entities.find((e) => e.id === 900001)!
+        : g.sim.entities.find((e) => e.id === g.sim.playerId)!
       Object.assign(p, { hp: p.maxHp, airTicks: 0, z: 0, attackId: null, mountedOn: null }, f)
     }, fields)
   }
 
   // Isolated named actions (injected state control, labelled `injected`) and
   // real-input segments (labelled `gameplay`), both facings.
-  const isolated: Array<[string, Record<string, unknown>]> = [
-    ['idle', { state: 'idle', stateTick: 0 }],
-    ['jab1', { state: 'attack', attackId: 'gy.jab1', stateTick: 0 }],
-    ['hurt', { state: 'hitstun', stateTick: 0 }],
-    ['knockdown', { state: 'knockdown', stateTick: 0 }],
-    ['getup', { state: 'getup', stateTick: 0 }],
-    ['dying', { state: 'dying', stateTick: 0, hp: 0 }],
-    ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
-  ]
+  const isolated: Array<[string, Record<string, unknown>]> = ENEMY_KIND
+    ? [
+        ['idle', { state: 'idle', stateTick: 0 }],
+        ['swing', { state: 'attack', attackId: 'soldier.swing', stateTick: 0 }],
+        ['hurt', { state: 'hitstun', stateTick: 0 }],
+        ['knockdown', { state: 'knockdown', stateTick: 0 }],
+        ['getup', { state: 'getup', stateTick: 0 }],
+        ['grabbed', { state: 'grabbed', stateTick: 0 }],
+        ['thrown', { state: 'thrown', stateTick: 0 }],
+        ['dying', { state: 'dying', stateTick: 0, hp: 0 }],
+        ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
+      ]
+    : [
+        ['idle', { state: 'idle', stateTick: 0 }],
+        ['jab1', { state: 'attack', attackId: 'gy.jab1', stateTick: 0 }],
+        ['hurt', { state: 'hitstun', stateTick: 0 }],
+        ['knockdown', { state: 'knockdown', stateTick: 0 }],
+        ['getup', { state: 'getup', stateTick: 0 }],
+        ['dying', { state: 'dying', stateTick: 0, hp: 0 }],
+        ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
+      ]
   for (const facing of ['right', 'left'] as const) {
     for (const [action, fields] of isolated) {
       await setPlayer({ facing, ...fields })
@@ -213,11 +274,29 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       g.sim.phase = 'fight'
       g.hideContinueOverlay?.()
     })
-    // Real-input walk (gameplay provenance).
-    await setPlayer({ facing, state: 'idle', stateTick: 0 })
-    await runTicks(12, facing === 'right' ? { right: true } : { left: true })
-    await sample('walk', facing, 'gameplay', 'player', `walk-${facing}`)
+    if (ENEMY_KIND) {
+      // Real AI behaviour (gameplay provenance): the player stands in range
+      // and the enemy walks/approaches on its own decisions.
+      await setPlayer({ facing, state: 'idle', stateTick: 0, x: facing === 'right' ? 300 : 160 })
+      await page.evaluate((dir) => {
+        const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+        const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
+        p.x = dir === 'right' ? 380 : 80
+        p.hp = p.maxHp
+      }, facing)
+      await runTicks(28)
+      await sample('walk', facing, 'gameplay', 'ai', `walk-${facing}`)
+    } else {
+      // Real-input walk (gameplay provenance).
+      await setPlayer({ facing, state: 'idle', stateTick: 0 })
+      await runTicks(12, facing === 'right' ? { right: true } : { left: true })
+      await sample('walk', facing, 'gameplay', 'player', `walk-${facing}`)
+    }
   }
+
+  // Mixed choreography and co-op observability are player-capture segments.
+  let joined = false
+  if (!ENEMY_KIND) {
 
   // Mixed choreography with real inputs (gameplay provenance).
   await setPlayer({ facing: 'right', state: 'idle', stateTick: 0 })
@@ -227,7 +306,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   await sample('mixed', 'right', 'gameplay', 'player', 'mixed-right')
 
   // Co-op observability: drop player two in and sample every live sprite.
-  const joined = await page.evaluate(() => window.__DW__!.joinP2!())
+  joined = await page.evaluate(() => window.__DW__!.joinP2!())
   await runTicks(6)
   const coopRows = await page.evaluate(({ commit, elapsed, renderer }) => {
     const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
@@ -256,6 +335,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     })
   }, { commit: COMMIT, elapsed: Date.now() - began, renderer: RENDERER })
   rows.push(...(coopRows as unknown as Row[]))
+  }
 
   // Crops -> files.
   const crops = await page.evaluate(() => (window as unknown as { __MOTION_CROPS__?: Record<string, string> }).__MOTION_CROPS__ ?? {})

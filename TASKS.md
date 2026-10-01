@@ -95,16 +95,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06B - Wei Soldier: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; bounded work 1-2 DONE; 23:12 fix: the
-  render path now routes soldier art through the SOLDIER state dispatch -
-  `motionFrameForEntity` previously returned hero frame names ('walk:0',
-  'fall:6', 'misc:2') for every kind, which do not exist in the soldier
-  pack; MotionArt gained an optional frameDispatch (publish wires it per
-  kind), verified by a routing test (28 motion tests green). Pack: single
-  atlas page 1,786,372 B sha 55f3300d 1984x1142, shared-rect bookends.
-  Remaining: work 3-5 - extend the CMR-05 capture harness to enemy kinds
-  (spawn + drive a soldier target), in-game captures both facings/
-  Canvas/WebGL/mobile, full-sequence review, producer handoff.)
+- Status: IN_PROGRESS (attempt 1; work 1-2 DONE; 23:3x work 3/4 harness
+  DONE + first capture validated: the CMR-05 capture harness now drives
+  ENEMY kinds (spawned capture subject via makeCombatant, hero-side so the
+  sim's dead-entity cleanup keeps it for dying/dead shots, per-kind subject
+  selection, soldier action set incl. grabbed/thrown, AI-driven walk with
+  gameplay provenance) and the runner validates per-fighter pack frames +
+  attack bindings (it previously hardcoded guanyu's inventory). FIRST
+  SOLDIER CAPTURE PASSED its self-check on canvas: 38 rows, 0 trace errors,
+  0 hard integrity, 12 actions captured, non-blank crops, 2 expected open
+  landmarks (contactU/weaponTipU unverified). Remaining: webgl + paired
+  runs + mobile landscape captures, full-sequence review of the contact
+  sheets, producer handoff.)
 - Dependency: CMR-06A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06B](docs/motion-tasks/CMR-06B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic soldier pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

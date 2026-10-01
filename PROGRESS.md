@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 23:45 UTC - CMR-06B (attempt 1, IN_PROGRESS - enemy capture harness works; first soldier capture validated)
+
+- Status before: CMR-06B work 1-2 done + dispatch fix (720cb86).
+- Work completed: bounded work 3/4 harness - the CMR-05 capture path now
+  drives ENEMY kinds: a real capture subject spawned via makeCombatant
+  (soldier kind, hero-side so the sim's dead-entity cleanup keeps it for
+  the dying/dead shots - dead heroes stay, dead enemies are removed),
+  per-kind subject selection in sample/setPlayer, the soldier action set
+  (idle/swing/hurt/knockdown/getup/grabbed/thrown/dying/dead) both facings,
+  and an AI-driven walk segment with gameplay provenance. The runner
+  validates against the FIGHTER'S pack inventory + attack bindings (it
+  hardcoded guanyu's frames before). Two real fixes on the way: the target
+  vanished mid-run (updateDeaths removes dead non-heroes) and the runner
+  rejected every soldier key as "not in the pack".
+- FIRST SOLDIER CAPTURE PASSED its self-check on canvas (720cb86-dirty):
+  38 rows, trace errors 0, hard integrity 0, 12 actions captured, crops
+  non-blank (the CMR-05 blank guard active), 2 expected open landmarks
+  (contactU/weaponTipU stay unverified - producer measures). Artifacts in
+  artifacts/motion-review/soldier-canvas/ (trace, index, frames, video).
+- Files changed: e2e/motion-capture.spec.ts, scripts/motion-capture.mjs,
+  TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; capture self-check green
+  (exit 0 confirmed directly - an earlier exit-1 reading was a PowerShell
+  pipeline artifact).
+- Result: the soldier's motion is now capturable AND validated in the real
+  game through the accepted CMR-05 path.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: webgl + paired runs + mobile landscape
+  captures; the full-sequence review of the contact sheets at game size and
+  enlarged (foot planting/weapon trajectories/size pops); producer handoff.
+  No blocker.
+- Next recommended task: continue CMR-06B (webgl/pairs captures + review).
+
 ### 2026-10-01 23:12 UTC - CMR-06B (attempt 1, IN_PROGRESS - render-path dispatch fixed: soldier art now reaches soldier frames)
 
 - Status before: CMR-06B work 1-2 done (3ddb204); capture path prep next.

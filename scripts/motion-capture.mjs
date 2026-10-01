@@ -36,6 +36,7 @@ const arg = (name, fallback) => {
 const strict = argv.includes('--strict')
 const fighter = arg('--fighter', 'guanyu')
 const role = arg('--role', 'hero')
+const enemy = arg('--enemy', '')
 const renderer = arg('--renderer', 'canvas')
 const out = arg('--out', 'artifacts/motion-review')
 const run = `${out}/${fighter}-${renderer}`
@@ -66,6 +67,7 @@ const env = {
   MOTION_CAPTURE: '1',
   MOTION_FIGHTER: fighter,
   MOTION_ROLE: role,
+  MOTION_ENEMY_KIND: enemy,
   MOTION_RENDERER: renderer,
   MOTION_OUT: out,
   MOTION_COMMIT: commit,
@@ -102,11 +104,18 @@ for (const f of frameFiles) {
 // ---- validate the live capture through the review core ----
 const trace = JSON.parse(readFileSync(`${run}/trace.json`, 'utf8'))
 const rows = trace.rows
-const packFrames = { ...prepared.guanyu.frames, ...actions.frames }
-const bindings = {
-  'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
-  'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
-}
+// The pack frame inventory and attack bindings are per fighter: the review
+// core rejects any captured key that is not in the fighter's own pack.
+const soldierPrepared = fighter === 'soldier'
+  ? JSON.parse(readFileSync('src/game/assets/motion/soldier-prepared.json', 'utf8'))
+  : null
+const packFrames = soldierPrepared ? soldierPrepared.frames : { ...prepared.guanyu.frames, ...actions.frames }
+const bindings = soldierPrepared
+  ? { 'soldier.swing': 'swing' }
+  : {
+      'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
+      'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
+    }
 const verdict = validateTrace(rows, {
   pack: { frames: packFrames },
   bindings,
@@ -115,7 +124,9 @@ const verdict = validateTrace(rows, {
   removedResiduePx: 0,
   residueTolerancePx: 0,
 })
-const injectedActions = ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+const injectedActions = soldierPrepared
+  ? ['idle', 'swing', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
+  : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
   actions: actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
