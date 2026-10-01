@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
+
+- Status before: UIR-19 IN_PROGRESS attempt 2 (face-matched skins
+  p80-calibrated; J4 9 ok / 8 bad with stale-view adjudication).
+- Work completed: (1) anchored re-review design (per-sheet gripN
+  modal hex recorded; each verdict states the dominant colour).
+  Round-3 verdicts (all fresh, small batches): 12 ok / 5 bad
+  (huangzhong, weiyan, caocao, xiahoudun, zhangliao). (2) final
+  tone calibration: max(gripN/relaxN/wrapN modal) -> faceP80 + 5 on
+  the 8 flagged (e.g. weiyan #806340->#5e492f, xuchu->#4c3629).
+  (3) dark-share conflicts resolved honestly: far washes softened
+  to keep minima above the unedited ink floor (xuchu far base lum
+  47 cannot carry deep shadows), far wrap underside shadow cut,
+  valleys restored for peak prominence (far caps 0.42), and the
+  far pin floors reduced to the sanity level 20 (documented: peaks
+  are the far discriminator, old 0-1 -> new >= 2; near floors 38/40
+  keep the plane discrimination). Notches 1.2u -> ~0.75u, creases
+  moderate (0.40/0.26), companion edges halved. Battery 47/47;
+  unit 711 passed (G6-only failure); lint 0; capture 0; gates all
+  green (e2e 82/0, vision 5/5, selfplay 13/13, build 0, prodbuild
+  6/6).
+- Final adjudication (anchors vs verdicts): caocao modal
+  rgb(145,130,110) and xiahoudun rgb(161,141,117) are byte-tan -
+  their "pale-cream" reads are the small-scale effect (lit caps +
+  bloom dominate the ~5px hand at figure scale); zhangliao modal
+  170 = faceP80+5 exactly, yet reads lighter than the "tan-olive"
+  face IMPRESSION (the p80 reference overshoots perceived tone);
+  huangzhong sits at the +15 perception margin (was ok in earlier
+  rounds); weiyan reads "grey-olive vs tan-brown" (hue, not
+  luminance). 12/17 is the honest measured result.
+- Result: acceptance ("J4 ok on all 17") NOT met after 3 attempts
+  -> rule 5 BLOCKED. Full trail preserved: faces-vs-hands tables
+  (artifacts/tone-gaps.txt, j4-anchors.txt), per-attempt PROGRESS
+  entries, gates on every state.
+- Status after: UIR-19 BLOCKED (owner decision required; options
+  a-d in TASKS).
+- Remaining work or blocker: owner scope call on UIR-19 AND
+  UIR-16 (still pending); UIR-20 TODO (unblocked, S-size).
+- Next recommended task: UIR-20 (embers tileScale) - the last
+  unblocked TODO.
+
 ### 2026-09-30 - CMR rollout planning handoff (owner-approved, no implementation)
 
 - Owner accepts Guan Yu enhancements and requests all-character implementation only by loop threads. Approved prioritizing rollout over older active work and retaining opt-in until separate owner normal-play approval.
@@ -112,7 +153,6 @@ history slowly crowds out the work it is supposed to support.
   gripN modal hex first; ask each verdict to state the hand's
   dominant colour so stale views are detectable).
 - Next recommended task: UIR-19 attempt 3 (same task).
-
 
 ### 2026-09-29 08:10 UTC - UIR-19 (attempt 1 - IN_PROGRESS)
 
@@ -402,94 +442,3 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker: BODY-7 acceptance (owner); UIR-16..20
   TODO.
 - Next recommended task: UIR-16 (far fist off the near arm).
-
-### 2026-09-28 19:00 UTC - PRODUCER (follow-up review, count-triggered - COMPLETED)
-
-- Status before: 4 src/game commits since 9fd19c2 (review due);
-  V-9/V-11/V-10/V-13-sky/ridge fixed-unverified; V-19 (ground/embers)
-  awaiting batching.
-- Work completed: full producer pass. (1) Signals: logic 3 boot-poll
-  timeouts, same signature twice - NOT a regression (same HEAD was
-  13/13 green one tick prior; scene progressing, zero violations/
-  pageErrors; sustained box load). Vision parity failed once, green
-  on re-run (known flake signature). (2) Capture exit 0, all
-  sections. (3) Verified on fresh pixels: V-9 (overlay on all 3
-  portrait shots), V-10 (all four chevrons OUTWARD on fresh
-  phone-landscape frames - closes the hold-over), V-11 (ships on the
-  waterline, full walls/banners), V-13 sky+clouds+ridges (atmosphere
-  + two-ridge depth on all nine stages). (4) Anatomy: 289/289 files
-  byte-identical pairs (figure renderer untouched) + 56 cells
-  re-opened across guanyu/lubu/caocao/zhangfei - all consistent with
-  the carried grid; no new A/B anywhere. (5) Filed batch 4 (UIR-20,
-  embers tileScale); folded ground tileScale into UIR-11. No other
-  new findings. Baseline reset to ac59129.
-- Files changed: TASKS.md (UIR-20, UIR-11 note), PROGRESS.md,
-  docs/UI_REVIEW_LEDGER.md (verifications, batch 4, scoreboard,
-  coverage, baseline), docs/UI_REVIEW_BATCHES.md (batch 4).
-- Verification run: signal 10/13 then 0/3 on re-run (same boot
-  timeouts, environmental); vision parity 0/1 then 1/1 on re-run
-  (flake); review:capture exit 0; arm-chain gates untouched.
-- Result: accepted proposals (batch 4); review records updated.
-- Status after: UIR-11, UIR-16..20 TODO; BODY-7/ENH-12 owner-gated.
-- Remaining work or blocker: none (box load is environmental).
-- Next recommended task: UIR-11 (painted ground - completes V-13).
-
-### 2026-09-28 18:30 UTC - UIR-10 (attempt 1, hill ridges - DONE)
-
-- Status before: UIR-10 TODO (V-13 ridge part: single-colour hills
-  with an ink line).
-- Work completed: paintRidge repaint, same silhouettes and stage
-  colours: far ridge with aerial falloff (pale crown dissolving to
-  haze) and faint puffs; near ridge with 4-stop crest-to-base grade
-  (lit crown, rich mid, shaded flank, deep base), mottled flank
-  shade, a fading lit-crest band following the ridgeline, and the
-  soft haze join kept; deterministic paint tooth (17-mod hash,
-  seam-exact). hills.setTileScale(0.5, 0.5) - the flank, base and
-  haze sit below tile row 48 and never displayed (V-19 ridge part).
-  TDD: test/game/uir10-ridge.test.ts pinned failing first
-  (0.67/0.48), green after (0.83/0.92).
-- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
-  .ts (hills tileScale), test/game/uir10-ridge.test.ts (new),
-  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 ridges
-  progress; V-19 narrowed to ground/embers).
-- Verification run: lint 0; tsc 0; unit 669/669 + 1 skipped (+1 new
-  pin); ART-19 suite green unedited; review capture after; browser
-  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
-  PRODBUILD=0 (4/4). Re-review: all nine stages show two-ridge depth
-  (stage1/8 close up); R5 = 4.
-- Result: UIR-10 acceptance met.
-- Status after: UIR-10 DONE.
-- Remaining work or blocker: BODY-7 acceptance (owner); UIR-11,
-  UIR-16..19 TODO; V-19 (ground/embers) awaiting batching.
-- Next recommended task: UIR-11 (painted ground per stage).
-
-### 2026-09-28 17:40 UTC - UIR-9 (attempt 1, sky and clouds - DONE)
-
-- Status before: UIR-9 TODO (V-13 sky part: flat gradient + hard flat
-  cloud lobes; full sky never displayed anyway - V-19).
-- Work completed: paintSky repaint (five-stop atmospheric grade,
-  mottled broken colour, 3 faint cirrus streaks, widened sun-side
-  glow + bright core, soft haze/smoke bands, deterministic 17-mod
-  paint grain that keeps the seam exact); ember kept distinct
-  (blood-red core, smoke). paintCloud repaint (per-lobe radial
-  masses with soft rims and per-lobe peaks, gradient lit-top and
-  belly, inter-lobe valley shading; geometry kept). sky.setTileScale
-  (0.5, 0.5) so the full painted sky displays (was cut at tile row
-  135 - the sun never showed). Two over-texturing attempts reverted
-  on visual review (five-line cirrus banded; 9px striations read as
-  corduroy). TDD: test/game/uir9-sky.test.ts pinned failing first
-  (0.04/0.25/0.80), green after (1.00/1.00/1.00).
-- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
-  .ts (sky tileScale), test/game/uir9-sky.test.ts (new), TASKS.md,
-  PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 sky progress; V-19
-  scope narrowed to ridge/ground/embers).
-- Verification run: lint 0; tsc 0; unit 668/668 + 1 skipped (+1 new
-  pin); ART-19 suite green unedited; review capture after; browser
-  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
-  PRODBUILD=0 (4/4). Re-review: day skies atmospheric with modeled
-  clouds, ember smoky and distinct, phone/WebGL match, R5 = 4.
-- Result: UIR-9 acceptance met.
-- Status after: UIR-9 DONE.
-- Remaining work or blocker: BODY-7 acceptance (owner); UIR-10..11,
-  UIR-16..19 TODO; V-19 (ridge/ground/embers) awaiting batching.
-- Next recommended task: UIR-10 (hill ridges with depth).

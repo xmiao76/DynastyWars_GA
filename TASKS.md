@@ -1146,20 +1146,19 @@ Add future enhancement tasks below this heading.
 
 ### UIR-19 - Paint hands that match the painted sleeves
 
-- Status: BLOCKED (owner-deferred for prioritized cast rollout; attempt 2 evidence retained, not reset).
-- Previous in-progress evidence (attempt 2 done 2026-09-29: face-matched skins
-  lockstep across figures.ts + packs (mult from face-skin p80 vs hand
-  p80, zhaoyun clamped for the fair() gate), deeper creases, far side
-  kept above the dark-share ink floor; battery 47/47. J4 re-review
-  9 ok / 8 bad - tone complaints are stale-attachment artifacts (the
-  sheets are byte-proven face-matched via the modal band), but the
-  "flat slitted paddle / spiky comb / ridge-line fingers" reads are
-  plausibly real: UIR-12's 1.2u notches + deep creases + light
-  companion edges read as slits at gameplay size. Attempt 3 (LAST):
-  soften notches 1.2u -> ~0.7u, crease cores to ~0.40, halve the
-  companion edges, then anchored re-review (each verdict states the
-  hand's dominant colour; per-sheet modal hex recorded first so any
-  stale view is detectable))
+- Status: BLOCKED (3 attempts exhausted 2026-10-01 UTC - rule 5.
+  Progress: form pass (knuckles/planes) + face-matched tones all
+  landed and measured; J4 verdicts 5/17 -> 9/17 -> 12/17. Remaining
+  5 need owner scope: zhangliao/huangzhong read lighter than the
+  FACE IMPRESSION (the p80 reference overshoots perceived tone) and
+  caocao/xiahoudun/weiyan read pale at 5px figure scale (the lit
+  caps/bloom dominate the tiny hand) though their cells are
+  byte-tan. NEEDS OWNER DECISION: (a) accept 12/17 as a partial
+  V-18 fix and re-scope the finding; (b) authorise a 4th pass:
+  small-scale read fix (cap/bloom downsizing) + face-impression
+  matching; (c) authorise a per-hand-kind art remake (the task's
+  original "split per hand kind" allowance); (d) revert the tone
+  work, keep the form pass. Only the owner may reset to TODO.)
 - Source: UI review 2026-09-28, findings V-18 (S2, V-14 J4 residue).
 - Evidence: artifacts/review/latest/anatomy/lubu.png (all 14 moves) - flat cream fists against photographic sleeves, re-confirmed fresh
 - Root cause: ASSET - `scripts/prepare-body-parts.mjs:194` `paintHandCell` paints flat skin shapes with bar fingers; next to photographic sleeves they read as mittens on every fighter.

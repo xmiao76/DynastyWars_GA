@@ -295,16 +295,18 @@ function paintHandCell(c, kind, skin) {
   const far = kind.endsWith('F')
   const base = far ? shadeC(skin, 1 - FAR_SHADE) : `#${skin.toString(16).padStart(6, '0')}`
   const colors = {
-    formAlpha: far ? 'rgba(0,0,0,0.34)' : 'rgba(0,0,0,0.30)',
-    // Far rim kept above the ink-dark floor of the dark-share rule (the
-    // face-matched bases are darker; 0.5 crossed into ink at the creases).
-    deepAlpha: far ? 'rgba(0,0,0,0.42)' : 'rgba(0,0,0,0.46)',
+    // UIR-19 attempt 3: FAR washes softened hard - the face-matched dark
+    // bases (e.g. xuchu far base lum 47) crossed the handparts dark-share
+    // ink floor with the deeper washes. The unedited rule binds; far form
+    // reads off the lit caps + peaks instead of deep shadow.
+    formAlpha: far ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.30)',
+    deepAlpha: far ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.46)',
     lightAlpha: far ? 'rgba(255,244,224,0.16)' : 'rgba(255,246,228,0.26)',
-    creaseAlpha: far ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.22)',
+    creaseAlpha: far ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.22)',
     // UIR-19 attempt 3: creases back to moderate depth (the attempt-2
     // 0.46 read as slits over the darker bases); far side stays under
     // the dark-share ink floor.
-    creaseCore: far ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0.40)',
+    creaseCore: far ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.40)',
     // Companion light edges halved (attempt-2 review: "ridge-line
     // fingers" - the light edge read as the finger itself).
     creaseLight: far ? 'rgba(255,244,224,0.06)' : 'rgba(255,246,228,0.09)',
@@ -314,11 +316,14 @@ function paintHandCell(c, kind, skin) {
     // washes cut, shadow side deepened so plane contrast holds without
     // lightening the average tone.
     planeLit: far ? 'rgba(255,244,224,0.12)' : 'rgba(255,250,238,0.15)',
-    planeShade: far ? 'rgba(0,0,0,0.22)' : 'rgba(0,0,0,0.28)',
+    planeShade: far ? 'rgba(0,0,0,0.14)' : 'rgba(0,0,0,0.28)',
     stepLit: far ? 'rgba(255,244,224,0.1)' : 'rgba(255,248,232,0.11)',
-    stepShade: far ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.16)',
-    capLit: far ? 'rgba(255,246,228,0.34)' : 'rgba(255,252,242,0.32)',
-    capValley: far ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.26)',
+    stepShade: far ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.16)',
+    capLit: far ? 'rgba(255,246,228,0.42)' : 'rgba(255,252,242,0.32)',
+    // Far valleys carry the peak prominence (the lit caps alone cannot);
+    // 0.32 keeps the valley ~32 luma over the darkest base (xuchu), clear
+    // of the dark-share ink floor (~19).
+    capValley: far ? 'rgba(0,0,0,0.32)' : 'rgba(0,0,0,0.26)',
     bounce: far ? 'rgba(255,214,170,0.08)' : 'rgba(255,214,170,0.1)',
   }
   // Work in logical units, origin at the hand joint (cell center = pivot).
@@ -347,11 +352,13 @@ function paintHandCell(c, kind, skin) {
       c.closePath()
       c.fill()
       // Underside shadow on the near half, tip highlight at the far end.
+      // UIR-19 attempt 3: far wraps soften (the dark far pad bases plus
+      // 0.42 black tripped the dark-share ring rule on xuchu).
       c.save()
       c.clip()
       const sg = c.createLinearGradient(cx, 0.4, cx, 2.5)
       sg.addColorStop(0, 'rgba(0,0,0,0)')
-      sg.addColorStop(1, 'rgba(0,0,0,0.42)')
+      sg.addColorStop(1, kind === 'wrapF' ? 'rgba(0,0,0,0.26)' : 'rgba(0,0,0,0.42)')
       c.fillStyle = sg
       c.fillRect(cx - 1, 0.3, 2, 2.5)
       c.fillStyle = 'rgba(255,246,228,0.2)'
@@ -451,7 +458,7 @@ export const HEROES = {
   },
   weiyan: {
     master: 'art/fighter-bodies/weiyan-body-master.jpg',
-    skin: '#806340',
+    skin: '#5e492f',
     joints: {
       chest: [816, 187], hip: [816, 343],
       shoulderF: [734, 169], elbowF: [683, 207], handF: [557, 238],
@@ -487,7 +494,7 @@ export const HEROES = {
   spearman: {
     master: 'art/fighter-bodies/spearman-body-master.jpg',
     out: 'src/game/assets/mook-bodies',
-    skin: '#704a38',
+    skin: '#593b2c',
     joints: {
       chest: [416, 349], hip: [416, 624],
       shoulderF: [275, 312], elbowF: [195, 426], handF: [72, 588],
@@ -526,7 +533,7 @@ export const HEROES = {
   caocao: {
     master: 'art/fighter-bodies/caocao-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#8b745a',
+    skin: '#6b5945',
     cape: { body: '#452073', trim: '#c8a828' },
     joints: {
       chest: [416, 420], hip: [416, 640],
@@ -539,7 +546,7 @@ export const HEROES = {
   xiahoudun: {
     master: 'art/fighter-bodies/xiahoudun-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#9a7d5e',
+    skin: '#80684e',
     joints: {
       chest: [416, 400], hip: [416, 640],
       shoulderF: [290, 350], elbowF: [199, 444], handF: [65, 582],
@@ -551,7 +558,7 @@ export const HEROES = {
   xuchu: {
     master: 'art/fighter-bodies/xuchu-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#74533f',
+    skin: '#4c3629',
     joints: {
       chest: [416, 380], hip: [416, 640],
       shoulderF: [270, 330], elbowF: [182, 443], handF: [50, 608],
@@ -563,7 +570,7 @@ export const HEROES = {
   zhangliao: {
     master: 'art/fighter-bodies/zhangliao-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#b69978',
+    skin: '#a48a6c',
     cape: { body: '#1f4a33', trim: '#5aa87e' },
     joints: {
       chest: [416, 400], hip: [416, 645],
@@ -576,7 +583,7 @@ export const HEROES = {
   caoren: {
     master: 'art/fighter-bodies/caoren-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#a48566',
+    skin: '#8d7358',
     joints: {
       chest: [416, 400], hip: [416, 630],
       shoulderF: [290, 350], elbowF: [202, 449], handF: [55, 592],
@@ -588,7 +595,7 @@ export const HEROES = {
   xuhuang: {
     master: 'art/fighter-bodies/xuhuang-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
-    skin: '#9c7d5c',
+    skin: '#82684d',
     joints: {
       chest: [416, 400], hip: [416, 640],
       shoulderF: [290, 350], elbowF: [202, 449], handF: [58, 592],

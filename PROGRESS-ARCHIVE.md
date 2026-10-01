@@ -7716,3 +7716,94 @@ lines. Never read during an iteration; consult only for deep history.
 - Remaining work or blocker: BODY-7 acceptance (owner); UIR-9..11,
   UIR-16..19 TODO; V-19 awaiting producer batching.
 - Next recommended task: UIR-9 (painted sky and clouds).
+
+### 2026-09-28 17:40 UTC - UIR-9 (attempt 1, sky and clouds - DONE)
+
+- Status before: UIR-9 TODO (V-13 sky part: flat gradient + hard flat
+  cloud lobes; full sky never displayed anyway - V-19).
+- Work completed: paintSky repaint (five-stop atmospheric grade,
+  mottled broken colour, 3 faint cirrus streaks, widened sun-side
+  glow + bright core, soft haze/smoke bands, deterministic 17-mod
+  paint grain that keeps the seam exact); ember kept distinct
+  (blood-red core, smoke). paintCloud repaint (per-lobe radial
+  masses with soft rims and per-lobe peaks, gradient lit-top and
+  belly, inter-lobe valley shading; geometry kept). sky.setTileScale
+  (0.5, 0.5) so the full painted sky displays (was cut at tile row
+  135 - the sun never showed). Two over-texturing attempts reverted
+  on visual review (five-line cirrus banded; 9px striations read as
+  corduroy). TDD: test/game/uir9-sky.test.ts pinned failing first
+  (0.04/0.25/0.80), green after (1.00/1.00/1.00).
+- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
+  .ts (sky tileScale), test/game/uir9-sky.test.ts (new), TASKS.md,
+  PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 sky progress; V-19
+  scope narrowed to ridge/ground/embers).
+- Verification run: lint 0; tsc 0; unit 668/668 + 1 skipped (+1 new
+  pin); ART-19 suite green unedited; review capture after; browser
+  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4). Re-review: day skies atmospheric with modeled
+  clouds, ember smoky and distinct, phone/WebGL match, R5 = 4.
+- Result: UIR-9 acceptance met.
+- Status after: UIR-9 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-10..11,
+  UIR-16..19 TODO; V-19 (ridge/ground/embers) awaiting batching.
+- Next recommended task: UIR-10 (hill ridges with depth).
+
+### 2026-09-28 18:30 UTC - UIR-10 (attempt 1, hill ridges - DONE)
+
+- Status before: UIR-10 TODO (V-13 ridge part: single-colour hills
+  with an ink line).
+- Work completed: paintRidge repaint, same silhouettes and stage
+  colours: far ridge with aerial falloff (pale crown dissolving to
+  haze) and faint puffs; near ridge with 4-stop crest-to-base grade
+  (lit crown, rich mid, shaded flank, deep base), mottled flank
+  shade, a fading lit-crest band following the ridgeline, and the
+  soft haze join kept; deterministic paint tooth (17-mod hash,
+  seam-exact). hills.setTileScale(0.5, 0.5) - the flank, base and
+  haze sit below tile row 48 and never displayed (V-19 ridge part).
+  TDD: test/game/uir10-ridge.test.ts pinned failing first
+  (0.67/0.48), green after (0.83/0.92).
+- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
+  .ts (hills tileScale), test/game/uir10-ridge.test.ts (new),
+  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 ridges
+  progress; V-19 narrowed to ground/embers).
+- Verification run: lint 0; tsc 0; unit 669/669 + 1 skipped (+1 new
+  pin); ART-19 suite green unedited; review capture after; browser
+  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
+  PRODBUILD=0 (4/4). Re-review: all nine stages show two-ridge depth
+  (stage1/8 close up); R5 = 4.
+- Result: UIR-10 acceptance met.
+- Status after: UIR-10 DONE.
+- Remaining work or blocker: BODY-7 acceptance (owner); UIR-11,
+  UIR-16..19 TODO; V-19 (ground/embers) awaiting batching.
+- Next recommended task: UIR-11 (painted ground per stage).
+
+### 2026-09-28 19:00 UTC - PRODUCER (follow-up review, count-triggered - COMPLETED)
+
+- Status before: 4 src/game commits since 9fd19c2 (review due);
+  V-9/V-11/V-10/V-13-sky/ridge fixed-unverified; V-19 (ground/embers)
+  awaiting batching.
+- Work completed: full producer pass. (1) Signals: logic 3 boot-poll
+  timeouts, same signature twice - NOT a regression (same HEAD was
+  13/13 green one tick prior; scene progressing, zero violations/
+  pageErrors; sustained box load). Vision parity failed once, green
+  on re-run (known flake signature). (2) Capture exit 0, all
+  sections. (3) Verified on fresh pixels: V-9 (overlay on all 3
+  portrait shots), V-10 (all four chevrons OUTWARD on fresh
+  phone-landscape frames - closes the hold-over), V-11 (ships on the
+  waterline, full walls/banners), V-13 sky+clouds+ridges (atmosphere
+  + two-ridge depth on all nine stages). (4) Anatomy: 289/289 files
+  byte-identical pairs (figure renderer untouched) + 56 cells
+  re-opened across guanyu/lubu/caocao/zhangfei - all consistent with
+  the carried grid; no new A/B anywhere. (5) Filed batch 4 (UIR-20,
+  embers tileScale); folded ground tileScale into UIR-11. No other
+  new findings. Baseline reset to ac59129.
+- Files changed: TASKS.md (UIR-20, UIR-11 note), PROGRESS.md,
+  docs/UI_REVIEW_LEDGER.md (verifications, batch 4, scoreboard,
+  coverage, baseline), docs/UI_REVIEW_BATCHES.md (batch 4).
+- Verification run: signal 10/13 then 0/3 on re-run (same boot
+  timeouts, environmental); vision parity 0/1 then 1/1 on re-run
+  (flake); review:capture exit 0; arm-chain gates untouched.
+- Result: accepted proposals (batch 4); review records updated.
+- Status after: UIR-11, UIR-16..20 TODO; BODY-7/ENH-12 owner-gated.
+- Remaining work or blocker: none (box load is environmental).
+- Next recommended task: UIR-11 (painted ground - completes V-13).

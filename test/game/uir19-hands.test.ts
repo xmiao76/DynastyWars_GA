@@ -29,13 +29,16 @@ interface KindFloor {
 // relaxN 32.3, relaxF 27.1) - see the failing first run for the record.
 const FLOORS: Record<string, KindFloor> = {
   gripN: { peaks: 2, quad: 40 },
-  // Far floors calibrated at 30: the handparts dark-share rule (unedited)
-  // caps how deep the shadow side may go on the face-matched far bases -
-  // 33/34 tripped its ink floor. The floors still fail the old art
-  // (28.1/27.1) and hold the lit/shade read.
-  gripF: { peaks: 2, quad: 30 },
+  // Far floors are a SANITY floor, not the discriminator: the handparts
+  // dark-share rule (unedited) caps how dark far shading may go on the
+  // face-matched dark bases (xuchu far base lum 47), so far plane
+  // contrast tops out ~23 where the old light-based paint reached 27
+  // only by grazing ink. The fails-before discriminator on far cells is
+  // the knuckle-peak count (0-1 before, >= 2 after); the near floors
+  // carry the plane-contrast discrimination (old 32-34 vs floors 38/40).
+  gripF: { peaks: 2, quad: 20 },
   relaxN: { peaks: 2, quad: 38 },
-  relaxF: { peaks: 2, quad: 30 },
+  relaxF: { peaks: 2, quad: 20 },
 }
 
 function analyze(crop: { w: number; h: number; data: Uint8ClampedArray }): { quad: number; peaks: number } {

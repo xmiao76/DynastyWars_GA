@@ -128,7 +128,7 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 ### V-17 - Relaxed rear hand floats off the torso edge (S2, huangzhong/weiyan/zhangfei, DEPTH) - fixed 1220c27 (unverified)
 - In idle, walk, hurt and special the relaxed far hand hangs beside the hip with 0-15% of the far forearm visible (hidden by the torso): huangzhong 9 moves, weiyan 2, zhangfei 1. Crops: `cells/huangzhong-idle.png`, `cells/weiyan-hurt.png`. Cause: `src/game/art/armik.ts:366` `swungFreeTarget` (called from `weapons.ts:235`) places the free far hand outside the torso silhouette while the far arm is drawn behind it (`draw.ts:748-753`), so only the hand shows. The x-ray shows the rig chain is continuous; the paint is not.
 
-### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - filed UIR-19 (V-14 J4 residue)
+### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - UIR-19 BLOCKED after 3 attempts (12/17 J4 ok; owner scope call) (V-14 J4 residue)
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 
