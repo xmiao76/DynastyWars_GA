@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 02:55 UTC - PRODUCER (count-triggered verification pass - COMPLETED)
+
+- Status before: 13 src/game commits since ff03538 (review due);
+  V-16 (self-check), V-17 + V-19-embers (unverified) awaiting
+  verification; queue otherwise owner-gated.
+- Work completed: full producer pass. (1) Signals green (logic 0,
+  vision 0) + fresh capture exit 0. (2) Verified on fresh pixels:
+  V-16 3/3 down pairs fixed (cuff/forearm leads into the hands; the
+  pinned V-16 baseline pair sheets show the old detached state) +
+  G5-down green; V-17 3/3 cells fixed (cuff-to-hand connected,
+  huangzhong-idle/weiyan-hurt/zhangfei-hurt on stamped composites) +
+  G7 green + V-17 notes all >= 27% (4 informational lines, none
+  under the gate); V-19-embers pin + toggle-diff measure reproduce
+  (3403 -> 4412 px) + stage frames show discrete sparks. (3) Grid
+  carried: the UIR-19 hand-paint/skin change is J4-level only (chain
+  geometry untouched); suspects 2/238 (guanyu:thrust, zhangfei:attack
+  - both known 1.3u sub-gate residuals). (4) All three contact sheets
+  reviewed clean (flow: WARNING/CONTINUE/CLEAR chips + titles hold;
+  stages: 9 palettes + embers on 7-9; platform: portrait overlay,
+  landscape controls, WebGL matches canvas).
+- Files changed: PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-16/V-17/
+  V-19 verified; coverage; baseline -> 4bce5d8).
+- Verification run: signal 0/0; capture 0; arm-chain 14/15 (G6 only,
+  the UIR-16 BLOCKED pin); emberscale 2/2; tsc 0; unit 711 (G6).
+- Result: all pending fixes verified; no new work (queue owner-
+  gated: UIR-16/UIR-19 BLOCKED, BODY-7/ENH-12 owner).
+- Status after: producer records updated; IDLE for consumers until
+  the owner unblocks.
+- Remaining work or blocker: the two BLOCKED scope calls (UIR-16
+  options a-d; UIR-19 options a-d) + BODY-7/ENH-12 owner items.
+- Next recommended task: none unblocked.
+
 ### 2026-10-01 02:20 UTC - UIR-20 (attempt 1, ember tileScale - DONE)
 
 - Status before: UIR-20 TODO (V-19 remainder: the embers tileSprite
@@ -49,7 +81,6 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker: UIR-16 and UIR-19 BLOCKED (owner scope
   calls); BODY-7/ENH-12 owner-gated.
 - Next recommended task: none unblocked - queue is owner-gated.
-
 
 ### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
 
@@ -296,35 +327,6 @@ history slowly crowds out the work it is supposed to support.
   BLOCKED (owner scope call); UIR-18..20 TODO.
 - Next recommended task: UIR-18 (relaxed rear hand).
 
-### 2026-09-29 02:30 UTC - PRODUCER (follow-up review, count-triggered - COMPLETED)
-
-- Status before: 4 src/game commits since ac59129 (review due);
-  V-13 ground + V-19 ground fixed-unverified; UIR-16 BLOCKED.
-- Work completed: full producer pass. (1) Signals green: logic
-  13/13, vision 5/5, capture exit 0 (all fresh at ff03538; prior
-  tick ran them, this pass judged them - same HEAD, no game
-  changes between). (2) Verified on fresh pixels: V-13 ground
-  (stage1 grass + stage4 earth close-ups: horizon falloff,
-  strokes, calm paint, crisp shadows; all nine on the sheet -
-  V-13 now COMPLETE) and V-19 ground (full strips display).
-  (3) Anatomy: 289/289 files byte-identical vs the V-15b pre-bend
-  baseline + suspects.json body identical + 28 cells re-opened
-  (guanyu/lubu); UIR-16 revert verified pixel-exact
-  (guanyu-sweep back at 11+41); grid carried. Kit suspects 0/0.
-  No new findings; blind spots checked.
-- Files changed: PROGRESS.md, docs/UI_REVIEW_LEDGER.md
-  (V-13/V-19-ground verified, phone-landscape 3->4, coverage,
-  baseline ff03538).
-- Verification run: signal 13/13; vision 5/5; review:capture
-  exit 0 with V-15b/V-16 pair sheets.
-- Result: review records updated; no new work filed (nothing
-  justified).
-- Status after: UIR-17..20 TODO; UIR-16 BLOCKED (owner); BODY-7/
-  ENH-12 owner-gated.
-- Remaining work or blocker: none from this pass (UIR-16 still
-  needs the owner scope call).
-- Next recommended task: UIR-17 (prone far arm).
-
 ### 2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)
 
 - Status before: UIR-16 IN_PROGRESS attempt 2 (combo-search bend:
@@ -445,29 +447,3 @@ history slowly crowds out the work it is supposed to support.
   scope with the owner (e.g. exclude sub-perceptual wrap rims) -
   do NOT weaken the gate unilaterally.
 - Next recommended task: UIR-16 attempt 2 (same task).
-
-### 2026-09-28 20:40 UTC - UIR-11 (attempt 1, ground - DONE)
-
-- Status before: UIR-11 TODO (V-13 ground part: one tint with dots).
-- Work completed: paintGround repaint (4-stop horizon-to-foreground
-  falloff, mottled earth patches, 90 blade + 70 clod + 40 chip
-  strokes on deterministic walks with 2px edge clearance, horizon
-  spill; gentle paint tooth) + ground.setTileScale(0.5, 0.5) (V-19
-  ground part - bottom half never displayed). TDD:
-  test/game/uir11-ground.test.ts pinned failing first (0.19/0.19),
-  green after (0.83/0.72). V-13 COMPLETE (sky UIR-9, ridges UIR-10,
-  ground here).
-- Files changed: src/game/art/backdrop.ts, src/game/scenes/GameScene
-  .ts (ground tileScale), test/game/uir11-ground.test.ts (new),
-  TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-13 fixed
-  self-check; V-19 ground done).
-- Verification run: lint 0; tsc 0; unit 670/670 + 1 skipped (+1 new
-  pin); ART-19 suite green unedited; review capture after; browser
-  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
-  PRODBUILD=0 (4/4). Re-review: all nine grounds painted and calm,
-  shadows crisp (stage1/4 close up); R5 = 4.
-- Result: UIR-11 acceptance met.
-- Status after: UIR-11 DONE.
-- Remaining work or blocker: BODY-7 acceptance (owner); UIR-16..20
-  TODO.
-- Next recommended task: UIR-16 (far fist off the near arm).

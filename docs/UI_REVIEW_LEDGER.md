@@ -7,22 +7,22 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 
 ## Last full review
 
-- Date: 2026-09-29. Commit: `ff03538`. Capture: full (flow + stages + platform + anatomy + pairs). Previous full review: 2026-09-28 at `ac59129`.
+- Date: 2026-10-01. Commit: `4bce5d8`. Capture: full (flow + stages + platform + anatomy + pairs vs pinned baselines). Previous full review: 2026-09-29 at `ff03538`.
 - Scope: everything (first review). Reviewer read all three contact sheets, then the screens and crops cited below, with the image tool at gameplay size.
-- Next review due when `git rev-list --count ff03538..HEAD -- src/game` >= 4.
-- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh, V-15a/c/d/e verified, batch 3 filed. Follow-up pass 2026-09-28 at `ac59129`: V-9/V-11/V-10/V-13-sky/ridge verified on fresh pixels; grid carried on 289/289 identical pairs + 56 re-opened cells (figure renderer untouched); V-19 embers filed UIR-20, ground folded into UIR-11. Follow-up pass 2026-09-29 at `ff03538`: V-13 + V-19-ground verified on fresh pixels; grid carried on 289/289 identical files vs the V-15b baseline + 28 re-opened cells (UIR-16 bends reverted pixel-exact); no new findings.
+- Next review due when `git rev-list --count 4bce5d8..HEAD -- src/game` >= 4.
+- Handled 2026-09-28 at `9fd19c2`: full 238-cell grid re-judged fresh, V-15a/c/d/e verified, batch 3 filed. Follow-up pass 2026-09-28 at `ac59129`: V-9/V-11/V-10/V-13-sky/ridge verified on fresh pixels; grid carried on 289/289 identical pairs + 56 re-opened cells (figure renderer untouched); V-19 embers filed UIR-20, ground folded into UIR-11. Follow-up pass 2026-10-01 at `4bce5d8` (13 commits, count-triggered): signals 0/0 + capture 0; V-16/V-17/V-19 verified on fresh pixels (pairs/cells on stamped composites, G5-down + G7 + emberscale green, V-17 notes all >= 27%); grid carried (chain geometry untouched by the UIR-19 hand work); no new findings; queue owner-gated (UIR-16/UIR-19 BLOCKED). Follow-up pass 2026-09-29 at `ff03538`: V-13 + V-19-ground verified on fresh pixels; grid carried on 289/289 identical files vs the V-15b baseline + 28 re-opened cells (UIR-16 bends reverted pixel-exact); no new findings.
 
 ## Coverage (deep-dive rotation)
 
 | Area | Last deep review |
 | --- | --- |
-| menus | 2026-09-29 (sheet level) |
-| HUD & overlays | 2026-09-29 (sheet level; V-1..V-10 holding, kit suspects 0/0) |
-| stage flow screens | 2026-09-29 (sheet level) |
-| all nine stages | 2026-09-29 (V-13 ground verified close up on 1/4 + all-nine sheet) |
-| characters (movesheets, motion) | 2026-09-29 (grid carried: 289/289 files byte-identical vs V-15b baseline + 28 cells re-opened on guanyu/lubu; UIR-16 revert verified, sweep back at 11+41) |
-| phone | 2026-09-29 (sheet level; overlay + landscape holding) |
-| WebGL | 2026-09-29 (fresh platform frames reviewed; vision parity green) |
+| menus | 2026-10-01 (sheet level) |
+| HUD & overlays | 2026-10-01 (sheet level; V-1..V-10 holding, kit suspects 0/0) |
+| stage flow screens | 2026-10-01 (sheet level - WARNING/CONTINUE/CLEAR chips + titles re-checked on the flow sheet) |
+| all nine stages | 2026-10-01 (sheet level; embers visible on 7-9; V-13/V-19 holding) |
+| characters (movesheets, motion) | 2026-10-01 (grid carried - chains untouched by the UIR-19 hand-paint/skin change; V-16 pairs 3/3 fixed, V-17 cells 3/3 fixed on stamped composites; suspects 2/238, both known 1.3u residuals) |
+| phone | 2026-10-01 (sheet level; overlay + landscape holding) |
+| WebGL | 2026-10-01 (platform sheet reviewed; vision parity green) |
 
 ## Scoreboard (lowest applicable R1-R9, 1-5)
 
@@ -122,17 +122,17 @@ Findings are `V-n`, never renumbered. Status is one of `open`, `batched UIR-n` (
 - **V-15d - painted cells do not overlap at the elbow and the cuff (cell cut + mapping, J2/J3).** Elbow overlap (upper-arm paint past the elbow + forearm paint above it): guanyu -0.2u, huangzhong 0.1u, weiyan 0.8u (others 2.9-8.9u). Cuff to hand-back overlap: guanyu far -1.1u, zhangfei far -0.9u, huangzhong far -0.8u (a gap between cuff and hand). Cause: (1) BODY-19 wrist cut at `scripts/prepare-body-parts.mjs:740-752` cuts at a FIXED fraction of the master's elbow->palm span (0.58/0.75) instead of at the rig's hand joint, so on masters whose forearm is short relative to `BODY_PART_DEFS.naturalLen` the cuff stops short of the hand, and on long ones (lubu +2.0u) the painted fingers poke past it; (2) `src/game/art/body-parts.ts:140` maps every cell by `naturalLen`, but guanyu/huangzhong/weiyan upper-arm cells span only 8.8-9.0u of master arm (elbow landmarked high), so the painted sleeve ends ~4u before the elbow.
 - **V-15e - soft-shade halos outside the art (shading halo, J8).** The BODY-11/UIR-14 shade ovals (`draw.ts` :812-817, :843-848, :860-865, :870-875) paint their radial gradient and cel bands through the oval's own clip only, not the paint underneath, so a grey disc shows on the background beside the shoulder and forearm: 258-2225 px per move at 4x (200 of 221 standing cells >= 600 px). Visible as dark rings in `anatomy/zhangfei.png` attack/thrust/sweep and `anatomy/xiahoudun.png` walk0. Cause: `paintWithHead` :589-600 does not composite `source-atop`.
 
-### V-16 - Prone (down) far arm hangs below the body with a detached hand (S2, all 17, DEPTH) - fixed 2091362 (self-check)
+### V-16 - Prone (down) far arm hangs below the body with a detached hand (S2, all 17, DEPTH) - verified 2026-10-01
 - Every fighter's `down` window: the far forearm is invisible (it lies under the body/ground line) and the relaxed far hand sits alone under the chest; the near upper arm is mostly hidden by the beard or head. Far-chain holes: lubu 11.5u, guanyu 6.25u, zhaoyun 6.25u, spearman/huangzhong 5.25u. Crops: `cells/guanyu-down.png`, `cells/lubu-down.png`. Cause: `src/game/art/weapons.ts:191` solves the lying far arm with the pose-table hint, which picks the elbow branch BELOW the body (elbowF y 94-95 while the hip is at 82). Needs a pose decision (which way a prone far arm folds), so it is not part of the V-15 fix.
 
-### V-17 - Relaxed rear hand floats off the torso edge (S2, huangzhong/weiyan/zhangfei, DEPTH) - fixed 1220c27 (unverified)
+### V-17 - Relaxed rear hand floats off the torso edge (S2, huangzhong/weiyan/zhangfei, DEPTH) - verified 2026-10-01
 - In idle, walk, hurt and special the relaxed far hand hangs beside the hip with 0-15% of the far forearm visible (hidden by the torso): huangzhong 9 moves, weiyan 2, zhangfei 1. Crops: `cells/huangzhong-idle.png`, `cells/weiyan-hurt.png`. Cause: `src/game/art/armik.ts:366` `swungFreeTarget` (called from `weapons.ts:235`) places the free far hand outside the torso silhouette while the far arm is drawn behind it (`draw.ts:748-753`), so only the hand shows. The x-ray shows the rig chain is continuous; the paint is not.
 
 ### V-18 - Painted hands are flat mittens next to the painted sleeves (S2, cast-wide, ASSET) - UIR-19 BLOCKED after 3 attempts (12/17 J4 ok; owner scope call) (V-14 J4 residue)
 - The generated hand cells (`scripts/prepare-body-parts.mjs` `paintHandCell` :194) are flat skin shapes with bar fingers; beside the photographic sleeves they read as cream/pink mittens (every clean sheet; most visible on `anatomy/lubu.png`, `anatomy/caocao.png`). Needs new hand art, so it is not part of the V-15 renderer fix.
 
 
-### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - sky+ridge+ground verified 2026-09-29; embers fixed 790c2e5 (unverified)
+### V-19 - Every 2x-baked tileSprite layer displays only its texture's top half (S2, SYSTEM) - verified 2026-10-01 (all parts: sky UIR-9, ridge UIR-10, ground UIR-11, embers UIR-20)
 - UIR-8 proved it for the marks strip and fixed it there: a 512x128 texture on a 1064x64 tileSprite with tileScale 1 shows texture rows 0..64 only (tile rows 0..32) - hulls, water, decks and banner bottoms were cut game-wide. Evidence: artifacts/marks-only.png (marks isolated: sails + upper masts only), the live texture readback (512x128, 21640 opaque px over rows 36..127), GameScene.ts tileSprite setup. The sky, ridge, ground and ember layers use the identical bake pattern (clouds were never affected - they are scaled images, not tileSprites; the sky was fixed under UIR-9) (bakeLayer at RENDER_SCALE + tileScale 1) and are therefore cut the same way - the sky's sun (tile y176) and lower haze, and the bottom halves of the other layers, never display. Same fix shape as marks (tileScale 0.5), but it changes every screen's look, so it needs its own task with a full re-review (not folded into UIR-8).
 
 ## UIR batch 4 - FILED (2026-09-28; V-19 embers remainder, filed same pass)
