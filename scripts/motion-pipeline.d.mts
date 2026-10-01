@@ -88,6 +88,7 @@ export interface PackReport {
   pivot: unknown
   identity: Array<{ name: string; restoredSha256: string; pinned: boolean }>
   landmarks: unknown
+  suspects: string[]
   counts: {
     sourceCells: number
     displayedUniqueDrawings: number
@@ -133,7 +134,7 @@ export declare function fighterPaths(id: string, opts?: { sourceRoot?: string; o
 export declare function assertOwnOutput(id: string, path: string, opts?: { sourceRoot?: string; outputRoot?: string }): string
 export declare function alphaComponents(im: Pixels, alphaThreshold?: number): Array<{ area: number; x0: number; y0: number; x1: number; y1: number; pixels: number[] }>
 export declare function cleanAlpha(im: Pixels, cleanup?: CleanupSpec): { components: Array<{ area: number; x0: number; y0: number; x1: number; y1: number; pixels: number[] }>; removedGlowPx: number; removedSpeckPx: number }
-export declare function extractSequence(im: Pixels, fighter: FighterSpec, sequence: SequenceSpec): { frames: FrameHit[]; cleaned: ReturnType<typeof cleanAlpha> }
+export declare function extractSequence(im: Pixels, fighter: FighterSpec, sequence: SequenceSpec): { frames: FrameHit[]; cleaned: ReturnType<typeof cleanAlpha>; suspects: string[] }
 export declare function trimCell(frame: FrameHit): Trim
 export declare function pivotOf(trim: Trim, fighter: FighterSpec): Pivot
 export declare function restoreCellPixels(im: Pixels, frame: FrameHit, trim: Trim): Uint8ClampedArray

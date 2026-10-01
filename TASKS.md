@@ -73,20 +73,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06A - Wei Soldier: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1, 2026-10-01: tooling - image viewing
-  unreliable; 4 consecutive reads of the two identity masters served
-  provably wrong pixels (fingerprints: opaque 832x1248, 59-72% near-black
-  background; previews showed unrelated bright captures), so the mandatory
-  before-authoring inspection and the 4x sequence review cannot be done
-  honestly and a review is never invented. NO generation requested: soldier
-  budget untouched 0/8. Prepared groundwork (exact core-data manifest,
-  5-sheet/8-request budget plan, prompts skeleton) in
-  [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md). Needed: a
-  session where the image tool serves the requested file's pixels, or owner
-  inspection/verdicts on the identity masters and sheets. 2026-10-01 10:23
-  probe: the image tool is HEALTHY again (body master served correctly,
-  matching its recorded fingerprint) - CMR-06A is ready to be reset to TODO
-  by the owner)
+- Status: IN_PROGRESS (attempt 2, owner reset 2026-10-01: identity lock
+  DONE (both masters, fingerprint-verified reads -> IDENTITY.md); sheets 1-2
+  ACCEPTED (locomotion + swing, 9/9 cells each, grid-checked + verified
+  reviews -> PROVENANCE.md); budget 2/8 used; toolkit extraction policy
+  corrected (figures may straddle nominal grid lines; merges fail the count
+  check; bbox overlaps are review hints) with 23 unit tests green.
+  Remaining: sheets 3-5 (hitstun-held, fall-thrown, getup-death), the
+  per-sheet registration/fit step (uniform scale + recorded translations
+  into the canonical box, then trim), pack preparation + measurements
+  (head/weapon spread <=10%), offline continuity review. Attempt 1 was
+  tooling-BLOCKED - diagnosis + mandatory fingerprint-review protocol in
+  [AUTHORING-PLAN.md](art/motion/soldier/AUTHORING-PLAN.md))
 - Dependency: CMR-05 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06A](docs/motion-tasks/CMR-06A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable soldier identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

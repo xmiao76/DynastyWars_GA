@@ -22,49 +22,44 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
-### 2026-10-01 15:52 UTC - owner investigation (image failures) + CMR-05 harness fix
+### 2026-10-01 17:45 UTC - CMR-06A (attempt 2, IN_PROGRESS - identity lock + sheets 1-2 accepted)
 
-- Status before: queue owner-gated (CMR-06A BLOCKED); owner asked (a) the
-  root cause of the recorded image-viewing failure and (b) why review
-  artifacts look "almost dark".
-- (a) Verdict: a DSH harness image-ATTACHMENT ASSOCIATION bug - not the
-  model, not previous work. Evidence: the attachment store verifies 100%
-  (1,098/1,098 objects hash to their own keys); the request-image cache is
-  keyed by digest(attachmentId+target+transform) = collision-proof; the
-  masters are pristine (clean tree; BODY-4/BODY-12 commits); controlled
-  repro: reading `artifacts/tmpcheck/RED-A.png` (200x120 red panel)
-  returned EXACTLY correct metadata (sha 6d75963d..., "request preview
-  200x120px") while delivering an unrelated 896x576 session image, and
-  BLUE-B.png read correctly minutes later -> intermittent (~50%). The
-  delivered image's dimensions never matched the requested file - a vision
-  error cannot produce that; my descriptions faithfully reported the wrong
-  pixels delivered. Suspected seam: message assembly pairing image blocks
-  with per-attachment request versions (dsh-llm builds the handle text from
-  the ref, bytes from the version); failures began after session checkpoint
-  compaction. Repro artifacts kept at artifacts/tmpcheck/.
-- (b) Owner's dark artifacts = a REAL defect in my CMR-05 capture harness
-  (unrelated to (a)): every guanyu-webgl crop was 100% black (mean-lum 0.0
-  vs canvas ~125) because the spec drew `game.canvas` outside the render
-  frame - a WebGL drawing buffer is cleared there (preserveDrawingBuffer:
-  false); the canvas renderer hid the bug. Fixed: crops use
-  `game.renderer.snapshot()` (post-render readback), and the runner now
-  REJECTS blank/black crops as a capture-bug defect (new negative control).
-- Files changed: e2e/motion-capture.spec.ts, scripts/motion-capture.mjs,
-  docs/motion-tasks/{MOTION_CAPTURE.md,CMR-05.md} (correction recorded),
-  art/motion/soldier/AUTHORING-PLAN.md (diagnosis + mandatory
-  fingerprint-review protocol), PROGRESS.md.
-- Verification run: lint + `tsc --noEmit` clean; motion-review-core units
-  16/16; three live captures re-run (webgl x2 incl. pairs, canvas x1) with
-  0 blank-crop defects; brightness verified mechanically (webgl contact
-  sheet 105.0 mean-lum, was 3.6; webgl frames ~125, was 0.0; canvas
-  unchanged).
-- Result: both owner questions answered with repro; CMR-05 harness defect
-  fixed and guarded.
-- Status after: queue unchanged (CMR-06A still BLOCKED, owner reset).
-- Remaining work or blocker: CMR-06A awaits the owner reset (its tooling
-  blocker is understood; attempt 2 must use the fingerprint-review
-  protocol); DSH bug reportable upstream with the RED-A repro.
-- Next recommended task: owner reset of CMR-06A -> attempt 2.
+- Status before: owner reset CMR-06A to TODO ("reset CMR-06A to TODO then
+  continue"); attempt 1 was tooling-BLOCKED with full groundwork prepared.
+- Work completed: (1) IDENTITY LOCK - both masters inspected with the
+  mandatory fingerprint protocol (verified reads: body master = helmeted
+  light infantry, oxblood lamellar, rigid upright sword; portrait = riveted
+  domed helmet with finial, young face) -> art/motion/soldier/IDENTITY.md.
+  (2) Budget ledger enforced: 2/8 mook requests used (one slip recorded in
+  PROVENANCE.md: the swing reserve was applied retroactively). (3) Sheets
+  1-2 generated from the two masters as ordered references and ACCEPTED:
+  locomotion (idle/walk x4/stop/retreat x2/guard bookend) and swing
+  (guard/windup/startup/strike x2/recover x3/guard bookend), 9/9 figures in
+  9 cells each, mechanical grid checks + fingerprint-verified visual
+  reviews (identity, rigid sword, no forks/mittens/extra limbs, distinct
+  drawings, shared bookends) -> art/motion/soldier/PROVENANCE.md. (4) CMR-04
+  toolkit extraction policy corrected to accepted practice: whole figures
+  straddle nominal grid lines (preserved, assigned by centre), merges fail
+  the component-count check, sheet-edge cuts fail, bbox overlaps are
+  review hints (wide sweeps legitimately cross territory) - 3 new/updated
+  negative-control tests, 23 pipeline tests green.
+- Files changed: art/motion/soldier/{IDENTITY.md,PROVENANCE.md,locomotion-
+  candidate-1.png,swing-candidate-1.png,generation-budget.json},
+  scripts/motion-pipeline.{mjs,d.mts}, test/game/motion-pipeline.test.ts,
+  docs/motion-tasks/CMR-06A.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **805 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b arm-chain
+  pin, UIR-16 BLOCKED); motion-pipeline 23/23 incl. the new policy tests.
+- Result: attempt 2 on track; two candidates accepted within budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: sheets 3-5 (hitstun-held, fall-thrown,
+  getup-death; 6 requests left, 3 planned + 3 for repairs); the per-sheet
+  registration/fit step (uniform scale + recorded translations into the
+  canonical box, then trim within the box - the toolkit currently trims in
+  sheet-cell space and needs the accepted fit model); pack preparation +
+  head-size/weapon-length measurements (spread <=10%, unknowns unverified);
+  offline continuity review citing frame IDs; then acceptance checklist.
+- Next recommended task: continue CMR-06A (sheet 3 next tick).
 
 ### 2026-10-01 09:35 UTC - CMR-06A (attempt 1 - BLOCKED, image-viewing tooling)
 

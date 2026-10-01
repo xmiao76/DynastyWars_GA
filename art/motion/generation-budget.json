@@ -26,6 +26,15 @@
         "rider": 1
       },
       "note": "Grandfathered pre-CMR usage (7 regular-sequence requests + 7 action sequence sheets + 3 focused edits = 17, see art/motion/PROVENANCE.md and ACTION_PROVENANCE.md; walk's 3 sheets and fall's 2 predate the two-candidate rule). No new Guan Yu generation is authorized: cap 0."
+    },
+    "soldier": {
+      "role": "mook",
+      "cap": 8,
+      "used": 2,
+      "sheetCandidates": {
+        "locomotion": 1,
+        "swing": 1
+      }
     }
   }
 }

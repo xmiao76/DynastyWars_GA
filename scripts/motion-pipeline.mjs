@@ -166,21 +166,26 @@ export function extractSequence(im, fighter, sequence) {
     return { cx: Math.min(cx, cols - 1), cy: Math.min(cy, rows - 1) }
   }
 
-  // A component that escapes its cell rect is clipped or merges two grid
-  // figures: never crop across it - fail explicitly.
+  // Figures MAY straddle nominal grid lines - accepted packs preserve whole
+  // drawings across boundaries (boots dip past the nominal line; wide swings
+  // cross into neighbouring territory). What FAILS is a figure cut by the
+  // sheet edge or a merged drawing. Merges are caught by the component count
+  // (two figures fused = one component); overlapping bounds are only a
+  // SUSPECT hint for the reviewer, because a long blade legitimately
+  // overlaps a neighbour's bounds without touching it.
+  const suspects = []
   for (const c of comps) {
-    const { cx, cy } = cellOf(c)
-    const x0 = cx * cellW, y0 = cy * cellH
-    const crosses = c.x0 < x0 || c.y0 < y0 || c.x1 >= x0 + cellW || c.y1 >= y0 + cellH
     const touchesEdge = c.x0 <= 0 || c.y0 <= 0 || c.x1 >= im.width - 1 || c.y1 >= im.height - 1
-    if (crosses && touchesEdge) {
-      throw new Error(`${name}: clipped figure at cell ${cy * cols + cx} (touches sheet edge and escapes its cell)`)
-    }
-    if (crosses) {
-      throw new Error(`${name}: merged/clipped figure spanning cell ${cy * cols + cx} boundaries - refusing to crop across it`)
-    }
     if (touchesEdge) {
-      throw new Error(`${name}: clipped figure at cell ${cy * cols + cx} (touches the sheet edge)`)
+      throw new Error(`${name}: clipped figure (touches the sheet edge)`)
+    }
+  }
+  for (let i = 0; i < comps.length; i++) {
+    for (let j = i + 1; j < comps.length; j++) {
+      const a = comps[i], b = comps[j]
+      if (a.x0 <= b.x1 && a.x1 >= b.x0 && a.y0 <= b.y1 && a.y1 >= b.y0) {
+        suspects.push(`${name}: figures ${i}/${j} bounds overlap - review for merge`)
+      }
     }
   }
 
@@ -217,7 +222,7 @@ export function extractSequence(im, fighter, sequence) {
       content: { x: c.x0, y: c.y0, w: c.x1 - c.x0 + 1, h: c.y1 - c.y0 + 1 },
     })
   }
-  return { frames, cleaned }
+  return { frames, cleaned, suspects }
 }
 
 // ---------------------------------------------------------------------------
@@ -397,6 +402,7 @@ export function buildReport(fighter, frames, pages, extra = {}) {
     pivot: frames[0] ? { ...frames[0].pivot } : 'unverified',
     identity: frames.map((f) => ({ name: f.name, restoredSha256: f.restoredSha256, pinned: f.identityPinned === true })),
     landmarks: extra.landmarks ?? 'unverified',
+    suspects: extra.suspects ?? [],
     counts: {
       sourceCells: extra.sourceCells ?? frames.length,
       displayedUniqueDrawings: extra.displayedUniqueDrawings ?? frames.length,
@@ -454,10 +460,12 @@ export function preparePack(fighter, sheets) {
   let duplicateCount = 0
   let unused = 0
   const seenContent = new Set()
+  const suspects = []
   for (const seq of sequences) {
     const im = sheets[seq.name]
     if (!im) throw new Error(`${fighter.id}: missing sheet for sequence ${seq.name}`)
     const extracted = extractSequence(im, fighter, seq)
+    suspects.push(...extracted.suspects)
     sourceCells += seq.rows * seq.cols
     unused += seq.rows * seq.cols - seq.count
     for (const frame of extracted.frames) {
@@ -498,6 +506,7 @@ export function preparePack(fighter, sheets) {
     displayedUniqueDrawings: seenContent.size,
     duplicateSourceCells: duplicateCount,
     unusedSourceCells: unused,
+    suspects,
     budgets: budget,
   })
   return {

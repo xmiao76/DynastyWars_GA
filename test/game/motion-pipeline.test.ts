@@ -10,6 +10,7 @@ import {
   assertOwnOutput,
   buildReport,
   cleanAlpha,
+  extractSequence,
   fighterPaths,
   preparePack,
   restoredHash,
@@ -259,13 +260,33 @@ describe('negative controls fail explicitly', () => {
     })).toThrow(/extra frames: walk expected 2, found 3/)
   })
 
-  it('merged figures are never cropped across', () => {
+  it('merged figures fail the count check and are never cropped across', () => {
     // Two figures drawn touching across a cell boundary read as one
-    // component that escapes its cell: explicit refusal, not a crop.
+    // component: the count check fails explicitly instead of cropping.
     const im = sheetOf(2, 1, 48, [{ at: 0, size: 20 }, { at: 1, size: 20 }])
     fillRect(im, 30, 22, 34, 6, [180, 60, 40, 255]) // bridge figure 0 to figure 1
     expect(() => preparePack(fighter('neg-merged', 'mook', [{ name: 'walk', count: 2, rows: 1, cols: 2 }]), { walk: im }))
-      .toThrow(/merged\/clipped figure spanning cell/)
+      .toThrow(/missing frames: walk expected 2, found 1 \(merged or absent drawings\)/)
+  })
+
+  it('figures may straddle nominal cell lines (accepted pack practice)', () => {
+    // Boots dip past the nominal grid line: whole drawings are preserved
+    // and assigned by centre, never cropped (extraction level).
+    const im = sheetOf(2, 1, 48, [{ at: 0, size: 28, dx: 14 }, { at: 1, size: 28 }])
+    const r = extractSequence(im, fighter('neg-straddle', 'mook', []), { name: 'walk', count: 2, rows: 1, cols: 2 })
+    expect(r.frames.map((f) => f.cellIndex)).toEqual([0, 1])
+  })
+
+  it('overlapping figure bounds are a review hint, not an automatic failure', () => {
+    // A long blade legitimately crosses into a neighbour's territory: the
+    // bounds overlap while the drawings stay separate (ring vs inner square).
+    const im = blank(200, 100)
+    fillRect(im, 20, 10, 120, 80, [180, 60, 40, 255]) // ring outer
+    fillRect(im, 26, 16, 108, 68, [0, 0, 0, 0]) // ring hole
+    fillRect(im, 105, 30, 20, 20, [60, 120, 200, 255]) // separate figure inside the hole
+    const r = extractSequence(im, fighter('neg-hint', 'mook', []), { name: 'walk', count: 2, rows: 1, cols: 2 })
+    expect(r.frames).toHaveLength(2)
+    expect(r.suspects.join(' ')).toContain('bounds overlap - review for merge')
   })
 
   it('clipped figures at the sheet edge', () => {

@@ -1,6 +1,6 @@
 # CMR-06A — Wei Soldier: author and prepare complete whole-character pack
 
-- Queue status: BLOCKED (attempt 1, 2026-10-01 - image-viewing tooling unreliable: 4 fingerprint-proven wrong-pixel previews of the identity masters, so the mandatory visual inspection/review cannot be performed honestly; no generation requested, budget untouched 0/8). Groundwork prepared in [AUTHORING-PLAN.md](../../art/motion/soldier/AUTHORING-PLAN.md). Live status is authoritative in [TASKS.md](../../TASKS.md).
+- Queue status: attempt 2 IN_PROGRESS (owner reset 2026-10-01; attempt 1 was tooling-BLOCKED on the diagnosed DSH image-association bug - see [AUTHORING-PLAN.md](../../art/motion/soldier/AUTHORING-PLAN.md)). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-05 DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-06B](CMR-06B.md) is the separate runtime/capture task.
 
