@@ -22,6 +22,46 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 06:20 UTC - CMR-03 (attempt 1, atlas catalog/cache core - IN_PROGRESS)
+
+- Status before: CMR-03 TODO (dependency CMR-02 DONE, satisfied).
+- Work completed: new presentation-only module
+  src/game/adapters/motion-catalog.ts (loader-injected, Phaser-free
+  core): PackManifest + validateManifest (page limit 2048, per-
+  fighter 16 MiB decoded, retained 128 MiB, stage 12 MiB caps as
+  CONTRACT_CAPS - ceilings never raised) and MotionAtlasCache with
+  ATOMIC per-fighter publication (any page failure rejects the whole
+  fighter, sibling art survives), duplicate-request dedup onto one
+  in-flight load, scope epochs with stale-callback rejection on
+  cancelScope (scope-scoped: cancelling sceneA leaves sceneB alone),
+  refcounted LRU eviction that never touches in-use packs, and a
+  budget report separating source/decoded/cloned-canvas bytes with
+  the legacy-fallback cost kept visible. TDD: test/game/motion-
+  catalog.test.ts (9 tests) incl. negative controls for missing/
+  corrupt/wrong-signature/timeout/unsupported; the 2048 rule
+  DETECTS the pinned Guan Yu reference's current 3456px page (known
+  violation recorded in BASELINE.md) until the repack lands. Two
+  real defects surfaced by the tests and fixed: failed loads left
+  state 'loading' (must settle 'failed'), and an LRU expectation
+  error in the test itself (acquire bumps recency).
+- Files changed: src/game/adapters/motion-catalog.ts (new), test/
+  game/motion-catalog.test.ts (new), TASKS.md, PROGRESS.md. No core,
+  gameplay or artwork changes.
+- Verification run: tsc 0; lint 0; full unit 734 passed | 1 failed
+  (G6-only, the UIR-16 BLOCKED pin) | 6 skipped; signal 13/0.
+- Result: attempt-1 slice (acceptance 3 + most of 4) verified; the
+  task is NOT DONE - remaining acceptance items need the loader
+  wiring, the Guan Yu repack and browser cases.
+- Status after: CMR-03 IN_PROGRESS (attempt 1 of 3 budget).
+- Remaining work: (1) stage-aware loading/prefetch + default-2P
+  readiness + co-op join with bounded failure-to-legacy (items 2, 5);
+  (2) Guan Yu repack to <=2048 pages with displayed RGBA/scale/
+  pivot/exposure proof + trim/pivot display restoration (items 3, 5);
+  (3) opt-in flag/request behavior tested against dist and
+  Canvas/WebGL + loader/stage/co-op/restart browser cases (item 6);
+  (4) budgets re-measured on the repacked pages (item 1).
+- Next recommended task: CMR-03 attempt 2 (loader wiring + repack).
+
 ### 2026-10-01 05:10 UTC - CMR-02 (attempt 1, per-kind motion profiles - DONE)
 
 - Status before: CMR-02 TODO (dependency CMR-01 DONE, satisfied).
@@ -66,7 +106,6 @@ history slowly crowds out the work it is supposed to support.
   the loader/playback is CMR-03/04 territory per the specs.
 - Next recommended task: CMR-03 (stage-aware bounded atlas loading).
 
-
 ### 2026-10-01 03:50 UTC - CMR-01 (attempt 1, reference/inventory/budgets - DONE)
 
 - Status before: CMR-01 TODO (first task of the owner's whole-cast
@@ -105,67 +144,6 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker: none for CMR-01. Queue continues with
   CMR-02 (dependency: CMR-01 DONE, satisfied).
 - Next recommended task: CMR-02 (generic per-kind motion profiles).
-
-
-### 2026-10-01 02:55 UTC - PRODUCER (count-triggered verification pass - COMPLETED)
-
-- Status before: 13 src/game commits since ff03538 (review due);
-  V-16 (self-check), V-17 + V-19-embers (unverified) awaiting
-  verification; queue otherwise owner-gated.
-- Work completed: full producer pass. (1) Signals green (logic 0,
-  vision 0) + fresh capture exit 0. (2) Verified on fresh pixels:
-  V-16 3/3 down pairs fixed (cuff/forearm leads into the hands; the
-  pinned V-16 baseline pair sheets show the old detached state) +
-  G5-down green; V-17 3/3 cells fixed (cuff-to-hand connected,
-  huangzhong-idle/weiyan-hurt/zhangfei-hurt on stamped composites) +
-  G7 green + V-17 notes all >= 27% (4 informational lines, none
-  under the gate); V-19-embers pin + toggle-diff measure reproduce
-  (3403 -> 4412 px) + stage frames show discrete sparks. (3) Grid
-  carried: the UIR-19 hand-paint/skin change is J4-level only (chain
-  geometry untouched); suspects 2/238 (guanyu:thrust, zhangfei:attack
-  - both known 1.3u sub-gate residuals). (4) All three contact sheets
-  reviewed clean (flow: WARNING/CONTINUE/CLEAR chips + titles hold;
-  stages: 9 palettes + embers on 7-9; platform: portrait overlay,
-  landscape controls, WebGL matches canvas).
-- Files changed: PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-16/V-17/
-  V-19 verified; coverage; baseline -> 4bce5d8).
-- Verification run: signal 0/0; capture 0; arm-chain 14/15 (G6 only,
-  the UIR-16 BLOCKED pin); emberscale 2/2; tsc 0; unit 711 (G6).
-- Result: all pending fixes verified; no new work (queue owner-
-  gated: UIR-16/UIR-19 BLOCKED, BODY-7/ENH-12 owner).
-- Status after: producer records updated; IDLE for consumers until
-  the owner unblocks.
-- Remaining work or blocker: the two BLOCKED scope calls (UIR-16
-  options a-d; UIR-19 options a-d) + BODY-7/ENH-12 owner items.
-- Next recommended task: none unblocked.
-
-### 2026-10-01 02:20 UTC - UIR-20 (attempt 1, ember tileScale - DONE)
-
-- Status before: UIR-20 TODO (V-19 remainder: the embers tileSprite
-  showed only the sheet's top half).
-- Work completed: embers.setTileScale(0.5, 0.5) (GameScene, one line;
-  drift + additive blend untouched). TDD: e2e/emberscale.spec.ts
-  pinned failing first (tileScaleY 1), green after (0.5) + an
-  acceptance measure on a frozen-sim frame (toggle-diff of the ember
-  layer at tileScale 1 vs 0.5): 3403 -> 4412 px (1.30x, +1009 px).
-  Honest note: the "~2x" acceptance estimate assumed count
-  proportional to sparks; the pre-fix top half rendered its sparks 2x
-  TALL (fewer, larger), so the area ratio understates the fix - all
-  36 sparks + 8 puffs now show at true aspect. Also fixed 2 tsc
-  strictness defects the pin introduced (index access) and verified
-  tsc 0 (the earlier ticks ran vitest-only; standalone tsc is what
-  caught them).
-- Files changed: src/game/scenes/GameScene.ts, e2e/emberscale.spec.ts
-  (new), TASKS.md, PROGRESS.md, docs/UI_REVIEW_LEDGER.md (V-19 embers
-  fixed (unverified)).
-- Verification run: tsc 0; lint 0; unit 711 passed (G6-only failure,
-  the UIR-16 BLOCKED pin); emberscale 2/2; review capture exit 0;
-  browser gates browser gates all green: e2e 83/0 (incl. emberscale 2/2), vision 5/5, selfplay 13/13, build 0, prodbuild 6/6.
-- Result: UIR-20 acceptance met (with the documented count physics).
-- Status after: UIR-20 DONE.
-- Remaining work or blocker: UIR-16 and UIR-19 BLOCKED (owner scope
-  calls); BODY-7/ENH-12 owner-gated.
-- Next recommended task: none unblocked - queue is owner-gated.
 
 ### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
 
@@ -207,14 +185,6 @@ history slowly crowds out the work it is supposed to support.
   UIR-16 (still pending); UIR-20 TODO (unblocked, S-size).
 - Next recommended task: UIR-20 (embers tileScale) - the last
   unblocked TODO.
-
-### 2026-09-30 - CMR rollout planning handoff (owner-approved, no implementation)
-
-- Owner accepts Guan Yu enhancements and requests all-character implementation only by loop threads. Approved prioritizing rollout over older active work and retaining opt-in until separate owner normal-play approval.
-- Published docs/CAST_MOTION_ROLLOUT.md and 40 bounded specs under docs/motion-tasks:5foundations,16fighterA/Bpairs,horse,pairedintegration,finalcastreview. Sequential dependencies, exact per-role action/timing requirements, resource budgets,200request cap, producer verification and no runtime/source implementation here.
-- Queued CMR-01 first; GYM-1/BODY-7/ENH-12/UIR-19 owner-deferred asBLOCKED with attempts/evidence preserved. UIR-16 remains blocked,UIR-20 later. Existing loop policies/runner/config/schedules untouched; due producer review still precedes consumers.
-- Planning verification passed:40spec/queueIDs, linear dependencies,263localdoclinks,16fighterpairs and200requestcap; zero remaining IN_PROGRESS legacy entries; diff whitespace clean and files restricted to planning docs/queue/progress. No gamechecks claimed for unchanged source. Local planning commit only; no generation,consumer/subagent/runnerlaunch,source/tests/assets edits,push/deploy.
-- Next action: existingloopthread reads .loop/continue.md; perform due producer review then CMR-01. Main thread stops after handoff,not implementation.
 
 ### 2026-09-30 - GYM-1 review-first handoff (IN_PROGRESS acceptance)
 
@@ -350,67 +320,6 @@ history slowly crowds out the work it is supposed to support.
   (3) complete the J4 re-review on all 17 sheets (the 8 unverified
   included) with a more reliable image path.
 - Next recommended task: UIR-19 attempt 2 (same task).
-
-### 2026-09-29 06:30 UTC - UIR-18 (attempt 1, wrist bridge - DONE)
-
-- Status before: UIR-18 TODO (V-17: relaxed far hand floats at the
-  hip with 0-15% of its forearm visible - hand reads detached).
-- Work completed: wrist-bridge disc in draw.ts - the foreArmF cuff
-  cell repaints over the torso edge at the wrist (hand pulled 3u
-  toward the elbow, r=4.5u), only for relaxed far hands (gripping
-  forearms already cross in front of the torso; prone excluded).
-  TDD: G7 gate + negative control in arm-chain.test.ts (foreArmF
-  >= 25% whenever relaxF paints, non-gripping standing rows); pinned
-  failing first on 18 rows via git-stash of draw.ts (weiyan:special
-  14%, lubu:hurt 13%, huangzhong:sweep 17%), green after. Fresh
-  capture's rendered-pixel notes confirm all 84 relaxF rows >= 27%
-  (4 informational 27-30% notes remain; 0 under the gate).
-- Display caveat: the session's image previews crossed several
-  crops (documented bug); the verdict rests on the rendered-pixel
-  detector (G7 + suspects.json notes, both from the same render) and
-  the captioned crops that matched.
-- Files changed: src/game/art/draw.ts, test/game/arm-chain.test.ts
-  (G7 + control + header), TASKS.md, TASKS-ARCHIVE.md (2 oldest DONE
-  moved: bound was 22 > 20), PROGRESS.md, docs/UI_REVIEW_LEDGER.md
-  (V-17 fixed (unverified)).
-- Verification run: lint 0; tsc 0; unit 674/676 (only the pre-existing
-  UIR-16 G6 pin fails, as intended); review capture exit 0; browser
-  gates: E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13), BUILD=0,
-  PRODBUILD=0 (4/4).
-- Result: UIR-18 acceptance met.
-- Status after: UIR-18 DONE.
-- Remaining work or blocker: BODY-7 acceptance (owner); UIR-16
-  BLOCKED (owner scope call); UIR-19/20 TODO.
-- Next recommended task: UIR-19 (cast-wide hand art, L).
-
-### 2026-09-29 03:40 UTC - UIR-17 (attempt 1, prone far arm - DONE)
-
-- Status before: UIR-17 TODO (V-16: prone far forearm vanishes
-  under the ground line, relaxed hand floats alone, runF to 11.5u).
-- Work completed: mirrored the lying far-elbow hint across the
-  shoulder->hand line in weapons.ts (same reflection as the strike
-  hint): the elbow folds up onto the torso (y~76 vs hip 82) and the
-  forearm runs down to the untouched hand target - the prone far arm
-  lies across the body. Chose "across the chest" over hiding (the
-  hand target is reachable and reads naturally there). TDD: G5
-  extended to the down far chain, pinned failing first (12 downs),
-  green after. Also did the overdue bounding: TASKS 36->20 DONE,
-  PROGRESS 1548->446 lines (archives appended, unfinished kept).
-- Files changed: src/game/art/weapons.ts, test/game/arm-chain.test
-  .ts (G5 down far chain), TASKS.md, TASKS-ARCHIVE.md, PROGRESS.md,
-  PROGRESS-ARCHIVE.md, docs/UI_REVIEW_LEDGER.md (V-16 fixed
-  self-check).
-- Verification run: lint 0; tsc 0; unit 672/673 (only G6 fails -
-  the UIR-16 BLOCKED pin); review capture after; browser gates:
-  E2E=0 (82), VISION=0 (5/5), SELFPLAY=0 (13/13 on re-run; first
-  run 12 with one migrating boot-timeout flake, art change cannot
-  affect the sim), BUILD=0, PRODBUILD=0 (4/4). Re-review: 3 down
-  cells connected with no suspects; 3 contact sheets clean.
-- Result: UIR-17 acceptance met.
-- Status after: UIR-17 DONE.
-- Remaining work or blocker: BODY-7 acceptance (owner); UIR-16
-  BLOCKED (owner scope call); UIR-18..20 TODO.
-- Next recommended task: UIR-18 (relaxed rear hand).
 
 ### 2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)
 

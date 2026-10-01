@@ -32,7 +32,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-03 - Stage-aware bounded atlas loading/cache
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1, 2026-10-01: catalog/cache core done -
+  atomic publication, dedup, cancellation/stale rejection, refcounted
+  eviction, separated budgets with negative controls; remaining: stage-
+  aware loader wiring/prefetch, Guan Yu <=2048 repack with RGBA/pivot/
+  exposure proof, trim/pivot display, co-op join, opt-in dist/browser
+  cases)
 - Dependency: CMR-02 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-03](docs/motion-tasks/CMR-03.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Atomic per-fighter verification, stage/co-op/prefetch/eviction; shared atlas frames; 2048 pages,16MiB/fighter,128MiBcache,12MiB stage-entry ceilings.
