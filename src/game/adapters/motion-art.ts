@@ -85,7 +85,7 @@ const GUANYU_PAGES: PackPage[] = [
 
 /** Wei Soldier single atlas page (CMR-06B; scripts/emit-soldier-runtime.mjs). */
 const SOLDIER_PAGES: PackPage[] = [
-  { name: 'sheet', sourceKey: motionTextureKeys('soldier').sheet, bytes: 2006693, sha256: '28e8aaf2c4eb45d5994deaaa958c931b76cf3aee7c3bb2d6a8cce9371c32c167', width: 2003, height: 1369 },
+  { name: 'sheet', sourceKey: motionTextureKeys('soldier').sheet, bytes: 1786372, sha256: '55f3300dcb8acfcf602d08dd57d63d8d048c45b7beb5e96dbb4aa2cf369fd2f1', width: 1984, height: 1142 },
 ]
 
 export const MOTION_PACKS: Record<string, MotionPackDef> = {

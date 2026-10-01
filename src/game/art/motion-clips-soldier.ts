@@ -63,7 +63,10 @@ export function motionFrameForSoldier(art: MotionArt, entity: MotionEntity): str
     case 'idle': return IDLE
     case 'walk': return sampleClip(art, 'walk', t)
     case 'fleeing': return sampleClip(art, 'flee', t)
-    case 'attack': return sampleClip(art, 'swing', t)
+    case 'attack': {
+      const bound = entity.attackId ? art.attackBindings?.[entity.attackId] : undefined
+      return bound && art.clips[bound] ? sampleClip(art, bound, t) : IDLE
+    }
     case 'hitstun': return sampleClip(art, 'hurt', t)
     case 'knockdown': return sampleClip(art, 'fall', t)
     case 'getup': return sampleClip(art, 'getup', t)
@@ -103,8 +106,11 @@ export function validSoldierPack(meta: SoldierPackGeometry): boolean {
       if (sw !== width * meta.density || sh !== height * meta.density) return false
       if (c.x + c.w > meta.sheet.width || c.y + c.h > meta.sheet.height) return false
       if ((c.trimX ?? 0) < 0 || (c.trimY ?? 0) < 0 || (c.trimX ?? 0) + c.w > sw || (c.trimY ?? 0) + c.h > sh) return false
-      if (rects.some((b) => c.x < b.x + b.w && c.x + c.w > b.x && c.y < b.y + b.h && c.y + c.h > b.y)) return false
-      rects.push({ x: c.x, y: c.y, w: c.w, h: c.h })
+      // Aliased bookends share their target's atlas rect (byte-identical
+      // drawings); anything else overlapping is a packing defect.
+      const shared = (b: { x: number; y: number; w: number; h: number }) => b.x === c.x && b.y === c.y && b.w === c.w && b.h === c.h
+      if (rects.some((b) => !shared(b) && c.x < b.x + b.w && c.x + c.w > b.x && c.y < b.y + b.h && c.y + c.h > b.y)) return false
+      if (!rects.some(shared)) rects.push({ x: c.x, y: c.y, w: c.w, h: c.h })
     }
   }
   return true

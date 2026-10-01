@@ -549,8 +549,8 @@ export function preparePack(fighter, sheets) {
         if (!target) throw new Error(`${seq.name}: alias target ${targetName} not built`)
         if (seenContent.has(target.contentSha256)) duplicateCount++
         seenContent.add(target.contentSha256)
-        builtByName.set(name, { ...target, name, position: frame.position, cellIndex: frame.cellIndex })
-        frames.push({ ...target, name, position: frame.position, cellIndex: frame.cellIndex })
+        builtByName.set(name, { ...target, name, position: frame.position, cellIndex: frame.cellIndex, aliasOf: targetName })
+        frames.push({ ...target, name, position: frame.position, cellIndex: frame.cellIndex, aliasOf: targetName })
         aliasedCells++
         continue
       }
@@ -573,7 +573,9 @@ export function preparePack(fighter, sheets) {
       frames.push(built)
     }
   }
-  const packed = packFrames(frames.map((frame) => ({ frame, trim: frame.trim, source: frame.source })), { pagePrefix: `${fighter.id}-` })
+  // Aliased bookends share their target's atlas rect: one copy of the
+  // drawing on the page, byte-identical bookends by construction.
+  const packed = packFrames(frames.filter((frame) => !frame.aliasOf).map((frame) => ({ frame, trim: frame.trim, source: frame.source })), { pagePrefix: `${fighter.id}-` })
   const budget = validateBudget(fighter, frames, packed)
   if (budget.errors.length > 0) throw new Error(`budget: ${budget.errors.join('; ')}`)
   const packedByName = new Map()
@@ -592,7 +594,7 @@ export function preparePack(fighter, sheets) {
       pivot: f.pivot,
       restoredSha256: f.restoredSha256,
       contentSha256: f.contentSha256,
-      ...packedByName.get(f.name),
+      ...packedByName.get(f.aliasOf ?? f.name),
     })),
     pages: packed.map((p) => ({ name: p.name, width: p.width, height: p.height })),
   }

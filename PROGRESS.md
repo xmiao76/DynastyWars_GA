@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-01 23:04 UTC - CMR-06B (attempt 1, IN_PROGRESS - every state/attack/clock bound and exercised)
+
+- Status before: CMR-06B bounded work 1 done (5c2f75f).
+- Work completed: bounded work 2 - `test/game/motion-soldier.test.ts`
+  (12 tests) binds and exercises every real soldier state/attack/clock:
+  pack validation + negative controls (missing frame/wrong cell/genuine
+  overlap/wrong id/density), shared guard/down bookends byte-identical,
+  clip timings from core data (swing = the real 14/4/20 window with the
+  visible strike on EVERY active tick 14..17, hitstun 18, knockdown/getup/
+  dying from constants), dispatch at key ticks for all 11 states
+  (idle/walk/fleeing/attack/hitstun/knockdown/getup/grab/grabbed/thrown/
+  dying/dead), clamps, and "every dispatched frame exists in the pack".
+- The suite caught TWO real bugs (both fixed): (1) the soldier dispatcher
+  hard-coded the swing clip for ANY attack id - an unknown attack showed a
+  strike instead of the defensive guard; (2) aliased bookends occupied
+  DUPLICATE atlas rects (pixel-identical but wasteful and drift-prone at
+  the rect level) - the packer now shares one rect per drawing (page
+  shrank 2003x1369 -> 1984x1142, 1,786,372 B, sha 55f3300d; validator
+  allows shared rects and still rejects genuine overlaps).
+- Files changed: src/game/art/motion-clips-soldier.ts,
+  scripts/motion-pipeline.mjs, src/game/assets/motion/soldier-prepared.json,
+  src/game/assets/motion/soldier-motion-sheet.png,
+  src/game/adapters/motion-art.ts, test/game/{motion-soldier.test.ts,
+  motion-runtime.test.ts}, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; motion suites 52/52
+  (soldier+runtime+pipeline); full unit
+  **821 passed | 1 failed (known G6 V-15b pin) | 6 skipped**.
+- Result: the pack is registered AND every bound state/tick is verified
+  against core timing at the unit level.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: bounded work 3-5 - browser tick/edge exercise
+  (pause/hit-stop, skipped render, interruptions, low fall/getup/KO,
+  restart, co-op/AI), captures of baseline vs new art in game (both
+  facings, Canvas/WebGL/mobile) through the CMR-05 motion-aware path, the
+  full-sequence review, and the producer handoff. No blocker.
+- Next recommended task: continue CMR-06B (browser exercise + captures).
+
 ### 2026-10-01 22:53 UTC - CMR-06B (attempt 1, IN_PROGRESS - pack registered in runtime; toolkit blank-page bug found + fixed)
 
 - Status before: CMR-06A DONE (d21181d); CMR-06B TODO.

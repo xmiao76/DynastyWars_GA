@@ -95,20 +95,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06B - Wei Soldier: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1, started 2026-10-01 21:5x; progress 22:4x:
-  bounded work 1 DONE - the complete prepared pack is registered behind
-  `?motion=1` through the CMR-02/03 catalog: soldier-prepared.json +
-  single atlas page asset (2,006,693 B, sha 28e8aaf2, 2003x1369),
-  MOTION_PACKS.soldier with per-fighter atomic fallback and stage
-  prefetch (only catalogued packs request; packless kinds unsupported),
-  soldier clip table (core-data timings: swing 14/4/20, hitstun 18,
-  knockdown/getup/dying from constants) + state dispatch + 5x9 pack
-  validator; MotionArt gained general attackBindings (guanyu unchanged).
-  FOUND+FIXED a toolkit bug during integration: the pack page blit copied
-  box-space coords and produced BLANK atlas pages (guanyu unaffected - it
-  packs via a different tool); fixed + regression test; the soldier page
-  now carries real pixels (27.3% opaque). Motion suites 57/57; full unit
-  809|1 known G6|6. Remaining: tick/state exercise + captures (work 3-5).)
+- Status: IN_PROGRESS (attempt 1; bounded work 1-2 DONE 23:04: pack
+  registered behind `?motion=1` (catalog/clips/validator, single atlas page
+  1,786,372 B sha 55f3300d 1984x1142 after shared-rect bookends) AND every
+  state/attack/clock bound + exercised by test/game/motion-soldier.test.ts
+  (12 tests: pack validation + negative controls, shared guard/down
+  bookends byte-identical via shared atlas rects, core-data clip timings
+  (swing 14/4/20, hitstun 18), dispatch at key ticks for all 11 states,
+  visible strike on every active tick, clamps, unknown-attack fallback to
+  guard, every dispatched frame exists in the pack). Toolkit fix: aliased
+  bookends now share their target's atlas rect (page shrinks, bookends
+  cannot drift). Motion suites 52/52; full unit 821|1 known G6|6.
+  Remaining: work 3-5 - tick/edge exercise in browser, captures both
+  facings/Canvas/WebGL/mobile via the CMR-05 path, full-sequence review,
+  producer handoff.)
 - Dependency: CMR-06A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06B](docs/motion-tasks/CMR-06B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic soldier pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

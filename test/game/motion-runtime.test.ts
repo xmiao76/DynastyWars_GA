@@ -171,10 +171,10 @@ describe('stage-scoped motion runtime', () => {
     }
     // Budgets, kept separate and never raised.
     const rep = rt.budget()
-    expect(rep.networkBytes).toBe(4_328_499 + 2_006_693)
-    expect(rep.sourceBytes).toBe(4_328_499 + 2_006_693)
+    expect(rep.networkBytes).toBe(4_328_499 + 1_786_372)
+    expect(rep.sourceBytes).toBe(4_328_499 + 1_786_372)
     expect(rep.perFighterDecoded['guanyu']).toBe(1935 * 903 * 4 + 2027 * 1055 * 4)
-    expect(rep.perFighterDecoded['soldier']).toBe(2003 * 1369 * 4)
+    expect(rep.perFighterDecoded['soldier']).toBe(1984 * 1142 * 4)
     expect(rep.perFighterDecoded['guanyu']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
     expect(rep.perFighterDecoded['soldier']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
     expect(rep.gpuBytes, 'one GPU upload per page, no display clones').toBe(rep.perFighterDecoded['guanyu']! + rep.perFighterDecoded['soldier']!)
