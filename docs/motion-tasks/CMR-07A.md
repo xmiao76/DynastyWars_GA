@@ -1,6 +1,6 @@
 # CMR-07A — Wei Spearman: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: attempt 1 IN_PROGRESS (started 2026-10-02; identity lock done, authoring plan written; no generation requested yet). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-06B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-07B](CMR-07B.md) is the separate runtime/capture task.
 

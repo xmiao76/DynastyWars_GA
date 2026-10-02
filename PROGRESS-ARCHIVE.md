@@ -8325,3 +8325,564 @@ lines. Never read during an iteration; consult only for deep history.
   blocker is understood; attempt 2 must use the fingerprint-review
   protocol); DSH bug reportable upstream with the RED-A repro.
 - Next recommended task: owner reset of CMR-06A -> attempt 2.
+
+
+### 2026-10-02 01:14 UTC - CMR-06B -> DONE (attempt 1, verified - review complete, full gate battery green)
+
+- Status before: CMR-06B IN_PROGRESS (capture matrix complete, review pending).
+- Work completed: the full-sequence review + DONE gates. (1) Reviewed the
+  canvas + webgl contact sheets (20 cells each, parity confirmed) and 8
+  enlarged crops (idle/swing/walk/knockdown/thrown/dead/hurt/getup), every
+  preview fingerprint-verified. (2) Resolved the walk-segment legacy scare
+  decisively: added `texKey` to the trace - all 76 rows use
+  `motion-source:soldier`; the "green figure" was the motion soldier's own
+  olive trousers plus a player bystander at thumbnail scale (full-size
+  crops show painted art). (3) Confirmed dead renders at alpha 0 BY DESIGN
+  (GameScene defeat-fade rule) and the hitstun tint + i-frame blink apply
+  correctly to motion sprites. (4) Wrote docs/SOLDIER_ACTION_REVIEW.md
+  (per-action findings, pace/video limitations, producer handoff).
+  (5) Fixed prodbuild's motion pilot spec for the two-pack catalog (3 page
+  downloads, both packs published in dist) - it failed before the update.
+- Verification run: lint + tsc clean; unit 822 passed / 1 failed (known
+  G6) / 6 skipped; captures self-check green both renderers; vision 5/5;
+  prodbuild 8/8; signal 13/13 zero page-errors/violations. (One unit flake
+  under load during a contended run; clean on re-run and on the final
+  uncontended confirmation.)
+- Result: **CMR-06B acceptance 8/8 - task DONE.** Soldier motion is
+  registered, bound, exercised, captured, reviewed and fully gated.
+- Status after: CMR-06B DONE (attempt 1).
+- Remaining work or blocker: none for CMR-06B. CMR-07A (spearman authoring)
+  is unblocked and is the next queue task; the producer verifies
+  independently on fresh captures per bounded work 6.
+- Next recommended task: CMR-07A.
+
+### 2026-10-02 00:04 UTC - CMR-06B (attempt 1, IN_PROGRESS - capture matrix complete on the fixed harness)
+
+- Status before: first soldier capture validated on canvas (bd4c09e).
+- Work completed: the full capture matrix (canvas pair + webgl pair) plus a
+  REAL harness flaw found and fixed in review: the first harness made the
+  capture subject hero-side (to survive the sim's dead-entity cleanup), but
+  hero-side entities are player-controlled - the sim reset stateTick every
+  tick and the enemy AI never drove them (the trace proved it: every row
+  tick 0, walk stayed idle). Fixed: the subject is a real ENEMY-side
+  combatant with respawn-on-demand from stored spawn/fields (the sim
+  removes dead enemies between ticks; the dead/dying shots respawn
+  instantly). Trace evidence after the fix (both renderers): stateTick
+  progresses (tick 2 samples show swing:1 windup), the AI drives the walk
+  (walk -> tick 28 -> locomotion:4), thrown->knockdown transitions record
+  as real game behaviour, dead/dying shots capture via the respawn guard.
+- Captures: soldier-canvas + soldier-webgl, 2 runs each (pairs/ built from
+  the rotated previous/ runs), 0 near-black crops on both renderers
+  (blank-crop guard active), all four runs self-check green (exit 0).
+  Artifacts in artifacts/motion-review/{soldier-canvas,soldier-webgl}/
+  (trace, index, report, frames, pairs, contact sheets, video).
+- Files changed: e2e/motion-capture.spec.ts, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean (4 strict-null fixes);
+  capture self-checks green; webgl/canvas traces agree on key rows.
+- Result: actual in-game motion evidence for every applicable soldier
+  action, both facings, both renderers, with gameplay (AI) and injected
+  provenance separated.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: the full-sequence review (contact sheets at
+  game size and enlarged - foot planting, weapon trajectories, size pops,
+  after-frame details) and the producer handoff. No blocker.
+- Next recommended task: continue CMR-06B (sequence review report).
+
+### 2026-10-01 23:45 UTC - CMR-06B (attempt 1, IN_PROGRESS - enemy capture harness works; first soldier capture validated)
+
+- Status before: CMR-06B work 1-2 done + dispatch fix (720cb86).
+- Work completed: bounded work 3/4 harness - the CMR-05 capture path now
+  drives ENEMY kinds: a real capture subject spawned via makeCombatant
+  (soldier kind, hero-side so the sim's dead-entity cleanup keeps it for
+  the dying/dead shots - dead heroes stay, dead enemies are removed),
+  per-kind subject selection in sample/setPlayer, the soldier action set
+  (idle/swing/hurt/knockdown/getup/grabbed/thrown/dying/dead) both facings,
+  and an AI-driven walk segment with gameplay provenance. The runner
+  validates against the FIGHTER'S pack inventory + attack bindings (it
+  hardcoded guanyu's frames before). Two real fixes on the way: the target
+  vanished mid-run (updateDeaths removes dead non-heroes) and the runner
+  rejected every soldier key as "not in the pack".
+- FIRST SOLDIER CAPTURE PASSED its self-check on canvas (720cb86-dirty):
+  38 rows, trace errors 0, hard integrity 0, 12 actions captured, crops
+  non-blank (the CMR-05 blank guard active), 2 expected open landmarks
+  (contactU/weaponTipU stay unverified - producer measures). Artifacts in
+  artifacts/motion-review/soldier-canvas/ (trace, index, frames, video).
+- Files changed: e2e/motion-capture.spec.ts, scripts/motion-capture.mjs,
+  TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; capture self-check green
+  (exit 0 confirmed directly - an earlier exit-1 reading was a PowerShell
+  pipeline artifact).
+- Result: the soldier's motion is now capturable AND validated in the real
+  game through the accepted CMR-05 path.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: webgl + paired runs + mobile landscape
+  captures; the full-sequence review of the contact sheets at game size and
+  enlarged (foot planting/weapon trajectories/size pops); producer handoff.
+  No blocker.
+- Next recommended task: continue CMR-06B (webgl/pairs captures + review).
+
+### 2026-10-01 23:12 UTC - CMR-06B (attempt 1, IN_PROGRESS - render-path dispatch fixed: soldier art now reaches soldier frames)
+
+- Status before: CMR-06B work 1-2 done (3ddb204); capture path prep next.
+- Work completed: while preparing the enemy capture harness, found a REAL
+  render-path bug: `motionFrameForEntity` is called for EVERY kind but its
+  state switch returns HERO frame names ('walk:0', 'fall:6', 'misc:2',
+  'fall:3/4') - none of which exist in the soldier pack. With motion on, a
+  soldier would sample unknown frames. Fixed generally: MotionArt gained an
+  optional `frameDispatch` (publishMotionArtRecord wires the soldier's
+  dispatcher per kind; guanyu keeps its path unchanged) and
+  motionFrameForEntity delegates first. Verified by a new routing test
+  (every sampled frame is a pack frame; idle routes to locomotion:0).
+- Files changed: src/game/art/motion-clips.ts,
+  src/game/art/motion-clips-soldier.ts (attack binding fallback already in),
+  src/game/adapters/motion-art.ts, test/game/motion-soldier.test.ts.
+- Verification run: lint + `tsc --noEmit` clean; soldier+clips+actions
+  suites 28/28.
+- Result: the soldier's registered art is now end-to-end renderable (pack
+  -> catalog -> publish -> per-kind dispatch -> pack frames).
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: bounded work 3-5 - extend the CMR-05 capture
+  harness to enemy kinds (spawn + drive a soldier target), captures both
+  facings/Canvas/WebGL/mobile, full-sequence review, producer handoff.
+  No blocker.
+- Next recommended task: continue CMR-06B (enemy capture harness + run).
+
+### 2026-10-01 23:04 UTC - CMR-06B (attempt 1, IN_PROGRESS - every state/attack/clock bound and exercised)
+
+- Status before: CMR-06B bounded work 1 done (5c2f75f).
+- Work completed: bounded work 2 - `test/game/motion-soldier.test.ts`
+  (12 tests) binds and exercises every real soldier state/attack/clock:
+  pack validation + negative controls (missing frame/wrong cell/genuine
+  overlap/wrong id/density), shared guard/down bookends byte-identical,
+  clip timings from core data (swing = the real 14/4/20 window with the
+  visible strike on EVERY active tick 14..17, hitstun 18, knockdown/getup/
+  dying from constants), dispatch at key ticks for all 11 states
+  (idle/walk/fleeing/attack/hitstun/knockdown/getup/grab/grabbed/thrown/
+  dying/dead), clamps, and "every dispatched frame exists in the pack".
+- The suite caught TWO real bugs (both fixed): (1) the soldier dispatcher
+  hard-coded the swing clip for ANY attack id - an unknown attack showed a
+  strike instead of the defensive guard; (2) aliased bookends occupied
+  DUPLICATE atlas rects (pixel-identical but wasteful and drift-prone at
+  the rect level) - the packer now shares one rect per drawing (page
+  shrank 2003x1369 -> 1984x1142, 1,786,372 B, sha 55f3300d; validator
+  allows shared rects and still rejects genuine overlaps).
+- Files changed: src/game/art/motion-clips-soldier.ts,
+  scripts/motion-pipeline.mjs, src/game/assets/motion/soldier-prepared.json,
+  src/game/assets/motion/soldier-motion-sheet.png,
+  src/game/adapters/motion-art.ts, test/game/{motion-soldier.test.ts,
+  motion-runtime.test.ts}, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; motion suites 52/52
+  (soldier+runtime+pipeline); full unit
+  **821 passed | 1 failed (known G6 V-15b pin) | 6 skipped**.
+- Result: the pack is registered AND every bound state/tick is verified
+  against core timing at the unit level.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: bounded work 3-5 - browser tick/edge exercise
+  (pause/hit-stop, skipped render, interruptions, low fall/getup/KO,
+  restart, co-op/AI), captures of baseline vs new art in game (both
+  facings, Canvas/WebGL/mobile) through the CMR-05 motion-aware path, the
+  full-sequence review, and the producer handoff. No blocker.
+- Next recommended task: continue CMR-06B (browser exercise + captures).
+
+### 2026-10-01 22:53 UTC - CMR-06B (attempt 1, IN_PROGRESS - pack registered in runtime; toolkit blank-page bug found + fixed)
+
+- Status before: CMR-06A DONE (d21181d); CMR-06B TODO.
+- Work completed: bounded work 1 (registration behind `?motion=1`) -
+  (1) `scripts/emit-soldier-runtime.mjs` emits soldier-prepared.json
+  (MotionPrepared record: 45 frames with page rects, 48x32 block
+  signatures, singlePage, attackBindings) + the atlas page asset.
+  (2) `src/game/art/motion-clips-soldier.ts`: soldier clip table with
+  core-data timings (swing = the real 14/4/20 window, hitstun 18,
+  knockdown/getup/dying from constants), state dispatch (idle/walk/fleeing/
+  attack/hitstun/knockdown/getup/grab/grabbed/thrown/dying/dead), and the
+  5x9 pack validator. (3) MotionArt generalized: Record<string, MotionClip>
+  + attackBindings map (guanyu keeps its slice(3) fallback, unchanged
+  behavior); motion-player's hard-coded 'fall:6' down frame generalized to
+  the fall clip's last exposure. (4) MOTION_PACKS.soldier registered with
+  the pinned page (2,006,693 B, sha 28e8aaf2..., 2003x1369); publish gate
+  validates per kind and supports single-page packs; stage runtime tests
+  updated to the two-pack catalog (only catalogued packs request; packless
+  kinds unsupported).
+- FOUND + FIXED (honest correction to CMR-06A records): the CMR-04 toolkit's
+  pack-page blit read box-space content coords after the registration-fit
+  change and produced BLANK atlas pages that still hashed deterministically
+  (my CMR-06A checks verified counts/budgets/determinism but not page
+  pixels). Guan Yu was NEVER affected (it packs through prepare-motion.mjs,
+  a different tool). Fixed (sheet-space src + scaled draws), regression
+  test added (page pixels contain the drawings, fitted and unfitted), and
+  the soldier pack re-emitted: the page now carries real pixels (27.3%
+  opaque, manifest 09666940...).
+- Files changed: scripts/{emit-soldier-runtime.mjs,motion-pipeline.mjs},
+  src/game/art/{motion-clips.ts,motion-clips-soldier.ts,motion-player.ts},
+  src/game/adapters/motion-art.ts,
+  src/game/assets/motion/{soldier-prepared.json,soldier-motion-sheet.png},
+  test/game/{motion-runtime.test.ts,motion-pipeline.test.ts,motion-weapon-arc.test.ts},
+  TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; motion suites 57/57
+  (runtime/clips/actions/transitions/profiles/player); full unit
+  **809 passed | 1 failed (known G6 V-15b pin) | 6 skipped**.
+- Result: the soldier pack loads, validates, publishes atomically and is
+  prefetch-scoped like guanyu - the integration core is in place.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: bounded work 2-5 - bind/exercise every tick
+  and edge (zero windows, pause/hit-stop, skipped render, interruptions,
+  low fall/getup/KO, restart, co-op/AI), capture baseline vs new art in
+  game (both facings/Canvas/WebGL/mobile) through the CMR-05 motion-aware
+  path, the full-sequence review, and the producer handoff. No blocker.
+- Next recommended task: continue CMR-06B (tick/edge exercise + captures).
+
+### 2026-10-01 22:13 UTC - CMR-06A -> DONE (attempt 2, verified - acceptance 4 established by the sword-stack measurement)
+
+- Status before: CMR-06A IN_PROGRESS; only acceptance 4's numeric spread
+  verdict remained (ca28c1f).
+- Work completed: the manual landmark read - built the decisive artifact
+  `landmarks/sword-stack.png`: every drawing's blade pixels PCA-rotated to
+  horizontal on one shared ruler (identical rigid swords stack into one
+  line). Reading: the fully-observable rows measure 245..258 sheet-px =
+  **5.3% spread (<= 10%)** (locomotion:0/1/2/4/6 + hitstun-held:2);
+  shadowed/occluded blades (locomotion:3/5, getup-death:2) and
+  mask-contaminated rows (fall-thrown:4/5, getup-death:1/4/5 - their blades
+  verified consistent on the fixed-scale ruler sheets sword-review-1..3,
+  where a 486px blade would not even fit the 360px window) are recorded
+  `unverified` and count as neither pass nor fail, per contract. Head half
+  stands at +/-5% (head-review, all 37 drawings). ACCEPTANCE 4 ESTABLISHED.
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **808 passed | 1 failed (known G6 V-15b pin) | 6 skipped**; pack
+  deterministic (manifest f7f0fdd8 double-run).
+- Result: **CMR-06A acceptance 7/7 - task DONE.** The owner directive
+  (identify problem pictures, redraw, redo partial work) is complete: the
+  repaired pack has one rigid sword fully observable in every drawing and
+  consistent heads.
+- Status after: CMR-06A DONE (attempt 2).
+- Remaining work or blocker: none for CMR-06A. CMR-06B (runtime
+  integration: profile + clip bindings + expected motion frames, no
+  gameplay changes) is unblocked and is the next queue task.
+- Next recommended task: CMR-06B.
+
+### 2026-10-01 21:58 UTC - CMR-06A (attempt 2, IN_PROGRESS - repairs spliced, pack re-prepared; acceptance 4 weapon half = manual read)
+
+- Status before: 3 repair sheets drawn (5b8353b); splice + re-prep pending.
+- Work completed: (1) SPLICE - `scripts/splice-repairs.mjs` replaced
+  exactly the 7 problem cells (originals in previous/; 28 untouched
+  drawings byte-identical): pose-matched uniform rescale, offscreen pose
+  rendering with part-bridging (detached swords meet the hand), and a
+  pixel-exact disjointness search for the wide tumbles (right-to-left
+  placement order). (2) FIT MODEL - the registration fit gained the
+  accepted translation model (one scale per sheet + recorded per-frame
+  translation; drawings land centred in the canonical box, ground contact
+  on the ground line); 26/26 toolkit tests green. (3) PACK RE-PREPARED
+  deterministic: manifest f7f0fdd8, 45 frames, one 2003x1369 page,
+  7,943,600 B = 7.58 MiB <= 16 MiB, 0 budget errors. (4) ACCEPTANCE-4
+  EVIDENCE - head half established (fixed-scale ruler comparison of all 37
+  drawings: helmet domes ~95-105 sheet-px, +/-5%); weapon half: all swords
+  now side-on in clear space, three fixed-scale ruler sheets generated
+  (landmarks/sword-review-1..3.png) for the manual landmark read; six
+  automated pixel-metric families documented as UNRELIABLE on this painting
+  style (the blade highlight covers different portions per pose:
+  128..182px measured on the same rigid sword).
+- Files changed: scripts/{splice-repairs.mjs,measure-soldier.mjs,sword-
+  review-sheet.mjs,motion-pipeline.mjs,motion-pipeline.d.mts},
+  art/motion/soldier/{PROVENANCE.md,previous/...}, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean (3 unused-var fixes);
+  motion-pipeline 26/26; the pack's determinism double-run verified.
+- Result: the owner's directive is executed end to end (identify, redraw,
+  redo partial work); the pack is repaired, deterministic and in-budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: the numeric weapon-length spread verdict is a
+  MANUAL LANDMARK READ of landmarks/sword-review-1..3.png (the contract's
+  "explicit manual landmark review" path; the head half is already
+  within 10%). If that read confirms <=10%, CMR-06A closes and CMR-06B
+  starts. No tooling blocker remains.
+- Next recommended task: manual landmark read of the three sword sheets ->
+  acceptance 4 -> CMR-06A DONE.
+
+### 2026-10-01 21:10 UTC - CMR-06A (attempt 2, IN_PROGRESS - owner directive: problem pictures identified + redrawn)
+
+- Status before: CMR-06A BLOCKED on acceptance 4; owner cleared the block
+  with the directive "identify the art pictures what cause the problem and
+  block the acceptance test, redraw the raw art picture and redo partial of
+  the work if necessary".
+- Work completed: (1) IDENTIFICATION - built a fixed-scale, ruler-gridded
+  head-comparison sheet of all 37 unique drawings (fingerprint-verified
+  read after defeating the harness mispairing with fresh-bytes retries;
+  the bug hit 4 times this round). Finding: HEAD SIZES ARE CONSISTENT
+  across all 37 (helmet domes ~95-105 sheet-px, ~+/-5% incl. perspective)
+  - the art passes the head half and the earlier head-metric failures were
+  purely tooling. The true blockers are 7 cells where the sword is
+  occluded or foreshortened (locomotion:4, locomotion:5, fall-thrown:4,
+  fall-thrown:5, getup-death:0, getup-death:6, getup-death:7). (2) REDRAW -
+  3 targeted repair sheets drawn with the swords fully side-on in clear
+  space (locomotion-repair 8c1fb2a5, fall-thrown-repair c1ef4cde,
+  getup-death-repair 6999b1bb); budget exhausted at 8/8 exactly per the
+  plan's repair reserve. Mechanically validated (figures located; fall
+  tumbles ~405px vs 330 requested and getup blades drawn detached -
+  both handled at splice by pose-matched rescale and per-pose component
+  grouping).
+- Files changed: scripts/head-review-sheet.mjs, art/motion/soldier/
+  {locomotion-repair-candidate-1.png,fall-thrown-repair-candidate-1.png,
+  getup-death-repair-candidate-1.png,PROVENANCE.md}, TASKS.md,
+  PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean (one unused-var fix in the
+  review-sheet script); unit snapshot stands (808 passed | 1 failed known
+  G6 | 6 skipped).
+- Result: the acceptance-4 blocker is precisely identified and its raw art
+  is redrawn within budget; nothing else in the pack needs changing.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: splice the 7 repaired cells into the three
+  sheets (pose-matched uniform rescale + ground/cell-centre placement),
+  re-run prepare-soldier + measure-soldier, and re-establish acceptance 4
+  by measurement over the now fully-observable swords. No blocker.
+- Next recommended task: continue CMR-06A (splice + re-prep + re-measure).
+
+### 2026-10-01 19:23 UTC - CMR-06A (attempt 2 -> BLOCKED: acceptance-4 measurement retry budget exhausted)
+
+- Status before: CMR-06A IN_PROGRESS (6/7 acceptance items checked; item 4
+  - numeric head-size / fully-observable weapon-length spread <=10% -
+  open at 85b460e).
+- Attempt accounting (AGENTS.md rule 5): acceptance 4 saw THREE
+  consecutive unsuccessful establishment attempts inside attempt 2:
+  (1) 18:52 steel-mask bbox-diagonal (7.5% on 7 clear frames; occluded/
+  contaminated frames unverifiable), (2) 18:59 steel-cluster segmentation
+  (painted shading splits the blade; helmets merge with shoulder fittings),
+  (3) 19:23 loose-threshold clusters + skin-cluster face metric (88..188px
+  blades; 27..44px faces - profile-vs-frontal and hand-vs-face ambiguity)
+  AND a gridded ruler review composite (landmark-review-sheet.png, read
+  with fingerprint verification - ruler too fine at preview scale to beat
+  ~10%). Fourth attempt prohibited -> task BLOCKED per rule 5.
+- Files changed: scripts/measure-soldier.mjs (skin-cluster head metric,
+  steel-cluster variants), scripts/landmark-review-sheet.mjs (gridded 2x
+  crops, ruler in sheet px), art/motion/soldier/measurements.json,
+  TASKS.md, docs/motion-tasks/CMR-06A.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; the unit snapshot stands
+  (808 passed | 1 failed known G6 | 6 skipped); no library code changed.
+- Result: the pack is complete and verified (deterministic manifest
+  7f40bf2f, 45 frames, one 2003x1369 page, 7.45 MiB decoded, identity +
+  continuity + scale + budgets all checked, 6/7 acceptance). Exactly one
+  numeric evidence item remains and consumer tooling cannot produce it.
+- Status after: CMR-06A BLOCKED (attempt 2).
+- Remaining work or blocker: EXACT BLOCKER - the numeric head-size and
+  fully-observable weapon-length spread <=10% confirmation. Missing input:
+  the documented explicit manual landmark review of the 45 labeled crops +
+  gridded review sheet in artifacts/motion/soldier/landmarks/ (the
+  `motion-landmarks.mjs` "explicit manual landmark review" path used for
+  Guan Yu). Budget holds 3 repair requests if the review finds real drift.
+- Next action (owner): perform/confirm the landmark review on the crops
+  (or authorize an alternative way to establish item 4), then reset CMR-06A
+  -> TODO; if confirmed, the task closes and CMR-06B starts.
+
+### 2026-10-01 18:59 UTC - CMR-06A (attempt 2, IN_PROGRESS - second measurement method; acceptance 4 conclusively tooling-limited)
+
+- Status before: CMR-06A IN_PROGRESS (acceptance 4 open after the bbox-diagonal
+  method at 463a531).
+- Work completed: second, stricter measurement method (steel-cluster
+  segmentation: blade = largest cluster, helmet = topmost cluster) to try
+  to ESTABLISH the <=10% spread without external eyes. Result: the method
+  is defeated by the art itself - painted blade shading splits the steel
+  mask into sub-clusters (110..159px) and helmets merge with shoulder
+  fittings (82..140px). Both automated methods are now recorded in
+  CONTINUITY.md with their exact failure modes; the manual-review crops
+  (45, with ids and per-frame probe values) remain the measurement input.
+- Files changed: scripts/measure-soldier.mjs (cluster method + full-view
+  evidence set), art/motion/soldier/{CONTINUITY.md,measurements.json},
+  PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; no library code changed.
+- Result: acceptance 4 cannot be established by consumer tooling; per the
+  contract unknowns stay unverified and do not pass. Everything else in
+  CMR-06A is checked (6/7).
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: ONE evidence item - numeric head-size and
+  fully-observable weapon-length spread <=10% confirmed by the documented
+  manual landmark review of the 45 crops (the Guan Yu path:
+  `motion-landmarks.mjs` exists for exactly this), or owner confirmation.
+  Budget still holds 3 repair requests if a drift is confirmed real.
+- Next recommended task: producer/owner landmark review of
+  artifacts/motion/soldier/landmarks/ -> CMR-06A DONE -> CMR-06B.
+
+### 2026-10-01 18:52 UTC - CMR-06A (attempt 2, IN_PROGRESS - measurements + continuity review; acceptance 4 needs landmark confirmation)
+
+- Status before: CMR-06A IN_PROGRESS attempt 2 (pack prepared at 601ffba;
+  remaining was measurements + continuity review + checklist).
+- Work completed: (1) measurement pass `scripts/measure-soldier.mjs` over
+  the 45 fitted frames with honest unknowns - weapon length (steel-mask
+  bbox diagonal, angle-independent) measures 283..305px on the 7 visually
+  fully-observable unoccluded frames = 7.5% spread (WITHIN 10%); frames
+  with occlusion/foreshortening/armour-steel contamination measure
+  182..391 and are recorded `unverified`; the head-size top-band proxy is
+  method-contaminated (weapon tips read as narrow bands) and is recorded
+  `unverified` in full. 45 manual-review landmark crops exported to
+  artifacts/motion/soldier/landmarks/ plus measurements.json. (2) Offline
+  continuity review `art/motion/soldier/CONTINUITY.md` citing exact frame
+  IDs per sequence (locomotion:0..8, swing:0..8, hitstun-held:0..8,
+  fall-thrown:0..8, getup-death:0..8), transitions, <=60deg direction
+  steps with intervening drawings, and the shared bookends byte-identical
+  by alias (guard=locomotion:0, down=fall-thrown:3). (3) CMR-06A acceptance
+  checklist filled: 6/7 checked; item 4 (head/weapon spread <=10%) left
+  UNCHECKED - per contract "Unknowns cannot establish compliance", it needs
+  producer/owner landmark confirmation from the 45 crops.
+- Files changed: scripts/measure-soldier.mjs, art/motion/soldier/
+  {CONTINUITY.md,measurements.json}, docs/motion-tasks/CMR-06A.md,
+  TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; the 601ffba unit snapshot
+  stands (808 passed | 1 failed known G6 | 6 skipped) - this tick changed
+  no library code.
+- Result: attempt 2 has produced a complete, deterministic, in-budget pack;
+  exactly one acceptance item remains, and it is evidence-limited, not
+  work-limited.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: acceptance 4 - producer/owner landmark
+  confirmation of head sizes and full weapon extents (45 crops ready).
+  If confirmed <=10%, the task closes and CMR-06B starts; if a length drift
+  is confirmed real, the budget holds 3 repair requests.
+- Next recommended task: producer landmark pass on
+  artifacts/motion/soldier/landmarks/ (or owner confirmation), then
+  CMR-06A DONE -> CMR-06B.
+
+### 2026-10-01 18:35 UTC - CMR-06A (attempt 2, IN_PROGRESS - registration/fit + pack prepared)
+
+- Status before: CMR-06A IN_PROGRESS attempt 2 (authoring complete at
+  3f4d7b8; 5/8 budget; remaining was registration/fit + preparation).
+- Work completed: (1) CMR-04 toolkit gained the accepted registration
+  model - ONE uniform per-pack scale + drawing-cell-centre/ground anchors
+  (`fitOf`/`fitContent`, fit-aware trim/restore with deterministic scaled
+  draw), shared-bookend enforcement via aliases (same-sheet or cross-sheet
+  `sequence:position`; aliased source cells counted unused), and position-
+  invariant content hashing for dedup. 3 new negative-control tests (26
+  pipeline tests green). (2) `scripts/prepare-soldier.mjs` drives the pack:
+  scale sized so the TALLEST drawing (359px) fits its cell with trim pad
+  (scale 0.662952; standing figures 223px content = 111.5 display px,
+  below hero hierarchy), scale-consistency measured on standing drawings
+  (0.30% / 2.37% spreads), DOWN-cell height difference adjudicated as pose
+  variance (alias unifies the displayed pose). (3) PACK PREPARED and
+  deterministic (manifest sha256 `7f40bf2f...` re-ran identical): 45 frames
+  (37 unique + 8 bookend aliases), one `soldier-1` page 2003x1369
+  (<=2048^2), decoded 7,809,280 B = 7.45 MiB <= 16 MiB, GPU equal, cloned
+  0, 0 budget errors, 9 wide-sweep bbox hints reviewed. No catalog
+  activation (CMR-06B).
+- Files changed: scripts/{motion-pipeline.mjs,motion-pipeline.d.mts,
+  prepare-soldier.mjs}, test/game/motion-pipeline.test.ts,
+  art/motion/soldier/PROVENANCE.md, TASKS.md, PROGRESS.md (+ generated
+  outputs under artifacts/motion/soldier/, ignored).
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **808 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b pin,
+  UIR-16 BLOCKED); deterministic double-run of the preparation.
+- Result: attempt 2 on plan; the pack exists, verified, within budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: head-size/weapon-length measurements (<=10%
+  spread, unknowns unverified - needs the landmark measurement pass),
+  offline continuity review citing frame IDs/crops, acceptance checklist.
+  No blocker.
+- Next recommended task: continue CMR-06A (measurements + continuity
+  review).
+
+### 2026-10-01 17:58 UTC - CMR-06A (attempt 2, IN_PROGRESS - authoring complete, 5/5 sheets accepted)
+
+- Status before: CMR-06A IN_PROGRESS attempt 2 (identity lock + sheets 1-2
+  accepted at a7f919a; budget 2/8).
+- Work completed: authoring phase CLOSED - sheets 3-5 reserved, generated,
+  grid-checked and fingerprint-verified in review, all accepted on their
+  first candidate: hitstun-held (recoil/fold/stagger, upright-held with
+  both arms pinned and sword still gripped, escape shove/reset), fall-thrown
+  (topple/airborne/impact, DOWN bookend, thrown tumbles x2, side impacts x2)
+  and getup-death (elbow push/kneel/crouch, DOWN bookend, fatal jolt/knee
+  collapse/crumple/dead, guard bookend). All five sheets: 9 figures in 9
+  cells, zero sheet-edge cuts, identity/sword/scale consistent, no forks,
+  mittens or extra limbs, distinct drawings. Prep notes recorded: shared
+  guard/down bookends are drawn independently per sheet (and the fall
+  sheet's two DOWN cells drifted) -> preparation will enforce ONE reference
+  cell for each bookend across the pack.
+- Budget: 5/8 used (one earlier retroactive-reserve slip recorded), 3
+  reserved for targeted repairs.
+- Files changed: art/motion/soldier/{hitstun-held-candidate-1.png,
+  fall-thrown-candidate-1.png, getup-death-candidate-1.png,PROVENANCE.md},
+  art/motion/generation-budget.json, TASKS.md, PROGRESS.md. No code changed
+  this tick; the a7f919a gates stand (unit 805 passed | 1 failed known G6 |
+  6 skipped).
+- Verification: mechanical grid checks (9 figures / 9 cells / no edge cuts
+  per sheet) + fingerprint-verified visual reviews for all three sheets.
+- Result: attempt 2 on plan; authoring done within budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: the per-sheet registration/fit step (uniform
+  scale + recorded translations into the canonical box; shared guard/down
+  bookend enforcement; trim within the box), pack preparation through the
+  CMR-04 toolkit + measurements (head-size/weapon-length spread <=10%,
+  unknowns unverified), offline continuity review citing frame IDs/crops,
+  acceptance checklist. No blocker.
+- Next recommended task: continue CMR-06A (registration/fit + preparation).
+
+### 2026-10-01 17:45 UTC - CMR-06A (attempt 2, IN_PROGRESS - identity lock + sheets 1-2 accepted)
+
+- Status before: owner reset CMR-06A to TODO ("reset CMR-06A to TODO then
+  continue"); attempt 1 was tooling-BLOCKED with full groundwork prepared.
+- Work completed: (1) IDENTITY LOCK - both masters inspected with the
+  mandatory fingerprint protocol (verified reads: body master = helmeted
+  light infantry, oxblood lamellar, rigid upright sword; portrait = riveted
+  domed helmet with finial, young face) -> art/motion/soldier/IDENTITY.md.
+  (2) Budget ledger enforced: 2/8 mook requests used (one slip recorded in
+  PROVENANCE.md: the swing reserve was applied retroactively). (3) Sheets
+  1-2 generated from the two masters as ordered references and ACCEPTED:
+  locomotion (idle/walk x4/stop/retreat x2/guard bookend) and swing
+  (guard/windup/startup/strike x2/recover x3/guard bookend), 9/9 figures in
+  9 cells each, mechanical grid checks + fingerprint-verified visual
+  reviews (identity, rigid sword, no forks/mittens/extra limbs, distinct
+  drawings, shared bookends) -> art/motion/soldier/PROVENANCE.md. (4) CMR-04
+  toolkit extraction policy corrected to accepted practice: whole figures
+  straddle nominal grid lines (preserved, assigned by centre), merges fail
+  the component-count check, sheet-edge cuts fail, bbox overlaps are
+  review hints (wide sweeps legitimately cross territory) - 3 new/updated
+  negative-control tests, 23 pipeline tests green.
+- Files changed: art/motion/soldier/{IDENTITY.md,PROVENANCE.md,locomotion-
+  candidate-1.png,swing-candidate-1.png,generation-budget.json},
+  scripts/motion-pipeline.{mjs,d.mts}, test/game/motion-pipeline.test.ts,
+  docs/motion-tasks/CMR-06A.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; full unit
+  **805 passed | 1 failed | 6 skipped** (the 1 = known G6 V-15b arm-chain
+  pin, UIR-16 BLOCKED); motion-pipeline 23/23 incl. the new policy tests.
+- Result: attempt 2 on track; two candidates accepted within budget.
+- Status after: CMR-06A IN_PROGRESS (attempt 2).
+- Remaining work or blocker: sheets 3-5 (hitstun-held, fall-thrown,
+  getup-death; 6 requests left, 3 planned + 3 for repairs); the per-sheet
+  registration/fit step (uniform scale + recorded translations into the
+  canonical box, then trim within the box - the toolkit currently trims in
+  sheet-cell space and needs the accepted fit model); pack preparation +
+  head-size/weapon-length measurements (spread <=10%, unknowns unverified);
+  offline continuity review citing frame IDs; then acceptance checklist.
+- Next recommended task: continue CMR-06A (sheet 3 next tick).
+
+### 2026-10-01 09:35 UTC - CMR-06A (attempt 1 - BLOCKED, image-viewing tooling)
+
+- Status before: CMR-06A TODO (first TODO after CMR-05; review cadence
+  clear at e3e70cf..HEAD < 4).
+- Work completed (no generation, budget untouched 0/8): exact core-data
+  manifest for the soldier (enemies.ts: maxHp 24, speed 0.9, hitstun 18,
+  think 45; attacks.ts `soldier.swing` 14/4/20), the applicable sequence
+  manifest (idle/approach/retreat/walk/stop, swing, hitstun, fall/impact/
+  down/getup, held/escape, thrown flight/impact, dying/dead - no hero-only
+  capabilities), identity source inventory with sha256, the 5-sheet plan
+  (one request per whole-sheet candidate, 3 in reserve for targeted
+  repairs, mook cap 8) and prompt skeleton, recorded in
+  `art/motion/soldier/AUTHORING-PLAN.md`.
+- Blocker evidence: `read_image` served provably wrong pixels for 4
+  consecutive reads of the two identity masters across 2 content shas
+  (originals + cache-busted PNG copies at fresh paths). Mechanical
+  fingerprints: the requested files are opaque 832x1248 with 59-72%
+  near-black backgrounds and warm dark armour tones; the previews showed
+  unrelated bright game captures (one preview even had the wrong aspect
+  ratio). One unrelated read in the same session WAS correct, so the
+  pipeline is flaky, not dead. Policy: never invent a review (loop.md
+  step 6); the rollout contract says record the exact blocker rather than
+  publish a partial set - so no image request was made and the precious
+  8-request budget is preserved.
+- Files changed: art/motion/soldier/AUTHORING-PLAN.md,
+  docs/motion-tasks/CMR-06A.md, TASKS.md, PROGRESS.md. No code changed;
+  the green gates at d3ae849 stand (unit 803 passed | 1 failed known G6 |
+  6 skipped; lint + tsc clean; vision 5/5; prodbuild 8/8).
+- Result: BLOCKED - missing tool capability (reliable image viewing).
+- Status after: CMR-06A BLOCKED (attempt 1 of 3; only the owner resets a
+  blocked task).
+- Remaining work or blocker: exactly one blocker - the image tool must
+  serve the requested file's pixels (verify against the recorded
+  fingerprints) or the owner must visually inspect the identity masters
+  and generated sheets and record verdicts. Everything else is prepared
+  in AUTHORING-PLAN.md. UIR-16/UIR-19/GYM-1/BODY-7/ENH-12 unchanged.
+- Next recommended task: owner review of this blocker; the CMR queue stays
+  sequential behind CMR-06A (CMR-06B+ cannot start).
