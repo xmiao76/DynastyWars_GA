@@ -178,10 +178,9 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; walk + jab1 ACCEPTED at c2
-  each (9/9/0, choreography/identity verified). 4/16 spent
-  (walk:2 + jab1:2 maxed). Next: jab2 sheet with ledger
-  reserve-before-generate.)
+- Status: IN_PROGRESS (attempt 1; walk + jab1 + jab2 ACCEPTED
+  (jab2 on c1 with distinct low chamber). 5/16 spent. Next:
+  finisher sheet with ledger reserve-before-generate.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
