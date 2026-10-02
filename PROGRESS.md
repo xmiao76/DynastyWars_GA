@@ -22,6 +22,17 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 17:06 UTC - CMR-08B DONE (attempt 1 - vision review + fighter report + full gates)
+
+- Status before: CMR-08B IN_PROGRESS (captures green cd2284b; vision + report + prodbuild + checklist remained).
+- Work completed: archer motion integration items 5-6 + acceptance 8/8 (bounded work). `docs/ARCHER_ACTION_REVIEW.md` (new): per-action findings for all 13 shooter actions both facings/renderers from fingerprinted contact sheets (1280x2240 canvas da3b1f15 / webgl 4a9298c3) + 15 enlarged crops (896x488 each, sha-recorded) - four distinct firing phases with release-arrowless correctness, walk mid-stride with bystander, hurt/knockdown/getup/grabbed/thrown/dying/dead poses cited; cross-cutting (100/100 rows motion-source:archer, stable bookends/identity, 4.8%/6.1% landmarks preserved, withinCaps true 7.21MiB, renderer parity with pre-existing tint split noted) + pace/limitations + producer handoff. Honest limits: dying crops show lowCollapse continuity fall-thrown:4 (reproduces soldier/spearman exactly; true getup-death:4/5/6 unit-pinned); second shoot/idle samples show live AI walk-on locomotion:1; hitstun tint present webgl / absent canvas (reproduces soldier, pre-existing). Spec checklist annotated (CMR-08B.md 8/8 with evidence).
+- Files changed: docs/ARCHER_ACTION_REVIEW.md (new), docs/motion-tasks/CMR-08B.md (checklist), TASKS.md, PROGRESS.md. No src changes this iteration (prior commits additive: 80aed1d registration + cd2284b capture path).
+- Verification run: eslint + `tsc --noEmit` clean; targeted motion-archer 16/16; full suite 858 passed + 6 skipped with ONLY known G6 V-15b baseline failure (UIR-16 BLOCKED, no new failures); captures canvas+webgl self-check green (50 rows each, 0 errors, 0 hard, same 2 opens contactU/weaponTipU, 0 blanks); vision 5/5 (parity + frames + sprite 256/256 + both negative controls failing correctly + HUD); prodbuild 8/8 (4-pack pilot: 5 requests, sorted motions, off-by-default + opt-in both renderers); signal 13/13 zero violations/errors (incl. co-op + 9-stage marathon).
+- Result: CMR-08B DONE (attempt 1). CMR-09A UNGATED.
+- Status after: CMR-08B DONE.
+- Remaining work or blocker: none on 08B. Producer verifies independently on fresh captures per bounded work 6.
+- Next recommended task: CMR-09A (Zhang Fei author/prepare, first TODO).
+
 ### 2026-10-02 16:32 UTC - CMR-08B (attempt 1, IN_PROGRESS - capture harness extended, canvas+webgl green)
 
 - Status before: CMR-08B IN_PROGRESS (registered 80aed1d; captures next).
