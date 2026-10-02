@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 20:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - jump candidate 1 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (4 sheets accepted, 6/16 spent).
+- Work completed: jump sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 7/16,
+  jump:1, total 47/200). Finisher-c1's structured ref pixel-attached
+  + takeoff/ascent/apex/kick/descent/contact/landing brief. Output
+  `6afa5c80...` (1536x1024, 2177337 B): full air arc (grounded
+  takeoff crouch/contact/landing vs airborne tuck/apex/kick/descent
+  with clear space under the boots); kick money pose (leg extended
+  straight, other tucked, torso leaning in, pike swept back, right
+  hand gripping); apex pike-high two-handed. Identity preserved
+  (uniform heads, costume, rigid serpent pike + tassel, no armor/cape);
+  hands defined; bookend matches; no extra limbs/forks/clipping.
+  Mechanics: 71.22% transparent, 0 sheet-edge-opaque px, 9/9
+  components correct centroids + 3x4px specks cleanable. jump DONE;
+  5 remain.
+- Files changed: art/motion/zhangfei/jump-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (cfb188d6) + gameplay
+  strip (4aa9e4a2) + 3 fingerprinted cell zooms; alpha/census/edge/
+  speck measured mechanically.
+- Result: jump accepted; misc next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 5 sheets (misc first) -> prepare/measure/
+  review. No blocker (9/16 remain).
+- Next recommended task: continue CMR-09A (misc sheet).
+
 ### 2026-10-02 19:43 UTC - CMR-09A (attempt 1, IN_PROGRESS - finisher candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (walk + jab1 + jab2 accepted, 5/16 spent).
