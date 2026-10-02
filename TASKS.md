@@ -95,17 +95,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-06B - Wei Soldier: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; work 1-3 DONE; capture matrix COMPLETE
-  on the fixed harness 00:04: canvas pair + webgl pair, every applicable
-  soldier action both facings with gameplay/injected provenance, AI-driven
-  walk evidence (walk -> tick 28 -> locomotion:4 on BOTH renderers), tick
-  progression verified (swing:1 at tick 2), 0 near-black crops, all runs
-  self-check green. A real harness flaw was found and fixed in review: the
-  subject must be a real enemy-side combatant (hero-side entities get reset
-  every tick and the AI never drives them); dead-state shots respawn from
-  stored fields. Remaining: the full-sequence review report (contact
-  sheets at game size and enlarged - foot planting, weapon trajectories,
-  size pops, after-frame details) and the producer handoff.)
+- Status: DONE (attempt 1, 2026-10-02, verified). Full review report in
+  [SOLDIER_ACTION_REVIEW.md](docs/SOLDIER_ACTION_REVIEW.md): canvas+webgl
+  contact sheets + 8 enlarged crops reviewed (fingerprint-verified), all
+  actions both facings on `motion-source:soldier` (76/76 rows), no legacy
+  blends (early scare adjudicated as thumbnail misread), dead renders at
+  alpha 0 by design, hitstun tint + i-frame blink verified on motion art,
+  renderer parity confirmed. Full gate battery green: lint+tsc clean, unit
+  822|1 known G6|6, captures self-check green both renderers, vision 5/5,
+  prodbuild 8/8 (two-pack built-app assertions), signal 13/13 zero
+  errors/violations. CMR-07A is unblocked; producer verifies independently
+  on fresh captures per bounded work 6.
 - Dependency: CMR-06A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-06B](docs/motion-tasks/CMR-06B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic soldier pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

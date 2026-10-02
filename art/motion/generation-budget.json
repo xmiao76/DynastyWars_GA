@@ -30,7 +30,7 @@
     "soldier": {
       "role": "mook",
       "cap": 8,
-      "used": 5,
+      "used": 8,
       "sheetCandidates": {
         "locomotion": 1,
         "swing": 1,

@@ -34,3 +34,6 @@ secrets/
 /artifacts/body-cells-*.png
 /artifacts/loop-tests
 /artifacts/wholeframe
+/artifacts/motion-review
+/artifacts/tmpcheck
+/artifacts/motion/soldier/landmarks

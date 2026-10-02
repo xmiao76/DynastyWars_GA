@@ -35,6 +35,8 @@ interface Row {
   tick: number
   attackId: string | null
   key: string
+  /** Sprite texture key at sample time (distinguishes motion atlas vs legacy). */
+  texKey?: string
   elapsedMs: number
   frozen: boolean
   paused: boolean
@@ -159,6 +161,9 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
         Object.assign(p!, { hp: p!.maxHp, invulnerableTicks: 999999 }, store.__MOTION_TARGET_FIELDS__ ?? {})
       }
       g.syncSprites()
+      // Let the renderer repaint after syncSprites: the snapshot must see
+      // the updated sprite, not the previous frame's pixels.
+      await new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())))
       const s = g.sprites.get(p!.id)!
       const f = s.frame
       const worldW = f.realWidth * s.scaleX
@@ -200,6 +205,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
         state: p!.state, stateTick: p!.stateTick, tick: g.sim.tick,
         attackId: p!.attackId,
         key: s.frame.name === '__BASE' ? s.texture.key : s.frame.name,
+        texKey: s.texture.key,
         elapsedMs: elapsed,
         frozen: g.sim.freezeTicks > 0,
         paused: false,

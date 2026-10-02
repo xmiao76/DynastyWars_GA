@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 01:14 UTC - CMR-06B -> DONE (attempt 1, verified - review complete, full gate battery green)
+
+- Status before: CMR-06B IN_PROGRESS (capture matrix complete, review pending).
+- Work completed: the full-sequence review + DONE gates. (1) Reviewed the
+  canvas + webgl contact sheets (20 cells each, parity confirmed) and 8
+  enlarged crops (idle/swing/walk/knockdown/thrown/dead/hurt/getup), every
+  preview fingerprint-verified. (2) Resolved the walk-segment legacy scare
+  decisively: added `texKey` to the trace - all 76 rows use
+  `motion-source:soldier`; the "green figure" was the motion soldier's own
+  olive trousers plus a player bystander at thumbnail scale (full-size
+  crops show painted art). (3) Confirmed dead renders at alpha 0 BY DESIGN
+  (GameScene defeat-fade rule) and the hitstun tint + i-frame blink apply
+  correctly to motion sprites. (4) Wrote docs/SOLDIER_ACTION_REVIEW.md
+  (per-action findings, pace/video limitations, producer handoff).
+  (5) Fixed prodbuild's motion pilot spec for the two-pack catalog (3 page
+  downloads, both packs published in dist) - it failed before the update.
+- Verification run: lint + tsc clean; unit 822 passed / 1 failed (known
+  G6) / 6 skipped; captures self-check green both renderers; vision 5/5;
+  prodbuild 8/8; signal 13/13 zero page-errors/violations. (One unit flake
+  under load during a contended run; clean on re-run and on the final
+  uncontended confirmation.)
+- Result: **CMR-06B acceptance 8/8 - task DONE.** Soldier motion is
+  registered, bound, exercised, captured, reviewed and fully gated.
+- Status after: CMR-06B DONE (attempt 1).
+- Remaining work or blocker: none for CMR-06B. CMR-07A (spearman authoring)
+  is unblocked and is the next queue task; the producer verifies
+  independently on fresh captures per bounded work 6.
+- Next recommended task: CMR-07A.
+
 ### 2026-10-02 00:04 UTC - CMR-06B (attempt 1, IN_PROGRESS - capture matrix complete on the fixed harness)
 
 - Status before: first soldier capture validated on canvas (bd4c09e).
