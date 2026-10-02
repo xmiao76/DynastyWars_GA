@@ -98,26 +98,68 @@ Outputs: `artifacts/motion/spearman/spearman/` (manifest.json, report.json,
 pages/) - temporary output; accepted sources remain in
 `art/motion/spearman/`.
 
-### Acceptance-4 evidence status (honest)
+### Acceptance-4 evidence status (diagnosis complete, owner-directed redraw round)
 
-Comparison sheets exist (`artifacts/motion/spearman/landmarks/head-review.png`
-fixed 220px windows; `spear-review.png` fixed 480x400 windows) and
-fingerprint-verified reads show a consistent helmet/face design across
-drawings. Numeric results so far:
+Method (`scripts/spear-line-spearman.mjs` + `scale-compare-spearman.mjs`,
+both committed): RANSAC straight-line fit on wood shaft pixels + extension
+through the head, per-cell endpoint overlay adjudicated by
+fingerprint-verified eye; same-pose cross-sheet ratios so foreshortening
+cancels. CONVICTION RULE: an over-band in-plane measurement is a definite
+defect (foreshortening only shortens, so true length is worse); an in-band
+but possibly-foreshortened measurement is excluded as unverified (kept,
+not counted); fit failures are excluded as unverified.
 
-- Spear length, controlled upright pose: locomotion:0 = 338px and
-  locomotion:1 = 340px (0.6% apart). Every other drawing is occluded by
-  hands/torso, foreshortened, or merges with the body in the cluster
-  measurement (outputs 54..543px are not blade measurements) -> UNVERIFIED.
-- Head size: the controlled guard comparison above resolves ~+/-5% on
-  four sheets and cannot resolve thrust/getup-death direction; fall-thrown
-  has no controlled pose. Not a pass.
+Reference (solid): locomotion 8 upright spears 325-334 raw (2.8% spread),
+faces 22-23px. All comparisons in displayed units (raw x sheet factor).
 
-Acceptance item 4 is therefore NOT ESTABLISHED. Per the contract unknowns
-do not pass; the CMR-06A path that worked (manual landmark read of the
-fixed-scale ruler sheets + a rotated stack) is the next step, and a
-fall-thrown/getup-death repair request (2 left in budget) is the fallback
-if a drawing proves out of scale.
+CONVICTED (redraw, endpoints verified on the overlay):
+- thrust:3 (406 raw, +23%), thrust:4 (389, +18%): horizontal full
+  extension, endpoints at rear hand + head; also +10-15% over own
+  sheet-mates :5/:6/:7 (352-356, in-band, kept).
+- hitstun-held:7 (417 raw): +17% over own sheet-mates, in-plane diagonal.
+- fall-thrown:0/:1/:4 (365-389): over-band despite foreshortening-prone
+  tumbling poses, so true lengths are worse. fall-thrown:3/:7 (433/401):
+  lying side-on, fully observable.
+- getup-death:0/:1 (396/407, rise), getup-death:6/:7 (428/419, dead
+  side-on): over-band, in-plane enough that foreshortening cannot explain
+  +20-30%.
+
+EXCLUDED as unverified (kept, not counted): thrust:1/:2, hitstun:2,
+fall:2/:5, getup:4/:5 (in-band but plausibly foreshortened poses);
+fall:6, getup:2 (fit runs onto body/boot); getup:8 spear (476px is
+geometrically impossible inside a 341px cell => fit error; the guard
+FIGURE height 319 is valid and used for scale).
+
+ROOT CAUSE: the generator scales poses to fill their cells. Getup prone
+body length (427, along-axis, spear excluded) vs getup guard figure height
+(319): >=34% larger DESPITE foreshortening shrinking the lying measure,
+with spear-to-body ratio preserved (1.04 vs locomotion 1.05) => uniform
+per-pose scaling, intra-sheet break. Per-sheet factors cannot fix this;
+the poses must be redrawn at reference scale.
+
+SCALE UPDATES (ride with the post-splice re-prepare): hitstun 0.883 ->
+0.925 (geometric-proxy mean 0.919/0.930; the 0.847 face proxy is
+expression/frontal-turn contaminated; independent check: hitstun spears
+snap to +/-4% under 0.925 vs systematic -4-8% under 0.883). Thrust stays
+1.0 (3.5% geometric effect within resolution; moving it would newly
+convict :5/:6/:7 on a coin flip - documented ambiguity). Fall/getup stay
+1.0 (fixed by redraws, not factors).
+
+REPAIR PLAN (the last 2 image requests, no slack left after): Sheet A =
+witness standing guard + all 8 fall-thrown poses (full re-attempt; splice
+verified improvements only). Sheet B = witness + thrust:3/:4 +
+hitstun:7 + getup:0/:1/:2/:6/:7 (8 fixes). The witness (locomotion:0 guard
+as 3rd reference image + explicit match-this-size instruction) VERIFIES
+each repair sheet's scale BEFORE any splice from it; reject the sheet if
+the witness is off-scale. Splice rule (soldier precedent): splice a cell
+ONLY if the repair verifies in-band + heads ok + no new art defects, else
+keep the original. Then re-prepare (hitstun 0.925), re-measure observable
+spreads (need <=10% spear AND head), continuity review, checklist.
+Residual risks: kept getup:4/:5 heads must post-verify via dome read (no
+budget remains); repair round is measurement attempt 3 - on failure the
+task BLOCKEDs per rule 5 with this exact record.
+
+Acceptance item 4 is NOT ESTABLISHED (measurement attempt 2 of 3).
 
 ## Remaining budget plan (2 left)
 

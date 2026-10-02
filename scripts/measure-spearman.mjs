@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 // CMR-07A: measurement pass over the spearman source sheets.
 //
 //   node scripts/measure-spearman.mjs
@@ -41,7 +41,7 @@ function figureAt(im, comps, cellIndex) {
   for (const c of comps) {
     const cx = Math.floor((c.x0 + c.x1 + 1) / 2 / cellW)
     const cy = Math.floor((c.y0 + c.y1 + 1) / 2 / cellH)
-    if (cx === cx0 && cy === cy0) best = c
+    if (cx === cx0 && cy === cy0 && (best === null || c.area > best.area)) best = c
   }
   return best
 }

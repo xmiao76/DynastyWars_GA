@@ -113,20 +113,25 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; authoring 5/5 sheets accepted, budget
-  6/8; pack PREPARED deterministic (manifest 59493b2b, 45 frames, one
-  2038x923 page, 6.12 MiB decoded, 0 budget errors, page non-blank).
-  CORRECTION recorded: my previous tick claimed the guard landmarks
-  "align" - controlled two-proxy measurement shows hitstun-held's figure
-  is ~12% smaller (both proxies agree -> per-sheet factor 0.883 applied);
-  thrust and getup-death proxies disagree in sign (UNRESOLVED, factor 1);
-  fall-thrown has no controlled pose (UNVERIFIED). ACCEPTANCE 4 NOT
-  ESTABLISHED: spear length measures cleanly only on locomotion:0/1
-  (338/340px, 0.6% apart) - every other drawing is occluded/foreshortened
-  -> UNVERIFIED; head-size resolves only ~+/-5%. Comparison sheets ready
-  (landmarks/head-review.png, spear-review.png). Next: manual landmark
-  read + sword-stack-style rotated overlay; repair requests (2 left) if a
-  drawing proves out of scale. Then continuity review + checklist.)
+- Status: IN_PROGRESS (attempt 1; authoring 5/5, budget 6/8; pack
+  deterministic 59493b2b. ACCEPTANCE-4 DIAGNOSIS COMPLETE (owner-directed;
+  attempt 2 of measurement): locomotion reference SOLID (8 spears 325-334,
+  2.8%). CONVICTED redraws (verified endpoints, foreshortening-proof):
+  thrust:3/:4 (+18-23%), hitstun:7 (+17% intra-sheet), fall:0/:1/:3/:4/:7,
+  getup:0/:1/:6/:7 (over-band; lying side-on). EXCLUDED as unverified:
+  foreshortened/ambiguous (:1/:2 thrust, :2 hitstun, :2/:5 fall, :4/:5
+  getup) + fit failures (:6 fall, :2/:8 getup). ROOT CAUSE: generator
+  scales poses to fill cells (prone ~25-35% over; getup prone-vs-guard
+  body 427-vs-319 proves intra-sheet break, ratio preserved) - per-sheet
+  factors cannot fix it. Scale updates: hitstun 0.883->0.925 (geometric
+  pair 0.919/0.930 agree; face 0.847 expression-contaminated; spears snap
+  to +/-4% under 0.925); thrust stays 1.0 (3.5% within resolution);
+  fall/getup stay 1.0 (fixed by redraws). REPAIR PLAN (last 2 requests):
+  Sheet A = witness + all 8 fall poses; Sheet B = witness + T:3/T:4 +
+  H:7 + G:0/G:1/G:2/G:6/G:7; witness-verified scale, splice verified-only,
+  then re-prepare + re-measure. Residual risks: kept getup:4/:5 heads must
+  post-verify (no budget after). Repair round = attempt 3; on failure the
+  task BLOCKEDs per rule 5 with the exact cell record in PROGRESS.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

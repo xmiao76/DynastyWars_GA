@@ -22,6 +22,81 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 03:45 UTC - CMR-07A (attempt 1, IN_PROGRESS - acceptance-4 diagnosis COMPLETE, owner-directed redraw round)
+
+- Status before: CMR-07A IN_PROGRESS; acceptance 4 not established (750afdf); owner directed: identify the problem pictures, redraw raw art, redo work to try to pass.
+- Work completed: full acceptance-4 diagnosis with verified endpoints.
+  METHOD (all scale-free, no circularity): (1) spear-line fits (RANSAC on
+  wood shaft + extension through the head) with per-cell endpoint overlays,
+  every outlier adjudicated by fingerprint-verified eye; (2) same-pose
+  cross-sheet ratios (guards; fall-down vs getup-down) so foreshortening
+  cancels; (3) CONVICTION RULE: over-band in-plane measurement = definite
+  defect (foreshortening only shortens, so true length is worse); in-band
+  but possibly-foreshortened = excluded as unverified (kept, not counted).
+  Findings:
+  - REFERENCE (solid): locomotion 8 upright spears 325-334 raw (2.8%
+    spread); faces 22-23px. Everything compares to this.
+  - CONVICTED spear drift (in-plane, endpoints verified): thrust:3 (406,
+    +23%), thrust:4 (389, +18%) - also +10-15% over own sheet-mates;
+    hitstun-held:7 (417 raw, +17% over sheet-mates); fall-thrown:0/:1/:4
+    (365-389, over-band despite foreshortening => true worse);
+    fall-thrown:3/:7 (433/401, lying side-on); getup-death:0/:1 (396/407),
+    getup-death:6/:7 (428/419, dead side-on).
+  - EXCLUDED as unverified (kept, not counted): thrust:1/:2 + hitstun:2 +
+    fall:2/:5 + getup:4/:5 (in-band but plausibly foreshortened poses);
+    fall:6 + getup:2 + getup:8-spear (fit failures: line crosses body /
+    runs onto boot / geometrically impossible 476px in a 341px cell).
+  - SCALE findings: guard figure heights (helmet-top in face band to
+    boot-bottom in verified spear-free half): locomotion 317 / thrust 306
+    (x1.036, CONFIRMS ground proxy 1.034) / hitstun 341 (x0.930, CONFIRMS
+    ground 0.919; face 0.847 rejected as expression/frontal-turn
+    contamination) / getup guard 319 (x0.994 = reference scale). Down body
+    lengths: fall:3 = 470 vs getup:3-source = 427 (sprawl-caveated).
+    Getup prone (427) vs getup guard (319) PROVES intra-sheet scale break
+    (>=34%: foreshortening only shrinks the lying measure, yet it exceeds;
+    spear-to-body ratio preserved 1.04 vs 1.05 => uniform per-pose scaling,
+    not spear drift) - per-sheet factors CANNOT fix getup/fall; the poses
+    must be redrawn at reference scale. ROOT CAUSE: the generator scales
+    poses to fill their cells (wide sprawling poses come out ~25-35%
+    larger); it holds scale only within similarly-composed sheets.
+  - DECISIONS: (a) hitstun factor 0.883 -> 0.925 (geometric-proxy mean;
+    independent spear cross-check snaps hitstun spears to +/-4% under
+    0.925 vs systematic -4-8% under 0.883); (b) thrust stays 1.0 (3.5%
+    effect within resolution; moving it would newly convict :5/:6/:7 on a
+    coin flip - documented ambiguity); (c) fall/getup stay 1.0, fixed by
+    redraws not factors (intra-sheet break).
+  - REPAIR PLAN (uses the last 2 image requests, exactly): Sheet A =
+    witness guard + all 8 fall-thrown poses (re-attempt; splice verified
+    improvements only); Sheet B = witness + thrust:3/:4 + hitstun:7 +
+    getup:0/:1/:2/:6/:7 (8 fixes). Witness = standing guard at reference
+    scale, verified BEFORE any splice from that sheet (reject sheet if the
+    witness is off-scale). Splice rule (soldier precedent): splice a cell
+    ONLY if the repair verifies in-band + heads ok + no new art defects,
+    else keep the original. Then re-prepare (with hitstun 0.925) and
+    re-measure; acceptance needs observable spear spread <=10% and head
+    spread <=10%. Residual risks if repairs verify: getup:4/:5 kept heads
+    (must post-verify domes; no budget remains after this round).
+- Files changed: scripts/{spear-line-spearman.mjs (new: 45-cell fits +
+  head-through endpoints + largest-component figureAt),
+  scale-compare-spearman.mjs (new), display-sheet-spearman.mjs (new),
+  review-sheets-spearman.mjs + measure-spearman.mjs (figureAt fix)},
+  art/motion/spearman/spear-lines.json (new: 45 fits),
+  PROVENANCE.md, TASKS.md, PROGRESS.md. No generations spent (still 6/8).
+- Verification run: lint + `tsc --noEmit` clean; all image reads
+  fingerprint-verified (display-scale 2148x1553, spear-overlay 2400x1714,
+  head-review 3248x2998); no library code changed.
+- Result: diagnosis complete; acceptance 4 NOT yet established (attempt 2
+  of the measurement per rule-5 counting: attempt 1 = 750afdf "not
+  established", attempt 2 = this diagnosis-without-proof). Repair round is
+  attempt 3 - if it fails, the task BLOCKEDs with the exact cell-level
+  record below.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: fire the 2 repair requests (prompts drafted
+  in PROVENANCE repair plan), review 18 cells, splice verified-only,
+  re-prepare with hitstun 0.925, re-measure observable spreads, continuity
+  review, acceptance checklist. No blocker yet.
+- Next recommended task: continue CMR-07A (fire repair sheets A+B).
+
 ### 2026-10-02 03:08 UTC - CMR-07A (attempt 1, IN_PROGRESS - correction: scale model fixed to per-sheet; acceptance 4 not established)
 
 - Status before: CMR-07A IN_PROGRESS (pack prepared at e8ad6f6 with a single
