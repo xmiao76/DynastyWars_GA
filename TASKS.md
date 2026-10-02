@@ -178,9 +178,9 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; 6 sheets ACCEPTED incl. misc
-  on c1 (hurt+grapple verified, pike gripped throughout). 8/16
-  spent. Next: fall sheet with ledger reserve-before-generate.)
+- Status: IN_PROGRESS (attempt 1; 7 sheets ACCEPTED incl. fall
+  on c1 (knockdown arc + DOWN/dead verified). 9/16 spent. Next:
+  getup sheet with ledger reserve-before-generate.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

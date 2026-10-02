@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 21:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - fall candidate 1 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (6 sheets accepted, 8/16 spent).
+- Work completed: fall sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 9/16,
+  fall:1, total 49/200). Misc-c1's structured ref pixel-attached +
+  topple/airborne/tumble/impact/settle/DOWN brief. Output `e41d51c6...`
+  (1536x1024, 2232156 B): full knockdown arc (windmilling topple,
+  sprawled airborne, curled upside-down tumble with pike to chest,
+  side impact, settle sprawl, DOWN flat with closed eyes + hand
+  draped over the shaft in contact = also the dead pose, both
+  bookends match); pike gripped in ALL 9; no extra limbs/forks/
+  clipping. Mechanics: 67.24% transparent, 0 sheet-edge-opaque px,
+  9/9 components correct centroids + 4x4px specks cleanable. fall
+  DONE; 3 remain.
+- Files changed: art/motion/zhangfei/fall-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (1feebefb) + gameplay
+  strip (7e6cf75b) + 3 fingerprinted targeted zooms (tumble/DOWN/
+  guard); alpha/census/edge/speck measured mechanically.
+- Result: fall accepted; getup next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 3 sheets (getup first) -> prepare/measure/
+  review. No blocker (7/16 remain).
+- Next recommended task: continue CMR-09A (getup sheet).
+
 ### 2026-10-02 20:45 UTC - CMR-09A (attempt 1, IN_PROGRESS - misc candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (5 sheets accepted, 7/16 spent).
