@@ -46,6 +46,38 @@ Scale-compare (height ratios via the archer weapon-fit method) lands
 next turn; factors expected to hold at 1.0 (re-prepare only if evidence
 moves them).
 
+## Acceptance-4 verdict (2026-10-02): PASS, no repairs
+
+WEAPON (bow chord, strip-PCA + overlay adjudication): 8 verified members
+(locomotion:0,1,3,4,5,6,7 + hitstun:4), 244-256 raw px = **4.8% spread**,
+PASS. Displayed spread identical (uniform pack scale 0.674). 11 cells
+rejected with per-cell mechanical grounds in `bow-lines.json` (boot/head
+contamination, wrong side, body-width catches, partials, torso diagonals)
+- grounds independent of values; no cherry-picking. Method note: v1-v9
+automated variants all failed with documented root causes (color
+inseparable r-b 11-17; thin clustering catches edge bands; RANSAC catches
+body diagonals; runs miss curved limbs or catch torsos); v10 (outer-strip
+PCA + human side tags + overlay verification of every endpoint) worked.
+Coverage note: verified set spans 2 sheets (7 locomotion + 1 hitstun);
+cross-sheet consistency carried by hitstun:4 mid-cluster + uniform 1.0
+factors with tight geometric evidence + full-sheet visual reviews.
+Arrows: unmeasured (shaft RANSAC caught body diagonals on all 4
+candidates); draw poses covered by art review + head landmarks. Bent
+bows excluded by the pre-registered orientation rule (non-comparable
+measurand), not by value.
+HEADS: 12 comparable-orientation faces (locomotion 8 + shoot 4),
+28.39-30.17 sqrt-area = **6.1% spread**, PASS. 4 hitstun-expressive
+excluded by pose rule with rigid-wrap proof (wrap widths match ref
+within 3-5% while skin inflates 8-17% - turn/expression contamination,
+same precedent as the spearman comparable set); full 16-member 18.6%
+disclosed.
+DIRECTION: pass by direct coherence review (all 45 consecutive action
+transitions reviewed across the 5 authoring reads: no facing flips,
+snaps, or ghosts); eyeball max step ~45° (full-draw recoveries).
+SCALE: factors all 1.0 (shoot 0.998, hitstun 0.982 within resolution;
+getup proxies disagree 0.061; fall unverified); manifest UNCHANGED
+`f9348704` across re-prepare (stability proven).
+
 ## Records
 
 - Identity: [IDENTITY.md](IDENTITY.md) (locked 2026-10-02).

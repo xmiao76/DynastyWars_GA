@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 15:18 UTC - CMR-08A (attempt 1, IN_PROGRESS - acceptance 4 PASSES, no repairs)
+
+- Status before: CMR-08A IN_PROGRESS (pack prepared 0e6fcea; landmarks pending).
+- Work completed: archer weapon + head measurement. SIX automated
+  weapon variants failed with documented root causes (color inseparable;
+  thin clustering catches edge bands; RANSAC catches body diagonals;
+  runs miss curved limbs or catch torsos) - then v10 strip-PCA with
+  human side tags + per-cell overlay adjudication worked. BOWS: 8
+  verified chords (endpoints on limb tips) spanning 244-256px = **4.8%
+  spread, PASS**; 11 rejections carry mechanical grounds each (value-
+  independent). HEADS: 12 comparable-orientation faces 28.39-30.17 =
+  **6.1% PASS** (4 hitstun-expressive excluded by pose rule with
+  rigid-wrap proof of same-scale skulls; full 16-member 18.6% disclosed).
+  Direction coherent by frame-by-frame review (eyeball max ~45°).
+  Scale-compare filled (ratios 1.003/0.979/0.976; getup side mistag
+  caught by the sanity check and corrected); all factors hold 1.0;
+  re-prepare reproduces manifest `f9348704` byte-identically.
+- Files changed: scripts/{bow-chord, bow-grid, scale-compare}-archer.mjs
+  (new), scripts/prepare-archer.mjs (status-label fix), art/motion/
+  archer/{bow-lines.json (new, per-cell verdicts), scale-compare.json
+  (stub->filled), registration.json (resolved statuses), PROVENANCE.md
+  (verdict)}, TASKS.md, PROGRESS.md.
+- Verification run: eslint (all archer scripts) + `tsc --noEmit` clean;
+  overlay adjudication (fingerprinted); determinism double-run;
+  wrap-test + head-compare (fingerprinted) for the exclusion rule.
+- Result: acceptance 4 PASSES (bows 4.8%, heads 6.1%, direction
+  coherent). Zero repairs needed; 1/8 spare + 3/3 repair reserve intact.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: continuity review + acceptance checklist
+  -> DONE. No blocker.
+- Next recommended task: continue CMR-08A (review + checklist).
+
 ### 2026-10-02 14:27 UTC - CMR-08A (attempt 1, IN_PROGRESS - pack prepared, deterministic, factors 1.0)
 
 - Status before: CMR-08A IN_PROGRESS (all 5 sheets accepted 28966e3).

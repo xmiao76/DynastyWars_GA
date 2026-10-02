@@ -142,11 +142,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-08A - Wei Archer: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; pack PREPARED: superb uniformity
-  (all factors 1.0), manifest `f9348704` deterministic, 45 frames,
-  2045x924 page (3px cap margin noted), 7.56 MiB, 0 errors, 1 suspect
-  adjudicated benign with proof. Next: weapon-fit method +
-  scale-compare + landmark verdict.)
+- Status: IN_PROGRESS (attempt 1; ACCEPTANCE 4 PASSES: bows 4.8%
+  (8 verified chords, strip-PCA + overlay adjudication), heads 6.1%
+  (12 comparable faces, hitstun-expressive excluded with wrap proof),
+  direction coherent, factors all 1.0 (manifest stable f9348704).
+  Zero repairs needed. Next: continuity review + checklist.)
 - Dependency: CMR-07B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-08A](docs/motion-tasks/CMR-08A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable archer identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -1,0 +1,15 @@
+{
+  "heights": {
+    "locomotion": 329,
+    "shoot": 328,
+    "hitstun-held": 336,
+    "getup-death": 337
+  },
+  "ratios": {
+    "locomotion": 1,
+    "shoot": 1.003,
+    "hitstun-held": 0.979,
+    "getup-death": 0.976
+  },
+  "note": "Guard figure heights (helmet-top in face band to boot-bottom in bow-free half); bow sides verified from overlay reads."
+}

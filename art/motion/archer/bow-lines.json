@@ -1,0 +1,306 @@
+[
+  {
+    "id": "locomotion:0",
+    "side": "R",
+    "length": 252,
+    "a": [
+      274,
+      330
+    ],
+    "b": [
+      333,
+      85
+    ],
+    "n": 1598,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "locomotion:1",
+    "side": "R",
+    "length": 253,
+    "a": [
+      821,
+      335
+    ],
+    "b": [
+      841,
+      83
+    ],
+    "n": 2244,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "locomotion:2",
+    "side": "R",
+    "length": 313,
+    "a": [
+      1326,
+      338
+    ],
+    "b": [
+      1333,
+      25
+    ],
+    "n": 2478,
+    "verdict": "unverified",
+    "note": "boot contamination (endpoint below bow tip)"
+  },
+  {
+    "id": "locomotion:3",
+    "side": "R",
+    "length": 254,
+    "a": [
+      325,
+      677
+    ],
+    "b": [
+      344,
+      424
+    ],
+    "n": 2837,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "locomotion:4",
+    "side": "R",
+    "length": 256,
+    "a": [
+      821,
+      678
+    ],
+    "b": [
+      829,
+      422
+    ],
+    "n": 3599,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "locomotion:5",
+    "side": "R",
+    "length": 252,
+    "a": [
+      1321,
+      674
+    ],
+    "b": [
+      1353,
+      424
+    ],
+    "n": 1990,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "locomotion:6",
+    "side": "R",
+    "length": 245,
+    "a": [
+      299,
+      1007
+    ],
+    "b": [
+      312,
+      763
+    ],
+    "n": 3155,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "locomotion:7",
+    "side": "R",
+    "length": 244,
+    "a": [
+      825,
+      1009
+    ],
+    "b": [
+      828,
+      765
+    ],
+    "n": 4003,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "shoot:0",
+    "side": "R",
+    "length": 168,
+    "a": [
+      311,
+      281
+    ],
+    "b": [
+      350,
+      118
+    ],
+    "n": 1578,
+    "verdict": "unverified",
+    "note": "partial upper segment only (168)"
+  },
+  {
+    "id": "shoot:5",
+    "side": "R",
+    "length": 329,
+    "a": [
+      1341,
+      681
+    ],
+    "b": [
+      1383,
+      355
+    ],
+    "n": 4876,
+    "verdict": "unverified",
+    "note": "wrong side - body diagonal, bow on L"
+  },
+  {
+    "id": "hitstun-held:0",
+    "side": "R",
+    "length": 293,
+    "a": [
+      352,
+      337
+    ],
+    "b": [
+      408,
+      49
+    ],
+    "n": 2386,
+    "verdict": "unverified",
+    "note": "head+boot contamination (293 span)"
+  },
+  {
+    "id": "hitstun-held:4",
+    "side": "R",
+    "length": 253,
+    "a": [
+      826,
+      609
+    ],
+    "b": [
+      880,
+      362
+    ],
+    "n": 2670,
+    "verdict": "verified",
+    "note": "endpoints on limb tips"
+  },
+  {
+    "id": "hitstun-held:5",
+    "side": "R",
+    "length": 315,
+    "a": [
+      1317,
+      673
+    ],
+    "b": [
+      1366,
+      361
+    ],
+    "n": 5118,
+    "verdict": "unverified",
+    "note": "full-height span incl. non-bow (315)"
+  },
+  {
+    "id": "hitstun-held:7",
+    "side": "R",
+    "length": 305,
+    "a": [
+      843,
+      704
+    ],
+    "b": [
+      850,
+      1009
+    ],
+    "n": 6570,
+    "verdict": "unverified",
+    "note": "full-height span incl. non-bow (305)"
+  },
+  {
+    "id": "fall-thrown:3",
+    "side": "L",
+    "length": 172,
+    "a": [
+      41,
+      590
+    ],
+    "b": [
+      199,
+      520
+    ],
+    "n": 11764,
+    "verdict": "unverified",
+    "note": "torso diagonal, not bow"
+  },
+  {
+    "id": "fall-thrown:6",
+    "side": "B",
+    "length": 480,
+    "a": [
+      21,
+      921
+    ],
+    "b": [
+      501,
+      906
+    ],
+    "n": 24216,
+    "verdict": "unverified",
+    "note": "body width (B strip caught body)"
+  },
+  {
+    "id": "fall-thrown:7",
+    "side": "B",
+    "length": 450,
+    "a": [
+      564,
+      924
+    ],
+    "b": [
+      1014,
+      916
+    ],
+    "n": 23427,
+    "verdict": "unverified",
+    "note": "body width (B strip caught body)"
+  },
+  {
+    "id": "getup-death:2",
+    "side": "R",
+    "length": 266,
+    "a": [
+      1390,
+      280
+    ],
+    "b": [
+      1522,
+      49
+    ],
+    "n": 4281,
+    "verdict": "unverified",
+    "note": "mixed endpoint off-bow"
+  },
+  {
+    "id": "getup-death:7",
+    "side": "B",
+    "length": 514,
+    "a": [
+      575,
+      932
+    ],
+    "b": [
+      1089,
+      934
+    ],
+    "n": 21850,
+    "verdict": "unverified",
+    "note": "body width (B strip caught body)"
+  }
+]

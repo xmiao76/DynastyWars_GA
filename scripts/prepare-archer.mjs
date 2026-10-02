@@ -128,6 +128,9 @@ for (const name of Object.keys(SHEETS)) {
     if (spread <= 0.05 && Math.abs(1 - mean) > 0.05) {
       factors[name] = mean
       status[name] = `applied: geometric proxies agree (ground ${e.ground}, height ${h}; face ${e.face} corroborates differently - expression-contaminated)`
+    } else if (spread > 0.05) {
+      factors[name] = 1
+      status[name] = `UNRESOLVED: proxies disagree (spread ${Math.round(spread * 1000) / 1000} > 0.05; ground ${e.ground}, height ${h}, face ${e.face}) - factor 1`
     } else {
       factors[name] = 1
       status[name] = `UNRESOLVED: geometric mean ${mean} within resolution (ground ${e.ground}, height ${h}, face ${e.face}) - factor 1`

@@ -27,7 +27,7 @@
       "sha256": "c0d63dc0678d396d7bff8de23b4aa5dc2d5f48dad885fafac0f5adde95fbf34e",
       "scale": 0.67422,
       "scaleFactor": 1,
-      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+      "scaleEvidence": "UNRESOLVED: geometric mean 0.998 within resolution (ground 0.993, height 1.003, face 0.982) - factor 1"
     },
     "hitstun-held": {
       "guardHeight": 337,
@@ -37,7 +37,7 @@
       "sha256": "dc2b7e383ae86702335ef121a759bf92f0e5ab37cccd0c5eb60ce76cbfd076c7",
       "scale": 0.67422,
       "scaleFactor": 1,
-      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+      "scaleEvidence": "UNRESOLVED: geometric mean 0.982 within resolution (ground 0.986, height 0.979, face 0.952) - factor 1"
     },
     "fall-thrown": {
       "guardHeight": 343,
@@ -47,7 +47,7 @@
       "sha256": "dcfbc1f7d1a5a55c45903dce55de230576fb81b8616e502db310cd78f54bced6",
       "scale": 0.67422,
       "scaleFactor": 1,
-      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
     "getup-death": {
       "guardHeight": 340,
@@ -57,7 +57,7 @@
       "sha256": "1b5906ae8f4489e23277c8ac5d27acbe2952f244662171d7ba858ede18dd331d",
       "scale": 0.67422,
       "scaleFactor": 1,
-      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+      "scaleEvidence": "UNRESOLVED: proxies disagree (spread 0.061 > 0.05; ground 0.915, height 0.976, face 1.023) - factor 1"
     }
   },
   "aliases": {
