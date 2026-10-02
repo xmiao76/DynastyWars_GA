@@ -22,6 +22,29 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 12:31 UTC - CMR-08A (attempt 1, IN_PROGRESS - hitstun sheet accepted, 4/8)
+
+- Status before: CMR-08A IN_PROGRESS (shoot accepted 891f486).
+- Work completed: reserved (archer 4/8) then generated the hitstun-held
+  3x3 (`dc2b7e38...`, body+portrait refs). Mechanical grid check PERFECT
+  9/9/0 (closest margin 7px). Full-sheet review (fingerprinted):
+  recoil/fold/stagger/held-x2/escape-shove/reset all distinct, bow
+  gripped in ALL 9 incl. both pinned-held poses (grapple rule held),
+  identity/scale/bookend hold, no mittens/forks/clipping. Gameplay
+  strip (~115px, fingerprinted): all states legible, silhouettes clean.
+  VERDICT: ACCEPT as `hitstun-held-candidate-1.png`.
+- Files changed: art/motion/archer/hitstun-held-candidate-1.png (new),
+  art/motion/generation-budget.json (archer 4/8), art/motion/archer/
+  PROVENANCE.md (attempt row), TASKS.md, PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate 9/9/0; two fingerprinted reads (full + gameplay). No code
+  changed; no gates applicable.
+- Result: hitstun accepted, 4/8 budget left.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: fall-thrown -> getup-death -> prepare/
+  measure/review. No blocker.
+- Next recommended task: continue CMR-08A (fall-thrown sheet).
+
 ### 2026-10-02 12:02 UTC - CMR-08A (attempt 1, IN_PROGRESS - shoot candidate 2 accepted, 3/8)
 
 - Status before: CMR-08A IN_PROGRESS (shoot candidate 1 rejected 86af532).
