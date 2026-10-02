@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 20:45 UTC - CMR-09A (attempt 1, IN_PROGRESS - misc candidate 1 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (5 sheets accepted, 7/16 spent).
+- Work completed: misc sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 8/16,
+  misc:1, total 48/200). Jump-c1's structured ref pixel-attached +
+  hurt/grapple brief with the fold==grabbed shared cell. Output
+  `892af670...` (1536x1024, 2289902 B): all 9 distinct (recoil rocked
+  back, fold doubled clutching = grabbed, stagger sliding, shove arms
+  out, clamp open 5-finger reach, hold closed brace, release arm
+  flung, bookend matches); pike gripped in ALL 9 (grapple rule held);
+  no second figure; fingers defined; no extra limbs/forks/clipping.
+  Mechanics: 66.88% transparent, 0 sheet-edge-opaque px, 9/9
+  components correct centroids + 2x4px specks cleanable. misc DONE;
+  4 remain.
+- Files changed: art/motion/zhangfei/misc-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/ (review script
+  now accepts a cell-list override for targeted zooms).
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (e07c41d1) + gameplay
+  strip (130fc6eb) + 3 fingerprinted targeted zooms (fold/clamp/hold);
+  alpha/census/edge/speck measured mechanically.
+- Result: misc accepted; fall next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 4 sheets (fall first) -> prepare/measure/
+  review. No blocker (8/16 remain).
+- Next recommended task: continue CMR-09A (fall sheet).
+
 ### 2026-10-02 20:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - jump candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (4 sheets accepted, 6/16 spent).
