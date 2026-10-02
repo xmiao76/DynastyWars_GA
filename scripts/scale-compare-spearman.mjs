@@ -13,7 +13,7 @@
 // inflate the body measurement. Same pose => same foreshortening =>
 // the ratio is a valid scale ratio.
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { alphaComponents } from './motion-pipeline.mjs'
 
@@ -149,9 +149,14 @@ for (const [seq, pos] of guards) {
   console.log(`  ${id.padEnd(16)} faceCx=${faceCx} helmetTop=${h?.top} bootBottom=${h?.bottom} height=${h?.height} spearSide=${h?.spearSide} (facePresent=${Boolean(face)})`)
 }
 const ref = heights.locomotion
+const ratios = {}
 for (const [seq, h] of Object.entries(heights)) {
-  if (h && ref) console.log(`  ${seq.padEnd(13)} figure-height ratio vs locomotion: ${(ref / h).toFixed(3)}`)
+  if (h && ref) {
+    ratios[seq] = Math.round((ref / h) * 1000) / 1000
+    console.log(`  ${seq.padEnd(13)} figure-height ratio vs locomotion: ${ratios[seq].toFixed(3)}`)
+  }
 }
+writeFileSync('art/motion/spearman/scale-compare.json', `${JSON.stringify({ heights, ratios }, null, 2)}\n`)
 
 console.log('DOWN BODY LENGTHS (along-axis extent, body-side pixels only):')
 const downs = {}

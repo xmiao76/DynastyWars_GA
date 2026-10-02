@@ -22,6 +22,62 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 04:39 UTC - CMR-07A (attempt 1, IN_PROGRESS - attempt 3 executed: 7 splices verified, acceptance NOT established, recovery path open)
+
+- Status before: CMR-07A IN_PROGRESS (repairs adjudicated f8531f8; splice+verify planned).
+- Work completed: (1) `scripts/splice-repairs-spearman.mjs`: uniform-k
+  splices (A 0.906, B 0.919, B->hitstun 0.994), Sheet-A cleaning, originals
+  rotated to `previous/`. (2) SPLICE BUG found by the kept-cell check and
+  FIXED: pad-based clearRect ate hitstun:4's spear-butt rows (360->356)
+  and nibbled getup:5/hitstun:8 edges; replaced with union-find
+  mask-exact clearing + automated proof (every diff pixel must fall in
+  old/new rects). Post-fix proof: 0 out-of-rect pixels on all 4 sheets.
+  (3) Re-prepared deterministically (manifest `2d5c6683...`, hitstun 0.925
+  via the geometric rule, 0 budget errors, 5.76 MiB). (4) Full re-measure:
+  kept cells 37/38 bit-exact fits (hitstun:4 shows 2px RANSAC jitter
+  360->358 on proven-identical pixels - verdict-invariant, documented
+  mystery, not damage); spliced cells use predicted values
+  (zoom-verified repair fit x exact k) because re-fits on k-resampled
+  pixels are unreliable (proven: A:4 re-fit 194 vs predicted 350 with
+  correct repair endpoints - color-threshold fragility, not a bad splice).
+  (5) VERDICT: heads PASS (7.9% on the comparable-orientation set of 14;
+  expressive/tilted hitstun heads excluded by pose rule); spears FAIL -
+  23/27 in-band, residuals fall:7 (401), getup:0 (396), getup:1 (407),
+  getup:7 (419) all out-band in both versions; spread 30.2% (14.2% even
+  excluding residuals, driven by generator +/-7% + B:7 low-end 314).
+- NOT BLOCKED (forecast revision - read this): last turn forecasted
+  BLOCKED on budget exhaustion, but the new `MOTION_ACCEPTANCE4_RECOVERY`
+  protocol (owner-authorized 2026-10-02) provides a separate 3-round
+  repair reserve per fighter (spearman 3/3 untouched; my 2 fired sheets
+  stay authoring-counted per the doc's soldier precedent). Rule 5's
+  backstop as clarified = 3 consecutive *unsuccessful* iterations or
+  exhausted resources with no valid next step: every recent iteration
+  achieved its objective (diagnosis, repairs, splice+verify), resources
+  remain, and the valid next step is repair-ledger round 1 (one sheet:
+  witness + fall:7/getup:0/:1/:7 + spares, WITH offending sources as
+  references per protocol). Round-1 success odds honestly ~10-30% given
+  the systematic long-bias on prone/rise poses; partial success still
+  leaves BLOCKED-with-residuals as the eventual outcome if rounds exhaust.
+- Files changed: scripts/splice-repairs-spearman.mjs (new),
+  scripts/prepare-spearman.mjs (geometric rule => hitstun 0.925),
+  scripts/scale-compare-spearman.mjs (JSON output),
+  art/motion/spearman/{4 spliced sheets + previous/ originals,
+  registration.json, measurements-raw.json, spear-lines.json,
+  scale-compare.json (new)}, PROVENANCE.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; deterministic double-run;
+  splice proof (0 stray pixels); kept-cell proof (37/38 + 2px jitter);
+  overlay re-read fingerprint-verified; no library code changed.
+- Result: attempt 3 (authoring-budget repair round) COMPLETE but acceptance
+  NOT established. 7 real defects fixed and verified; 4 residuals remain.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: repair-ledger ROUND 1 (reserve via
+  motion-acceptance4-repair.mjs with source SHAs + cells + defects ->
+  generate (masters + offending sources + scale-ref as references) ->
+  adjudicate -> splice-if-verified -> re-prepare -> re-measure). Then
+  continuity review + checklist if acceptance passes, else rounds 2-3 or
+  BLOCKED with exact record.
+- Next recommended task: continue CMR-07A (repair-ledger round 1).
+
 ### 2026-10-02 04:06 UTC - CMR-07A (attempt 1, IN_PROGRESS - repair round generated + adjudicated; 7 splices verified, 4 residuals unfixable)
 
 - Status before: CMR-07A IN_PROGRESS (diagnosis 42194c0; 2 repair requests planned).

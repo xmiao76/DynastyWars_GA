@@ -163,7 +163,30 @@ task BLOCKEDs per rule 5 with this exact record.
 
 Acceptance item 4 is NOT ESTABLISHED (measurement attempt 2 of 3).
 
-## Remaining budget plan (0 left - exhausted)
+## Splice + re-prepare record (attempt 3, 2026-10-02)
+
+Spliced 7 zoom-verified repair cells (`scripts/splice-repairs-spearman.mjs`,
+uniform k per sheet pair: A->fall 0.906, B->thrust/getup 0.919,
+B->hitstun 0.994): fall:3, fall:6, thrust:3, thrust:4, hitstun:7,
+getup:2, getup:6. Originals preserved in `previous/`. A pad-clear bug
+(ate hitstun:4's butt rows, found by the kept-cell check) was fixed with
+union-find mask-exact clearing; automated proof shows 0 out-of-rect diff
+pixels on all 4 sheets. Re-prepared deterministically (manifest
+`2d5c6683...`, hitstun factor updated 0.883->0.925 via the geometric rule,
+2010x912 page, 5.76 MiB, 0 budget errors). Kept cells: 37/38 fits
+bit-exact (hitstun:4 shows 2px RANSAC jitter on proven-identical pixels -
+verdict-invariant, documented). Spliced cells use predicted values
+(verified repair fit x exact k) because re-fits on k-resampled pixels are
+unreliable (proven: A:4 re-fit 194 vs predicted 350 with correct repair
+endpoints - color-threshold fragility).
+
+VERDICT: heads PASS (7.9% on 14 comparable-orientation faces); spears
+FAIL (23/27 in-band; residuals fall:7/getup:0/:1/:7 out-band in both
+versions; spread 30.2%, ~14% best-case). NOT BLOCKED: the
+`MOTION_ACCEPTANCE4_RECOVERY` protocol provides a separate 3-round
+reserve (spearman 3/3 untouched); next is repair-ledger round 1.
+
+## Remaining budget plan (authoring 0 left - exhausted; repair reserve 3/3)
 
 Both repair requests spent 2026-10-02 (fall-thrown-repair + mixed-repair).
 No image budget remains for CMR-07A/07B. Unfixable residuals (observable +

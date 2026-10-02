@@ -157,27 +157,27 @@
     {
       "id": "thrust:3",
       "aliased": false,
-      "bboxH": 269,
+      "bboxH": 289,
       "face": {
         "w": 22,
         "h": 26,
-        "area": 363,
-        "cy": 48
+        "area": 373,
+        "cy": 51
       },
-      "faceToGround": 220,
+      "faceToGround": 237,
       "spear": null
     },
     {
       "id": "thrust:4",
       "aliased": false,
-      "bboxH": 277,
+      "bboxH": 289,
       "face": {
-        "w": 21,
+        "w": 22,
         "h": 26,
-        "area": 362,
-        "cy": 49
+        "area": 364,
+        "cy": 50
       },
-      "faceToGround": 227,
+      "faceToGround": 238,
       "spear": null
     },
     {
@@ -287,14 +287,14 @@
     {
       "id": "hitstun-held:4",
       "aliased": false,
-      "bboxH": 360,
+      "bboxH": 354,
       "face": {
         "w": 28,
         "h": 32,
         "area": 558,
         "cy": 72
       },
-      "faceToGround": 287,
+      "faceToGround": 281,
       "spear": null
     },
     {
@@ -330,14 +330,14 @@
     {
       "id": "hitstun-held:7",
       "aliased": false,
-      "bboxH": 306,
+      "bboxH": 332,
       "face": {
-        "w": 84,
-        "h": 43,
-        "area": 491,
-        "cy": 60
+        "w": 20,
+        "h": 40,
+        "area": 319,
+        "cy": 59
       },
-      "faceToGround": 245,
+      "faceToGround": 272,
       "spear": null
     },
     {
@@ -369,42 +369,57 @@
     {
       "id": "fall-thrown:1",
       "aliased": false,
-      "bboxH": 1,
-      "face": null,
-      "faceToGround": null,
+      "bboxH": 351,
+      "face": {
+        "w": 34,
+        "h": 101,
+        "area": 314,
+        "cy": 138
+      },
+      "faceToGround": 212,
       "spear": null
     },
     {
       "id": "fall-thrown:2",
       "aliased": false,
-      "bboxH": 1,
-      "face": null,
-      "faceToGround": null,
+      "bboxH": 344,
+      "face": {
+        "w": 52,
+        "h": 160,
+        "area": 504,
+        "cy": 165
+      },
+      "faceToGround": 178,
       "spear": null
     },
     {
       "id": "fall-thrown:3",
       "aliased": false,
-      "bboxH": 175,
+      "bboxH": 123,
       "face": {
-        "w": 47,
-        "h": 33,
-        "area": 1009,
-        "cy": 27
+        "w": 30,
+        "h": 22,
+        "area": 456,
+        "cy": 46
       },
-      "faceToGround": 147,
+      "faceToGround": 76,
       "spear": {
-        "extent": 543,
-        "width": 171,
-        "n": 12903
+        "extent": 430,
+        "width": 121,
+        "n": 9368
       }
     },
     {
       "id": "fall-thrown:4",
       "aliased": false,
-      "bboxH": 1,
-      "face": null,
-      "faceToGround": null,
+      "bboxH": 330,
+      "face": {
+        "w": 66,
+        "h": 93,
+        "area": 929,
+        "cy": 119
+      },
+      "faceToGround": 210,
       "spear": null
     },
     {
@@ -423,10 +438,19 @@
     {
       "id": "fall-thrown:6",
       "aliased": false,
-      "bboxH": 1,
-      "face": null,
-      "faceToGround": null,
-      "spear": null
+      "bboxH": 126,
+      "face": {
+        "w": 31,
+        "h": 24,
+        "area": 484,
+        "cy": 54
+      },
+      "faceToGround": 71,
+      "spear": {
+        "extent": 398,
+        "width": 128,
+        "n": 10307
+      }
     },
     {
       "id": "fall-thrown:7",
@@ -448,9 +472,14 @@
     {
       "id": "fall-thrown:8",
       "aliased": true,
-      "bboxH": 1,
-      "face": null,
-      "faceToGround": null,
+      "bboxH": 167,
+      "face": {
+        "w": 27,
+        "h": 42,
+        "area": 312,
+        "cy": 23
+      },
+      "faceToGround": 143,
       "spear": null
     },
     {
@@ -482,14 +511,14 @@
     {
       "id": "getup-death:2",
       "aliased": false,
-      "bboxH": 360,
+      "bboxH": 259,
       "face": {
-        "w": 111,
-        "h": 108,
-        "area": 513,
-        "cy": 130
+        "w": 24,
+        "h": 26,
+        "area": 387,
+        "cy": 55
       },
-      "faceToGround": 229,
+      "faceToGround": 203,
       "spear": null
     },
     {
@@ -534,18 +563,18 @@
     {
       "id": "getup-death:6",
       "aliased": false,
-      "bboxH": 166,
+      "bboxH": 108,
       "face": {
-        "w": 39,
-        "h": 32,
-        "area": 770,
-        "cy": 70
+        "w": 31,
+        "h": 25,
+        "area": 438,
+        "cy": 46
       },
-      "faceToGround": 95,
+      "faceToGround": 61,
       "spear": {
-        "extent": 459,
-        "width": 152,
-        "n": 11041
+        "extent": 453,
+        "width": 103,
+        "n": 9455
       }
     },
     {
@@ -678,8 +707,8 @@
     "thrust": {
       "method": "face-size median",
       "n": 7,
-      "size": 23.81,
-      "factor": 1.035
+      "size": 23.92,
+      "factor": 1.031
     },
     "hitstun-held": {
       "method": "face-size median",
@@ -694,10 +723,10 @@
       "factor": 1
     },
     "getup-death": {
-      "method": "guard face-to-ground",
-      "n": 1,
-      "size": 286,
-      "factor": 0.951
+      "method": "face-size median",
+      "n": 4,
+      "size": 26.41,
+      "factor": 0.933
     }
   }
 }

@@ -1,0 +1,14 @@
+{
+  "heights": {
+    "locomotion": 317,
+    "thrust": 306,
+    "hitstun-held": 341,
+    "getup-death": 319
+  },
+  "ratios": {
+    "locomotion": 1,
+    "thrust": 1.036,
+    "hitstun-held": 0.93,
+    "getup-death": 0.994
+  }
+}

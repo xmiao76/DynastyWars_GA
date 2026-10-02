@@ -22,29 +22,29 @@
     "thrust": {
       "guardHeight": 345,
       "guardAltHeight": 342,
-      "downHeight": 269,
+      "downHeight": 289,
       "maxContentHeight": 345,
-      "sha256": "dd123d6a565ac2e93d5e4d9e3e610b73dfee43d40e729a660b0693390017b1d9",
+      "sha256": "988781390f5a9c08343fb71292d0da2c9ee7d8c3301f5105ff5c577cb7c2da70",
       "scale": 0.626315,
       "scaleFactor": 1,
-      "scaleEvidence": "UNRESOLVED: proxies disagree in sign (ground 1.034, face 0.961) - factor 1, within resolution"
+      "scaleEvidence": "UNRESOLVED: geometric mean 1.035 within resolution (ground 1.034, height 1.036, face 0.961) - factor 1"
     },
     "hitstun-held": {
       "guardHeight": 364,
       "guardAltHeight": 342,
       "downHeight": 356,
       "maxContentHeight": 364,
-      "sha256": "ae03032aec5b43933be241ca9c75836dd8bfa64285ecf49c6f0951c28e9b2627",
-      "scale": 0.553036,
-      "scaleFactor": 0.883,
-      "scaleEvidence": "applied: proxies agree (ground 0.919, face 0.847; residual uncertainty +/-0.036)"
+      "sha256": "e2b4a8bac11b96cb094c50874f6c8aafa0adc97e5aeff59106d6e754da8d64de",
+      "scale": 0.579342,
+      "scaleFactor": 0.925,
+      "scaleEvidence": "applied: geometric proxies agree (ground 0.919, height 0.93; face 0.847 corroborates differently - expression-contaminated)"
     },
     "fall-thrown": {
       "guardHeight": 380,
       "guardAltHeight": 167,
-      "downHeight": 175,
+      "downHeight": 123,
       "maxContentHeight": 380,
-      "sha256": "2d25cc829058e0d4efd0dbd26c7c56b216d9020649a2e091cd76dd119ddd8b04",
+      "sha256": "cdaffeadd25d10044aa77ca3c42951fde826d0af940f7c1776ff28434002b0e3",
       "scale": 0.626315,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
@@ -54,10 +54,10 @@
       "guardAltHeight": 351,
       "downHeight": 164,
       "maxContentHeight": 379,
-      "sha256": "b78c4af9eaa50bc40231ed18dc38c0aba27d14e394e9165bbfb2b6ed649959ba",
+      "sha256": "4e383a6ddf09e285fa932cabe0c9025a45fdf4bf14061d34d3c73e475bcb6641",
       "scale": 0.626315,
       "scaleFactor": 1,
-      "scaleEvidence": "UNRESOLVED: proxies disagree in sign (ground 0.951, face 1.104) - factor 1, within resolution"
+      "scaleEvidence": "UNRESOLVED: geometric mean 0.972 within resolution (ground 0.951, height 0.994, face 1.104) - factor 1"
     }
   },
   "aliases": {

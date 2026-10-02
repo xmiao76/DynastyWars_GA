@@ -113,21 +113,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; repair round FIRED (budget 8/8,
-  exhausted): Sheet A (fall re-attempt + witness, `33fcecc1...`) + Sheet B
-  (mixed + witness, `ffe7e9da...`), locomotion guard as 3rd scale ref.
-  Witnesses +9-10% uniform (correctable: k_A 0.906, k_B 0.919,
-  k_B->hitstun 0.994). Zoom adjudication verdicts: SPLICE 7 (A:4->fall:3,
-  A:7->fall:6 borderline 1px, B:1/B:2->thrust:3/:4, B:3->hitstun:7
-  borderline, B:6->getup:2, B:7->getup:6); SKIP rest (still out-band:
-  A:8/B:4/B:5/B:8, or targets excluded: A:1/A:2/A:3/A:5/A:6).
-  Tumbling poses (fall:0/:1/:4 etc.) REVISED to excluded-not-convicted
-  (rotation out-of-plane is unobservable by pose, not by measurement).
-  RESIDUALS unfixable (observable + out-band both versions): fall:7,
-  getup:0/:1/:7. Post-repair spread ~14% best-case => attempt 3 will very
-  likely NOT establish acceptance 4 => BLOCKED per rule 5 then; recovery
-  (round-3 request / band amendment / re-scope) is an owner call. Next:
-  splice script + splice 7 + hitstun 0.925 + re-prepare + re-measure.)
+- Status: IN_PROGRESS (attempt 1; attempt-3 repair round EXECUTED:
+  7 verified splices (mask-exact clearing with 0-stray proof after fixing
+  a pad-clear bug that ate hitstun:4's butt rows), hitstun 0.925 via the
+  geometric rule, re-prepared deterministic (`2d5c6683`, 0 budget errors).
+  VERDICT: heads PASS (7.9% comparable set); spears FAIL - 23/27 in-band,
+  residuals fall:7/getup:0/:1/:7 out-band both versions (spread 30.2%,
+  ~14% even best-case). NOT BLOCKED: the recovery protocol grants a
+  separate 3-round reserve (spearman 3/3); next is repair-ledger round 1
+  (witness + 4 residuals + spares, with offending sources as references).
+  Forecast honestly ~10-30% (prone long-bias systematic); on exhaustion
+  the task BLOCKEDs with the exact 4-cell record.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

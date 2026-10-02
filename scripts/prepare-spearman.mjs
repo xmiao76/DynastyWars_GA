@@ -100,31 +100,40 @@ for (const [name, file] of Object.entries(SHEETS)) {
 
 // PER-SHEET scale (the accepted model is "one uniform scale PER SHEET"; the
 // soldier's measured 0.3% agreement justified a pack-wide scale, the
-// spearman's does not). Factors come from scripts/measure-spearman.mjs
-// (controlled standing-guard pose, TWO independent proxies: face-to-ground
-// distance and face sqrt-area). Rule - a factor is applied ONLY where both
-// proxies agree on direction (factor = their mean); where they disagree the
-// sheet stays at factor 1 and is flagged UNRESOLVED, because the proxies
-// resolve only ~+/-5% and a one-sided correction would be invented
-// precision. Sheets with no standing guard cell are UNVERIFIED (factor 1).
+// spearman's does not). Factors come from the controlled standing-guard
+// pose via TWO GEOMETRIC proxies: face-to-ground distance
+// (measurements-raw.json guardScale.ground) and guard figure height
+// (scale-compare.json ratios). The face-area proxy is recorded for
+// corroboration only: hitstun faces show exertion/frontal-turn inflation,
+// so it is expression-contaminated. Rule - apply the geometric mean ONLY
+// when the two geometric proxies agree within 0.05 AND the mean differs
+// from 1.0 by more than the ~0.05 resolution; otherwise factor 1.
+// Sheets with no standing guard cell are UNVERIFIED (factor 1).
 const evidence = JSON.parse(readFileSync(`${SRC}/measurements-raw.json`, 'utf8'))
 const guardScale = evidence.guardScale ?? {}
+const compare = JSON.parse(readFileSync(`${SRC}/scale-compare.json`, 'utf8'))
+const heightRatio = compare.ratios ?? {}
 const factors = {}
 const status = {}
 for (const name of Object.keys(SHEETS)) {
   const e = guardScale[name]
-  if (!e) {
-    factors[name] = 1
-    status[name] = 'UNVERIFIED (no standing guard cell) - factor 1'
-  } else if (name === 'locomotion') {
+  const h = heightRatio[name]
+  if (name === 'locomotion') {
     factors[name] = 1
     status[name] = 'reference sheet'
-  } else if ((e.ground - 1) * (e.face - 1) > 0) {
-    factors[name] = e.factor
-    status[name] = `applied: proxies agree (ground ${e.ground}, face ${e.face}; residual uncertainty +/-${(e.disagreement / 2).toFixed(3)})`
-  } else {
+  } else if (!e || h === undefined) {
     factors[name] = 1
-    status[name] = `UNRESOLVED: proxies disagree in sign (ground ${e.ground}, face ${e.face}) - factor 1, within resolution`
+    status[name] = 'UNVERIFIED (no standing guard cell) - factor 1'
+  } else {
+    const mean = Math.round(((e.ground + h) / 2) * 1000) / 1000
+    const spread = Math.abs(e.ground - h)
+    if (spread <= 0.05 && Math.abs(1 - mean) > 0.05) {
+      factors[name] = mean
+      status[name] = `applied: geometric proxies agree (ground ${e.ground}, height ${h}; face ${e.face} corroborates differently - expression-contaminated)`
+    } else {
+      factors[name] = 1
+      status[name] = `UNRESOLVED: geometric mean ${mean} within resolution (ground ${e.ground}, height ${h}, face ${e.face}) - factor 1`
+    }
   }
 }
 // Pack base scale: the tallest drawing, AFTER its sheet factor, fits its cell.

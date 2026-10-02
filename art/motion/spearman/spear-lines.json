@@ -280,22 +280,22 @@
     "seq": "thrust",
     "pos": 3,
     "aliased": false,
-    "length": 406,
-    "shaftCoverage": 0.95,
-    "inliers": 319,
+    "length": 350,
+    "shaftCoverage": 0.89,
+    "inliers": 291,
     "angle": -3,
     "tipAtHigh": true,
     "a": [
-      128,
-      486
+      156,
+      488
     ],
     "b": [
-      533,
-      465
+      504,
+      471
     ],
     "tip": [
-      533,
-      465
+      504,
+      471
     ]
   },
   {
@@ -303,22 +303,22 @@
     "seq": "thrust",
     "pos": 4,
     "aliased": false,
-    "length": 389,
-    "shaftCoverage": 0.94,
-    "inliers": 298,
-    "angle": -2,
-    "tipAtHigh": true,
+    "length": 347,
+    "shaftCoverage": 0.84,
+    "inliers": 331,
+    "angle": -1,
+    "tipAtHigh": false,
     "a": [
-      660,
-      479
+      698,
+      475
     ],
     "b": [
-      1048,
-      465
+      1044,
+      467
     ],
     "tip": [
-      1048,
-      465
+      698,
+      475
     ]
   },
   {
@@ -510,22 +510,22 @@
     "seq": "hitstun-held",
     "pos": 4,
     "aliased": false,
-    "length": 360,
-    "shaftCoverage": 0.89,
-    "inliers": 266,
+    "length": 358,
+    "shaftCoverage": 0.88,
+    "inliers": 290,
     "angle": 84,
     "tipAtHigh": false,
     "a": [
       680,
-      343
+      345
     ],
     "b": [
-      716,
+      717,
       700
     ],
     "tip": [
       680,
-      343
+      345
     ]
   },
   {
@@ -579,22 +579,22 @@
     "seq": "hitstun-held",
     "pos": 7,
     "aliased": false,
-    "length": 417,
-    "shaftCoverage": 0.95,
-    "inliers": 328,
-    "angle": -26,
+    "length": 389,
+    "shaftCoverage": 0.91,
+    "inliers": 321,
+    "angle": -33,
     "tipAtHigh": true,
     "a": [
-      647,
-      894
+      673,
+      902
     ],
     "b": [
-      1022,
-      713
+      997,
+      689
     ],
     "tip": [
-      1022,
-      713
+      997,
+      689
     ]
   },
   {
@@ -694,22 +694,22 @@
     "seq": "fall-thrown",
     "pos": 3,
     "aliased": false,
-    "length": 433,
-    "shaftCoverage": 0.89,
-    "inliers": 434,
-    "angle": 10,
+    "length": 194,
+    "shaftCoverage": 0.73,
+    "inliers": 254,
+    "angle": 5,
     "tipAtHigh": false,
     "a": [
-      19,
-      617
+      139,
+      600
     ],
     "b": [
-      444,
-      694
+      332,
+      616
     ],
     "tip": [
-      19,
-      617
+      139,
+      600
     ]
   },
   {
@@ -763,22 +763,22 @@
     "seq": "fall-thrown",
     "pos": 6,
     "aliased": false,
-    "length": 432,
-    "shaftCoverage": 0.7,
-    "inliers": 314,
-    "angle": 8,
+    "length": 364,
+    "shaftCoverage": 0.91,
+    "inliers": 329,
+    "angle": 4,
     "tipAtHigh": false,
     "a": [
-      93,
-      853
+      73,
+      884
     ],
     "b": [
-      519,
-      916
+      435,
+      910
     ],
     "tip": [
-      93,
-      853
+      73,
+      884
     ]
   },
   {
@@ -878,22 +878,22 @@
     "seq": "getup-death",
     "pos": 2,
     "aliased": false,
-    "length": 500,
-    "shaftCoverage": 0.86,
-    "inliers": 413,
-    "angle": -42,
-    "tipAtHigh": true,
+    "length": 349,
+    "shaftCoverage": 0.83,
+    "inliers": 293,
+    "angle": -19,
+    "tipAtHigh": false,
     "a": [
-      1138,
-      363
+      1154,
+      244
     ],
     "b": [
-      1506,
-      27
+      1484,
+      133
     ],
     "tip": [
-      1506,
-      27
+      1154,
+      244
     ]
   },
   {
@@ -970,22 +970,22 @@
     "seq": "getup-death",
     "pos": 6,
     "aliased": false,
-    "length": 428,
-    "shaftCoverage": 0.83,
-    "inliers": 379,
-    "angle": 9,
+    "length": 314,
+    "shaftCoverage": 0.9,
+    "inliers": 272,
+    "angle": -3,
     "tipAtHigh": true,
     "a": [
-      28,
-      939
+      169,
+      972
     ],
     "b": [
-      449,
-      1007
+      481,
+      954
     ],
     "tip": [
-      449,
-      1007
+      481,
+      954
     ]
   },
   {
