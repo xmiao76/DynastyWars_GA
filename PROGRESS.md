@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 21:27 UTC - CMR-09A (attempt 1, IN_PROGRESS - getup candidate 1 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (7 sheets accepted, 9/16 spent).
+- Work completed: getup sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 10/16,
+  getup:1, total 50/200). Fall-c1's structured ref pixel-attached +
+  DOWN->propped->kneel->crouch->rise->stand->guard brief. Output
+  `253d897b...` (1536x1024, 2239609 B): smooth rise arc, all 9
+  distinct; DOWN matches the fall DOWN (shared bookend aliases at
+  prepare); pike gripped in ALL 9; no extra limbs/forks/clipping.
+  Mechanics EXACT: 66.45% transparent, 0 sheet-edge-opaque px,
+  EXACTLY 9 components (zero specks), correct centroids. getup DONE;
+  2 remain.
+- Files changed: art/motion/zhangfei/getup-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (5a8795ae) + gameplay
+  strip (d315bec0) + 3 fingerprinted targeted zooms (DOWN/crouch/
+  guard); alpha/census/edge/speck measured mechanically.
+- Result: getup accepted; special next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 2 sheets (special first) -> prepare/
+  measure/review. No blocker (6/16 remain).
+- Next recommended task: continue CMR-09A (special sheet).
+
 ### 2026-10-02 21:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - fall candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (6 sheets accepted, 8/16 spent).
