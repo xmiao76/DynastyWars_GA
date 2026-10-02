@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 12:02 UTC - CMR-08A (attempt 1, IN_PROGRESS - shoot candidate 2 accepted, 3/8)
+
+- Status before: CMR-08A IN_PROGRESS (shoot candidate 1 rejected 86af532).
+- Work completed: reserved (archer 3/8, shoot candidate 2 of max 2)
+  then generated with added >=15px margin language (`c0d63dc0...`).
+  Mechanical grid check PERFECT 9/9/0 (closest approach 5px - margins
+  held, defect fixed). Full-sheet review (fingerprinted): braced firing
+  cycle (guard, raise, half-draw nocked, full draw anchored, release,
+  follow-through, reload x2, bookend), identity/scale/bookend hold, no
+  mittens/forks/clipping. Release zoom re-verified arrowless on the NEW
+  drawings (open hands, slack strings, quiver arrows separate - verdicts
+  never inherited across candidates). Gameplay strip (~115px,
+  fingerprinted): cycle reads clearly, firing stances visibly NOT
+  walking (wide braced stances vs stride cycle). VERDICT: ACCEPT as
+  `shoot-candidate-2.png` (working shoot sheet).
+- Files changed: art/motion/archer/shoot-candidate-2.png (new),
+  art/motion/generation-budget.json (archer 3/8), art/motion/archer/
+  PROVENANCE.md (attempt row), TASKS.md, PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate 9/9/0; three fingerprinted reads (full + zoom + gameplay). No
+  code changed; no gates applicable.
+- Result: shoot accepted, 5/8 budget left.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: hitstun-held -> fall-thrown -> getup-death
+  -> prepare/measure/review. No blocker.
+- Next recommended task: continue CMR-08A (hitstun-held sheet).
+
 ### 2026-10-02 11:28 UTC - CMR-08A (attempt 1, IN_PROGRESS - shoot candidate 1 rejected on clipped bow, re-roll planned)
 
 - Status before: CMR-08A IN_PROGRESS (locomotion accepted 84bfba8).

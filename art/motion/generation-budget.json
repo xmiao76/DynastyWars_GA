@@ -55,10 +55,10 @@
     "archer": {
       "role": "mook",
       "cap": 8,
-      "used": 2,
+      "used": 3,
       "sheetCandidates": {
         "locomotion": 1,
-        "shoot": 1
+        "shoot": 2
       }
     }
   }
