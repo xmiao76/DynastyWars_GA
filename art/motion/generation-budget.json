@@ -67,9 +67,9 @@
     "zhangfei": {
       "role": "hero",
       "cap": 16,
-      "used": 1,
+      "used": 2,
       "sheetCandidates": {
-        "walk": 1
+        "walk": 2
       }
     }
   }

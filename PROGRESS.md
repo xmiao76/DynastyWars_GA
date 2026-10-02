@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 17:53 UTC - CMR-09A (attempt 1, IN_PROGRESS - walk candidate 2 accepted, scale anchor done)
+
+- Status before: CMR-09A IN_PROGRESS (walk-c1 rejected static, 1/16 spent).
+- Work completed: walk sheet candidate 2 generated + reviewed +
+  ACCEPTED. Reserved BEFORE generating (zhangfei 2/16, walk:2 maxed,
+  total 42/200). Candidate 1's structured ref pixel-attached as the
+  identity anchor + explicit per-cell leg choreography in the prompt.
+  Output `981477d7...` (1536x1024, 2237004 B): GENUINE alternating
+  8-cycle (idle guard + contact/pass/push-off/double-stance/snap, all
+  distinct with wide silhouettes - cell4 stride, cell7 dipped stance,
+  cell8 kick-back snap; strip reads as real walking); identity
+  preserved (heavy/short, vest+rope belt, headband+tails, bristle
+  beard, serpent pike + tassel, no armor/cape, uniform heads); hands
+  defined (right wraps shaft, left fists show knuckles); no extra
+  limbs/forks/clipping. Mechanics: 73.44% transparent, 0
+  sheet-edge-opaque px, 9/9 components correct centroids + 1x4px
+  speck (1296,214) cleanable; tight nominal margins benign per the 08A
+  precedent (zoom edge slivers are crop artifacts, centroid assignment
+  lossless). Walk (the scale anchor) DONE; 9 sequences remain.
+- Files changed: art/motion/zhangfei/walk-candidate-2.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored artifacts/tmpcheck/ (review
+  script now tag-parameterized; all 4 composite hashes reproduce
+  byte-exact across re-runs).
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (d3ef73f8) + gameplay
+  strip (f306ca4f) + 3 fingerprinted cell zooms; alpha/census/edge/
+  speck measured mechanically.
+- Result: walk accepted; jab1 next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 9 sheets (jab1 first) -> prepare/measure/
+  review. No blocker (14/16 + repair reserve intact).
+- Next recommended task: continue CMR-09A (jab1 sheet).
+
 ### 2026-10-02 17:46 UTC - CMR-09A (attempt 1, IN_PROGRESS - walk candidate 1 rejected on static cycle)
 
 - Status before: CMR-09A IN_PROGRESS (foundation done, 0/16 spent).
