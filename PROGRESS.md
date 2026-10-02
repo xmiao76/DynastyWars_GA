@@ -22,6 +22,50 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 16:15 UTC - CMR-08B (attempt 1, IN_PROGRESS - pack registered + shooter bindings, units green)
+
+- Status before: CMR-08B TODO (ungated by 08A DONE); starting attempt 1.
+- Work completed: archer motion integration items 1-2 (bounded work).
+  `scripts/emit-archer-runtime.mjs` (new) emits `archer-prepared.json`
+  (45 frames, EMPTY attackBindings per shooter profile) + sheet
+  (2045x924, 1,830,948 B, sha `96cc42fa...`). `motion-clips-archer.ts`
+  (new): clips from core data (90-tick shoot phase cycle, 16-tick hurt,
+  shared clocks), thinkTick-phase firing on idle (release coincides
+  with the spawn tick per AI logic: idle implies in firing position;
+  walk suppresses cues), validator, dispatch. `MotionEntity.thinkTick?`
+  added (sim Entity already flows through, zero plumbing).
+  `motion-art.ts`: MOTION_PACKS entry + publish dispatch (nested
+  ternaries per file convention; lookup refactor deferred).
+  `test/game/motion-archer.test.ts` (new, 16 tests): registration,
+  negatives, bookends, core timing, full phase table incl. spawn-tick
+  release + wrap/NaN/missing guards, per-state dispatch, all-frames
+  sweep, clamp, routing.
+- Test updates (precedent-verified, not weakened): 4 motion-runtime
+  exact-list expectations extended for the 4th catalogued pack (both
+  test stages spawn archers; same update class as soldier/spearman
+  turns) + real `ARCHER_BYTES` mock fixture. Two genuine test-code
+  issues fixed along the way: (1) report list order races run-to-run,
+  so membership assertions compare sorted (precedent already in-file);
+  (2) the packless test had no explicit timeout (5s default) and 3 real
+  PNG decodes now exceed it under load - given 60s like its siblings
+  (timing budget, not an assertion change).
+- Verification run: eslint + `tsc --noEmit` clean; new file 16/16;
+  full suite 858 passed + 6 skipped with ONLY the known G6 V-15b
+  baseline failure (UIR-16 BLOCKED).
+- Result: registration + bindings complete and verified; captures,
+  vision review, prodbuild, and the fighter review report remain.
+- Status after: CMR-08B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: capture harness (shooter: thinkTick-driven
+  firing sampling needs harness support) + vision + report + prodbuild
+  + checklist. No blocker. Note: capture spec's enemy attack injection
+  assumes attackId states - archer needs thinkTick injection instead.
+- HYGIENE DEBT (explicit): PROGRESS.md at ~1550 lines / 49 entries (cap
+  500). Safe archivable set is small and non-contiguous (2x CMR-03 DONE
+  + 3x IDLE heartbeats); bulk is protected (BLOCKED-task evidence) or
+  active-rollout context. Deferred: needs owner call on whether BLOCKED
+  evidence may age to the archive. Recommend a dedicated hygiene turn.
+- Next recommended task: continue CMR-08B (capture harness + vision).
+
 ### 2026-10-02 15:25 UTC - CMR-08A DONE (attempt 1 - continuity + checklist, no waiver needed)
 
 - Status before: CMR-08A IN_PROGRESS (acceptance 4 passed 60ed29b).

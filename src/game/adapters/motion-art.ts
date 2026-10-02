@@ -6,6 +6,7 @@ import { imageSignature, signatureMatches } from '../art/image-signature'
 import { guanyuClips, validMotionPack, type MotionArt, type MotionFrameCell, type MotionPackGeometry } from '../art/motion-clips'
 import { soldierClips, validSoldierPack, motionFrameForSoldier } from '../art/motion-clips-soldier'
 import { spearmanClips, validSpearmanPack, motionFrameForSpearman } from '../art/motion-clips-spearman'
+import { archerClips, validArcherPack, motionFrameForArcher } from '../art/motion-clips-archer'
 import { advanceMotion, type MotionPlayback } from '../art/motion-player'
 import { ART_RESOURCE_KEY, heroArtResources } from './hero-art'
 import {
@@ -27,6 +28,8 @@ import soldierPreparedJson from '../assets/motion/soldier-prepared.json'
 import soldierSheetUrl from '../assets/motion/soldier-motion-sheet.png'
 import spearmanPreparedJson from '../assets/motion/spearman-prepared.json'
 import spearmanSheetUrl from '../assets/motion/spearman-motion-sheet.png'
+import archerPreparedJson from '../assets/motion/archer-prepared.json'
+import archerSheetUrl from '../assets/motion/archer-motion-sheet.png'
 
 export interface MotionPrepared extends MotionPackGeometry {
   signatures: { sheet: string; actions: string }
@@ -71,6 +74,11 @@ export function spearmanPreparedRecord(): MotionPrepared {
   return spearmanPreparedJson as unknown as MotionPrepared
 }
 
+/** Wei Archer pack record (scripts/emit-archer-runtime.mjs output). */
+export function archerPreparedRecord(): MotionPrepared {
+  return archerPreparedJson as unknown as MotionPrepared
+}
+
 // ---------------------------------------------------------------------------
 // Pack catalog. Every fighter with motion art is listed here; kinds outside
 // the catalog never request anything (no all-cast downloads).
@@ -101,6 +109,11 @@ const SPEARMAN_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: motionTextureKeys('spearman').sheet, bytes: 1352663, sha256: '5181a2d77a1d37ae519f4d8f9b752672769d0536c3c05f2d5f526856b0952ad4', width: 1835, height: 866 },
 ]
 
+/** Wei Archer single atlas page (CMR-08B; scripts/emit-archer-runtime.mjs). */
+const ARCHER_PAGES: PackPage[] = [
+  { name: 'sheet', sourceKey: motionTextureKeys('archer').sheet, bytes: 1830948, sha256: '96cc42fa4f77b7f33c5b1de5ae04e3beaa6683184befb33649d472f10b948a4d', width: 2045, height: 924 },
+]
+
 export const MOTION_PACKS: Record<string, MotionPackDef> = {
   guanyu: {
     id: 'guanyu',
@@ -125,6 +138,14 @@ export const MOTION_PACKS: Record<string, MotionPackDef> = {
     url: { sheet: spearmanSheetUrl, actions: spearmanSheetUrl },
     meta: spearmanPreparedRecord,
     clips: spearmanClips,
+  },
+  archer: {
+    id: 'archer',
+    revision: 'archer-1',
+    pages: ARCHER_PAGES,
+    url: { sheet: archerSheetUrl, actions: archerSheetUrl },
+    meta: archerPreparedRecord,
+    clips: archerClips,
   },
 }
 
@@ -522,9 +543,9 @@ export function publishMotionArtRecord(
     scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions })
     return undefined
   }
-  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : validMotionPack(meta)
+  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : validMotionPack(meta)
   if (!valid) return reject()
-  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : guanyuClips())
+  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : guanyuClips())
   const keys = motionTextureKeys(meta.id)
   const images: CanvasImageSource[] = []
   const pageChecks: Array<[string, { width: number; height: number }, string]> = [[keys.sheet, meta.sheet, meta.signatures.sheet]]
@@ -541,7 +562,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : undefined }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : undefined }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }

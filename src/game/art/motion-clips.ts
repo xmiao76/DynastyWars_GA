@@ -120,6 +120,8 @@ export interface MotionEntity {
   mountedOn: number | null
   airTicks?: number
   z?: number
+  /** AI think countdown (enemy shooters phase their firing cycle off it). */
+  thinkTick?: number
 }
 export function sampleClip(art: MotionArt, action: string, tick: number): string {
   const c = art.clips[action] ?? art.clips.idle

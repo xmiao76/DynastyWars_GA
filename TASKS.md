@@ -156,7 +156,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-08B - Wei Archer: integrate/review in motion
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1; catalog registration + shooter
+  bindings DONE and verified: emit script + assets (45 frames,
+  `archer-1`, 2045x924), clips module (90-tick thinkTick-phase shoot
+  cycle + 16-tick hurt), registry + publish dispatch, thinkTick field,
+  16 new unit tests; runtime expectations updated per precedent
+  (suite 858|1-known-baseline) + sorted-membership + timeout fixes.
+  Next: capture harness (thinkTick injection) + vision + report +
+  prodbuild + checklist.)
 - Dependency: CMR-08A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-08B](docs/motion-tasks/CMR-08B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic archer pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
