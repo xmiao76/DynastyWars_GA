@@ -22,15 +22,23 @@ const SRC = 'art/motion/spearman'
 const PREV = `${SRC}/previous`
 const CLEAN = 'artifacts/motion/spearman/cleaned'
 
-// { targetSheet, targetPos, repairFile, repairPos, k } - all 7 zoom-verified.
+// { targetSheet, targetPos, repairFile, repairPos, k } - verified only.
+// Round-0 (authoring budget): 7 splices. Round-2 (ledger round 2) adds 5
+// (r2:2/r2:3/r2:4/r2:5 fix the 4 residuals; r2:6 replaces the borderline
+// A:7 splice). A:8/B:4/B:5/B:8/r1:7/r2:7/r2:8 never verified - not spliced.
+// k is UNIFORM per repair sheet pair (witness-calibrated), never per-cell.
 const JOBS = [
   { sheet: 'fall-thrown', pos: 3, repair: 'fall-thrown-repair-candidate-1.png', rpos: 4, k: 0.906 },
-  { sheet: 'fall-thrown', pos: 6, repair: 'fall-thrown-repair-candidate-1.png', rpos: 7, k: 0.906 },
   { sheet: 'thrust', pos: 3, repair: 'mixed-repair-candidate-1.png', rpos: 1, k: 0.919 },
   { sheet: 'thrust', pos: 4, repair: 'mixed-repair-candidate-1.png', rpos: 2, k: 0.919 },
   { sheet: 'hitstun-held', pos: 7, repair: 'mixed-repair-candidate-1.png', rpos: 3, k: 0.994 },
   { sheet: 'getup-death', pos: 2, repair: 'mixed-repair-candidate-1.png', rpos: 6, k: 0.919 },
   { sheet: 'getup-death', pos: 6, repair: 'mixed-repair-candidate-1.png', rpos: 7, k: 0.919 },
+  { sheet: 'fall-thrown', pos: 7, repair: 'acceptance4-round2-candidate-1.png', rpos: 2, k: 0.86 },
+  { sheet: 'getup-death', pos: 0, repair: 'acceptance4-round2-candidate-1.png', rpos: 3, k: 0.86 },
+  { sheet: 'getup-death', pos: 1, repair: 'acceptance4-round2-candidate-1.png', rpos: 4, k: 0.86 },
+  { sheet: 'getup-death', pos: 7, repair: 'acceptance4-round2-candidate-1.png', rpos: 5, k: 0.86 },
+  { sheet: 'fall-thrown', pos: 6, repair: 'acceptance4-round2-candidate-1.png', rpos: 6, k: 0.86 },
 ]
 const SHEET_FILE = {
   locomotion: 'locomotion-candidate-1.png',
@@ -91,26 +99,45 @@ function labelSheet(im, alpha = 96) {
   return { labelOf: (x, y) => (parent[y * W + x] >= 0 ? find(y * W + x) : -1), W, H }
 }
 
-// Clean a repair sheet: keep ONLY the largest component per nominal cell.
+// Clean a repair sheet: keep ONLY each cell's figure-label pixels
+// (mask-aware). Bbox rectangles can include neighbor-figure bleed (wide
+// poses span nominal boundaries); compositing raw rectangles would stamp
+// foreign pixels into the target. Union-find labels identify the figure
+// exactly (most frequent label among opaque pixels in the figure bbox).
 async function cleanedRepair(file) {
   const cv = await pixelsOf(`${SRC}/${file}`)
   const im = imOf(cv)
+  const labels = labelSheet(im)
   const out = createCanvas(cv.width, cv.height)
   const g = out.getContext('2d')
   const src = cv.getContext('2d')
   for (let pos = 0; pos < 9; pos++) {
     const c = figureAt(alphaComponents(im, 96), im.width, im.height, pos)
     if (!c) throw new Error(`${file}:${pos} repair figure not found`)
-    g.drawImage(cv, c.x0, c.y0, c.x1 - c.x0 + 1, c.y1 - c.y0 + 1, c.x0, c.y0, c.x1 - c.x0 + 1, c.y1 - c.y0 + 1)
+    const counts = new Map()
+    for (let y = c.y0; y <= c.y1; y++) {
+      for (let x = c.x0; x <= c.x1; x++) {
+        const l = labels.labelOf(x, y)
+        if (l >= 0) counts.set(l, (counts.get(l) ?? 0) + 1)
+      }
+    }
+    let best = -1, bestN = 0
+    for (const [l, n] of counts) if (n > bestN) { best = l; bestN = n }
+    const part = src.getImageData(c.x0, c.y0, c.x1 - c.x0 + 1, c.y1 - c.y0 + 1)
+    const cleaned = g.createImageData(part.width, part.height)
+    for (let y = 0; y < part.height; y++) {
+      for (let x = 0; x < part.width; x++) {
+        if (labels.labelOf(c.x0 + x, c.y0 + y) !== best) continue
+        const k = (y * part.width + x) * 4
+        cleaned.data[k] = part.data[k]
+        cleaned.data[k + 1] = part.data[k + 1]
+        cleaned.data[k + 2] = part.data[k + 2]
+        cleaned.data[k + 3] = part.data[k + 3]
+      }
+    }
+    g.putImageData(cleaned, c.x0, c.y0)
+    console.log(`  ${file}:${pos} figure label pixels=${bestN}`)
   }
-  // Prove no seam lies inside any kept figure bbox: every kept bbox must
-  // contain exactly one component.
-  const check = imOf(out)
-  for (let pos = 0; pos < 9; pos++) {
-    const c = figureAt(alphaComponents(check, 96), check.width, check.height, pos)
-    if (!c) throw new Error(`${file}:${pos} lost its figure in cleaning`)
-  }
-  void src
   return out
 }
 

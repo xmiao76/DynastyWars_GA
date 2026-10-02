@@ -113,16 +113,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; repair-ledger ROUND 2 done
-  (reserved per protocol, 1 round left): bracketing refs (too-long +
-  too-short + scale-ref = 5) defeated both directional biases. Result:
-  ALL 4 residuals addressed - r2:2->fall:7 (331), r2:3->getup:0 (310),
-  r2:4->getup:1 (298, 1px margin risk), r2:5->getup:7 (325), all
-  endpoint-verified; r2:6->fall:6 (359) replaces borderline 362;
-  r2:7/r2:8 worse than current (skipped). Settled accepted with explicit
-  evidence. Next: splice 5 (uniform k=0.860) + re-prepare + FULL
-  re-measure + verdict (pass => continuity+checklist+DONE; fail =>
-  round 3 or BLOCKED).)
+- Status: IN_PROGRESS (attempt 1; round-2 cells SPLICED (5: fall:7,
+  getup:0/:1/:7, fall:6-swap; mask-exact proof clean) + re-prepared
+  deterministic + FULL re-measured. VERDICT: heads PASS (7.9%); spears
+  FAIL (27 members 298-360 = 18.2%; every member in-band +/-10% but
+  min+max sit at opposite edges). NOT BLOCKED: repair round 3 (1 left)
+  targets the tails (lows getup:1/:0/:6 + highs fall:6/hitstun:7/thrust:5
+  re-centered to a 322-355 window; 7 cells + witness + spare = 9).
+  Forecast ~5% full-pass (7 cells must all land in a 33px window);
+  partial still tightens. Each iteration achieved its objective, so the
+  rule-5 backstop not triggered. Next: round 3 fire+adjudicate.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

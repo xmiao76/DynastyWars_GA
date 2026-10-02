@@ -280,9 +280,9 @@
     "seq": "thrust",
     "pos": 3,
     "aliased": false,
-    "length": 350,
+    "length": 349,
     "shaftCoverage": 0.89,
-    "inliers": 291,
+    "inliers": 289,
     "angle": -3,
     "tipAtHigh": true,
     "a": [
@@ -303,21 +303,21 @@
     "seq": "thrust",
     "pos": 4,
     "aliased": false,
-    "length": 347,
+    "length": 346,
     "shaftCoverage": 0.84,
-    "inliers": 331,
+    "inliers": 322,
     "angle": -1,
     "tipAtHigh": false,
     "a": [
-      698,
+      699,
       475
     ],
     "b": [
       1044,
-      467
+      468
     ],
     "tip": [
-      698,
+      699,
       475
     ]
   },
@@ -763,22 +763,22 @@
     "seq": "fall-thrown",
     "pos": 6,
     "aliased": false,
-    "length": 364,
-    "shaftCoverage": 0.91,
-    "inliers": 329,
-    "angle": 4,
+    "length": 358,
+    "shaftCoverage": 0.97,
+    "inliers": 374,
+    "angle": 13,
     "tipAtHigh": false,
     "a": [
-      73,
-      884
+      46,
+      848
     ],
     "b": [
-      435,
-      910
+      395,
+      926
     ],
     "tip": [
-      73,
-      884
+      46,
+      848
     ]
   },
   {
@@ -786,22 +786,22 @@
     "seq": "fall-thrown",
     "pos": 7,
     "aliased": false,
-    "length": 401,
+    "length": 332,
     "shaftCoverage": 0.96,
-    "inliers": 428,
-    "angle": 7,
+    "inliers": 334,
+    "angle": 5,
     "tipAtHigh": false,
     "a": [
-      531,
-      940
+      562,
+      947
     ],
     "b": [
-      928,
-      988
+      891,
+      977
     ],
     "tip": [
-      531,
-      940
+      562,
+      947
     ]
   },
   {
@@ -832,22 +832,22 @@
     "seq": "getup-death",
     "pos": 0,
     "aliased": false,
-    "length": 396,
-    "shaftCoverage": 0.93,
-    "inliers": 325,
-    "angle": -68,
+    "length": 311,
+    "shaftCoverage": 0.89,
+    "inliers": 316,
+    "angle": -60,
     "tipAtHigh": true,
     "a": [
-      302,
-      377
+      171,
+      330
     ],
     "b": [
-      451,
-      12
+      324,
+      61
     ],
     "tip": [
-      451,
-      12
+      324,
+      61
     ]
   },
   {
@@ -855,22 +855,22 @@
     "seq": "getup-death",
     "pos": 1,
     "aliased": false,
-    "length": 407,
-    "shaftCoverage": 0.95,
-    "inliers": 411,
-    "angle": -65,
+    "length": 299,
+    "shaftCoverage": 0.94,
+    "inliers": 306,
+    "angle": -64,
     "tipAtHigh": true,
     "a": [
-      796,
-      380
+      787,
+      332
     ],
     "b": [
-      965,
-      11
+      916,
+      63
     ],
     "tip": [
-      965,
-      11
+      916,
+      63
     ]
   },
   {
@@ -993,22 +993,22 @@
     "seq": "getup-death",
     "pos": 7,
     "aliased": false,
-    "length": 419,
-    "shaftCoverage": 0.9,
-    "inliers": 405,
-    "angle": 9,
-    "tipAtHigh": true,
+    "length": 326,
+    "shaftCoverage": 0.97,
+    "inliers": 354,
+    "angle": 7,
+    "tipAtHigh": false,
     "a": [
-      558,
-      949
+      592,
+      954
     ],
     "b": [
-      971,
-      1012
+      915,
+      991
     ],
     "tip": [
-      971,
-      1012
+      592,
+      954
     ]
   },
   {

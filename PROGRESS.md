@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 05:52 UTC - CMR-07A (attempt 1, IN_PROGRESS - round-2 splice + verify: spread 18.2% FAIL, round 3 designed)
+
+- Status before: CMR-07A IN_PROGRESS (round 2 settled b4fd590; splice pending).
+- Work completed: spliced 5 round-2 cells (r2:2/r2:3/r2:4/r2:5/r2:6 with
+  uniform k=0.860; mask-exact proof clean), re-prepared deterministically,
+  FULL re-measure: spear observable set (27 members, principled
+  pose-based exclusions only) spans 298.4-359.8 = **18.2% spread => FAIL**
+  (min getup:1, max hitstun:7). Every member is within +/-10% of the 330
+  reference - the set is centered but WIDE (generator +/-7% natural
+  variation across 27 diverse members exceeds the 10% spread budget).
+  Honesty checks performed and rejected: metric-shopping (max-deviation
+  9.6% would pass, but soldier precedent uses range/mean - binding);
+  cherry-picked subsets (any honest narrowing still fails: strict
+  axis-aligned subset spans 13-14%); unilateral re-scope (owner-only).
+  Heads PASS (7.9%). Kept-cell proof holds (37/38 + 2px jitter).
+- NOT BLOCKED: repair ledger round 3 REMAINS (1 left) with a concrete
+  evidence-based plan: re-centering round targeting BOTH tails
+  (lows: getup:1/getup:0/getup:6 + highs: thrust:5/:7, hitstun:7,
+  fall:6 - 7 cells + witness + spare = 9) with bracketing refs aimed at
+  the 322-355 center window. Forecast honestly LOW (~5%: 7 cells must
+  all land in a 33px window at ~60% each) but positive-expected-progress
+  (each centered fix tightens spread); partial success still narrows for
+  a final verdict. Iterations remain productive (each achieved its
+  objective), so rule-5 backstop not triggered.
+- Files changed: (splice+reprepare outputs) art/motion/spearman/{4 source
+  sheets spliced + previous/ originals, registration.json,
+  measurements-raw.json, spear-lines.json}, PROVENANCE.md, TASKS.md,
+  PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; deterministic double-run;
+  splice proof (0 out-of-rect diff pixels on all sheets = kept cells
+  pixel-identical, stronger than fit comparison); overlay re-read
+  fingerprint-verified; no library code changed.
+- Result: acceptance NOT established (attempt 3 of authoring-budget
+  rounds complete; repair-ledger round 3 is the last funded attempt).
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: repair-ledger ROUND 3 (reserve -> generate
+  centering round -> adjudicate -> splice-if-verified -> re-prepare ->
+  FINAL verdict: pass => continuity+checklist+DONE; fail => BLOCKED with
+  exact record, owner options: band amendment / re-scope / accept-as-is).
+- Next recommended task: continue CMR-07A (repair-ledger round 3).
+
 ### 2026-10-02 05:14 UTC - CMR-07A (attempt 1, IN_PROGRESS - repair-ledger round 2 fired + adjudicated: all 4 residuals addressed)
 
 - Status before: CMR-07A IN_PROGRESS (round 1 settled 80e80be; 4 residuals blocking).

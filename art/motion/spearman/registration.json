@@ -24,7 +24,7 @@
       "guardAltHeight": 342,
       "downHeight": 289,
       "maxContentHeight": 345,
-      "sha256": "988781390f5a9c08343fb71292d0da2c9ee7d8c3301f5105ff5c577cb7c2da70",
+      "sha256": "164362735a213ad853f2648a8885b8a9ca49600ebc42078a69ae283f6c8d1a6f",
       "scale": 0.626315,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: geometric mean 1.035 within resolution (ground 1.034, height 1.036, face 0.961) - factor 1"
@@ -34,7 +34,7 @@
       "guardAltHeight": 342,
       "downHeight": 356,
       "maxContentHeight": 364,
-      "sha256": "e2b4a8bac11b96cb094c50874f6c8aafa0adc97e5aeff59106d6e754da8d64de",
+      "sha256": "8a8980fa2057b0dcc52536ffd73a0b56b9f5f9dc241838933ec7fa7043b56259",
       "scale": 0.579342,
       "scaleFactor": 0.925,
       "scaleEvidence": "applied: geometric proxies agree (ground 0.919, height 0.93; face 0.847 corroborates differently - expression-contaminated)"
@@ -44,17 +44,17 @@
       "guardAltHeight": 167,
       "downHeight": 123,
       "maxContentHeight": 380,
-      "sha256": "cdaffeadd25d10044aa77ca3c42951fde826d0af940f7c1776ff28434002b0e3",
+      "sha256": "41f8e119441ba636bb037e77b479279856b61d22cf6d02b3d6fe5fd35e84ae9f",
       "scale": 0.626315,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
     },
     "getup-death": {
-      "guardHeight": 379,
+      "guardHeight": 273,
       "guardAltHeight": 351,
       "downHeight": 164,
-      "maxContentHeight": 379,
-      "sha256": "4e383a6ddf09e285fa932cabe0c9025a45fdf4bf14061d34d3c73e475bcb6641",
+      "maxContentHeight": 351,
+      "sha256": "e6c5dde8ca348927d3e2a1905ef50db3b6e0f7013bb7e1dca50b4b35c3aaf1bf",
       "scale": 0.626315,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: geometric mean 0.972 within resolution (ground 0.951, height 0.994, face 1.104) - factor 1"

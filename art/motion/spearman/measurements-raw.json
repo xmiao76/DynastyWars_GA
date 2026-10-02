@@ -287,14 +287,14 @@
     {
       "id": "hitstun-held:4",
       "aliased": false,
-      "bboxH": 354,
+      "bboxH": 360,
       "face": {
         "w": 28,
         "h": 32,
         "area": 558,
         "cy": 72
       },
-      "faceToGround": 281,
+      "faceToGround": 287,
       "spear": null
     },
     {
@@ -330,15 +330,19 @@
     {
       "id": "hitstun-held:7",
       "aliased": false,
-      "bboxH": 332,
+      "bboxH": 335,
       "face": {
         "w": 20,
         "h": 40,
         "area": 319,
         "cy": 59
       },
-      "faceToGround": 272,
-      "spear": null
+      "faceToGround": 275,
+      "spear": {
+        "extent": 43,
+        "width": 14,
+        "n": 470
+      }
     },
     {
       "id": "hitstun-held:8",
@@ -406,7 +410,7 @@
       "spear": {
         "extent": 430,
         "width": 121,
-        "n": 9368
+        "n": 9491
       }
     },
     {
@@ -438,35 +442,35 @@
     {
       "id": "fall-thrown:6",
       "aliased": false,
-      "bboxH": 126,
+      "bboxH": 156,
       "face": {
-        "w": 31,
-        "h": 24,
-        "area": 484,
-        "cy": 54
+        "w": 36,
+        "h": 32,
+        "area": 671,
+        "cy": 46
       },
-      "faceToGround": 71,
+      "faceToGround": 109,
       "spear": {
-        "extent": 398,
-        "width": 128,
-        "n": 10307
+        "extent": 456,
+        "width": 133,
+        "n": 10194
       }
     },
     {
       "id": "fall-thrown:7",
       "aliased": false,
-      "bboxH": 178,
+      "bboxH": 155,
       "face": {
-        "w": 37,
-        "h": 38,
-        "area": 750,
-        "cy": 48
+        "w": 31,
+        "h": 33,
+        "area": 563,
+        "cy": 52
       },
-      "faceToGround": 129,
+      "faceToGround": 102,
       "spear": {
-        "extent": 470,
-        "width": 175,
-        "n": 12567
+        "extent": 411,
+        "width": 147,
+        "n": 9569
       }
     },
     {
@@ -485,27 +489,27 @@
     {
       "id": "getup-death:0",
       "aliased": false,
-      "bboxH": 379,
+      "bboxH": 273,
       "face": {
-        "w": 61,
-        "h": 128,
-        "area": 634,
-        "cy": 161
+        "w": 52,
+        "h": 87,
+        "area": 578,
+        "cy": 111
       },
-      "faceToGround": 217,
+      "faceToGround": 161,
       "spear": null
     },
     {
       "id": "getup-death:1",
       "aliased": false,
-      "bboxH": 372,
+      "bboxH": 271,
       "face": {
-        "w": 60,
-        "h": 122,
-        "area": 680,
-        "cy": 159
+        "w": 47,
+        "h": 93,
+        "area": 541,
+        "cy": 115
       },
-      "faceToGround": 212,
+      "faceToGround": 155,
       "spear": null
     },
     {
@@ -574,24 +578,24 @@
       "spear": {
         "extent": 453,
         "width": 103,
-        "n": 9455
+        "n": 9564
       }
     },
     {
       "id": "getup-death:7",
       "aliased": false,
-      "bboxH": 153,
+      "bboxH": 115,
       "face": {
-        "w": 41,
-        "h": 30,
-        "area": 842,
-        "cy": 60
+        "w": 29,
+        "h": 29,
+        "area": 312,
+        "cy": 24
       },
-      "faceToGround": 92,
+      "faceToGround": 90,
       "spear": {
-        "extent": 490,
-        "width": 133,
-        "n": 10643
+        "extent": 427,
+        "width": 107,
+        "n": 8583
       }
     },
     {
@@ -724,9 +728,9 @@
     },
     "getup-death": {
       "method": "face-size median",
-      "n": 4,
-      "size": 26.41,
-      "factor": 0.933
+      "n": 5,
+      "size": 27.84,
+      "factor": 0.885
     }
   }
 }

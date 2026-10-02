@@ -188,11 +188,24 @@ versions; spread 30.2%, ~14% best-case). NOT BLOCKED: the
 `MOTION_ACCEPTANCE4_RECOVERY` protocol provides a separate 3-round
 reserve (spearman 3/3 untouched); next is repair-ledger round 1.
 
+## Round-2 splice + verdict (2026-10-02)
+
+Spliced 5 verified round-2 cells (uniform k=0.860; r1:6 splice queued
+earlier superseded by r2:6): fall:7 (331), getup:0 (310), getup:1 (298,
+1px margin risk), getup:7 (325), fall:6 (359, replaces borderline 362).
+Mask-exact proof clean (0 out-of-rect diffs); re-prepared
+deterministically with hitstun 0.925. VERDICT: all 27 members in-band
++/-10% BUT spread 18.2% (min getup:1 298.4, max hitstun:7 359.5) - the
+set spans nearly the full band (generator +/-7% natural variation).
+Heads still PASS. NOT BLOCKED (round 3 remains): round-3 design =
+re-centering round (lows getup:1/:0/:6 + highs fall:6/hitstun:7/thrust:5
+redrawn into a 322-355 window + witness + spare = 9); forecast ~5%
+full-pass (7 cells must all land in a 33px window).
+
 ## Remaining budget plan (authoring 0 left - exhausted; repair reserve 1/3)
 
-Authoring-budget repairs spent (7 splices) + repair-ledger round 1 (0/4,
-r1:6 splice queued) + round 2 (all 4 residuals addressed, splice
-pending). One repair round remains as backstop. If the round-2 splice
-verification fails to establish acceptance 4, round 3 (refined targeting)
-or BLOCKED with exact record; band amendment or re-scope remain owner
-calls.
+Authoring repairs (7 splices) + round 1 (0/4, r1:6 queued-then-superseded)
++ round 2 (5 splices: all residuals addressed individually, but global
+spread 18.2% FAIL). One repair round remains: re-centering round per
+above. If it fails, BLOCKED with exact record; band amendment, re-scope,
+or accept-as-is remain owner calls.
