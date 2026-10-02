@@ -178,7 +178,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1; identity locked + 10-sequence plan
+  written, 0/16 spent. HEAVY build/short/big-head + bristle beard + vest
+  (no armor/cape) + 82-unit serpent pike locked from fingerprinted
+  masters + authoritative figure plan. Next: walk sheet (scale anchor)
+  with ledger reserve-before-generate.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 17:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - identity locked + plan written, no generation yet)
+
+- Status before: CMR-09A TODO (ungated by 08B DONE); starting attempt 1.
+- Work completed: identity lock + authoring foundation, no image
+  requests spent. Read core data at implementation time (zhangfei: HP
+  140, speed 1.3, combo zf.jab1/jab2 5/4/9 thrusts + zf.finisher 10/6/18
+  sweep-knockdown, jumpkick 4/20/0, special 24dmg melee AoE 6/12/12 cost
+  18, mounted.sweep 8/6/14; thrust->thrust->sweep, NOT Guan Yu cuts).
+  KEY design drivers: (1) HEAVY build (0.96/1.18/1.14/1.04) vs Guan Yu
+  TALL - shortest/bulkiest/biggest-head hero, silhouette-distinct;
+  (2) portrait master shows armor+cape but figure plan sets cape=false
+  with vest costume - portrait restricted to FACE/BEARD/HEADBAND only;
+  (3) masters show NO weapon - 82-unit serpent pike (longest on roster,
+  red tassel) authored per WEAPONS table. Inspected both masters
+  fingerprinted (body 832x1248 JPEG 184617B 546fc302...; portrait
+  1145x1374 PNG 2472904B 36b41443..., hashes match file SHA256). Wrote
+  IDENTITY.md (lock + hashes + rigid pike/head landmarks), AUTHORING-
+  PLAN.md (10x9 layouts mirroring the Guan Yu hero inventory with zf.*
+  windows, 10+6 budget plan, GYM-1/06A/07A/08A lessons as prompt rules
+  incl. uniform-scale + heavy-build + bristle-beard + no-armor/cape +
+  pike-length/margin rules, 09B handoff), PROVENANCE.md (attempt/budget
+  skeleton, 0/16).
+- Files changed: art/motion/zhangfei/{IDENTITY,AUTHORING-PLAN,
+  PROVENANCE}.md (new), TASKS.md, PROGRESS.md. No code/art/scripts.
+- Verification run: no gates applicable (docs-only turn; nothing
+  lint/tsc/units cover was touched). Masters inspected via
+  fingerprint-verified reads (hashes recorded, match file SHA256).
+- Result: authoring foundation complete; generation starts next (10
+  sequences, walk first as scale anchor, reserve-before-generate each).
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: generate walk (+ review at gameplay
+  size/4x) -> remaining 9 sheets -> prepare/measure/review. No blocker.
+- Next recommended task: continue CMR-09A (walk sheet).
+
 ### 2026-10-02 17:06 UTC - CMR-08B DONE (attempt 1 - vision review + fighter report + full gates)
 
 - Status before: CMR-08B IN_PROGRESS (captures green cd2284b; vision + report + prodbuild + checklist remained).
