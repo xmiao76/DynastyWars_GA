@@ -176,6 +176,24 @@ under ignored `artifacts/loop/`. `--status` reads state and lock without requiri
 adapter configuration. The runner does not independently certify an agent's
 claimed acceptance results; inspect its evidence and retain the project gates.
 
+### CMR Acceptance-4 recovery (owner-approved)
+
+When the selected cast-motion A task fails its head/weapon consistency check,
+`.loop/loop.md` directs that same consumer to the [bounded recovery protocol](MOTION_ACCEPTANCE4_RECOVERY.md).
+First separate an invalid measurement from a real drawing defect. For a located
+art defect, reserve one focused image request before generation, redraw no more
+than nine named drawings, preserve originals, rebuild only affected preparation,
+and remeasure the entire pack at fixed scale. Up to three rounds per remaining
+fighter/horse (51 requests across 17, separate from the original 200 authoring
+requests; combined 251), no new Guan Yu generation. The durable repair ledger
+rejects an unaccounted pending request and prevents a fourth request. Failed
+measurement methods inside a single diagnostic iteration do not count as three
+separate unsuccessful **consumer iterations**. Existing three-iteration task
+stop, locked writer, provenance, quality thresholds, provider/sandbox and
+blocked-task rules still apply; nothing auto-reopens a BLOCKED task or launches
+a second runner. A real unresolved visual defect remains IN_PROGRESS/BLOCKED,
+never a forced green pass.
+
 | Result | Batch/scheduled behavior | Exit |
 | --- | --- | --- |
 | COMPLETED / IN_PROGRESS | May continue within requested finite budget | 0 |

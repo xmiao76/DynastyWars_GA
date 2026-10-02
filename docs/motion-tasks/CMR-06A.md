@@ -27,6 +27,8 @@
 
 At most **8 image requests total for Wei Soldier**, shared across CMR-06A/CMR-06B and all continuation rounds; at most two whole-sheet candidates per sequence. Existing budget record is authoritative; never reset it on model/task changes. Preserve every attempt/prompt/ordered reference hash/verdict and remaining allowance. If unavailable tools or cap exhaustion prevent complete accepted art, record exact BLOCKED input rather than publish a partial set.
 
+For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTION_ACCEPTANCE4_RECOVERY.md): reserve before a focused image request, preserve source originals, re-prepare and remeasure. The owner-approved three-round repair-only reserve is separate from the authoring cap stated above; it does not reset task iterations or lower the 10%/60° checks.
+
 ## Acceptance
 
 - [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses. (5 sequences x 9 = 45 displayed frames covering idle/approach/retreat/walk/stop, `soldier.swing` 14/4/20, 18-tick hitstun, held/escape, fall/impact/down, thrown flight/impact, getup, dying/dead; 37 unique drawings + 8 shared-bookend aliases; no legacy parts anywhere.)

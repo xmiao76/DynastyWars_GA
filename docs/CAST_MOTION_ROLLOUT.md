@@ -20,7 +20,7 @@ Planning baseline: `540501c`, following Guan Yu implementation/review commits `d
 - The CMR queue is sequential by design. A failed foundation/character prerequisite stops downstream CMR work; do not skip it just because downstream status says TODO. Record the prerequisite blocker and wait for the owner rather than start another character.
 - GYM-1, BODY-7, ENH-12 and UIR-19 are explicitly owner-deferred as BLOCKED, preserving evidence and attempt counts. UIR-16 remains blocked as before. Unrelated TODOs follow the CMR queue. No loop policy or runner changes are required.
 - A task is not DONE because artwork was generated or the loader boots. Task-specific acceptance and relevant checks must pass. Producers independently verify fresh visual evidence; consumers never grade their own ledger findings as verified.
-- Existing three-unsuccessful-attempt rule applies **per task**, with attempt records preserved across threads/models. Generation limits are additional caps, not permission to retry indefinitely.
+- Existing three-unsuccessful-CONSUMER-iteration rule applies **per task**, with iteration records preserved across threads/models; three failed formulas within one diagnostic iteration are not three task iterations. For a selected CMR-A task's Acceptance 4, use the [bounded diagnosis and focused-redraw recovery](MOTION_ACCEPTANCE4_RECOVERY.md) without lowering the quality gate, reopening a blocked task or starting a second writer. Generation limits are additional caps, not permission to retry indefinitely.
 - Local commits only, scoped to the selected iteration. No push/deploy, other repository changes, secret access, permission escalation or scheduler/runner-control changes.
 
 ## Scope and non-goals
@@ -139,11 +139,11 @@ Existing `review:capture`, ledger and producer cadence remain authoritative. Fou
 
 ## Generation budget and durable provenance
 
-Caps before generation: 16 requests/remaining hero (4×16), 12/boss (9×12), 8/mook (3×8), 4/horse: **200 maximum**. No new Guan Yu generation authorized. At most two whole-sheet candidates per sequence. Focused edits count against the same character cap across A/B tasks and continuation rounds; task boundary/model switch does not reset the allowance.
+Initial authoring caps: 16 requests/remaining hero (4×16), 12/boss (9×12), 8/mook (3×8), 4/horse: **200 authoring requests maximum**. No new Guan Yu generation authorized. At most two whole-sheet candidates per sequence. Standard focused edits count against the character's authoring cap across A/B tasks and rounds. The owner additionally authorizes an **Acceptance-4-only reserve of three focused one-request repair rounds per remaining fighter/horse**: 17×3=51 additional requests, **251 combined maximum**, tracked independently by [the repair ledger](../art/motion/acceptance4-repair-budget.json) and [the recovery protocol](MOTION_ACCEPTANCE4_RECOVERY.md). This is not a general generation-cap increase or a task retry reset. Historical soldier repairs stay counted in authoring only; the reserve starts unspent. No whole-sheet retries use this reserve.
 
 Per fighter keep attempted images, exact prompts, ordered reference hashes, original outputs, provider preference versus actual known provider, scale/pivot overrides, exposure decisions and remaining allowance. Preserve existing original portrait/body sources. Reject a technically convenient but inconsistent image; targeted repair beats blind full-sheet retries. Quota recovery follows existing policy; unavailable image tools/authentication/access are explicit blockers, not silent substitutions, new plugins, credential access or unsafe permission changes.
 
-No monetary cost or wall-time estimate is asserted: request cap is a ceiling, not a promised success count. A budget-exhausted character stays unaccepted with evidence and an owner decision; do not pad missing sequences with old parts.
+No monetary cost or wall-time estimate is asserted: request cap is a ceiling, not a promised success count. A fighter with exhausted authoring and Acceptance-4 reserves stays unaccepted with evidence and an owner decision; do not pad missing sequences with old parts.
 
 ## Final handoff
 

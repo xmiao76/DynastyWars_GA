@@ -13,6 +13,16 @@ Execute exactly one bounded CONSUMER iteration:
    why they failed rather than repeating them.
 4. Inspect existing code and working changes. Implement the smallest coherent
    change that advances the selected task. Do not overwrite unrelated work.
+4a. For a CMR character AUTHORING task whose Acceptance 4 fails, follow
+    `docs/MOTION_ACCEPTANCE4_RECOVERY.md` on THIS selected task. Distinguish
+    bad measurement from actual art first; if named source drawings need
+    repair, reserve one focused request before generating, redraw only those
+    cells, preserve originals, re-prepare the affected pack and remeasure.
+    Three one-request rounds per fighter are available in a separately
+    recorded 51-request repair reserve. Keep the 10%/60-degree criteria,
+    all other caps and AGENTS.md's three unsuccessful CONSUMER iterations.
+    Unknown measurements are not passes. Never reopen a BLOCKED task or
+    start another task, runner or writer to use this protocol.
 5. Add meaningful tests for changed behavior. When pinning a defect, confirm
    the regression test fails without the fix, then passes with it. Record both.
 6. Run relevant PROJECT.md checks. UI-related work also requires `npm run vision`

@@ -35,6 +35,8 @@
 - [x] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates. (No guanyu asset/record changes across the CMR-06B range - verified by diff; all guanyu motion suites green; `?motion=1` opt-in gate untouched, soldier loads only under the flag via the catalog.)
 - [x] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE. (lint + tsc clean; unit 822 passed / 1 failed = known G6 V-15b pin (UIR-16 BLOCKED) / 6 skipped; motion suites incl. 12 new soldier tests green; captures self-check green on both renderers with exit 0; vision 5/5 incl. negative controls; prodbuild 8/8 incl. two-pack built-app assertions; signal 13/13 with zero page errors/violations. One unit flake observed under load (second failure in one run, clean on re-run); final confirmation run uncontended.)
 
+The three-round Acceptance-4 [repair-only reserve](../MOTION_ACCEPTANCE4_RECOVERY.md) is shared with this fighter’s A task. If runtime evidence reveals a *new* actual source-art defect, diagnose and reserve a focused repair; do not silently repurpose it for general polish, loosen checks or reset the task-iteration limit.
+
 ## Verification/handoff
 
 Run targeted profile/pack/frame units, actual fighter action/mixed/interactions browser tests, lint/typecheck, vision/prodbuild. Run signal for timing adapter/AI observer/paired behavior changes; independent producer review follows existing cadence. Report known G6/UIR-19 failures separately and permit no new failures. Budget is shared with A. Local scoped commit; subsequent character waits for this task's DONE prerequisites, not partially loaded art.

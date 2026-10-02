@@ -22,9 +22,15 @@ These instructions describe behavior, not a particular model, API, or agent host
    UI changes also require `npm run vision`; shipping changes require `npm run prodbuild`.
 4. Mark a task `DONE` only when acceptance criteria and relevant checks pass.
    Otherwise retain `IN_PROGRESS`, or record an exact blocker as `BLOCKED`.
-5. Do not attempt the same task a fourth consecutive unsuccessful time. Count
-   attempts from the newest `PROGRESS.md` entries; block after three failures.
-   Only the owner may reset a blocked task to `TODO`.
+5. Do not attempt the same task a fourth consecutive unsuccessful CONSUMER
+   iteration. Count iteration outcomes from the newest `PROGRESS.md` entries;
+   block after three unsuccessful iterations. A measurement method that fails
+   within one diagnostic iteration is not itself a new consumer iteration.
+   CMR authoring Acceptance 4 uses `docs/MOTION_ACCEPTANCE4_RECOVERY.md` to
+   locate/repair named source drawings within a separate, tracked three-round
+   image-request reserve; this does NOT reset the iteration limit, authorize
+   unbounded retries, or reopen a blocked task. Only the owner may reset a
+   blocked task to `TODO`.
 6. For attempted work or new findings, prepend evidence, attempt number, remaining
    work and next action at the TOP of the Entries section in `PROGRESS.md`.
    Never claim an unrun check passed or an unseen screenshot was reviewed.
