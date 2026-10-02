@@ -129,13 +129,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07B - Wei Spearman: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; catalog registration + state bindings
-  DONE and verified: emit script + assets (45 frames, `spearman-1`,
-  1835x866), clips module (core-data timings incl. 20/5/26 thrust +
-  14-tick hurt), registry + publish dispatch, 13 new unit tests;
-  runtime/repair-test expectations updated per soldier precedent
-  (suite 842|1-known-baseline). Next: capture harness + vision +
-  prodbuild + review report.)
+- Status: IN_PROGRESS (attempt 1; capture harness extended + verified:
+  per-fighter pack/bindings/actions/provenance/resources in the runner,
+  per-fighter enemy attack in the e2e spec (fail-loud), 3-pack prodbuild
+  pilot; spearman canvas+webgl captures pass (38 rows, 0 errors, 0
+  blanks, all genuine motion keys x 10 actions), soldier re-run
+  identical (no regression). Next: vision review + report + prodbuild
+  + checklist.)
 - Dependency: CMR-07A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07B](docs/motion-tasks/CMR-07B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic spearman pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

@@ -260,10 +260,19 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
 
   // Isolated named actions (injected state control, labelled `injected`) and
   // real-input segments (labelled `gameplay`), both facings.
+  // The enemy attack action is per fighter (fail loud on unknown kinds -
+  // capturing the wrong attackId would silently record guard frames).
+  const enemyAttack: Record<string, [string, string]> = {
+    soldier: ['swing', 'soldier.swing'],
+    spearman: ['thrust', 'spear.thrust'],
+  }
+  const [attackAction, attackId] = ENEMY_KIND
+    ? (enemyAttack[FIGHTER] ?? (() => { throw new Error(`unknown enemy fighter for capture: ${FIGHTER}`) })())
+    : ['', '']
   const isolated: Array<[string, Record<string, unknown>]> = ENEMY_KIND
     ? [
         ['idle', { state: 'idle', stateTick: 0 }],
-        ['swing', { state: 'attack', attackId: 'soldier.swing', stateTick: 0 }],
+        [attackAction, { state: 'attack', attackId, stateTick: 0 }],
         ['hurt', { state: 'hitstun', stateTick: 0 }],
         ['knockdown', { state: 'knockdown', stateTick: 0 }],
         ['getup', { state: 'getup', stateTick: 0 }],

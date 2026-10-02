@@ -47,12 +47,21 @@ const commit = git(['rev-parse', '--short', 'HEAD']) || 'unknown'
 const dirty = git(['status', '--porcelain', 'src', 'scripts', 'art']) !== ''
 const prepared = JSON.parse(readFileSync('src/game/assets/motion/prepared.json', 'utf8'))
 const actions = JSON.parse(readFileSync('src/game/assets/motion/actions-prepared.json', 'utf8'))
-const sourceHashes = {
+let sourceHashes = {
   'guanyu-motion-sheet.png': prepared.guanyu.sha256.sheet,
   'guanyu-actions-sheet.png': actions.sha256.sheet,
 }
-const packRevision = 'motion-2'
-const pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
+let packRevision = 'motion-2'
+let pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
+let singlePrepared = null
+if (fighter === 'soldier' || fighter === 'spearman') {
+  // Single-page cast packs: provenance comes from their own prepared record
+  // (the guanyu literals above stay exactly as they were for guanyu runs).
+  singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/${fighter}-prepared.json`, 'utf8'))
+  sourceHashes = { [`${fighter}-motion-sheet.png`]: singlePrepared.sha256 }
+  packRevision = singlePrepared.revision
+  pivot = { x: singlePrepared.box.width, y: singlePrepared.box.groundY * singlePrepared.density }
+}
 
 // ---- rotate the previous capture (before/after pairs across rotations) ----
 if (existsSync(run)) {
@@ -106,16 +115,15 @@ const trace = JSON.parse(readFileSync(`${run}/trace.json`, 'utf8'))
 const rows = trace.rows
 // The pack frame inventory and attack bindings are per fighter: the review
 // core rejects any captured key that is not in the fighter's own pack.
-const soldierPrepared = fighter === 'soldier'
-  ? JSON.parse(readFileSync('src/game/assets/motion/soldier-prepared.json', 'utf8'))
-  : null
-const packFrames = soldierPrepared ? soldierPrepared.frames : { ...prepared.guanyu.frames, ...actions.frames }
-const bindings = soldierPrepared
+const packFrames = singlePrepared ? singlePrepared.frames : { ...prepared.guanyu.frames, ...actions.frames }
+const bindings = fighter === 'soldier'
   ? { 'soldier.swing': 'swing' }
-  : {
-      'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
-      'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
-    }
+  : fighter === 'spearman'
+    ? { 'spear.thrust': 'thrust' }
+    : {
+        'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
+        'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
+      }
 const verdict = validateTrace(rows, {
   pack: { frames: packFrames },
   bindings,
@@ -124,9 +132,11 @@ const verdict = validateTrace(rows, {
   removedResiduePx: 0,
   residueTolerancePx: 0,
 })
-const injectedActions = soldierPrepared
+const injectedActions = fighter === 'soldier'
   ? ['idle', 'swing', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
-  : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+  : fighter === 'spearman'
+    ? ['idle', 'thrust', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
+    : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
   actions: actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
@@ -171,10 +181,11 @@ const report = {
   pacing: pacingReport(rows),
   blanks,
   resources: resourceReport({
-    networkBytes: 4_328_499,
-    sourceBytes: 4_328_499,
-    decodedBytes: 15_543_160,
-    gpuBytes: 15_543_160,
+    ...(fighter === 'soldier'
+      ? { networkBytes: 1786372, sourceBytes: 1786372, decodedBytes: 1984 * 1142 * 4, gpuBytes: 1984 * 1142 * 4 }
+      : fighter === 'spearman'
+        ? { networkBytes: 1352663, sourceBytes: 1352663, decodedBytes: 1835 * 866 * 4, gpuBytes: 1835 * 866 * 4 }
+        : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
     clonedCanvasBytes: 0,
   }),
   coverageSummary: {

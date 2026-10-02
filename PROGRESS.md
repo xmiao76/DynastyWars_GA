@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 08:46 UTC - CMR-07B (attempt 1, IN_PROGRESS - capture harness extended, canvas+webgl green)
+
+- Status before: CMR-07B IN_PROGRESS (pack registered 36b0a99; captures pending).
+- Work completed: extended the motion-capture harness to spearman.
+  `scripts/motion-capture.mjs`: per-fighter pack inventory/bindings/
+  injected actions (`spear.thrust`->`thrust`), per-fighter provenance
+  (hashes/revision/pivot from each pack's own record) and resource
+  bytes; guanyu code paths textually untouched. `e2e/motion-capture.
+  spec.ts`: enemy attack action per fighter (soldier `swing`, spearman
+  `thrust`), fail-loud on unknown kinds. `prodbuild/motion.spec.ts`:
+  pilot expects 3-pack stage loads (regex + 4 requests + 3 motions).
+- Verification run: spearman canvas capture PASSED (38 rows, 0 trace
+  errors, 0 hard integrity, 0 blanks; 2 expected open landmark items);
+  spearman webgl PASSED (identical profile, no blank-crop defects);
+  soldier canvas re-run PASSED identically (no regression from the
+  restructured branches). Trace audit: all 38 keys are genuine
+  `entity:spearman:motion:*` (zero legacy fallback) across 10 actions.
+  eslint + `tsc --noEmit` clean. Full unit suite not re-run (no library
+  code touched this turn; harness scripts + specs only).
+- Result: capture harness complete and verified; visual review + report
+  + prodbuild + checklist remain.
+- Status after: CMR-07B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: `npm run vision` + per-action review report
+  (SOLDIER_ACTION_REVIEW pattern, foot/weapon/size checks) -> `npm run
+  prodbuild` -> acceptance checklist -> DONE. No blocker.
+- Next recommended task: continue CMR-07B (vision review + report).
+
 ### 2026-10-02 08:30 UTC - CMR-07B (attempt 1, IN_PROGRESS - pack registered + states bound, units green)
 
 - Status before: CMR-07B TODO (ungated by 07A DONE); starting attempt 1.
