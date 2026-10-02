@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 08:30 UTC - CMR-07B (attempt 1, IN_PROGRESS - pack registered + states bound, units green)
+
+- Status before: CMR-07B TODO (ungated by 07A DONE); starting attempt 1.
+- Work completed: spearman motion integration items 1-2 (bounded work).
+  `scripts/emit-spearman-runtime.mjs` (new, soldier-pattern) emits
+  `spearman-prepared.json` (45 frames, `spear.thrust`->`thrust` binding)
+  + `spearman-motion-sheet.png` (1835x866, 1,352,663 B, sha
+  `5181a2d7...`). `src/game/art/motion-clips-spearman.ts` (new): clips
+  from core data at call time (20/5/26 thrust windows, 14-tick hurt,
+  shared KNOCKDOWN/GETUP/DYING ticks), full state dispatch incl.
+  grab/grabbed/thrown/dying/dead, 5x9 validator with alias-aware overlap
+  check. `motion-art.ts`: MOTION_PACKS entry + publish-path dispatch
+  (nested ternaries, zero behavior change for guanyu/soldier paths).
+  `test/game/motion-spearman.test.ts` (new, 13 tests): registration,
+  negative controls, bookend rect identity, core-timing conformance,
+  per-state dispatch incl. every active tick 20..24, all-frames-exist
+  sweep, clamp behavior, shared-dispatch routing.
+- Test updates (precedent-verified, not weakened): 4
+  motion-runtime exact-list expectations extended for the catalogued
+  spearman pack (same update class as soldier commit `5c2f75f`; stage1
+  spawns spearmen so requesting it is correct) + real `SPEARMAN_BYTES`
+  mock fixture so SHA/size/signature checks exercise true publish;
+  repair-ledger test now asserts its actual invariant (never charges
+  soldier/guanyu, per-fighter caps) instead of emptiness, which the
+  protocol's own normal use invalidates (latent failure since round 1
+  settled, first tripped by a full-suite run).
+- Verification run: eslint clean (changed files) + `tsc --noEmit`
+  clean; new file 13/13; full suite 842 passed + 6 skipped with ONLY
+  the known G6 V-15b baseline failure (UIR-16 BLOCKED); one under-load
+  flake (packless-kinds timing) passed in isolation and on uncontended
+  re-run per the documented pattern.
+- Result: registration + bindings complete and verified; captures,
+  vision review, prodbuild, and the fighter review report remain.
+- Status after: CMR-07B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: extend motion-capture harness to spearman
+  (isolated/mixed/interaction x facings x renderers) -> `npm run vision`
+  + review report -> `npm run prodbuild` -> checklist -> DONE. No
+  blocker. Note for later: publish-path ternaries will want a lookup
+  table by fighter #4+.
+- Next recommended task: continue CMR-07B (capture harness + vision).
+
 ### 2026-10-02 07:55 UTC - CMR-07A DONE (attempt 1 - owner accepted option (d); waiver recorded, continuity review passed)
 
 - Status before: CMR-07A BLOCKED (3aa18aa); owner accepted option (d)

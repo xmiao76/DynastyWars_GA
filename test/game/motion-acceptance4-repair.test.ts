@@ -92,9 +92,21 @@ describe('owner-approved Acceptance-4 repair reserve', () => {
     expect(COMBINED_CAP - totalUsed(authoring) - repairUsed(tooMany)).toBe(0)
   })
 
-  it('committed reserve starts empty and does not silently include historical soldier or Guan Yu calls', () => {
+  it('committed reserve never silently includes historical soldier or Guan Yu calls', () => {
+    // The reserve legitimately accrues settled rounds through protocol use
+    // (spearman rounds 1-3); the invariant is that soldier/Guan Yu - which
+    // predate or close the reserve - are never charged, and every fighter
+    // respects the per-fighter cap with well-formed round entries.
     const ledger = readRepairLedger(DEFAULT_REPAIR_PATH)
-    expect(repairUsed(ledger)).toBe(0)
+    expect(ledger.fighters['soldier']).toBeUndefined()
+    expect(ledger.fighters['guanyu']).toBeUndefined()
+    for (const [fighter, entry] of Object.entries(ledger.fighters)) {
+      expect(entry.rounds.length, `${fighter} respects the per-fighter cap`).toBeLessThanOrEqual(3)
+      entry.rounds.forEach((round, i) => {
+        expect(round.number).toBe(i + 1)
+        expect(['pending', 'accepted', 'rejected', 'tool-failed']).toContain(round.status)
+      })
+    }
     expect(remainingRepairRounds(ledger, 'soldier')).toBe(3)
   })
 })
