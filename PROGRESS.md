@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 06:52 UTC - IDLE (no ready work: queue gated behind owner-blocked CMR-07A)
+
+- Status before: CMR-07A BLOCKED (3aa18aa, awaiting owner scope call); no IN_PROGRESS tasks.
+- Work completed: queue + trigger audit per `.loop/continue.md`. (1) UI
+  review NOT due (no PENDING FILING; 3/4 src/game commits since e3e70cf;
+  no DUE NOW line). (2) No IN_PROGRESS task exists. (3) First TODO
+  (CMR-07B) is dependency-gated on CMR-07A DONE, and CMR-08A..CMR-24
+  chain transitively behind it - verified all 30 TODO dependency lines.
+  (4) Starting 07B would integrate known-defective art against an
+  explicit dependency; leapfrogging to 08A would pre-empt the owner's
+  pending standards decision (band/scope/metric for 07A sets precedent
+  for all later fighters) and risk 8+3 image requests under
+  possibly-wrong rules. (5) Producer pass not selected (TODOs exist;
+  signals unchanged with no src/game movement). CONCLUSION: no actionable
+  work this tick - IDLE by framework rules, not by choice.
+- Blocked tasks awaiting owner: CMR-07A (spread 18.2% vs 10%; needs
+  scope call: round 4+ / band amendment / re-scope / accept-as-is -
+  full record in 3aa18aa); UIR-16, UIR-19, GYM-1, BODY-7, ENH-12
+  (owner-deferred, unchanged).
+- Files changed: PROGRESS.md (this entry only).
+- Verification run: no code/content changes; no gates applicable.
+- Result: IDLE - NO READY WORK. Loop pauses for owner review per runner
+  policy (BLOCKED CMR-07A gates the queue).
+- Status after: unchanged (CMR-07A BLOCKED; queue TODO-gated).
+- Remaining work or blocker: owner scope call on CMR-07A (see 3aa18aa
+  record + TASKS.md CMR-07A options). No model-side next step exists.
+- Next recommended task: none - await owner. Do NOT auto-continue
+  CMR-07A/07B/08A without owner reset/decision.
+
 ### 2026-10-02 06:14 UTC - CMR-07A (attempt 1, BLOCKED - acceptance unachievable within budget: spread 18.2% vs 10% required)
 
 - Status before: CMR-07A IN_PROGRESS (round-2 splice committed 32f4014; round 3 designed).
