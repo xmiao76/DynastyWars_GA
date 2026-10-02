@@ -178,10 +178,21 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; ALL 10 sheets ACCEPTED
-  (rider on c1, empty-saddle set verified). 12/16 spent (4 spare).
-  Next: pack preparation (measure scales, prepare-zhangfei, manifest)
-  per CMR-04 pipeline.)
+- Status: BLOCKED (attempt 1, 2026-10-02 - ALL 10 sheets accepted
+  (walk+jab1 c2, 8 more c1; 12/16 spent, 4 spare) but preparation
+  hits a hard limits conflict: at the max buildable registration scale
+  (base 0.601) the enforced decoded budget throws `19763944 exceeds
+  the 16777216 per-fighter cap`, and the hero display hierarchy needs
+  base ~0.67 where the wide horizontal-pike poses also overflow the
+  448px art cell. Root cause: horizontal carry/strike composition
+  (guards 504px, strikes 649-698px raw) vs Guan Yu's narrow upright
+  carry (113px trims). Measurements table + 4 owner options in
+  [PROVENANCE.md](art/motion/zhangfei/PROVENANCE.md) "Prepare record".
+  NEEDS OWNER DECISION - pick one: (a) hero budget exception + wider
+  registration cell; (b) authorize re-rolls of carry poses upright
+  (needs ~6-10 requests, 4 spare); (c) erase redundant bookend cells
+  to cut records 90->~55; (d) accept the budget-compliant base with
+  the documented size caveat. Only the owner may reset to TODO.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -1,0 +1,14 @@
+{
+  "method": "guard figure bbox height ratio vs walk (same standing-guard pose); rider has no standing guard",
+  "ratios": {
+    "walk": 1,
+    "jab1": 1.125,
+    "jab2": 1.029,
+    "finisher": 1.029,
+    "jump": 1.073,
+    "fall": 1.042,
+    "getup": 0.926,
+    "misc": 1.045,
+    "special": 1.187
+  }
+}

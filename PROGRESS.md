@@ -22,6 +22,56 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 23:07 UTC - CMR-09A (attempt 1, BLOCKED - budget vs display-hierarchy limits conflict)
+
+- Status before: CMR-09A IN_PROGRESS (all 10 sheets accepted, 12/16 spent).
+- Work completed: pack preparation measured end-to-end with the CMR-04
+  toolkit (`scripts/measure-zhangfei.mjs` + `scripts/prepare-zhangfei.mjs`,
+  hero box 224x144/groundY 136 = the guanyu reference box). Two-proxy
+  scale factors: jab1 1.133 / jump 1.093 / getup 0.946 applied; rest
+  factor 1 (within-resolution, unresolved disagreement, or rider
+  UNVERIFIED). Fixed a real alias bug found via the CMR-01 clip pins:
+  walk:8 is the 8th walk pose (kick-back snap), not a bookend - it is
+  no longer aliased away; jab1/jab2/finisher cell-7 bookends now alias
+  walk:0 per the briefs (21 alias bookends, 69 unique drawings).
+- BLOCKER (hard limits conflict, measured): (1) cell fit - the wide
+  horizontal-pike poses (jab1:2 649px, jab2:2 698px raw content) overflow
+  the 448px art cell at any base > 0.601 (`trim error`); (2) budget -
+  at the max buildable base 0.601 the enforced metric (90 frame records
+  incl. 21 alias bookends, validateBudget) throws `decoded 19763944
+  exceeds the 16777216 per-fighter cap`; (3) the hero display hierarchy
+  (zhangfei ~0.906 x guanyu) needs base ~0.67 where BOTH fail (23.9MB
+  metric / 17.9MB unique decode / cell overflow). Only base 0.547-0.56
+  passes every budget reading, which renders zhangfei at 74-78% of
+  guanyu - at/below the mook archer. Root cause: carry/strike composition
+  (guards 504px, strikes 649-698px raw; horizontal pike per the approved
+  briefs) vs guanyu's narrow upright carry (113px trims). Per the shared
+  contract ("If limits are not achievable, report measurements and block
+  the selected task for owner review. Never quietly raise limits or solve
+  it by lowering visual thresholds"): nothing published, no limits
+  raised, no thresholds lowered. Full measurement table + 4 owner options
+  in art/motion/zhangfei/PROVENANCE.md "Prepare record".
+- Files changed: scripts/{measure,prepare}-zhangfei.mjs (new),
+  art/motion/zhangfei/{measurements-raw.json,scale-compare.json,
+  PROVENANCE.md}, TASKS.md, PROGRESS.md. Diagnostic scripts in ignored
+  artifacts/tmpcheck/. eslint on new scripts clean (exit 0).
+- Verification run: measure pass re-run clean (factors + height ratios
+  reproduce); prepare reaches the budget gate deterministically with the
+  exact enforced error; fit/budget table computed at 4 bases (0.547 /
+  0.601 / 0.670 / 0.728) - tool metric 16.07/19.76/23.9/28.2 MB vs
+  alias-deduped 12.04/14.49/17.9/21.1 MB. No src/runtime changes.
+- Result: CMR-09A BLOCKED (owner decision required; exact options
+  (a)-(d) in TASKS.md). CMR-09B stays dependency-gated.
+- Status after: CMR-09A BLOCKED.
+- Remaining work or blocker: owner picks (a) hero budget exception +
+  wider registration cell, (b) authorize carry-pose re-rolls (needs
+  ~6-10 requests, 4 spare), (c) erase redundant bookend cells
+  (90 -> ~55 records), or (d) accept budget-compliant base 0.547-0.56
+  with the documented size caveat. Then prepare/manifest/acceptance-4/
+  continuity review proceed.
+- Next recommended task: owner decision on CMR-09A options; loop
+  pauses on BLOCKED until then.
+
 ### 2026-10-02 21:45 UTC - CMR-09A (attempt 1, IN_PROGRESS - rider candidate 1 accepted, all 10 sheets done)
 
 - Status before: CMR-09A IN_PROGRESS (9 sheets accepted, 11/16 spent).

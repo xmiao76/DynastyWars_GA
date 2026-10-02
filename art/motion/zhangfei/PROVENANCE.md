@@ -23,6 +23,67 @@ file carries the art reasoning.
 | 1 | walk 3x3 (idle guard + 8-cycle) | body `546fc302...`, portrait `36b41443...` (text-grounded from the lock; this host cannot pixel-attach master refs - identity judged against masters at review) | `4f63c23bedd2ab4dd07254077f802d07ba43c97d1842894b89b154609d236068` | REJECT - static walk cycle: all 9 torsos/heads/arms/pikes near-identical, feet shuffle without genuine alternation (no passing/crossed pose, no wide stride, no push-off; cell0/4/8 zooms show legs together -> small step -> together). Identity/costume/pike GOOD (heavy/short, vest+rope belt, headband+tails, bristle beard, serpent pike + tassel, no armor/cape; uniform head size). Mechanics GOOD: 1536x1024, 74.82% transparent (preview's dark backdrop is the viewer matte, not file content), 0 sheet-edge-opaque px, 9/9 components with correct centroid cells + 1x4px dust speck at (192,888) in cell[2,0] (cleanable, not a reject ground), tight but non-touching nominal margins. No valid repair exists (legs must be redrawn, not rescaled). Re-roll as candidate 2 (LAST allowed for walk) with explicit per-cell leg choreography + finger definition; candidate 1 kept as `walk-candidate-1-REJECTED.png` and reused as the identity reference. Reviewed white full-sheet (c6796310) + gameplay strip (42608975) + 3 cell zooms, all fingerprinted. |
 | - | (none yet - foundation turn) | body `546fc302...`, portrait `36b41443...` | - | Identity locked + 10-sequence plan written; 0/16 spent. |
 
+## Prepare record (2026-10-02): MEASURED, BLOCKED at the budget gate
+
+`measure-zhangfei.mjs` + `prepare-zhangfei.mjs` (CMR-04 toolkit, hero box
+224x144/groundY 136 = the Guan Yu reference box) run deterministically up
+to the budget gate. Registration factors follow the accepted two-proxy
+rule (guard face-to-ground + guard-height vs walk): jab1 **1.133**
+applied, jump **1.093** applied, getup **0.946** applied; jab2/finisher
+within resolution and fall/misc/special unresolved -> factor 1; rider
+UNVERIFIED (no standing guard) -> factor 1. Per-sheet evidence in
+`registration.json` + `measurements-raw.json` + `scale-compare.json`.
+
+**Conflict: the 16MiB decoded cap and the hero display hierarchy cannot
+both hold for these sheets.** Measurements (trim accounting, density 2):
+
+| base | enforced metric (90 frame records incl. 21 alias bookends) | alias-deduped (69 unique trims, the real decode) | walk guard fitted (raw 324) vs Guan Yu 240 |
+|---|---|---|---|
+| 0.547 | 16.07 MB **PASS** | 12.04 MB | 177 px = **74%** |
+| 0.601 (max buildable) | 19.76 MB **FAIL** (preparePack throws) | 14.49 MB | 195 px = 81% |
+| 0.670 (build-ratio 0.906 target) | 23.9 MB FAIL | 17.9 MB FAIL | 217 px = 90% |
+| 0.728 (height-bound) | 28.2 MB FAIL | 21.1 MB FAIL | 236 px = 98% |
+
+Two independent constraints bind:
+1. **Cell fit**: the wide pike poses (jab1:2 649px, jab2:2 698px raw
+   content - the horizontal full-extension strikes) overflow the 448px
+   art cell at any base > 0.601 (`trim error: content+pad leaves the
+   cell`). At the hierarchy target 0.670 they need ~660px of cell.
+2. **Budget**: `validateBudget` refuses above 16MiB (enforced error:
+   `decoded 19763944 exceeds the 16777216 per-fighter cap` at the
+   maximum buildable base 0.601). Note the enforced metric sums ALL 90
+   frame records; the 21 shared bookends carry their target's trim and
+   are counted twice, so the pixels that actually decode are the 69
+   unique trims + packing waste (14.49 MB at 0.601 - under the cap on
+   that reading).
+
+Root cause of both: the carry/guard style. Every sheet's guard holds the
+pike HORIZONTAL (504px raw content) and the strikes span 649-698px,
+while the Guan Yu reference carries his glaive narrow/upright (walk:0
+content 113x240 fitted) - his trims are ~3x smaller per carry pose. The
+drawings follow the approved briefs ("pike held low horizontal"), so
+this is a plan-level consequence, not a drawing defect.
+
+Nothing is published; no limits raised; no thresholds lowered. OWNER
+DECISION REQUIRED (pick one):
+(a) **Hero budget exception**: authorize a higher per-fighter decoded cap
+    for hero packs (Guan Yu's own pre-CMR baseline is 44.3MB full-cell /
+    ~14MB trimmed pages) and a wider registration cell (e.g. 260x144) so
+    the wide strikes fit at hierarchy scale (~0.70). Zhang Fei decodes
+    ~20MB (unique) / ~26MB (enforced metric); the 128MiB stage cache
+    stays the binding memory control.
+(b) **Re-roll carry poses upright/narrow** (pike vertical at the side,
+    like Guan Yu's carry) - the budget then fits at hierarchy scale.
+    Full fix needs ~6-10 whole-sheet re-rolls; only 4 authoring requests
+    remain (12/16 used), so this needs a budget grant or partial
+    acceptance.
+(c) **Erase redundant bookend cells** from the source sheets (90 records
+    -> ~55) so the enforced metric fits at ~0.65; modifies accepted art
+    and thins the clips to ~5 poses/sequence.
+(d) **Accept the budget-compliant base 0.547-0.56** with Zhang Fei
+    displaying 74-78% of Guan Yu - at/below the mook archer (111.5
+    world px vs 97) - hierarchy caveat recorded for CMR-24.
+
 ## Budgets
 
 - Authoring: 12/16 used (ALL 10 sequences accepted: walk + jab1
