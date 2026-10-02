@@ -22,6 +22,41 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 18:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - jab1 candidate 1 rejected on edge-touch)
+
+- Status before: CMR-09A IN_PROGRESS (walk accepted, 2/16 spent).
+- Work completed: jab1 sheet candidate 1 generated + reviewed +
+  REJECTED on a mechanical ground. Reserved BEFORE generating
+  (zhangfei 3/16, jab1:1, total 43/200). Walk-c2's structured ref
+  pixel-attached as identity anchor + snappy windup/drive/extension/
+  follow/recover choreography. Output `09c34b2a...` (1536x1024,
+  2171187 B): choreography GOOD (all 9 poses distinct, on-line thrust
+  arc, strip reads guard->windup->strike->recover), identity GOOD
+  (uniform heads, costume, rigid serpent pike + tassel, no armor/cape),
+  hands GOOD (both wrap with fingers/knuckles in the extension zoom),
+  9/9 components correct centroids + 1x4px speck (230,418) cleanable.
+  FATAL: cell[1,2] pike tip touches the sheet right edge (1px at
+  (1535,515), edge-located mechanically); the pipeline throws
+  `clipped figure` on ANY sheet-edge touch (motion-pipeline.mjs:180,
+  verified in code; same as 08A shoot-c1). No valid pixel repair.
+  Zoom-adjudicated NOT-defects: neighbor serpent-head slivers at
+  nominal crop edges are benign-overhang artifacts (distinct
+  components, centroid assignment lossless per the 08A precedent).
+  File kept as `jab1-candidate-1-REJECTED.png`; candidate 2 (LAST for
+  jab1) re-rolls with explicit >=15px sheet-edge-margin language.
+- Files changed: art/motion/zhangfei/jab1-candidate-1-REJECTED.png
+  (new), art/motion/{generation-budget.json,zhangfei/PROVENANCE.md},
+  TASKS.md, PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (158df20e) + gameplay
+  strip (f3a7f66b) + extension zoom; alpha/census/edge-locate/speck
+  measured mechanically (new edge-locate script in tmpcheck).
+- Result: jab1-c1 rejected with recorded grounds; re-roll planned.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: jab1 candidate 2 -> remaining 8 sheets ->
+  prepare/measure/review. No blocker (13/16 remain).
+- Next recommended task: continue CMR-09A (jab1 candidate 2).
+
 ### 2026-10-02 17:53 UTC - CMR-09A (attempt 1, IN_PROGRESS - walk candidate 2 accepted, scale anchor done)
 
 - Status before: CMR-09A IN_PROGRESS (walk-c1 rejected static, 1/16 spent).
