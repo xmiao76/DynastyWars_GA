@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 23:25 UTC - queue hygiene (rule 8 TASKS side) - IDLE, CMR-09A awaits owner decision
+
+- Status before: CMR-09A BLOCKED (budget/hierarchy limits conflict,
+  options (a)-(d) filed 23:07); 0 IN_PROGRESS; all TODOs are CMR
+  tasks dependency-gated behind it (contract: do not skip a blocked
+  prerequisite even when downstream says TODO).
+- Work completed: overdue rule-8 upkeep on the unambiguous side -
+  TASKS.md held 21 DONE (> 20 cap), so the oldest finished task
+  (UIR-13, DONE 2026-09-27, ledger V-14 J5/J7 verified) moved
+  verbatim to TASKS-ARCHIVE.md. DONE count 21 -> 20. UTF-8 integrity
+  verified byte-level: TASKS.md non-ASCII ordinal set unchanged
+  (177=+/-), TASKS-ARCHIVE.md 132-ordinal set incl. Chinese chars
+  identical before/after (the old mojibake class of failure did not
+  recur). PROGRESS-side archiving remains deliberately deferred per
+  the recorded owner question (may BLOCKED-task evidence age to the
+  archive? bulk of the file is unfinished-task evidence which rule 8
+  says to preserve).
+- Files changed: TASKS.md, TASKS-ARCHIVE.md, PROGRESS.md.
+- Verification run: DONE count 20 (rule 8 satisfied); UIR-13 present
+  exactly once in the archive, absent from TASKS.md; encoding check
+  above. No code touched; no gates applicable.
+- Result: no queue work actionable this tick; no new findings. Visual
+  review still not due (1/4 src/game commits since e730034).
+- Status after: unchanged - CMR-09A BLOCKED, CMR-09B gated.
+- Remaining work or blocker: OWNER DECISION on CMR-09A options (a)
+  hero budget exception + wider registration cell, (b) authorize
+  carry-pose re-rolls (~6-10 requests, 4 spare), (c) erase redundant
+  bookend cells 90->~55 records, (d) accept budget-compliant base
+  0.547-0.56 with the documented size caveat. Only the owner may
+  reset the task to TODO; downstream CMR stays gated until then.
+- Next recommended task: owner decision; loop reports IDLE until then.
+
 ### 2026-10-02 23:07 UTC - CMR-09A (attempt 1, BLOCKED - budget vs display-hierarchy limits conflict)
 
 - Status before: CMR-09A IN_PROGRESS (all 10 sheets accepted, 12/16 spent).

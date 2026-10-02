@@ -657,46 +657,6 @@ Add future enhancement tasks below this heading.
         ridges UIR-10, ground here).
 - Non-goals: collision, or the lane depth.
 
-### UIR-13 - Grip wraps: fingers around the haft, hand over weapon
-
-- Status: DONE (attempt 1, 2026-09-27 UTC - owner V-14 request,
-  verified full-green same day)
-- Source: UI review 2026-09-27, findings V-14 J5/J7 (S1/S2)
-- Evidence: artifacts/review/latest/anatomy/*.png (attack/thrust) -
-  the haft lies ON TOP of the far fist and cuff bands; fists read
-  beside the haft rather than around it. X-ray shows the hand markers
-  exactly on the weapon axis: geometry passes, pixels fail.
-- Root cause: DEPTH+ASSET - src/game/art/draw.ts weaponOrProcedural
-  draws the weapon over the gripping hand; hand cells lack wrap
-  geometry crossing over the haft (only fingertip pads do).
-- Affected screens: every armed fighter in grip movements (anatomy
-  sheets; worst on two-handed polearms).
-- Requirement: the gripping hand reads wrapped around the haft: finger
-  masses visibly cross OVER it on the near side, and the weapon no
-  longer covers the hand/fist that holds it (adjust draw order and/or
-  add over-wrap paint). Both hands sit on the haft line for
-  two-handed weapons.
-- Acceptance criteria:
-  - [x] Region check (test/game/uir13-gripwrap.test.ts): hand-tone
-        pixels in the grip bands on attack/thrust/chop across the
-        weapon kinds - recorded before/after (near 360-448 / far
-        198-447 samples before; higher after with wrapN). The real
-        evidence is pixels over metrics: delegated before/after
-        passes CONFIRMED then CLEARED all three claims (haft over far
-        fist, fists beside the haft, haft cutting the wrist). Root
-        cause found mid-iteration: the near wrap was gated on the
-        FAR-hand grip test, so one-handers (caocao) never got it -
-        the near hand is the weapon anchor and always grips. Far-fist
-        wrap is N/A for one-handers by design (BODY-15 counterbalance
-        hand is not holding).
-  - [x] review:capture re-run after the fix; grip joins re-reviewed at
-        8x/4x on fresh renders against the before crops. Contact
-        sheets show no regression elsewhere.
-  - [x] Full gates green (lint 0, tsc 0, unit 637/637, e2e 78,
-        vision 5/5, selfplay 13/13, build 0, prodbuild 4/4); ledger
-        V-14 sub-verdict updated (J5/J7 fixed).
-- Non-goals: finger detail itself (UIR-12), strike poses (UIR-15).
-
 ### UIR-14 - Sleeves meet shoulders; forearms trace to the hand
 
 - Status: DONE (attempt 1, 2026-09-27 UTC - owner V-14 request,
