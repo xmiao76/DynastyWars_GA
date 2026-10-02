@@ -1,0 +1,209 @@
+[
+  {
+    "id": "r3:0",
+    "seq": "r3",
+    "pos": 0,
+    "aliased": false,
+    "length": 359,
+    "shaftCoverage": 0.88,
+    "inliers": 387,
+    "angle": -90,
+    "tipAtHigh": true,
+    "a": [
+      190,
+      366
+    ],
+    "b": [
+      190,
+      8
+    ],
+    "tip": [
+      190,
+      8
+    ]
+  },
+  {
+    "id": "r3:1",
+    "seq": "r3",
+    "pos": 1,
+    "aliased": false,
+    "length": 359,
+    "shaftCoverage": 0.9,
+    "inliers": 387,
+    "angle": -90,
+    "tipAtHigh": true,
+    "a": [
+      702,
+      366
+    ],
+    "b": [
+      702,
+      8
+    ],
+    "tip": [
+      702,
+      8
+    ]
+  },
+  {
+    "id": "r3:2",
+    "seq": "r3",
+    "pos": 2,
+    "aliased": false,
+    "length": 439,
+    "shaftCoverage": 0.93,
+    "inliers": 475,
+    "angle": -54,
+    "tipAtHigh": true,
+    "a": [
+      1196,
+      367
+    ],
+    "b": [
+      1455,
+      13
+    ],
+    "tip": [
+      1455,
+      13
+    ]
+  },
+  {
+    "id": "r3:3",
+    "seq": "r3",
+    "pos": 3,
+    "aliased": false,
+    "length": 317,
+    "shaftCoverage": 0.89,
+    "inliers": 337,
+    "angle": -65,
+    "tipAtHigh": true,
+    "a": [
+      283,
+      662
+    ],
+    "b": [
+      417,
+      376
+    ],
+    "tip": [
+      417,
+      376
+    ]
+  },
+  {
+    "id": "r3:4",
+    "seq": "r3",
+    "pos": 4,
+    "aliased": false,
+    "length": 385,
+    "shaftCoverage": 0.96,
+    "inliers": 437,
+    "angle": 4,
+    "tipAtHigh": false,
+    "a": [
+      531,
+      606
+    ],
+    "b": [
+      914,
+      634
+    ],
+    "tip": [
+      531,
+      606
+    ]
+  },
+  {
+    "id": "r3:5",
+    "seq": "r3",
+    "pos": 5,
+    "aliased": false,
+    "length": 395,
+    "shaftCoverage": 0.9,
+    "inliers": 432,
+    "angle": 16,
+    "tipAtHigh": false,
+    "a": [
+      1038,
+      528
+    ],
+    "b": [
+      1416,
+      638
+    ],
+    "tip": [
+      1038,
+      528
+    ]
+  },
+  {
+    "id": "r3:6",
+    "seq": "r3",
+    "pos": 6,
+    "aliased": false,
+    "length": 355,
+    "shaftCoverage": 0.9,
+    "inliers": 361,
+    "angle": -37,
+    "tipAtHigh": true,
+    "a": [
+      151,
+      894
+    ],
+    "b": [
+      434,
+      680
+    ],
+    "tip": [
+      434,
+      680
+    ]
+  },
+  {
+    "id": "r3:7",
+    "seq": "r3",
+    "pos": 7,
+    "aliased": false,
+    "length": 374,
+    "shaftCoverage": 0.9,
+    "inliers": 363,
+    "angle": -5,
+    "tipAtHigh": true,
+    "a": [
+      634,
+      794
+    ],
+    "b": [
+      1006,
+      764
+    ],
+    "tip": [
+      1006,
+      764
+    ]
+  },
+  {
+    "id": "r3:8",
+    "seq": "r3",
+    "pos": 8,
+    "aliased": false,
+    "length": 389,
+    "shaftCoverage": 0.94,
+    "inliers": 409,
+    "angle": -33,
+    "tipAtHigh": true,
+    "a": [
+      1149,
+      903
+    ],
+    "b": [
+      1476,
+      695
+    ],
+    "tip": [
+      1476,
+      695
+    ]
+  }
+]

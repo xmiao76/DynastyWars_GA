@@ -22,6 +22,60 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 06:14 UTC - CMR-07A (attempt 1, BLOCKED - acceptance unachievable within budget: spread 18.2% vs 10% required)
+
+- Status before: CMR-07A IN_PROGRESS (round-2 splice committed 32f4014; round 3 designed).
+- Work completed: repair-ledger ROUND 3 (last) per protocol (reserved
+  with combined SHA + 7 named cells + located failure BEFORE generating;
+  5 bracketing refs). Generated `afa6613e...` (2 witnesses + 7 fixes).
+  Grid 9/9/0 (+2 seam fragments, cleaned); witnesses 339/339 (exact
+  agreement, +6.9% uniform => k=0.935). Spear fits + fingerprint-verified
+  overlay adjudication (endpoints correct all 9): r3:2 (411 over), r3:3
+  (298, worse margin than r2:3's 310), r3:4 (360, no spread value vs
+  B:7's 314), r3:5 (369 over), r3:6 (332 centered BUT head unverifiable
+  629-fragmented cluster - rejected per r1:7 precedent for upright
+  heads), r3:7 (350, no spread value), r3:8 (364 over). ZERO splices
+  (every cell worse-or-equal vs current, or unverifiable). Settled
+  accepted (round executed correctly) with evidence noting zero usable
+  output. CORRECTION (self-reported): my settled round-3 evidence string
+  scrambles two cell mappings (written while confusing r2/r3 numbers);
+  the adjudication in THIS entry (from disk ground truth + fresh overlay
+  read) is authoritative. Also this turn began by redundantly re-executing
+  committed round-2 work (skipped the mandatory record reads first;
+  deterministic re-generation was byte-identical, no harm, no ledger
+  trace) - process failure noted, records were read before any mutating
+  action thereafter.
+- VERDICT: spears 18.2% spread (298-360, all 27 in-band but min+max at
+  opposite edges); heads PASS (7.9%). Every honest framing fails
+  (strict-axis subset 13-14%; metric-shopping/cherry-picking/unilateral
+  re-scope all rejected on record). Generator +/-7% natural variation
+  across diverse poses exceeds what uniform correction can remove.
+- BLOCKED per rule 5 (exhausted resources with no valid next step):
+  authoring 8/8 + repair reserve 3/3 spent; no image budget remains; band
+  (contract-fixed), observable-set scope, and metric are owner-only
+  decisions. This is NOT iteration failure - every iteration achieved its
+  objective (pack improved 30.2% -> 18.2%, 12 verified fixes, heads pass).
+- Owner options to unblock: (a) grant round 4+ (each ~5-15% full-pass
+  odds given systematic variance; diminishing returns); (b) amend band
+  (e.g., per-member +/-10% passes TODAY at max|dev| 9.6% - requires
+  reinterpreting spread as max-deviation, contradicting the soldier's
+  range/mean precedent); (c) re-scope observable set (e.g., uprights-only
+  passes at 5.2%, but excludes 15 legitimate members); (d) accept-as-is
+  (+/-9% spear variation, likely imperceptible in motion) and proceed to
+  CMR-07B with documented limitation. RECOMMEND (d) or (b) over (a).
+- Files changed: art/motion/spearman/acceptance4-round3-candidate-1.png
+  (new), art/motion/spearman/r3-lines.json (new),
+  art/motion/acceptance4-repair-budget.json (round 3 settled),
+  PROVENANCE.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; deterministic double-run;
+  all image reads fingerprint-verified; no library code changed.
+- Result: task BLOCKED (exact record above). Awaiting owner scope call.
+- Status after: CMR-07A BLOCKED (attempt 1).
+- Remaining work or blocker: BLOCKED - see owner options. No model-side
+  next step exists.
+- Next recommended task: none - loop pauses for owner review per runner
+  policy (BLOCKED). Do NOT auto-continue CMR-07A without owner reset.
+
 ### 2026-10-02 05:52 UTC - CMR-07A (attempt 1, IN_PROGRESS - round-2 splice + verify: spread 18.2% FAIL, round 3 designed)
 
 - Status before: CMR-07A IN_PROGRESS (round 2 settled b4fd590; splice pending).

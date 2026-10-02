@@ -26,6 +26,7 @@ rejection), 2 remaining.
 | repair-B (mixed) | mixed-repair-candidate-1.png | `ffe7e9da10105ddbb2761d5e90c8e7ac05c7e0594990c222118de22b6b19ab10` | PARTIAL - witness + thrust:3/:4 + hitstun:7 + getup:0/:1/:2/:6/:7. Grid perfect 9/9/0. Witness 345px (+8.8% uniform). Zoom verification: B:1->thrust:3 (347, SPLICE), B:2->thrust:4 (350, cleanest, SPLICE), B:3->hitstun:7 (360 borderline, SPLICE), B:6->getup:2 (335, converts unverified->verified, SPLICE), B:7->getup:6 (314, SPLICE); B:4 (401), B:5 (370), B:8 (282) still out-band (SKIP - targets unfixable, see residuals). |
 | repair-R1 (ledger round 1) | acceptance4-round1-candidate-1.png | `5268736880a542490488f30524a0b10736867de83dc213751eb2c8a2e0163a27` | PARTIAL - witness x2 + fall:7/getup:0/:1/:7 + fall:6/hitstun:7/getup:4 redos, with offending-strip contrastive ref (reserved per protocol BEFORE generating; source SHA `314ef0cd...` over fall+getup+hitstun working bytes). Grid 9/9/0. Witnesses 368/369 (0.3% agreement, +16% uniform => k=0.860). Zoom verification: 0/4 residuals fixed - ALL came back SHORT (r1:2 fall:7: 290, r1:3 getup:0: 274, r1:4 getup:1: 280, r1:5 getup:7: 292; systematic overcorrection to "shorter" language). Salvaged r1:6->fall:6 (336, centered, queued to replace borderline 362 splice). r1:7 NOT used (head cluster 846 suspicious). Settled accepted-partial with explicit evidence. |
 | repair-R2 (ledger round 2) | acceptance4-round2-candidate-1.png | `9789c45a0bfed4196525fdc57b05775b221d40ac4ff8b58e4757bcf511e248ec` | ACCEPTED - witness x2 + fall:7/getup:0/:1/:7 + fall:6/hitstun:7/getup:4 redos, with BRACKETING refs (too-long originals + too-short round-1s + scale-ref = 5 refs) + exact-length anchoring without directional bias words (reserved per protocol BEFORE generating). Grid 9/9/0. Witnesses agree (uniform k=0.860). Zoom verification: ALL 4 residuals addressed - r2:2->fall:7 (331, +0.3%), r2:3->getup:0 (310, -6%), r2:4->getup:1 (298, 1px margin risk), r2:5->getup:7 (325, -1.5%); r2:6->fall:6 (359, replaces borderline 362); r2:7/r2:8 worse than current (skipped). Splice + re-prepare + full re-measure pending. |
+| repair-R3 (ledger round 3, LAST) | acceptance4-round3-candidate-1.png | `afa6613eb489895c2792be542606a43b18fcca4073ef46cd3111d71918779326` | ACCEPTED (round executed correctly; ZERO splices) - witness x2 + 7 tail cells (lows getup:1/:0/:6 + highs fall:6/hitstun:7/thrust:5/:7), bracketing refs + per-cell directional centering (reserved per protocol BEFORE generating; source SHA `15ab9307...` over fall+getup+hitstun+thrust working bytes). Grid 9/9/0 (+2 seam fragments). Witnesses 339/339 exact (+6.9% uniform => k=0.935). Zoom verification: r3:2 (411 over), r3:3 (298, worse margin than r2:3's 310), r3:4 (360, no spread value vs B:7's 314), r3:5 (369 over), r3:6 (332 centered BUT head unverifiable 629-fragmented cluster - rejected per r1:7 precedent), r3:7 (350, no spread value), r3:8 (364 over). Nothing beats current verified state. CORRECTION: the settled round-3 ledger evidence string scrambles two cell mappings (written while confusing r2/r3 numbers; ledger immutable) - THIS row + PROGRESS 06:14 entry are authoritative, not the ledger string. |
 
 All five accepted candidates: mechanical grid checks pass (9 figures / 9
 cells / no sheet-edge cuts) and the reviews were fingerprint-verified
@@ -202,10 +203,14 @@ re-centering round (lows getup:1/:0/:6 + highs fall:6/hitstun:7/thrust:5
 redrawn into a 322-355 window + witness + spare = 9); forecast ~5%
 full-pass (7 cells must all land in a 33px window).
 
-## Remaining budget plan (authoring 0 left - exhausted; repair reserve 1/3)
+## Remaining budget plan (authoring 0 left - exhausted; repair reserve 0/3 EXHAUSTED - BLOCKED)
 
-Authoring repairs (7 splices) + round 1 (0/4, r1:6 queued-then-superseded)
-+ round 2 (5 splices: all residuals addressed individually, but global
-spread 18.2% FAIL). One repair round remains: re-centering round per
-above. If it fails, BLOCKED with exact record; band amendment, re-scope,
-or accept-as-is remain owner calls.
+All image budget spent: authoring 8/8 (7 splices) + repair rounds 1-3
+(round 1: 0/4, r1:6 superseded; round 2: 5 splices; round 3: 0 splices).
+Final state: spears 18.2% spread (all in-band, min+max at opposite
+edges), heads PASS (7.9%). No funded next step exists. Owner options:
+(a) grant round 4+ (~5-15%/round); (b) amend band (max|dev| 9.6% passes
+as +/-10%, contradicts soldier range/mean precedent); (c) re-scope set
+(uprights-only 5.2%, excludes 15 legit members); (d) accept-as-is
+(imperceptible in motion) -> CMR-07B. RECOMMEND (d)/(b). Task BLOCKED
+awaiting owner scope call; do NOT auto-continue without reset.

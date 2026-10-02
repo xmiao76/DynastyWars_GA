@@ -113,16 +113,19 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; round-2 cells SPLICED (5: fall:7,
-  getup:0/:1/:7, fall:6-swap; mask-exact proof clean) + re-prepared
-  deterministic + FULL re-measured. VERDICT: heads PASS (7.9%); spears
-  FAIL (27 members 298-360 = 18.2%; every member in-band +/-10% but
-  min+max sit at opposite edges). NOT BLOCKED: repair round 3 (1 left)
-  targets the tails (lows getup:1/:0/:6 + highs fall:6/hitstun:7/thrust:5
-  re-centered to a 322-355 window; 7 cells + witness + spare = 9).
-  Forecast ~5% full-pass (7 cells must all land in a 33px window);
-  partial still tightens. Each iteration achieved its objective, so the
-  rule-5 backstop not triggered. Next: round 3 fire+adjudicate.)
+- Status: BLOCKED (attempt 1; rule 5: exhausted resources with no valid
+  next step - authoring 8/8 + repair reserve 3/3 spent. Round 3 executed
+  per protocol (bracketing refs, witnesses exact): 0 splices (r3:2 411
+  over; r3:3 298 worse margin than r2:3's 310; r3:4 360 no spread value;
+  r3:5 369 over; r3:6 332 centered BUT head unverifiable - rejected per
+  r1:7 precedent; r3:7 350 no spread value; r3:8 364 over). FINAL:
+  spears 18.2% (298-360, all in-band, min+max at opposite edges), heads
+  PASS (7.9%). Generator +/-7% variance exceeds uniform correction.
+  Owner options: (a) round 4+ (~5-15%/round, diminishing); (b) amend band
+  (max|dev| 9.6% passes as +/-10%, contradicts soldier range/mean
+  precedent); (c) re-scope set (uprights-only 5.2%, excludes 15 legit
+  members); (d) accept-as-is (imperceptible in motion) -> CMR-07B.
+  RECOMMEND (d)/(b). Awaiting owner scope call; do NOT auto-continue.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

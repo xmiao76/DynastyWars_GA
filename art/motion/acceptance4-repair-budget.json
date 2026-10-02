@@ -38,6 +38,23 @@
           "sourceSha256": "314ef0cd03bd5ba9f427caed444332da1a9c38c54ff46ad3288f231cd33d514c",
           "evidence": "Zoom-verified all 9 cells: all 4 residuals addressed (r2:2 fall:7->331, r2:3 getup:0->310, r2:4 getup:1->298 1px-margin, r2:5 getup:7->325; endpoints correct); r2:6 fall:6 margin swap (359); r2:7/r2:8 worse than current (skipped). Bracketing references defeated the long/short bias. Splice+verify pending.",
           "outputSha256": "9789c45a0bfed4196525fdc57b05775b221d40ac4ff8b58e4757bcf511e248ec"
+        },
+        {
+          "number": 3,
+          "status": "accepted",
+          "cells": [
+            "getup-death:1",
+            "getup-death:0",
+            "getup-death:6",
+            "fall-thrown:6",
+            "hitstun-held:7",
+            "thrust:5",
+            "thrust:7"
+          ],
+          "failure": "Post-round-2 spread 18.2% (298-360): all members in-band +/-10% but min+max at opposite edges. Re-centering tails into 322-355 window: lows getup:1 (298), getup:0 (310), getup:6 (314) redrawn slightly longer; highs fall:6 (362), hitstun:7 (360), thrust:5 (356), thrust:7 (355) redrawn slightly shorter.",
+          "sourceSha256": "15ab9307b10b8cb4a07b563e9f3d5e3a666adf5c9cf2f337eeff3579d089f39b",
+          "evidence": "Zoom-verified all 9: r3:4->getup:1 (324, replaces marginal 298) SOLE splice; r3:2/r3:3/r3:5/r3:6/r3:7/r3:8 all worse-or-equal vs current (r3:6 head 846 unverifiable vs B:3 verified). Lows stay getup:0 (310)/getup:6 (314), highs stay fall:6/hitstun:7 (~360): spread improves 18.2->~15% but still fails 10%. Reserve exhausted.",
+          "outputSha256": "afa6613eb489895c2792be542606a43b18fcca4073ef46cd3111d71918779326"
         }
       ]
     }
