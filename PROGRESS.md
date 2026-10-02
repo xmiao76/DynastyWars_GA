@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 21:45 UTC - CMR-09A (attempt 1, IN_PROGRESS - rider candidate 1 accepted, all 10 sheets done)
+
+- Status before: CMR-09A IN_PROGRESS (9 sheets accepted, 11/16 spent).
+- Work completed: rider sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 12/16,
+  rider:1, total 52/200). Special-c1's structured ref pixel-attached
+  + empty-saddle mounted brief. Output `453f9429...` (1536x1024,
+  2068545 B): mounted set with NO horse (seated straddle + upright
+  pike idle/trot, foot-raised mount, twisted sweep strike, windup/
+  recover, leg-over dismount, bookend); seat/thigh contact clean for
+  CMR-22 composition; no extra limbs/forks/clipping. Mechanics: the
+  tmpcheck stride-2 census FALSELY merged cells[1,2]+[2,2] across a
+  9px real gap - full-res flood (44897px, y391-668, never crossing)
+  + the pipeline's OWN cleanAlpha gate (9 survivors, 85305 glow +
+  1 speck removed by design) prove 9/9/0 with 0 sheet-edge px.
+  Census fixed to stride 1; pipeline-gate scripted for future turns.
+  ALL 10 SEQUENCES COMPLETE with 4 spare held.
+- Files changed: art/motion/zhangfei/rider-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census/gate in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (a164cd33) + gameplay
+  strip (91d805a2) + 3 fingerprinted targeted zooms (idle/sweep/
+  dismount); alpha/census/edge/speck + pipeline-gate measured
+  mechanically.
+- Result: rider accepted; authoring complete, preparation next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: prepare (measure scales, prepare script,
+  manifest/determinism) -> landmarks/acceptance-4 -> continuity
+  review -> DONE. No blocker.
+- Next recommended task: continue CMR-09A (pack preparation).
+
 ### 2026-10-02 21:34 UTC - CMR-09A (attempt 1, IN_PROGRESS - special candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (8 sheets accepted, 10/16 spent).
