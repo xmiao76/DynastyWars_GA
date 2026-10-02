@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 10:23 UTC - PRODUCER pass (full UI review due at 4 src/game commits: no new findings, no filings)
+
+- Trigger: `git rev-list --count e3e70cf..HEAD -- src/game` = 4 (all
+  motion-pack additive content: soldier registration fixes + spearman
+  registration). No PENDING FILING, no owner UX notes, no fixed-unverified
+  items outstanding.
+- Signals: `npm run signal` 13/13 green (marathons clear, no violations,
+  no page errors); `npm run vision` 5/5 green (parity, visual health,
+  sprite gate 256/256, both negative controls failing correctly, HUD).
+  Both match the recorded baseline - no regression.
+- Visual review: fresh `review:capture`; 383/488 files byte-identical;
+  all 238 anatomy cells + clean/x-ray/ids sheets identical (grid
+  carries); suspects identical (commit label only); inventories differ
+  only in per-run UUIDs. All 20 differing screens measured + adjudicated:
+  boss-warning 9.3% confined to banner band (tween phase, V-2 holding),
+  select roster ~2.26% in highlighted column (cursor-glow phase), rest
+  AA noise. Read all 3 contact sheets + diagnostic screens/crops +
+  V-15b pairs (zhangfei, spearman): no blanks, no breakage, V-15b
+  unchanged (owner-blocked, no re-open). Deep-dive characters per
+  e3e70cf relevance precedent. Blind spots checked (arm joins via
+  identical rig pixels + suspects; arm-chain via carried grid + pairs).
+- Result: NO NEW FINDINGS, no UIR filings, no proactive proposal (queue
+  has ready CMR work). Ledger updated (Last full review e730034,
+  coverage, anatomy status). Next review due at 4 src/game commits past
+  e730034.
+- Files changed: docs/UI_REVIEW_LEDGER.md, PROGRESS.md. No game/source
+  changes (producer pass).
+- Status after: queue unchanged (CMR-08A first TODO).
+- Next recommended task: CMR-08A (consumer).
+
 ### 2026-10-02 09:29 UTC - CMR-07B DONE (attempt 1 - prodbuild green, checklist closed)
 
 - Status before: CMR-07B IN_PROGRESS (captures + vision + review c30786f).
