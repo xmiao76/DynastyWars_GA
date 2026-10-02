@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 21:34 UTC - CMR-09A (attempt 1, IN_PROGRESS - special candidate 1 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (8 sheets accepted, 10/16 spent).
+- Work completed: special sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 11/16,
+  special:1, total 51/200). Getup-c1's structured ref pixel-attached
+  + raise/coil/pre-spin/whirlwind/follow/recover brief (sweep IS the
+  special - no projectile/effects). Output `f8e2fd2b...` (1536x1024,
+  2273079 B): whirlwind arc (overhead raise, tight coil, pre-spin
+  step, full-spin strike with lifted foot, follow, recover, bridge);
+  no projectile/glow/effects; pike gripped in ALL 9; no extra limbs/
+  forks/clipping. Mechanics EXACT: 66.69% transparent, 0
+  sheet-edge-opaque px, EXACTLY 9 components (zero specks), correct
+  centroids. special DONE; 1 remains (rider).
+- Files changed: art/motion/zhangfei/special-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (d114a3ee) + gameplay
+  strip (12f5e4c8) + 3 fingerprinted targeted zooms (raise/strike/
+  guard); alpha/census/edge/speck measured mechanically.
+- Result: special accepted; rider (last sheet) next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: rider sheet -> prepare/measure/review.
+  No blocker (5/16 remain).
+- Next recommended task: continue CMR-09A (rider sheet).
+
 ### 2026-10-02 21:27 UTC - CMR-09A (attempt 1, IN_PROGRESS - getup candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (7 sheets accepted, 9/16 spent).
