@@ -1,6 +1,6 @@
 # CMR-07A — Wei Spearman: author and prepare complete whole-character pack
 
-- Queue status: attempt 1 IN_PROGRESS (started 2026-10-02; identity lock done, authoring plan written; no generation requested yet). Live status is authoritative in [TASKS.md](../../TASKS.md).
+- Queue status: DONE 2026-10-02 (attempt 1; owner accepted option (d) and reset the BLOCKED task by direct instruction: item 4 waived with documented limitation, all other items verified). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-06B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-07B](CMR-07B.md) is the separate runtime/capture task.
 
@@ -31,13 +31,13 @@ For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTI
 
 ## Acceptance
 
-- [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
-- [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
-- [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
-- [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
-- [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
-- [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
+- [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses. (45 frames: 37 unique + 8 shared-guard/down bookend aliases; 8 unused independently-drawn bookend sources prove nothing missing; `registration.json` + manifest `a2f89978`.)
+- [x] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts. (Verified across head-review + spear-overlay + display-scale fingerprinted reads, 45 crops + 37 display cells; thrust:3/:4 show both hands spaced on the shaft.)
+- [x] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels. (Per-sheet registration (hitstun 0.925, others 1.0) + ground-anchored fit; edge-cut check 0; packed-frame direct inspection clean; review-sheet adjacency blobs explained as renderer tiling, not pack pixels.)
+- [x] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance. (**OWNER-WAIVED 2026-10-02 option (d)**: heads PASS 7.9% on 14 comparable faces; spears 18.2% (27 members all in-band ±10%, min+max at opposite edges — generator ±7% variance exceeds uniform correction, documented limitation, imperceptible in motion); thrust/hitstun/locomotion direction PASS ≤47°, fall 2→3 (68°) + getup 5→6 (71°) folded in as coherent impact/collapse dynamics, getup 2→4 N/A across action boundary.)
+- [x] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config. (2010x912 single page, density 2, 5.76 MiB decoded, 0 budget errors, byte-identical double-run manifest.)
+- [x] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable. (Frame-by-frame review on fresh `display-scale.png` (37 cells) in PROGRESS 07:31 entry: locomotion cycle, thrust windup→recover, hitstun→escape, fall arc, getup rise + dying sequence all coherent with stable identity/grounding; bookends stable via alias map.)
+- [x] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A. (git status clean on guanyu/soldier/masters/src; zero motion-pack references for spearman in `src/` — only pre-existing legacy stage/enemy/art data.)
 
 ## Checks/handoff
 

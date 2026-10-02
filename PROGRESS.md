@@ -22,6 +22,55 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 07:55 UTC - CMR-07A DONE (attempt 1 - owner accepted option (d); waiver recorded, continuity review passed)
+
+- Status before: CMR-07A BLOCKED (3aa18aa); owner accepted option (d)
+  ("accept option (d) and continue") = accept pack as-is with documented
+  limitation. Owner reset applied by direct instruction (not self-reset).
+- Work completed: (1) WAIVER recorded (PROVENANCE + spec + TASKS): item 4
+  waived - heads PASS 7.9% stands; spear spread 18.2% FAIL accepted with
+  limitation note (+/-9% variation, imperceptible in motion); direction
+  marginal exceedances (fall 2->3: 68 deg, getup 5->6: 71 deg) folded in
+  with impact-dynamics rationale (coherent collapse, consistent facing,
+  no flips/ghosts); getup 2->4 N/A (action boundary, never played).
+  (2) DIRECTION verified mechanically: thrust max 47 deg, hitstun max
+  42 deg, locomotion ~0 (all PASS). (3) CONTINUITY REVIEW on a FRESH
+  display-scale sheet from the final pack (fingerprint-verified
+  2148x1553, 37 unique frames): locomotion walk cycle coherent (guard/
+  contact/pass/retreat, feet grounded); thrust windup->startup->full
+  extension (both hands spaced on shaft per identity)->recover, no
+  facing flips; hitstun recoil->fold->stagger/held (spear gripped
+  throughout)->struggle->escape-to-guard; fall tipping->airborne->
+  impact->down(bookend)->tumble->side-impact->settling, head-left
+  throughout; getup elbow->kneel->crouch rising, then dying kneel->
+  collapse->dead-side->dead-flat (clean action break 2->4). Bookends
+  stable via alias map (8 duplicate cells display shared guard/down
+  pixels; 8 unused independently-drawn bookend sources prove nothing
+  missing). Grounding: all grounded poses on the y=240 line; airborne
+  correctly floating; edge-cut 0. (4) PACK HYGIENE scare resolved:
+  brown bits atop hitstun display cells PROVEN to be neighbor-cell boot
+  adjacency in the review renderer (2px cell pitch), NOT pack pixels -
+  direct packed-frame dump shows dense head anatomy (rows 0-16) with no
+  isolated blobs; extractor confirmed component-based (figures span
+  grid lines by design; merges/edge-cuts hard-fail). (5) FINAL GATES:
+  pages 2010x912, density 2, 5.76 MiB, 0 budget errors, manifest
+  `a2f89978...` byte-identical across double-run; Guan Yu/soldier/
+  masters/src untouched; zero motion activation (only pre-existing
+  legacy stage/enemy/art refs).
+- Files changed: docs/motion-tasks/CMR-07A.md (checklist + waiver),
+  art/motion/spearman/PROVENANCE.md (waiver record), TASKS.md,
+  PROGRESS.md. No code/art/script changes (pack bytes identical to
+  3aa18aa verified state).
+- Verification run: no code changed => lint/tsc/units not re-run (last
+  full clean at 3aa18aa; nothing they cover was touched). All acceptance
+  evidence re-verified fresh this turn (determinism double-run,
+  direction table, display-scale read, untouched proofs).
+- Result: CMR-07A DONE (attempt 1) with owner waiver on item 4.
+- Status after: CMR-07A DONE. CMR-07B UNGATED (dependency met).
+- Remaining work or blocker: none on 07A. CMR-07B next (integrate pack
+  to catalog + motion captures both renderers).
+- Next recommended task: CMR-07B (first TODO, now ready).
+
 ### 2026-10-02 07:25 UTC - IDLE (unchanged: still awaiting owner scope call on CMR-07A)
 
 - Verified: HEAD still 81f21be, working tree clean (pre-existing

@@ -203,7 +203,30 @@ re-centering round (lows getup:1/:0/:6 + highs fall:6/hitstun:7/thrust:5
 redrawn into a 322-355 window + witness + spare = 9); forecast ~5%
 full-pass (7 cells must all land in a 33px window).
 
-## Remaining budget plan (authoring 0 left - exhausted; repair reserve 0/3 EXHAUSTED - BLOCKED)
+## Owner waiver (option (d), 2026-10-02) - CMR-07A DONE
+
+Owner accepted the pack as-is with documented limitation and reset the
+BLOCKED task by direct instruction ("accept option (d) and continue").
+WAIVED: acceptance item 4's <=10% weapon-length spread (actual 18.2% on
+27 fully-observable members, all individually within +/-10% of the 330
+reference; min getup:1 298.4, max hitstun:7 359.5) + two marginal
+direction steps (fall 2->3: 68 deg, getup 5->6: 71 deg - coherent
+impact/collapse dynamics with consistent facing, no flips/ghosts).
+STANDS: heads 7.9% PASS; thrust/hitstun/locomotion direction PASS (<=47
+deg); all other acceptance items verified (see CMR-07A checklist).
+LIMITATION (carried to CMR-07B + game): spear length may vary +/-9%
+across poses (min/max at opposite band edges); judged imperceptible in
+motion. Pack bytes unchanged by this decision (manifest `a2f89978...`).
+No precedent set for other fighters: each CMR-A task still targets the
+contract 10%/60-degree checks; only the owner may waive per case.
+
+## Remaining budget plan (authoring 0 left - exhausted; repair reserve 0/3 EXHAUSTED - task DONE via waiver)
+
+All image budget spent: authoring 8/8 (7 splices) + repair rounds 1-3
+(round 1: 0/4, r1:6 superseded; round 2: 5 splices; round 3: 0 splices).
+Final state: spears 18.2% spread (waived, see above), heads PASS (7.9%).
+CMR-07A DONE 2026-10-02; CMR-07B unblocked (no image budget needed -
+integration/capture only).
 
 All image budget spent: authoring 8/8 (7 splices) + repair rounds 1-3
 (round 1: 0/4, r1:6 superseded; round 2: 5 splices; round 3: 0 splices).
