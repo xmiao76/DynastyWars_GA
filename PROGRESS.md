@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 01:28 UTC - CMR-07A (attempt 1, IN_PROGRESS - sheets 1-2 accepted)
+
+- Status before: CMR-07A IN_PROGRESS (identity lock + plan at c2a0ef5).
+- Work completed: sheets 1-2 reserved, generated, grid-checked and
+  fingerprint-verified in review, both accepted on their first candidate:
+  locomotion (idle, walk contact/pass/far-leg/pass2, stop, retreat x2,
+  guard bookend) and thrust (guard, windup, startup, strike x2 at full
+  extension with both hands spaced on the shaft, recover x3, guard
+  bookend). Both: 9 figures in 9 cells, zero sheet-edge cuts, identity/
+  spear/scale consistent, no forks, mittens or extra limbs, distinct
+  drawings (thrust has 1 bbox-overlap hint from the wide sweep - reviewed,
+  not a merge).
+- Budget: 2/8 used, 6 reserved for the remaining 3 sheets + repairs.
+- Files changed: art/motion/spearman/{locomotion-candidate-1.png,
+  thrust-candidate-1.png,PROVENANCE.md}, art/motion/generation-budget.json,
+  TASKS.md, PROGRESS.md. No code changed.
+- Verification run: lint + `tsc --noEmit` clean; mechanical grid checks
+  (9/9/no edge cuts per sheet) + fingerprint-verified visual reviews.
+- Result: attempt 1 on plan; authoring one sheet ahead of the soldier pace.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: sheets 3-5 (hitstun-held, fall-thrown,
+  getup-death), registration/fit + preparation, measurements, continuity
+  review, acceptance checklist. No blocker.
+- Next recommended task: continue CMR-07A (sheet 3 hitstun-held).
+
 ### 2026-10-02 01:17 UTC - CMR-07A (attempt 1, IN_PROGRESS - identity lock + authoring plan)
 
 - Status before: CMR-06B DONE (793049d); CMR-07A TODO, first in queue.

@@ -38,6 +38,15 @@
         "fall-thrown": 1,
         "getup-death": 1
       }
+    },
+    "spearman": {
+      "role": "mook",
+      "cap": 8,
+      "used": 2,
+      "sheetCandidates": {
+        "locomotion": 1,
+        "thrust": 1
+      }
     }
   }
 }

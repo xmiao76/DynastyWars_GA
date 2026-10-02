@@ -113,15 +113,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1, started 2026-10-02; progress 01:17:
-  bounded work 1 DONE - identity locked from both originals via
-  fingerprint-verified reads (spearman: blue-grey chainmail, brown trim,
-  tall ridged helmet with flaps; weapon: author-defined rigid spear -
-  ash shaft ~1.5x figure height, leaf head, guard disc, red tassel -
-  locked in IDENTITY.md) plus the exact core-data manifest (32 HP, 0.7
-  speed, hitstun 14; spear.thrust 20/5/26 reach 36 knockdown) and a
-  5-sheet/8-request plan in AUTHORING-PLAN.md. Budget untouched 0/8; no
-  generation requested. Next: sheet 1 locomotion with ordered references.)
+- Status: IN_PROGRESS (attempt 1; sheets 1-2 ACCEPTED at 01:2x:
+  locomotion (idle/walk x4/stop/retreat x2/guard bookend) and thrust
+  (guard/windup/startup/strike x2/recover x3/guard bookend), 9/9 cells
+  each, mechanical grid checks + fingerprint-verified reviews;
+  budget 2/8 used, 6 reserved -> PROVENANCE.md. Remaining: sheets 3-5
+  (hitstun-held, fall-thrown, getup-death), preparation, measurements,
+  continuity review, acceptance checklist.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
