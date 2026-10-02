@@ -23,7 +23,45 @@ file carries the art reasoning.
 | 1 | walk 3x3 (idle guard + 8-cycle) | body `546fc302...`, portrait `36b41443...` (text-grounded from the lock; this host cannot pixel-attach master refs - identity judged against masters at review) | `4f63c23bedd2ab4dd07254077f802d07ba43c97d1842894b89b154609d236068` | REJECT - static walk cycle: all 9 torsos/heads/arms/pikes near-identical, feet shuffle without genuine alternation (no passing/crossed pose, no wide stride, no push-off; cell0/4/8 zooms show legs together -> small step -> together). Identity/costume/pike GOOD (heavy/short, vest+rope belt, headband+tails, bristle beard, serpent pike + tassel, no armor/cape; uniform head size). Mechanics GOOD: 1536x1024, 74.82% transparent (preview's dark backdrop is the viewer matte, not file content), 0 sheet-edge-opaque px, 9/9 components with correct centroid cells + 1x4px dust speck at (192,888) in cell[2,0] (cleanable, not a reject ground), tight but non-touching nominal margins. No valid repair exists (legs must be redrawn, not rescaled). Re-roll as candidate 2 (LAST allowed for walk) with explicit per-cell leg choreography + finger definition; candidate 1 kept as `walk-candidate-1-REJECTED.png` and reused as the identity reference. Reviewed white full-sheet (c6796310) + gameplay strip (42608975) + 3 cell zooms, all fingerprinted. |
 | - | (none yet - foundation turn) | body `546fc302...`, portrait `36b41443...` | - | Identity locked + 10-sequence plan written; 0/16 spent. |
 
-## Prepare record (2026-10-02): MEASURED, BLOCKED at the budget gate
+## Prepare record (2026-10-02): option (c) owner-selected - PACK PREPARED
+
+**Owner decision 2026-10-02: option (c), budget-driven pose counts** (the
+historical measurement table and options (a)-(d) are preserved below).
+Executed as designed: 21 shared bookend duplicates + 13 redundant
+in-betweens culled IN MEMORY from the prepare inputs (sources untouched;
+the culled cells' pixels were never displayed - guards/DOWN come from
+walk:0 / the fall DOWN by clip convention, Guan Yu's clip pattern), the
+registration cell widened to 260x144 (the 丈八蛇矛 is the roster's
+longest weapon; registration frame only), and a budget-aware base scale
+(largest base fitting both cell axes AND the 16MiB decoded metric).
+
+Outcome (`registration.json`, `artifacts/motion/zhangfei/`):
+- base 0.699018 (fit bound = budget bound); 56 frames (90 source cells,
+  34 culled, 0 aliases), pages zhangfei-1 2022x2044 + zhangfei-2 2041x741
+  (both <=2048); manifest sha256 `63bd0be68855f946336ab15c7e642d1ab864cfe030327f46e17617d599ae3ed`
+  byte-identical across the double-run.
+- **Budget metric 16,418,924 B = 15.66 MiB <= 16 MiB - PASS** (the first
+  zhangfei configuration to clear the gate). Real page decode 22.58 MB is
+  recorded honestly alongside it - the enforced trim metric under-counts
+  page pixels for every pack (soldier: 7.9 metric vs 10.9 pages); the
+  128MiB stage cache stays the binding memory control (a stage loads
+  ~70MB with guanyu + zhangfei + 3 mooks).
+- **Display: walk guard 226.5px = 94.4% of Guan Yu (240) and above the
+  mook archer (223)** - the hero/mook ordering is preserved and the
+  HEAVY/TALL build ratio (90.6%) is met within 4%.
+- 12 extract suspects = the known benign wide-pike bounds overlap
+  (distinct components, centroid assignment lossless - the repeated
+  08A-precedent adjudication).
+- Clip-name map (CMR-09B): positions are compact seq:0..count-1, cell
+  mapping + labels in registration.json's `layout` (walk:0 guard, walk:1..8
+  cycle; fall:4 = DOWN; misc:1 = hurt fold = grabbed; rider:2 mount/3 sweep/
+  4 windup/5 dismount). No alias records exist; guards/DOWN are shared by
+  clip convention (walk:0 / fall:4), which is a stronger form of the
+  "shared guard/down bookends" property than the alias bookends were.
+- Acceptance-4 landmarks (head/weapon spread), offline continuity review
+  and the checklist remain; re-prepare is deterministic if evidence moves.
+
+## Historical measurement table (pre-decision, 2026-10-02)
 
 `measure-zhangfei.mjs` + `prepare-zhangfei.mjs` (CMR-04 toolkit, hero box
 224x144/groundY 136 = the Guan Yu reference box) run deterministically up
@@ -64,8 +102,10 @@ content 113x240 fitted) - his trims are ~3x smaller per carry pose. The
 drawings follow the approved briefs ("pike held low horizontal"), so
 this is a plan-level consequence, not a drawing defect.
 
-Nothing is published; no limits raised; no thresholds lowered. OWNER
-DECISION REQUIRED (pick one):
+Nothing was published while this was open; no limits were raised and no
+thresholds lowered. The owner selected **(c)** on 2026-10-02 - see the
+"Prepare record" section above for the executed layout and outcome. The
+option list is preserved for the historical record:
 (a) **Hero budget exception**: authorize a higher per-fighter decoded cap
     for hero packs (Guan Yu's own pre-CMR baseline is 44.3MB full-cell /
     ~14MB trimmed pages) and a wider registration cell (e.g. 260x144) so

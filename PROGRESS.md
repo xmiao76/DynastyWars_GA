@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 23:50 UTC - CMR-09A (attempt 1, IN_PROGRESS - owner picked (c); pack PREPARED, budget PASS)
+
+- Status before: CMR-09A BLOCKED on the budget/hierarchy limits conflict
+  (options (a)-(d) filed 23:07). Owner decision this turn: **option (c),
+  budget-driven pose counts** (with my recommendation analysis: (b) is
+  impractical - walk+jab1 are at the 2-candidate cap; (d) puts the hero
+  below the mook; (a) works but raises a limit).
+- Work completed: executed (c) as designed. `scripts/prepare-zhangfei.mjs`
+  rewritten: (1) fixed cull layout - 21 shared bookend duplicates + 13
+  redundant in-betweens culled IN MEMORY on the prepare inputs (sources
+  untouched; culled cells' pixels were never displayed - guards/DOWN come
+  from walk:0 / fall's DOWN by clip convention, guanyu's clip pattern;
+  walk keeps its full 8-pose cycle and all strike/impact/DOWN money
+  poses); (2) registration cell widened to 260x144 (roster-longest pike;
+  registration frame only, pivot stays centre/ground); (3) budget-aware
+  base solver (largest base fitting both cell axes AND the 16MiB metric,
+  exact rounded trims, deterministic bisection). Kept 56 frames of 90
+  source cells (34 culled), names seq:0..count-1 with the cell map +
+  labels recorded in registration.json for CMR-09B's clip table.
+- Result: pack PREPARED deterministic (manifest `63bd0be6...` byte-
+  identical double-run; pages zhangfei-1 2022x2044 + zhangfei-2 2041x741,
+  both <=2048; page PNGs 3.95MB total <= 12MiB stage-entry cap).
+  **Budget metric 16,418,924 B = 15.66 MiB <= 16 MiB - PASS** (first
+  zhangfei configuration to clear the gate; real page decode 22.58MB
+  recorded alongside - the trim metric under-counts pages for every pack,
+  soldier 7.9 vs 10.9; 128MiB cache stays the binding control, ~70MB per
+  stage with guanyu+zhangfei+3 mooks). **Display: walk guard 226.5px =
+  94.4% of guanyu (240) and above the mook archer (223)** - hero/mook
+  ordering preserved, HEAVY/TALL ratio met within 4%. 12 extract suspects
+  = the known benign wide-pike bounds overlaps (distinct components).
+- Files changed: scripts/prepare-zhangfei.mjs (rewritten),
+  art/motion/zhangfei/{registration.json (new), PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Pack outputs in artifacts/motion/zhangfei/ (untracked per
+  the mook-pack precedent; B task emits runtime assets).
+- Verification run: eslint clean (exit 0); prepare run + deterministic
+  double-run green; budget/layout/display numbers above measured from the
+  pipeline's own report. No src/runtime changes; no gates applicable yet.
+- Status after: CMR-09A IN_PROGRESS (owner reset the block by deciding).
+- Remaining work or blocker: acceptance-4 landmarks (head-size + pike
+  length spread <=10% on the prepared pack) -> offline continuity review
+  citing frame IDs -> checklist + DONE. No blocker.
+- Next recommended task: continue CMR-09A (acceptance-4 measurement).
+
 ### 2026-10-02 23:25 UTC - queue hygiene (rule 8 TASKS side) - IDLE, CMR-09A awaits owner decision
 
 - Status before: CMR-09A BLOCKED (budget/hierarchy limits conflict,
