@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 10:35 UTC - CMR-08A (attempt 1, IN_PROGRESS - identity locked + plan written, no generation yet)
+
+- Status before: CMR-08A TODO (ungated by 07B DONE); starting attempt 1.
+- Work completed: identity lock + authoring foundation, no image
+  requests spent. Read core data at implementation time (archer: HP 18,
+  speed 0.8, NO attackId, hitstun 16, think 40, fireInterval 90; range
+  band 90-150, fire arc |dy|<=6 @ <=220, arrows instant on think ticks
+  at speed 3 / chest z=40; CMR-02 shooterProfile: no melee bindings,
+  release-follows-spawn). KEY design driver: archers fire with no
+  attack state, so the art must carry draw/release/reload as observable
+  cues (nocked arrow present vs absent; braced-not-striding firing
+  poses). Inspected both masters fingerprinted (green headwrap NOT a
+  helmet; moss-green robe + brown straps/bracers/boots; bow/arrows
+  authored per spec as masters show none). Wrote IDENTITY.md (lock +
+  hashes + rigid landmarks: undrawn-bow chord + nocked-arrow length),
+  AUTHORING-PLAN.md (5x9 layouts, 5+3 budget plan, 07A lessons baked
+  into prompt rules incl. uniform-scale language, bow-bends/arrows-don't
+  rules, 08B shooter handoff), PROVENANCE.md (attempt/budget skeleton).
+- Files changed: art/motion/archer/{IDENTITY,AUTHORING-PLAN,
+  PROVENANCE}.md (new), TASKS.md, PROGRESS.md. No code/art/scripts.
+- Verification run: no gates applicable (docs-only turn; nothing
+  lint/tsc/units cover was touched). Masters inspected via
+  fingerprint-verified reads (832x1248 JPEGs, hashes recorded).
+- Result: authoring foundation complete; generation starts next (5
+  sequences, reserve-before-generate each).
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: generate locomotion (+ review at gameplay
+  size/4x) -> remaining 4 sheets -> prepare/measure/review. No blocker.
+- Next recommended task: continue CMR-08A (locomotion sheet).
+
 ### 2026-10-02 10:23 UTC - PRODUCER pass (full UI review due at 4 src/game commits: no new findings, no filings)
 
 - Trigger: `git rev-list --count e3e70cf..HEAD -- src/game` = 4 (all
