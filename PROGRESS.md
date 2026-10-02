@@ -22,6 +22,65 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 04:06 UTC - CMR-07A (attempt 1, IN_PROGRESS - repair round generated + adjudicated; 7 splices verified, 4 residuals unfixable)
+
+- Status before: CMR-07A IN_PROGRESS (diagnosis 42194c0; 2 repair requests planned).
+- Work completed: BOTH repair sheets generated (budget now 8/8, exhausted
+  as planned): Sheet A (fall re-attempt, `33fcecc1...`) + Sheet B (mixed,
+  `ffe7e9da...`), each with a witness guard + the locomotion guard as 3rd
+  scale reference. Mechanical + witness + per-cell verification:
+  - Grid check: B perfect 9/9/0; A has 9 figures + 8 faint grid-seam
+    fragments (splice takes largest-component-only; sheet will be cleaned).
+  - Witnesses: A=350 (+10.4%), B=345 (+8.8%) vs 317 reference (method
+    cross-checked exactly on the reference cell itself). Uniform offsets
+    => correctable via uniform splice k (A: 0.906, B: 0.919,
+    B->hitstun: 0.994 accounting the 0.925 pack factor). The +/-5%
+    accept/reject gate was REVISED to calibration use (any uniform offset
+    corrects; only intra-sheet inconsistency rejects - documented).
+  - Spear fits on all 18 repair cells + zoom endpoint adjudication
+    (fingerprint-verified `repair-verify.png`, 12 splice candidates):
+    SPLICE (spear in-band + head ok + endpoints correct): A:4->fall:3
+    (350), A:7->fall:6 (361, 1px margin, documented risk), B:1->thrust:3
+    (347), B:2->thrust:4 (350, cleanest), B:3->hitstun:7 (360,
+    borderline), B:6->getup:2 (335, converts unverified->verified),
+    B:7->getup:6 (314). DON'T splice: A:2/A:5/A:6 (targets excluded or
+    kept-originals better), A:8 (430->390 still over), B:4 (436->401
+    still over), B:5 (403->370 still over), B:8 (307->282 under; neither
+    version complies).
+  - Head verification: mechanical face numbers INVALID on tilted/prone
+    cells (established); upright repairs verified (B:2 -1%, B:3 +6%,
+    B:1 eyeball-normal with contaminated 707 cluster documented); prone
+    repairs gross-checked by eye (all normal, no disproportion).
+  - RESIDUALS (unfixable, no budget left): fall:7 (401/390), getup:0
+    (396/401), getup:1 (407/370), getup:7 (419/282) - all in-plane
+    observable, over/under-band in BOTH versions. Post-repair global
+    spread will be ~14% (314-362) even best-case, above the 10% budget:
+    the generator's natural +/-7% variation exceeds what any uniform
+    correction can remove. Forecast: attempt 3 (splice+verify, next turn)
+    will very likely NOT establish acceptance 4 => task BLOCKEDs per
+    rule 5 with this exact record. Recovery paths for the owner's call:
+    (a) grant +1 request for a targeted round-3 sheet (4 residual cells
+    + witness; ~10-30% success given generator variance); (b) amend the
+    acceptance band (owner authority); (c) re-scope the observable set
+    (owner decision - I will not narrow it unilaterally).
+- Files changed: art/motion/spearman/{fall-thrown-repair-candidate-1.png,
+  mixed-repair-candidate-1.png, scale-ref-guard.png, repair-lines.json},
+  art/motion/generation-budget.json (8/8), scripts/{validate-sheet.mjs
+  (new), verify-repair-witness.mjs (new), spear-line-spearman.mjs
+  (argv-generalized), repair-verify-spearman.mjs (new)},
+  PROVENANCE.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; all image reads
+  fingerprint-verified (scale-ref, repair overlay, zoom verify sheet);
+  no library code changed.
+- Result: attempt 3 (repair round) IN PROGRESS - requests spent,
+  adjudication complete, splice+verify pending.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: splice script (uniform k per sheet pair +
+  mask-aware compositing + Sheet-A cleaning) -> splice 7 cells -> update
+  hitstun factor 0.883->0.925 -> re-prepare -> full re-measure ->
+  continuity review + checklist, or BLOCKED record with residuals.
+- Next recommended task: continue CMR-07A (splice + re-prepare + verify).
+
 ### 2026-10-02 03:45 UTC - CMR-07A (attempt 1, IN_PROGRESS - acceptance-4 diagnosis COMPLETE, owner-directed redraw round)
 
 - Status before: CMR-07A IN_PROGRESS; acceptance 4 not established (750afdf); owner directed: identify the problem pictures, redraw raw art, redo work to try to pass.

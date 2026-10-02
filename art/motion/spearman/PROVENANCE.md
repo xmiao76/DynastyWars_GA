@@ -22,6 +22,8 @@ rejection), 2 remaining.
 | hitstun-held | hitstun-held-candidate-2.png | `ae03032aec5b43933be241ca9c75836dd8bfa64285ecf49c6f0951c28e9b2627` | ACCEPT - 9/9 cells (guard, hitstun recoil/fold/stagger, held upright x2 with both arms pinned and spear still gripped, escape shove/reset, guard bookend); coherent progression, rigid spear, no forks/mittens/extra limbs; 5 bbox-overlap suspects from dynamic poses crossing nominal territory (reviewed, not merges: component count is 9/9) |
 | fall-thrown | fall-thrown-candidate-1.png | `2d25cc829058e0d4efd0dbd26c7c56b216d9020649a2e091cd76dd119ddd8b04` | ACCEPT - 9/9 cells (topple, airborne, impact, DOWN bookend, thrown tumble x2, side impact x2, DOWN bookend); prep note: the two DOWN cells drifted slightly -> enforce shared down bookend by mapping position 9 to cell 4's pixels |
 | getup-death | getup-death-candidate-1.png | `b78c4af9eaa50bc40231ed18dc38c0aba27d14e394e9165bbfb2b6ed649959ba` | ACCEPT - 9/9 cells (elbow push-up, kneel, crouch, DOWN bookend, fatal jolt, knee collapse, crumple, dead on side, guard bookend); prep note: shared guard/down bookends are drawn independently on each sheet -> enforce by mapping every bookend position to ONE reference cell across the pack |
+| repair-A (fall) | fall-thrown-repair-candidate-1.png | `33fcecc15c35806eca59678affe343d29d273c03375c45fcfcea822ca9c9cbbf` | PARTIAL - witness guard + all 8 fall poses with locomotion guard as 3rd scale reference. Grid: 9 figures + 8 faint panel-seam fragments (splice takes largest-component-only; sheet cleaned before splice). Witness 350px (+10.4% uniform offset, method cross-checked exactly on the reference cell). Per-cell zoom verification: A:4->fall:3 (350, SPLICE), A:7->fall:6 (361, borderline SPLICE), A:8 (390 still over, SKIP), A:2 (294 under + excluded target, SKIP), A:1/A:3/A:5/A:6 (targets excluded or kept-originals better, SKIP). |
+| repair-B (mixed) | mixed-repair-candidate-1.png | `ffe7e9da10105ddbb2761d5e90c8e7ac05c7e0594990c222118de22b6b19ab10` | PARTIAL - witness + thrust:3/:4 + hitstun:7 + getup:0/:1/:2/:6/:7. Grid perfect 9/9/0. Witness 345px (+8.8% uniform). Zoom verification: B:1->thrust:3 (347, SPLICE), B:2->thrust:4 (350, cleanest, SPLICE), B:3->hitstun:7 (360 borderline, SPLICE), B:6->getup:2 (335, converts unverified->verified, SPLICE), B:7->getup:6 (314, SPLICE); B:4 (401), B:5 (370), B:8 (282) still out-band (SKIP - targets unfixable, see residuals). |
 
 All five accepted candidates: mechanical grid checks pass (9 figures / 9
 cells / no sheet-edge cuts) and the reviews were fingerprint-verified
@@ -161,9 +163,10 @@ task BLOCKEDs per rule 5 with this exact record.
 
 Acceptance item 4 is NOT ESTABLISHED (measurement attempt 2 of 3).
 
-## Remaining budget plan (2 left)
+## Remaining budget plan (0 left - exhausted)
 
-Authoring is COMPLETE at 6/8 (five whole-sheet candidates accepted, one
-honest rejection spent a repair reserve). The 2 remaining requests are
-reserved for targeted repairs / second candidates during preparation and
-review.
+Both repair requests spent 2026-10-02 (fall-thrown-repair + mixed-repair).
+No image budget remains for CMR-07A/07B. Unfixable residuals (observable +
+out-band in both versions): fall:7, getup:0/:1/:7. If the splice round
+does not establish acceptance 4, the task BLOCKEDs; recovery (further
+requests, band amendment, or re-scope) is an owner call.

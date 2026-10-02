@@ -1,0 +1,416 @@
+[
+  {
+    "id": "repair-A:0",
+    "seq": "repair-A",
+    "pos": 0,
+    "aliased": false,
+    "length": 367,
+    "shaftCoverage": 0.89,
+    "inliers": 304,
+    "angle": 90,
+    "tipAtHigh": false,
+    "a": [
+      222,
+      7
+    ],
+    "b": [
+      224,
+      373
+    ],
+    "tip": [
+      222,
+      7
+    ]
+  },
+  {
+    "id": "repair-A:1",
+    "seq": "repair-A",
+    "pos": 1,
+    "aliased": false,
+    "length": 377,
+    "shaftCoverage": 0.93,
+    "inliers": 376,
+    "angle": 70,
+    "tipAtHigh": false,
+    "a": [
+      597,
+      9
+    ],
+    "b": [
+      725,
+      363
+    ],
+    "tip": [
+      597,
+      9
+    ]
+  },
+  {
+    "id": "repair-A:2",
+    "seq": "repair-A",
+    "pos": 2,
+    "aliased": false,
+    "length": 325,
+    "shaftCoverage": 0.86,
+    "inliers": 292,
+    "angle": 77,
+    "tipAtHigh": false,
+    "a": [
+      1140,
+      24
+    ],
+    "b": [
+      1215,
+      339
+    ],
+    "tip": [
+      1140,
+      24
+    ]
+  },
+  {
+    "id": "repair-A:3",
+    "seq": "repair-A",
+    "pos": 3,
+    "aliased": false,
+    "length": 206,
+    "shaftCoverage": 0.88,
+    "inliers": 223,
+    "angle": 55,
+    "tipAtHigh": true,
+    "a": [
+      63,
+      517
+    ],
+    "b": [
+      181,
+      684
+    ],
+    "tip": [
+      181,
+      684
+    ]
+  },
+  {
+    "id": "repair-A:4",
+    "seq": "repair-A",
+    "pos": 4,
+    "aliased": false,
+    "length": 386,
+    "shaftCoverage": 0.68,
+    "inliers": 284,
+    "angle": 2,
+    "tipAtHigh": false,
+    "a": [
+      610,
+      616
+    ],
+    "b": [
+      995,
+      630
+    ],
+    "tip": [
+      610,
+      616
+    ]
+  },
+  {
+    "id": "repair-A:5",
+    "seq": "repair-A",
+    "pos": 5,
+    "aliased": false,
+    "length": 227,
+    "shaftCoverage": 0.72,
+    "inliers": 174,
+    "angle": 14,
+    "tipAtHigh": false,
+    "a": [
+      1243,
+      504
+    ],
+    "b": [
+      1463,
+      557
+    ],
+    "tip": [
+      1243,
+      504
+    ]
+  },
+  {
+    "id": "repair-A:6",
+    "seq": "repair-A",
+    "pos": 6,
+    "aliased": false,
+    "length": 322,
+    "shaftCoverage": 0.69,
+    "inliers": 181,
+    "angle": -59,
+    "tipAtHigh": true,
+    "a": [
+      113,
+      980
+    ],
+    "b": [
+      280,
+      706
+    ],
+    "tip": [
+      280,
+      706
+    ]
+  },
+  {
+    "id": "repair-A:7",
+    "seq": "repair-A",
+    "pos": 7,
+    "aliased": false,
+    "length": 399,
+    "shaftCoverage": 0.92,
+    "inliers": 373,
+    "angle": 4,
+    "tipAtHigh": false,
+    "a": [
+      543,
+      960
+    ],
+    "b": [
+      941,
+      987
+    ],
+    "tip": [
+      543,
+      960
+    ]
+  },
+  {
+    "id": "repair-A:8",
+    "seq": "repair-A",
+    "pos": 8,
+    "aliased": false,
+    "length": 430,
+    "shaftCoverage": 0.91,
+    "inliers": 401,
+    "angle": 3,
+    "tipAtHigh": false,
+    "a": [
+      1039,
+      967
+    ],
+    "b": [
+      1467,
+      986
+    ],
+    "tip": [
+      1039,
+      967
+    ]
+  },
+  {
+    "id": "repair-B:0",
+    "seq": "repair-B",
+    "pos": 0,
+    "aliased": false,
+    "length": 362,
+    "shaftCoverage": 0.9,
+    "inliers": 303,
+    "angle": 90,
+    "tipAtHigh": false,
+    "a": [
+      184,
+      6
+    ],
+    "b": [
+      185,
+      367
+    ],
+    "tip": [
+      184,
+      6
+    ]
+  },
+  {
+    "id": "repair-B:1",
+    "seq": "repair-B",
+    "pos": 1,
+    "aliased": false,
+    "length": 378,
+    "shaftCoverage": 0.88,
+    "inliers": 330,
+    "angle": -3,
+    "tipAtHigh": true,
+    "a": [
+      632,
+      160
+    ],
+    "b": [
+      1009,
+      143
+    ],
+    "tip": [
+      1009,
+      143
+    ]
+  },
+  {
+    "id": "repair-B:2",
+    "seq": "repair-B",
+    "pos": 2,
+    "aliased": false,
+    "length": 381,
+    "shaftCoverage": 0.85,
+    "inliers": 331,
+    "angle": -2,
+    "tipAtHigh": true,
+    "a": [
+      1141,
+      154
+    ],
+    "b": [
+      1521,
+      143
+    ],
+    "tip": [
+      1521,
+      143
+    ]
+  },
+  {
+    "id": "repair-B:3",
+    "seq": "repair-B",
+    "pos": 3,
+    "aliased": false,
+    "length": 391,
+    "shaftCoverage": 0.83,
+    "inliers": 299,
+    "angle": -33,
+    "tipAtHigh": true,
+    "a": [
+      103,
+      599
+    ],
+    "b": [
+      429,
+      385
+    ],
+    "tip": [
+      429,
+      385
+    ]
+  },
+  {
+    "id": "repair-B:4",
+    "seq": "repair-B",
+    "pos": 4,
+    "aliased": false,
+    "length": 436,
+    "shaftCoverage": 0.83,
+    "inliers": 382,
+    "angle": -31,
+    "tipAtHigh": true,
+    "a": [
+      564,
+      688
+    ],
+    "b": [
+      938,
+      465
+    ],
+    "tip": [
+      938,
+      465
+    ]
+  },
+  {
+    "id": "repair-B:5",
+    "seq": "repair-B",
+    "pos": 5,
+    "aliased": false,
+    "length": 403,
+    "shaftCoverage": 0.81,
+    "inliers": 330,
+    "angle": -18,
+    "tipAtHigh": true,
+    "a": [
+      1124,
+      610
+    ],
+    "b": [
+      1506,
+      485
+    ],
+    "tip": [
+      1506,
+      485
+    ]
+  },
+  {
+    "id": "repair-B:6",
+    "seq": "repair-B",
+    "pos": 6,
+    "aliased": false,
+    "length": 364,
+    "shaftCoverage": 0.85,
+    "inliers": 318,
+    "angle": -19,
+    "tipAtHigh": false,
+    "a": [
+      77,
+      903
+    ],
+    "b": [
+      421,
+      788
+    ],
+    "tip": [
+      77,
+      903
+    ]
+  },
+  {
+    "id": "repair-B:7",
+    "seq": "repair-B",
+    "pos": 7,
+    "aliased": false,
+    "length": 342,
+    "shaftCoverage": 0.97,
+    "inliers": 298,
+    "angle": -4,
+    "tipAtHigh": true,
+    "a": [
+      654,
+      978
+    ],
+    "b": [
+      994,
+      956
+    ],
+    "tip": [
+      994,
+      956
+    ]
+  },
+  {
+    "id": "repair-B:8",
+    "seq": "repair-B",
+    "pos": 8,
+    "aliased": false,
+    "length": 307,
+    "shaftCoverage": 0.88,
+    "inliers": 287,
+    "angle": -5,
+    "tipAtHigh": true,
+    "a": [
+      1194,
+      981
+    ],
+    "b": [
+      1499,
+      957
+    ],
+    "tip": [
+      1499,
+      957
+    ]
+  }
+]

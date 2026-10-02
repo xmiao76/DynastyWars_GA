@@ -113,25 +113,21 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; authoring 5/5, budget 6/8; pack
-  deterministic 59493b2b. ACCEPTANCE-4 DIAGNOSIS COMPLETE (owner-directed;
-  attempt 2 of measurement): locomotion reference SOLID (8 spears 325-334,
-  2.8%). CONVICTED redraws (verified endpoints, foreshortening-proof):
-  thrust:3/:4 (+18-23%), hitstun:7 (+17% intra-sheet), fall:0/:1/:3/:4/:7,
-  getup:0/:1/:6/:7 (over-band; lying side-on). EXCLUDED as unverified:
-  foreshortened/ambiguous (:1/:2 thrust, :2 hitstun, :2/:5 fall, :4/:5
-  getup) + fit failures (:6 fall, :2/:8 getup). ROOT CAUSE: generator
-  scales poses to fill cells (prone ~25-35% over; getup prone-vs-guard
-  body 427-vs-319 proves intra-sheet break, ratio preserved) - per-sheet
-  factors cannot fix it. Scale updates: hitstun 0.883->0.925 (geometric
-  pair 0.919/0.930 agree; face 0.847 expression-contaminated; spears snap
-  to +/-4% under 0.925); thrust stays 1.0 (3.5% within resolution);
-  fall/getup stay 1.0 (fixed by redraws). REPAIR PLAN (last 2 requests):
-  Sheet A = witness + all 8 fall poses; Sheet B = witness + T:3/T:4 +
-  H:7 + G:0/G:1/G:2/G:6/G:7; witness-verified scale, splice verified-only,
-  then re-prepare + re-measure. Residual risks: kept getup:4/:5 heads must
-  post-verify (no budget after). Repair round = attempt 3; on failure the
-  task BLOCKEDs per rule 5 with the exact cell record in PROGRESS.)
+- Status: IN_PROGRESS (attempt 1; repair round FIRED (budget 8/8,
+  exhausted): Sheet A (fall re-attempt + witness, `33fcecc1...`) + Sheet B
+  (mixed + witness, `ffe7e9da...`), locomotion guard as 3rd scale ref.
+  Witnesses +9-10% uniform (correctable: k_A 0.906, k_B 0.919,
+  k_B->hitstun 0.994). Zoom adjudication verdicts: SPLICE 7 (A:4->fall:3,
+  A:7->fall:6 borderline 1px, B:1/B:2->thrust:3/:4, B:3->hitstun:7
+  borderline, B:6->getup:2, B:7->getup:6); SKIP rest (still out-band:
+  A:8/B:4/B:5/B:8, or targets excluded: A:1/A:2/A:3/A:5/A:6).
+  Tumbling poses (fall:0/:1/:4 etc.) REVISED to excluded-not-convicted
+  (rotation out-of-plane is unobservable by pose, not by measurement).
+  RESIDUALS unfixable (observable + out-band both versions): fall:7,
+  getup:0/:1/:7. Post-repair spread ~14% best-case => attempt 3 will very
+  likely NOT establish acceptance 4 => BLOCKED per rule 5 then; recovery
+  (round-3 request / band amendment / re-scope) is an owner call. Next:
+  splice script + splice 7 + hitstun 0.925 + re-prepare + re-measure.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

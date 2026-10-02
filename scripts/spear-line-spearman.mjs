@@ -1,9 +1,12 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 // CMR-07A: spear length by straight-line fit (RANSAC on wood-coloured
 // shaft pixels), with an annotated overlay so every endpoint can be
 // checked by eye. Pose-independent when the spear is seen side-on.
 //
 //   node scripts/spear-line-spearman.mjs
+//   node scripts/spear-line-spearman.mjs <sheetsJson> <aliasesJson> <overlayName> <linesName>
+//     (override set, e.g. repair sheets; output names avoid clobbering the
+//     committed pack evidence)
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
@@ -11,7 +14,7 @@ import { alphaComponents } from './motion-pipeline.mjs'
 
 const SRC = 'art/motion/spearman'
 const OUT = 'artifacts/motion/spearman/landmarks'
-const SHEETS = {
+const SHEETS = process.argv[2] ? JSON.parse(process.argv[2]) : {
   locomotion: 'locomotion-candidate-1.png',
   thrust: 'thrust-candidate-1.png',
   'hitstun-held': 'hitstun-held-candidate-2.png',
@@ -20,13 +23,15 @@ const SHEETS = {
 }
 // Aliased bookends are the same pixels as their target; skip all but
 // the canonical guard (locomotion:0) and down (fall-thrown:3) cells.
-const ALIASES = {
+const ALIASES = process.argv[3] ? JSON.parse(process.argv[3]) : {
   locomotion: { 8: 0 },
   thrust: { 0: 'locomotion:0', 8: 'locomotion:0' },
   'hitstun-held': { 0: 'locomotion:0', 8: 'locomotion:0' },
   'fall-thrown': { 8: 3 },
   'getup-death': { 3: 'fall-thrown:3', 8: 'locomotion:0' },
 }
+const OVERLAY_NAME = process.argv[4] ?? 'spear-line-overlay.png'
+const LINES_NAME = process.argv[5] ?? 'spear-lines.json'
 
 const hsv = (r, g, b) => {
   const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn
@@ -252,7 +257,7 @@ frames.forEach((f, idx) => {
   }
 })
 mkdirSync(OUT, { recursive: true })
-writeFileSync(`${OUT}/spear-line-overlay.png`, sheet.toBuffer('image/png'))
-writeFileSync(`${SRC}/spear-lines.json`, `${JSON.stringify(results, null, 2)}\n`)
-console.log('wrote', `${OUT}/spear-line-overlay.png`, sheet.width + 'x' + sheet.height)
+writeFileSync(`${OUT}/${OVERLAY_NAME}`, sheet.toBuffer('image/png'))
+writeFileSync(`${SRC}/${LINES_NAME}`, `${JSON.stringify(results, null, 2)}\n`)
+console.log('wrote', `${OUT}/${OVERLAY_NAME}`, sheet.width + 'x' + sheet.height)
 for (const r of results) console.log(r.id.padEnd(16), String(r.length ?? 'UNVERIFIED').padStart(5), 'cov', String(r.shaftCoverage ?? '-').padStart(4), 'angle', String(r.angle ?? '-').padStart(4), 'inliers', r.inliers ?? '-')
