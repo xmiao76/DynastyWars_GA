@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 19:43 UTC - CMR-09A (attempt 1, IN_PROGRESS - finisher candidate 1 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (walk + jab1 + jab2 accepted, 5/16 spent).
+- Work completed: finisher sheet candidate 1 generated + reviewed +
+  ACCEPTED first try. Reserved BEFORE generating (zhangfei 6/16,
+  finisher:1, total 46/200). Jab2-c1's structured ref pixel-attached +
+  sweep-arc brief with mid-sweep bridge cell + baked-in margins.
+  Output `26d9b14d...` (1536x1024, 2227250 B): reads as a SWEEP (pike
+  angle rotates coil->launch->diagonal-bridge->horizontal-impact->
+  follow with a rigid shaft; body twist progresses; no jump cut); all
+  9 poses distinct; strip reads the full arc. Identity preserved
+  (uniform heads, costume, rigid serpent pike + tassel, no armor/cape);
+  hands defined; bookend matches; no extra limbs/forks/clipping.
+  Mechanics PERFECT: 69.37% transparent, 0 sheet-edge-opaque px,
+  EXACTLY 9 components (zero specks), correct centroids. finisher
+  DONE; 6 remain.
+- Files changed: art/motion/zhangfei/finisher-candidate-1.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (017d9473) + gameplay
+  strip (abcdf107) + 3 fingerprinted cell zooms; alpha/census/edge/
+  speck measured mechanically.
+- Result: finisher accepted; jump next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 6 sheets (jump first) -> prepare/measure/
+  review. No blocker (10/16 remain).
+- Next recommended task: continue CMR-09A (jump sheet).
+
 ### 2026-10-02 19:12 UTC - CMR-09A (attempt 1, IN_PROGRESS - jab2 candidate 1 accepted)
 
 - Status before: CMR-09A IN_PROGRESS (walk + jab1 accepted, 4/16 spent).
