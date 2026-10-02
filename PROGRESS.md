@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 14:27 UTC - CMR-08A (attempt 1, IN_PROGRESS - pack prepared, deterministic, factors 1.0)
+
+- Status before: CMR-08A IN_PROGRESS (all 5 sheets accepted 28966e3).
+- Work completed: measurement + preparation. `measure-archer.mjs`
+  (new): face/figure scale pass - superb uniformity (shoot 0.993/0.982,
+  hitstun 0.986/0.952, guard bbox heights 331/331/337; getup guard-bookend
+  proxies disagree 0.108, flagged factor-1; fall unverified as expected).
+  `prepare-archer.mjs` (new): all factors 1.0 per the geometric rule
+  (scale-compare stubbed pending the weapon-fit method), base 0.674221,
+  manifest `f9348704...` byte-identical across double-run, 45 frames
+  (37+8 aliases), page 2045x924 (3px under the 2048 cap - noted fragile),
+  7.56 MiB, 0 budget errors. Sole suspect (getup figs 5/6 bounds overlap)
+  adjudicated BENIGN with mechanical proof (9 distinct components,
+  correct cells, visible gap; trim runs on fit-mapped box space so
+  nominal overhang loses no data - verified in pipeline source).
+- Files changed: scripts/{measure,prepare}-archer.mjs (new),
+  art/motion/archer/{registration.json (stub->full), measurements-raw.
+  json (new), PROVENANCE.md (prepare record)}, TASKS.md, PROGRESS.md.
+  Pack outputs in ignored artifacts/ (not staged).
+- Verification run: eslint (new scripts) + `tsc --noEmit` clean;
+  determinism double-run inside prepare (identical manifest); budget
+  gates 0 errors; component/edge/trim gates pass. Units unaffected
+  (standalone scripts, not imported).
+- Result: pack built and verified; scale-compare + weapon landmarks next.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: archer weapon-fit method (bow chord + arrow
+  RANSAC) -> scale-compare -> re-prepare IF factors move (expected to
+  hold 1.0) -> landmark verdict -> continuity review -> checklist. No
+  blocker.
+- Next recommended task: continue CMR-08A (weapon-fit + verdict).
+
 ### 2026-10-02 14:01 UTC - CMR-08A (attempt 1, IN_PROGRESS - getup candidate 2 accepted, all 5 sheets done, 7/8)
 
 - Status before: CMR-08A IN_PROGRESS (getup candidate 1 rejected 73ea63b).

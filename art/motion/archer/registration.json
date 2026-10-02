@@ -1,0 +1,83 @@
+{
+  "fighter": "archer",
+  "model": "one uniform scale PER SHEET (guard face-to-ground factors vs locomotion) + cell-centre/ground anchors; shared bookends by alias",
+  "box": {
+    "width": 224,
+    "height": 122,
+    "groundY": 120
+  },
+  "density": 2,
+  "contentCapPx": 238,
+  "sheets": {
+    "locomotion": {
+      "guardHeight": 331,
+      "guardAltHeight": 328,
+      "downHeight": 330,
+      "maxContentHeight": 331,
+      "sha256": "ffa42e681657aff045d8e3e441b8f8c4e1bf9c0e8d71f4466e96875b3454f60f",
+      "scale": 0.67422,
+      "scaleFactor": 1,
+      "scaleEvidence": "reference sheet"
+    },
+    "shoot": {
+      "guardHeight": 331,
+      "guardAltHeight": 328,
+      "downHeight": 336,
+      "maxContentHeight": 344,
+      "sha256": "c0d63dc0678d396d7bff8de23b4aa5dc2d5f48dad885fafac0f5adde95fbf34e",
+      "scale": 0.67422,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+    },
+    "hitstun-held": {
+      "guardHeight": 337,
+      "guardAltHeight": 335,
+      "downHeight": 320,
+      "maxContentHeight": 337,
+      "sha256": "dc2b7e383ae86702335ef121a759bf92f0e5ab37cccd0c5eb60ce76cbfd076c7",
+      "scale": 0.67422,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+    },
+    "fall-thrown": {
+      "guardHeight": 343,
+      "guardAltHeight": 261,
+      "downHeight": 262,
+      "maxContentHeight": 343,
+      "sha256": "dcfbc1f7d1a5a55c45903dce55de230576fb81b8616e502db310cd78f54bced6",
+      "scale": 0.67422,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+    },
+    "getup-death": {
+      "guardHeight": 340,
+      "guardAltHeight": 353,
+      "downHeight": 308,
+      "maxContentHeight": 353,
+      "sha256": "1b5906ae8f4489e23277c8ac5d27acbe2952f244662171d7ba858ede18dd331d",
+      "scale": 0.67422,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
+    }
+  },
+  "aliases": {
+    "locomotion": {
+      "8": 0
+    },
+    "shoot": {
+      "0": "locomotion:0",
+      "8": "locomotion:0"
+    },
+    "hitstun-held": {
+      "0": "locomotion:0",
+      "8": "locomotion:0"
+    },
+    "fall-thrown": {
+      "8": 3
+    },
+    "getup-death": {
+      "3": "fall-thrown:3",
+      "8": "locomotion:0"
+    }
+  }
+}

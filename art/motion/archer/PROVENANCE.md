@@ -26,6 +26,26 @@ file carries the art reasoning.
   with CMR-08B. Only for diagnosed source-art defects after a failed
   acceptance 4; never for polish; never reopens BLOCKED tasks.
 
+## Prepare record (provisional factors 1.0, 2026-10-02)
+
+Measured (`measure-archer.mjs`): guard-cell scale evidence shows superb
+uniformity - locomotion reference faceToGround 292; shoot 0.993/0.982
+(disagreement 0.012), hitstun 0.986/0.952 (0.035), getup guard-bookend
+0.915/1.023 (0.108 DISAGREE - flagged, factor 1); fall unverified (no
+guard cell). Standing guard bbox heights 331/331/337 (1.8% spread).
+Prepared (`prepare-archer.mjs`): all factors 1.0 (within resolution /
+unverified / stub scale-compare with empty ratios), base scale
+0.674221, manifest `f9348704...` byte-identical across double-run.
+45 frames (37 unique + 8 aliases), page 2045x924 (within 2048 cap;
+margin - fragile to future repacks), 7.56 MiB, 0 budget errors.
+1 suspect adjudicated BENIGN with proof: getup figs 5/6 bounds overlap
+(crumple bottom vs guard headwrap top, 3px band) but 9 distinct
+components, correct centroid cells, visible gap; trim runs on
+fit-mapped box-space frames so nominal-cell overhang loses no data.
+Scale-compare (height ratios via the archer weapon-fit method) lands
+next turn; factors expected to hold at 1.0 (re-prepare only if evidence
+moves them).
+
 ## Records
 
 - Identity: [IDENTITY.md](IDENTITY.md) (locked 2026-10-02).

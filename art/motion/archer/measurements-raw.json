@@ -1,0 +1,706 @@
+{
+  "rows": [
+    {
+      "id": "locomotion:0",
+      "aliased": false,
+      "bboxH": 331,
+      "face": {
+        "w": 25,
+        "h": 34,
+        "area": 579,
+        "cy": 38
+      },
+      "faceToGround": 292,
+      "spear": null
+    },
+    {
+      "id": "locomotion:1",
+      "aliased": false,
+      "bboxH": 331,
+      "face": {
+        "w": 25,
+        "h": 34,
+        "area": 584,
+        "cy": 39
+      },
+      "faceToGround": 291,
+      "spear": null
+    },
+    {
+      "id": "locomotion:2",
+      "aliased": false,
+      "bboxH": 331,
+      "face": {
+        "w": 26,
+        "h": 35,
+        "area": 565,
+        "cy": 40
+      },
+      "faceToGround": 290,
+      "spear": null
+    },
+    {
+      "id": "locomotion:3",
+      "aliased": false,
+      "bboxH": 330,
+      "face": {
+        "w": 25,
+        "h": 34,
+        "area": 590,
+        "cy": 39
+      },
+      "faceToGround": 290,
+      "spear": null
+    },
+    {
+      "id": "locomotion:4",
+      "aliased": false,
+      "bboxH": 331,
+      "face": {
+        "w": 25,
+        "h": 34,
+        "area": 567,
+        "cy": 39
+      },
+      "faceToGround": 291,
+      "spear": null
+    },
+    {
+      "id": "locomotion:5",
+      "aliased": false,
+      "bboxH": 331,
+      "face": {
+        "w": 25,
+        "h": 33,
+        "area": 569,
+        "cy": 38
+      },
+      "faceToGround": 292,
+      "spear": null
+    },
+    {
+      "id": "locomotion:6",
+      "aliased": false,
+      "bboxH": 323,
+      "face": {
+        "w": 25,
+        "h": 33,
+        "area": 516,
+        "cy": 38
+      },
+      "faceToGround": 284,
+      "spear": null
+    },
+    {
+      "id": "locomotion:7",
+      "aliased": false,
+      "bboxH": 324,
+      "face": {
+        "w": 26,
+        "h": 34,
+        "area": 554,
+        "cy": 39
+      },
+      "faceToGround": 284,
+      "spear": null
+    },
+    {
+      "id": "locomotion:8",
+      "aliased": true,
+      "bboxH": 328,
+      "face": {
+        "w": 24,
+        "h": 33,
+        "area": 550,
+        "cy": 37
+      },
+      "faceToGround": 290,
+      "spear": null
+    },
+    {
+      "id": "shoot:0",
+      "aliased": true,
+      "bboxH": 331,
+      "face": {
+        "w": 26,
+        "h": 33,
+        "area": 601,
+        "cy": 36
+      },
+      "faceToGround": 294,
+      "spear": null
+    },
+    {
+      "id": "shoot:1",
+      "aliased": false,
+      "bboxH": 344,
+      "face": {
+        "w": 26,
+        "h": 33,
+        "area": 554,
+        "cy": 66
+      },
+      "faceToGround": 277,
+      "spear": null
+    },
+    {
+      "id": "shoot:2",
+      "aliased": false,
+      "bboxH": 344,
+      "face": {
+        "w": 26,
+        "h": 32,
+        "area": 554,
+        "cy": 72
+      },
+      "faceToGround": 271,
+      "spear": null
+    },
+    {
+      "id": "shoot:3",
+      "aliased": false,
+      "bboxH": 336,
+      "face": {
+        "w": 220,
+        "h": 42,
+        "area": 1320,
+        "cy": 74
+      },
+      "faceToGround": 261,
+      "spear": null
+    },
+    {
+      "id": "shoot:4",
+      "aliased": false,
+      "bboxH": 335,
+      "face": {
+        "w": 37,
+        "h": 47,
+        "area": 835,
+        "cy": 79
+      },
+      "faceToGround": 255,
+      "spear": null
+    },
+    {
+      "id": "shoot:5",
+      "aliased": false,
+      "bboxH": 335,
+      "face": {
+        "w": 37,
+        "h": 51,
+        "area": 855,
+        "cy": 78
+      },
+      "faceToGround": 256,
+      "spear": null
+    },
+    {
+      "id": "shoot:6",
+      "aliased": false,
+      "bboxH": 312,
+      "face": {
+        "w": 26,
+        "h": 31,
+        "area": 527,
+        "cy": 34
+      },
+      "faceToGround": 277,
+      "spear": null
+    },
+    {
+      "id": "shoot:7",
+      "aliased": false,
+      "bboxH": 322,
+      "face": {
+        "w": 27,
+        "h": 31,
+        "area": 557,
+        "cy": 53
+      },
+      "faceToGround": 268,
+      "spear": null
+    },
+    {
+      "id": "shoot:8",
+      "aliased": true,
+      "bboxH": 328,
+      "face": {
+        "w": 26,
+        "h": 32,
+        "area": 579,
+        "cy": 36
+      },
+      "faceToGround": 291,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:0",
+      "aliased": true,
+      "bboxH": 337,
+      "face": {
+        "w": 28,
+        "h": 34,
+        "area": 639,
+        "cy": 40
+      },
+      "faceToGround": 296,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:1",
+      "aliased": false,
+      "bboxH": 318,
+      "face": {
+        "w": 34,
+        "h": 34,
+        "area": 728,
+        "cy": 25
+      },
+      "faceToGround": 292,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:2",
+      "aliased": false,
+      "bboxH": 292,
+      "face": {
+        "w": 48,
+        "h": 39,
+        "area": 722,
+        "cy": 57
+      },
+      "faceToGround": 234,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:3",
+      "aliased": false,
+      "bboxH": 320,
+      "face": {
+        "w": 32,
+        "h": 35,
+        "area": 718,
+        "cy": 43
+      },
+      "faceToGround": 276,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:4",
+      "aliased": false,
+      "bboxH": 328,
+      "face": {
+        "w": 30,
+        "h": 33,
+        "area": 684,
+        "cy": 25
+      },
+      "faceToGround": 302,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:5",
+      "aliased": false,
+      "bboxH": 323,
+      "face": {
+        "w": 35,
+        "h": 34,
+        "area": 696,
+        "cy": 42
+      },
+      "faceToGround": 280,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:6",
+      "aliased": false,
+      "bboxH": 329,
+      "face": {
+        "w": 33,
+        "h": 46,
+        "area": 607,
+        "cy": 39
+      },
+      "faceToGround": 289,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:7",
+      "aliased": false,
+      "bboxH": 324,
+      "face": {
+        "w": 32,
+        "h": 35,
+        "area": 663,
+        "cy": 42
+      },
+      "faceToGround": 281,
+      "spear": null
+    },
+    {
+      "id": "hitstun-held:8",
+      "aliased": true,
+      "bboxH": 335,
+      "face": {
+        "w": 28,
+        "h": 34,
+        "area": 621,
+        "cy": 40
+      },
+      "faceToGround": 294,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:0",
+      "aliased": false,
+      "bboxH": 343,
+      "face": {
+        "w": 36,
+        "h": 40,
+        "area": 983,
+        "cy": 75
+      },
+      "faceToGround": 267,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:1",
+      "aliased": false,
+      "bboxH": 316,
+      "face": {
+        "w": 42,
+        "h": 104,
+        "area": 315,
+        "cy": 65
+      },
+      "faceToGround": 250,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:2",
+      "aliased": false,
+      "bboxH": 286,
+      "face": {
+        "w": 36,
+        "h": 53,
+        "area": 888,
+        "cy": 27
+      },
+      "faceToGround": 258,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:3",
+      "aliased": false,
+      "bboxH": 262,
+      "face": {
+        "w": 42,
+        "h": 38,
+        "area": 966,
+        "cy": 103
+      },
+      "faceToGround": 158,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:4",
+      "aliased": false,
+      "bboxH": 321,
+      "face": {
+        "w": 61,
+        "h": 95,
+        "area": 367,
+        "cy": 55
+      },
+      "faceToGround": 265,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:5",
+      "aliased": false,
+      "bboxH": 310,
+      "face": {
+        "w": 35,
+        "h": 34,
+        "area": 815,
+        "cy": 176
+      },
+      "faceToGround": 133,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:6",
+      "aliased": false,
+      "bboxH": 269,
+      "face": {
+        "w": 44,
+        "h": 54,
+        "area": 1460,
+        "cy": 133
+      },
+      "faceToGround": 135,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:7",
+      "aliased": false,
+      "bboxH": 273,
+      "face": {
+        "w": 51,
+        "h": 113,
+        "area": 521,
+        "cy": 69
+      },
+      "faceToGround": 203,
+      "spear": null
+    },
+    {
+      "id": "fall-thrown:8",
+      "aliased": true,
+      "bboxH": 261,
+      "face": {
+        "w": 54,
+        "h": 39,
+        "area": 1072,
+        "cy": 102
+      },
+      "faceToGround": 158,
+      "spear": null
+    },
+    {
+      "id": "getup-death:0",
+      "aliased": false,
+      "bboxH": 340,
+      "face": {
+        "w": 30,
+        "h": 111,
+        "area": 380,
+        "cy": 86
+      },
+      "faceToGround": 253,
+      "spear": null
+    },
+    {
+      "id": "getup-death:1",
+      "aliased": false,
+      "bboxH": 325,
+      "face": {
+        "w": 18,
+        "h": 117,
+        "area": 368,
+        "cy": 82
+      },
+      "faceToGround": 242,
+      "spear": null
+    },
+    {
+      "id": "getup-death:2",
+      "aliased": false,
+      "bboxH": 303,
+      "face": {
+        "w": 29,
+        "h": 125,
+        "area": 326,
+        "cy": 74
+      },
+      "faceToGround": 228,
+      "spear": null
+    },
+    {
+      "id": "getup-death:3",
+      "aliased": true,
+      "bboxH": 308,
+      "face": {
+        "w": 49,
+        "h": 53,
+        "area": 1579,
+        "cy": 35
+      },
+      "faceToGround": 272,
+      "spear": null
+    },
+    {
+      "id": "getup-death:4",
+      "aliased": false,
+      "bboxH": 323,
+      "face": {
+        "w": 26,
+        "h": 102,
+        "area": 333,
+        "cy": 83
+      },
+      "faceToGround": 239,
+      "spear": null
+    },
+    {
+      "id": "getup-death:5",
+      "aliased": false,
+      "bboxH": 152,
+      "face": {
+        "w": 56,
+        "h": 55,
+        "area": 1749,
+        "cy": 79
+      },
+      "faceToGround": 72,
+      "spear": null
+    },
+    {
+      "id": "getup-death:6",
+      "aliased": false,
+      "bboxH": 143,
+      "face": {
+        "w": 52,
+        "h": 54,
+        "area": 1613,
+        "cy": 75
+      },
+      "faceToGround": 67,
+      "spear": null
+    },
+    {
+      "id": "getup-death:7",
+      "aliased": false,
+      "bboxH": 321,
+      "face": {
+        "w": 58,
+        "h": 47,
+        "area": 1463,
+        "cy": 138
+      },
+      "faceToGround": 182,
+      "spear": null
+    },
+    {
+      "id": "getup-death:8",
+      "aliased": true,
+      "bboxH": 353,
+      "face": {
+        "w": 25,
+        "h": 33,
+        "area": 553,
+        "cy": 33
+      },
+      "faceToGround": 319,
+      "spear": null
+    }
+  ],
+  "guards": [
+    {
+      "seq": "locomotion",
+      "id": "locomotion:0",
+      "aliased": false,
+      "bboxH": 331,
+      "face": {
+        "w": 25,
+        "h": 34,
+        "area": 579,
+        "cy": 38
+      },
+      "faceToGround": 292,
+      "spear": null
+    },
+    {
+      "seq": "shoot",
+      "id": "shoot:0",
+      "aliased": true,
+      "bboxH": 331,
+      "face": {
+        "w": 26,
+        "h": 33,
+        "area": 601,
+        "cy": 36
+      },
+      "faceToGround": 294,
+      "spear": null
+    },
+    {
+      "seq": "hitstun-held",
+      "id": "hitstun-held:0",
+      "aliased": true,
+      "bboxH": 337,
+      "face": {
+        "w": 28,
+        "h": 34,
+        "area": 639,
+        "cy": 40
+      },
+      "faceToGround": 296,
+      "spear": null
+    },
+    {
+      "seq": "getup-death",
+      "id": "getup-death:8",
+      "aliased": true,
+      "bboxH": 353,
+      "face": {
+        "w": 25,
+        "h": 33,
+        "area": 553,
+        "cy": 33
+      },
+      "faceToGround": 319,
+      "spear": null
+    }
+  ],
+  "guardScale": {
+    "locomotion": {
+      "ground": 1,
+      "face": 1,
+      "factor": 1,
+      "disagreement": 0
+    },
+    "shoot": {
+      "ground": 0.993,
+      "face": 0.982,
+      "factor": 0.987,
+      "disagreement": 0.012
+    },
+    "hitstun-held": {
+      "ground": 0.986,
+      "face": 0.952,
+      "factor": 0.969,
+      "disagreement": 0.035
+    },
+    "getup-death": {
+      "ground": 0.915,
+      "face": 1.023,
+      "factor": 0.969,
+      "disagreement": 0.108
+    }
+  },
+  "referenceFaceSize": 29.15,
+  "scaleEvidence": {
+    "locomotion": {
+      "method": "face-size median",
+      "n": 8,
+      "size": 29.15,
+      "factor": 1
+    },
+    "shoot": {
+      "method": "face-size median",
+      "n": 4,
+      "size": 28.89,
+      "factor": 1.009
+    },
+    "hitstun-held": {
+      "method": "face-size median",
+      "n": 4,
+      "size": 33.47,
+      "factor": 0.871
+    },
+    "fall-thrown": {
+      "method": "UNVERIFIED (no clean upright face, no guard cell) - factor 1",
+      "n": 0,
+      "size": null,
+      "factor": 1
+    },
+    "getup-death": {
+      "method": "guard face-to-ground",
+      "n": 1,
+      "size": 319,
+      "factor": 0.915
+    }
+  }
+}
