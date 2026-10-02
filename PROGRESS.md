@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 09:29 UTC - CMR-07B DONE (attempt 1 - prodbuild green, checklist closed)
+
+- Status before: CMR-07B IN_PROGRESS (captures + vision + review c30786f).
+- Work completed: `npm run prodbuild` 8/8 green (incl. updated 3-pack
+  pilot: opt-in loads guanyu/soldier/spearman, off-by-default downloads
+  nothing and renders legacy). Re-ran both spearman captures: identical
+  profiles (38 rows, 0 errors) on a clean tree + 6 before/after pair
+  sheets per renderer (repeatability proven). Closed all 8 acceptance
+  items with evidence (spec annotated): live frames/bindings + negative
+  controls; exact 20/5/26 windows per-tick + zero core changes; stable
+  scale/bookends + dispatch-pinned boundaries; gait/ground + 07A
+  landmarks preserved by rigid registration (contactU/weaponTipU open
+  for producer); footage + pairs + provenance per action/facing;
+  budgets/dedupe/restart/evict incl. spearman page; earlier fighters
+  unchanged + opt-in default (prodbuild + soldier re-run identical).
+  Signal skipped with documented rationale (no timing/AI/shared-behavior
+  changes - additive opt-in content, windows unit-verified per tick).
+- Files changed: docs/motion-tasks/CMR-07B.md (checklist),
+  docs/SPEARMAN_ACTION_REVIEW.md (pairs note), TASKS.md, PROGRESS.md.
+  No code/art changes (verification + records turn).
+- Verification run: prodbuild 8/8; captures re-green; prior lint/tsc/
+  units/vision results stand (nothing they cover changed).
+- Result: CMR-07B DONE (attempt 1).
+- Status after: CMR-07A DONE, CMR-07B DONE. Next TODO CMR-08A unblocked.
+- Remaining work or blocker: none on 07B.
+- Next recommended task: CMR-08A (first TODO).
+
 ### 2026-10-02 09:01 UTC - CMR-07B (attempt 1, IN_PROGRESS - vision green + action review published)
 
 - Status before: CMR-07B IN_PROGRESS (captures green 2263f1b; review pending).

@@ -1,6 +1,6 @@
 # CMR-07B — Wei Spearman: integrate and review all motion in game
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: DONE 2026-10-02 (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: [CMR-07A](CMR-07A.md) DONE with a complete prepared pack.
 - No other fighter implementation in this consumer iteration.
 
@@ -26,14 +26,14 @@
 
 ## Acceptance
 
-- [ ] All required frames/bindings displayed in live runtime; no legacy texture or old rig blends inside this successfully published fighter. Bad/missing pack negative controls retain whole old fighter without affecting other valid packs.
-- [ ] Exact existing hit/projectile windows and movement/AI remain unchanged; visible strike/release matches simulation, no added input lock.
-- [ ] Stable scale/pivots/body identity; smooth applicable action boundaries and shared guard/down frames; no standing insertion into low collapse.
-- [ ] Genuine gait/ground contacts and head/weapon landmark criteria from A still pass after runtime registration. No drift dismissed just because global vision is green.
-- [ ] Actual motion footage and before/after contact/crop evidence for every applicable action/facing, including role-specific list above. Capture source commit/hash/dirty state known.
-- [ ] Character load/decode/cache costs meet CMR-03 limits; unused kinds not all loaded at boot; restart/cancel/evict tested as relevant.
-- [ ] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates.
-- [ ] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE.
+- [x] All required frames/bindings displayed in live runtime; no legacy texture or old rig blends inside this successfully published fighter. Bad/missing pack negative controls retain whole old fighter without affecting other valid packs. (76 capture rows all `motion-source:spearman`; per-state dispatch units + all-frames-exist sweep; runtime negative-control suite green incl. new pack.)
+- [x] Exact existing hit/projectile windows and movement/AI remain unchanged; visible strike/release matches simulation, no added input lock. (Thrust clip duration 51 = 20/5/26 from core data; unit asserts EVERY active tick 20..24 dispatches `thrust:3/4`; zero core/sim changes; dispatch is display-only like soldier's.)
+- [x] Stable scale/pivots/body identity; smooth applicable action boundaries and shared guard/down frames; no standing insertion into low collapse. (Contact sheets show no size pops; bookend rect-identity units; knockdown→fall / dying→dying dispatch pinned by units.)
+- [x] Genuine gait/ground contacts and head/weapon landmark criteria from A still pass after runtime registration. No drift dismissed just because global vision is green. (Walk cycle captured mid-stride; registration is uniform scale + recorded translation so 07A's 7.9% heads / 18.2%-waived spears hold exactly; contactU/weaponTipU open for producer per precedent.)
+- [x] Actual motion footage and before/after contact/crop evidence for every applicable action/facing, including role-specific list above. Capture source commit/hash/dirty state known. (Traces, 20 crops × facings × renderers, contact sheets, webms, 6 pair sheets per renderer after rotation re-run; index.json records 36b0a99-dirty then c30786f-clean.)
+- [x] Character load/decode/cache costs meet CMR-03 limits; unused kinds not all loaded at boot; restart/cancel/evict tested as relevant. (Runtime units: spearman page bytes/decoded in budget sums, per-fighter caps, stage-download cap, dedupe + restart-no-redownload + eviction incl. spearman.)
+- [x] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates. (Prodbuild pilot 8/8: off-by-default asserts no downloads/motions/legacy frames; 3-pack opt-in loads; guanyu/soldier sources + soldier capture re-run identical.)
+- [x] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE. (lint+tsc clean; units 842|1-known G6 V-15b baseline; vision 5/5; captures green both renderers; prodbuild 8/8. Signal skipped with rationale: no timing/AI/shared-behavior changes - additive opt-in content only, windows verified per-tick by units. No defects remain.)
 
 The three-round Acceptance-4 [repair-only reserve](../MOTION_ACCEPTANCE4_RECOVERY.md) is shared with this fighter’s A task. If runtime evidence reveals a *new* actual source-art defect, diagnose and reserve a focused repair; do not silently repurpose it for general polish, loosen checks or reset the task-iteration limit.
 

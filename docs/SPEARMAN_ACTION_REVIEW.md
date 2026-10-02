@@ -9,7 +9,9 @@ independently on fresh captures.
 
 - `spearman-canvas/`, `spearman-webgl/`: trace.json (38 rows each),
   index.json (commit/dirty/pack revision), report.json, frames/ (20 crops
-  each), contact-sheet.png, spearman-*.webm (video). No `pairs/` yet
+  each), contact-sheet.png, spearman-*.webm (video). Second rotation run
+  reproduced all profiles exactly (38 rows, 0 errors) on a clean tree
+  and produced 6 before/after pair sheets per renderer. No `pairs/` yet
   (first spearman capture; rotation directory created for next run).
 - Pack under review: `src/game/assets/motion/spearman-motion-sheet.png`
   (1,352,663 B, sha256 5181a2d7…, 1835x866) + spearman-prepared.json,
