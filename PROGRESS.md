@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 02:01 UTC - CMR-07A (attempt 1, IN_PROGRESS - authoring complete, 5/5 sheets accepted)
+
+- Status before: CMR-07A IN_PROGRESS (sheets 1-3 accepted at 062d998).
+- Work completed: authoring phase CLOSED - sheets 4-5 reserved, generated,
+  grid-checked and fingerprint-verified in review, both accepted on their
+  first candidate: fall-thrown (topple/airborne/impact, DOWN bookend,
+  thrown tumbles x2, side impacts x2) and getup-death (elbow push/kneel/
+  crouch, DOWN bookend, fatal jolt/knee collapse/crumple/dead, guard
+  bookend). All five sheets: 9 figures in 9 cells, zero sheet-edge cuts,
+  identity/spear/scale consistent, no forks, mittens or extra limbs,
+  distinct drawings. Prep notes recorded: shared guard/down bookends are
+  drawn independently per sheet (and the fall sheet's two DOWN cells
+  drifted) -> preparation will enforce ONE reference cell for each
+  bookend across the pack.
+- Budget: 6/8 used (one earlier second-candidate spent on a rejected
+  sheet), 2 reserved for targeted repairs.
+- Files changed: art/motion/spearman/{fall-thrown-candidate-1.png,
+  getup-death-candidate-1.png,PROVENANCE.md},
+  art/motion/generation-budget.json, TASKS.md, PROGRESS.md. No code changed.
+- Verification run: lint + `tsc --noEmit` clean; mechanical grid checks +
+  fingerprint-verified visual reviews for both sheets.
+- Result: attempt 1 on plan; authoring done within budget.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: the per-sheet registration/fit step
+  (uniform scale + recorded translations into the canonical box; shared
+  guard/down bookend enforcement; trim within the box), pack preparation
+  through the CMR-04 toolkit + measurements (head-size/spear-length
+  spread <=10%, unknowns unverified), offline continuity review citing
+  frame IDs/crops, acceptance checklist. No blocker.
+- Next recommended task: continue CMR-07A (registration/fit + preparation).
+
 ### 2026-10-02 01:44 UTC - CMR-07A (attempt 1, IN_PROGRESS - sheet 3 accepted after an honest rejection)
 
 - Status before: CMR-07A IN_PROGRESS (sheets 1-2 accepted at 1178fa5).
