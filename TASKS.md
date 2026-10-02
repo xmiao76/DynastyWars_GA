@@ -142,11 +142,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-08A - Wei Archer: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; identity locked (headwrap/robe/bow
-  spec + master hashes) + 5x9 authoring plan + core data read (no
-  attackId: shooter cues via spawn observation; 16-tick hitstun; 90-150
-  range band); 8/8 budget intact, generation starts next with
-  locomotion.)
+- Status: IN_PROGRESS (attempt 1; locomotion ACCEPTED (`ffa42e68`,
+  9/9/0 grid, identity/scale/uniformity verified full-sheet +
+  gameplay-size; bg micro-tint audited as cleanable preview-amplified
+  residue). Budget 1/8. Next: shoot sheet.)
 - Dependency: CMR-07B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-08A](docs/motion-tasks/CMR-08A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable archer identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

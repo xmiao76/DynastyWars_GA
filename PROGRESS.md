@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 11:03 UTC - CMR-08A (attempt 1, IN_PROGRESS - locomotion sheet accepted, 1/8)
+
+- Status before: CMR-08A IN_PROGRESS (foundation fc0e912; generation next).
+- Work completed: reserved (archer 1/8) then generated the locomotion
+  3x3 (`ffa42e68...`, body+portrait refs, uniform-scale prompt rules).
+  Mechanical grid check PERFECT 9/9/0 (one figure per cell, 0 edge
+  cuts). Alpha audit resolved a review scare: the preview's brown/black
+  bands are 4.7% sub-threshold micro-tint amplified by the preview
+  compositor (below the pipeline's 96 floor; `cleanAlpha` removes it at
+  prepare) - file content is 9 clean figures on 79.3% true transparency.
+  Reviewed full-sheet (fingerprint-verified) + a rendered gameplay-size
+  strip (~115px, fingerprinted): identity holds in all 9 (headwrap, no
+  helmets; robe/straps/boots; recurve bow low at side, no forks),
+  distinct contact/pass/far-leg/pass2/stop/retreat-x2 poses, uniform
+  head size, bookend matches guard; no mittens/limbs/clipping at either
+  scale. VERDICT: ACCEPT as `locomotion-candidate-1.png`.
+- Files changed: art/motion/archer/locomotion-candidate-1.png (new),
+  art/motion/generation-budget.json (archer 1/8),
+  art/motion/archer/PROVENANCE.md (attempt row), TASKS.md, PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate 9/9/0; alpha audit (above); two fingerprinted reads (full +
+  gameplay). No code changed; no gates applicable.
+- Result: locomotion accepted, 7/8 budget left.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: shoot sheet next (draw/release/reload
+  cycle) -> hitstun-held -> fall-thrown -> getup-death -> prepare/
+  measure/review. No blocker.
+- Next recommended task: continue CMR-08A (shoot sheet).
+
 ### 2026-10-02 10:35 UTC - CMR-08A (attempt 1, IN_PROGRESS - identity locked + plan written, no generation yet)
 
 - Status before: CMR-08A TODO (ungated by 07B DONE); starting attempt 1.

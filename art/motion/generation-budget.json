@@ -51,6 +51,14 @@
         "fall-thrown": 1,
         "getup-death": 1
       }
+    },
+    "archer": {
+      "role": "mook",
+      "cap": 8,
+      "used": 1,
+      "sheetCandidates": {
+        "locomotion": 1
+      }
     }
   }
 }
