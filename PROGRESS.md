@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 14:01 UTC - CMR-08A (attempt 1, IN_PROGRESS - getup candidate 2 accepted, all 5 sheets done, 7/8)
+
+- Status before: CMR-08A IN_PROGRESS (getup candidate 1 rejected 73ea63b).
+- Work completed: reserved (archer 7/8, getup candidate 2 of max 2)
+  then generated with contact language (`1b5906ae...`). Mechanical grid
+  check PERFECT 9/9/0 - dead bow touches the open resting hand (reads
+  as resting contact, mechanically one component; contact language
+  worked). Full-sheet review (fingerprinted): rise arc (elbow/kneel/
+  crouch), dying sequence (jolt/collapse/crumple), dead + DOWN + guard
+  bookends all correct; identity/scale hold; no mittens/forks/clipping.
+  Gameplay strip (~115px, fingerprinted): all states legible.
+  VERDICT: ACCEPT as `getup-death-candidate-2.png`. ALL 5 SEQUENCES
+  COMPLETE with 1/8 spare unspent.
+- Files changed: art/motion/archer/getup-death-candidate-2.png (new),
+  art/motion/generation-budget.json (archer 7/8), art/motion/archer/
+  PROVENANCE.md (attempt row), TASKS.md, PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate 9/9/0; two fingerprinted reads (full + gameplay). No code
+  changed; no gates applicable.
+- Result: authoring complete (5/5 sheets), 1 spare left.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: prepare pack (registration/measure/fit)
+  -> landmark measurement (bow-chord + arrow-length method) -> review
+  -> checklist. No blocker.
+- Next recommended task: continue CMR-08A (prepare + measure).
+
 ### 2026-10-02 13:26 UTC - CMR-08A (attempt 1, IN_PROGRESS - getup candidate 1 rejected on detached bow, pipeline limit found)
 
 - Status before: CMR-08A IN_PROGRESS (fall accepted 9440834).
