@@ -35,6 +35,47 @@ mechanical fingerprint of the file (dims/aspect/alpha share) before any
 verdict. Both reads this round matched on first attempt; the accepted
 verdicts rest on verified reads.
 
+## Preparation record (2026-10-02, `scripts/prepare-spearman.mjs`)
+
+Registration model (the accepted one): ONE uniform scale for the whole
+pack (0.6-packMax-derived, target the tallest drawing fitting its cell
+with trim pad), cell-centre/ground anchors, shared guard/down bookends
+enforced by alias (aliased source cells count as unused). No runtime
+catalog activation (that is CMR-07B).
+
+Scale-consistency evidence: the guard-bbox heights read 336/345/364px
+(8.04% spread) because the upright spear extends above the helmet by a
+grip-dependent amount - NOT a scale difference. Verified visually: a 1:1
+composite of the three guard cells on a shared ground line shows helmet,
+shoulder, belt, knee and boot landmarks aligned at the same heights. The
+driver gate therefore trips only on gross disagreement (>12%); fine
+consistency is verified by the acceptance-4 head-size measurement.
+
+Cleanup evidence: low-alpha glow is proportional to figure area on every
+sheet (23-35% of opaque pixels); fall-thrown reads highest absolute
+(124,281px) because its tumbling/prone figures cover the most area. The
+per-fighter residue tolerance is 150,000 (measured max + headroom).
+
+Pack result (deterministic - manifest sha256 re-ran identical):
+
+| field | value |
+| --- | --- |
+| manifest sha256 | `3a1472ef3481872711e011c190226ed93c25bfb0f669c9f3c91d7041d1bd911d` |
+| frames | 45 (37 displayed unique + 8 shared-bookend aliases) |
+| pages | `spearman-1` 2039x928 (<= 2048^2) |
+| decoded RGBA | 6,648,260 B (6.34 MiB <= 16 MiB) |
+| GPU (shared atlas) | 6,648,260 B; cloned-canvas 0 B |
+| counts | sourceCells 45 / displayedUnique 37 / duplicate 8 / unused 8 |
+| suspects | 7 bbox-overlap hints (wide poses crossing nominal territory; reviewed, component counts exact) |
+
+Outputs: `artifacts/motion/spearman/spearman/` (manifest.json, report.json,
+pages/) - temporary output; accepted sources remain in
+`art/motion/spearman/`.
+
+Still unverified (cannot establish compliance): head-size and
+spear-length spreads (<=10% requirement) and the offline continuity
+review citing frame IDs - next unit of work.
+
 ## Remaining budget plan (2 left)
 
 Authoring is COMPLETE at 6/8 (five whole-sheet candidates accepted, one

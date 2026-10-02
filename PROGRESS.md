@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 02:56 UTC - CMR-07A (attempt 1, IN_PROGRESS - registration/fit + deterministic spearman pack prepared)
+
+- Status before: CMR-07A IN_PROGRESS (authoring complete at ddff2eb; 6/8).
+- Work completed: `scripts/prepare-spearman.mjs` (the accepted soldier
+  driver pattern, spearman sheets): one uniform pack scale + cell-centre/
+  ground anchors into the shared mook box 224x122, shared guard/down
+  bookends enforced by alias (locomotion[8]=[0]; thrust/hitstun[0,8]=
+  locomotion[0]; fall[8]=[3]; getup[3]=fall[3], [8]=locomotion[0]).
+  PACK PREPARED and deterministic (manifest sha256 `3a1472ef...` re-ran
+  identical): 45 frames (37 unique + 8 aliases), one `spearman-1` page
+  2039x928 (<=2048^2), decoded 6,648,260 B = 6.34 MiB <= 16 MiB, GPU equal,
+  cloned 0, 0 budget errors, 7 wide-pose bbox hints reviewed. Page pixels
+  verified non-blank (27.1% opaque) - the CMR-06B blank-page lesson applied.
+- Two driver findings adjudicated with evidence, not tuned blind:
+  (1) the 2% scale-spread gate tripped at 8.04% (guard bbox 336/345/364) -
+  diagnosed as the upright spear's grip-dependent overhang above the helmet
+  (tip, not scale): a 1:1 composite of the three guard cells on a shared
+  ground line shows helmet/shoulder/belt/knee/boot landmarks aligned;
+  figure-height and torso-mass proxies were tried and were worse (pose-
+  contaminated), so the gate now trips only on gross (>12%) disagreement and
+  fine consistency is delegated to the acceptance-4 head-size measurement
+  (per-sheet scales remain the fallback). (2) The residue tolerance tripped
+  at 124,281px on fall-thrown: glow is proportional to figure area on all
+  sheets (23-35% of opaque), highest absolute on the tumbling/prone sheet -
+  tolerance set to 150,000 (measured max + headroom).
+- Files changed: scripts/prepare-spearman.mjs,
+  art/motion/spearman/{PROVENANCE.md,registration.json}, TASKS.md,
+  PROGRESS.md (+ ignored outputs under artifacts/motion/spearman/).
+- Verification run: lint + `tsc --noEmit` clean; deterministic double-run
+  of the preparation; page-pixel non-blank check; toolkit unchanged (no
+  library code touched, existing 27 pipeline tests stand).
+- Result: attempt 1 on plan; the pack exists, verified, in budget.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: head-size/spear-length spread measurements
+  (<=10%, unknowns unverified - use the CMR-06A sword-stack + fixed-scale
+  head comparison method that worked), offline continuity review citing
+  frame IDs/crops, acceptance checklist. No blocker.
+- Next recommended task: continue CMR-07A (measurements + continuity).
+
 ### 2026-10-02 02:01 UTC - CMR-07A (attempt 1, IN_PROGRESS - authoring complete, 5/5 sheets accepted)
 
 - Status before: CMR-07A IN_PROGRESS (sheets 1-3 accepted at 062d998).

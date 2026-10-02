@@ -1,0 +1,73 @@
+{
+  "fighter": "spearman",
+  "model": "one uniform scale per sheet + cell-centre/ground anchors; shared bookends by alias",
+  "box": {
+    "width": 224,
+    "height": 122,
+    "groundY": 120
+  },
+  "density": 2,
+  "contentCapPx": 238,
+  "sheets": {
+    "locomotion": {
+      "guardHeight": 336,
+      "guardAltHeight": 335,
+      "downHeight": 332,
+      "maxContentHeight": 338,
+      "sha256": "a1eede91f7bfefddedd62785987fb52cdd2e92d8cdb2c5f2c8b73bcf845b7fdf",
+      "scale": 0.626315
+    },
+    "thrust": {
+      "guardHeight": 345,
+      "guardAltHeight": 342,
+      "downHeight": 269,
+      "maxContentHeight": 345,
+      "sha256": "dd123d6a565ac2e93d5e4d9e3e610b73dfee43d40e729a660b0693390017b1d9",
+      "scale": 0.626315
+    },
+    "hitstun-held": {
+      "guardHeight": 364,
+      "guardAltHeight": 342,
+      "downHeight": 356,
+      "maxContentHeight": 364,
+      "sha256": "ae03032aec5b43933be241ca9c75836dd8bfa64285ecf49c6f0951c28e9b2627",
+      "scale": 0.626315
+    },
+    "fall-thrown": {
+      "guardHeight": 380,
+      "guardAltHeight": 167,
+      "downHeight": 175,
+      "maxContentHeight": 380,
+      "sha256": "2d25cc829058e0d4efd0dbd26c7c56b216d9020649a2e091cd76dd119ddd8b04",
+      "scale": 0.626315
+    },
+    "getup-death": {
+      "guardHeight": 379,
+      "guardAltHeight": 351,
+      "downHeight": 164,
+      "maxContentHeight": 379,
+      "sha256": "b78c4af9eaa50bc40231ed18dc38c0aba27d14e394e9165bbfb2b6ed649959ba",
+      "scale": 0.626315
+    }
+  },
+  "aliases": {
+    "locomotion": {
+      "8": 0
+    },
+    "thrust": {
+      "0": "locomotion:0",
+      "8": "locomotion:0"
+    },
+    "hitstun-held": {
+      "0": "locomotion:0",
+      "8": "locomotion:0"
+    },
+    "fall-thrown": {
+      "8": 3
+    },
+    "getup-death": {
+      "3": "fall-thrown:3",
+      "8": "locomotion:0"
+    }
+  }
+}
