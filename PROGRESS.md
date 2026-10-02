@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 16:32 UTC - CMR-08B (attempt 1, IN_PROGRESS - capture harness extended, canvas+webgl green)
+
+- Status before: CMR-08B IN_PROGRESS (registered 80aed1d; captures next).
+- Work completed: shooter capture path (bounded work 4). `e2e/
+  motion-capture.spec.ts`: archer isolated branch sampling the firing
+  cycle via thinkTick injection (release 90 / reload 70 / draw 45 / aim
+  10, each with margin for 2-tick AI drift; plain idle injects no
+  countdown for the guard bookend); attack lookup guarded (fail-loud
+  preserved for melee). `scripts/motion-capture.mjs`: archer prepared
+  provenance, EMPTY bindings (core skips the check), 12-action injected
+  list, real resource bytes. `prodbuild/motion.spec.ts`: 4-pack pilot
+  (regex + 5 requests + sorted motions). Captures: canvas + webgl both
+  self-check green (50 rows, 0 trace errors, 0 hard integrity, same 2
+  producer-later opens as prior fighters, 0 blanks). Traces verify
+  firing phases on both facings/renderers (shoot:4/7/2/3 + guard) and
+  all states; second samples show live AI walk-on (real behavior).
+  Sanity read of the canvas contact sheet (fingerprinted): new art
+  renders, no breakage; some cells show invulnerability-blink
+  translucency (harness artifact - confirm against soldier/spearman
+  sheets at vision review).
+- SHARED DEFECT DOCUMENTED (bounded work item 3, not refactored):
+  `motion-player.ts` lowCollapse/getup-interrupt paths use guanyu frame
+  literals (`fall:5/6`, `getup:N`) that don't exist in mook packs - a
+  mook dying mid-throw (or interrupted low) falls back to legacy art
+  for 2-4 ticks in live play (dying stateTick advances per sim.ts;
+  captures can't trigger it: frozen stateTick). Pre-existing since
+  06B, affects soldier/spearman/archer equally. 08B proceeds under the
+  baseline-exception rule (item 36) with this record; fix belongs to a
+  shared-code task (parameterize literals per art), flagged for
+  producer/owner triage.
+- Verification run: eslint (3 files) + `tsc --noEmit` clean; both
+  captures exit 0 with self-check passed.
+- Result: capture evidence complete; vision review + fighter report +
+  prodbuild + checklist remain.
+- Status after: CMR-08B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: vision + per-action report + prodbuild +
+  checklist. No blocker.
+- Next recommended task: continue CMR-08B (vision + report).
+
 ### 2026-10-02 16:15 UTC - CMR-08B (attempt 1, IN_PROGRESS - pack registered + shooter bindings, units green)
 
 - Status before: CMR-08B TODO (ungated by 08A DONE); starting attempt 1.

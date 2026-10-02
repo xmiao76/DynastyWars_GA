@@ -54,7 +54,7 @@ let sourceHashes = {
 let packRevision = 'motion-2'
 let pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
 let singlePrepared = null
-if (fighter === 'soldier' || fighter === 'spearman') {
+if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer') {
   // Single-page cast packs: provenance comes from their own prepared record
   // (the guanyu literals above stay exactly as they were for guanyu runs).
   singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/${fighter}-prepared.json`, 'utf8'))
@@ -120,7 +120,9 @@ const bindings = fighter === 'soldier'
   ? { 'soldier.swing': 'swing' }
   : fighter === 'spearman'
     ? { 'spear.thrust': 'thrust' }
-    : {
+    : fighter === 'archer'
+      ? {} // Shooters bind no melee attacks (the core skips the check on empty bindings).
+      : {
         'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
         'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
       }
@@ -136,7 +138,9 @@ const injectedActions = fighter === 'soldier'
   ? ['idle', 'swing', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
   : fighter === 'spearman'
     ? ['idle', 'thrust', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
-    : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+    : fighter === 'archer'
+      ? ['idle', 'shoot-release', 'shoot-reload', 'shoot-draw', 'shoot-aim', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
+      : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
   actions: actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
@@ -185,7 +189,9 @@ const report = {
       ? { networkBytes: 1786372, sourceBytes: 1786372, decodedBytes: 1984 * 1142 * 4, gpuBytes: 1984 * 1142 * 4 }
       : fighter === 'spearman'
         ? { networkBytes: 1352663, sourceBytes: 1352663, decodedBytes: 1835 * 866 * 4, gpuBytes: 1835 * 866 * 4 }
-        : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
+        : fighter === 'archer'
+          ? { networkBytes: 1830948, sourceBytes: 1830948, decodedBytes: 2045 * 924 * 4, gpuBytes: 2045 * 924 * 4 }
+          : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
     clonedCanvasBytes: 0,
   }),
   coverageSummary: {

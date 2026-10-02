@@ -267,10 +267,30 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     spearman: ['thrust', 'spear.thrust'],
   }
   const [attackAction, attackId] = ENEMY_KIND
-    ? (enemyAttack[FIGHTER] ?? (() => { throw new Error(`unknown enemy fighter for capture: ${FIGHTER}`) })())
+    ? (FIGHTER === 'archer'
+      ? (['', ''] as [string, string])
+      : (enemyAttack[FIGHTER] ?? (() => { throw new Error(`unknown enemy fighter for capture: ${FIGHTER}`) })()))
     : ['', '']
+  // Archers have no attack state: firing phases are sampled by injecting
+  // thinkTick values (release 90, reload 70, draw 45, aim 10 - each with
+  // margin from phase boundaries for the 2-tick AI drift). Plain idle
+  // injects no countdown, recording the guard bookend deterministically.
+  const archerIsolated: Array<[string, Record<string, unknown>]> = [
+    ['idle', { state: 'idle', stateTick: 0, thinkTick: undefined }],
+    ['shoot-release', { state: 'idle', stateTick: 0, thinkTick: 90 }],
+    ['shoot-reload', { state: 'idle', stateTick: 0, thinkTick: 70 }],
+    ['shoot-draw', { state: 'idle', stateTick: 0, thinkTick: 45 }],
+    ['shoot-aim', { state: 'idle', stateTick: 0, thinkTick: 10 }],
+    ['hurt', { state: 'hitstun', stateTick: 0 }],
+    ['knockdown', { state: 'knockdown', stateTick: 0 }],
+    ['getup', { state: 'getup', stateTick: 0 }],
+    ['grabbed', { state: 'grabbed', stateTick: 0 }],
+    ['thrown', { state: 'thrown', stateTick: 0 }],
+    ['dying', { state: 'dying', stateTick: 0, hp: 0 }],
+    ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
+  ]
   const isolated: Array<[string, Record<string, unknown>]> = ENEMY_KIND
-    ? [
+    ? (FIGHTER === 'archer' ? archerIsolated : [
         ['idle', { state: 'idle', stateTick: 0 }],
         [attackAction, { state: 'attack', attackId, stateTick: 0 }],
         ['hurt', { state: 'hitstun', stateTick: 0 }],
@@ -280,7 +300,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
         ['thrown', { state: 'thrown', stateTick: 0 }],
         ['dying', { state: 'dying', stateTick: 0, hp: 0 }],
         ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
-      ]
+      ])
     : [
         ['idle', { state: 'idle', stateTick: 0 }],
         ['jab1', { state: 'attack', attackId: 'gy.jab1', stateTick: 0 }],
