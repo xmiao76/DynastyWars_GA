@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 11:28 UTC - CMR-08A (attempt 1, IN_PROGRESS - shoot candidate 1 rejected on clipped bow, re-roll planned)
+
+- Status before: CMR-08A IN_PROGRESS (locomotion accepted 84bfba8).
+- Work completed: reserved (archer 2/8) then generated the shoot 3x3
+  (`e3012ea1...`, body+portrait refs). Mechanical grid check: 9 figures
+  / 9 cells BUT edge-touch 1 (cell 3 raised bow tip at sheet row y=0 -
+  preparation throws on any touch, so this alone fails the sheet).
+  Full-sheet review (fingerprinted): identity holds (headwrap/robe/
+  quiver/bows), braced firing poses, full draw anchored with nocked
+  arrow, uniform scale, bookend matches, no mittens/forks. Zoom crops
+  adjudicated release + follow-through CORRECT (open string hands, slack
+  strings, NO nocked arrows; quiver arrows correctly separate). No
+  valid pixel repair exists for the clip (per-cell rescale forbidden,
+  translate impossible - figure spans full cell height, trim mutilates).
+  VERDICT: REJECT, file kept as `shoot-candidate-1-REJECTED.png` per
+  precedent. Re-roll plan: candidate 2 with explicit >=15px top-margin
+  language for raised bows, everything else preserved.
+- Files changed: art/motion/archer/shoot-candidate-1-REJECTED.png (new),
+  art/motion/generation-budget.json (archer 2/8), art/motion/archer/
+  PROVENANCE.md (attempt row), TASKS.md, PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate caught the defect (9/9/1 edge-touch); three fingerprinted reads
+  (full sheet + release zoom + preview). No code changed; no gates
+  applicable.
+- Result: shoot needs candidate 2; budget 2/8.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: shoot candidate 2 (margin-fixed re-roll)
+  -> hitstun-held -> fall-thrown -> getup-death -> prepare/measure/
+  review. No blocker.
+- Next recommended task: continue CMR-08A (shoot candidate 2).
+
 ### 2026-10-02 11:03 UTC - CMR-08A (attempt 1, IN_PROGRESS - locomotion sheet accepted, 1/8)
 
 - Status before: CMR-08A IN_PROGRESS (foundation fc0e912; generation next).
