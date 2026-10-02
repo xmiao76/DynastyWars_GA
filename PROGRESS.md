@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 09:01 UTC - CMR-07B (attempt 1, IN_PROGRESS - vision green + action review published)
+
+- Status before: CMR-07B IN_PROGRESS (captures green 2263f1b; review pending).
+- Work completed: `npm run vision` 5/5 green (renderer parity, visual
+  health all-screens-pass, sprite gate 256/256, both negative controls
+  failing correctly, HUD gate). Reviewed both spearman contact sheets +
+  enlarged thrust/dead crops (all fingerprint-verified): painted art in
+  every action, both facings/renderers at parity, red hitstun tint
+  rendering, dead empty-by-design with correct trace keys, no legacy
+  blends (all 76 rows `motion-source:spearman`), no size pops, bookends
+  stable. Published `docs/SPEARMAN_ACTION_REVIEW.md` (evidence index,
+  per-action findings with frame IDs, cross-cutting incl. the inherited
+  07A spread limitation, pace/limitations, producer handoff). Honest
+  gaps recorded (not defects): named thrust crops show tick-0 guard
+  (extension covered by per-tick units + 07A zoom verification instead);
+  .webm not natively viewed; contactU/weaponTipU stay open for producer.
+- Files changed: docs/SPEARMAN_ACTION_REVIEW.md (new), TASKS.md,
+  PROGRESS.md. No code/art changes.
+- Verification run: vision 5/5 green (above); no other gates applicable
+  (docs-only turn; lint/tsc/units unaffected).
+- Result: visual review complete; prodbuild + checklist remain.
+- Status after: CMR-07B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: `npm run prodbuild` -> acceptance checklist
+  in CMR-07B.md -> DONE. No blocker.
+- Next recommended task: continue CMR-07B (prodbuild + checklist).
+
 ### 2026-10-02 08:46 UTC - CMR-07B (attempt 1, IN_PROGRESS - capture harness extended, canvas+webgl green)
 
 - Status before: CMR-07B IN_PROGRESS (pack registered 36b0a99; captures pending).
