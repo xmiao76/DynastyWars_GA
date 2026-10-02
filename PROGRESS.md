@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 13:00 UTC - CMR-08A (attempt 1, IN_PROGRESS - fall sheet accepted, 5/8)
+
+- Status before: CMR-08A IN_PROGRESS (hitstun accepted 9eab0b8).
+- Work completed: reserved (archer 5/8) then generated the fall-thrown
+  3x3 (`dcfbc1f7...`, body+portrait refs). Mechanical grid check PERFECT
+  9/9/0 (closest margin 13px). Full-sheet review (fingerprinted): clean
+  topple/airborne/impact/DOWN arc, distinct tumble orientations (curled
+  + extended head-down), side impacts x2, DOWN bookends match; bow
+  gripped in ALL 9 incl. mid-tumble (grapple rule held); headwraps stay
+  on; tumbles stay compact (no scale-to-fill); no mittens/limbs/forks/
+  clipping. Gameplay strip (~115px, fingerprinted): fall arc reads
+  clearly, silhouettes clean. VERDICT: ACCEPT as
+  `fall-thrown-candidate-1.png`.
+- Files changed: art/motion/archer/fall-thrown-candidate-1.png (new),
+  art/motion/generation-budget.json (archer 5/8), art/motion/archer/
+  PROVENANCE.md (attempt row), TASKS.md, PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate 9/9/0; two fingerprinted reads (full + gameplay). No code
+  changed; no gates applicable.
+- Result: fall accepted, 3/8 budget left.
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: getup-death (last sheet) -> prepare/
+  measure/review. No blocker.
+- Next recommended task: continue CMR-08A (getup-death sheet).
+
 ### 2026-10-02 12:31 UTC - CMR-08A (attempt 1, IN_PROGRESS - hitstun sheet accepted, 4/8)
 
 - Status before: CMR-08A IN_PROGRESS (shoot accepted 891f486).
