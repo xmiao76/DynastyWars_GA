@@ -101,14 +101,15 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   if (ENEMY_KIND) {
     const def = ENEMIES[ENEMY_KIND as keyof typeof ENEMIES]
     if (!def) throw new Error(`unknown enemy kind for capture: ${ENEMY_KIND}`)
-    // The capture subject is hero-side so the sim's dead-entity cleanup keeps
-    // it for the dying/dead shots (dead heroes stay in the list; the product
-    // filter drops dead enemies). Rendering/animation read the kind, so the
-    // displayed art is exactly the enemy's.
-    const target = makeCombatant(900001, ENEMY_KIND as never, 'hero', 230, 216, def.maxHp, def.speed, 'right')
+    // Enemy-side subject: the enemy AI drives its states and the sim lets
+    // stateTick progress. The sim's dead-entity cleanup removes dead
+    // enemies, so setPlayer/sample respawn it from the last-set fields.
+    const target = makeCombatant(900001, ENEMY_KIND as never, 'enemy', 230, 216, def.maxHp, def.speed, 'right')
     target.invulnerableTicks = 999999
     await page.evaluate((t) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+      const store = window as unknown as { __MOTION_TARGET_SPAWN__?: unknown }
+      store.__MOTION_TARGET_SPAWN__ = t
       g.sim.entities.push(t as never)
       g.syncSprites()
     }, target as never)
@@ -142,11 +143,23 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     const row = await page.evaluate(async ({ action, facing, origin, source, renderer, commit, shot, elapsed }) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
       const enemyKind = (window as unknown as { __MOTION_ENEMY_KIND__?: string }).__MOTION_ENEMY_KIND__
-      const p = enemyKind
-        ? g.sim.entities.find((e) => e.id === 900001)!
+      let p = enemyKind
+        ? g.sim.entities.find((e) => e.id === 900001)
         : g.sim.entities.find((e) => e.id === g.sim.playerId)!
+      if (enemyKind && !p) {
+        // The sim removes dead enemies between ticks; respawn from the
+        // last-set fields so the dead/dying shots still capture.
+        const store = window as unknown as {
+          __MOTION_TARGET_SPAWN__?: Record<string, unknown>
+          __MOTION_TARGET_FIELDS__?: Record<string, unknown>
+        }
+        const fresh = { ...store.__MOTION_TARGET_SPAWN__! } as Record<string, unknown>
+        g.sim.entities.push(fresh as never)
+        p = g.sim.entities.find((e) => e.id === 900001)
+        Object.assign(p!, { hp: p!.maxHp, invulnerableTicks: 999999 }, store.__MOTION_TARGET_FIELDS__ ?? {})
+      }
       g.syncSprites()
-      const s = g.sprites.get(p.id)!
+      const s = g.sprites.get(p!.id)!
       const f = s.frame
       const worldW = f.realWidth * s.scaleX
       const worldH = f.realHeight * s.scaleY
@@ -184,15 +197,15 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       return {
         action, facing, origin, source,
         renderer,
-        state: p.state, stateTick: p.stateTick, tick: g.sim.tick,
-        attackId: p.attackId,
+        state: p!.state, stateTick: p!.stateTick, tick: g.sim.tick,
+        attackId: p!.attackId,
         key: s.frame.name === '__BASE' ? s.texture.key : s.frame.name,
         elapsedMs: elapsed,
         frozen: g.sim.freezeTicks > 0,
         paused: false,
         commit,
-        actor: p.id,
-        kind: p.kind,
+        actor: p!.id,
+        kind: p!.kind,
         clock: {
           phase: g.sim.phase,
           lives: g.sim.lives,
@@ -214,9 +227,12 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   const setPlayer = async (fields: Record<string, unknown>): Promise<void> => {
     if (ENEMY_KIND) {
       const def = ENEMIES[ENEMY_KIND as keyof typeof ENEMIES]!
-      const fresh = makeCombatant(900001, ENEMY_KIND as never, 'hero', 230, 216, def.maxHp, def.speed, 'right')
+      const fresh = makeCombatant(900001, ENEMY_KIND as never, 'enemy', 230, 216, def.maxHp, def.speed, 'right')
       await page.evaluate(({ t, f }) => {
         const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+        const store = window as unknown as { __MOTION_TARGET_SPAWN__?: unknown; __MOTION_TARGET_FIELDS__?: unknown }
+        store.__MOTION_TARGET_SPAWN__ = t
+        store.__MOTION_TARGET_FIELDS__ = f
         let p = g.sim.entities.find((e) => e.id === 900001)
         if (!p) {
           g.sim.entities.push(t as never)

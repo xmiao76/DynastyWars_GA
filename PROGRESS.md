@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 00:04 UTC - CMR-06B (attempt 1, IN_PROGRESS - capture matrix complete on the fixed harness)
+
+- Status before: first soldier capture validated on canvas (bd4c09e).
+- Work completed: the full capture matrix (canvas pair + webgl pair) plus a
+  REAL harness flaw found and fixed in review: the first harness made the
+  capture subject hero-side (to survive the sim's dead-entity cleanup), but
+  hero-side entities are player-controlled - the sim reset stateTick every
+  tick and the enemy AI never drove them (the trace proved it: every row
+  tick 0, walk stayed idle). Fixed: the subject is a real ENEMY-side
+  combatant with respawn-on-demand from stored spawn/fields (the sim
+  removes dead enemies between ticks; the dead/dying shots respawn
+  instantly). Trace evidence after the fix (both renderers): stateTick
+  progresses (tick 2 samples show swing:1 windup), the AI drives the walk
+  (walk -> tick 28 -> locomotion:4), thrown->knockdown transitions record
+  as real game behaviour, dead/dying shots capture via the respawn guard.
+- Captures: soldier-canvas + soldier-webgl, 2 runs each (pairs/ built from
+  the rotated previous/ runs), 0 near-black crops on both renderers
+  (blank-crop guard active), all four runs self-check green (exit 0).
+  Artifacts in artifacts/motion-review/{soldier-canvas,soldier-webgl}/
+  (trace, index, report, frames, pairs, contact sheets, video).
+- Files changed: e2e/motion-capture.spec.ts, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean (4 strict-null fixes);
+  capture self-checks green; webgl/canvas traces agree on key rows.
+- Result: actual in-game motion evidence for every applicable soldier
+  action, both facings, both renderers, with gameplay (AI) and injected
+  provenance separated.
+- Status after: CMR-06B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: the full-sequence review (contact sheets at
+  game size and enlarged - foot planting, weapon trajectories, size pops,
+  after-frame details) and the producer handoff. No blocker.
+- Next recommended task: continue CMR-06B (sequence review report).
+
 ### 2026-10-01 23:45 UTC - CMR-06B (attempt 1, IN_PROGRESS - enemy capture harness works; first soldier capture validated)
 
 - Status before: CMR-06B work 1-2 done + dispatch fix (720cb86).
