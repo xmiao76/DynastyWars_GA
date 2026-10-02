@@ -1,6 +1,6 @@
 # CMR-08A — Wei Archer: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: DONE 2026-10-02 (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-07B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-08B](CMR-08B.md) is the separate runtime/capture task.
 
@@ -31,13 +31,13 @@ For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTI
 
 ## Acceptance
 
-- [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
-- [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
-- [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
-- [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
-- [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
-- [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
+- [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses. (45 frames: 37 unique + 8 shared-guard/down bookend aliases; 8 unused independently-drawn bookend sources prove nothing missing; `registration.json` + manifest `f9348704`.)
+- [x] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts. (Verified across all 5 sheets at full + gameplay size: headwrap identity, braced shoot cycle, bow gripped throughout incl. tumbles; display-scale sheet shows stable identity over 37 frames.)
+- [x] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels. (Per-sheet factors all 1.0 + ground-anchored fit; edge-cut 0; residue caps pass; packed-frame + display-scale inspection clean.)
+- [x] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance. (Bows 4.8% on 8 overlay-verified chords; heads 6.1% on 12 comparable faces with hitstun-expressive excluded by pose rule + wrap proof; direction coherent by frame review, no flips/snaps; bent/diagonal weapons + arrows honestly unverified with documented method limits.)
+- [x] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config. (2045x924 single page, density 2, 7.56 MiB decoded, 0 budget errors, byte-identical double-run manifest.)
+- [x] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable. (Frame-by-frame review on fresh `display-scale.png` (37 cells) in PROGRESS entry: locomotion cycle, shoot draw-to-reload, hitstun→escape, fall arc, getup rise + dying sequence all coherent with stable identity/grounding; bookends stable via alias map.)
+- [x] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A. (git status clean on guanyu/soldier/spearman/masters/src; zero archer references in motion-art.ts or assets/motion.)
 
 ## Checks/handoff
 

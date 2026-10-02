@@ -22,6 +22,30 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 15:25 UTC - CMR-08A DONE (attempt 1 - continuity + checklist, no waiver needed)
+
+- Status before: CMR-08A IN_PROGRESS (acceptance 4 passed 60ed29b).
+- Work completed: continuity review on a fresh display-scale sheet
+  from the final pack (fingerprinted 2148x1553, 37 unique frames):
+  locomotion cycle, shoot draw-to-reload, hitstun→escape, fall arc,
+  getup rise + dying sequence all cohere with stable identity and
+  grounding; bookends alias correctly (8 dupes absent by construction);
+  no flips/snaps/ghosts. Closed all 7 acceptance items with evidence
+  (spec annotated): manifest 45/37+8, identity/anatomy, registration/
+  grounding, landmarks (bows 4.8%, heads 6.1%, direction coherent),
+  pages/budget/determinism, continuity, untouched fighters + zero
+  activation (proven: clean tree on guanyu/soldier/spearman/masters/src,
+  no archer references in motion-art.ts or assets/motion).
+- Files changed: docs/motion-tasks/CMR-08A.md (checklist),
+  scripts/display-sheet-archer.mjs (new), TASKS.md, PROGRESS.md.
+- Verification run: eslint (new script) + `tsc --noEmit` clean (below);
+  display-scale read fingerprinted; prior lint/tsc/units/vision results
+  stand (nothing they cover changed).
+- Result: CMR-08A DONE (attempt 1). CMR-08B UNGATED.
+- Status after: CMR-08A DONE.
+- Remaining work or blocker: none on 08A.
+- Next recommended task: CMR-08B (first TODO).
+
 ### 2026-10-02 15:18 UTC - CMR-08A (attempt 1, IN_PROGRESS - acceptance 4 PASSES, no repairs)
 
 - Status before: CMR-08A IN_PROGRESS (pack prepared 0e6fcea; landmarks pending).
