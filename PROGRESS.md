@@ -22,6 +22,17 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 07:25 UTC - IDLE (unchanged: still awaiting owner scope call on CMR-07A)
+
+- Verified: HEAD still 81f21be, working tree clean (pre-existing
+  .gitignore edit + ignored artifacts only), no owner message, no
+  IN_PROGRESS tasks, UI review still not due (3/4 src/game commits).
+  Full gated-queue audit in the 06:52 entry; conclusion unchanged.
+- Blocked tasks awaiting owner: CMR-07A (scope call per 3aa18aa
+  record); UIR-16, UIR-19, GYM-1, BODY-7, ENH-12 (unchanged).
+- Files changed: PROGRESS.md (this entry only). No gates applicable.
+- Result: IDLE - NO READY WORK. Loop pauses for owner review.
+
 ### 2026-10-02 06:54 UTC - IDLE (unchanged: still awaiting owner scope call on CMR-07A)
 
 - Verified: HEAD still b9779e7, working tree clean (pre-existing
