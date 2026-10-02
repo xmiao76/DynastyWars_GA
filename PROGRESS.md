@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 18:42 UTC - CMR-09A (attempt 1, IN_PROGRESS - jab1 candidate 2 accepted)
+
+- Status before: CMR-09A IN_PROGRESS (walk accepted; jab1-c1 rejected on edge-touch, 3/16 spent).
+- Work completed: jab1 sheet candidate 2 generated + reviewed +
+  ACCEPTED. Reserved BEFORE generating (zhangfei 4/16, jab1:2 maxed,
+  total 44/200). Jab1-c1's structured ref pixel-attached + explicit
+  >=15px sheet-edge-margin language. Output `83ed8b93...` (1536x1024,
+  2121213 B): the c1 tip-touch FIXED (0 sheet-edge-opaque px, closest
+  sheet margin 11px); same snappy choreography (all 9 poses distinct,
+  on-line guard->windup->drive->extension->follow->recover arc);
+  identity preserved (uniform heads, costume, rigid serpent pike +
+  tassel, no armor/cape); hands wrap with fingers/knuckles; guard
+  bookend matches; no extra limbs/forks/clipping. Mechanics: 75.34%
+  transparent, 9/9 components correct centroids + 2x4px specks
+  cleanable; tight nominal margins + zoom slivers benign per the 08A
+  precedent. jab1 DONE; 8 sequences remain.
+- Files changed: art/motion/zhangfei/jab1-candidate-2.png (new),
+  art/motion/{generation-budget.json,zhangfei/PROVENANCE.md}, TASKS.md,
+  PROGRESS.md. Composites/census in ignored tmpcheck/.
+- Verification run: no gates applicable (art candidate + docs).
+  Reviewed on fingerprinted white full-sheet (e484d032) + gameplay
+  strip (a9fc7621) + 3 fingerprinted cell zooms; alpha/census/edge/
+  speck measured mechanically.
+- Result: jab1 accepted; jab2 next.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: 8 sheets (jab2 first) -> prepare/measure/
+  review. No blocker (12/16 remain).
+- Next recommended task: continue CMR-09A (jab2 sheet).
+
 ### 2026-10-02 18:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - jab1 candidate 1 rejected on edge-touch)
 
 - Status before: CMR-09A IN_PROGRESS (walk accepted, 2/16 spent).
