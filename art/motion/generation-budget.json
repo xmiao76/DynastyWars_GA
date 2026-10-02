@@ -63,6 +63,14 @@
         "fall-thrown": 1,
         "getup-death": 2
       }
+    },
+    "zhangfei": {
+      "role": "hero",
+      "cap": 16,
+      "used": 1,
+      "sheetCandidates": {
+        "walk": 1
+      }
     }
   }
 }

@@ -22,6 +22,46 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 17:46 UTC - CMR-09A (attempt 1, IN_PROGRESS - walk candidate 1 rejected on static cycle)
+
+- Status before: CMR-09A IN_PROGRESS (foundation done, 0/16 spent).
+- Work completed: walk sheet candidate 1 generated + reviewed +
+  REJECTED. Reserved in the ledger BEFORE generating (zhangfei 1/16,
+  walk:1, total 41/200). Prompt carried the full locked identity +
+  all anti-drift rules (uniform-scale, heavy-build, bristle-beard,
+  no-armor/cape, pike-length, 15px margins). Output `4f63c23b...`
+  (1536x1024, 2146907 B): identity GOOD (heavy/short, vest+rope belt,
+  headband+tails, fierce face, serpent pike + tassel, no armor/cape,
+  uniform heads), mechanics GOOD (74.82% transparent - the dark
+  preview backdrop is the viewer matte, not file content; 0
+  sheet-edge-opaque px; 9/9 components with correct centroid cells +
+  1x4px dust speck at (192,888), cleanable). FATAL: the 8-cycle is
+  static - all 9 torsos/heads/arms/pikes near-identical, feet shuffle
+  without genuine alternation (no passing/crossed pose, no wide
+  stride, no push-off; cell0/4/8 zooms: together -> small step ->
+  together; gameplay strip reads as one standing pose x9). No valid
+  repair (legs must be redrawn). File kept as
+  `walk-candidate-1-REJECTED.png` per precedent; candidate 2 (LAST
+  for walk) re-rolls with explicit per-cell leg choreography, using
+  candidate 1's structured ref as the identity anchor. Host note:
+  `read_image` yields no pixel-attach refs for the masters, so masters
+  ground the prompt as text + review baseline; generated outputs DO
+  yield refs for subsequent turns.
+- Files changed: art/motion/zhangfei/walk-candidate-1-REJECTED.png
+  (new), art/motion/{generation-budget.json,zhangfei/PROVENANCE.md},
+  TASKS.md, PROGRESS.md. Review composites + census scripts live in
+  ignored artifacts/tmpcheck/ (not committed).
+- Verification run: no gates applicable (art candidate + docs; nothing
+  lint/tsc/units cover was touched). Candidate reviewed on
+  fingerprinted white full-sheet (c6796310) + gameplay strip (42608975)
+  + 3 fingerprinted cell zooms; alpha/census/edge/speck measured
+  mechanically (scripts in tmpcheck).
+- Result: walk-c1 rejected with recorded grounds; re-roll planned.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: walk candidate 2 -> remaining 9 sheets ->
+  prepare/measure/review. No blocker (15/16 + 6 held).
+- Next recommended task: continue CMR-09A (walk candidate 2).
+
 ### 2026-10-02 17:14 UTC - CMR-09A (attempt 1, IN_PROGRESS - identity locked + plan written, no generation yet)
 
 - Status before: CMR-09A TODO (ungated by 08B DONE); starting attempt 1.
