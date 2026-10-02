@@ -1,6 +1,6 @@
 {
   "fighter": "spearman",
-  "model": "one uniform scale per sheet + cell-centre/ground anchors; shared bookends by alias",
+  "model": "one uniform scale PER SHEET (guard face-to-ground factors vs locomotion) + cell-centre/ground anchors; shared bookends by alias",
   "box": {
     "width": 224,
     "height": 122,
@@ -15,7 +15,9 @@
       "downHeight": 332,
       "maxContentHeight": 338,
       "sha256": "a1eede91f7bfefddedd62785987fb52cdd2e92d8cdb2c5f2c8b73bcf845b7fdf",
-      "scale": 0.626315
+      "scale": 0.626315,
+      "scaleFactor": 1,
+      "scaleEvidence": "reference sheet"
     },
     "thrust": {
       "guardHeight": 345,
@@ -23,7 +25,9 @@
       "downHeight": 269,
       "maxContentHeight": 345,
       "sha256": "dd123d6a565ac2e93d5e4d9e3e610b73dfee43d40e729a660b0693390017b1d9",
-      "scale": 0.626315
+      "scale": 0.626315,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNRESOLVED: proxies disagree in sign (ground 1.034, face 0.961) - factor 1, within resolution"
     },
     "hitstun-held": {
       "guardHeight": 364,
@@ -31,7 +35,9 @@
       "downHeight": 356,
       "maxContentHeight": 364,
       "sha256": "ae03032aec5b43933be241ca9c75836dd8bfa64285ecf49c6f0951c28e9b2627",
-      "scale": 0.626315
+      "scale": 0.553036,
+      "scaleFactor": 0.883,
+      "scaleEvidence": "applied: proxies agree (ground 0.919, face 0.847; residual uncertainty +/-0.036)"
     },
     "fall-thrown": {
       "guardHeight": 380,
@@ -39,7 +45,9 @@
       "downHeight": 175,
       "maxContentHeight": 380,
       "sha256": "2d25cc829058e0d4efd0dbd26c7c56b216d9020649a2e091cd76dd119ddd8b04",
-      "scale": 0.626315
+      "scale": 0.626315,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (no standing guard cell) - factor 1"
     },
     "getup-death": {
       "guardHeight": 379,
@@ -47,7 +55,9 @@
       "downHeight": 164,
       "maxContentHeight": 379,
       "sha256": "b78c4af9eaa50bc40231ed18dc38c0aba27d14e394e9165bbfb2b6ed649959ba",
-      "scale": 0.626315
+      "scale": 0.626315,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNRESOLVED: proxies disagree in sign (ground 0.951, face 1.104) - factor 1, within resolution"
     }
   },
   "aliases": {

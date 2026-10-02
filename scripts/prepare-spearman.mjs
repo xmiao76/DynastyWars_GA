@@ -98,31 +98,51 @@ for (const [name, file] of Object.entries(SHEETS)) {
   }
 }
 
-// ONE scale for the whole pack, sized so the TALLEST drawing fits its cell
-// with the transparent trim pad (never a per-pose normalisation). The gate
-// below catches GROSS scale disagreement only: the upright spear extends
-// above the helmet by a grip-dependent amount, so raw guard-bbox heights
-// legitimately vary ~8% at one true scale (verified visually: helmet,
-// shoulder, belt, knee and boot landmarks align across sheets - see the
-// guard comparison in PROVENANCE). Fine scale consistency is verified by
-// the acceptance-4 head-size measurement on the prepared pack; per-sheet
-// scales remain available if it ever fails.
+// PER-SHEET scale (the accepted model is "one uniform scale PER SHEET"; the
+// soldier's measured 0.3% agreement justified a pack-wide scale, the
+// spearman's does not). Factors come from scripts/measure-spearman.mjs
+// (controlled standing-guard pose, TWO independent proxies: face-to-ground
+// distance and face sqrt-area). Rule - a factor is applied ONLY where both
+// proxies agree on direction (factor = their mean); where they disagree the
+// sheet stays at factor 1 and is flagged UNRESOLVED, because the proxies
+// resolve only ~+/-5% and a one-sided correction would be invented
+// precision. Sheets with no standing guard cell are UNVERIFIED (factor 1).
+const evidence = JSON.parse(readFileSync(`${SRC}/measurements-raw.json`, 'utf8'))
+const guardScale = evidence.guardScale ?? {}
+const factors = {}
+const status = {}
+for (const name of Object.keys(SHEETS)) {
+  const e = guardScale[name]
+  if (!e) {
+    factors[name] = 1
+    status[name] = 'UNVERIFIED (no standing guard cell) - factor 1'
+  } else if (name === 'locomotion') {
+    factors[name] = 1
+    status[name] = 'reference sheet'
+  } else if ((e.ground - 1) * (e.face - 1) > 0) {
+    factors[name] = e.factor
+    status[name] = `applied: proxies agree (ground ${e.ground}, face ${e.face}; residual uncertainty +/-${(e.disagreement / 2).toFixed(3)})`
+  } else {
+    factors[name] = 1
+    status[name] = `UNRESOLVED: proxies disagree in sign (ground ${e.ground}, face ${e.face}) - factor 1, within resolution`
+  }
+}
+// Pack base scale: the tallest drawing, AFTER its sheet factor, fits its cell.
 const CONTENT_CAP = BOX.height * DENSITY - 2 * TRIM_PAD - 2
-const scale = Math.floor((CONTENT_CAP / packMax) * 1e6) / 1e6
+const base = Math.min(...Object.keys(SHEETS).map((n) => CONTENT_CAP / (measured[n].maxContentHeight * factors[n])))
+const sheetScale = Object.fromEntries(Object.keys(SHEETS).map((n) => [n, Math.floor(base * factors[n] * 1e6) / 1e6]))
 const standing = ['locomotion', 'thrust', 'hitstun-held'].map((n) => measured[n].guardHeight)
 const meanStanding = standing.reduce((a, b) => a + b, 0) / standing.length
-const standingSpread = (Math.max(...standing) - Math.min(...standing)) / meanStanding
-const guards = [...standing, measured['getup-death'].guardAltHeight]
-const guardSpread = (Math.max(...guards) - Math.min(...guards)) / (guards.reduce((a, b) => a + b, 0) / guards.length)
-for (const name of Object.keys(SHEETS)) measured[name].scale = scale
-console.log(`tallest drawing ${packMax}px -> scale ${scale} (standing figures ${(meanStanding * scale).toFixed(1)}px content)`)
-console.log(`standing bookends ${standing.join('/')}px spread ${(100 * standingSpread).toFixed(2)}%`)
-console.log(`all guard cells ${guards.join('/')}px spread ${(100 * guardSpread).toFixed(2)}%`)
-console.log(`DOWN cell heights (pose variance, aliased to one drawing): fall=${measured['fall-thrown'].downHeight} getup-death=${measured['getup-death'].downHeight}`)
-if (standingSpread > 0.12 || guardSpread > 0.12) {
-  console.log('DEFECT: drawn scales disagree - measure and re-normalise')
-  process.exit(1)
+for (const name of Object.keys(SHEETS)) {
+  measured[name].scale = sheetScale[name]
+  measured[name].scaleFactor = factors[name]
+  measured[name].scaleEvidence = status[name]
 }
+console.log(`base scale ${base.toFixed(6)} (tallest drawing after factor fits its cell)`)
+for (const name of Object.keys(SHEETS)) {
+  console.log(`  ${name.padEnd(13)} factor ${factors[name]}  scale ${sheetScale[name]}  ${status[name]}`)
+}
+console.log(`standing guard bbox heights ${standing.join('/')}px (mean ${meanStanding.toFixed(0)}; spear-overhang varies - not used as scale)`)
 
 const registration = measured
 
@@ -139,7 +159,7 @@ const fighter = {
   // (alpha-only, never eating near-black costume). The tolerance only
   // trips on gross residue.
   cleanup: { alphaThreshold: 96, speckMaxPx: 64, residueTolerancePx: 150000 },
-  sequences: SEQUENCES.map((s) => ({ ...s, registration: { scale } })),
+  sequences: SEQUENCES.map((s) => ({ ...s, registration: { scale: sheetScale[s.name] } })),
 }
 
 const pack = preparePack(fighter, sheets)
@@ -149,7 +169,7 @@ const paths = writePackOutputs(fighter, pack, { outputRoot: OUT })
 mkdirSync(SRC, { recursive: true })
 writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({
   fighter: 'spearman',
-  model: 'one uniform scale per sheet + cell-centre/ground anchors; shared bookends by alias',
+  model: 'one uniform scale PER SHEET (guard face-to-ground factors vs locomotion) + cell-centre/ground anchors; shared bookends by alias',
   box: BOX,
   density: DENSITY,
   contentCapPx: CONTENT_CAP,

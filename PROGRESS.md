@@ -22,6 +22,55 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 03:08 UTC - CMR-07A (attempt 1, IN_PROGRESS - correction: scale model fixed to per-sheet; acceptance 4 not established)
+
+- Status before: CMR-07A IN_PROGRESS (pack prepared at e8ad6f6 with a single
+  pack-wide scale).
+- CORRECTION to my own previous report: I said the guard landmarks
+  "align" across sheets. Re-looking at the composite the hitstun-held
+  guard's helmet sits visibly higher than locomotion's, and a controlled
+  measurement confirms it. I had also loosened a trip-wire (2% -> 12%)
+  after it fired instead of resolving what it was telling me.
+- Work completed: (1) `scripts/measure-spearman.mjs` - controlled
+  standing-guard comparison (same pose in every sheet that has one) with
+  TWO independent proxies. Results: hitstun-held ground 0.919 / face
+  0.847 (both smaller -> factor 0.883 applied); thrust 1.034 / 0.961 and
+  getup-death 0.951 / 1.104 disagree in sign -> UNRESOLVED (factor 1, within
+  the ~+/-5% resolution); fall-thrown has no standing guard cell ->
+  UNVERIFIED. Rule: a factor is applied only where both proxies agree.
+  (2) `prepare-spearman.mjs` now uses ONE SCALE PER SHEET with that rule
+  (the accepted model; the soldier's 0.3% cross-sheet agreement is what
+  justified a pack-wide scale there, not here); the old >12% gate is gone
+  in favour of recorded per-sheet evidence in registration.json.
+  (3) Pack re-prepared, deterministic: manifest 59493b2b, 45 frames, one
+  2038x923 page (26.2% opaque), 6.12 MiB decoded, 0 budget errors.
+  (4) Comparison sheets `landmarks/head-review.png` (fixed 220px windows)
+  and `landmarks/spear-review.png` (fixed 480x400) generated; both read
+  with fingerprint verification. (5) Spear measurement: only the upright
+  guard drawings measure cleanly (locomotion:0 = 338px, :1 = 340px,
+  0.6% apart); every other drawing is occluded by hands/torso or
+  foreshortened and outputs 54..543px that are NOT blade measurements ->
+  UNVERIFIED. Rejected as scale evidence (pose-contaminated or
+  quantised): guard bbox with spear tip, torso mass, face area on tilted
+  heads, shaft thickness (4/4/4/5/4.6px).
+- Files changed: scripts/{measure-spearman.mjs,review-sheets-spearman.mjs,
+  prepare-spearman.mjs}, art/motion/spearman/{PROVENANCE.md,
+  registration.json,measurements-raw.json}, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; deterministic double-run;
+  page-pixel non-blank check; no library code changed.
+- Result: the pack is honest about its scale evidence. ACCEPTANCE 4 IS
+  NOT ESTABLISHED - head size resolves only ~+/-5% and cannot settle
+  thrust/getup-death/fall-thrown; spear length is unverified outside the
+  guard drawings.
+- Status after: CMR-07A IN_PROGRESS (attempt 1). Attempt count for the
+  acceptance-4 measurement: 1 (this tick).
+- Remaining work or blocker: manual landmark read of the fixed-scale ruler
+  sheets + a rotated-overlay (sword-stack style) for the spear, repair
+  requests (2 left) only if a drawing proves out of scale, offline
+  continuity review citing frame IDs, acceptance checklist. No blocker yet;
+  AGENTS.md rule 5 applies if acceptance 4 fails three consecutive attempts.
+- Next recommended task: continue CMR-07A (acceptance-4 evidence).
+
 ### 2026-10-02 02:56 UTC - CMR-07A (attempt 1, IN_PROGRESS - registration/fit + deterministic spearman pack prepared)
 
 - Status before: CMR-07A IN_PROGRESS (authoring complete at ddff2eb; 6/8).

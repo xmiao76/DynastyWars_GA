@@ -113,18 +113,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; REGISTRATION + PREPARATION DONE -
-  one uniform pack scale with cell-centre/ground anchors, shared
-  guard/down bookends enforced by alias, deterministic pack: manifest
-  3a1472ef, 45 frames (37 unique + 8 aliases), one 2039x928 page,
-  decoded 6.34 MiB <= 16 MiB, 0 budget errors -> PROVENANCE.md.
-  Scale evidence adjudicated: the 8% guard-bbox spread is spear-overhang
-  variance (verified visually: helmet/shoulder/belt/knee/boot landmarks
-  align across sheets); the driver gate trips only on gross disagreement,
-  fine consistency goes to the acceptance-4 measurement. Remaining:
-  measurements (head/spear spread <=10%), continuity review, checklist.
-  Authoring: 5/5 sheets accepted, budget 6/8 (hitstun-held second
-  candidate after an honest rejection).)
+- Status: IN_PROGRESS (attempt 1; authoring 5/5 sheets accepted, budget
+  6/8; pack PREPARED deterministic (manifest 59493b2b, 45 frames, one
+  2038x923 page, 6.12 MiB decoded, 0 budget errors, page non-blank).
+  CORRECTION recorded: my previous tick claimed the guard landmarks
+  "align" - controlled two-proxy measurement shows hitstun-held's figure
+  is ~12% smaller (both proxies agree -> per-sheet factor 0.883 applied);
+  thrust and getup-death proxies disagree in sign (UNRESOLVED, factor 1);
+  fall-thrown has no controlled pose (UNVERIFIED). ACCEPTANCE 4 NOT
+  ESTABLISHED: spear length measures cleanly only on locomotion:0/1
+  (338/340px, 0.6% apart) - every other drawing is occluded/foreshortened
+  -> UNVERIFIED; head-size resolves only ~+/-5%. Comparison sheets ready
+  (landmarks/head-review.png, spear-review.png). Next: manual landmark
+  read + sword-stack-style rotated overlay; repair requests (2 left) if a
+  drawing proves out of scale. Then continuity review + checklist.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

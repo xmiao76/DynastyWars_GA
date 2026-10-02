@@ -37,34 +37,60 @@ verdicts rest on verified reads.
 
 ## Preparation record (2026-10-02, `scripts/prepare-spearman.mjs`)
 
-Registration model (the accepted one): ONE uniform scale for the whole
-pack (0.6-packMax-derived, target the tallest drawing fitting its cell
-with trim pad), cell-centre/ground anchors, shared guard/down bookends
-enforced by alias (aliased source cells count as unused). No runtime
-catalog activation (that is CMR-07B).
+Registration model (the accepted one): ONE uniform scale PER SHEET (the
+soldier's measured 0.3% cross-sheet agreement justified a pack-wide scale;
+the spearman's does not), cell-centre/ground anchors, shared guard/down
+bookends enforced by alias (aliased source cells count as unused). No
+runtime catalog activation (that is CMR-07B).
 
-Scale-consistency evidence: the guard-bbox heights read 336/345/364px
-(8.04% spread) because the upright spear extends above the helmet by a
-grip-dependent amount - NOT a scale difference. Verified visually: a 1:1
-composite of the three guard cells on a shared ground line shows helmet,
-shoulder, belt, knee and boot landmarks aligned at the same heights. The
-driver gate therefore trips only on gross disagreement (>12%); fine
-consistency is verified by the acceptance-4 head-size measurement.
+### Scale evidence and a correction (read this)
 
-Cleanup evidence: low-alpha glow is proportional to figure area on every
-sheet (23-35% of opaque pixels); fall-thrown reads highest absolute
-(124,281px) because its tumbling/prone figures cover the most area. The
-per-fighter residue tolerance is 150,000 (measured max + headroom).
+The first preparation used one pack-wide scale and the gate trip at 8.04%
+(guard bbox 336/345/364px) was attributed to spear overhang with the claim
+that "helmet, shoulder, belt, knee and boot landmarks align". That claim
+was too generous: re-reading the composite, the hitstun-held guard's helmet
+sits visibly higher than locomotion's. Controlled measurement
+(`scripts/measure-spearman.mjs`; the standing-guard pose is identical in
+every sheet that has one, so it isolates scale from pose) with TWO
+independent proxies gave:
 
-Pack result (deterministic - manifest sha256 re-ran identical):
+| sheet | face-to-ground ratio | face sqrt-area ratio | verdict |
+| --- | --- | --- | --- |
+| locomotion | 1 | 1 | reference |
+| thrust | 1.034 | 0.961 | proxies disagree in sign -> within resolution, factor 1 (UNRESOLVED) |
+| hitstun-held | 0.919 | 0.847 | both say smaller -> factor 0.883 applied (+/-0.036) |
+| fall-thrown | - | - | no standing guard cell -> UNVERIFIED, factor 1 |
+| getup-death | 0.951 | 1.104 | proxies disagree in sign -> UNRESOLVED, factor 1 |
+
+Rule: a factor is applied only where both proxies agree on direction; the
+proxies resolve about +/-5%, so one-sided corrections would be invented
+precision. Pose-dependent measures (guard bbox with the spear tip, torso
+mass, face area on tilted heads, shaft thickness on 2-5 drawings) were
+tried and rejected as scale evidence for exactly that reason (shaft
+thickness read 4/4/4/5/4.6 px - quantised to whole pixels, no resolving
+power below 25%).
+
+Effect: only hitstun-held changes (scale 0.553 vs 0.626); the other four
+sheets share one scale. Whether the residual uncertainty meets the <=10%
+head-size requirement is NOT claimed here - it is the acceptance-4 question
+(next section) and stays open.
+
+### Cleanup evidence
+
+Low-alpha glow is proportional to figure area on every sheet (23-35% of
+opaque pixels); fall-thrown reads highest absolute (124,281px) because its
+tumbling/prone figures cover the most area. Per-fighter residue tolerance
+is 150,000 (measured max + headroom).
+
+### Pack result (deterministic - manifest sha256 re-ran identical)
 
 | field | value |
 | --- | --- |
-| manifest sha256 | `3a1472ef3481872711e011c190226ed93c25bfb0f669c9f3c91d7041d1bd911d` |
+| manifest sha256 | `59493b2b0e5a2b79e4aa8d8c65b6f94d42a091ef07a3e26d97e3e3bebd2f2d94` |
 | frames | 45 (37 displayed unique + 8 shared-bookend aliases) |
-| pages | `spearman-1` 2039x928 (<= 2048^2) |
-| decoded RGBA | 6,648,260 B (6.34 MiB <= 16 MiB) |
-| GPU (shared atlas) | 6,648,260 B; cloned-canvas 0 B |
+| pages | `spearman-1` 2038x923 (<= 2048^2), 26.2% opaque (non-blank verified) |
+| decoded RGBA | 6,416,716 B (6.12 MiB <= 16 MiB) |
+| GPU (shared atlas) | 6,416,716 B; cloned-canvas 0 B |
 | counts | sourceCells 45 / displayedUnique 37 / duplicate 8 / unused 8 |
 | suspects | 7 bbox-overlap hints (wide poses crossing nominal territory; reviewed, component counts exact) |
 
@@ -72,9 +98,26 @@ Outputs: `artifacts/motion/spearman/spearman/` (manifest.json, report.json,
 pages/) - temporary output; accepted sources remain in
 `art/motion/spearman/`.
 
-Still unverified (cannot establish compliance): head-size and
-spear-length spreads (<=10% requirement) and the offline continuity
-review citing frame IDs - next unit of work.
+### Acceptance-4 evidence status (honest)
+
+Comparison sheets exist (`artifacts/motion/spearman/landmarks/head-review.png`
+fixed 220px windows; `spear-review.png` fixed 480x400 windows) and
+fingerprint-verified reads show a consistent helmet/face design across
+drawings. Numeric results so far:
+
+- Spear length, controlled upright pose: locomotion:0 = 338px and
+  locomotion:1 = 340px (0.6% apart). Every other drawing is occluded by
+  hands/torso, foreshortened, or merges with the body in the cluster
+  measurement (outputs 54..543px are not blade measurements) -> UNVERIFIED.
+- Head size: the controlled guard comparison above resolves ~+/-5% on
+  four sheets and cannot resolve thrust/getup-death direction; fall-thrown
+  has no controlled pose. Not a pass.
+
+Acceptance item 4 is therefore NOT ESTABLISHED. Per the contract unknowns
+do not pass; the CMR-06A path that worked (manual landmark read of the
+fixed-scale ruler sheets + a rotated stack) is the next step, and a
+fall-thrown/getup-death repair request (2 left in budget) is the fallback
+if a drawing proves out of scale.
 
 ## Remaining budget plan (2 left)
 
