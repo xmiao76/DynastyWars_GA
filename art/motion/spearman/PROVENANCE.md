@@ -24,6 +24,7 @@ rejection), 2 remaining.
 | getup-death | getup-death-candidate-1.png | `b78c4af9eaa50bc40231ed18dc38c0aba27d14e394e9165bbfb2b6ed649959ba` | ACCEPT - 9/9 cells (elbow push-up, kneel, crouch, DOWN bookend, fatal jolt, knee collapse, crumple, dead on side, guard bookend); prep note: shared guard/down bookends are drawn independently on each sheet -> enforce by mapping every bookend position to ONE reference cell across the pack |
 | repair-A (fall) | fall-thrown-repair-candidate-1.png | `33fcecc15c35806eca59678affe343d29d273c03375c45fcfcea822ca9c9cbbf` | PARTIAL - witness guard + all 8 fall poses with locomotion guard as 3rd scale reference. Grid: 9 figures + 8 faint panel-seam fragments (splice takes largest-component-only; sheet cleaned before splice). Witness 350px (+10.4% uniform offset, method cross-checked exactly on the reference cell). Per-cell zoom verification: A:4->fall:3 (350, SPLICE), A:7->fall:6 (361, borderline SPLICE), A:8 (390 still over, SKIP), A:2 (294 under + excluded target, SKIP), A:1/A:3/A:5/A:6 (targets excluded or kept-originals better, SKIP). |
 | repair-B (mixed) | mixed-repair-candidate-1.png | `ffe7e9da10105ddbb2761d5e90c8e7ac05c7e0594990c222118de22b6b19ab10` | PARTIAL - witness + thrust:3/:4 + hitstun:7 + getup:0/:1/:2/:6/:7. Grid perfect 9/9/0. Witness 345px (+8.8% uniform). Zoom verification: B:1->thrust:3 (347, SPLICE), B:2->thrust:4 (350, cleanest, SPLICE), B:3->hitstun:7 (360 borderline, SPLICE), B:6->getup:2 (335, converts unverified->verified, SPLICE), B:7->getup:6 (314, SPLICE); B:4 (401), B:5 (370), B:8 (282) still out-band (SKIP - targets unfixable, see residuals). |
+| repair-R1 (ledger round 1) | acceptance4-round1-candidate-1.png | `5268736880a542490488f30524a0b10736867de83dc213751eb2c8a2e0163a27` | PARTIAL - witness x2 + fall:7/getup:0/:1/:7 + fall:6/hitstun:7/getup:4 redos, with offending-strip contrastive ref (reserved per protocol BEFORE generating; source SHA `314ef0cd...` over fall+getup+hitstun working bytes). Grid 9/9/0. Witnesses 368/369 (0.3% agreement, +16% uniform => k=0.860). Zoom verification: 0/4 residuals fixed - ALL came back SHORT (r1:2 fall:7: 290, r1:3 getup:0: 274, r1:4 getup:1: 280, r1:5 getup:7: 292; systematic overcorrection to "shorter" language). Salvaged r1:6->fall:6 (336, centered, queued to replace borderline 362 splice). r1:7 NOT used (head cluster 846 suspicious). Settled accepted-partial with explicit evidence. |
 
 All five accepted candidates: mechanical grid checks pass (9 figures / 9
 cells / no sheet-edge cuts) and the reviews were fingerprint-verified
@@ -186,10 +187,13 @@ versions; spread 30.2%, ~14% best-case). NOT BLOCKED: the
 `MOTION_ACCEPTANCE4_RECOVERY` protocol provides a separate 3-round
 reserve (spearman 3/3 untouched); next is repair-ledger round 1.
 
-## Remaining budget plan (authoring 0 left - exhausted; repair reserve 3/3)
+## Remaining budget plan (authoring 0 left - exhausted; repair reserve 2/3)
 
-Both repair requests spent 2026-10-02 (fall-thrown-repair + mixed-repair).
-No image budget remains for CMR-07A/07B. Unfixable residuals (observable +
-out-band in both versions): fall:7, getup:0/:1/:7. If the splice round
-does not establish acceptance 4, the task BLOCKEDs; recovery (further
-requests, band amendment, or re-scope) is an owner call.
+Authoring-budget repairs spent 2026-10-02 (fall-thrown-repair +
+mixed-repair, 7 splices). Repair-ledger round 1 spent (0/4 residuals
+fixed - systematic undershoot; r1:6 splice queued). Rounds 2-3 remain.
+Round-2 design: bracketing references (too-long originals + too-short
+round-1s + scale-ref = 5 refs) + exact-length anchoring without
+directional bias words; 4 residuals (+ spares). If rounds exhaust without
+acceptance, the task BLOCKEDs; band amendment or re-scope remain owner
+calls.

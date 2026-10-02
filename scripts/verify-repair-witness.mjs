@@ -6,10 +6,16 @@ import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { alphaComponents } from './motion-pipeline.mjs'
 
 const REF = 317
-const SHEETS = {
-  'repair-A': 'art/motion/spearman/fall-thrown-repair-candidate-1.png',
-  'repair-B': 'art/motion/spearman/mixed-repair-candidate-1.png',
-}
+// argv: file + comma-separated witness positions (default: the two round-0
+// repair sheets, position 0). Example:
+//   node scripts/verify-repair-witness.mjs art/motion/spearman/acceptance4-round1-candidate-1.png 0,1
+const SHEETS = process.argv[2]
+  ? { round: process.argv[2] }
+  : {
+      'repair-A': 'art/motion/spearman/fall-thrown-repair-candidate-1.png',
+      'repair-B': 'art/motion/spearman/mixed-repair-candidate-1.png',
+    }
+const POSITIONS = process.argv[3] ? process.argv[3].split(',').map(Number) : [0]
 
 async function load(path) {
   const img = await loadImage(path)
@@ -21,16 +27,18 @@ async function load(path) {
 }
 const opaque = (im, x, y) => x >= 0 && y >= 0 && x < im.width && y < im.height && im.data[(y * im.width + x) * 4 + 3] >= 96
 
+const heights = []
 for (const [name, path] of Object.entries(SHEETS)) {
   const im = await load(path)
-  const cw = Math.floor(im.width / 3)
-  const ch = Math.floor(im.height / 3)
-  let box = null
-  for (const c of alphaComponents(im, 96)) {
-    const cx = Math.floor((c.x0 + c.x1 + 1) / 2 / cw)
-    const cy = Math.floor((c.y0 + c.y1 + 1) / 2 / ch)
-    if (cx === 0 && cy === 0 && (box === null || c.area > box.area)) box = c
-  }
+  for (const pos of POSITIONS) {
+    const cw = Math.floor(im.width / 3)
+    const ch = Math.floor(im.height / 3)
+    let box = null
+    for (const c of alphaComponents(im, 96)) {
+      const cx = Math.floor((c.x0 + c.x1 + 1) / 2 / cw)
+      const cy = Math.floor((c.y0 + c.y1 + 1) / 2 / ch)
+      if (cx === pos % 3 && cy === Math.floor(pos / 3) && (box === null || c.area > box.area)) box = c
+    }
   // Face x-band from skin pixels in the upper half of the figure.
   let fx0 = Infinity, fx1 = -Infinity
   for (let y = box.y0; y <= Math.min(box.y0 + 200, box.y1); y++) {
@@ -50,8 +58,6 @@ for (const [name, path] of Object.entries(SHEETS)) {
       if (opaque(im, x, y)) { top = y; break }
     }
   }
-  // Spear side: RANSAC-free heuristic - the vertical wood line; boot band
-  // is the bbox half with the FEWER opaque pixels in its bottom strip.
   const midX = Math.round((box.x0 + box.x1) / 2)
   // Boot bottom: min over both halves. Boots sit in both halves (feet
   // together); a spear butt below the soles contaminates at most one half,
@@ -66,6 +72,15 @@ for (const [name, path] of Object.entries(SHEETS)) {
   }
   const bottom = Math.min(halfBottom(box.x0, midX), halfBottom(midX + 1, box.x1))
   const h = bottom - top + 1
-  const verdict = Math.abs(h - REF) / REF <= 0.05 ? 'ACCEPT (within 5%)' : 'REJECT (off-scale)'
-  console.log(`${name}: witness height=${h} (ref ${REF}, ${(100 * (h - REF) / REF).toFixed(1)}%) => ${verdict}`)
+  heights.push(h)
+  // Witnesses CALIBRATE the uniform splice k (any uniform offset corrects);
+  // only gross deviation (>25%) or witness disagreement rejects the sheet.
+  const off = Math.abs(h - REF) / REF
+  const verdict = off > 0.25 ? 'REJECT (grossly off-scale)' : `k=${(REF / h).toFixed(4)}`
+  console.log(`${name}:${pos} witness height=${h} (ref ${REF}, ${(100 * (h - REF) / REF).toFixed(1)}%) => ${verdict}`)
+  }
+}
+if (heights.length > 1) {
+  const spread = (Math.max(...heights) - Math.min(...heights)) / (heights.reduce((a, b) => a + b, 0) / heights.length)
+  console.log(`witness agreement: ${(100 * spread).toFixed(1)}% spread${spread > 0.05 ? ' (INTRA-SHEET SCALE BREAK - investigate)' : ''}`)
 }

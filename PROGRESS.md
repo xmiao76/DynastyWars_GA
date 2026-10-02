@@ -22,6 +22,50 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 04:53 UTC - CMR-07A (attempt 1, IN_PROGRESS - repair-ledger round 1 fired + adjudicated: 0/4 residuals fixed, systematic undershoot)
+
+- Status before: CMR-07A IN_PROGRESS (attempt-3 splice/verify 5fd430b; 4 residuals blocking).
+- Work completed: repair-ledger ROUND 1 per protocol (reserved with
+  combined 3-sheet SHA + 7 named cells + located failure BEFORE
+  generating; body/portrait/scale-ref/offending-strip references, strip
+  read_image'd first with text labels removed to avoid copying).
+  Generated `52687368...` (witness + fall:7/getup:0/:1/:7 + fall:6/
+  hitstun:7/getup:4 redos). Verification: grid 9/9/0; witnesses 368/369
+  (0.3% agreement, +16% uniform => k=0.860); spear fits all 9 +
+  fingerprint-verified zoom adjudication. RESULT: 0/4 residuals fixed -
+  all four came back SHORT (274-292 displayed vs 297-363 band):
+  systematic overcorrection to the round-1 prompt's "shorter than faulty"
+  language (round-0 erred long with no scale language; round-1 erred
+  short). Salvaged: r1:6->fall:6 (336, centered, replaces borderline 362
+  splice); r1:7 NOT used (head cluster 846 suspicious vs B:3 verified).
+  Settled ACCEPTED-PARTIAL per protocol (output partially used; evidence
+  states residuals persist). Repair ledger: 1/3 rounds spent, 2 remain.
+- Key methodological finding: generator bias is SHEET/POSE-systematic,
+  not per-cell noise (round-0 prone LONG, round-1 prone SHORT). Duplicate
+  variants in one round do NOT give independent draws. Round-2 design
+  implication: bracket instead - request with BOTH the too-long originals
+  AND too-short round-1 versions as contrastive bounds (5 refs exactly:
+  body+portrait+scale+long-strip+short-strip) plus exact-length anchoring
+  WITHOUT directional bias words. Forecast honestly ~20% for all-4-fixed
+  (single sheet-bias draw must land centered); partial progress still
+  narrows residuals for round 3.
+- Files changed: art/motion/spearman/acceptance4-round1-candidate-1.png
+  (new), art/motion/spearman/r1-lines.json (new),
+  art/motion/acceptance4-repair-budget.json (round 1 settled),
+  scripts/{offending-strip-spearman.mjs (new),
+  verify-repair-witness.mjs (argv-generalized + calibration wording)},
+  PROVENANCE.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; all image reads
+  fingerprint-verified; no library code changed.
+- Result: round 1 of 3 spent; residuals UNCHANGED (fall:7, getup:0/:1/:7
+  still over-band originals); r1:6 splice queued with round-2 splice turn.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: repair-ledger ROUND 2 (bracketed references,
+  4 residuals + spares) -> adjudicate -> bundle-splice (r1:6 + round-2
+  verified cells) -> re-prepare -> re-measure -> verdict; then round 3 or
+  continuity+checklist or BLOCKED. No blocker (2 rounds + valid steps).
+- Next recommended task: continue CMR-07A (repair-ledger round 2).
+
 ### 2026-10-02 04:39 UTC - CMR-07A (attempt 1, IN_PROGRESS - attempt 3 executed: 7 splices verified, acceptance NOT established, recovery path open)
 
 - Status before: CMR-07A IN_PROGRESS (repairs adjudicated f8531f8; splice+verify planned).

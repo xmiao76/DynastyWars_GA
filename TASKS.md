@@ -113,17 +113,19 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; attempt-3 repair round EXECUTED:
-  7 verified splices (mask-exact clearing with 0-stray proof after fixing
-  a pad-clear bug that ate hitstun:4's butt rows), hitstun 0.925 via the
-  geometric rule, re-prepared deterministic (`2d5c6683`, 0 budget errors).
-  VERDICT: heads PASS (7.9% comparable set); spears FAIL - 23/27 in-band,
-  residuals fall:7/getup:0/:1/:7 out-band both versions (spread 30.2%,
-  ~14% even best-case). NOT BLOCKED: the recovery protocol grants a
-  separate 3-round reserve (spearman 3/3); next is repair-ledger round 1
-  (witness + 4 residuals + spares, with offending sources as references).
-  Forecast honestly ~10-30% (prone long-bias systematic); on exhaustion
-  the task BLOCKEDs with the exact 4-cell record.)
+- Status: IN_PROGRESS (attempt 1; repair-ledger ROUND 1 done
+  (reserved per protocol, 2 rounds left): witness + 4 residuals + 3
+  spares, with offending-strip contrastive ref. Result: 0/4 residuals
+  fixed - systematic overcorrection (all came back SHORT 274-292 vs
+  297-363 band; round-0 erred long, round-1 short). Salvaged r1:6
+  (fall:6 centered 336, queued to replace borderline 362 splice);
+  r1:7 rejected (head 846 suspicious). Settled accepted-partial with
+  explicit evidence. Finding: generator bias is sheet/pose-systematic,
+  not per-cell noise - duplicates won't save round 2; round-2 design =
+  BRACKETING refs (too-long originals + too-short round-1s + scale-ref
+  = 5 refs exactly) + exact-length anchoring without directional bias
+  words. Forecast ~20% for all-4-fixed; partial still narrows for round
+  3. Next: round 2 fire+adjudicate, then bundle-splice.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
