@@ -14,12 +14,13 @@ file carries the art reasoning.
 | 3 | shoot 3x3 candidate 2 (same cycle + margin language) | body `4b169347...`, portrait `bace27af...` | `c0d63dc0678d396d7bff8de23b4aa5dc2d5f48dad885fafac0f5adde95fbf34e` | ACCEPT - grid 9/9/0 (closest margin 5px, margins held). Full draw anchored with nocked arrow; release/follow-through zoom-verified arrowless (open hands, slack strings); braced stances read distinctly from walking at gameplay size; identity/scale/bookend all hold; no mittens/forks/clipping. Reviewed full-sheet + release zoom + gameplay strip, all fingerprinted. |
 | 4 | hitstun-held 3x3 (guard, recoil, fold, stagger, held x2, escape shove/reset, bookend) | body `4b169347...`, portrait `bace27af...` | `dc2b7e383ae86702335ef121a759bf92f0e5ab37cccd0c5eb60ce76cbfd076c7` | ACCEPT - grid 9/9/0 (closest margin 7px). Bow gripped in ALL 9 incl. both held poses (grapple rule held); distinct recoil/fold/stagger/held/escape reads; identity/scale/bookend hold; no mittens/forks/clipping. Reviewed full-sheet + gameplay strip, both fingerprinted. |
 | 5 | fall-thrown 3x3 (topple, airborne, impact, DOWN, tumble x2, side-impact x2, DOWN bookend) | body `4b169347...`, portrait `bace27af...` | `dcfbc1f7d1a5a55c45903dce55de230576fb81b8616e502db310cd78f54bced6` | ACCEPT - grid 9/9/0 (closest margin 13px). Bow gripped in ALL 9 incl. both tumbles (grapple rule held mid-air); clean topple/airborne/impact/DOWN arc + distinct tumble orientations + side impacts; headwraps stay on; DOWN bookends match; uniform scale (tumbles stay compact, no scale-to-fill); no mittens/limbs/forks/clipping. Reviewed full-sheet + gameplay strip, both fingerprinted. |
+| 6 | getup-death 3x3 (elbow, kneel, crouch, jolt, collapse, crumple, dead, DOWN, guard) | body `4b169347...`, portrait `bace27af...` | `742d30efb3ce88ef69875a8fcafa4f69f91f6287b3605cd9fc763b98248aa76e` | REJECT - dead cell (pos 6) has TWO components: figure (38k) + correctly-detached bow beside the hand (4187px). Art is CORRECT (bow beside open hand, as prompted) but preparation throws on multi-component cells (`extractSequence`: extra-frames + two-figures-in-cell guards). No valid fix: bridging pixels would falsify gripped/beside semantics with no provenance pattern; pipeline change is out of scope (shared CMR-04 tooling). PIPELINE LIMITATION DISCOVERED (record for all future fighters): detached props are unrepresentable - dead/drop poses MUST show physical contact. Re-roll as candidate 2 with "bow TOUCHING the resting hand (contact, no gap)" language. File kept as `getup-death-candidate-1-REJECTED.png` per precedent. |
 
 ## Budgets
 
-- Authoring: 5/8 used (locomotion + shoot-c2 + hitstun + fall
-  accepted; shoot-c1 rejected). 3 remaining for getup-death
-  + 2 held for repairs/seconds.
+- Authoring: 6/8 used (locomotion + shoot-c2 + hitstun + fall
+  accepted; shoot-c1 + getup-c1 rejected). 2 remaining for
+  getup-death candidate 2 + 1 held for repairs/seconds.
 - Repair reserve (Acceptance-4 recovery protocol): 3/3 untouched. Shared
   with CMR-08B. Only for diagnosed source-art defects after a failed
   acceptance 4; never for polish; never reopens BLOCKED tasks.

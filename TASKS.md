@@ -142,10 +142,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-08A - Wei Archer: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; fall-thrown ACCEPTED (`dcfbc1f7`,
-  9/9/0 grid, bow gripped throughout incl. tumbles, clean fall arc +
-  distinct orientations, DOWN bookends match, verified full-sheet +
-  gameplay-size). Budget 5/8. Next: getup-death sheet (last).)
+- Status: IN_PROGRESS (attempt 1; getup candidate 1 REJECTED (dead
+  cell's correctly-detached bow = 2nd component, preparation throws;
+  art otherwise good). Pipeline limitation discovered: detached props
+  unrepresentable, contact required. Budget 6/8. Next: getup
+  candidate 2 with contact language.)
 - Dependency: CMR-07B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-08A](docs/motion-tasks/CMR-08A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable archer identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

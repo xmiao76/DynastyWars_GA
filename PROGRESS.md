@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 13:26 UTC - CMR-08A (attempt 1, IN_PROGRESS - getup candidate 1 rejected on detached bow, pipeline limit found)
+
+- Status before: CMR-08A IN_PROGRESS (fall accepted 9440834).
+- Work completed: reserved (archer 6/8) then generated the getup-death
+  3x3 (`742d30ef...`). Mechanical grid check: 9 cells occupied BUT 10
+  components - the dead cell holds the figure (38k) PLUS its correctly-
+  detached bow beside the hand (4187px). Full-sheet review
+  (fingerprinted): all 9 poses correct (rise arc, jolt/collapse/crumple,
+  dead + DOWN + guard bookends), identity/scale hold, no mittens/forks/
+  clipping. Root-caused via pipeline source: `extractSequence` throws
+  on multi-component cells (extra-frames + two-figures guards), so the
+  ART-correct detached bow fails preparation mechanically. No valid
+  pixel fix exists (bridging falsifies gripped/beside semantics with no
+  provenance pattern; shared-tooling change out of scope). VERDICT:
+  REJECT, file kept as `getup-death-candidate-1-REJECTED.png`.
+  PIPELINE LIMITATION DISCOVERED (applies to all future fighters):
+  detached props are unrepresentable - dead/drop poses MUST show
+  physical contact. Re-roll plan: candidate 2 with "bow TOUCHING the
+  resting hand (contact, no gap)" language.
+- Files changed: art/motion/archer/getup-death-candidate-1-REJECTED.png
+  (new), art/motion/generation-budget.json (archer 6/8), art/motion/
+  archer/PROVENANCE.md (attempt row + limitation note), TASKS.md,
+  PROGRESS.md.
+- Verification run: ledger reserve-before-generate (protocol); grid
+  gate caught the defect (10 comps); fingerprinted full-sheet read +
+  pipeline source read. No code changed; no gates applicable.
+- Result: getup needs candidate 2; budget 6/8 (1 spare after re-roll -
+  tight but workable: repairs use the separate reserve).
+- Status after: CMR-08A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: getup-death candidate 2 (contact-language
+  re-roll) -> prepare/measure/review. No blocker.
+- Next recommended task: continue CMR-08A (getup candidate 2).
+
 ### 2026-10-02 13:00 UTC - CMR-08A (attempt 1, IN_PROGRESS - fall sheet accepted, 5/8)
 
 - Status before: CMR-08A IN_PROGRESS (hitstun accepted 9eab0b8).

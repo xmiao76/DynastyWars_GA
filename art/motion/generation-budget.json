@@ -55,12 +55,13 @@
     "archer": {
       "role": "mook",
       "cap": 8,
-      "used": 5,
+      "used": 6,
       "sheetCandidates": {
         "locomotion": 1,
         "shoot": 2,
         "hitstun-held": 1,
-        "fall-thrown": 1
+        "fall-thrown": 1,
+        "getup-death": 1
       }
     }
   }
