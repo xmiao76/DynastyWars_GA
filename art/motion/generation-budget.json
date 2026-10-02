@@ -42,10 +42,12 @@
     "spearman": {
       "role": "mook",
       "cap": 8,
-      "used": 2,
+      "used": 4,
       "sheetCandidates": {
         "locomotion": 1,
-        "thrust": 1
+        "thrust": 1,
+        "hitstun-held": 1,
+        "hitstun-held-2": 1
       }
     }
   }

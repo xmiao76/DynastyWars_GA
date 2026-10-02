@@ -113,13 +113,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; sheets 1-2 ACCEPTED at 01:2x:
-  locomotion (idle/walk x4/stop/retreat x2/guard bookend) and thrust
-  (guard/windup/startup/strike x2/recover x3/guard bookend), 9/9 cells
-  each, mechanical grid checks + fingerprint-verified reviews;
-  budget 2/8 used, 6 reserved -> PROVENANCE.md. Remaining: sheets 3-5
-  (hitstun-held, fall-thrown, getup-death), preparation, measurements,
-  continuity review, acceptance checklist.)
+- Status: IN_PROGRESS (attempt 1; sheets 1-3 ACCEPTED: locomotion,
+  thrust, hitstun-held (second candidate - the first had an empty cell and
+  was honestly rejected and quarantined); budget 4/8 used -> PROVENANCE.md.
+  Remaining: sheets 4-5 (fall-thrown, getup-death; 2 requests + 2 for
+  repairs), preparation, measurements, continuity review, checklist.)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

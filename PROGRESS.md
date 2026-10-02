@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 01:44 UTC - CMR-07A (attempt 1, IN_PROGRESS - sheet 3 accepted after an honest rejection)
+
+- Status before: CMR-07A IN_PROGRESS (sheets 1-2 accepted at 1178fa5).
+- Work completed: sheet 3 done - the first hitstun-held candidate had a
+  structural defect (8 figures in 8 cells; the HELD 2 cell empty) and was
+  REJECTED with the exact defect recorded and the file quarantined
+  (hitstun-held-candidate-1-REJECTED.png, never used by preparation). The
+  allowed second candidate was requested, grid-checked (9/9, no edge cuts)
+  and fingerprint-verified in review, and ACCEPTED (recoil/fold/stagger,
+  upright-held with both arms pinned and spear gripped, escape shove/
+  reset, guard bookends; 5 bbox hints from dynamic poses reviewed, not
+  merges). This is the review-before-requesting-more discipline working as
+  designed: the defect was caught by the mechanical check, not shipped.
+- Budget: 4/8 used (one second-candidate spent as planned for).
+- Files changed: art/motion/spearman/{hitstun-held-candidate-1-REJECTED.png,
+  hitstun-held-candidate-2.png,PROVENANCE.md},
+  art/motion/generation-budget.json, TASKS.md, PROGRESS.md. No code changed.
+- Verification run: lint + `tsc --noEmit` clean; mechanical grid checks +
+  fingerprint-verified visual review.
+- Result: attempt 1 on plan; 3 of 5 sheets accepted.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: sheets 4-5 (fall-thrown, getup-death; 2
+  requests + 2 for repairs), registration/fit + preparation,
+  measurements, continuity review, acceptance checklist. No blocker.
+- Next recommended task: continue CMR-07A (sheet 4 fall-thrown).
+
 ### 2026-10-02 01:28 UTC - CMR-07A (attempt 1, IN_PROGRESS - sheets 1-2 accepted)
 
 - Status before: CMR-07A IN_PROGRESS (identity lock + plan at c2a0ef5).
