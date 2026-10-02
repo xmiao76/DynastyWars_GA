@@ -22,6 +22,41 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-02 05:14 UTC - CMR-07A (attempt 1, IN_PROGRESS - repair-ledger round 2 fired + adjudicated: all 4 residuals addressed)
+
+- Status before: CMR-07A IN_PROGRESS (round 1 settled 80e80be; 4 residuals blocking).
+- Work completed: repair-ledger ROUND 2 per protocol (reserved with
+  combined SHA + 7 named cells + located failure BEFORE generating; 5
+  references: masters + scale-ref + too-long strip + too-short strip for
+  bracketing). Generated `9789c45a...` (2 witnesses + 7 fixes). Grid
+  9/9/0; witnesses 368/369 (0.0% agreement, +16% uniform => k=0.860).
+  Spear fits + fingerprint-verified overlay adjudication (endpoints
+  correct on all 9): r2:2->fall:7 (331, +0.3% PERFECT), r2:3->getup:0
+  (310, -6%), r2:4->getup:1 (298, 1px margin, documented risk),
+  r2:5->getup:7 (325, -1.5%), r2:6->fall:6 (359, replaces borderline 362);
+  r2:7 (365, worse than B:3's 360) and r2:8 (256, worse than original
+  341) SKIPPED. The bracketing defeated both directional biases: all 4
+  residuals now have in-band verified repairs (3 solid + 1 marginal).
+  Settled ACCEPTED with explicit evidence (1 round remains as backstop).
+  Splice (5 cells) + re-prepare + full re-measure + verdict NEXT turn.
+- Files changed: art/motion/spearman/acceptance4-round2-candidate-1.png
+  (new), art/motion/spearman/r2-lines.json (new),
+  art/motion/acceptance4-repair-budget.json (round 2 settled),
+  scripts/{short-strip-spearman.mjs (new),
+  repair-verify-spearman.mjs + verify-repair-witness.mjs
+  (argv-generalized)}, PROVENANCE.md, TASKS.md, PROGRESS.md.
+- Verification run: lint + `tsc --noEmit` clean; all image reads
+  fingerprint-verified (short strip, r2 overlay); no library code changed.
+- Result: all 4 residuals have verified in-band repairs (round-2
+  objective ACHIEVED, pending splice+verify). Acceptance within reach.
+- Status after: CMR-07A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: splice 5 (r2:2/r2:3/r2:4/r2:5/r2:6 with
+  uniform k=0.860) -> re-prepare -> FULL re-measure (spear spread +
+  heads + untouched proof) -> verdict: if spread <=10% =>
+  continuity review + checklist + CMR-07A DONE; else repair round 3
+  (1 left) or BLOCKED. No blocker.
+- Next recommended task: continue CMR-07A (splice round-2 cells + verify).
+
 ### 2026-10-02 04:53 UTC - CMR-07A (attempt 1, IN_PROGRESS - repair-ledger round 1 fired + adjudicated: 0/4 residuals fixed, systematic undershoot)
 
 - Status before: CMR-07A IN_PROGRESS (attempt-3 splice/verify 5fd430b; 4 residuals blocking).

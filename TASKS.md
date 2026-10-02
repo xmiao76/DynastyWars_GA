@@ -113,19 +113,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-07A - Wei Spearman: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; repair-ledger ROUND 1 done
-  (reserved per protocol, 2 rounds left): witness + 4 residuals + 3
-  spares, with offending-strip contrastive ref. Result: 0/4 residuals
-  fixed - systematic overcorrection (all came back SHORT 274-292 vs
-  297-363 band; round-0 erred long, round-1 short). Salvaged r1:6
-  (fall:6 centered 336, queued to replace borderline 362 splice);
-  r1:7 rejected (head 846 suspicious). Settled accepted-partial with
-  explicit evidence. Finding: generator bias is sheet/pose-systematic,
-  not per-cell noise - duplicates won't save round 2; round-2 design =
-  BRACKETING refs (too-long originals + too-short round-1s + scale-ref
-  = 5 refs exactly) + exact-length anchoring without directional bias
-  words. Forecast ~20% for all-4-fixed; partial still narrows for round
-  3. Next: round 2 fire+adjudicate, then bundle-splice.)
+- Status: IN_PROGRESS (attempt 1; repair-ledger ROUND 2 done
+  (reserved per protocol, 1 round left): bracketing refs (too-long +
+  too-short + scale-ref = 5) defeated both directional biases. Result:
+  ALL 4 residuals addressed - r2:2->fall:7 (331), r2:3->getup:0 (310),
+  r2:4->getup:1 (298, 1px margin risk), r2:5->getup:7 (325), all
+  endpoint-verified; r2:6->fall:6 (359) replaces borderline 362;
+  r2:7/r2:8 worse than current (skipped). Settled accepted with explicit
+  evidence. Next: splice 5 (uniform k=0.860) + re-prepare + FULL
+  re-measure + verdict (pass => continuity+checklist+DONE; fail =>
+  round 3 or BLOCKED).)
 - Dependency: CMR-06B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-07A](docs/motion-tasks/CMR-07A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable spearman identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

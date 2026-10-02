@@ -2,13 +2,17 @@
 // CMR-07A: splice-verification sheet for repair cells. Full-res crops with
 // fitted spear endpoints, plus per-cell head (face-cluster) numbers, so
 // every splice decision (spear in-band AND head consistent) is checkable.
-// Usage: node scripts/repair-verify-spearman.mjs
+// Usage: node scripts/repair-verify-spearman.mjs [specJson]
+//   specJson: {sheets:{seq:file}, cells:[[seq,pos,target,k]...],
+//              lines:'lines-file.json', overlay:'overlay-name.png'}
+//   Default (no argv): the round-0 A/B verification set below.
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { alphaComponents } from './motion-pipeline.mjs'
 
 // [repairSeq, repairPos, targetId, spliceK]
-const CELLS = [
+const SPEC = process.argv[2] ? JSON.parse(process.argv[2]) : null
+const CELLS = SPEC?.cells ?? [
   ['repair-A', 4, 'fall-thrown:3', 0.906],
   ['repair-A', 7, 'fall-thrown:6', 0.906],
   ['repair-A', 8, 'fall-thrown:7', 0.906],
@@ -22,11 +26,12 @@ const CELLS = [
   ['repair-B', 7, 'getup-death:6', 0.919],
   ['repair-B', 8, 'getup-death:7', 0.919],
 ]
-const FILES = {
+const FILES = SPEC?.sheets ?? {
   'repair-A': 'art/motion/spearman/fall-thrown-repair-candidate-1.png',
   'repair-B': 'art/motion/spearman/mixed-repair-candidate-1.png',
 }
-const lines = Object.fromEntries(JSON.parse(readFileSync('art/motion/spearman/repair-lines.json', 'utf8')).map((r) => [`${r.seq}:${r.pos}`, r]))
+const OVERLAY = SPEC?.overlay ?? 'repair-verify.png'
+const lines = Object.fromEntries(JSON.parse(readFileSync(`art/motion/spearman/${SPEC?.lines ?? 'repair-lines.json'}`, 'utf8')).map((r) => [`${r.seq}:${r.pos}`, r]))
 
 async function load(path) {
   const img = await loadImage(path)
@@ -133,5 +138,5 @@ for (const [idx, [seq, pos, target, k]] of CELLS.entries()) {
   )
 }
 mkdirSync('artifacts/motion/spearman/landmarks', { recursive: true })
-writeFileSync('artifacts/motion/spearman/landmarks/repair-verify.png', sheet.toBuffer('image/png'))
-console.log('wrote artifacts/motion/spearman/landmarks/repair-verify.png', sheet.width + 'x' + sheet.height)
+writeFileSync(`artifacts/motion/spearman/landmarks/${OVERLAY}`, sheet.toBuffer('image/png'))
+console.log('wrote', `artifacts/motion/spearman/landmarks/${OVERLAY}`, sheet.width + 'x' + sheet.height)

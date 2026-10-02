@@ -21,6 +21,23 @@
           "sourceSha256": "314ef0cd03bd5ba9f427caed444332da1a9c38c54ff46ad3288f231cd33d514c",
           "evidence": "Zoom-verified all 9 cells: 0/4 residual cells fixed - fall:7/getup:0/getup:1/getup:7 repairs came back SHORT (274-292 displayed vs 297-363 band; systematic overcorrection to shorter instruction). Salvaged r1:6->fall:6 (336, centered, replaces borderline 362). r1:7 NOT used (head cluster 846 suspicious, B:3 verified stays). Residuals persist; round 2 needed.",
           "outputSha256": "5268736880a542490488f30524a0b10736867de83dc213751eb2c8a2e0163a27"
+        },
+        {
+          "number": 2,
+          "status": "accepted",
+          "cells": [
+            "fall-thrown:7",
+            "getup-death:0",
+            "getup-death:1",
+            "getup-death:7",
+            "fall-thrown:6",
+            "hitstun-held:7",
+            "getup-death:4"
+          ],
+          "failure": "Round 1 undershot: 4 residuals still over-band (fall:7 401px, getup:0 396px, getup:1 407px, getup:7 419px vs 330px band 297-363); round-1 repairs came back short (274-292). Bracketed re-attempt plus safer redos of borderline fall:6 (362) and hitstun:7 (360) and verifiable-head getup:4.",
+          "sourceSha256": "314ef0cd03bd5ba9f427caed444332da1a9c38c54ff46ad3288f231cd33d514c",
+          "evidence": "Zoom-verified all 9 cells: all 4 residuals addressed (r2:2 fall:7->331, r2:3 getup:0->310, r2:4 getup:1->298 1px-margin, r2:5 getup:7->325; endpoints correct); r2:6 fall:6 margin swap (359); r2:7/r2:8 worse than current (skipped). Bracketing references defeated the long/short bias. Splice+verify pending.",
+          "outputSha256": "9789c45a0bfed4196525fdc57b05775b221d40ac4ff8b58e4757bcf511e248ec"
         }
       ]
     }
