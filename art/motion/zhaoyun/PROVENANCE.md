@@ -7,6 +7,36 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### rider-candidate-1 (ACCEPTED 2026-10-03) — sha `b6880a32…`
+
+- Request 13/16 (rider sheet 1/2). Refs in order: body `a1067c2a`,
+  portrait `dff59167`, walk-guard anchor `6aacc58c` (512x341 cell 0
+  crop, as the length anchor per plan). Prompt: 3x3 mounted set
+  (idle/trot/mount/windup/sweep/dismount + spares; invisible horse;
+  NO horse/saddle/stirrups drawn) + identity + length contract +
+  split rule + no-vertical rule.
+- Mechanical: 1536x1024; opaque≥96 share 32.8%; sheet-edge 0px;
+  28 components @96 -> 9 survivors, all cells covered, glow
+  109422, specks 30px; gate green.
+- Length spot-check: 396-627 raw, strong inliers (151-238) except
+  the foreshortened dismount (101). The long ends (cell 4: 627,
+  cell 7: 593) are full spans INCLUDING clean straddle (bboxW
+  662/597), not over-long drawings. No shorts anywhere - the
+  guard-anchor bracketing + no-vertical rule held on the hardest
+  sheet (compare 09A rider's 348px failures).
+- Visual (gameplay + 2x zooms cells 3/4/5): windup twisted with
+  spear back; sweep at full horizontal max reach straddling
+  cleanly; dismount leaning with complete diagonal spear. All
+  riders seated straddling (thighs/knees/dangling feet), no horse
+  parts drawn. Identity locked; wrapped fingers; single full
+  spears; uniform heads; cape behind; no clipping, drift, extra
+  limbs, forks, panels, or text.
+- Keep/cull (provisional, finalized at prepare): keep IN PLAY
+  ORDER [1,6,2,3,4,5] (idle, trot, mount, windup, sweep,
+  dismount); cull {0,7,8} in memory.
+- ALL 10 SEQUENCES now accepted. Remaining: prepare, landmark
+  acceptance, continuity review.
+
 ### special-candidate-1 (ACCEPTED 2026-10-03) — sha `604252d3…`
 
 - Request 12/16 (special sheet 1/2). Refs: body `a1067c2a`,
@@ -278,5 +308,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 12/16 used (8 sheets accepted + misc c1 rejected + getup edit rejected). 4 spare.
+- Authoring: 13/16 used (10 sheets accepted + misc c1 rejected + getup edit rejected). 3 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

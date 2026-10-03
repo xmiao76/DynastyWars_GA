@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 10:44 UTC - CMR-10A (attempt 1, IN_PROGRESS - rider sheet accepted, ALL 10 sequences done)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 9 sheets
+  accepted, budget 12/16). No PENDING FILING, review 0/4.
+- Work completed: reserved rider sheet 1/2 BEFORE generating
+  (zhaoyun 13/16, total 65/200) and generated rider-candidate-1
+  (sha b6880a32, 3 refs incl. the walk-guard length anchor):
+  ACCEPTED - 9/9 clean, all cells covered, 0 edge, gate green;
+  all riders seated straddling with NO horse parts drawn; sweep
+  at full horizontal max reach straddling cleanly; spears 396-627
+  raw with strong inliers (long ends are full spans incl. clean
+  straddle, not over-long); identity/anatomy verified at gameplay
+  + 2x. Keep in play order [1,6,2,3,4,5], cull {0,7,8}. The
+  guard-anchor bracketing held on the historically hardest sheet
+  (no 09A-style rider shortening anywhere).
+- Files changed: art/motion/zhaoyun/rider-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record), art/motion/generation-budget.json (13/16), TASKS.md,
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census + shaft measurement mechanically green (numbers
+  above); visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: prepare with page-aware solving,
+  landmark acceptance, continuity review. No blocker.
+- Next recommended task: CMR-10A (prepare script + first pack).
+
 ### 2026-10-03 10:16 UTC - CMR-10A (attempt 1, IN_PROGRESS - special sheet accepted)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 8 sheets
