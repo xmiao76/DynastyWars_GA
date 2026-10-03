@@ -20,7 +20,11 @@ bracketing that defeated drift and shortening bias in 09A).
   the straddle allowance (a full-length spear that fits only by
   straddling MUST straddle, never shorten - the getup-2 brief's
   no-straddle overcorrection produced two short vertical spears and
-  is not repeated).
+  is not repeated). NO-VERTICAL RULE (misc lesson, confirmed by c2):
+  never brief a vertical spear - a full 470px spear cannot stand in
+  a 341px cell, and the generator shortens instead of straddling;
+  every spear stays within ~45deg of horizontal (low carry, tuck,
+  diagonal lunge, leveled).
 - Helmet + plume need headroom: keep ~30px clear above the headband
   line in every cell (the content cap punishes tall drawings).
 - Defined fingers on both hands; gold butt cap + collar + leaf blade

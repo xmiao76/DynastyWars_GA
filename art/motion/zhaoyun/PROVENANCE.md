@@ -7,6 +7,45 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### misc-candidate-2 (ACCEPTED 2026-10-03) — sha `4cfc8b14…`
+
+- Request 11/16 (misc sheet 2/2; first tool call 520'd with no
+  image, retried under the same reservation - 1 image for 1 slot).
+  Refs: body `a1067c2a`, portrait `dff59167`. Prompt: same 3x3
+  misc with the NO-VERTICAL rule (every spear diagonal or near-
+  horizontal, straddle allowed).
+- Mechanical: 1536x1024; opaque≥96 share 35.6%; sheet-edge 0px;
+  21 components @96 -> 9 survivors, all cells covered, glow
+  101472, specks 37px; gate green.
+- Length spot-check: 403-532 raw, ALL axes near-horizontal
+  (+/-23deg), inliers 108-154 - no misfits, no verticals, no
+  shorts. The no-vertical rule fixed the defect class.
+- Visual (gameplay + 2x zooms cells 1/3/4 and 0/5/7): all five
+  slots verified - recoil (rocked back, hand up), fold (doubled
+  clutching; the 412 measurement is occlusion, the full spear is
+  visible butt-to-blade), clamp (reaching snatch), hold (locked
+  lunge), release (arm opening sideways). Identity locked;
+  wrapped fingers; single full spears; uniform heads; no second
+  figure anywhere; no clipping, drift, extra limbs, forks,
+  panels, or text.
+- Keep/cull (provisional, finalized at prepare): keep IN PLAY
+  ORDER [0,1,7,3,4] (recoil, fold, clamp, hold, release); cull
+  {2,5,6,8} in memory (all clean, surplus).
+
+### misc-candidate-1 (REJECTED 2026-10-03) — sha `352774b4…`
+
+- Request 10/16 (misc sheet 1/2). Same refs + misc brief WITHOUT
+  the no-vertical rule. VERDICT: systematic short vertical spears
+  (5+ cells): a full 470px spear cannot stand vertically in a
+  341px cell, so the generator drew contained ~300px spears
+  instead of straddling (proven: every component bboxH <= 341, no
+  vertical straddle anywhere; RANSAC 178-337, meaningless on
+  verticals). No remap possible (fold/clamp/hold have no diagonal
+  alternatives on this sheet). File kept as
+  misc-candidate-1-REJECTED.png for the record. Lesson: poses must
+  never brief vertical spears (see AUTHORING-PLAN rule, now
+  confirmed by c2's success).
+
 ### getup-candidate-2 (ACCEPTED WITH FLAG 2026-10-03) — sha `40aaac55…`
 
 - Request 8/16 (getup sheet 2/2). Refs: body `a1067c2a`,
@@ -211,5 +250,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 9/16 used (6 sheets accepted + getup c1 rejected + getup edit rejected). 7 spare.
+- Authoring: 11/16 used (7 sheets accepted + misc c1 rejected + getup edit rejected). 5 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

@@ -22,6 +22,41 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 09:47 UTC - CMR-10A (attempt 1, IN_PROGRESS - misc resolved: c1 rejected, c2 accepted via no-vertical rule)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 7 sheets
+  accepted, budget 9/16). No PENDING FILING, review 0/4.
+- Work completed: misc took 2 requests (10,11/16). (1) Reserved +
+  generated misc-candidate-1: REJECTED - systematic short VERTICAL
+  spears (5+ cells): a full spear cannot stand in a 341px cell
+  and the generator shortened instead of straddling (proven: all
+  component bboxH <= 341, zero vertical straddle); fold/clamp/hold
+  have no diagonal alternatives -> unsalvageable, no remap.
+  (2) Reserved + generated candidate-2 with the NO-VERTICAL rule
+  (first tool call 520'd with no image, retried under the same
+  reservation - 1 image for 1 slot): ACCEPTED - 9/9 clean, all
+  cells covered, 0 edge; all spears diagonal/horizontal 403-532
+  raw with sane axes (the fold's 412 is occlusion, full spear
+  visible); all five slots verified at gameplay + 2x (recoil,
+  fold, clamp, hold, release; no second figure); keep in play
+  order [0,1,7,3,4], cull {2,5,6,8}. AUTHORING-PLAN now carries
+  the confirmed no-vertical rule.
+- Files changed: art/motion/zhaoyun/misc-candidate-1-REJECTED.png
+  + misc-candidate-2.png (new; force-added) + PROVENANCE.md (2
+  attempt records) + AUTHORING-PLAN.md (no-vertical rule),
+  art/motion/generation-budget.json (11/16), TASKS.md, PROGRESS.md.
+  Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before both calls;
+  pipeline gate + census + bbox proof + shaft reads mechanically
+  green/red exactly as reported; visual review on fingerprinted
+  files. No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 2 sequences (special next), prepare
+  with page-aware solving, landmark acceptance, continuity review.
+  No blocker.
+- Next recommended task: CMR-10A (special sheet).
+
 ### 2026-10-03 09:20 UTC - CMR-10A (attempt 1, IN_PROGRESS - getup resolved: c1 rejected, c2 accepted with flag, edit failed)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 6 sheets
