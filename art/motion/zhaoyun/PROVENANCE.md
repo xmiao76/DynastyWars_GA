@@ -7,6 +7,32 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### jab1-candidate-1 (ACCEPTED 2026-10-03) — sha `e90fb80b…`
+
+- Request 2/16 (jab1 sheet 1/2). Refs in order: body master
+  `a1067c2a`, portrait master `dff59167`. Prompt: 3x3 combo opener
+  per AUTHORING-PLAN (cells 1-5 = windup/drive/extension/follow/
+  recover; 0/6/7/8 alternate takes as cull spares) + identity lock
+  + length contract + cape rule.
+- Mechanical: 1536x1024; opaque≥96 share 29.9%; sheet-edge 0px;
+  28 components @96 -> 9 survivors after cleanup (glow 104129,
+  specks 34px, within tolerance); gate green.
+- Length spot-check (same RANSAC method): tip-to-butt 382-560 raw.
+  The wide spread is METHOD noise, not drawn variance: the low-
+  inlier cells (106-155 vs 157-262 elsewhere) are arm-occluded
+  thrusts where the shaft mask fragments, and angled poses project
+  shorter in 2D. Visually all 9 spears span full length (no
+  09A-style shortened outliers). Rigorous endpoint-adjudicated
+  measurement lands after all 10 sheets, per the plan.
+- Visual (gameplay + 2x zooms cells 1/2/3): thrust arc reads
+  coil -> drive -> full extension; identity locked (helmet/plume,
+  fair beardless face, silver armor, blue robe + red sash, cape
+  behind, boots); wrapped fingers, single shafts with leaf blade +
+  gold collar/butt + red tassel; uniform heads; no clipping,
+  drift, extra limbs, forks, panels, or text.
+- Keep/cull (provisional, finalized at prepare): keep cells 1-5,
+  cull 0/6/7/8 in memory.
+
 ### walk-candidate-1 (ACCEPTED 2026-10-03) — sha `ee9cc74d…`
 
 - Request 1/16 (walk sheet 1/2). Refs in order: body master
@@ -34,5 +60,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 1/16 used (walk c1 accepted). 15 spare.
+- Authoring: 2/16 used (walk c1 + jab1 c1 accepted). 14 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

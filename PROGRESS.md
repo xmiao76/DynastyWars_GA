@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:26 UTC - CMR-10A (attempt 1, IN_PROGRESS - jab1 sheet accepted first try)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan done, walk
+  accepted, budget 1/16). No PENDING FILING, review 0/4.
+- Work completed: reserved jab1 sheet 1/2 BEFORE generating
+  (zhaoyun 2/16, total 54/200) and generated jab1-candidate-1
+  (sha e90fb80b): ACCEPTED - 9 clean components, 0 edge px, gate
+  green (glow 104K, specks 34px, within tolerance); tip-to-butt
+  382-560 raw where the spread is method noise on arm-occluded
+  thrusts (low inliers on outliers), not drawn variance - all 9
+  spears visually full-length with no 09A-style shortened cells;
+  thrust arc (coil/drive/extension/follow/recover + spares) verified
+  per cell at gameplay + 2x (wrapped fingers, single shafts,
+  uniform heads, cape behind, no clipping/drift). Provisional
+  keep 1-5 / cull 0/6/7/8 (finalized at prepare).
+- Files changed: art/motion/zhaoyun/jab1-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record), art/motion/generation-budget.json (2/16), TASKS.md,
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census + shaft measurement mechanically green (numbers
+  above); visual review with the image tool on the fingerprinted
+  file. No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 8 sequences (jab2 next), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker.
+- Next recommended task: CMR-10A (jab2 sheet).
+
 ### 2026-10-03 08:18 UTC - CMR-10A (attempt 1, IN_PROGRESS - identity locked; walk sheet accepted first try)
 
 - Status before: CMR-10A TODO (CMR-09B DONE unblocked it). No
