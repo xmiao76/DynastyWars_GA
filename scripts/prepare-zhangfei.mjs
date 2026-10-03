@@ -278,7 +278,7 @@ const buildFighter = () => ({
 // in large deterministic steps (few attempts - each retry re-runs the full
 // pack pipeline and is expensive).
 let fighter = buildFighter()
-let pack = null
+let pack
 let budgetRetries = 0
 for (;;) {
   try {

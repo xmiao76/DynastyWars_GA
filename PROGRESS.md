@@ -58,8 +58,9 @@ history slowly crowds out the work it is supposed to support.
   TASKS.md, PROGRESS.md. Pack outputs re-written in artifacts/ (untracked).
 - Verification run: prepare + deterministic double-run green (numbers
   above); pike-line remeasure 54/56 (2 method-UNVERIFIED cells
-  unchanged: walk:7, rider:2 mount); eslint deferred to the round-2
-  turn (scripts changed today and run clean by execution).
+  unchanged: walk:7, rider:2 mount); eslint: the ca07298 commit
+  carried one no-useless-assignment error (the retry loop's `pack`
+  initializer) - fixed and re-verified clean in this fixup commit.
 - Status after: CMR-09A IN_PROGRESS.
 - Remaining work or blocker: repair rounds 2-3 on the residual band
   (strike-vs-carry gap, walk-internal 12.8%) -> remeasure -> fallback
