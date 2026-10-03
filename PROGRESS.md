@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 09:20 UTC - CMR-10A (attempt 1, IN_PROGRESS - getup resolved: c1 rejected, c2 accepted with flag, edit failed)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 6 sheets
+  accepted, budget 6/16). No PENDING FILING, review 0/4.
+- Work completed: getup took 3 requests (7,8,9/16). (1) Reserved +
+  generated getup-candidate-1: REJECTED - gate showed 7 survivors,
+  component mapping proved TWO MERGES (kneel+stand cells 1+4 in one
+  530x699 component; prone+oath cells 5+8), leaving no stand
+  substitute -> unsalvageable (kept as -REJECTED for the record).
+  (2) Reserved + generated candidate-2 with a strengthened gutter
+  brief: 9/9 clean, all cells covered - but the brief's no-straddle
+  overcorrection shortened the two vertical spears (~300 vs ~470,
+  kneel + stand) -> ACCEPTED WITH FLAG (keep [0,1,2,8,4], cells 1+4
+  diagnosed for the acceptance-4 repair protocol; reserve 3/3
+  untouched). (3) Reserved + tried a focused surgical edit of the
+  two spears: REJECTED - spears unchanged AND background repainted
+  dense (757728 residue px, gate throws). Lesson recorded: this edit
+  path cannot do surgical spear fixes; fresh cells via the repair
+  protocol are the backstop. AUTHORING-PLAN now carries the split
+  rule (gutters for figures, straddle for spears).
+- Files changed: art/motion/zhaoyun/getup-candidate-1-REJECTED.png
+  + getup-candidate-2.png (new; force-added) + PROVENANCE.md
+  (3 attempt records) + AUTHORING-PLAN.md (split rule),
+  art/motion/generation-budget.json (9/16), TASKS.md, PROGRESS.md.
+  Failed edit stays in ignored artifacts/tmpcheck (recorded, not a
+  source). Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before all 3 calls;
+  pipeline gate + census + component mapping + zooms mechanically
+  green/red exactly as reported above; visual review on
+  fingerprinted files. No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 3 sequences (misc next), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker (2 flagged cells have a designed backstop).
+- Next recommended task: CMR-10A (misc sheet).
+
 ### 2026-10-03 08:58 UTC - CMR-10A (attempt 1, IN_PROGRESS - fall sheet accepted, DOWN bookend clean)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 5 sheets

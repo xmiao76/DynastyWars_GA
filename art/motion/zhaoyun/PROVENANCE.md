@@ -7,6 +7,48 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### getup-candidate-2 (ACCEPTED WITH FLAG 2026-10-03) — sha `40aaac55…`
+
+- Request 8/16 (getup sheet 2/2). Refs: body `a1067c2a`,
+  portrait `dff59167`. Prompt: same 3x3 getup with the CRITICAL
+  LAYOUT RULE (25px gutters, figures compact, spears angled to fit
+  inside - no straddling).
+- Mechanical: 1536x1024; opaque≥96 share 25.9%; sheet-edge 0px;
+  19 components @96 -> 9 survivors, all 9 cells covered, glow
+  79137, specks 13px; gate green. Separation fixed.
+- DEFECT (diagnosed, not fatal): the no-straddle rule forced the
+  two VERTICAL spears short - kneel (cell 1) and stand (cell 4)
+  measure ~300px vs the ~470 mass (~65%, RANSAC corroborates the
+  visual). My brief's overcorrection (same conflict class as 09A's
+  fit-vs-length failure, inverted). These two cells are FLAGGED
+  for the acceptance-4 repair protocol (redraw with full-length
+  diagonal spears that may straddle); repair reserve untouched
+  (3/3). Arc/identity/anatomy verified (elbow/kneel/crouch/half-
+  rise/stand all present; keep [0,1,2,8,4], cull {3,5,6,7}).
+- The gutter-for-figures + straddle-for-spears split rule is now
+  explicit in AUTHORING-PLAN (edit below).
+
+### getup focused edit (REJECTED 2026-10-03) — sha `24d32106…`
+
+- Request 9/16 (focused, no sequence cap). Refs: getup-candidate-2
+  `40aaac55` alone. Prompt: surgical - lengthen ONLY the kneel +
+  stand spears to full 72-unit diagonal, keep everything else
+  identical. VERDICT: failed doubly - spears unchanged AND the
+  background repainted dense (757728 residue px vs 150000
+  tolerance -> pipeline gate throws). File kept in ignored
+  artifacts/tmpcheck (failed edit, not a source). Lesson: this
+  edit path cannot do surgical spear fixes; the repair protocol
+  (fresh cells, not in-place edits) is the right backstop.
+
+### getup-candidate-1 (REJECTED 2026-10-03) — sha `591007b5…`
+
+- Request 7/16 (getup sheet 1/2). Gate showed 7 survivors, not 9:
+  TWO MERGES proven by component mapping - kneel+stand (cells 1+4,
+  one 530x699 component spanning the row line) and prone-spare+
+  oath (cells 5+8). Four cells unusable incl. two key poses, no
+  stand substitute anywhere -> sheet rejected (file kept as
+  getup-candidate-1-REJECTED.png for the record).
+
 ### fall-candidate-1 (ACCEPTED 2026-10-03) — sha `bc1ee39a…`
 
 - Request 6/16 (fall sheet 1/2). Refs in order: body master
@@ -169,5 +211,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 6/16 used (walk + jab1 + jab2 + finisher + jump + fall c1 accepted). 10 spare.
+- Authoring: 9/16 used (6 sheets accepted + getup c1 rejected + getup edit rejected). 7 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

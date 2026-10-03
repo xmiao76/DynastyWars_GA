@@ -84,14 +84,15 @@
     "zhaoyun": {
       "role": "hero",
       "cap": 16,
-      "used": 6,
+      "used": 9,
       "sheetCandidates": {
         "walk": 1,
         "jab1": 1,
         "jab2": 1,
         "finisher": 1,
         "jump": 1,
-        "fall": 1
+        "fall": 1,
+        "getup": 2
       }
     }
   }

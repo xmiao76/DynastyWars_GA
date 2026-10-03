@@ -14,7 +14,13 @@ bracketing that defeated drift and shortening bias in 09A).
   spear is rigid and NEVER shortens to fit a cell; when long it angles
   diagonally and may cross nominal cell lines into EMPTY space, never
   touching a neighboring drawing or the sheet border (sheet-edge touch
-  fails the pipeline gate outright).
+  fails the pipeline gate outright). SPLIT RULE (getup lesson): the
+  gutter/separation rule applies to FIGURES (bodies must not touch
+  across cell lines - merged components are unusable); SPEARS keep
+  the straddle allowance (a full-length spear that fits only by
+  straddling MUST straddle, never shorten - the getup-2 brief's
+  no-straddle overcorrection produced two short vertical spears and
+  is not repeated).
 - Helmet + plume need headroom: keep ~30px clear above the headband
   line in every cell (the content cap punishes tall drawings).
 - Defined fingers on both hands; gold butt cap + collar + leaf blade
