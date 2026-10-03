@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 23:44 UTC - CMR-11A (attempt 1, IN_PROGRESS - jab1 sheet accepted)
+
+- Status before: CMR-11A IN_PROGRESS (walk accepted, budget
+  1/16). No PENDING FILING, review 1/4.
+- Work completed: reserved jab1 sheet 1/2 BEFORE generating
+  (weiyan 2/16, total 69/200), cropped the walk-guard cell as
+  length anchor, and generated jab1-candidate-1 (sha 1cd3eb15,
+  3 refs): ACCEPTED - 9/9 clean, all cells covered, 0 edge,
+  gate green; keep [0,1,2,3,4] in play order (windup/drive/
+  extension/follow/recover) with full uniform dao, clean
+  anatomy, no forks. Cell 0 windup (~65° blade) exceeds the
+  50° guideline but fits (339px component) and beats the
+  steeper spares - accepted with a flag for the acceptance-4
+  direction re-check. Cull {5,6,7,8}.
+- Files changed: art/motion/weiyan/jab1-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (2/16),
+  TASKS.md, PROGRESS.md. Anchor + strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 8 more sheets (jab2 next), then
+  prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (jab2 sheet).
+
 ### 2026-10-03 23:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - walk sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (identity + plan). No
