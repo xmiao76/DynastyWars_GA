@@ -1,6 +1,6 @@
 # CMR-09A — Zhang Fei: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: DONE 2026-10-03 (attempt 1; item 4 owner-waived). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-08B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-09B](CMR-09B.md) is the separate runtime/capture task.
 
@@ -31,13 +31,13 @@ For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTI
 
 ## Acceptance
 
-- [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
-- [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
-- [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
-- [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
-- [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
-- [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
+- [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses. (56 frames: walk 9, jab1/jab2/finisher 5 each, jump 6, fall/getup/misc/special 5 each, rider 6 - manifest `55e09318...`; every frame is new zhangfei art, nothing references legacy textures.)
+- [x] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts. (Per-sheet acceptance reviews + the display-scale continuity review of all 56 frames: HEAVY build, bristle beard, headband, vest+rope belt, one serpent pike + tassel throughout; fingers wrap; no armor/cape/helmet.)
+- [x] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels. (One pivot (260,272) on all 56 frames; trim bottoms land exactly on the ground line, max deviation 0px = 0.0u; trim+pad cell fit enforced by the pipeline (it throws otherwise); alpha cleanup within residue tolerance; sheets verified transparent with no panels/text.)
+- [x] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance. (**WAIVED by the owner 2026-10-03 ("waive now") under the CMR-07A option-(d) precedent, with full disclosure in PROVENANCE.md**: head 6.4% on the thrust-pose subset / 11.2% incl. finisher uprights (the earlier 6.4% pass claim corrected - the method is pose-confounded); weapon FULL set 88.3% (33 cells, 153.6-442.2 displayed), 41.9% excl extremes, walk 12.9%; direction ≤36° on play order with the authored finisher bridge + special pre-spin - PASS, no waiver needed. Repair rounds 1-2 spent narrowing it; the reserve arithmetic cannot reach 10% pack-wide.)
+- [x] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config. (Pages 2004x2026 + 1693x768; density 2; 16,730,172 B = 15.95 MiB <= 16 MiB; manifest sha + per-frame restored/content hashes + sheet shas + registration; byte-identical double-run re-verified at close-out.)
+- [x] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable. (PROVENANCE.md "Acceptance-4 waiver + continuity review": all 56 frames reviewed frame-by-frame on the fresh display-scale contact sheet + 10 full-scale strips; guards ARE walk:0 and the down IS fall:4 by clip convention - the same pattern as Guan Yu's clips - both drawings verified in those roles.)
+- [x] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A. (`git diff ef2738c..HEAD`: zero changes under `src/`, zero in other packs, zero in motion-art/clips; the task touched only zhangfei art+scripts, the two budget ledgers, and docs/queue files; no runtime emission.)
 
 ## Checks/handoff
 

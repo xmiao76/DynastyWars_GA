@@ -178,27 +178,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1, 2026-10-03 - owner decision needed;
-  this REVISES my earlier "next tick does the salvage splice" because
-  the feasibility check below changed the cost/benefit). Repair rounds
-  1-2 are spent and accepted as sources (round 1 adopted as the rider
-  source override; 1 round left). Like-for-like, the pack-wide weapon
-  spread is 88.3% today and projects to only 61.3% even with every
-  verified round-2 win spliced (walk family alone 12.9% -> 6.0%).
-  Splicing is not cheap: the scale witness is UNRESOLVED (face-area k
-  1.10-1.19 vs ground k 1.00-1.03, proxies disagree >0.05; repaired
-  heads are ~10-19% smaller, so the head criterion can regress), and
-  4 of the 5 wins collide in place (coil touches the sheet edge; three
-  overlap neighbouring cells) so they need a per-position source
-  mechanism that does not exist yet. PICK ONE: (1) **waive now
-  (recommended)** - close acceptance-4 under the CMR-07A option-(d)
-  precedent with the full disclosure (head 6.4% comparable PASS,
-  direction OK, weapon band 88%/FULL-set recorded, walk family
-  documented); (2) approved-plan route - build the per-position
-  override, splice the wins, re-measure head, spend round 3, then
-  waive anyway (est. 2-3 ticks; pack-wide stays ~60%; head-regression
-  risk). Evidence: [PROVENANCE.md](art/motion/zhangfei/PROVENANCE.md)
-  "Acceptance-4 repair rounds". Only the owner may reset.)
+- Status: DONE (attempt 1; 2026-10-03, verified). Owner accepted the
+  acceptance-4 waiver 2026-10-03 ("waive now") by direct instruction:
+  item 4 closed with documented limitation (heads 6.4% thrust-pose /
+  11.2% incl. finisher; weapons 88.3% FULL / 12.9% walk / 41.9% excl
+  extremes; direction ≤36° PASS). Pack prepared deterministic
+  (manifest 55e09318, re-verified byte-identical at close-out; 56
+  frames, 2 pages ≤2048, 15.95MiB ≤ 16MiB; lint+tsc clean, units
+  858|1-known-G6|6). Continuity reviewed
+  frame-by-frame on the fresh display-scale sheet + 10 strips (all 56
+  frames; guards ARE walk:0, down IS fall:4, by clip convention).
+  Evidence: [PROVENANCE.md](art/motion/zhangfei/PROVENANCE.md) /
+  [CONTINUITY](art/motion/zhangfei/PROVENANCE.md) /
+  [IDENTITY.md](art/motion/zhangfei/IDENTITY.md).
+  CMR-09B is unblocked.
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
@@ -662,45 +655,6 @@ Add future enhancement tasks below this heading.
         fixed (self-check) - the last of its three parts (sky UIR-9,
         ridges UIR-10, ground here).
 - Non-goals: collision, or the lane depth.
-
-### UIR-14 - Sleeves meet shoulders; forearms trace to the hand
-
-- Status: DONE (attempt 1, 2026-09-27 UTC - owner V-14 request,
-  verified full-green same day)
-- Source: UI review 2026-09-27, findings V-14 J1/J3 (S2)
-- Evidence: artifacts/review/latest/anatomy/*.png - on armored
-  fighters the sleeve starts inset below the pauldron with a visible
-  step (lubu/caocao/xiahoudun/xuchu/zhangliao/caoren/xuhuang/zhanghe/
-  lidian/soldier in strikes); on zhaoyun the silver forearm vanishes
-  on the silver torso in idle/walk/hurt so the hand floats.
-- Root cause: ASSET - src/game/art/body-parts.ts cell caps at the
-  shoulder (upper-arm pre-span too short/narrow to tuck under the
-  pauldron) and no tone separation where the forearm crosses the
-  torso (prepare-body-parts.mjs cell paint).
-- Affected screens: armored fighters' shoulders in all movements;
-  zhaoyun idle/walk/hurt wrist.
-- Requirement: upper sleeves start AT the shoulder joint, tucked under
-  the pauldron/collar with no gap or step, in all poses; forearms
-  crossing the torso keep enough tone/edge separation to trace to the
-  cuff and hand.
-- Acceptance criteria:
-  - [x] Seam check (test/game/uir14-joins.test.ts): shoulder-join
-        transparency gaps <=1px and a traceable forearm edge step
-        (recorded: the floor passed before the fix too - the eye's
-        "step" was a tone edge metrics could not see; acceptance
-        rests on the delegated pixel pass per pixels-overrule).
-        Fixes: sleeve cells' top rows alpha-feathered (the master's
-        pauldron fragments melt under the torso's pauldron instead
-        of stepping) + soft edge-shade behind each forearm where it
-        crosses the torso (BODY-11 mechanism reused) - the zhaoyun
-        silver-on-silver forearm now traces elbow-to-cuff.
-  - [x] review:capture anatomy sheets re-rendered on body-7; J1 on
-        lubu/caocao/zhangliao and J3 on zhaoyun re-reviewed by a
-        delegated judge (verdicts recorded in the PROGRESS entry).
-  - [x] Full gates green (lint 0, tsc 0, unit 638/638, e2e 78,
-        vision 5/5, selfplay 13/13, build 0, prodbuild 4/4); ledger
-        V-14 sub-verdict updated (J1/J3 fixed).
-- Non-goals: pauldron art itself, hand paint (UIR-12).
 
 ### UIR-15 - Strike arms bend; no parallel rails
 

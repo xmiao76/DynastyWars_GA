@@ -22,6 +22,57 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 03:29 UTC - CMR-09A DONE (attempt 1 - owner "waive now" executed; continuity + checklist closed)
+
+- Status before: CMR-09A BLOCKED (acceptance-4 weapon FAIL; owner
+  options (a) waive / (b) reserve rounds / (c) larger campaign).
+  Owner decision this turn: **"Waive now"** - acceptance-4 closed
+  under the CMR-07A option-(d) precedent with full disclosure.
+- Work completed: (1) waiver record in PROVENANCE.md (heads 6.4%
+  thrust-pose / 11.2% incl. finisher - the earlier pass claim
+  corrected to the sensitivity finding; weapons 88.3% FULL / 12.9%
+  walk / 41.9% excl extremes; direction ≤36° PASS, no waiver needed;
+  repair ledger: 2/3 spent, round 1 adopted, 1 left shared with
+  09B). (2) Fresh display-scale continuity review: new
+  `scripts/display-sheet-zhangfei.mjs` renders all 56 prepared frames
+  exactly as the runtime would (trim restored in the 520x288 cell,
+  ground line y=272) on a contact sheet + 10 full-scale per-sequence
+  strips; reviewed every frame in play order with the image tool -
+  walk 8-cycle alternates genuinely, jabs thrust on-line with distinct
+  chambers, finisher sweeps through the authored bridge, jump arc +
+  kick money pose, fall tumble + DOWN flat, getup rise, hurt/grab
+  set, whirlwind special with no effects, rider set with clean
+  saddle contact; guards ARE walk:0 and down IS fall:4 by clip
+  convention (same pattern as Guan Yu's clips), both verified in
+  role; identity/anatomy stable across all 56, no mittens/forks/
+  blanks/panels. (3) Numerical close-out: one pivot (260,272) on all
+  56 frames, trim bottoms exactly on the ground line (0.0u), pages
+  2004x2026 + 1693x768, density 2, 15.95MiB, manifest 55e09318
+  re-verified byte-identical; isolation proven (`git diff
+  ef2738c..HEAD`: zero src/, zero other packs, zero motion-art/clips
+  changes; no catalog activation). (4) CMR-09A.md checklist annotated
+  7/7; TASKS CMR-09A -> DONE (CMR-09B ungated); rule-8 upkeep moved
+  UIR-14 (oldest remaining DONE, 2026-09-27) to TASKS-ARCHIVE.md
+  (21 -> 20 DONE).
+- Files changed: art/motion/zhangfei/PROVENANCE.md (waiver + continuity
+  sections, Budgets corrected), docs/motion-tasks/CMR-09A.md
+  (checklist), scripts/display-sheet-zhangfei.mjs (new),
+  scripts/landmarks-final-zhangfei.mjs +
+  art/motion/zhangfei/landmarks-final.json (new, from the prior
+  partial turn - acceptance-4 evidence), TASKS.md, TASKS-ARCHIVE.md,
+  PROGRESS.md. Sheets/overlays in ignored artifacts/.
+- Verification run: eslint clean on all 6 zhangfei scripts (exit 0);
+  typecheck clean; full unit suite 858 passed + 6 skipped with ONLY
+  the known G6 V-15b baseline failure at arm-chain.test.ts:100
+  (UIR-16 BLOCKED - confirmed same file/line/assertion as the
+  recorded baseline, no new failures); prepare re-run green +
+  deterministic; every cited image fingerprinted against its file.
+- Result: CMR-09A DONE (attempt 1). CMR-09B UNGATED.
+- Status after: CMR-09A DONE.
+- Remaining work or blocker: none on 09A. Producer verifies
+  independently on fresh captures per bounded work 6.
+- Next recommended task: CMR-09B (Zhang Fei integrate/review).
+
 ### 2026-10-03 02:29 UTC - CMR-09A (attempt 1, BLOCKED - splice cost/benefit changed my plan; owner call)
 
 - Status before: CMR-09A IN_PROGRESS; I had told the owner the next tick

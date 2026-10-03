@@ -308,11 +308,84 @@ benefit therefore favours the (a) waiver now**, with the walk-family
 number, the coil/bridge improvements as optional follow-ups and the
 full disclosure recorded.
 
+## Acceptance-4 waiver + continuity review (owner "waive now", 2026-10-03)
+
+The owner waived acceptance item 4 under the CMR-07A option-(d)
+precedent, with this full disclosure (numbers from committed
+`landmarks-final.json`, `pike-lines.json` and the adjudicator):
+- Head: 6.4% on the thrust-pose subset (walk+jab1+jab2, n=19,
+  24.1-25.7 displayed px), 2.9% walk-cycle-internal, per-sequence
+  <=5.8% on clean cells; **11.2% including the finisher upright
+  stances** (24.1-27.0) - the earlier "6.4% PASS" claim is hereby
+  corrected: it holds only for the thrust-pose subset, and the
+  method (face-cluster sqrt-area) is confounded by neck-merge extent
+  varying with pose. Full 56-cell disclosure 137.6% (limb merges).
+- Weapon: FULL set (fittings at both ends, value-independent grounds)
+  33 cells, 153.6-442.2, **88.3%**; excluding min/max 41.9%; walk
+  family 12.9%. No comparable-subset definition certifies <=10%.
+- Direction: **PASS, no waiver needed** - play-order steps <=36deg
+  (walk 0-18, jabs <=21, finisher 36 via the authored mid-sweep
+  bridge, special 20 via the pre-spin bridge, fall/getup/misc <=21).
+The waived item stays waived: later CMR tasks must not re-litigate
+it, and the producer verifies the pack (not the criterion) on fresh
+captures. Repair ledger: rounds 1-2 accepted as sources (round 1
+adopted as the rider override); 1 round unused at close-out.
+
+Continuity review on the fresh display-scale pack
+(`artifacts/motion/zhangfei/landmarks/display-scale.png`, 56 frames
+at shared-ruler scale, manifest `55e09318...`) plus all 10 per-
+sequence strips at full scale (`strips/*.png`), reviewed with the
+image tool frame by frame in play order:
+- **walk:0-8**: guard (feet planted, pike low) + genuine alternating
+  8-cycle (contact/pass/stride/crossing/double-stance/kick-back snap);
+  legs alternate, no identical copies, feet plant on the ground line.
+- **jab1:0-4 / jab2:0-4**: windup -> drive -> full-extension lunge
+  (both arms extended, pike on the thrust line) -> follow -> recover;
+  jab2's low hip-chamber reads distinct from jab1's high coil.
+- **finisher:0-4**: coil -> launch -> diagonal bridge -> horizontal
+  chest-height sweep -> follow; reads as a sweep, not a thrust, with
+  body twist progressing and no jump cut at the mid-arc.
+- **jump:0-5**: takeoff crouch -> tucked ascent -> apex pike-high ->
+  kick (leg extended, other tucked, pike swept back) -> descent
+  retract -> landing crouch; clear air under the boots mid-arc.
+- **fall:0-4**: topple -> airborne sprawl -> curled upside-down tumble
+  (pike to chest) -> side impact -> DOWN flat on back, eyes closed,
+  pike gripped beside the hand. **fall:4 is the shared DOWN drawing.**
+- **getup:0-4**: elbow push-up -> kneel -> crouch -> half-rise ->
+  stand; the rise arc coheres, bookended by fall:4 and the guard.
+- **misc:0-4**: recoil -> doubled fold (also the grabbed pose) ->
+  open-hand clamp -> closed hold -> release; no second figure drawn;
+  pike gripped in every cell.
+- **special:0-4**: overhead raise -> tight coil -> pre-spin step ->
+  full-spin strike (horizontal, lifted foot) -> follow; no
+  projectile/glow/effects - the sweep IS the special.
+- **rider:0-5** (round-1 override sheet): seated straddle + upright
+  pike idle/trot, foot-raised mount, twisted sweep strike, windup,
+  leg-over dismount; seat/thigh contact poses clean for the CMR-22
+  horse composition; no horse/saddle drawn.
+- **Shared bookends:** with the option-(c) culled layout there are no
+  alias bookend records; the property holds by clip convention, the
+  same pattern as Guan Yu's clips: every guard point IS **walk:0**
+  (verified above), every down point IS **fall:4** (verified above).
+  Both drawings read correctly in those roles.
+- Identity holds across all 56: heavy short build, big head, fierce
+  glare, bristle beard, headband+tails, vest+rope belt, trousers,
+  boots, one rigid serpent pike + tassel, no armor/cape/helmet; no
+  mittens (fingers wrap), no extra/floating limbs, no forked shafts;
+  no empty tiles, panels, text, or effect pixels in any frame.
+- Registration: trim bottoms land exactly on the ground line in all
+  56 frames (max deviation 0px, measured from the manifest); standing
+  frames show boots on the line; airborne frames correctly float with
+  the pike/other mass defining the bottom.
+
 ## Budgets
 
 - Authoring: 12/16 used (ALL 10 sequences accepted: walk + jab1
   at c2, jab2/finisher/jump/misc/fall/getup/special/rider at c1).
   4 spare held for repairs/seconds. Reserve BEFORE each call.
-- Repair reserve (Acceptance-4 recovery protocol): 3/3 untouched. Shared
-  with CMR-09B. Only for diagnosed source-art defects after a failed
-  acceptance 4; never for polish; never reopens BLOCKED tasks.
+- Repair reserve (Acceptance-4 recovery protocol): 2/3 spent (rounds
+  1-2 accepted as sources; round 1 adopted as the rider source
+  override; round 2 not spliced - infeasible, see above). 1 round
+  left, shared with CMR-09B. Only for diagnosed source-art defects
+  after a failed acceptance 4; never for polish; never reopens
+  BLOCKED tasks.

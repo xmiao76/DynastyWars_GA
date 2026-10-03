@@ -1,0 +1,805 @@
+{
+  "generatedFrom": "registration.json scales + kept-cell source drawings (rider = round-1 override)",
+  "head": {
+    "D0_all": {
+      "n": 56,
+      "min": 18.9,
+      "max": 56.9,
+      "spreadPct": 137.6
+    },
+    "D1_shape_rule": {
+      "n": 44,
+      "min": 18.9,
+      "max": 54.4,
+      "spreadPct": 138.8,
+      "ids": [
+        "walk:0",
+        "walk:1",
+        "walk:2",
+        "walk:3",
+        "walk:4",
+        "walk:5",
+        "walk:6",
+        "walk:7",
+        "walk:8",
+        "jab1:0",
+        "jab1:1",
+        "jab1:2",
+        "jab1:3",
+        "jab1:4",
+        "jab2:0",
+        "jab2:1",
+        "jab2:2",
+        "jab2:3",
+        "jab2:4",
+        "finisher:1",
+        "finisher:2",
+        "finisher:3",
+        "finisher:4",
+        "jump:0",
+        "jump:1",
+        "jump:2",
+        "jump:4",
+        "jump:5",
+        "fall:2",
+        "fall:4",
+        "getup:0",
+        "getup:1",
+        "getup:2",
+        "getup:4",
+        "misc:0",
+        "misc:2",
+        "misc:3",
+        "special:1",
+        "rider:0",
+        "rider:1",
+        "rider:2",
+        "rider:3",
+        "rider:4",
+        "rider:5"
+      ]
+    },
+    "D2_upright_pose_family": {
+      "n": 19,
+      "min": 24.1,
+      "max": 25.7,
+      "spreadPct": 6.4
+    },
+    "D2_walk_cycle_only": {
+      "n": 9,
+      "min": 24.1,
+      "max": 24.8,
+      "spreadPct": 2.9
+    }
+  },
+  "weapon": {
+    "FULL_set": {
+      "n": 33,
+      "min": 153.6,
+      "max": 442.2,
+      "spreadPct": 88.3,
+      "ids": [
+        "walk:0",
+        "walk:1",
+        "walk:2",
+        "walk:3",
+        "walk:4",
+        "walk:5",
+        "walk:6",
+        "walk:8",
+        "jab1:0",
+        "jab1:4",
+        "jab2:0",
+        "finisher:2",
+        "jump:0",
+        "jump:1",
+        "jump:2",
+        "jump:4",
+        "jump:5",
+        "fall:0",
+        "fall:2",
+        "fall:3",
+        "fall:4",
+        "getup:2",
+        "getup:3",
+        "getup:4",
+        "misc:0",
+        "misc:1",
+        "misc:2",
+        "misc:3",
+        "misc:4",
+        "special:1",
+        "special:3",
+        "special:4",
+        "rider:5"
+      ]
+    },
+    "FULL_set_excl_min_max": {
+      "n": 31,
+      "min": 274.7,
+      "max": 412.4,
+      "spreadPct": 41.9
+    },
+    "walk_family": {
+      "n": 8,
+      "min": 340.5,
+      "max": 386.8,
+      "spreadPct": 12.9
+    },
+    "measured_cells": "54/56"
+  },
+  "cells": [
+    {
+      "id": "walk:0",
+      "seq": "walk",
+      "label": "guard",
+      "scale": 0.692028,
+      "face": {
+        "w": 53,
+        "h": 46,
+        "area": 1212
+      },
+      "displayed": 24.09
+    },
+    {
+      "id": "walk:1",
+      "seq": "walk",
+      "label": "walk1",
+      "scale": 0.692028,
+      "face": {
+        "w": 52,
+        "h": 47,
+        "area": 1230
+      },
+      "displayed": 24.27
+    },
+    {
+      "id": "walk:2",
+      "seq": "walk",
+      "label": "walk2",
+      "scale": 0.692028,
+      "face": {
+        "w": 53,
+        "h": 46,
+        "area": 1235
+      },
+      "displayed": 24.32
+    },
+    {
+      "id": "walk:3",
+      "seq": "walk",
+      "label": "walk3",
+      "scale": 0.692028,
+      "face": {
+        "w": 56,
+        "h": 46,
+        "area": 1277
+      },
+      "displayed": 24.73
+    },
+    {
+      "id": "walk:4",
+      "seq": "walk",
+      "label": "walk4",
+      "scale": 0.692028,
+      "face": {
+        "w": 58,
+        "h": 47,
+        "area": 1263
+      },
+      "displayed": 24.59
+    },
+    {
+      "id": "walk:5",
+      "seq": "walk",
+      "label": "walk5",
+      "scale": 0.692028,
+      "face": {
+        "w": 55,
+        "h": 47,
+        "area": 1262
+      },
+      "displayed": 24.58
+    },
+    {
+      "id": "walk:6",
+      "seq": "walk",
+      "label": "walk6",
+      "scale": 0.692028,
+      "face": {
+        "w": 56,
+        "h": 48,
+        "area": 1261
+      },
+      "displayed": 24.57
+    },
+    {
+      "id": "walk:7",
+      "seq": "walk",
+      "label": "walk7",
+      "scale": 0.692028,
+      "face": {
+        "w": 55,
+        "h": 47,
+        "area": 1260
+      },
+      "displayed": 24.56
+    },
+    {
+      "id": "walk:8",
+      "seq": "walk",
+      "label": "walk8",
+      "scale": 0.692028,
+      "face": {
+        "w": 56,
+        "h": 47,
+        "area": 1284
+      },
+      "displayed": 24.8
+    },
+    {
+      "id": "jab1:0",
+      "seq": "jab1",
+      "label": "windup",
+      "scale": 0.784067,
+      "face": {
+        "w": 45,
+        "h": 44,
+        "area": 994
+      },
+      "displayed": 24.72
+    },
+    {
+      "id": "jab1:1",
+      "seq": "jab1",
+      "label": "drive",
+      "scale": 0.784067,
+      "face": {
+        "w": 41,
+        "h": 43,
+        "area": 1017
+      },
+      "displayed": 25
+    },
+    {
+      "id": "jab1:2",
+      "seq": "jab1",
+      "label": "extension",
+      "scale": 0.784067,
+      "face": {
+        "w": 39,
+        "h": 43,
+        "area": 1025
+      },
+      "displayed": 25.1
+    },
+    {
+      "id": "jab1:3",
+      "seq": "jab1",
+      "label": "follow",
+      "scale": 0.784067,
+      "face": {
+        "w": 38,
+        "h": 44,
+        "area": 981
+      },
+      "displayed": 24.56
+    },
+    {
+      "id": "jab1:4",
+      "seq": "jab1",
+      "label": "recover",
+      "scale": 0.784067,
+      "face": {
+        "w": 52,
+        "h": 45,
+        "area": 1072
+      },
+      "displayed": 25.67
+    },
+    {
+      "id": "jab2:0",
+      "seq": "jab2",
+      "label": "chamber-low",
+      "scale": 0.692028,
+      "face": {
+        "w": 51,
+        "h": 49,
+        "area": 1341
+      },
+      "displayed": 25.34
+    },
+    {
+      "id": "jab2:1",
+      "seq": "jab2",
+      "label": "drive",
+      "scale": 0.692028,
+      "face": {
+        "w": 58,
+        "h": 50,
+        "area": 1349
+      },
+      "displayed": 25.42
+    },
+    {
+      "id": "jab2:2",
+      "seq": "jab2",
+      "label": "extension",
+      "scale": 0.692028,
+      "face": {
+        "w": 62,
+        "h": 48,
+        "area": 1321
+      },
+      "displayed": 25.15
+    },
+    {
+      "id": "jab2:3",
+      "seq": "jab2",
+      "label": "follow",
+      "scale": 0.692028,
+      "face": {
+        "w": 59,
+        "h": 47,
+        "area": 1274
+      },
+      "displayed": 24.7
+    },
+    {
+      "id": "jab2:4",
+      "seq": "jab2",
+      "label": "recover",
+      "scale": 0.692028,
+      "face": {
+        "w": 54,
+        "h": 49,
+        "area": 1279
+      },
+      "displayed": 24.75
+    },
+    {
+      "id": "finisher:0",
+      "seq": "finisher",
+      "label": "coil",
+      "scale": 0.692028,
+      "face": {
+        "w": 69,
+        "h": 49,
+        "area": 1517
+      },
+      "displayed": 26.95
+    },
+    {
+      "id": "finisher:1",
+      "seq": "finisher",
+      "label": "launch",
+      "scale": 0.692028,
+      "face": {
+        "w": 63,
+        "h": 50,
+        "area": 1502
+      },
+      "displayed": 26.82
+    },
+    {
+      "id": "finisher:2",
+      "seq": "finisher",
+      "label": "bridge",
+      "scale": 0.692028,
+      "face": {
+        "w": 62,
+        "h": 47,
+        "area": 1408
+      },
+      "displayed": 25.97
+    },
+    {
+      "id": "finisher:3",
+      "seq": "finisher",
+      "label": "impact",
+      "scale": 0.692028,
+      "face": {
+        "w": 66,
+        "h": 49,
+        "area": 1497
+      },
+      "displayed": 26.78
+    },
+    {
+      "id": "finisher:4",
+      "seq": "finisher",
+      "label": "follow",
+      "scale": 0.692028,
+      "face": {
+        "w": 46,
+        "h": 50,
+        "area": 1440
+      },
+      "displayed": 26.26
+    },
+    {
+      "id": "jump:0",
+      "seq": "jump",
+      "label": "takeoff",
+      "scale": 0.756386,
+      "face": {
+        "w": 47,
+        "h": 48,
+        "area": 1412
+      },
+      "displayed": 28.42
+    },
+    {
+      "id": "jump:1",
+      "seq": "jump",
+      "label": "ascent",
+      "scale": 0.756386,
+      "face": {
+        "w": 48,
+        "h": 46,
+        "area": 1306
+      },
+      "displayed": 27.33
+    },
+    {
+      "id": "jump:2",
+      "seq": "jump",
+      "label": "apex",
+      "scale": 0.756386,
+      "face": {
+        "w": 110,
+        "h": 128,
+        "area": 5174
+      },
+      "displayed": 54.41
+    },
+    {
+      "id": "jump:3",
+      "seq": "jump",
+      "label": "kick",
+      "scale": 0.756386,
+      "face": {
+        "w": 65,
+        "h": 48,
+        "area": 1404
+      },
+      "displayed": 28.34
+    },
+    {
+      "id": "jump:4",
+      "seq": "jump",
+      "label": "descent",
+      "scale": 0.756386,
+      "face": {
+        "w": 54,
+        "h": 47,
+        "area": 1370
+      },
+      "displayed": 28
+    },
+    {
+      "id": "jump:5",
+      "seq": "jump",
+      "label": "landing",
+      "scale": 0.756386,
+      "face": {
+        "w": 51,
+        "h": 48,
+        "area": 1366
+      },
+      "displayed": 27.96
+    },
+    {
+      "id": "fall:0",
+      "seq": "fall",
+      "label": "topple",
+      "scale": 0.692028,
+      "face": {
+        "w": 131,
+        "h": 93,
+        "area": 4415
+      },
+      "displayed": 45.98
+    },
+    {
+      "id": "fall:1",
+      "seq": "fall",
+      "label": "airborne",
+      "scale": 0.692028,
+      "face": {
+        "w": 111,
+        "h": 74,
+        "area": 3203
+      },
+      "displayed": 39.17
+    },
+    {
+      "id": "fall:2",
+      "seq": "fall",
+      "label": "tumble",
+      "scale": 0.692028,
+      "face": {
+        "w": 80,
+        "h": 84,
+        "area": 2878
+      },
+      "displayed": 37.13
+    },
+    {
+      "id": "fall:3",
+      "seq": "fall",
+      "label": "impact",
+      "scale": 0.692028,
+      "face": {
+        "w": 115,
+        "h": 148,
+        "area": 6766
+      },
+      "displayed": 56.92
+    },
+    {
+      "id": "fall:4",
+      "seq": "fall",
+      "label": "DOWN",
+      "scale": 0.692028,
+      "face": {
+        "w": 43,
+        "h": 33,
+        "area": 910
+      },
+      "displayed": 20.88
+    },
+    {
+      "id": "getup:0",
+      "seq": "getup",
+      "label": "elbow",
+      "scale": 0.654658,
+      "face": {
+        "w": 48,
+        "h": 46,
+        "area": 1094
+      },
+      "displayed": 21.65
+    },
+    {
+      "id": "getup:1",
+      "seq": "getup",
+      "label": "kneel",
+      "scale": 0.654658,
+      "face": {
+        "w": 55,
+        "h": 48,
+        "area": 1490
+      },
+      "displayed": 25.27
+    },
+    {
+      "id": "getup:2",
+      "seq": "getup",
+      "label": "crouch",
+      "scale": 0.654658,
+      "face": {
+        "w": 54,
+        "h": 48,
+        "area": 1485
+      },
+      "displayed": 25.23
+    },
+    {
+      "id": "getup:3",
+      "seq": "getup",
+      "label": "half-rise",
+      "scale": 0.654658,
+      "face": {
+        "w": 70,
+        "h": 48,
+        "area": 1613
+      },
+      "displayed": 26.29
+    },
+    {
+      "id": "getup:4",
+      "seq": "getup",
+      "label": "stand",
+      "scale": 0.654658,
+      "face": {
+        "w": 51,
+        "h": 46,
+        "area": 1400
+      },
+      "displayed": 24.5
+    },
+    {
+      "id": "misc:0",
+      "seq": "misc",
+      "label": "hurt-recoil",
+      "scale": 0.692028,
+      "face": {
+        "w": 47,
+        "h": 46,
+        "area": 1137
+      },
+      "displayed": 23.33
+    },
+    {
+      "id": "misc:1",
+      "seq": "misc",
+      "label": "hurt-fold",
+      "scale": 0.692028,
+      "face": {
+        "w": 30,
+        "h": 79,
+        "area": 803
+      },
+      "displayed": 19.61
+    },
+    {
+      "id": "misc:2",
+      "seq": "misc",
+      "label": "grab-clamp",
+      "scale": 0.692028,
+      "face": {
+        "w": 48,
+        "h": 47,
+        "area": 1402
+      },
+      "displayed": 25.91
+    },
+    {
+      "id": "misc:3",
+      "seq": "misc",
+      "label": "grab-hold",
+      "scale": 0.692028,
+      "face": {
+        "w": 52,
+        "h": 47,
+        "area": 1265
+      },
+      "displayed": 24.61
+    },
+    {
+      "id": "misc:4",
+      "seq": "misc",
+      "label": "release",
+      "scale": 0.692028,
+      "face": {
+        "w": 169,
+        "h": 65,
+        "area": 5802
+      },
+      "displayed": 52.71
+    },
+    {
+      "id": "special:0",
+      "seq": "special",
+      "label": "raise",
+      "scale": 0.692028,
+      "face": {
+        "w": 79,
+        "h": 148,
+        "area": 6476
+      },
+      "displayed": 55.69
+    },
+    {
+      "id": "special:1",
+      "seq": "special",
+      "label": "coil",
+      "scale": 0.692028,
+      "face": {
+        "w": 79,
+        "h": 82,
+        "area": 3196
+      },
+      "displayed": 39.12
+    },
+    {
+      "id": "special:2",
+      "seq": "special",
+      "label": "pre-spin",
+      "scale": 0.692028,
+      "face": {
+        "w": 62,
+        "h": 43,
+        "area": 1238
+      },
+      "displayed": 24.35
+    },
+    {
+      "id": "special:3",
+      "seq": "special",
+      "label": "strike",
+      "scale": 0.692028,
+      "face": {
+        "w": 62,
+        "h": 40,
+        "area": 1206
+      },
+      "displayed": 24.03
+    },
+    {
+      "id": "special:4",
+      "seq": "special",
+      "label": "follow",
+      "scale": 0.692028,
+      "face": {
+        "w": 63,
+        "h": 34,
+        "area": 953
+      },
+      "displayed": 21.36
+    },
+    {
+      "id": "rider:0",
+      "seq": "rider",
+      "label": "idle",
+      "scale": 0.636665,
+      "face": {
+        "w": 44,
+        "h": 36,
+        "area": 877
+      },
+      "displayed": 18.85
+    },
+    {
+      "id": "rider:1",
+      "seq": "rider",
+      "label": "trot",
+      "scale": 0.636665,
+      "face": {
+        "w": 44,
+        "h": 37,
+        "area": 891
+      },
+      "displayed": 19
+    },
+    {
+      "id": "rider:2",
+      "seq": "rider",
+      "label": "mount",
+      "scale": 0.636665,
+      "face": {
+        "w": 45,
+        "h": 39,
+        "area": 979
+      },
+      "displayed": 19.92
+    },
+    {
+      "id": "rider:3",
+      "seq": "rider",
+      "label": "sweep",
+      "scale": 0.636665,
+      "face": {
+        "w": 47,
+        "h": 36,
+        "area": 959
+      },
+      "displayed": 19.72
+    },
+    {
+      "id": "rider:4",
+      "seq": "rider",
+      "label": "sweep-windup",
+      "scale": 0.636665,
+      "face": {
+        "w": 49,
+        "h": 37,
+        "area": 985
+      },
+      "displayed": 19.98
+    },
+    {
+      "id": "rider:5",
+      "seq": "rider",
+      "label": "dismount",
+      "scale": 0.636665,
+      "face": {
+        "w": 46,
+        "h": 37,
+        "area": 951
+      },
+      "displayed": 19.63
+    }
+  ]
+}
