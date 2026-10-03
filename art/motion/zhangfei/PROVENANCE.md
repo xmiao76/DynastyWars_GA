@@ -186,8 +186,8 @@ Owner selected (b): spend zhangfei's own 3-round Acceptance-4 repair
 reserve (splice-redraw named cells), fallback to (a) documented waiver
 if the residual exceeds 10% after round 3.
 
-**Round 1 (ACCEPTED, splice pending):** reserved via
-`acceptance4-repair-budget.json` before generation (3->2 left). One
+**Round 1 (ACCEPTED, source override adopted, remeasured):** reserved
+via `acceptance4-repair-budget.json` before generation (3->2 left). One
 request, 6 named cells (rider sheet grid 0/1/3/4/5/7 = idle/trot/mount/
 sweep/sweep-windup/dismount), source sha `453f9429...`, bracketing
 references (offending rider sheet + the 639px strike length-anchor cell
@@ -202,9 +202,26 @@ fittings = 639) and replaces the 527-raw original. Uniform splice
 k = 0.92 (height-fit to the 383px content cap: cells came back 385-416
 tall at ~40deg pike lean vs the requested 15-30deg; witness = the
 content-height budget; k keeps base 0.699 and the 94% display).
-Splice + re-prepare + remeasure pending next iteration; untouched
-frame hashes will be diffed to prove isolation. Rounds 2-3 target the
-residual band (strike-vs-carry gap and the walk-family internal 12.8%).
+
+Adopted as the **rider source override** (the protocol's "new source
+override" form) rather than an in-sheet splice: the repair sheet's 6
+clean components sit in exactly the kept label order on a 3x2 grid, and
+splicing 442-602px-wide drawings into adjacent 512px cells would make
+neighbours touch (component merges). rider-candidate-1.png is preserved
+as the immutable before; the 0.92 normalization runs through the
+pipeline's own per-sheet factor (FACTOR_OVERRIDE, witness-recorded -
+never per-cell). Untouched-source proof: the 9 non-rider sheet files are
+byte-identical (git hashes); the budget margin lowered the global base
+0.699 -> 0.692 (walk guard 224.2px = 93.4% of guanyu, still above the
+mook 223), which re-scales every displayed frame by 0.99 and is
+recorded (future rounds save the manifest before re-preparing to diff
+at equal scale). Re-prepared deterministic (manifest `55e09318...`,
+56 frames, pages 2004x2026 + 1693x768, budget 16,730,172 B = 15.95
+MiB <= 16 MiB PASS on the first attempt - the solver's 3.96%
+under-count is now covered by a 1% base margin). Remeasured: rider
+carries 436-500 raw pike (was 348; shaft runs 305-389 + fittings),
+sweep 590; the pack's residual band (carry mass ~278-387 displayed vs
+the 442 strike) is rounds 2-3's target.
 
 ## Budgets
 

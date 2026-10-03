@@ -22,6 +22,50 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 02:05 UTC - CMR-09A (attempt 1, IN_PROGRESS - round-1 rider source override adopted, pack re-prepared)
+
+- Status before: CMR-09A IN_PROGRESS (repair round 1 accepted; splice +
+  re-prepare + remeasure pending).
+- Work completed: adopted the round-1 sheet as the **rider source
+  override** (the protocol's "new source override" form) instead of an
+  in-sheet splice - the repair sheet's 6 clean components sit in exactly
+  the kept label order on a 3x2 grid, and splicing 442-602px-wide
+  drawings into adjacent 512px cells would make neighbours touch.
+  rider-candidate-1.png preserved as the immutable before. The 0.92
+  normalization runs through the pipeline's own per-sheet factor
+  (FACTOR_OVERRIDE, witness-recorded, never per-cell); grid-aware
+  cell-mapping added (3x2 rider). Two engineering fixes along the way:
+  (1) the budget solver under-counts the pipeline's trim chain by 3.96%
+  (measured 16.42 vs 17.07 MB) - a 1% base margin makes the first
+  attempt pass (the multi-retry loop exhausted skia surfaces in
+  restoreCellPixels - "Create skia surface failed"); (2) the step-down
+  loop kept as a 4-step backup. Re-prepared deterministic: base
+  0.692028 (margin cost 0.7%), walk guard 224.2px = 93.4% of guanyu
+  (still above the mook 223), budget 16,730,172 B = 15.95 MiB <= 16
+  MiB PASS first try, 56 frames, pages 2004x2026 + 1693x768, manifest
+  `55e09318...` byte-identical double-run.
+- Remeasured (pike-line rerun pointed at the override): rider carries
+  436-500 raw pike (was 348; shaft runs 305-389 + fittings) / 277-318
+  displayed, sweep 590 raw / 376 displayed. The pack's residual band
+  (carry mass ~278-387 vs the 442 strike) remains - rounds 2-3 target
+  it; 2 rounds left. Untouched-source proof: the 9 non-rider sheet
+  files are byte-identical (git); the base margin re-scales displayed
+  frames by 0.99 (recorded; future rounds save manifests for
+  equal-scale diffs).
+- Files changed: scripts/{prepare,pike-line}-zhangfei.mjs (source
+  override + grid-aware mapping + budget margin/retry),
+  art/motion/zhangfei/{registration.json, PROVENANCE.md, pike-lines.json},
+  TASKS.md, PROGRESS.md. Pack outputs re-written in artifacts/ (untracked).
+- Verification run: prepare + deterministic double-run green (numbers
+  above); pike-line remeasure 54/56 (2 method-UNVERIFIED cells
+  unchanged: walk:7, rider:2 mount); eslint deferred to the round-2
+  turn (scripts changed today and run clean by execution).
+- Status after: CMR-09A IN_PROGRESS.
+- Remaining work or blocker: repair rounds 2-3 on the residual band
+  (strike-vs-carry gap, walk-internal 12.8%) -> remeasure -> fallback
+  (a) waiver if residual >10% -> continuity + checklist. No blocker.
+- Next recommended task: continue CMR-09A (repair round 2).
+
 ### 2026-10-03 01:18 UTC - CMR-09A (attempt 1, IN_PROGRESS - owner picked (b); repair round 1 accepted)
 
 - Status before: CMR-09A BLOCKED on the acceptance-4 weapon verdict;

@@ -28,7 +28,7 @@ const SHEETS = {
   getup: 'getup-candidate-1.png',
   misc: 'misc-candidate-1.png',
   special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
+  rider: 'acceptance4-round1-candidate-1.png',
 }
 // Kept cells (prepare layout): position -> source cell.
 const KEEP = {
@@ -41,7 +41,7 @@ const KEEP = {
   getup: [1, 2, 3, 4, 5],
   misc: [1, 2, 5, 6, 7],
   special: [1, 2, 3, 4, 5],
-  rider: [0, 1, 3, 4, 5, 7],
+  rider: [0, 1, 2, 3, 4, 5], // repair sheet 3x2 row-major
 }
 const LABELS = {
   walk: ['guard', 'walk1', 'walk2', 'walk3', 'walk4', 'walk5', 'walk6', 'walk7', 'walk8'],
@@ -225,12 +225,14 @@ const loaded = {}
 for (const [seq, file] of Object.entries(SHEETS)) {
   const { cv, im } = await load(`${SRC}/${file}`)
   const comps = alphaComponents(im, 96)
-  const cellW = Math.floor(im.width / 3), cellH = Math.floor(im.height / 3)
+  // Grid-aware: the rider repair sheet is 3x2; everything else 3x3.
+  const rows = seq === 'rider' ? 2 : 3, cols = 3
+  const cellW = Math.floor(im.width / cols), cellH = Math.floor(im.height / rows)
   const byCell = new Map()
   for (const c of comps) {
-    const cx = Math.min(2, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))
-    const cy = Math.min(2, Math.floor((c.y0 + c.y1 + 1) / 2 / cellH))
-    byCell.set(cy * 3 + cx, c)
+    const cx = Math.min(cols - 1, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))
+    const cy = Math.min(rows - 1, Math.floor((c.y0 + c.y1 + 1) / 2 / cellH))
+    byCell.set(cy * cols + cx, c)
   }
   loaded[seq] = { cv, im }
   KEEP[seq].forEach((cell, pos) => {

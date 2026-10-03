@@ -50,7 +50,29 @@ const SHEETS = {
   getup: 'getup-candidate-1.png',
   misc: 'misc-candidate-1.png',
   special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
+  // Acceptance-4 repair round 1 (2026-10-03) is the rider SOURCE OVERRIDE:
+  // the round-1 sheet replaces rider-candidate-1.png (preserved as the
+  // immutable before) because splicing its 442-602px-wide drawings into
+  // adjacent 512px cells would make neighbours touch. Its 3x2 grid holds
+  // exactly the six kept cells in label order.
+  rider: 'acceptance4-round1-candidate-1.png',
+}
+
+// Grid per sequence (the repair sheet is 3x2; everything else 3x3).
+const GRID = {
+  rider: { rows: 2, cols: 3 },
+}
+
+// Witness-calibrated factor overrides (the accepted "per-sheet uniform
+// factor" mechanism): the repair sheet is drawn ~8% over pack scale
+// (content-height budget witness: 416px tallest drawing vs the 383px
+// cap at base 0.699), so factor 0.92 normalizes it and keeps the
+// global fit/base untouched. Never per-cell.
+const FACTOR_OVERRIDE = {
+  rider: {
+    factor: 0.92,
+    evidence: 'witness: repair sheet drawn 8% over pack scale (content-height budget 383/416); uniform per-sheet factor normalizes the sheet-level offset',
+  },
 }
 
 // Kept source cells per sequence (row-major 0..8), in clip order. Everything
@@ -68,7 +90,7 @@ const KEEP = {
   getup: [1, 2, 3, 4, 5], // elbow, kneel, crouch, half-rise, stand
   misc: [1, 2, 5, 6, 7], // hurt recoil, hurt fold (=grabbed), clamp, hold, release
   special: [1, 2, 3, 4, 5], // raise, coil, pre-spin, strike, follow
-  rider: [0, 1, 3, 4, 5, 7], // idle, trotA, mount, sweep, windup, dismount (trotB+recover cut)
+  rider: [0, 1, 2, 3, 4, 5], // repair sheet 3x2 row-major: idle, trot, mount, sweep, windup, dismount
 }
 
 async function pixelsOf(path) {
@@ -80,13 +102,13 @@ async function pixelsOf(path) {
   return { width: d.width, height: d.height, data: d.data }
 }
 
-/** Cell (row-major) a component's centroid belongs to. */
-function cellOf(im, c) {
-  const cellW = Math.floor(im.width / 3)
-  const cellH = Math.floor(im.height / 3)
-  const cx = Math.min(2, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))
-  const cy = Math.min(2, Math.floor((c.y0 + c.y1 + 1) / 2 / cellH))
-  return cy * 3 + cx
+/** Cell (row-major) a component's centroid belongs to (grid-aware). */
+function cellOf(im, c, grid = { rows: 3, cols: 3 }) {
+  const cellW = Math.floor(im.width / grid.cols)
+  const cellH = Math.floor(im.height / grid.rows)
+  const cx = Math.min(grid.cols - 1, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))
+  const cy = Math.min(grid.rows - 1, Math.floor((c.y0 + c.y1 + 1) / 2 / cellH))
+  return cy * grid.cols + cx
 }
 
 /**
@@ -95,12 +117,12 @@ function cellOf(im, c) {
  * they may straddle into a culled cell's territory; their own halos are the
  * alpha-only glow the pipeline removes anyway). Originals stay untouched.
  */
-function cullInMemory(im, keep) {
+function cullInMemory(im, keep, grid) {
   const keepSet = new Set(keep)
   const comps = alphaComponents(im, 96)
   const culledCells = []
   for (const c of comps) {
-    const cell = cellOf(im, c)
+    const cell = cellOf(im, c, grid)
     if (keepSet.has(cell)) continue
     culledCells.push(cell)
     for (const p of c.pixels) im.data[p * 4 + 3] = 0
@@ -122,11 +144,12 @@ const rawDims = {} // `${seq}:${pos}` -> { w, h, seq }
 const measured = {}
 for (const [name, file] of Object.entries(SHEETS)) {
   const im = await pixelsOf(`${SRC}/${file}`)
-  culledCellsBy[name] = cullInMemory(im, KEEP[name])
+  const grid = GRID[name] ?? { rows: 3, cols: 3 }
+  culledCellsBy[name] = cullInMemory(im, KEEP[name], grid)
   sheets[name] = im
   const comps = alphaComponents(im, 96)
   const byCell = new Map()
-  for (const c of comps) byCell.set(cellOf(im, c), c)
+  for (const c of comps) byCell.set(cellOf(im, c, grid), c)
   const keep = KEEP[name]
   for (let i = 0; i < keep.length; i++) {
     const c = byCell.get(keep[i])
@@ -176,6 +199,12 @@ for (const name of Object.keys(SHEETS)) {
     }
   }
 }
+// Witness-calibrated overrides win over the guard-evidence rule (documented
+// per sheet; never per-cell).
+for (const [name, o] of Object.entries(FACTOR_OVERRIDE)) {
+  factors[name] = o.factor
+  status[name] = `witness override: ${o.evidence}`
+}
 
 // ---- budget-aware base scale ---------------------------------------------
 // Fit bound: every kept drawing, after its sheet factor, fits the art cell
@@ -208,8 +237,13 @@ for (let i = 0; i < 60; i++) {
   else hi = mid
 }
 const budgetBound = lo
-const base = Math.floor(Math.min(fitBound, budgetBound) * 1e6) / 1e6
-const sheetScale = Object.fromEntries(Object.keys(SHEETS).map((n) => [n, Math.floor(base * factors[n] * 1e6) / 1e6]))
+// The solver's trim estimate runs 3.96% under the pipeline's own rounding
+// chain (measured: estimate 16,419,744 vs actual 17,069,688 at base 0.699).
+// Bake a 1% margin so the first preparePack attempt passes the pipeline's
+// gate (repeated full-pipeline retries exhaust skia surfaces in
+// restoreCellPixels); the step-down loop below is the small backup.
+let base = Math.floor(Math.min(fitBound, budgetBound) * 0.99 * 1e6) / 1e6
+let sheetScale = Object.fromEntries(Object.keys(SHEETS).map((n) => [n, Math.floor(base * factors[n] * 1e6) / 1e6]))
 for (const name of Object.keys(SHEETS)) {
   measured[name].scale = sheetScale[name]
   measured[name].scaleFactor = factors[name]
@@ -223,7 +257,7 @@ for (const name of Object.keys(SHEETS)) {
   console.log(`  ${name.padEnd(9)} factor ${factors[name]}  scale ${sheetScale[name]}  kept ${KEEP[name].join(',')}  culled ${(culledCellsBy[name] ?? []).join(',') || '-'}`)
 }
 
-const fighter = {
+const buildFighter = () => ({
   id: 'zhangfei',
   role: 'hero',
   density: DENSITY,
@@ -233,14 +267,34 @@ const fighter = {
   sequences: Object.keys(SHEETS).map((name) => ({
     name,
     count: KEEP[name].length,
-    rows: 3,
-    cols: 3,
+    rows: GRID[name]?.rows ?? 3,
+    cols: GRID[name]?.cols ?? 3,
     order: KEEP[name],
     registration: { scale: sheetScale[name] },
   })),
-}
+})
 
-const pack = preparePack(fighter, sheets)
+// Backup: if the pipeline's budget gate still trips, step the base down
+// in large deterministic steps (few attempts - each retry re-runs the full
+// pack pipeline and is expensive).
+let fighter = buildFighter()
+let pack = null
+let budgetRetries = 0
+for (;;) {
+  try {
+    pack = preparePack(fighter, sheets)
+    break
+  } catch (e) {
+    if (!String(e?.message ?? '').includes('budget:') || budgetRetries >= 4) throw e
+    budgetRetries++
+    base = Math.floor((base - 0.002) * 1e6) / 1e6
+    sheetScale = Object.fromEntries(Object.keys(SHEETS).map((n) => [n, Math.floor(base * factors[n] * 1e6) / 1e6]))
+    for (const name of Object.keys(SHEETS)) measured[name].scale = sheetScale[name]
+    fighter = buildFighter()
+  }
+}
+const walkGuardFinalPx = rawDims['walk:0'].h * sheetScale.walk
+console.log(`FINAL base ${base.toFixed(6)} after ${budgetRetries} budget step-down(s) | walk guard ${walkGuardFinalPx.toFixed(1)}px = ${(100 * walkGuardFinalPx / 240).toFixed(1)}% of Guan Yu (mook archer 223px)`)
 const paths = writePackOutputs(fighter, pack, { outputRoot: OUT })
 
 // Registration record: cell map (position -> source cell -> label), cull

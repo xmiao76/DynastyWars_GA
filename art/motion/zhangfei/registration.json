@@ -12,10 +12,10 @@
   "widthCapPx": 514,
   "fitBound": 0.6990182465521673,
   "budgetBound": 0.6990182465521673,
-  "base": 0.699018,
+  "base": 0.692028,
   "guanyuWalkGuardPx": 240,
   "mookArcherGuardPx": 223,
-  "walkGuardFittedPx": 226.481832,
+  "walkGuardFittedPx": 224.217072,
   "sheets": {
     "walk": {
       "keptCells": [
@@ -31,7 +31,7 @@
       ],
       "culledCells": [],
       "sha256": "981477d7ffed0ad0290f69197b2f8f82411cbb512013758978aea787190be383",
-      "scale": 0.699018,
+      "scale": 0.692028,
       "scaleFactor": 1,
       "scaleEvidence": "reference sheet"
     },
@@ -50,7 +50,7 @@
         8
       ],
       "sha256": "83ed8b93d35692d5022183fb7c5a0b78f4a7ee5d41db098a2f1d21ea3911d7ef",
-      "scale": 0.791987,
+      "scale": 0.784067,
       "scaleFactor": 1.133,
       "scaleEvidence": "applied: two geometric proxies agree (ground 1.141, height 1.125)"
     },
@@ -69,7 +69,7 @@
         8
       ],
       "sha256": "009cee58b1b6098a666b5f577cabe4ce784c2a7053e72195a696510f94d0c4e8",
-      "scale": 0.699018,
+      "scale": 0.692028,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: mean 1.042 within resolution (ground 1.054, height 1.029) - factor 1"
     },
@@ -88,7 +88,7 @@
         8
       ],
       "sha256": "26d9b14dfffb9853cf87423b8d4a33563691486688f077a41c4bbb850d315467",
-      "scale": 0.699018,
+      "scale": 0.692028,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: mean 1.042 within resolution (ground 1.054, height 1.029) - factor 1"
     },
@@ -107,7 +107,7 @@
         8
       ],
       "sha256": "6afa5c807b7bf2da697c0805d9bfe03bbe2825485eebb8e962c323e8ad83a225",
-      "scale": 0.764026,
+      "scale": 0.756386,
       "scaleFactor": 1.093,
       "scaleEvidence": "applied: two geometric proxies agree (ground 1.113, height 1.073)"
     },
@@ -126,7 +126,7 @@
         8
       ],
       "sha256": "e41d51c6ab1ef1afcf2006e0f0b348c613a4ef04cc3cfb6bbba9f9e559150631",
-      "scale": 0.699018,
+      "scale": 0.692028,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: proxies disagree (spread 0.058 > 0.05; ground 1.1, height 1.042) - factor 1"
     },
@@ -145,7 +145,7 @@
         8
       ],
       "sha256": "253d897b80f2077396e70b5c2bc999154a4438fe64190a5682e48f6dba14b4d4",
-      "scale": 0.661271,
+      "scale": 0.654658,
       "scaleFactor": 0.946,
       "scaleEvidence": "applied: two geometric proxies agree (ground 0.965, height 0.926)"
     },
@@ -164,7 +164,7 @@
         8
       ],
       "sha256": "892af67024ee57c1bb90349f27dfa475b90256e4d8a5e16644d71df3fb9d4506",
-      "scale": 0.699018,
+      "scale": 0.692028,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: proxies disagree (spread 0.051 > 0.05; ground 1.096, height 1.045) - factor 1"
     },
@@ -183,7 +183,7 @@
         8
       ],
       "sha256": "f8e2fd2b22f9e8c0809013f7183f7489e34fa60e31b8d6e5a9669cea71fc81c1",
-      "scale": 0.699018,
+      "scale": 0.692028,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: proxies disagree (spread 0.116 > 0.05; ground 1.303, height 1.187) - factor 1"
     },
@@ -191,20 +191,16 @@
       "keptCells": [
         0,
         1,
+        2,
         3,
         4,
-        5,
-        7
+        5
       ],
-      "culledCells": [
-        2,
-        6,
-        8
-      ],
-      "sha256": "453f94295512ba9e89b036e9f30e86edf090bbca713f734824470b0c6bb65305",
-      "scale": 0.699018,
-      "scaleFactor": 1,
-      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+      "culledCells": [],
+      "sha256": "8c022451a36a9407b5e7e05284e6de4308c9c6ae5bbc9255c9e5f40053f578e4",
+      "scale": 0.636665,
+      "scaleFactor": 0.92,
+      "scaleEvidence": "witness override: witness: repair sheet drawn 8% over pack scale (content-height budget 383/416); uniform per-sheet factor normalizes the sheet-level offset"
     }
   },
   "layout": {
@@ -556,30 +552,26 @@
         },
         {
           "position": 2,
-          "cell": 3,
+          "cell": 2,
           "label": "mount"
         },
         {
           "position": 3,
-          "cell": 4,
+          "cell": 3,
           "label": "sweep"
         },
         {
           "position": 4,
-          "cell": 5,
+          "cell": 4,
           "label": "sweep-windup"
         },
         {
           "position": 5,
-          "cell": 7,
+          "cell": 5,
           "label": "dismount"
         }
       ],
-      "culledCells": [
-        2,
-        6,
-        8
-      ]
+      "culledCells": []
     }
   }
 }

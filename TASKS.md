@@ -178,13 +178,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner selected option (b) 2026-10-03
-  - spend the 3-round Acceptance-4 repair reserve, fallback to (a)
-  waiver if residual >10% after round 3. Repair round 1 ACCEPTED
-  (rider carries 348->480-500 raw pike length, sweep full-length 639;
-  spearman r1 shortening bias repeated, softened by bracketing;
-  uniform splice k=0.92 height-fit). Splice + re-prepare + remeasure
-  pending; rounds 2-3 on the residual band next.)
+- Status: IN_PROGRESS (attempt 1; owner selected option (b).
+  Repair round 1 ACCEPTED + adopted as the rider source override
+  (carries 348->436-500 raw, sweep 590; k=0.92 via the per-sheet
+  factor; base 0.692, walk guard 224.2px = 93.4% of guanyu, budget
+  15.95MiB PASS, deterministic 55e09318). Residual band
+  (carry ~278-387 vs strike 442 displayed) = rounds 2-3 target;
+  2 rounds left; fallback (a) waiver if residual >10%.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
