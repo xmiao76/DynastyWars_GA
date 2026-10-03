@@ -408,10 +408,32 @@ describe('negative controls fail explicitly', () => {
       { trim: { srcW: 3000, srcH: 3000, trimX: 0, trimY: 0, w: 3000, h: 3000 } },
       { trim: { srcW: 3000, srcH: 3000, trimX: 0, trimY: 0, w: 3000, h: 3000 } },
     ]
-    const report = validateBudget(big, frames, [{ name: 'page1', width: PAGE_LIMIT + 1, height: 100 }])
+    // Pages over both the dimension limit and the decode cap (2049x2100x4).
+    const report = validateBudget(big, frames, [{ name: 'page1', width: PAGE_LIMIT + 1, height: 2100 }])
     expect(report.errors.join(' ')).toContain('exceeds 2048px')
     expect(report.errors.join(' ')).toContain('per-fighter cap')
     expect(DECODED_CAP).toBe(16 * 1024 * 1024)
+  })
+
+  it('the decode cap counts page pixels, never trims; a documented per-pack override replaces it', () => {
+    const big = fighter('neg-metric', 'boss', [{ name: 'walk', count: 2, rows: 1, cols: 2 }])
+    const hugeTrims = [
+      { trim: { srcW: 3000, srcH: 3000, trimX: 0, trimY: 0, w: 3000, h: 3000 } },
+      { trim: { srcW: 3000, srcH: 3000, trimX: 0, trimY: 0, w: 3000, h: 3000 } },
+    ]
+    // 72 MB of trims on a 4 MB page: no cap error (trims never gate),
+    // but the trim sum stays visible in the report for transparency.
+    const trimsDontGate = validateBudget(big, hugeTrims, [{ name: 'page1', width: 1000, height: 1000 }])
+    expect(trimsDontGate.errors).toEqual([])
+    expect(trimsDontGate.decodedBytes).toBe(1000 * 1000 * 4)
+    expect(trimsDontGate.trimBytes).toBe(2 * 3000 * 3000 * 4)
+    // 21.44 MB pages (the zhangfei shape) fail the default cap...
+    const pages = [{ name: 'p1', width: 2004, height: 2026 }, { name: 'p2', width: 1693, height: 768 }]
+    expect(validateBudget(big, hugeTrims, pages).errors.join(' ')).toContain('per-fighter cap')
+    // ...but pass with the documented per-pack owner exception.
+    const excepted = validateBudget({ ...big, decodedCapBytes: 22 * 1024 * 1024 }, hugeTrims, pages)
+    expect(excepted.errors).toEqual([])
+    expect(excepted.decodedBytes).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
   })
 
   it('the orchestrator refuses a pack over the per-fighter decode cap', () => {

@@ -433,15 +433,22 @@ export function packFrames(items, { pageLimit = PAGE_LIMIT, pagePrefix = 'page' 
 export function validateBudget(fighter, frames, pages) {
   const errors = []
   if (fighter.density !== DENSITY) errors.push(`${fighter.id}: density ${fighter.density} must be ${DENSITY}`)
-  const decoded = frames.reduce((a, f) => a + f.trim.w * f.trim.h * 4, 0)
-  if (decoded > DECODED_CAP) errors.push(`${fighter.id}: decoded ${decoded} exceeds the ${DECODED_CAP} per-fighter cap`)
+  // Decoded cost is FULL PAGE pixels - the bytes actually uploaded to the
+  // GPU, the same metric the CMR-03 catalog enforces. The trim sum ignores
+  // shelf slack and certified an over-cap pack (zhangfei: 15.95 MB trims,
+  // 21.44 MB pages), so it is reported for transparency but never gates.
+  // fighter.decodedCapBytes carries a documented per-pack owner exception.
+  const decoded = pages.reduce((a, p) => a + p.width * p.height * 4, 0)
+  const cap = fighter.decodedCapBytes ?? DECODED_CAP
+  if (decoded > cap) errors.push(`${fighter.id}: decoded ${decoded} exceeds the ${cap} per-fighter cap`)
   for (const p of pages) {
     if (p.width > PAGE_LIMIT || p.height > PAGE_LIMIT) {
       errors.push(`${fighter.id}: page ${p.name} ${p.width}x${p.height} exceeds ${PAGE_LIMIT}px`)
     }
   }
+  const trims = frames.reduce((a, f) => a + f.trim.w * f.trim.h * 4, 0)
   // Shared-atlas display: one GPU upload per page, zero cloned canvases.
-  return { errors, decodedBytes: decoded, gpuBytes: decoded, clonedCanvasBytes: 0, networkBytes: 0 }
+  return { errors, decodedBytes: decoded, trimBytes: trims, gpuBytes: decoded, clonedCanvasBytes: 0, networkBytes: 0 }
 }
 
 /**
@@ -588,6 +595,10 @@ export function preparePack(fighter, sheets) {
     role: fighter.role,
     density: fighter.density,
     box: fighter.box,
+    // A documented per-pack decoded-cap owner exception flows downstream
+    // (emit -> prepared record -> catalog manifest); packs without one get
+    // no field, so their manifests are byte-identical to before.
+    ...(fighter.decodedCapBytes !== undefined ? { decodedCapBytes: fighter.decodedCapBytes } : {}),
     frames: frames.map((f) => ({
       name: f.name,
       trim: f.trim,

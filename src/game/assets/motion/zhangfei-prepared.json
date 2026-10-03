@@ -601,6 +601,7 @@
     "zf.special": "special",
     "mounted.sweep": "dismountedsweep"
   },
+  "decodedCapBytes": 23068672,
   "sha256": {
     "sheet": "e296de06d6ca9f1b7d6615aaf267e3e16adf8b3f8d43625f833c11521bed92e3",
     "actions": "ca8104eb1bdf977ace396d309053de2e881d92a12cf5b4faaf04a49de2ad114a"

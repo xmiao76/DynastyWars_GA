@@ -7,6 +7,7 @@ import { guanyuClips, validMotionPack, type MotionArt, type MotionFrameCell, typ
 import { soldierClips, validSoldierPack, motionFrameForSoldier } from '../art/motion-clips-soldier'
 import { spearmanClips, validSpearmanPack, motionFrameForSpearman } from '../art/motion-clips-spearman'
 import { archerClips, validArcherPack, motionFrameForArcher } from '../art/motion-clips-archer'
+import { zhangfeiClips, validZhangfeiPack, motionFrameForZhangfei } from '../art/motion-clips-zhangfei'
 import { advanceMotion, type MotionPlayback } from '../art/motion-player'
 import { ART_RESOURCE_KEY, heroArtResources } from './hero-art'
 import {
@@ -30,6 +31,9 @@ import spearmanPreparedJson from '../assets/motion/spearman-prepared.json'
 import spearmanSheetUrl from '../assets/motion/spearman-motion-sheet.png'
 import archerPreparedJson from '../assets/motion/archer-prepared.json'
 import archerSheetUrl from '../assets/motion/archer-motion-sheet.png'
+import zhangfeiPreparedJson from '../assets/motion/zhangfei-prepared.json'
+import zhangfeiSheetUrl from '../assets/motion/zhangfei-motion-sheet.png'
+import zhangfeiActionsSheetUrl from '../assets/motion/zhangfei-actions-sheet.png'
 
 export interface MotionPrepared extends MotionPackGeometry {
   signatures: { sheet: string; actions: string }
@@ -79,6 +83,11 @@ export function archerPreparedRecord(): MotionPrepared {
   return archerPreparedJson as unknown as MotionPrepared
 }
 
+/** Zhang Fei pack record (scripts/emit-zhangfei-runtime.mjs output). */
+export function zhangfeiPreparedRecord(): MotionPrepared {
+  return zhangfeiPreparedJson as unknown as MotionPrepared
+}
+
 // ---------------------------------------------------------------------------
 // Pack catalog. Every fighter with motion art is listed here; kinds outside
 // the catalog never request anything (no all-cast downloads).
@@ -114,6 +123,12 @@ const ARCHER_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: motionTextureKeys('archer').sheet, bytes: 1830948, sha256: '96cc42fa4f77b7f33c5b1de5ae04e3beaa6683184befb33649d472f10b948a4d', width: 2045, height: 924 },
 ]
 
+/** Zhang Fei regular + action atlas pages (CMR-09B; scripts/emit-zhangfei-runtime.mjs). */
+const ZHANGFEI_PAGES: PackPage[] = [
+  { name: 'sheet', sourceKey: motionTextureKeys('zhangfei').sheet, bytes: 3007913, sha256: 'e296de06d6ca9f1b7d6615aaf267e3e16adf8b3f8d43625f833c11521bed92e3', width: 2004, height: 2026 },
+  { name: 'actions', sourceKey: motionTextureKeys('zhangfei').actions, bytes: 1028932, sha256: 'ca8104eb1bdf977ace396d309053de2e881d92a12cf5b4faaf04a49de2ad114a', width: 1693, height: 768 },
+]
+
 export const MOTION_PACKS: Record<string, MotionPackDef> = {
   guanyu: {
     id: 'guanyu',
@@ -147,12 +162,20 @@ export const MOTION_PACKS: Record<string, MotionPackDef> = {
     meta: archerPreparedRecord,
     clips: archerClips,
   },
+  zhangfei: {
+    id: 'zhangfei',
+    revision: 'zhangfei-1',
+    pages: ZHANGFEI_PAGES,
+    url: { sheet: zhangfeiSheetUrl, actions: zhangfeiActionsSheetUrl },
+    meta: zhangfeiPreparedRecord,
+    clips: zhangfeiClips,
+  },
 }
 
 export function motionPackManifest(kind: string): PackManifest | undefined {
   const def = MOTION_PACKS[kind]
   if (!def) return undefined
-  return {
+  const manifest: PackManifest = {
     id: def.id,
     revision: def.revision,
     pages: def.pages,
@@ -160,6 +183,9 @@ export function motionPackManifest(kind: string): PackManifest | undefined {
     clipsHash: MOTION_CLIPS_HASH,
     display: 'shared-atlas',
   }
+  const cap = def.meta().decodedCapBytes
+  if (cap !== undefined) manifest.decodedCap = cap
+  return manifest
 }
 
 /** Catalogued packs keyed by kind for the stage-scope policy. */
@@ -543,9 +569,9 @@ export function publishMotionArtRecord(
     scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions })
     return undefined
   }
-  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : validMotionPack(meta)
+  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : meta.id === 'zhangfei' ? validZhangfeiPack(meta) : validMotionPack(meta)
   if (!valid) return reject()
-  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : guanyuClips())
+  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : meta.id === 'zhangfei' ? zhangfeiClips() : guanyuClips())
   const keys = motionTextureKeys(meta.id)
   const images: CanvasImageSource[] = []
   const pageChecks: Array<[string, { width: number; height: number }, string]> = [[keys.sheet, meta.sheet, meta.signatures.sheet]]
@@ -562,7 +588,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : undefined }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : undefined }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }

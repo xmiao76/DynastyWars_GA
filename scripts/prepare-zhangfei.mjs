@@ -263,6 +263,12 @@ const buildFighter = () => ({
   density: DENSITY,
   box: BOX,
   revision: 'zhangfei-1',
+  // Owner exception 2026-10-03 (CMR-09B option a): this hero two-page pack
+  // costs 21,441,312 B decoded (page pixels, the runtime metric) against
+  // the 16 MiB contract cap. Narrow per-pack override (22 MiB), not a cap
+  // raise: it flows manifest -> emit -> prepared record -> catalog, and is
+  // pinned by unit tests. Rationale in PROVENANCE.md "CMR-09B blocker".
+  decodedCapBytes: 22 * 1024 * 1024,
   cleanup: { alphaThreshold: 96, speckMaxPx: 64, residueTolerancePx: 150000 },
   sequences: Object.keys(SHEETS).map((name) => ({
     name,
@@ -327,6 +333,8 @@ writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({
   guanyuWalkGuardPx: 240,
   mookArcherGuardPx: 223,
   walkGuardFittedPx: walkGuardPx,
+  decodedCapBytes: fighter.decodedCapBytes,
+  decodedCapRationale: 'owner exception 2026-10-03 (CMR-09B option a): hero two-page pack at 21,441,312 B decoded (page pixels); narrow per-pack override, not a cap raise',
   sheets: measured,
   layout: Object.fromEntries(Object.keys(SHEETS).map((n) => [n, {
     positions: KEEP[n].map((cell, i) => ({ position: i, cell, label: LABELS[n][i] })),

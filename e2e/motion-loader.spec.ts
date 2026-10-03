@@ -108,12 +108,12 @@ test('missing pack page rejects the fighter and a co-op join falls back whole-le
   const { requested, errors } = track(page)
   await page.goto('/?renderer=canvas&autopilot=1&motion=1')
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
-  // zhangfei has no pack; his default partner (guanyu) fails to load here.
+  // zhangfei's own pack loads here; his default partner (guanyu) fails to load.
   await page.evaluate(() => window.__DW__!.startGame('zhangfei', 42, 'stage1'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   // Atomic rejection: the first failed page stops the pack (no later pages).
   await expect.poll(() => requested.length, { timeout: 15_000 }).toBeGreaterThanOrEqual(1)
-  expect(await motionsKeys(page), 'whole fighter falls back, nothing partial').toEqual([])
+  await expect.poll(() => motionsKeys(page), { message: 'zhangfei publishes; guanyu falls back whole, nothing partial', timeout: 15_000 }).toEqual(['zhangfei'])
   // Uncached optional hero: the join prepares the pack first (bounded); the
   // bounded failure joins the hero with whole-legacy art.
   expect(await page.evaluate(() => window.__DW__!.joinP2!())).toBe(true)
@@ -122,8 +122,8 @@ test('missing pack page rejects the fighter and a co-op join falls back whole-le
     return game.sim.player2Id !== null
   })).toBe(true)
   expect(await spriteId(page, 'player2Id').then((k) => k.includes(':motion:'))).toBe(false)
-  expect(await spriteId(page, 'playerId').then((k) => k.includes(':motion:'))).toBe(false)
-  expect(await motionsKeys(page)).toEqual([])
+  expect(await spriteId(page, 'playerId').then((k) => k.includes(':motion:')), 'the hero with a valid pack shows motion art').toBe(true)
+  expect(await motionsKeys(page)).toEqual(['zhangfei'])
   expect(errors).toEqual([])
 })
 

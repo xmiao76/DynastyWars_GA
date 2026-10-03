@@ -97,11 +97,15 @@ const prepared = {
     'zf.special': 'special',
     'mounted.sweep': 'dismountedsweep',
   },
+  // Owner-decided per-pack decoded exception, flowing from the fighter
+  // config through the pipeline manifest (single source of truth).
+  decodedCapBytes: manifest.decodedCapBytes,
   sha256: {
     sheet: createHash('sha256').update(png1).digest('hex'),
     actions: createHash('sha256').update(png2).digest('hex'),
   },
 }
+if (prepared.decodedCapBytes === undefined) throw new Error('zhangfei manifest carries no decodedCapBytes - re-run prepare-zhangfei.mjs first')
 writeFileSync(OUT_JSON, `${JSON.stringify(prepared, null, 2)}\n`)
 copyFileSync(pagePath1, OUT_PNG.sheet)
 copyFileSync(pagePath2, OUT_PNG.actions)

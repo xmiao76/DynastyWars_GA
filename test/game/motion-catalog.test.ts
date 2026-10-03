@@ -51,6 +51,14 @@ describe('manifest validation', () => {
     expect(validateManifest(manifest('x', [page('a', { sha256: 'zz' })])).join(' ')).toContain('malformed signature')
     expect(validateManifest({ ...manifest('x', [page('a')]), pages: [] }).join(' ')).toContain('no pages')
   })
+
+  it('a documented per-pack decoded exception replaces the default cap', () => {
+    // 21.44 MB pages (the zhangfei shape): rejected by default...
+    const pages = [page('sheet', { width: 2004, height: 2026 }), page('actions', { width: 1693, height: 768, sha256: B })]
+    expect(validateManifest(manifest('big', pages)).join(' ')).toContain('per-fighter cap')
+    // ...accepted with the owner exception recorded on the manifest.
+    expect(validateManifest({ ...manifest('big', pages), decodedCap: 22 * 1024 * 1024 })).toEqual([])
+  })
 })
 
 describe('atomic publication and negative controls', () => {
@@ -228,5 +236,16 @@ describe('reference counting, eviction and budgets', () => {
     expect(r.ok).toBe(false)
     expect(r.failure).toBe('unsupported')
     expect(r.detail).toContain('exceeds the per-fighter cap')
+  })
+
+  it('the load path honors a documented per-pack decoded exception', async () => {
+    const cache = new MotionAtlasCache()
+    const pages = [page('sheet', { width: 2004, height: 2026 }), page('actions', { width: 1693, height: 768, sha256: B })]
+    const denied = await cache.request(manifest('big', pages), okLoader)
+    expect(denied.ok).toBe(false)
+    const cache2 = new MotionAtlasCache()
+    const allowed = await cache2.request({ ...manifest('big', pages), decodedCap: 22 * 1024 * 1024 }, okLoader)
+    expect(allowed.ok).toBe(true)
+    expect(allowed.record?.decodedBytes).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
   })
 })

@@ -27,6 +27,8 @@ const ACTION_BYTES = readFileSync('src/game/assets/motion/guanyu-actions-sheet.p
 const SOLDIER_BYTES = readFileSync('src/game/assets/motion/soldier-motion-sheet.png')
 const SPEARMAN_BYTES = readFileSync('src/game/assets/motion/spearman-motion-sheet.png')
 const ARCHER_BYTES = readFileSync('src/game/assets/motion/archer-motion-sheet.png')
+const ZHANGFEI_SHEET_BYTES = readFileSync('src/game/assets/motion/zhangfei-motion-sheet.png')
+const ZHANGFEI_ACTION_BYTES = readFileSync('src/game/assets/motion/zhangfei-actions-sheet.png')
 const meta = motionPreparedRecord()
 const keys = motionTextureKeys('guanyu')
 
@@ -126,7 +128,7 @@ function makeIo(
       if (opts.gate) await opts.gate
       if (behavior.kind === 'missing') return new Uint8Array(0)
       if (behavior.kind === 'garbage') return new Uint8Array([1, 2, 3, 4])
-      return new Uint8Array(url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
+      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
     },
     sha256: async (bytes) => {
       if (opts.shaThrows) throw new Error(opts.shaThrows)
@@ -201,34 +203,43 @@ describe('stage-scoped motion runtime', () => {
     const gatePromise = new Promise<void>((r) => { gate = r })
     const io = makeIo(okPages, { gate: gatePromise })
     const rt = new MotionRuntime(io)
-    const req = motionStageRequest('stage1', 'zhangfei', 'guanyu') // zhangfei has no pack
+    const req = motionStageRequest('stage1', 'zhangfei', 'guanyu') // zhangfei's two-page pack loads as the hero
     const pending = rt.prepareStage(scene, req)
     void rt.loadKind(scene, 'guanyu') // concurrent join-side request
     gate()
     const report = await pending
     await rt.settle()
-    expect([...report.requested].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
-    expect([...report.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
-    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(5)
-    expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
+    expect([...report.requested].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect([...report.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    // The two heroes (4.04 + 4.33 MB) plus soldier and spearman reach 11.50
+    // MB: the archer pack (1.83 MB) would push stage-entry downloads past
+    // the 12 MiB cap, so the scope policy defers it to legacy art - the
+    // designed priority order (hero, 2P, stage kinds), never raised ceilings.
+    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(6)
+    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    const rep = rt.budget()
+    expect(rep.perFighterDecoded['zhangfei']).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
+    expect(rep.perFighterDecoded['zhangfei']).toBeLessThanOrEqual(22 * 1024 * 1024)
     // Restart/stage progression: shutdown then a new stage entry reuses the
     // cache with ZERO downloads (textures + registry survive the restart).
     rt.cancelLoads()
     rt.releaseScene(scene)
     const again = await rt.prepareStage(scene, motionStageRequest('stage2', 'zhangfei', 'guanyu'))
-    expect([...again.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
-    expect(io.calls, 'restart re-downloads nothing').toHaveLength(5)
+    expect([...again.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect(io.calls, 'restart re-downloads nothing').toHaveLength(6)
     // Eviction: a tiny retained cap retires the released pack and uninstalls
     // its textures/registry entry; a later entry reloads it from the network.
+    // Same scope as above (hero zhangfei), so this runtime holds every pack
+    // the scene has and the release retires all of them.
     const evictIo = makeIo(okPages)
     const evicting = new MotionRuntime(evictIo, { ...CONTRACT_CAPS, retainedCache: 1 } satisfies BudgetCaps)
-    const report2 = await evicting.prepareStage(scene, motionStageRequest('stage1', 'guanyu', null))
-    expect([...report2.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
+    const report2 = await evicting.prepareStage(scene, motionStageRequest('stage1', 'zhangfei', 'guanyu'))
+    expect([...report2.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
     evicting.releaseScene(scene)
     expect(motions(), 'evicted pack leaves the registry').toEqual({})
     expect(textures.has(keys.sheet), 'evicted pack removes its textures').toBe(false)
     expect(textures.has(keys.actions)).toBe(false)
-    expect(evictIo.calls).toHaveLength(5)
+    expect(evictIo.calls).toHaveLength(6)
   }, 60_000)
 
   it('only catalogued stage packs are requested - packless heroes/kinds never download', async () => {
@@ -257,7 +268,7 @@ describe('stage-scoped motion runtime', () => {
     expect(req.stageKinds.length).toBeGreaterThan(4)
     for (const kind of req.futureKinds) expect(req.stageKinds).not.toContain(kind)
     expect(motionPackManifest('guanyu')?.display).toBe('shared-atlas')
-    expect(MOTION_PACKS['zhangfei']).toBeUndefined()
+    expect(MOTION_PACKS['zhangfei'], 'CMR-09B registers the hero pack').toBeDefined()
   })
 })
 

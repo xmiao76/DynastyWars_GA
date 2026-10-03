@@ -16,6 +16,8 @@
   "guanyuWalkGuardPx": 240,
   "mookArcherGuardPx": 223,
   "walkGuardFittedPx": 224.217072,
+  "decodedCapBytes": 23068672,
+  "decodedCapRationale": "owner exception 2026-10-03 (CMR-09B option a): hero two-page pack at 21,441,312 B decoded (page pixels); narrow per-pack override, not a cap raise",
   "sheets": {
     "walk": {
       "keptCells": [

@@ -68,6 +68,8 @@ export interface FighterSpec {
   box: { width: number; height: number; groundY: number }
   saddleY?: number
   revision?: string
+  /** Documented per-pack decoded-cap owner exception (bytes); default DECODED_CAP. */
+  decodedCapBytes?: number
   cleanup?: CleanupSpec
   sequences?: SequenceSpec[]
 }
@@ -115,7 +117,10 @@ export interface PackReport {
 
 export interface BudgetReport {
   errors: string[]
+  /** Full page pixels x4 - the bytes actually uploaded (this gates). */
   decodedBytes: number
+  /** Trimmed-content pixels x4 - reported for transparency, never gates. */
+  trimBytes: number
   gpuBytes: number
   clonedCanvasBytes: number
   networkBytes: number

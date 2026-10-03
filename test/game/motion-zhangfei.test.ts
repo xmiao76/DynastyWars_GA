@@ -2,8 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { DYING_TICKS, GETUP_TICKS, JUMP_DURATION, KNOCKDOWN_TICKS, PLAYER_HITSTUN_TICKS } from '../../src/core/constants'
 import { CHARACTERS } from '../../src/core/characters'
 import { ATTACKS } from '../../src/core/attacks'
-import zhangfeiPreparedJson from '../../src/game/assets/motion/zhangfei-prepared.json'
-import type { MotionPrepared } from '../../src/game/adapters/motion-art'
+import { zhangfeiPreparedRecord, motionPackManifest, MOTION_PACKS } from '../../src/game/adapters/motion-art'
 import type { MotionArt, MotionEntity } from '../../src/game/art/motion-clips'
 import { sampleClip, motionFrameForEntity } from '../../src/game/art/motion-clips'
 import {
@@ -22,16 +21,13 @@ import { validateClipExposures, validateMotionProfile, heroProfile } from '../..
  *
  * The pack uses compact positions (walk:0-8, jab1/jab2/finisher:0-4,
  * jump:0-5, fall:0-4, getup:0-4, misc:0-4, special:0-4, rider:0-5); the
- * dispatch maps the hero states onto these names. These tests read the
- * prepared record (scripts/emit-zhangfei-runtime.mjs output) directly:
- * catalog registration (MOTION_PACKS entry + publish wiring) lands with
- * the CMR-09B fix, once the owner resolves the decoded-cap blocker.
- * Bookends hold by clip convention (no alias records in the culled
- * layout): every guard point IS walk:0 and every down point IS fall:4 -
- * the same pattern as Guan Yu's clips.
+ * dispatch maps the hero states onto these names. Bookends hold by clip
+ * convention (no alias records in the culled layout): every guard point
+ * IS walk:0 and every down point IS fall:4 - the same pattern as Guan
+ * Yu's clips.
  */
 
-const meta = zhangfeiPreparedJson as unknown as MotionPrepared
+const meta = zhangfeiPreparedRecord()
 const art: MotionArt = {
   ...meta,
   sheet: {} as CanvasImageSource,
@@ -49,6 +45,11 @@ describe('zhangfei pack registration', () => {
     expect(meta.revision).toBe('zhangfei-1')
     expect(meta.sheet).toEqual({ width: 2004, height: 2026 })
     expect(meta.actionSheet).toEqual({ width: 1693, height: 768 })
+    // Owner exception 2026-10-03 (CMR-09B option a), pinned: the hero
+    // two-page pack costs 21,441,312 B decoded against the 16 MiB cap.
+    expect(meta.decodedCapBytes).toBe(22 * 1024 * 1024)
+    expect(MOTION_PACKS['zhangfei']).toBeDefined()
+    expect(MOTION_PACKS['zhangfei']!.pages).toHaveLength(2)
     expect(Object.values(ZHANGFEI_FRAMES).reduce((a, b) => a + b, 0)).toBe(56)
   })
 
@@ -105,10 +106,12 @@ describe('zhangfei clips follow core timing', () => {
     expect(art.clips.jump!.duration).toBe(JUMP_DURATION)
   })
 
-  it('the clip table carries the full hero set for the two-page pack', () => {
-    expect(Object.keys(zhangfeiClips()).sort()).toEqual(['dismount', 'dismountedsweep', 'fall', 'finisher', 'getup', 'grab', 'hurt', 'idle', 'jab1', 'jab2', 'jump', 'jumpattack', 'kicklanding', 'landing', 'mounted', 'mountedsweep', 'mountedwalk', 'release', 'special', 'walk'].sort())
-    expect(Object.keys(meta.frames).filter((n) => meta.frames[n]!.sheet === 'actions').length).toBeGreaterThan(0)
-    expect(Object.keys(meta.frames).filter((n) => (meta.frames[n]!.sheet ?? 'sheet') === 'sheet').length).toBeGreaterThan(0)
+  it('the manifest advertises the hero clips, both pages and the decoded exception', () => {
+    const manifest = motionPackManifest('zhangfei')
+    expect(manifest?.requiredClips.sort()).toEqual(['dismount', 'dismountedsweep', 'fall', 'finisher', 'getup', 'grab', 'hurt', 'idle', 'jab1', 'jab2', 'jump', 'jumpattack', 'kicklanding', 'landing', 'mounted', 'mountedsweep', 'mountedwalk', 'release', 'special', 'walk'].sort())
+    expect(manifest?.pages).toHaveLength(2)
+    expect(manifest?.display).toBe('shared-atlas')
+    expect(manifest?.decodedCap).toBe(22 * 1024 * 1024)
   })
 })
 

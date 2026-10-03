@@ -22,6 +22,55 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 04:40 UTC - CMR-09B (attempt 1, IN_PROGRESS - owner "do (a)+(c)" executed; zhangfei publishes)
+
+- Status before: CMR-09B BLOCKED (prepared pack exceeded the runtime
+  decoded cap: 21.44 MB pages vs 16 MB; pipeline trim metric said
+  15.95 MB). Owner directive this turn: do (a)+(c).
+- Work completed: (a) narrow per-pack exception, not a cap raise:
+  `decodedCapBytes: 23068672` (22 MiB) for zhangfei-1, defined once
+  in prepare-zhangfei.mjs and flowing manifest -> emit -> prepared
+  record -> catalog manifest, honored at both catalog enforcement
+  points (static validation + load path) and the pipeline gate; the
+  16 MiB default and the stage-download cap are untouched. (c) The
+  pipeline budget gate now counts full page pixels (same metric as
+  the catalog); trim sum stays visible as `trimBytes` but never
+  gates. Catalog entry + publish wiring landed (validator/clips/
+  dispatch ternaries). Re-prepared deterministic (new manifest
+  8a185a11... - field addition only; pages/frames byte-identical,
+  PNG hashes unchanged). New/updated tests: pipeline metric +
+  override semantics, catalog static + load-path override, zhangfei
+  manifest exception pin, runtime co-op (zhangfei publishes; archer
+  deferral at 13.34 MB planned documented as designed) + eviction
+  scope fix, e2e missing-page hero assertions. All 5 packs
+  re-verified: guanyu 15.54 MB, soldier 9.06 MB, spearman 6.36 MB,
+  archer 7.56 MB (all <= 16 MB), zhangfei 21.44 MB (<= 22 MB).
+- Files changed: scripts/motion-pipeline.mjs + .d.mts (gate metric,
+  override, manifest propagation), src/game/adapters/motion-catalog.ts
+  (PackManifest.decodedCap + both enforcement points),
+  src/game/art/motion-clips.ts (geometry type),
+  src/game/adapters/motion-art.ts (zhangfei catalog entry + publish
+  wiring), scripts/{prepare,emit}-zhangfei-runtime.mjs (exception
+  config + pass-through), src/game/assets/motion/zhangfei-* (re-
+  emitted with decodedCapBytes), art/motion/zhangfei/PROVENANCE.md
+  (resolution record) + registration.json (exception fields),
+  test/game/{motion-pipeline,motion-catalog,motion-zhangfei,
+  motion-runtime}.test.ts, e2e/motion-loader.spec.ts, TASKS.md,
+  PROGRESS.md.
+- Verification run: targeted files green (zhangfei 19/19, catalog,
+  pipeline 61/61 combined; runtime 13/13); eslint clean; typecheck
+  clean; full unit suite 880 passed + 6 skipped with ONLY the known
+  G6 V-15b baseline failure (no new failures). E2E/prodbuild/vision/
+  signal: not run - due with the capture turn per the spec handoff.
+- Result: CMR-09B IN_PROGRESS (attempt 1) - registration complete,
+  pack publishes.
+- Status after: CMR-09B IN_PROGRESS.
+- Remaining work or blocker: captures both facings/renderers
+  (isolated + mixed + interactions incl. real damage/grab/co-op),
+  fighter review report (foot planting, trajectories, size pops,
+  pace), then vision/prodbuild/signal. No blocker.
+- Next recommended task: CMR-09B (capture turn).
+
 ### 2026-10-03 04:10 UTC - CMR-09B (attempt 1, BLOCKED - prepared pack exceeds the runtime decoded cap)
 
 - Status before: CMR-09B TODO (CMR-09A DONE unblocked it). No PENDING

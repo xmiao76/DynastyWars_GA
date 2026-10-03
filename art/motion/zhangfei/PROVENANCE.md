@@ -420,3 +420,22 @@ re-open 09A for a smaller pack, or (c) shared pipeline-metric fix
 plus re-verification. The registration work (emit script, runtime
 assets, clips/dispatch/validator, 19 unit tests) is committed and
 green; only the catalog entry + publish wiring wait on the decision.
+
+## Resolution (owner "do (a)+(c)", 2026-10-03)
+
+(a) Narrow per-pack exception, not a cap raise: `decodedCapBytes:
+23068672` (22 MiB) for `zhangfei-1`, defined once in
+`prepare-zhangfei.mjs` and flowing manifest -> emit -> prepared
+record -> catalog manifest, honored at both catalog enforcement
+points (static validation + load path) and the pipeline gate. The
+16 MiB default is unchanged for every other pack; the stage-download
+cap is untouched (the observed archer deferral at 13.34 MB planned
+stands as designed behavior). (c) The pipeline budget gate now
+counts full page pixels (same metric as the catalog); the trim sum
+stays visible as `trimBytes` for transparency but never gates.
+Re-prepared deterministic (new manifest `8a185a11...` - the field
+addition changes only the manifest JSON; pages/frames byte-identical,
+PNG hashes unchanged). All 5 packs re-verified: guanyu 15,543,160,
+soldier 9,062,912, spearman 6,356,440, archer 7,558,320 (all <= 16
+MiB), zhangfei 21,441,312 (<= 22 MiB exception). Catalog entry +
+publish wiring landed; zhangfei publishes in the runtime tests.

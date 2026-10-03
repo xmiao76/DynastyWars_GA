@@ -199,29 +199,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09B - Zhang Fei: integrate/review in motion
 
-- Status: BLOCKED (attempt 1, 2026-10-03 - owner decision needed;
-  shared-interface defect, not this fighter's art). Registering the
-  accepted pack fails in the real runtime: requested but never
-  published - `validateManifest` rejects it with `pack zhangfei:
-  decoded 21441312 bytes exceeds the per-fighter cap 16777216`. The
-  two atlas pages cost 21.44 MB against the 16 MB contract cap, while
-  the pipeline budget gate counts only trimmed pixels (15.95 MB PASS -
-  the number 09A acceptance 5 verified) and ignores ~4.7 MB of shelf
-  slack. Guanyu/mooks pass both metrics; Zhang Fei is the first pack
-  where they diverge past the cap. No Zhang Fei-scoped fix preserves
-  both the cap and the accepted design (base ~0.61 to fit drops the
-  walk guard to ~198px, below the mook 223; cutting frames re-scopes
-  the manifest; repacking cannot beat trim-sum with 0.3% headroom).
-  PICK ONE: (a) contract exception for the hero pack (21.44 MB actual,
-  documented); (b) re-open 09A for a smaller pack (state which poison:
-  hierarchy break or frame cuts); (c) shared pipeline-metric fix
-  (budget gate counts page pixels) + re-verification of all packs -
-  after which (a) or (b) is still needed for Zhang Fei itself.
-  Registration work is committed and green (emit, assets, clips/
-  dispatch/validator, 19 unit tests); only the catalog entry + publish
-  wiring wait on the decision. Evidence: [PROVENANCE.md](
-  art/motion/zhangfei/PROVENANCE.md) "CMR-09B blocker". Only the owner
-  may reset.)
+- Status: IN_PROGRESS (attempt 1; owner directed "do (a)+(c)"
+  2026-10-03 and the fix is implemented: narrow per-pack decoded
+  exception 22 MiB for zhangfei-1 flowing prepare -> manifest ->
+  emit -> catalog, honored at both catalog enforcement points and
+  the pipeline gate; pipeline gate now counts page pixels (trim sum
+  kept as trimBytes, never gates); catalog entry + publish wiring
+  landed; zhangfei publishes in the runtime tests; all 5 packs
+  re-verified (guanyu/mooks <= 16 MiB, zhangfei 21.44 MB <= 22 MB).
+  Remaining: captures both facings/renderers (isolated + mixed +
+  interactions), fighter review report, vision/prodbuild/signal per
+  the spec handoff.)
 - Dependency: CMR-09A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09B](docs/motion-tasks/CMR-09B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic zhangfei pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

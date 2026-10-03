@@ -47,6 +47,12 @@ export interface PackManifest {
    * shared-atlas pack has ZERO cloned-canvas cost by construction.
    */
   display?: PackDisplay
+  /**
+   * Documented per-pack decoded-cap owner exception (bytes), replacing the
+   * contract default for this pack at both enforcement points. Narrow:
+   * packs without one use caps.decodedPerFighter unchanged.
+   */
+  decodedCap?: number
 }
 
 export interface PackRecord {
@@ -117,8 +123,9 @@ export function validateManifest(m: PackManifest, caps: BudgetCaps = CONTRACT_CA
     decoded += p.width * p.height * 4
   }
   if (m.pages.length === 0) errors.push('pack has no pages')
-  if (decoded > caps.decodedPerFighter) {
-    errors.push(`pack ${m.id}: decoded ${decoded} bytes exceeds the per-fighter cap ${caps.decodedPerFighter}`)
+  const cap = m.decodedCap ?? caps.decodedPerFighter
+  if (decoded > cap) {
+    errors.push(`pack ${m.id}: decoded ${decoded} bytes exceeds the per-fighter cap ${cap}`)
   }
   return errors
 }
@@ -243,7 +250,8 @@ export class MotionAtlasCache {
         if (this.epoch(scope) !== startEpoch) {
           return { ok: false, failure: 'cancelled', detail: `scope ${scope} cancelled before publish` }
         }
-        if (decoded > this.caps.decodedPerFighter) {
+        const cap = manifest.decodedCap ?? this.caps.decodedPerFighter
+        if (decoded > cap) {
           slot.state = 'failed'
           slot.failure = 'unsupported'
           return { ok: false, failure: 'unsupported', detail: `${manifest.id} decoded ${decoded} exceeds cap` }

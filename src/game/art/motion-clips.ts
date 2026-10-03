@@ -87,6 +87,8 @@ export function guanyuClips(): MotionArt['clips'] {
 export interface MotionPackGeometry extends Omit<MotionArt, 'sheet' | 'actionSheet' | 'clips'> {
   sheet: { width: number; height: number }
   actionSheet: { width: number; height: number }
+  /** Documented per-pack decoded-cap owner exception (bytes); default is the contract cap. */
+  decodedCapBytes?: number
 }
 /** All normal AND unusual Guan Yu states must have a complete pack. */
 export function validMotionPack(meta: MotionPackGeometry): boolean {
