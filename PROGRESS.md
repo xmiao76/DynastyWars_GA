@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 22:32 UTC - CMR-10B DONE (attempt 1 - webgl + all gates green)
+
+- Status before: CMR-10B IN_PROGRESS (registration + canvas
+  capture done). No PENDING FILING, review 1/4.
+- Work completed: webgl capture green (73 rows, 0 errors, 32/6,
+  parity with canvas); full gate battery green: vision 5/5
+  (negative controls correct), prodbuild 8/8, signal 13/13,
+  e2e motion 12/12 (motion-loader 5 incl. the updated zhaoyun-
+  hero co-op scope; guanyu-actions + motion-look 7 enabled).
+  Checklist annotated 8/8 in CMR-10B.md; TASKS 10B -> DONE
+  (CMR-11A unblocked); rule-8 upkeep moved UIR-9 (oldest DONE,
+  2026-09-28) to TASKS-ARCHIVE.md (21 -> 20 DONE).
+- Files changed: docs/motion-tasks/CMR-10B.md (checklist),
+  TASKS.md, TASKS-ARCHIVE.md, PROGRESS.md. Capture outputs in
+  ignored artifacts/motion-review/ (read last turn; webgl
+  verified by identical row/coverage counts).
+- Verification run: webgl self-check passed (numbers above);
+  vision/prodbuild/signal/e2e per above (all green, no new
+  failures vs baselines: G6 standing failure only in units).
+- Result: CMR-10B DONE (attempt 1). CMR-11A UNGATED.
+- Status after: CMR-10B DONE.
+- Remaining work or blocker: none on 10B. Producer triage still
+  open on the shared ghost-trim defect (evidence in 10A
+  PROVENANCE.md).
+- Next recommended task: CMR-11A (Wei Yan author/prepare).
+
 ### 2026-10-03 21:55 UTC - CMR-10B (attempt 1, IN_PROGRESS - canvas capture done; all actions pass self-check)
 
 - Status before: CMR-10B IN_PROGRESS (registration wired). No

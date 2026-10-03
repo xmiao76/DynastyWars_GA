@@ -236,13 +236,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10B - Zhao Yun: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; registration wired + units green.
-  Capture harness extended (zhaoyun branches) + canvas capture done
-  2026-10-03: 73 rows, 0 errors, 32/6 coverage (transitions only
-  unseen); contact + money crops reviewed, all actions pass
-  (self-check); ghost slivers visible = the filed shared defect,
-  no new findings. Review report written. Remaining: webgl
-  capture + vision/prodbuild/signal gates, then DONE.)
+- Status: DONE (attempt 1; 2026-10-03, verified). Pack registered
+  behind ?motion=1 (56 frames, 21MB exception honored); 20-clip
+  table + dispatch + validator from zy.* core windows (rider swap
+  handled); 22 new unit tests; canvas+webgl captures green (73
+  rows, 0 errors); all actions reviewed passing (self-check);
+  gates: units 905+6 (G6 only), e2e motion 12/12, vision 5/5,
+  prodbuild 8/8, signal 13/13, lint+tsc clean. Evidence:
+  [review](docs/ZHAOYUN_ACTION_REVIEW.md). CMR-11A is unblocked.
 - Dependency: CMR-10A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10B](docs/motion-tasks/CMR-10B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic zhaoyun pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
@@ -529,41 +530,6 @@ Add future enhancement tasks below this heading.
     legend rewording, no DIFF-1 impact.
 - Evidence:
   - artifacts/loop/proposals-gamepadnaming-enh12.md (this pass's review).
-
-### UIR-9 - Paint the sky and clouds
-
-- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
-  day)
-- Source: UI review 2026-09-26, findings V-13 (S2)
-- Evidence: every fresh `stage*-play`: smooth two-colour gradient sky
-  and hard-edged flat-filled cloud lobes (re-confirmed fresh); against
-  the painted heroes and title key art the game looks like two
-  different products.
-- Root cause: ASSET - `paintSky` :63 and `paintCloud` :199 in
-  src/game/art/backdrop.ts (a flat gradient and hard flat lobes).
-- Affected screens: all `stage*-play` and `stage*-banner` screens.
-- Requirement: a painted sky (atmospheric gradient, subtle broken
-  colour, soft light toward the sun side) and painted clouds (soft
-  edges, a lit top and a shaded belly). The ember sky stays distinct.
-  Shared backdrop constraints apply (see UIR-8).
-- Acceptance criteria:
-  - [x] test/game/uir9-sky.test.ts: 16x16-block luminance-stddev
-        share (threshold 7) clears 0.55 on skies, 0.9 on the cloud.
-        Before: sky-day 0.04, sky-ember 0.25, cloud 0.80 (fails first).
-        After: 1.00 / 1.00 / 1.00. R5 = 4 on stage*-play vs title
-        (atmospheric grade, broken colour, sun-side light, modeled
-        clouds with lit tops and shaded bellies; ember stays distinct).
-  - [x] After npm run review:capture: day skies show graded atmosphere
-        with mottling, faint cirrus and modeled clouds (an early
-        five-line cirrus pass banded visibly and was cut back to three
-        faint lines; an every-9px striation pass read as corduroy and
-        was removed - the deterministic grain carries the tooth);
-        ember stage7 reads as smoky sunset, distinct from day. WebGL
-        and phone-landscape match canvas; portrait still overlays.
-  - [x] Contact sheets show no regression; vision 5/5 and relevant
-        specs green (ART-19 suite green unedited); ledger V-13 noted
-        sky-done (ridges/ground pending UIR-10/11, which complete it).
-- Non-goals: weather, time of day, or animated sky.
 
 ### UIR-10 - Paint the hill ridges with atmospheric depth
 
