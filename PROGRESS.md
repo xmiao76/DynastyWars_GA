@@ -22,6 +22,48 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:18 UTC - CMR-10A (attempt 1, IN_PROGRESS - identity locked; walk sheet accepted first try)
+
+- Status before: CMR-10A TODO (CMR-09B DONE unblocked it). No
+  PENDING FILING, review count 0/4, no IN_PROGRESS - first TODO
+  selected per queue order.
+- Work completed: (1) read spec + inspected both masters + decoded
+  the figure plan (LEAN 1.0/0.93, blue/red/silver, helmet, 72-unit
+  leaf-head spear + tassel, no beard, cape, fair bold 1.1-jaw face);
+  wrote art/motion/zhaoyun/IDENTITY.md (identity lock, rigid weapon
+  landmarks, cape rule, ~228px guard target) + AUTHORING-PLAN.md (10
+  sequences, one-sided length contract, page-aware fit targeting
+  packed pages, budget 16). (2) Reserved walk sheet 1/2 BEFORE
+  generating (zhaoyun 1/16, total 53/200) and generated
+  walk-candidate-1 (sha ee9cc74d): ACCEPTED - 9 clean components, 0
+  edge px, gate green; spear tip-to-butt 430-474 raw (9.7% in-sheet,
+  no shortened outliers); identity/anatomy verified per cell at
+  gameplay + 2x (alternating strides, wrapped fingers, single
+  shafts, uniform heads, cape behind, no clipping/drift). The
+  preview's dark backdrop is sub-96 haze stripped by cleanup
+  (measured, not eyeballed). (3) Incident: my first reserve call
+  passed reserve()'s summary (not the ledger) to saveLedger and
+  overwrote generation-budget.json; recovered byte-exact from git
+  HEAD within the same turn (verified all 6 fighters + zhangfei
+  used:12 intact) and added a saveLedger shape guard (verified: it
+  now refuses summary objects) so it cannot recur.
+- Files changed: art/motion/zhaoyun/{IDENTITY,AUTHORING-PLAN,
+  PROVENANCE}.md + walk-candidate-1.png (new; force-added per the
+  task spec's committed-sources rule - the working-tree art/motion
+  ignore is out-of-band), art/motion/generation-budget.json
+  (zhaoyun slot), scripts/motion-budget.mjs (saveLedger guard),
+  TASKS.md, PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call (reserve
+  ok 1/16); pipeline gate + census + shaft measurement mechanically
+  green (numbers above); visual review with the image tool on the
+  fingerprinted file; eslint clean on the touched script.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 9 sequences (jab1 next), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker.
+- Next recommended task: CMR-10A (jab1 sheet).
+
 ### 2026-10-03 08:08 UTC - CMR-09B DONE (attempt 1 - gates green, checklist 8/8)
 
 - Status before: CMR-09B IN_PROGRESS (registration, captures, review

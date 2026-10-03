@@ -36,6 +36,12 @@ export function loadLedger(path = DEFAULT_LEDGER_PATH) {
 }
 
 export function saveLedger(ledger, path = DEFAULT_LEDGER_PATH) {
+  // Shape guard: reserve() returns a summary, not a ledger - saving the
+  // summary would destroy the ledger (this exact mistake corrupted the
+  // file once; only ledgers may be written).
+  if (!ledger || typeof ledger !== 'object' || !ledger.fighters || !ledger.roleCaps) {
+    throw new Error('budget: refusing to save a non-ledger object (did you pass reserve() output instead of the ledger?)')
+  }
   mkdirSync(dirname(path), { recursive: true })
   writeFileSync(path, `${JSON.stringify(ledger, null, 2)}\n`)
 }

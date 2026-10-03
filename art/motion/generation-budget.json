@@ -80,6 +80,14 @@
         "special": 1,
         "rider": 1
       }
+    },
+    "zhaoyun": {
+      "role": "hero",
+      "cap": 16,
+      "used": 1,
+      "sheetCandidates": {
+        "walk": 1
+      }
     }
   }
 }
