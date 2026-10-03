@@ -22,6 +22,55 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 01:18 UTC - CMR-09A (attempt 1, IN_PROGRESS - owner picked (b); repair round 1 accepted)
+
+- Status before: CMR-09A BLOCKED on the acceptance-4 weapon verdict;
+  owner selected **option (b)** - spend zhangfei's own 3-round
+  Acceptance-4 repair reserve, fallback to (a) waiver if the residual
+  exceeds 10% after round 3 (the plan I recommended: splice redraws
+  with bracketing references + a brief-level fix for the remaining 12
+  fighters).
+- Work completed: repair round 1 per MOTION_ACCEPTANCE4_RECOVERY.
+  Reserved BEFORE generation in the tracked ledger (3->2 rounds left;
+  reserveRepairRound + saveRepairLedger, kind focused, 6 named rider
+  cells, source sha 453f9429, located defect recorded). Generated with
+  bracketing references (the offending rider sheet + the 639px strike
+  length-anchor crop + body/portrait masters) - the spearman's r2
+  lesson ("bracketing references defeated the long/short bias")
+  applied from the start. Output acceptance4-round1-candidate-1.png
+  (sha 8c022451, 3x2, 6 clean components, pipeline gate green, 0
+  sheet-edge touches).
+- Measured outcome (RANSAC shaft runs + fittings): carry pikes landed
+  at 480-500 raw vs the 348 originals (shaft runs 355-389) - large
+  improvement, now inside the pack carry band 308-391 displayed - but
+  short of the 639 strike target: the spearman r1 shortening bias
+  repeated, softened by the bracket. The sweep cell is FULL length
+  (shaft 529 + fittings = 639). Cells came back 385-416 tall (pike at
+  ~40deg lean vs the requested 15-30deg) which would drag the global
+  base to 0.644 - resolved by the spearman's uniform-k splice
+  mechanism: k=0.92 height-fit (witness = the 383px content cap) keeps
+  base 0.699 / 94% display and lands the carries at 309-322 displayed
+  (in-band). Settled `accepted` with this evidence (spearman r1
+  precedent: accepted with partial salvage).
+- Files changed: art/motion/zhangfei/acceptance4-round1-candidate-1.png
+  (new), art/motion/acceptance4-repair-budget.json (round 1 settled),
+  art/motion/zhangfei/PROVENANCE.md (repair-rounds section), TASKS.md
+  (BLOCKED -> IN_PROGRESS by the owner decision), PROGRESS.md.
+- Verification run: pipeline gate + component census + RANSAC shaft
+  measurements + edge check (all mechanical, recorded above); eslint
+  n/a (no code changed). Splice + re-prepare + remeasure pending next
+  iteration (spearman r2 precedent: "Splice+verify pending" with the
+  round accepted); untouched frame hashes will be diffed to prove
+  isolation after the splice.
+- Status after: CMR-09A IN_PROGRESS (owner reset by deciding).
+- Remaining work or blocker: splice round-1 cells (k=0.92) into the
+  rider sheet preserving originals -> re-prepare -> remeasure ->
+  rounds 2-3 on the residual band (strike-vs-carry gap, walk-internal
+  12.8%) -> fallback (a) waiver if residual >10% -> continuity +
+  checklist. No blocker.
+- Next recommended task: continue CMR-09A (splice + remeasure, then
+  repair round 2).
+
 ### 2026-10-03 00:39 UTC - CMR-09A (attempt 1, BLOCKED - acceptance-4 weapon criterion FAILS: drawn-length drift)
 
 - Status before: CMR-09A IN_PROGRESS (pack prepared 07d6a9c; acceptance-4

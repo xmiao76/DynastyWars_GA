@@ -57,6 +57,26 @@
           "outputSha256": "afa6613eb489895c2792be542606a43b18fcca4073ef46cd3111d71918779326"
         }
       ]
+    },
+    "zhangfei": {
+      "rounds": [
+        {
+          "number": 1,
+          "status": "accepted",
+          "cells": [
+            "rider:0",
+            "rider:1",
+            "rider:3",
+            "rider:4",
+            "rider:5",
+            "rider:7"
+          ],
+          "failure": "Source grid cells of rider-candidate-1.png (0=idle, 1=trot, 3=mount, 4=sweep, 5=sweep-windup, 7=dismount) draw the rigid serpent pike at 348-527px raw - 54-82% of the 639px full length shown by the max-reach strike (special sheet cell 4); bbox-geometric proof: rider components are <=351px tall so a full-length vertical carry cannot fit. Root cause: the authoring brief said fit-the-pike-inside-the-cell which made the generator shorten it. Repair: redraw these 6 cells with the pike at EXACTLY the long-reference length (rigid weapon, one length in every pose), carried near-horizontal across the saddle/lap in the carry cells (never vertical, never shortened, nominal cell-line straddling allowed).",
+          "sourceSha256": "453f94295512ba9e89b036e9f30e86edf090bbca713f734824470b0c6bb65305",
+          "evidence": "Mechanical + visual review of acceptance4-round1-candidate-1.png (3x2, 6 cells): pipeline gate 6 clean components (no merges/specks), RANSAC shaft runs 355-389 for the carries and 529 for the sweep (= 639 full length with fittings). Carries landed at 480-500 raw pike length - a large improvement over the 348 originals (now inside the pack carry band 308-391 displayed after k=0.92 height-fit) but still short of the 639 strike target (the spearman round-1 shortening bias repeated, softened by the bracketing reference). Sweep cell is full-length 639 and replaces the 527-raw original. Uniform splice k=0.92 (height-fit to the 383px content cap; witness = content-height budget, keeps base 0.699 and the 94% display). Splice+re-prepare+remeasure pending next iteration (spearman r2 precedent). Rounds 2-3 to follow on the residual band.",
+          "outputSha256": "8c022451a36a9407b5e7e05284e6de4308c9c6ae5bbc9255c9e5f40053f578e4"
+        }
+      ]
     }
   }
 }

@@ -178,20 +178,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1, 2026-10-03 - pack prepared and budget
-  PASS (option c executed, 07d6a9c) but acceptance-4's weapon criterion
-  FAILS: the drawn pike length drifts by cell (walk-internal 12.8%,
-  walk-vs-strike ~21%, rider carries ~82% - bbox-geometric proof, the
-  generator shortened the pike to fit tight cells). Head passes on the
-  comparable subset (6.4%); direction OK. Repair-reserve arithmetic:
-  3 rounds narrow the band but cannot reach <=10% (defect is
-  pack-wide). NEEDS OWNER DECISION - pick one: (a) waive with a
-  documented band (the CMR-07A option-d precedent); (b) spend the
-  3-round Acceptance-4 repair reserve on the worst sheets (rider ->
-  walk -> misc/getup carries) and re-measure; (c) authorize a larger
-  repair campaign (~6-8 sheet requests) to genuinely reach <=10%.
-  Evidence + verdicts in [PROVENANCE.md](art/motion/zhangfei/
-  PROVENANCE.md) "Acceptance-4 verdict". Only the owner may reset.)
+- Status: IN_PROGRESS (attempt 1; owner selected option (b) 2026-10-03
+  - spend the 3-round Acceptance-4 repair reserve, fallback to (a)
+  waiver if residual >10% after round 3. Repair round 1 ACCEPTED
+  (rider carries 348->480-500 raw pike length, sweep full-length 639;
+  spearman r1 shortening bias repeated, softened by bracketing;
+  uniform splice k=0.92 height-fit). Splice + re-prepare + remeasure
+  pending; rounds 2-3 on the residual band next.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

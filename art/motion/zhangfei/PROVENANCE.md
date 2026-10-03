@@ -180,6 +180,32 @@ option (d), is the closest history):**
 Not recommended: fabricating a pass via a cherry-picked subset - the
 exclusion grounds rule (independent of values) forbids it.
 
+## Acceptance-4 repair rounds (owner option (b) 2026-10-03)
+
+Owner selected (b): spend zhangfei's own 3-round Acceptance-4 repair
+reserve (splice-redraw named cells), fallback to (a) documented waiver
+if the residual exceeds 10% after round 3.
+
+**Round 1 (ACCEPTED, splice pending):** reserved via
+`acceptance4-repair-budget.json` before generation (3->2 left). One
+request, 6 named cells (rider sheet grid 0/1/3/4/5/7 = idle/trot/mount/
+sweep/sweep-windup/dismount), source sha `453f9429...`, bracketing
+references (offending rider sheet + the 639px strike length-anchor cell
++ body/portrait masters). Output `acceptance4-round1-candidate-1.png`
+sha `8c022451...` (3x2, 6 clean components, pipeline gate green).
+Measured: carry pikes landed at 480-500 raw (shaft runs 355-389 +
+fittings) vs the 348 originals - big improvement, now inside the pack
+carry band (308-391 displayed) - but still short of the 639 strike
+target: the spearman's round-1 "systematic shortening" bias repeated,
+softened by the bracket. The sweep cell is FULL length (shaft 529 +
+fittings = 639) and replaces the 527-raw original. Uniform splice
+k = 0.92 (height-fit to the 383px content cap: cells came back 385-416
+tall at ~40deg pike lean vs the requested 15-30deg; witness = the
+content-height budget; k keeps base 0.699 and the 94% display).
+Splice + re-prepare + remeasure pending next iteration; untouched
+frame hashes will be diffed to prove isolation. Rounds 2-3 target the
+residual band (strike-vs-carry gap and the walk-family internal 12.8%).
+
 ## Budgets
 
 - Authoring: 12/16 used (ALL 10 sequences accepted: walk + jab1
