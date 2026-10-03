@@ -272,6 +272,42 @@ complex weapon). The realistic end state is the documented (a) waiver
 with a band far wider than the spearman's 18.2% - see the decision
 note in TASKS.md.
 
+**Splice feasibility (2026-10-03, no splice performed - the findings
+below are why):** scale witness + collision check on the five verified
+wins (diagnostic scripts in ignored `artifacts/tmpcheck/`, numbers
+recorded here):
+- *Scale witness is UNRESOLVED.* Face-cluster area vs the original cell
+  of the same pose, on the three clean upright cells (walk:3, walk:4,
+  finisher:2): k(area) = 1.101 / 1.191 / 1.133. The pack's second proxy
+  (face-centre-to-ground) on the same cells: k(ground) = 1.000 / 1.027 /
+  1.033. The proxies disagree by 0.10-0.19, over the 0.05 two-proxy
+  agreement rule, so the factor stays 1 (UNRESOLVED, as for fall/misc/
+  special). The other three cells have arm-merged face clusters (coil
+  172x63, crouch 97x133, windup 68x81 - the same contamination that
+  made 9 cells unusable for the head spread) so their k values (0.55-0.74)
+  are meaningless. **Risk to flag:** the repaired heads are ~10-19%
+  smaller by face area at the same body height; the head criterion
+  (6.4% on the comparable subset today) can regress if these cells are
+  spliced, so it MUST be re-measured after any splice.
+- *In-place splice collides.* Placing the repaired drawing at the
+  original cell's ground-anchored centre (k=1, translation only):
+  coil -> sheet-edge touch (original sits in the last column, repaired
+  is 498px wide) so `preparePack` would throw `clipped figure`;
+  walk:3 / walk:4 / finisher:2 -> repaired drawings are 3-10px taller
+  than the originals and their bboxes overlap neighbouring cells' bboxes
+  (distinct components, but the pipeline flags overlapping bounds as
+  suspects); getup:2 crouch -> clear.
+So four of the five wins need a per-position source mechanism
+(composite each repaired cell onto a padded canvas, or a per-position
+override in the prepare script) that does not exist yet. The rider
+override worked because that whole sequence was replaced. Building the
+mechanism is real engineering with a head-regression risk, and its
+payoff is limited: the walk family would reach 6.0% (<=10%) but the
+pack-wide FULL-set projection stays 61.3% (88.3% today). **Cost/
+benefit therefore favours the (a) waiver now**, with the walk-family
+number, the coil/bridge improvements as optional follow-ups and the
+full disclosure recorded.
+
 ## Budgets
 
 - Authoring: 12/16 used (ALL 10 sequences accepted: walk + jab1

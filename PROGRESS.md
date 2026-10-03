@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 02:29 UTC - CMR-09A (attempt 1, BLOCKED - splice cost/benefit changed my plan; owner call)
+
+- Status before: CMR-09A IN_PROGRESS; I had told the owner the next tick
+  would "do the salvage splice" absent a reply.
+- Work completed: splice feasibility on the five verified round-2 wins
+  (coil, bridge, stride3, stride4, crouch), BEFORE changing any source.
+  (1) Scale witness: face-area vs same-pose original gives k = 1.101 /
+  1.191 / 1.133 on the three clean upright cells, but the pack's second
+  proxy (face-centre-to-ground) gives 1.000 / 1.027 / 1.033 - the proxies
+  disagree by 0.10-0.19 (rule: agree within 0.05), so the factor is
+  UNRESOLVED; the other three cells have arm-merged face clusters so
+  their k is meaningless. Repaired heads run ~10-19% smaller by face
+  area at the same body height -> the head criterion (6.4% comparable
+  today) can regress if spliced. (2) Collisions: in-place at k=1, the
+  coil touches the sheet edge (preparePack would throw clipped figure),
+  stride3/stride4/bridge overlap neighbouring cells' bounds (3-10px
+  taller), crouch is clear. So four wins need a per-position source
+  mechanism that does not exist (the rider worked by replacing a whole
+  sequence). No source or pack file was changed this tick.
+- Decision change, stated plainly: I said the next tick would splice.
+  The numbers say the payoff is small (walk family -> 6.0% but pack-wide
+  88.3% -> 61.3%) against real engineering plus head-regression risk, so
+  I stopped and put the choice to the owner instead of building it
+  silently or abandoning the plan silently: (1) waive now (recommended;
+  CMR-07A option-(d) precedent, full disclosure) or (2) the approved-plan
+  route (build the override, splice, re-measure head, spend round 3,
+  waive anyway; est. 2-3 ticks, pack-wide stays ~60%).
+- Files changed: art/motion/zhangfei/PROVENANCE.md (splice-feasibility
+  section), TASKS.md (IN_PROGRESS -> BLOCKED awaiting the owner),
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: witness and collision numbers come from scripts run
+  this tick against the committed sheets (recorded in PROVENANCE); no
+  code committed, so no lint/tests apply.
+- Status after: CMR-09A BLOCKED (owner decision).
+- Remaining work or blocker: owner picks (1) waive now or (2) the
+  approved-plan route. Either way continuity review + checklist follow;
+  head must be re-measured after any splice.
+- Next recommended task: owner decision; CMR-09B stays dependency-gated.
+
 ### 2026-10-03 02:30 UTC - CMR-09A (attempt 1, IN_PROGRESS - repair round 2 accepted as a source; my salvage read CORRECTED)
 
 - Status before: CMR-09A IN_PROGRESS (round 1 adopted as the rider

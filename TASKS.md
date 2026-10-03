@@ -178,18 +178,27 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; repair round 2 ACCEPTED as a
-  source; like-for-like tip-to-butt re-measurement CORRECTS my first
-  salvage read (it compared shaft runs to tip-to-butt lengths): real
-  wins T1 coil +143, T8 bridge +37, walk stride3/4 -12/-32 (walk
-  family 12.9% -> 6.0%, now <=10%); T3 follow WORSE (-35), T7 no
-  change, T2 strike unverifiable. Honest projection: pack-wide FULL
-  set 88.3% -> 61.3% (41.9% -> 47.9% excluding the coil/strike
-  extremes). One round left cannot reach 10% pack-wide; realistic
-  end state is the (a) waiver with a band far wider than the
-  spearman's 18.2%. OWNER NOTE: say "waive now" to skip round 3 and
-  the splice and close acceptance-4 under (a) with the full
-  disclosure - or let the loop spend round 3 + splice first.)
+- Status: BLOCKED (attempt 1, 2026-10-03 - owner decision needed;
+  this REVISES my earlier "next tick does the salvage splice" because
+  the feasibility check below changed the cost/benefit). Repair rounds
+  1-2 are spent and accepted as sources (round 1 adopted as the rider
+  source override; 1 round left). Like-for-like, the pack-wide weapon
+  spread is 88.3% today and projects to only 61.3% even with every
+  verified round-2 win spliced (walk family alone 12.9% -> 6.0%).
+  Splicing is not cheap: the scale witness is UNRESOLVED (face-area k
+  1.10-1.19 vs ground k 1.00-1.03, proxies disagree >0.05; repaired
+  heads are ~10-19% smaller, so the head criterion can regress), and
+  4 of the 5 wins collide in place (coil touches the sheet edge; three
+  overlap neighbouring cells) so they need a per-position source
+  mechanism that does not exist yet. PICK ONE: (1) **waive now
+  (recommended)** - close acceptance-4 under the CMR-07A option-(d)
+  precedent with the full disclosure (head 6.4% comparable PASS,
+  direction OK, weapon band 88%/FULL-set recorded, walk family
+  documented); (2) approved-plan route - build the per-position
+  override, splice the wins, re-measure head, spend round 3, then
+  waive anyway (est. 2-3 ticks; pack-wide stays ~60%; head-regression
+  risk). Evidence: [PROVENANCE.md](art/motion/zhangfei/PROVENANCE.md)
+  "Acceptance-4 repair rounds". Only the owner may reset.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
