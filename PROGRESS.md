@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 06:55 UTC - Producer pass (due visual review at 4b4671c; clean, no filings)
+
+- Status before: review due (4 src/game commits since e730034, all
+  motion-pack/runtime additive work); CMR-09B IN_PROGRESS (gates
+  pending); no PENDING FILING.
+- Work completed: full producer pass. Signals green: logic 13/13 (no
+  violations/page errors, co-op incl.) + vision 5/5 (negative
+  controls failing correctly, renderer parity clean, sprite 256/256,
+  HUD green). Fresh review capture at 4b4671c (clean tree for
+  src/scripts/art): 382/488 files byte-identical vs e730034; anatomy
+  grid carried on 238/238 identical cells + identical suspects;
+  inventories UUID-only (+ title tween-phase, adjudicated);
+  screen/crop diffs all adjudicated (boss-warning/banner tween-phase
+  with V-2 holding, roster cursor-glow, rest AA noise incl. a
+  visualized stage5 sub-visible band). All 3 contact sheets reviewed
+  with the image tool. Deep dive characters/motion (relevance
+  precedent, 4th time): zhangfei row opened cell-by-cell (matches
+  incl. the A V-15b attack; owner-blocked UIR-16 not re-opened),
+  zhangfei + archer V-15b pairs unchanged, down column re-checked
+  (caoren/guanyu V-16 cause GONE, A foreshortening stands), 09B
+  motion evidence independently verified (73-row trace re-computed
+  clean with separate logic; money poses confirmed fresh-eyes).
+  Scoreboard holds (no changes). No `fixed (unverified)` items were
+  pending; no new S1-S3 findings; no UIR batch; no proactive
+  proposal (queue has ready CMR work). Ledger "Last full review" +
+  coverage table updated; next review due at 4 src/game commits
+  from 4b4671c.
+- Files changed: docs/UI_REVIEW_LEDGER.md, PROGRESS.md. Captures +
+  diagnostics in ignored artifacts/.
+- Verification run: signal 13/13, vision 5/5 (both green per above);
+  every cited image fingerprinted against its file; no code changed
+  so no lint/tests apply.
+- Result: review clean, nothing filed.
+- Status after: CMR-09B still IN_PROGRESS (this pass did not touch
+  the queue); review debt cleared.
+- Remaining work or blocker: CMR-09B gates + close-out (next
+  consumer turn). No blocker.
+- Next recommended task: CMR-09B (vision/prodbuild/signal + DONE).
+
 ### 2026-10-03 06:29 UTC - CMR-09B (attempt 1, IN_PROGRESS - captures green both renderers; review report; 1 real defect fixed)
 
 - Status before: CMR-09B IN_PROGRESS (registration landed; captures +
