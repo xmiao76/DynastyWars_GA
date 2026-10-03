@@ -7,6 +7,32 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### jab2-candidate-1 (ACCEPTED 2026-10-03) — sha `3dc80660…`
+
+- Request 3/16 (jab2 sheet 1/2). Refs in order: body master
+  `a1067c2a`, portrait master `dff59167`. Prompt: 3x3 low second
+  hit per AUTHORING-PLAN (cells 1-5 = chamber-low/drive/extension/
+  follow/recover with the LOW chamber differentiator; 0/6/7/8
+  spares) + identity lock + length contract + cape rule.
+- Mechanical: 1536x1024; opaque≥96 share 31.6%; sheet-edge 0px;
+  18 components @96 -> 9 survivors after cleanup (glow 102426,
+  specks 12px, within tolerance); gate green.
+- Length spot-check: the quick RANSAC tool misfit cells 2/3
+  (279 @ -66deg, 302 @ -32deg - steep-axis lock onto the diagonal
+  lunge + fragmented shaft mask). Full-bbox crops PROVE both spears
+  whole (butt cap + leaf blade + tassel, straddling cleanly with no
+  merges: bboxes 627/605px vs 512 cells). All 9 spears visually
+  full-length; no shortened cells. Lesson recorded: the quick tool
+  is a gross-shortening screen only - occluded/diagonal poses need
+  the bbox check or the full adjudicator.
+- Visual (gameplay + 2x zooms cells 1/2/3 + bbox crops 2/3): low
+  chamber reads DISTINCT from jab1's high coil; drive/extension arc
+  genuine; identity locked; wrapped fingers; single shafts; uniform
+  heads; cape behind; no clipping, drift, extra limbs, forks,
+  panels, or text.
+- Keep/cull (provisional, finalized at prepare): keep cells 1-5,
+  cull 0/6/7/8 in memory.
+
 ### jab1-candidate-1 (ACCEPTED 2026-10-03) — sha `e90fb80b…`
 
 - Request 2/16 (jab1 sheet 1/2). Refs in order: body master
@@ -60,5 +86,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 2/16 used (walk c1 + jab1 c1 accepted). 14 spare.
+- Authoring: 3/16 used (walk + jab1 + jab2 c1 accepted). 13 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

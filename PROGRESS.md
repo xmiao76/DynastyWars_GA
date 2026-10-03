@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:35 UTC - CMR-10A (attempt 1, IN_PROGRESS - jab2 sheet accepted first try)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, walk + jab1
+  accepted, budget 2/16). No PENDING FILING, review 0/4.
+- Work completed: reserved jab2 sheet 1/2 BEFORE generating
+  (zhaoyun 3/16, total 55/200) and generated jab2-candidate-1
+  (sha 3dc80660): ACCEPTED - 9 clean components, 0 edge px, gate
+  green (glow 102K, specks 12px); low chamber reads DISTINCT from
+  jab1's high coil; drive/extension arc verified at gameplay + 2x
+  (wrapped fingers, single shafts, uniform heads, cape behind, no
+  clipping/drift). The quick RANSAC tool misfit cells 2/3 (steep
+  axes on diagonal lunges); full-bbox crops PROVE both spears whole
+  (butt + blade + tassel, straddling cleanly, no merges) - recorded
+  as a method limitation (quick tool = gross-shortening screen
+  only; rigorous endpoint adjudication lands after all sheets).
+  Provisional keep 1-5 / cull 0/6/7/8.
+- Files changed: art/motion/zhaoyun/jab2-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record), art/motion/generation-budget.json (3/16), TASKS.md,
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census mechanically green (numbers above); bbox-crop proof
+  for the two low-measurement cells; visual review with the image
+  tool on fingerprinted files. No code changes, so no lint/tests
+  apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 7 sequences (finisher next), prepare
+  with page-aware solving, landmark acceptance, continuity review.
+  No blocker.
+- Next recommended task: CMR-10A (finisher sheet).
+
 ### 2026-10-03 08:26 UTC - CMR-10A (attempt 1, IN_PROGRESS - jab1 sheet accepted first try)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan done, walk
