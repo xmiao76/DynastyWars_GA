@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 23:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - walk sheet accepted)
+
+- Status before: CMR-11A IN_PROGRESS (identity + plan). No
+  PENDING FILING, review 1/4.
+- Work completed: reserved walk sheet 1/2 BEFORE generating
+  (weiyan 1/16, total 68/200) and generated walk-candidate-1
+  (sha 78491237, 2 masters as refs): ACCEPTED - 9/9 clean, all
+  cells covered, 0 edge, gate green (glow 80K, 0 specks); guard
+  + genuine alternating 8-cycle; turban/bronze/purple/beard/
+  dao-with-guard on all, uniform scale, clean anatomy, no
+  forks/verticals/clips. Keep all 9.
+- Files changed: art/motion/weiyan/walk-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md
+  (attempt record), generation-budget.json (1/16), TASKS.md,
+  PROGRESS.md. Review strip in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files
+  (gameplay + grid strip). No code changes, so no lint/tests.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 9 more sheets (jab1 next), then
+  prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (jab1 sheet).
+
 ### 2026-10-03 22:43 UTC - CMR-11A (attempt 1, IN_PROGRESS - identity + plan locked)
 
 - Status before: CMR-10B DONE (CMR-11A ungated). No PENDING

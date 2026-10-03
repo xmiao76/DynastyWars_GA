@@ -101,8 +101,10 @@
     "weiyan": {
       "role": "hero",
       "cap": 16,
-      "used": 0,
-      "sheetCandidates": {}
+      "used": 1,
+      "sheetCandidates": {
+        "walk": 1
+      }
     }
   }
 }
