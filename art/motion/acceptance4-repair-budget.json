@@ -75,6 +75,25 @@
           "sourceSha256": "453f94295512ba9e89b036e9f30e86edf090bbca713f734824470b0c6bb65305",
           "evidence": "Mechanical + visual review of acceptance4-round1-candidate-1.png (3x2, 6 cells): pipeline gate 6 clean components (no merges/specks), RANSAC shaft runs 355-389 for the carries and 529 for the sweep (= 639 full length with fittings). Carries landed at 480-500 raw pike length - a large improvement over the 348 originals (now inside the pack carry band 308-391 displayed after k=0.92 height-fit) but still short of the 639 strike target (the spearman round-1 shortening bias repeated, softened by the bracketing reference). Sweep cell is full-length 639 and replaces the 527-raw original. Uniform splice k=0.92 (height-fit to the 383px content cap; witness = content-height budget, keeps base 0.699 and the 94% display). Splice+re-prepare+remeasure pending next iteration (spearman r2 precedent). Rounds 2-3 to follow on the residual band.",
           "outputSha256": "8c022451a36a9407b5e7e05284e6de4308c9c6ae5bbc9255c9e5f40053f578e4"
+        },
+        {
+          "number": 2,
+          "status": "accepted",
+          "cells": [
+            "special:2",
+            "special:4",
+            "special:5",
+            "jab1:1",
+            "walk:3",
+            "walk:4",
+            "jump:1",
+            "finisher:3",
+            "getup:3"
+          ],
+          "failure": "Source cells (special 2=coil/4=strike/5=follow, jab1 1=windup, walk 3/4, jump 1=takeoff, finisher 3=bridge, getup 3=crouch) are the 9 worst of the 33-cell trustworthy set (endpoints on fittings): displayed pike lengths 153.6-442.2 vs the pack mass ~300-330 (coil 153.6 under, strike 442.2 and windup 412.4 over, walk3/4 370.9/386.8 over, takeoff 361.6 over, bridge 294.8 and crouch 293.9 under). Rigid pike must be ONE length everywhere. Repair: redraw these 9 cells keeping each pose/stride phase exactly (walk3/walk4 keep their gait alternation - only the pike length/angle changes), each pike landing BETWEEN the two bracketing anchor cells and as close to their midpoint as possible (the bracket defeats the over/under-shoot bias documented in the spearman rounds).",
+          "sourceSha256": "83ed8b93d35692d5022183fb7c5a0b78f4a7ee5d41db098a2f1d21ea3911d7ef",
+          "evidence": "acceptance4-round2-candidate-1.png (3x3, 9 clean components, 0 specks, 0 sheet-edge px; reference composite 4542172a carried the bracket anchors + per-cell target lengths). Measured shaft runs + fittings: 5/9 salvage - T1 coil 153.6->~291 displayed (the worst under-shot fixed), T2 strike 442->~330 (its 147 run is a measurement artifact: bboxW 559 matches a correct 477 draw; visually re-checked at splice), T6 stride4 386.8->346, T7 takeoff 361.6->347, T8 bridge 294.8->318. Skipped with grounds: T3 follow 277 vs 274.7 (no change), T4 windup 404 vs 412.4 (marginal), T5 stride3 386 vs 370.9 (worse; also avoids touching the walk gait), T9 crouch 373 vs 293.9 (wrong direction). The generator length scatter again spans +/-15% despite per-cell labels (the spearman r1 pattern). Salvage splice + remeasure pending next iteration; rounds left: 1. Projection: band 90.8% -> ~42% after this splice; round 3 narrows further; if the residual stays >10% (likely), the pre-agreed fallback (a) documented waiver applies.",
+          "outputSha256": "8aab44c0cb745bfeb24ceda7f5f04b90f4d3ce790bb907a199ad4495391a1e55"
         }
       ]
     }

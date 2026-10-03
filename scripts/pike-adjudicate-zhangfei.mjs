@@ -18,7 +18,7 @@ const SHEETS = {
   walk: 'walk-candidate-2.png', jab1: 'jab1-candidate-2.png', jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png', jump: 'jump-candidate-1.png', fall: 'fall-candidate-1.png',
   getup: 'getup-candidate-1.png', misc: 'misc-candidate-1.png', special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
+  rider: 'acceptance4-round1-candidate-1.png',
 }
 const lines = JSON.parse(readFileSync(`${SRC}/pike-lines.json`, 'utf8'))
 
@@ -66,11 +66,12 @@ for (const r of lines) {
   if (!loaded[r.seq]) loaded[r.seq] = await load(`${SRC}/${SHEETS[r.seq]}`)
   const im = loaded[r.seq]
   const comps = alphaComponents(im, 96)
-  const cellW = Math.floor(im.width / 3), cellH = Math.floor(im.height / 3)
+  const rows = r.seq === 'rider' ? 2 : 3, cols = 3
+  const cellW = Math.floor(im.width / cols), cellH = Math.floor(im.height / rows)
   const comp = comps.find((c) => {
-    const cx = Math.min(2, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))
-    const cy = Math.min(2, Math.floor((c.y0 + c.y1 + 1) / 2 / cellH))
-    return cy * 3 + cx === r.cell
+    const cx = Math.min(cols - 1, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))
+    const cy = Math.min(rows - 1, Math.floor((c.y0 + c.y1 + 1) / 2 / cellH))
+    return cy * cols + cx === r.cell
   })
   const mask = new Uint8Array(im.width * im.height)
   if (comp) for (const p of comp.pixels) mask[p] = 1
@@ -94,9 +95,13 @@ for (const r of lines) {
   // they dominate any neighbourhood and carry no endpoint information.
   const fittingCount = (c) => (c.gold ?? 0) + (c.steel ?? 0) + (c.red ?? 0)
   const bodyCount = (c) => (c.skin ?? 0) + (c.leather ?? 0)
+  // Presence-based per side: the butt carries the gold cap (>=4px), the tip
+  // the tapered blade/tassel (steel+red >= 2px - the tip is thin and a
+  // 7px-radius sample legitimately sees only a few blade pixels). Ink
+  // outlines dominate any neighbourhood and carry no endpoint information.
   const endState = (c) => {
     const fit = fittingCount(c), body = bodyCount(c)
-    if (fit >= 12) return 'fitting'
+    if ((c.gold ?? 0) >= 4 || (c.steel ?? 0) + (c.red ?? 0) >= 2) return 'fitting'
     if (body >= 12 && body > fit) return 'body'
     return 'cut'
   }

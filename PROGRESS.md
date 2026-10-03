@@ -22,6 +22,58 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 02:30 UTC - CMR-09A (attempt 1, IN_PROGRESS - repair round 2 accepted as a source; my salvage read CORRECTED)
+
+- Status before: CMR-09A IN_PROGRESS (round 1 adopted as the rider
+  source override; base 0.692; 2 rounds left).
+- Work completed: repair round 2 per MOTION_ACCEPTANCE4_RECOVERY.
+  (1) Re-ran the adjudicator with the rider override mapping + a
+  presence-based endpoint rule (tapered blade tips carry only 2-10
+  steel px at a 7px radius): FULL set (fittings at both ends,
+  value-independent grounds) = 33/56 cells, direction steps >60deg = 0.
+  (2) Reserved round 2 BEFORE generating (2->1 left): 9 named cells
+  (the 9 worst of the trustworthy set), source-cell naming, located
+  defect recorded. (3) Built a labeled bracket composite (2 anchors +
+  9 targets with per-cell target lengths, sha 4542172a) and generated
+  acceptance4-round2-candidate-1.png (sha 8aab44c0, 3x3, 9 clean
+  components, 0 specks, 0 sheet-edge px). (4) Settled `accepted`.
+- ERROR CAUGHT AND CORRECTED (same turn): my first assessment (and the
+  ledger's round-2 `evidence` string) compared shaft RUNS (wood only)
+  against tip-to-butt displayed lengths - apples to oranges, which made
+  the salvage look like 5/9 wins with a "90.8% -> ~42%" projection.
+  Re-measured like-for-like (repair-sheet-measure now extends both ends
+  through the fittings, same method as pike-line-zhangfei): real wins
+  T1 coil +142.6, T8 bridge +37.4, T5/T6 walk strides -11.7/-31.8
+  (walk family 12.9% -> 6.0%, now <=10%), T9 +9.9; T3 follow WORSE
+  (-34.6), T7 no change, T2 strike unverifiable (butt hidden; shaft
+  run 147). Honest projection: pack-wide FULL set 88.3% -> 61.3%
+  (41.9% -> 47.9% excluding the coil/strike extremes - worse). The
+  ledger's status/hash/cells are correct; its evidence narrative is
+  superseded by the corrected table in PROVENANCE.md (the ledger is
+  not hand-edited; settleRepairRound cannot re-run on a settled round).
+- Consequence: the generator's length scatter is ~+/-15% per cell
+  even with per-cell labels (the spearman pattern); the spearman
+  needed all 3 rounds + salvage to go 30.2% -> 18.2% on 5 sequences.
+  One more round cannot bring a 10-sequence pack near 10%. Realistic
+  end: the (a) waiver with a band far wider than 18.2%. Surfaced to
+  the owner in TASKS.md (waive now vs spend round 3 + splice first).
+- Files changed: art/motion/zhangfei/acceptance4-round2-candidate-1.png
+  (new), art/motion/acceptance4-repair-budget.json (round 2 settled),
+  art/motion/zhangfei/PROVENANCE.md (corrected round-2 section),
+  scripts/pike-adjudicate-zhangfei.mjs (rider override + presence
+  rule), TASKS.md, PROGRESS.md. Diagnostics in ignored artifacts/.
+- Verification run: pipeline gate + component census + edge check on
+  the repair sheet (9/9/0); like-for-like projection script reproducible
+  from committed data; eslint (below).
+- Status after: CMR-09A IN_PROGRESS (1 repair round left).
+- Remaining work or blocker: owner call - waive now (close acceptance-4
+  under (a) with full disclosure) or spend round 3 + the salvage
+  splice first (walk strides + coil + bridge would land; honest end
+  state likely still >>10% pack-wide). No blocker either way.
+- Next recommended task: owner's choice above; absent a reply the loop
+  does the salvage splice of the verified wins (T1, T8, T5, T6, T9),
+  remeasures, then decides on round 3.
+
 ### 2026-10-03 02:05 UTC - CMR-09A (attempt 1, IN_PROGRESS - round-1 rider source override adopted, pack re-prepared)
 
 - Status before: CMR-09A IN_PROGRESS (repair round 1 accepted; splice +

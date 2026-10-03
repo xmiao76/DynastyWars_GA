@@ -223,6 +223,55 @@ carries 436-500 raw pike (was 348; shaft runs 305-389 + fittings),
 sweep 590; the pack's residual band (carry mass ~278-387 displayed vs
 the 442 strike) is rounds 2-3's target.
 
+**Round 2 (ACCEPTED as a source; CORRECTED salvage assessment, splice
+not yet done):** one request, 9 named cells (the 9 worst of the
+33-cell trustworthy set - endpoints on fittings per the presence-based
+adjudicator; direction steps all <=36deg). Reference composite
+`4542172a` carried the two bracket anchors (misc:release 441px /
+walk:guard 512px) plus per-cell target lengths and the rules tile.
+Output `acceptance4-round2-candidate-1.png` sha `8aab44c0` (3x3, 9
+clean components, 0 specks, 0 sheet-edge px).
+
+**CORRECTION (same day): the first assessment here and the ledger's
+round-2 `evidence` string compared shaft RUNS (wood only, fittings
+excluded) against tip-to-butt displayed lengths - apples to oranges.**
+The ledger's `status`/`outputSha256`/cells are correct; its evidence
+narrative is superseded by this table (`settleRepairRound` cannot be
+re-run on a settled round and the ledger is not hand-edited). Like-for-
+like, tip-to-butt via `repair-sheet-measure.mjs` (same extension method
+as `pike-line-zhangfei.mjs`), displayed = raw x target-sheet scale
+(k=1 assumed; the repair sheet's own witness k is not yet measured):
+
+| cell | pack id | orig raw->disp | repaired raw->disp | delta |
+|---|---|---|---|---|
+| T1 coil | special:1 | 222->153.6 | 428->296.2 | **+142.6 (real win)** |
+| T2 strike | special:3 | 639->442.2 | UNVERIFIED | butt hidden behind the body (shaft run 147, bbox 559) |
+| T3 follow | special:4 | 397->274.7 | 347->240.1 | **-34.6 (WORSE)** |
+| T4 windup | jab1:0 | 526->412.4 | 506->396.7 | -15.7 (marginal) |
+| T5 stride3 | walk:3 | 536->370.9 | 519->359.2 | -11.7 (better) |
+| T6 stride4 | walk:4 | 559->386.8 | 513->355.0 | -31.8 (better) |
+| T7 takeoff | jump:0 | 478->361.6 | 481->363.8 | +2.2 (no change) |
+| T8 bridge | finisher:2 | 426->294.8 | 480->332.2 | +37.4 (better) |
+| T9 crouch | getup:2 | 449->293.9 | 464->303.8 | +9.9 (slightly better) |
+
+Salvage candidates: T1, T8, T9, T5, T6 (+ T4 marginal). Skip: T3
+(worse), T7 (no change), T2 (unverifiable - needs a visual butt check).
+
+**Honest projection (corrected):** FULL-set spread (33 cells, displayed
+px) is **88.3% now**; with every measurable repaired cell substituted it
+projects to **61.3%** (the unrepaired strike stays at 442). Excluding
+the coil/strike extremes: **41.9% now -> 47.9% projected** (WORSE - the
+follow cell dropped to 240). The walk family alone improves **12.9% ->
+6.0%** (stride3/stride4), the one family that reaches <=10%. My earlier
+"90.8% -> ~42%" claim was wrong. Consequence: the remaining one round
+cannot bring the pack-wide weapon spread near 10% (the generator's
+length scatter is ~+/-15% per cell even with per-cell labels; the
+spearman needed all 3 rounds + salvage to reach 18.2% from 30.2% on a
+5-sequence pack - this pack has 10 sequences and a longer, more
+complex weapon). The realistic end state is the documented (a) waiver
+with a band far wider than the spearman's 18.2% - see the decision
+note in TASKS.md.
+
 ## Budgets
 
 - Authoring: 12/16 used (ALL 10 sequences accepted: walk + jab1
