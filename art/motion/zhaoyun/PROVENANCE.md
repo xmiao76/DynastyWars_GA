@@ -7,6 +7,34 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### tallcell-redraw-2 (ACCEPTED 2026-10-03) — sha `70372e0d…`
+
+- Request 15/16 (focused). Refs in order: fall:0 original
+  `6db22c11`, jump:2 original `a5d455d8`, body master `a1067c2a`.
+  Prompt: 3x3 grid with ONLY 2 cells drawn (compact tucked topple
+  at cell 0, compact apex with diagonal spear at cell 1, rest
+  transparent, grid forces sheet-native scale).
+- Mechanical: 2 survivors, glow 21K, specks 11px; bboxes 483x325
+  (topple) + 598x342 (apex) - both WELL under the 380px target
+  (vs 422/404 originals). Identity/poses verified: tucked
+  backward topple + diagonal-spear apex, full spears, no forks.
+- Composited (scripted, originals untouched) into
+  fall-candidate-1b.png (cell 0) + jump-candidate-1b.png
+  (cell 2), centred on the replaced bboxes with sheet-edge
+  clamping (first paste overflowed past x1536 and tripped the
+  clipped-figure gate - clamping fixed it); both composites
+  census 9 clean, no merges. SHEETS now reads the -1b files.
+
+### tallcell-redraw-1 (REJECTED 2026-10-03) — sha `023ca536…`
+
+- Request 14/16 (focused). Same 3 refs; prompt: two compact
+  redraws side by side on one free-form canvas. VERDICT: unusable
+  - without a grid to constrain scale, both drawings came out
+  HUGE (748x514 + 750x720 bboxes vs 467x446 / 509x428 originals;
+  the apex is TALLER than the cell it replaces). Lesson: redraws
+  must be grid-constrained (c2 proves it). File kept in ignored
+  artifacts/tmpcheck (failed focused edit, not a source).
+
 ### rider-candidate-1 (ACCEPTED 2026-10-03) — sha `b6880a32…`
 
 - Request 13/16 (rider sheet 1/2). Refs in order: body `a1067c2a`,
@@ -308,5 +336,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 13/16 used (10 sheets accepted + misc c1 rejected + getup edit rejected). 3 spare.
+- Authoring: 15/16 used (10 sequence sheets + getup c1 + misc c1 + getup edit + 2 tallcell redraws). 1 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

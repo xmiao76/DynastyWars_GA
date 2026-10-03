@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 14:50 UTC - CMR-10A (attempt 1, IN_PROGRESS - owner "do (a)" executed; pack solves at hero scale)
+
+- Status before: CMR-10A BLOCKED (fit + budget contradiction;
+  owner options a/b/c). Owner directed "do (a)" 2026-10-03.
+- Work completed: (1) reserved + generated tallcell-redraw-1
+  (free-form 2-cell, 14/16): REJECTED - no grid constraint, both
+  drawings oversized (748x514 + 750x720, apex TALLER than the
+  original). (2) Reserved + generated tallcell-redraw-2 (grid:
+  2 cells in a 3x3 layout, 15/16): ACCEPTED - 483x325 topple +
+  598x342 apex, both well under 380px, identity/poses verified.
+  (3) Scripted composite into fall/jump-candidate-1b.png (native
+  scale, centred + sheet-edge clamped after the first paste
+  overflowed past x1536 and tripped the clipped-figure gate);
+  both composites census 9 clean, no merges; originals untouched.
+  (4) Re-prepared with SHEETS -> -1b files, decodedCapBytes 21MB,
+  PACK_SLACK 1.28 (measured 1.243x + margin): base 0.700052
+  (fit 0.707/budget 0.707), guard 226.1px = 94.2% of Guan Yu
+  (above mook 223), 56 frames, 2 pages, 20.61MB <= 22.02MB,
+  deterministic (48111e0a), 0 step-downs, misc factor 0.909
+  applied. The (a) path is fully realized; contradiction closed.
+- Files changed: art/motion/zhaoyun/tallcell-redraw-2.png +
+  fall/jump-candidate-1b.png (new; force-added) + PROVENANCE.md
+  (2 attempt records), scripts/prepare-zhaoyun.mjs (exception
+  config), art/motion/generation-budget.json (15/16),
+  registration.json (new numbers), TASKS.md, PROGRESS.md. Failed
+  redraw-1 in ignored artifacts/tmpcheck (recorded, not a source).
+- Verification run: budget gate consulted before both calls;
+  census + bbox + visual review on fingerprinted files; composite
+  recounts 9/9; prepare green + deterministic (numbers above);
+  eslint on the touched script (run at commit).
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: landmark acceptance (head/weapon
+  measurement vs 10%/60deg), continuity review (strips + arc
+  coherence). No blocker.
+- Next recommended task: CMR-10A (landmark measurement).
+
 ### 2026-10-03 11:52 UTC - Producer pass (signals green; 10A BLOCKED numbers independently verified; IDLE)
 
 - Status before: CMR-10A BLOCKED awaiting owner direction (options

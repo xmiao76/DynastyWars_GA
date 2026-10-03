@@ -13,9 +13,11 @@
 // evidence when measured; factor 1 UNVERIFIED until then),
 // cell-centre/ground anchors, and a PAGE-AWARE base scale (the CMR-09B
 // lesson: the runtime metric is packed page pixels, not trims - the
-// solver targets trims under cap/1.30 measured packing slack and then
-// VERIFIES packed pages, stepping down on miss). No runtime catalog
-// activation (CMR-10B).
+// solver targets trims under cap/1.28 measured slack and then VERIFIES
+// packed pages, stepping down on miss). Owner option (a) 2026-10-03:
+// narrow 21 MiB per-pack exception (zhangfei precedent) + compact
+// redraws of the two tall cells (fall:0, jump:2; the -1b composites).
+// No runtime catalog activation (CMR-10B).
 
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
@@ -42,8 +44,11 @@ const SHEETS = {
   jab1: 'jab1-candidate-1.png',
   jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png',
-  jump: 'jump-candidate-1.png',
-  fall: 'fall-candidate-1.png',
+  // Owner option (a) 2026-10-03: the -1b composites swap the two tall
+  // cells (fall:0 422px, jump:2 404px) for compact redraws (325/342px)
+  // to fix the fit bound; originals stay untouched on disk.
+  jump: 'jump-candidate-1b.png',
+  fall: 'fall-candidate-1b.png',
   getup: 'getup-candidate-2.png',
   misc: 'misc-candidate-2.png',
   special: 'special-candidate-1.png',
@@ -179,15 +184,22 @@ for (const name of Object.keys(SHEETS)) {
 }
 
 // ---- page-aware base scale ------------------------------------------------
+// Owner option (a) 2026-10-03 (CMR-10A): narrow per-pack decoded exception
+// 21 MiB for zhaoyun-1 (zhangfei precedent: 22 MiB). The 56-frame pack at
+// hero scale costs ~20.1MB pages against the 16 MiB contract cap; the
+// exception keeps all 56 frames at hero scale. It flows manifest -> emit
+// -> prepared record -> catalog in CMR-10B (same machinery as zhangfei);
+// the authoring task only targets it here. Not a cap raise.
+const PAGE_CAP = 21 * 1024 * 1024
 // Fit bound: every kept drawing, after its sheet factor, fits the art cell
 // (ground-anchored vertically, centre-anchored horizontally). Budget bound:
-// the largest base whose summed trims fit DECODED_CAP / PACK_SLACK - the
+// the largest base whose summed trims fit PAGE_CAP / PACK_SLACK - the
 // CMR-09B lesson is that the runtime metric is PACKED PAGE pixels, and the
-// zhangfei pack measured page/trim overhead at 1.28x on this same layout,
-// so 1.30 targets pages with margin. Bisect with the exact rounded trim
-// sizes the pipeline will compute; the post-pack page check below is the
-// hard gate (no silent over-cap packs).
-const PACK_SLACK = 1.30
+// zhaoyun first pack measured single-page overhead at 1.243x, so 1.28
+// targets pages with margin. Bisect with the exact rounded trim sizes the
+// pipeline will compute; the post-pack page check below is the hard gate
+// (no silent over-cap packs).
+const PACK_SLACK = 1.28
 const CONTENT_CAP = BOX.groundY * DENSITY - TRIM_PAD - 2
 const WIDTH_CAP = BOX.width * DENSITY - 2 * TRIM_PAD - 2
 const frameList = Object.entries(rawDims)
@@ -209,7 +221,7 @@ const trimBytesAt = (b) => {
 let lo = 0.2, hi = fitBound
 for (let i = 0; i < 60; i++) {
   const mid = (lo + hi) / 2
-  if (trimBytesAt(mid) <= DECODED_CAP / PACK_SLACK) lo = mid
+  if (trimBytesAt(mid) <= PAGE_CAP / PACK_SLACK) lo = mid
   else hi = mid
 }
 const budgetBound = lo
@@ -225,7 +237,7 @@ for (const name of Object.keys(SHEETS)) {
 }
 const walkGuardPx = rawDims['walk:0'].h * sheetScale.walk
 console.log(`base scale ${base.toFixed(6)} (fit bound ${fitBound.toFixed(6)}, budget bound ${budgetBound.toFixed(6)})`)
-console.log(`caps: height ${CONTENT_CAP} width ${WIDTH_CAP} | frames ${frameList.length} | trim sum at base ${trimBytesAt(base)} B (page-aware target ${(DECODED_CAP / PACK_SLACK).toFixed(0)} B)`)
+console.log(`caps: height ${CONTENT_CAP} width ${WIDTH_CAP} | frames ${frameList.length} | trim sum at base ${trimBytesAt(base)} B (page-aware target ${(PAGE_CAP / PACK_SLACK).toFixed(0)} B, page cap ${PAGE_CAP} B)`)
 console.log(`walk guard fitted height ${walkGuardPx.toFixed(1)}px = ${(100 * walkGuardPx / 240).toFixed(1)}% of Guan Yu 240px (mook archer 223px)`)
 for (const name of Object.keys(SHEETS)) {
   console.log(`  ${name.padEnd(9)} factor ${factors[name]}  scale ${sheetScale[name]}  kept ${KEEP[name].join(',')}  culled ${(culledCellsBy[name] ?? []).join(',') || '-'}`)
@@ -237,8 +249,11 @@ const buildFighter = () => ({
   density: DENSITY,
   box: BOX,
   revision: 'zhaoyun-1',
-  // NO decodedCapBytes: zhaoyun fits the 16 MiB contract cap (page-aware
-  // solving from the start); the zhangfei exception stays narrow to zf-1.
+  // Owner exception 2026-10-03 (CMR-10A option a, zhangfei precedent):
+  // the 56-frame hero-scale pack costs ~20.1MB decoded (page pixels)
+  // against the 16 MiB contract cap. Narrow per-pack override (21 MiB),
+  // not a cap raise; flows manifest -> emit -> record -> catalog in 10B.
+  decodedCapBytes: PAGE_CAP,
   cleanup: { alphaThreshold: 96, speckMaxPx: 64, residueTolerancePx: 150000 },
   sequences: Object.keys(SHEETS).map((name) => ({
     name,
@@ -270,9 +285,9 @@ for (;;) {
     continue
   }
   const pagePx = pack.pages.reduce((a, p) => a + p.width * p.height * 4, 0)
-  if (pagePx <= DECODED_CAP) break
+  if (pagePx <= PAGE_CAP) break
   if (budgetRetries >= 4) {
-    throw new Error(`budget: page pixels ${pagePx} exceed ${DECODED_CAP} after ${budgetRetries} step-downs (base ${base}); pose-count cut required`)
+    throw new Error(`budget: page pixels ${pagePx} exceed ${PAGE_CAP} after ${budgetRetries} step-downs (base ${base}); pose-count cut required`)
   }
   budgetRetries++
   base = Math.floor((base - 0.002) * 1e6) / 1e6
@@ -314,6 +329,8 @@ writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({
   guanyuWalkGuardPx: 240,
   mookArcherGuardPx: 223,
   walkGuardFittedPx: walkGuardPx,
+  decodedCapBytes: PAGE_CAP,
+  decodedCapRationale: 'owner exception 2026-10-03 (CMR-10A option a, zhangfei precedent): hero 56-frame pack at ~20.1MB decoded (page pixels); narrow per-pack override, not a cap raise',
   sheets: measured,
   layout: Object.fromEntries(Object.keys(SHEETS).map((n) => [n, {
     positions: KEEP[n].map((cell, i) => ({ position: i, cell, label: LABELS[n][i] })),
@@ -336,7 +353,7 @@ console.log('manifest sha256:', pack.manifestSha256, deterministic ? '(determini
 console.log('frames:', pack.frames.length, `(${uniqueFrames.length} unique)`, '| pages:', pack.pages.map((p) => `${p.name} ${p.width}x${p.height}`).join(', '))
 console.log('counts:', JSON.stringify(pack.report.counts))
 console.log('budget:', JSON.stringify(pack.budget))
-console.log(`decode accounting: records ${sumAll} B | unique-trims ${sumUnique} B | page pixels ${pagePixels} B | cap ${DECODED_CAP} B`)
+console.log(`decode accounting: records ${sumAll} B | unique-trims ${sumUnique} B | page pixels ${pagePixels} B | cap ${PAGE_CAP} B (owner exception) | contract ${DECODED_CAP} B`)
 console.log('suspects:', pack.report.suspects.length)
 console.log('outputs:', paths.output)
 if (!deterministic) {
