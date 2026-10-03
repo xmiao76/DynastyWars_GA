@@ -22,6 +22,63 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 04:10 UTC - CMR-09B (attempt 1, BLOCKED - prepared pack exceeds the runtime decoded cap)
+
+- Status before: CMR-09B TODO (CMR-09A DONE unblocked it). No PENDING
+  FILING, visual review not due (1/4), no IN_PROGRESS - first TODO
+  selected per queue order.
+- Work completed: registration built and verified short of the catalog
+  entry. New `scripts/emit-zhangfei-runtime.mjs` emitted the two-page
+  runtime assets (`zhangfei-prepared.json` + motion/actions sheets,
+  per-page signatures + hashes). New `motion-clips-zhangfei.ts`:
+  20-clip hero table derived from core zf.* windows/clocks onto the
+  compact positions, `motionFrameForZhangfei` dispatch mirroring the
+  hero branches, `validZhangfeiPack` (per-page rect/trim/overlap
+  checks, strict - no aliases). New `motion-zhangfei.test.ts` (19
+  tests: registration + negatives + bookends-by-convention, core
+  timing, per-tick strike windows for all 6 attacks, every-state
+  dispatch, full reachability sweep except rider:2 mount, clamps,
+  routing). Wiring the catalog + publish paths PROVED the defect in
+  the real runtime (requested-but-never-published), then was reverted
+  to keep the suite green - only the entry + wiring wait on the fix.
+- The defect (shared-interface, not fighter art): the CMR-04 pipeline
+  budget gate counts TRIMMED pixels (16,730,172 B = 15.95 MiB PASS -
+  the number 09A acceptance 5 verified) while the CMR-03 catalog
+  counts FULL PAGE pixels (2004x2026x4 + 1693x768x4 = 21,441,312 B =
+  20.45 MiB - the bytes actually uploaded). `validateManifest`
+  rejects with `pack zhangfei: decoded 21441312 bytes exceeds the
+  per-fighter cap 16777216`. Guanyu (15.54 MB) and the mooks (~7 MB)
+  pass both metrics; Zhang Fei is the first pack where they diverge
+  past the cap. No Zhang Fei-scoped fix preserves both the cap and
+  the accepted design (base ~0.61 to fit -> guard ~198px < mook 223;
+  frame cuts re-scope the manifest; repacking cannot beat trim-sum
+  with 0.3% headroom). Side finding while wired: with zhangfei
+  catalogued, the stage1+zhangfei-hero+guanyu-2P request reaches
+  13.34 MB, so the scope policy correctly defers archer to legacy
+  (designed priority order, ceilings never raised).
+- Files changed: scripts/emit-zhangfei-runtime.mjs (new),
+  src/game/assets/motion/zhangfei-{prepared.json,motion-sheet.png,
+  actions-sheet.png} (new), src/game/art/motion-clips-zhangfei.ts
+  (new), test/game/motion-zhangfei.test.ts (new),
+  art/motion/zhangfei/PROVENANCE.md (blocker section), TASKS.md,
+  PROGRESS.md. Catalog/runtime/e2e edits reverted (verified zero
+  diff); they re-land with the fix.
+- Verification run: new file 19/19 green; eslint clean; typecheck
+  clean; full unit suite 877 passed + 6 skipped with ONLY the known
+  G6 V-15b baseline failure (UIR-16 BLOCKED - no new failures).
+  Motion-art/runtime/e2e files byte-identical to HEAD (revert
+  verified via git diff).
+- Result: CMR-09B BLOCKED (attempt 1) - owner picks (a) contract
+  exception for the hero pack, (b) re-open 09A for a smaller pack, or
+  (c) shared pipeline-metric fix + re-verification (after which (a)
+  or (b) is still needed for Zhang Fei).
+- Status after: CMR-09B BLOCKED (owner decision).
+- Remaining work or blocker: owner decision above. Then: catalog
+  entry + publish wiring + runtime/e2e expectation updates (all
+  written this turn, reverted pending the fix), captures both
+  facings/renderers, fighter review report.
+- Next recommended task: owner decision; CMR-10A stays gated.
+
 ### 2026-10-03 03:29 UTC - CMR-09A DONE (attempt 1 - owner "waive now" executed; continuity + checklist closed)
 
 - Status before: CMR-09A BLOCKED (acceptance-4 weapon FAIL; owner

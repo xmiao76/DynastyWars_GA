@@ -389,3 +389,34 @@ image tool frame by frame in play order:
   left, shared with CMR-09B. Only for diagnosed source-art defects
   after a failed acceptance 4; never for polish; never reopens
   BLOCKED tasks.
+
+## CMR-09B blocker (2026-10-03): prepared pack exceeds the runtime decoded cap
+
+Registering the accepted pack (bounded work 1) fails in the real
+runtime: the pack is requested but never publishes. Exact cause -
+`validateManifest` (`motion-catalog.ts`) rejects it with
+`pack zhangfei: decoded 21441312 bytes exceeds the per-fighter cap
+16777216` (all other checks pass: id/revision/hash/clips/pages/dims).
+The pack's two atlas pages cost 2004x2026x4 + 1693x768x4 =
+21,441,312 B = 20.45 MiB against the 16 MiB contract cap.
+
+Root cause is a metric mismatch between the shared tools, not this
+fighter's art: the CMR-04 pipeline budget gate counts TRIMMED pixels
+(16,730,172 B = 15.95 MiB - PASS, the number acceptance 5 verified),
+while the CMR-03 catalog counts FULL PAGE pixels (21,441,312 B - the
+bytes actually uploaded to the GPU). The trim metric ignores ~4.7 MB
+of shelf slack, so it certified a pack the runtime cannot publish.
+Guanyu (15.54 MB pages) and the mooks (~7 MB) pass both metrics;
+Zhang Fei is the first pack where they diverge past the cap.
+
+No Zhang Fei-scoped fix preserves both the cap and the accepted
+design: page pixels scale with base^2, so fitting 16 MiB needs base
+~0.61 (walk guard ~198px - BELOW the mook archer's 223, absurd for
+the famously huge hero and a hierarchy break); cutting frames
+re-scopes the accepted manifest; repacking cannot beat trim-sum +
+minimal slack (headroom is 0.3%). Owner decision required (see
+TASKS.md CMR-09B): (a) contract exception for the hero pack, (b)
+re-open 09A for a smaller pack, or (c) shared pipeline-metric fix
+plus re-verification. The registration work (emit script, runtime
+assets, clips/dispatch/validator, 19 unit tests) is committed and
+green; only the catalog entry + publish wiring wait on the decision.
