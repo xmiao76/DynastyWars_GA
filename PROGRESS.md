@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 15:25 UTC - CMR-10A (attempt 1, IN_PROGRESS - repair round 1 diagnosed; 7-cell redraw list final)
+
+- Status before: CMR-10A IN_PROGRESS (acceptance-4 failed on
+  weapon; repair round 1 queued). No PENDING FILING, review 0/4.
+- Work completed: read the recovery protocol + repair ledger
+  (zhaoyun 3/3 untouched) and completed the round-1 diagnosis.
+  Built a TRUE-endpoint measurer (gold-butt-cluster to steel-tip
+  direct, overlay-verified per cell) and ran it on all 15
+  uncertain cells: 5 RANSAC shorts proven FINE (getup:0/2/3,
+  special:1, finisher:3 - 418-472 true), 7 CONFIRMED SHORT with
+  correct endpoints (getup:1 338, getup:4 233, special:4 393,
+  finisher:4 381, rider:5 391, misc:1 412, jab1:3 416 - all
+  12-50% under the ~470 mass), 3 UNVERIFIED with occluded-butt
+  endpoints (jab2:1/2, misc:3 - excluded, not redrawn blind).
+  ROUND 1 PLAN FINAL: redraw the 7 shorts in one grid-
+  constrained sheet (bracket anchors + per-cell full-length
+  targets + no-vertical rule), composite, re-prepare, re-measure;
+  manual frontal head measurement rides along. No image call this
+  turn (diagnosis only, per bounding).
+- Files changed: PROVENANCE.md (diagnosis + R1 plan), TASKS.md,
+  PROGRESS.md. Diagnostic script + overlays stay in ignored
+  artifacts/tmpcheck (one-off, like repair-sheet-measure).
+- Verification run: every TRUE length backed by the endpoint
+  overlay read on the fingerprinted file (all 15 endpoints
+  individually judged butt/blade-correct, boot-misfires
+  identified); protocol + ledger re-read (round mechanics + 3/3
+  confirmed). No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: repair ROUND 1 execution (reserve +
+  redraw + composite + re-prepare + re-measure + manual heads).
+  No blocker.
+- Next recommended task: CMR-10A (execute repair round 1).
+
 ### 2026-10-03 15:15 UTC - CMR-10A (attempt 1, IN_PROGRESS - acceptance-4 FAILS on weapon length; repair round 1 queued)
 
 - Status before: CMR-10A IN_PROGRESS (pack solves at hero scale

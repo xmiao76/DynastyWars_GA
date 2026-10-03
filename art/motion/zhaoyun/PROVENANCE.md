@@ -5,6 +5,33 @@ reference hashes + verdict recorded here. Budget: 16 shared across
 10A/10B; repair reserve (3 rounds) separate, only for diagnosed
 source-art defects after a failed acceptance 4.
 
+## Repair round 1 — diagnosis (2026-10-03; execution next)
+
+Method: TRUE endpoint lengths (gold-butt-cluster to steel-tip direct,
+overlay-verified per cell) for all 15 uncertain cells (6 adjudicator
+misfits + 9 low/borderline FULLs). The RANSAC axis fits are unreliable
+on occluded shafts (6 proven misfits); the endpoint-direct lengths are
+the diagnostic truth (all 15 overlays eyeball-verified).
+
+- CONFIRMED FINE (no action; RANSAC understated): getup:0 (418),
+  getup:2 (464), getup:3 (446), special:1 (422), finisher:3 (472).
+- CONFIRMED SHORT (redraw in R1): getup:1 (338, kneel vertical),
+  getup:4 (233, stand vertical), special:4 (393), finisher:4 (381),
+  rider:5 (391), misc:1 (412), jab1:3 (416). All 12-50% under the
+  ~470 raw mass with verified butt+blade endpoints.
+- UNVERIFIED (butt occluded or endpoint ambiguous; excluded, not
+  redrawn blind): jab2:1, jab2:2 (butt endpoints landed on boot
+  buckles - true butts hidden behind torsos), misc:3 (butt
+  endpoint suspect, needs manual locate). Revisit in round 2 if
+  the comparable sample cannot establish compliance without them.
+- ROUND 1 PLAN (7 cells, under the 9-max): getup:1, getup:4,
+  special:4, finisher:4, rider:5, misc:1, jab1:3 - one grid-
+  constrained redraw sheet (bracket anchors: walk:0 461 + a long
+  cell; per-cell full-length targets; no-vertical rule for the
+  getup verticals), composite into sheet copies, re-prepare,
+  re-measure. Reserve + execute next turn. Manual frontal head
+  measurement rides along.
+
 ## Acceptance-4 verdict (2026-10-03) — FAIL on weapon length; repair round 1 queued
 
 Method: spear-line (RANSAC + tip-to-butt extension) + presence-based
