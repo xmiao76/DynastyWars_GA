@@ -24,6 +24,45 @@ source-art defects after a failed acceptance 4.
   Residual floor (jab1:3 267 + borderlines) cannot be moved by
   rounds 2-3 (same crowding) -> no ritual burning.
 
+## Acceptance-4 waiver GRANTED (2026-10-03; owner: "Waiver requested approved (09A precedent)")
+
+- Granted as requested: the weapon-length spread item is waived
+  with the full disclosure on record (walk 9.4% passes; FULL
+  ~35-40% post-R1 with 3 structurally un-spliceable shorts +
+  borderlines; direction passes corrected; no scale drift).
+- Terms (as requested): ship with disclosed numbers; rounds 2-3
+  held unspent (no ritual burn); head verdict below completes the
+  record.
+- The waiver covers the NUMERICAL spread only. All other items
+  (identity, anatomy, scale hierarchy, registration, budget,
+  continuity) must still pass on their own evidence. No core/
+  gameplay/runtime activation in A (unchanged).
+
+## Head-size verdict (2026-10-03): ACCEPTED on consistency evidence (direct auto-method void)
+
+- Three automated approaches PROVEN void, each with forensic
+  evidence (strips in ignored artifacts, fingerprinted reads):
+  (1) skin-topmost clusters sit on helmet trim + plume shadows
+  (both skin-gate-positive), incl. walk:0 - D0/D1/D2 meaningless;
+  (2) helmet-bowl heights show 15.3% spread WITH a 17% same-sheet
+  split (walk:0 vs walk:4 - impossible for a rigid helmet, so
+  lighting-gate noise, not scale); (3) below-helmet skin merges
+  neck/hands variably (22-73 disp incoherent).
+- Manual frontal reads (walk:0/4/8, getup:4, misc:4, rider:0 at 3x
+  with 10px grid): all six brow-to-chin spans visually identical
+  (~35px raw, no gross variance), but read noise (+-2px) cannot
+  certify <=10% - recorded as uniformity evidence, not a number.
+- ACCEPTED on consistency (disclosed, not a direct <=10% number):
+  guard figure heights post-factor ~5%, face-to-ground consistent,
+  trim blobs 5.5%, visual uniformity across all sheet reviews,
+  ZERO drift signal anywhere. The 09A waiver covered a MEASURED
+  11.2% head fail; here there is no failing number, only an
+  infeasible detector on a helmeted fighter. Owner may still
+  demand a waiver extension or a fourth method; none is proposed
+  (diminishing returns, all approaches confounded by helmet/pose).
+- With weapon WAIVED + direction PASS + head ACCEPTED-indirect,
+  acceptance-4 is closed. Continuity review next, then DONE.
+
 ## Acceptance-4 waiver request (2026-10-03; owner decision required)
 
 Following the 09A precedent (waived with full disclosure after

@@ -219,16 +219,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10A - Zhao Yun: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1; repair round 1 EXECUTED 2026-10-03:
-  7 redraws verified fixed (getup verticals resolved), but only 4/7
-  splice cleanly - finisher:4/rider:5/jab1:3 collide with neighbors
-  and are PROVEN infeasible with contact visuals (sandwiched, no
-  slack). Post-R1 FULL still fails (~35-40%; walk 9.4% passes).
-  Rounds 2-3 cannot move the floor (same crowding) -> no ritual
-  burn. WAIVER REQUESTED (09A precedent): weapon-length spread
-  with full disclosure (for/against/alternatives in PROVENANCE.md);
-  head manual measurement offered as follow-up. Awaiting owner
-  waive/decline with direction.)
+- Status: IN_PROGRESS (attempt 1; owner APPROVED the
+  acceptance-4 weapon waiver 2026-10-03 (09A precedent), recorded
+  with terms. Head verdict: auto-method VOID (3 approaches proven
+  void with forensics), ACCEPTED on consistency evidence
+  (figures ~5%, trim 5.5%, visual uniformity, zero drift) with
+  full disclosure. Acceptance-4 closed. Remaining: continuity
+  review, then DONE.)
 - Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

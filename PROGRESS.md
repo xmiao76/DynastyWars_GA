@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 20:31 UTC - CMR-10A (attempt 1, IN_PROGRESS - waiver recorded; head accepted on consistency evidence)
+
+- Status before: CMR-10A IN_PROGRESS (waiver approved by owner,
+  recording + manual heads pending). No PENDING FILING, review 0/4.
+- Work completed: (1) recorded the waiver GRANT in PROVENANCE.md
+  with terms (weapon numerical spread waived, rounds 2-3 held,
+  other items must pass independently). (2) Head verdict: three
+  automated approaches PROVEN void with forensic strips (skin-
+  topmost hits trim/plume incl. walk:0; helmet-bowl has 17%
+  same-sheet split = lighting noise; below-helmet merges neck/
+  hands incoherently); manual 3x reads show all six frontal faces
+  visually identical (~35px) but read noise cannot certify 10%.
+  ACCEPTED on consistency evidence (guard figures post-factor ~5%,
+  trim 5.5%, visual uniformity, zero drift) with the method-void
+  fully disclosed (no failing number exists, unlike 09A's 11.2%).
+  Acceptance-4 closed (weapon WAIVED + direction PASS + head
+  ACCEPTED-indirect).
+- Files changed: PROVENANCE.md (grant + head verdict), TASKS.md,
+  PROGRESS.md. Forensic/diagnostic strips in ignored artifacts/.
+- Verification run: all three void-proofs + the manual strip read
+  on fingerprinted files; numbers above recomputed from the
+  scripts' stdout. No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: continuity review (contact sheet +
+  per-sequence strips + arc coherence), then DONE. No blocker.
+- Next recommended task: CMR-10A (continuity review).
+
 ### 2026-10-03 16:00 UTC - CMR-10A BLOCKED (attempt 1, second block - R1 partial; 3 splices infeasible; waiver requested)
 
 - Status before: CMR-10A IN_PROGRESS (R1 diagnosed, 7-cell redraw
