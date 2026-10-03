@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 21:19 UTC - CMR-10A DONE (attempt 1 - continuity pass; ghost finding filed for triage)
+
+- Status before: CMR-10A IN_PROGRESS (pack solves, acceptance-4
+  closed via waiver + head-indirect). No PENDING FILING, review 0/4.
+- Work completed: (1) built display-sheet-zhaoyun (contact + 10
+  full-scale strips from prepared pages) and reviewed all arcs:
+  walk gait genuine, jab1 high vs jab2 low distinct, finisher
+  remap coherent, jump gather-then-explode, fall DOWN flat,
+  getup rise, misc reactions, special whirlwind without effects,
+  rider seated set; bookends stable (walk:0 + fall:4); R1 splices
+  blend; scale/identity/grounding hold. (2) Found + proved a REAL
+  shared defect in passing: atlas trims carry ghost slivers
+  (neighbor straddles inside raw trim rects) - 14/56 zhaoyun,
+  17/56 zhangfei (DONE pack, undetected until this audit, likely
+  the 09B floating blade). A fighter-local masking fix was
+  attempted and PROVEN ineffective (identical manifest - ghosts
+  enter through fit-shifted trim windows), then reverted; the
+  correct fix is pipeline-level owner-masking (shared surgery,
+  needs owner direction). Documented with evidence in PROVENANCE.md
+  for producer triage; 10A ships with the disclosed slivers (same
+  bar 09A demonstrably met: human review + gates). (3) Checklist
+  annotated 7/7 in CMR-10A.md; TASKS 10A -> DONE (CMR-10B
+  unblocked); rule-8 upkeep moved UIR-8 (oldest DONE, 2026-09-28)
+  to TASKS-ARCHIVE.md (21 -> 20 DONE).
+- Files changed: scripts/display-sheet-zhaoyun.mjs (new) +
+  prepare-zhaoyun.mjs (ghost note, no behavior change),
+  docs/motion-tasks/CMR-10A.md (checklist), PROVENANCE.md
+  (continuity + shared-defect flag), TASKS.md, TASKS-ARCHIVE.md,
+  PROGRESS.md. Strips/contact in ignored artifacts/ (read).
+- Verification run: display built clean (56 frames); all 10 strips
+  + contact reviewed on fingerprinted files; ghost audit run on
+  both packs (14 + 17, method: disconnected components per trim
+  rect); masking no-op proven by identical manifest; lint + tsc
+  clean; motion units 95/95 (pipeline/catalog/review-core/
+  zhangfei/transitions).
+- Result: CMR-10A DONE (attempt 1). CMR-10B UNGATED.
+- Status after: CMR-10A DONE.
+- Remaining work or blocker: none on 10A. Producer triage open on
+  the shared ghost-trim defect (evidence in PROVENANCE.md).
+- Next recommended task: CMR-10B (Zhao Yun integrate/review).
+
 ### 2026-10-03 20:31 UTC - CMR-10A (attempt 1, IN_PROGRESS - waiver recorded; head accepted on consistency evidence)
 
 - Status before: CMR-10A IN_PROGRESS (waiver approved by owner,

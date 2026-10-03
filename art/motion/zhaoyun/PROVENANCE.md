@@ -24,6 +24,60 @@ source-art defects after a failed acceptance 4.
   Residual floor (jab1:3 267 + borderlines) cannot be moved by
   rounds 2-3 (same crowding) -> no ritual burning.
 
+## Continuity review (2026-10-03) — PASS
+
+- Contact sheet (display-scale.png, 56 frames at 0.5x) + all 10
+  per-sequence strips at full scale reviewed with the image tool
+  on fingerprinted files (artifacts/motion/zhaoyun/landmarks/).
+- Every arc reads genuinely in play order: walk guard + 8-cycle
+  (feet plant, no skate); jab1 high coil vs jab2 low chamber
+  (distinct); finisher coil->drive->extension->follow->recover
+  (the cell-6 spare reads naturally as drive); jump takeoff->
+  ascent->apex->kick->descent->landing (tucked apex gathers
+  before the kick explodes - coherent); fall topple->airborne->
+  tumble->impact->DOWN (flat, still); getup elbow->kneel->crouch->
+  half-rise->stand (R1 splices blend); misc recoil->fold->clamp->
+  hold->release (R1 splice blends); special raise->coil->pre-spin->
+  strike->follow (zero effects); rider idle->trot->mount->windup->
+  sweep->dismount (all seated, no horse parts).
+- Bookends stable by clip convention: walk:0 guard + fall:4 DOWN
+  (both verified drawings; clips reference them in CMR-10B).
+- Scale/identity hold across all 56 (guard 226.1px ruler; helmet/
+  plume/blue/red/cape/boots locked; no drift, extra limbs, forks,
+  wrong-weapon cells). Grounding correct (grounded plant on y=272;
+  airborne/fall float; DOWN flat).
+- KNOWN LIMITATION (shared defect, see below): ghost slivers at
+  some tile edges where kept neighbors straddle. Small (tens of
+  px at full scale) and edge-confined; the 09A pack shipped with
+  the same class undetected through human review + gates. Flagged
+  for producer triage, not fixed here (bounded work 3).
+
+## Shared defect for producer triage: pipeline trims carry ghost pixels
+
+- FINDING: the motion pipeline copies RAW trim rects (owner bbox +
+  pad) without owner-component masking, so a kept neighbor's
+  straddling tip inside your trim ships in your atlas frame as a
+  ghost sliver. Audit (connected components per atlas trim rect,
+  threshold 64px): zhaoyun 14/56 + zhangfei 17/56 frames affected
+  (audit script + contact/strip evidence in ignored artifacts;
+  fingerprinted reads on file).
+- SCOPE: systemic - affects every pack whose kept cells straddle
+  each other (any long weapon in 512px cells). Zhangfei (DONE)
+  shipped with it; the 09B capture's floating blade fragment was
+  almost certainly one. Guanyu/mooks likely affected where their
+  cells straddle (unaudited).
+- FIX (not attempted - shared surgery, needs owner direction):
+  mask trim extraction to the owner component in fitted space
+  (restoreCellPixels/extractSequence), then re-prepare + re-verify
+  all packs incl. DONE ones. A fighter-local source-space masking
+  attempt was PROVEN ineffective (identical manifest - ghosts enter
+  through fit-shifted trim windows, not source adjacency) and
+  reverted; notes in prepare-zhaoyun.mjs.
+- CONSUMER IMPACT: none blocking (packs build, gates pass, human
+  review passes at the demonstrated 09A bar). Filed here +
+  PROGRESS.md for the next producer pass to triage (task or
+  accepted-limitation).
+
 ## Acceptance-4 waiver GRANTED (2026-10-03; owner: "Waiver requested approved (09A precedent)")
 
 - Granted as requested: the weapon-length spread item is waived

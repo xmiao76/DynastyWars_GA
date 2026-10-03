@@ -112,6 +112,13 @@ function cullInMemory(im, keep) {
   return culledCells.sort((a, b) => a - b)
 }
 
+// NOTE (ghosts): an owner-masking rebuild was tried here and REVERTED:
+// it is a proven no-op (identical manifest) because ghost pixels enter
+// through fit-shifted trim windows, not source-rect adjacency. Ghost
+// slivers from kept<->kept straddles (14/56 here, 17/56 zhangfei) are a
+// SHARED pipeline defect (raw-rect trims): documented for producer
+// triage in PROVENANCE.md, not fixed by fighter-local preprocessing.
+
 // ---- load, cull, measure kept drawings ------------------------------------
 const sheets = {}
 const culledCellsBy = {}

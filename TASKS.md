@@ -219,13 +219,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10A - Zhao Yun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner APPROVED the
-  acceptance-4 weapon waiver 2026-10-03 (09A precedent), recorded
-  with terms. Head verdict: auto-method VOID (3 approaches proven
-  void with forensics), ACCEPTED on consistency evidence
-  (figures ~5%, trim 5.5%, visual uniformity, zero drift) with
-  full disclosure. Acceptance-4 closed. Remaining: continuity
-  review, then DONE.)
+- Status: DONE (attempt 1; 2026-10-03, verified). Zhao Yun
+  56-frame pack authored + prepared (base 0.700052, guard 226.1px
+  = 94.2% of Guan Yu, 2 pages 20.16MB <= 22.02MB owner exception,
+  deterministic de869ad2); acceptance-4 weapon waived by owner
+  with full disclosure (walk 9.4% passes, R1 fixed 4 worst shorts,
+  3 splice-infeasible disclosed), direction passes, head accepted
+  on consistency evidence; continuity reviewed (all 10 arcs
+  coherent, bookends stable). Budget 15/16 + repair 1/3. Evidence:
+  [PROVENANCE.md](art/motion/zhaoyun/PROVENANCE.md). CMR-10B is
+  unblocked.
 - Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
@@ -520,55 +523,6 @@ Add future enhancement tasks below this heading.
     legend rewording, no DIFF-1 impact.
 - Evidence:
   - artifacts/loop/proposals-gamepadnaming-enh12.md (this pass's review).
-
-### UIR-8 - Paint the landmark strip
-
-- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
-  day)
-- Source: UI review 2026-09-26, findings V-11 (S2)
-- Evidence: fresh stage screens - flat grey slab with green lid (gorge
-  wall), blank beige rectangles on posts (warship sails, hulls sunk),
-  solid red slabs (cliffs); next to the painted heroes they read as
-  placeholder art (re-confirmed fresh).
-- Root cause: ASSET - src/game/art/backdrop.ts:318-512 `paintMarks`
-  fillRect blocks, and the hull sink against MARKS_ROOT_DEPTH
-  (GameScene.ts:67).
-- Affected screens: all `stage*-play` screens, especially stage1
-  (gorge), stage6 (warships) and stage7 (inferno).
-- Requirement: repaint all nine landmark kinds with painted masses,
-  tonal bands, lit and shadow sides and soft edges, so they
-  recognisably stay the same place. The warship hulls must be visible
-  above the waterline. Shared backdrop constraints apply (frozen tile
-  geometry; bake-time paint, no per-frame cost rise; backdrop lower
-  contrast/saturation than the cast with upper-left light; original
-  art only).
-- Acceptance criteria:
-  - [x] test/game/uir8-marks.test.ts: share of half-opaque 16x16 blocks
-        with luminance std-dev >= 10 clears 0.55 on all nine kinds.
-        Before: gorge 1.00, village 0.44, riverbank 0.25, bridge 1.00,
-        outskirts 1.00, warships 0.67, inferno 0.31, flagship 0.25,
-        arena 0.44 (five below floor - fails first). After: eight at
-        1.00, arena 0.67. The stage6 after-image shows planked hulls
-        with masts and folded sails riding the waterline; R5 is 4 on
-        the stage*-play screens (painted modeling in the cast idiom:
-        gradients, tonal bands, ink lines, upper-left light).
-  - [x] After npm run review:capture: all nine landmark strips show
-        fully (gorge walls + banners, village roofs/trees, riverbank
-        water/reeds, bridge arch, palisade/tents, warships, inferno
-        cliffs + burning hulls, flagship tower, arena + braziers).
-        Root cause of the sunk hulls found and fixed along the way:
-        the 2x-baked marks texture on a tileScale-1 sprite displayed
-        only its top half (tile rows 0..32) - hulls, water, decks and
-        banner bottoms were cut game-wide. marks.setTileScale(0.5, 0.5)
-        maps the texture 1:1 (paint period still 256px, scrolling
-        unchanged). Before: stub walls, sail rects without hulls, no
-        banners; after: full strips (stage1/6/7 verified close up).
-  - [x] Contact sheets show no regression; vision 5/5 and relevant
-        specs green (ART-19 suite green unedited: seams, margins,
-        periods, distinctness); ledger V-11 set to fixed (self-check).
-        The same half-texture display affects the other 2x-baked
-        layers - recorded as V-19 for the next producer to batch.
-- Non-goals: new landmark kinds, or parallax factors.
 
 ### UIR-9 - Paint the sky and clouds
 
