@@ -7,6 +7,35 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### jump-candidate-1 (ACCEPTED 2026-10-03) — sha `31340a8e…`
+
+- Request 5/16 (jump sheet 1/2). Refs in order: body master
+  `a1067c2a`, portrait master `dff59167`. Prompt: 3x3 jump + aerial
+  kick per AUTHORING-PLAN (takeoff/tuck/apex/kick/fold/landing +
+  spares) + identity lock + length contract + cape rule.
+- Mechanical: 1536x1024; opaque≥96 share 29.6%; sheet-edge 0px;
+  25 components @96 -> 9 survivors after cleanup (glow 108130,
+  specks 30px, within tolerance); gate green.
+- Length spot-check: tip-to-butt 432-544 raw, all axes near-
+  horizontal with strong inliers (128-241) - no misfits this time.
+  The apex cell (2) reads ~10-15% under the mass both measured
+  (432 vs ~470-500) and visually (diagonal overhead carry):
+  FLAGGED as an acceptance-4 watch item (repair nudge if the pack
+  band demands it), not a reject - well above the 09A gross-
+  shortening failures. Everything else in-band.
+- Visual (gameplay + 2x zooms cells 2/3/7): apex stretched tall
+  with spear high; kick money pose (extended leg, tucked other,
+  spear swept back, airborne); landing deep crouch braced. Identity
+  locked; wrapped fingers; single shafts; uniform heads; cape
+  streams correctly; no clipping, drift, extra limbs, forks,
+  panels, or text. Neighbor slivers at tile edges are clean
+  straddles (9 survivors, no merges).
+- Keep/cull (provisional, finalized at prepare): the generator
+  placed kick at 3 (not 4), so keep IN PLAY ORDER [1,0,2,3,5,7]
+  (takeoff, ascent-spare, apex, kick, descent, landing); cull
+  {4,6,8} in memory. Order matters - prepare must map positions
+  in this sequence, not sorted.
+
 ### finisher-candidate-1 (ACCEPTED WITH REMAP 2026-10-03) — sha `9fe37b20…`
 
 - Request 4/16 (finisher sheet 1/2). Refs in order: body master
@@ -114,5 +143,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 4/16 used (walk + jab1 + jab2 + finisher c1 accepted). 12 spare.
+- Authoring: 5/16 used (walk + jab1 + jab2 + finisher + jump c1 accepted). 11 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

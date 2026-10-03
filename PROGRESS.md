@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:50 UTC - CMR-10A (attempt 1, IN_PROGRESS - jump sheet accepted)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 4 sheets
+  accepted, budget 4/16). No PENDING FILING, review 0/4.
+- Work completed: reserved jump sheet 1/2 BEFORE generating
+  (zhaoyun 5/16, total 57/200) and generated jump-candidate-1
+  (sha 31340a8e): ACCEPTED - 9 clean components, 0 edge px, gate
+  green (glow 108K, specks 30px); apex stretched tall with spear
+  high, kick money pose (extended + tucked, spear back, airborne),
+  landing braced; identity/anatomy verified at gameplay + 2x.
+  Apex cell reads ~10-15% under the length mass (432 vs ~470-500,
+  strong inliers) - flagged as an acceptance-4 watch item, not a
+  reject. Generator placed kick at 3, so keep IN PLAY ORDER
+  [1,0,2,3,5,7] (takeoff, ascent-spare, apex, kick, descent,
+  landing); cull {4,6,8}.
+- Files changed: art/motion/zhaoyun/jump-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record), art/motion/generation-budget.json (5/16), TASKS.md,
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census + shaft measurement mechanically green (numbers
+  above); visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 5 sequences (fall next), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker.
+- Next recommended task: CMR-10A (fall sheet).
+
 ### 2026-10-03 08:44 UTC - CMR-10A (attempt 1, IN_PROGRESS - finisher sheet accepted with remap)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 3 sheets
