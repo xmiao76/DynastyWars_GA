@@ -90,13 +90,15 @@ test('co-op: the default hero is ready at stage entry and joins immediately with
   const { requested, errors } = track(page)
   await page.goto('/?renderer=webgl&autopilot=1&motion=1')
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
-  // zhaoyun has no pack; his default partner (guanyu) is in the stage scope.
+  // zhaoyun has a pack (CMR-10B); his default partner (guanyu) is in the stage scope.
   await page.evaluate(() => window.__DW__!.startGame('zhaoyun', 42, 'stage1'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   await expect.poll(() => requested.length, { timeout: 15_000 }).toBe(2)
-  // Packless hero + guanyu 2P + stage mooks fit the cap (9.30 MB): all four
-  // publish; fetch order is nondeterministic so compare sorted.
-  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
+  // Hero + guanyu 2P + stage mooks (archer deferred: 13.63 MB planned
+  // would pass the 12 MiB cap); fetch order is nondeterministic so compare
+  // sorted.
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'zhaoyun'])
+  expect(await spriteId(page, 'playerId'), 'the zhaoyun hero shows motion art').toContain(':motion:')
   expect(await page.evaluate(() => window.__DW__!.joinP2!())).toBe(true)
   await expect.poll(() => page.evaluate(() => {
     const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame

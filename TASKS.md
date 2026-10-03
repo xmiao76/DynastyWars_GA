@@ -236,7 +236,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10B - Zhao Yun: integrate/review in motion
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1; registration turn 2026-10-03:
+  emit script + runtime assets + clips/dispatch/validator +
+  catalog wired incl. the 21MB exception pass-through; 22 new
+  unit tests. Captures + e2e + gates next.)
 - Dependency: CMR-10A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10B](docs/motion-tasks/CMR-10B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic zhaoyun pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

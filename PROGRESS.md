@@ -22,6 +22,46 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 21:44 UTC - CMR-10B (attempt 1, IN_PROGRESS - registration wired; units green)
+
+- Status before: CMR-10A DONE (CMR-10B ungated). No PENDING FILING,
+  review 0/4.
+- Work completed: full 10B registration turn. (1) Emit script
+  adapted + run: 56 frames, zhaoyun-1, 2 pages (2030x1847 +
+  1845x699), 4.33MB network, prepared JSON + PNGs written, page
+  constants captured. (2) Clips/dispatch/validator adapted from
+  the zhangfei template with zy.* windows from core (jab1/jab2
+  5/3/8, finisher 7/4/13, kick 4/20/0, special 6/12/12) + the
+  rider-position swap (zhaoyun windup at rider:3, sweep at
+  rider:4 - flipped vs zhangfei - mountedsweep keys + tests
+  adjusted). (3) Catalog wired (record fn, ZHAOYUN_PAGES with emit
+  bytes/sha/dims, MOTION_PACKS entry, validator/clips/dispatch/
+  collapseTail ternaries); the 21MB exception flows automatically
+  via the prepared record + existing merge (verified by test).
+  (4) 22 unit tests adapted (sweep ticks widened 5-7 for zhaoyun's
+  shorter actives - the reachability failure that caught it).
+  (5) Blast radius contained: 1 stale unit scope expectation
+  (zhaoyun-as-packless-hero -> huangzhong, intent preserved) + 1
+  stale e2e co-op expectation (zhaoyun now publishes, archer
+  deferred at 13.63MB, + hero-motion assert) updated.
+- Files changed: scripts/emit-zhaoyun-runtime.mjs (new),
+  src/game/art/motion-clips-zhaoyun.ts (new),
+  src/game/assets/motion/zhaoyun-{prepared.json,motion-sheet.png,
+  actions-sheet.png} (new), src/game/adapters/motion-art.ts,
+  test/game/motion-zhaoyun.test.ts (new),
+  test/game/motion-runtime.test.ts, e2e/motion-loader.spec.ts,
+  docs/motion-tasks/CMR-10B.md, TASKS.md, PROGRESS.md.
+- Verification run: new suite 22/22; full unit 905 passed + 6
+  skipped with ONLY the known G6 failure; eslint + tsc clean.
+  2P never resolves to zhaoyun (CHARACTER_ORDER), so default
+  scopes are unaffected except the two updated expectations.
+- Result: CMR-10B IN_PROGRESS (attempt 1).
+- Status after: CMR-10B IN_PROGRESS.
+- Remaining work or blocker: capture harness extension (zhaoyun
+  fighter flag) + full captures + per-action review + vision/
+  prodbuild/signal gates, then DONE. No blocker.
+- Next recommended task: CMR-10B (captures).
+
 ### 2026-10-03 21:19 UTC - CMR-10A DONE (attempt 1 - continuity pass; ghost finding filed for triage)
 
 - Status before: CMR-10A IN_PROGRESS (pack solves, acceptance-4

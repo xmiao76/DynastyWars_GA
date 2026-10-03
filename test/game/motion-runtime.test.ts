@@ -248,7 +248,7 @@ describe('stage-scoped motion runtime', () => {
     const { scene, motions } = makeScene()
     const io = makeIo(okPages)
     const rt = new MotionRuntime(io)
-    const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'zhaoyun', null))
+    const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'huangzhong', null))
     expect([...report.requested].sort()).toEqual(['archer', 'soldier', 'spearman'])
     expect([...report.published].sort()).toEqual(['archer', 'soldier', 'spearman'])
     expect(io.calls, 'only the catalogued pack pages download').toHaveLength(3)
