@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 22:43 UTC - CMR-11A (attempt 1, IN_PROGRESS - identity + plan locked)
+
+- Status before: CMR-10B DONE (CMR-11A ungated). No PENDING
+  FILING, review 1/4.
+- Work completed: started CMR-11A. Inspected both masters with
+  the image tool (body ee0a0200, portrait 0fc579c1): solid
+  purple-turbaned severe build, bronze plaques + beast pauldrons,
+  short black-grey beard, NO cape. RECORDED discrepancy: the spec
+  says "no beard" but both masters show one - sources win per
+  bounded work 1 (beard YES short, cape NO). Locked IDENTITY.md
+  (build/face/turban/robe/bronze + rigid ~58u dao with fittings
+  + length/split/no-vertical-50deg rules + palette) and
+  AUTHORING-PLAN.md (10-sequence layout, 16-request budget, page-
+  aware 16MB-first fit strategy - the dao is short enough that no
+  exception is presumed - plus carried learnings: bracketing refs,
+  grid-only redraws, ghost/face/RANSAC limitations with their 10A
+  treatments). Registered weiyan 0/16 (total 67/200). Core data
+  read: hp 125, walk 1.5, wy.jab1/jab2 9/5/14, finisher 13/6/18,
+  kick 4/20/0, special 6/12/12.
+- Files changed: art/motion/weiyan/IDENTITY.md + AUTHORING-PLAN.md
+  + PROVENANCE.md (new; force-added), generation-budget.json
+  (weiyan registered), docs/motion-tasks/CMR-11A.md, TASKS.md,
+  PROGRESS.md.
+- Verification run: masters read on fingerprinted files (hashes
+  above); core data read from source (numbers above); budget
+  ledger round-trips (67/200). No code changes, so no lint/tests
+  apply. No image calls this turn (planning only).
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: author all 10 sheets (walk first),
+  then prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (walk sheet).
+
 ### 2026-10-03 22:32 UTC - CMR-10B DONE (attempt 1 - webgl + all gates green)
 
 - Status before: CMR-10B IN_PROGRESS (registration + canvas

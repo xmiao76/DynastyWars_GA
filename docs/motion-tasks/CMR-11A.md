@@ -1,6 +1,6 @@
 # CMR-11A — Wei Yan: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: IN_PROGRESS (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-10B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-11B](CMR-11B.md) is the separate runtime/capture task.
 

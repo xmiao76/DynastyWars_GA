@@ -251,7 +251,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-11A - Wei Yan: author/prepare full motion pack
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1; identity + authoring plan done
+  2026-10-03 (masters inspected: purple turban+bronze, short
+  severe beard per sources despite spec-text "no beard",
+  bronze pauldrons, dao ~58u). Budget registered 0/16. Next:
+  walk sheet (guard + 8-cycle).)
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -97,6 +97,12 @@
         "special": 1,
         "rider": 1
       }
+    },
+    "weiyan": {
+      "role": "hero",
+      "cap": 16,
+      "used": 0,
+      "sheetCandidates": {}
     }
   }
 }
