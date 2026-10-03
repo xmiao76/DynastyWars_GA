@@ -178,14 +178,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09A - Zhang Fei: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner selected option (c) -
-  budget-driven pose counts - 2026-10-02, resetting the limits-conflict
-  BLOCK. Executed: 34 cells culled in memory (21 bookend duplicates +
-  13 in-betweens; sources untouched), 260x144 registration cell,
-  budget-aware base 0.699. Pack PREPARED deterministic (manifest
-  63bd0be6, 56 frames, 2 pages <=2048), budget 15.66MiB <= 16MiB PASS,
-  display 226.5px = 94.4% of Guan Yu and above the mook archer. Next:
-  acceptance-4 landmarks + continuity review + checklist.)
+- Status: BLOCKED (attempt 1, 2026-10-03 - pack prepared and budget
+  PASS (option c executed, 07d6a9c) but acceptance-4's weapon criterion
+  FAILS: the drawn pike length drifts by cell (walk-internal 12.8%,
+  walk-vs-strike ~21%, rider carries ~82% - bbox-geometric proof, the
+  generator shortened the pike to fit tight cells). Head passes on the
+  comparable subset (6.4%); direction OK. Repair-reserve arithmetic:
+  3 rounds narrow the band but cannot reach <=10% (defect is
+  pack-wide). NEEDS OWNER DECISION - pick one: (a) waive with a
+  documented band (the CMR-07A option-d precedent); (b) spend the
+  3-round Acceptance-4 repair reserve on the worst sheets (rider ->
+  walk -> misc/getup carries) and re-measure; (c) authorize a larger
+  repair campaign (~6-8 sheet requests) to genuinely reach <=10%.
+  Evidence + verdicts in [PROVENANCE.md](art/motion/zhangfei/
+  PROVENANCE.md) "Acceptance-4 verdict". Only the owner may reset.)
 - Dependency: CMR-08B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09A](docs/motion-tasks/CMR-09A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhangfei identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

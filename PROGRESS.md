@@ -22,6 +22,60 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 00:39 UTC - CMR-09A (attempt 1, BLOCKED - acceptance-4 weapon criterion FAILS: drawn-length drift)
+
+- Status before: CMR-09A IN_PROGRESS (pack prepared 07d6a9c; acceptance-4
+  adjudication was the open step).
+- Work completed: acceptance-4 adjudication + verdicts. Endpoint
+  adjudicator `pike-adjudicate-zhangfei.mjs` (new): value-independent
+  grounds per the 08A rule (fitting pixels vs body pixels at the axis
+  ends; ink outlines excluded from scoring after v1 misclassified). The
+  decisive evidence is preview-independent BBOX GEOMETRY: the max-reach
+  strike draws the pike at 639px raw (special:3 bbox 639 wide) while the
+  walk carries top out at bbox 504-540 (a 639px pike at 15deg spans 617 -
+  impossible there) and the rider carries' components are <=351px tall
+  (a vertical full-length pike cannot fit). **The drawn pike length
+  genuinely drifts by cell: walk-internal 12.8%, walk-vs-strike ~21%,
+  rider carries ~82% (348 = 54% of the strike).** Root cause: the briefs'
+  "fit the whole pike inside every cell, never crop" conflicted with
+  "never shorten the pike"; the generator shortened the weapon in tight
+  cells. Verdicts: weapon FAIL (every comparable family >10%; no
+  subset definition certifies it); head PASS on the comparable subset
+  (walk+jab upright 6.4%, walk-internal 2.8%; full-set 135.8% disclosed
+  incl. 9 limb-merged clusters excluded on cluster-shape grounds);
+  direction OK (play-order steps <=36deg; the 2 raw >60deg steps are
+  sheet-order artifacts; bridges authored).
+- Limitation recorded: the image-preview pipeline served stale/other
+  files all pass (the documented harness bug; files fingerprint-verified,
+  row-0 walk strip visually confirmed with endpoints on caps/tips), so
+  adjudication is geometric rather than eyeballed; the producer's fresh-
+  capture review re-checks regardless.
+- BLOCKER: acceptance-4's weapon criterion cannot be certified. Repair-
+  reserve arithmetic shows 3 rounds cannot reach <=10% (the defect is
+  pack-wide; the jab/finisher/jump/fall/special carries are also short).
+  Owner options (the CMR-07A option-d precedent is the closest history):
+  (a) waive with a documented band; (b) spend the 3-round reserve on the
+  worst sheets and re-measure; (c) authorize a larger repair campaign
+  (~6-8 sheet requests) to reach <=10%. A cherry-picked pass is not an
+  option (grounds must be value-independent).
+- Files changed: scripts/pike-adjudicate-zhangfei.mjs (new),
+  art/motion/zhangfei/PROVENANCE.md (verdict section), TASKS.md,
+  PROGRESS.md.
+- Verification run: adjudicator + measurement deterministic (seeded
+  RANSAC, byte-identical re-run verified 7e25a35); bbox geometry cross-
+  checked against the measured lines (consistent). No src changes.
+- Also noted: an overdue reminder (due 2026-10-02 23:52, "verify dcd9fab
+  vs task spec, write report, archive stale items") surfaced mid-turn
+  with a deadline already 47min past; it matches no open queue item and
+  its "task spec" referent is ambiguous - NOT done, left for the owner
+  to re-state if it is still wanted (the PROGRESS-archive question also
+  still awaits the owner call recorded 23:25).
+- Status after: CMR-09A BLOCKED.
+- Remaining work or blocker: owner picks (a)/(b)/(c) above; then either
+  the documented waiver closes acceptance-4 or repair rounds run and
+  re-measure. Continuity review + checklist follow whichever path.
+- Next recommended task: owner decision on the acceptance-4 options.
+
 ### 2026-10-03 00:04 UTC - CMR-09A (attempt 1, IN_PROGRESS - acceptance-4 method v2, adjudication next)
 
 - Status before: CMR-09A IN_PROGRESS (pack prepared 07d6a9c; acceptance-4

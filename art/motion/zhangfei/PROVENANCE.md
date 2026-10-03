@@ -124,42 +124,61 @@ option list is preserved for the historical record:
     displaying 74-78% of Guan Yu - at/below the mook archer (111.5
     world px vs 97) - hierarchy caveat recorded for CMR-24.
 
-## Acceptance-4 measurement (2026-10-02, in progress): method v2 works, adjudication next
+## Acceptance-4 verdict (2026-10-03): weapon criterion FAILS (drawn-length drift); head passes; direction OK
 
-**Pike length** (`scripts/pike-line-zhangfei.mjs`, adapted from the
-spearman's spear-line method with two hardenings: component-masked
-sampling - the wide poses straddle nominal cells so neighbour bleed would
-corrupt extents - and BOTH-end extension through non-wood fittings).
-Method v1 failed on 24/56 cells with a documented root cause: the pike
-shaft is a very DARK red-brown (rgb 23,5,3-55,23,8; hue 0-22, v 0.02-0.22)
-and the spearman's wood gate (r>=45, v>=0.12) missed it entirely in the
-getup/misc/special/rider sheets. v2 (gate fixed, run gap 40->130 for torso
-interruptions, extension cap 150->180) measures **54/56 cells**
-(`pike-lines.json`; overlay `artifacts/motion/zhangfei/landmarks/
-pike-line-overlay.png` for endpoint adjudication). Raw displayed spread
-across all measured cells is 155-466px (97.8%) but that MIXES full and
-partial views - known biases: occluded cells under-measure (special:1
-coil 155 - pike behind the body), axis-bleed cells over-measure (jump:3
-kick 610 at cov 0.50 - run merged with the extended leg). Per the
-contract, occluded/foreshortened cells are UNVERIFIED, not passes: the
-"fully observable" subset must be adjudicated by eye on the overlay (the
-08A precedent's human side tags + per-cell endpoint adjudication) before
-any spread claim.
+**Weapon length - FAIL (cannot certify <=10%).** The measurement is solid
+(method v2, 54/56, deterministic; endpoint adjudicator
+`pike-adjudicate-zhangfei.mjs` with value-independent grounds - fitting
+pixels vs body pixels at the axis ends). The failure is in the ART, and
+the bbox geometry alone proves it (preview-independent):
+- The max-reach strike draws the pike at 639px raw (special:3 component
+  bbox 639 wide; RANSAC 639).
+- The walk carries top out at bbox 504-540 / measured 492-559 - a 639px
+  pike at 15deg would span 617px, impossible in those boxes. Walk-internal
+  spread alone is 12.8%; walk-vs-strike ~21%.
+- The rider carries are worse: components are <=351px tall, so a vertical
+  full-length pike cannot fit - the generator shortened the weapon to fit
+  the 341px cell (rider:0 measures 348 = ~54% of the strike length).
+Root cause: the briefs' "fit the whole pike inside every cell, never
+crop" conflicted with "never shorten the pike"; the generator resolved
+it by drawing the pike shorter in tight cells. Every comparable family
+exceeds 10% (walk 12.8% internal; strikes 281-447 across cells with
+cut ends), so no comparable-subset definition certifies it.
 
-**Head size** (face-cluster sqrt-area x sheet scale, from
-measurements-raw.json on the 56 kept cells): the clean cluster is tight -
-walk cycle 24.3-25.0 (**2.8%**), walk+jab upright set 24.3-25.9 (6.4%) -
-but the raw 56-cell spread is 135.8% because 9 cells have limb-merged
-clusters (fall:0 131x93, fall:3 115x148, misc:4 169x65, jump:2 110x128,
-special:0 79x148 etc. - raised arms merge into the topmost skin cluster),
-and tilted/expressive heads inflate the merge (rider mounts ~19.1-19.9).
-The 08A precedent (comparable-orientation subset measured, contaminants
-excluded with grounds, FULL set disclosed) applies exactly.
+**Head size - PASS on the comparable subset.** Upright combat stances
+(walk+jab, face-cluster sqrt-area x sheet scale): 24.3-25.9 = 6.4%
+(walk-internal 2.8%). Full 56-cell disclosure: 19.1-57.5 raw (135.8%),
+including 9 limb-merged clusters (excluded on cluster-shape grounds,
+w/h>70 = arm merges, independent of the value) and tilted/rider heads
+(excluded as non-comparable orientation), per the 08A precedent.
 
-Next: one adjudication turn - review the 56-cell overlay + zoomed cell
-crops, tag every cell comparable/occluded/merged with grounds, verify
-endpoint placement where visible, then compute both spreads on the
-verified subsets and record pass/fail with the full disclosure.
+**Direction - OK.** Play-order steps are all <=36deg (walk 0-18, jabs
+<=21, finisher 36 via the authored mid-sweep bridge, special 20 via the
+pre-spin bridge, fall/getup/misc <=21). The two >60deg steps in the raw
+table are sheet-order artifacts (rider trot->mount, sweep->dismount are
+not play transitions); the dismount->guard transition is bridged by the
+landing pose (clip table lands in CMR-09B).
+
+**Remaining limitation:** the image-preview pipeline served stale/other
+files during this pass (the documented harness bug; every file was
+fingerprint-verified and the row-0 walk strip WAS visually confirmed -
+endpoints on caps/tips), so the per-cell visual adjudication is
+geometric rather than eyeballed. The producer's independent review
+(bounded work 6) re-checks on fresh captures regardless.
+
+**Resolution options (owner decision - the spearman's 18.2% precedent,
+option (d), is the closest history):**
+(a) Waive with a documented band (like CMR-07A option d): accept the
+    pack with the measured drift recorded.
+(b) Spend the 3-round Acceptance-4 repair reserve on the worst sheets
+    (rider carries -> walk carries -> misc/getup carries). Arithmetic:
+    the residual stays >10% because the jab/finisher/jump/fall/special
+    carries are also short - the defect is pack-wide, so 3 rounds
+    narrow the band but cannot reach <=10%.
+(c) Authorize a larger repair campaign (whole-pack carry redraws at the
+    strike length, ~6-8 sheet requests) to genuinely reach <=10%.
+Not recommended: fabricating a pass via a cherry-picked subset - the
+exclusion grounds rule (independent of values) forbids it.
 
 ## Budgets
 
