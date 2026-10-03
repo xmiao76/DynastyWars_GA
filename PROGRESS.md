@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:58 UTC - CMR-10A (attempt 1, IN_PROGRESS - fall sheet accepted, DOWN bookend clean)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 5 sheets
+  accepted, budget 5/16). No PENDING FILING, review 0/4.
+- Work completed: reserved fall sheet 1/2 BEFORE generating
+  (zhaoyun 6/16, total 58/200) and generated fall-candidate-1
+  (sha bc1ee39a): ACCEPTED - 9 clean components, 0 edge px, gate
+  green (glow 103K, specks 25px); tumble/impact/DOWN verified at
+  gameplay + 2x (DOWN flat, motionless, eyes closed, spear
+  gripped - the shared bookend, clean and still); identity locked
+  even prone; no extra limbs, forks, clipping, drift. Length
+  415-592 raw is pose geometry (tumble foreshorten vs DOWN flat
+  span), not drawn drift - both spears complete. Generator placed
+  the arc at cells 0-4, so keep [0,1,2,3,4], cull {5,6,7,8}.
+- Files changed: art/motion/zhaoyun/fall-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record), art/motion/generation-budget.json (6/16), TASKS.md,
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census + shaft measurement mechanically green (numbers
+  above); visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 4 sequences (getup next), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker.
+- Next recommended task: CMR-10A (getup sheet).
+
 ### 2026-10-03 08:50 UTC - CMR-10A (attempt 1, IN_PROGRESS - jump sheet accepted)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 4 sheets

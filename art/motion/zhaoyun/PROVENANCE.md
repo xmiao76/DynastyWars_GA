@@ -7,6 +7,32 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### fall-candidate-1 (ACCEPTED 2026-10-03) — sha `bc1ee39a…`
+
+- Request 6/16 (fall sheet 1/2). Refs in order: body master
+  `a1067c2a`, portrait master `dff59167`. Prompt: 3x3 knockdown
+  per AUTHORING-PLAN (topple/airborne/tumble/impact/DOWN + spares)
+  + identity lock + length contract + cape rule.
+- Mechanical: 1536x1024; opaque≥96 share 33.1%; sheet-edge 0px;
+  27 components @96 -> 9 survivors after cleanup (glow 103044,
+  specks 25px, within tolerance); gate green.
+- Length spot-check: 415-592 raw, all axes sane with strong
+  inliers (171-369, no misfits). The DOWN reads longest (592 -
+  full flat span, spear + body inline) and the tumble shortest
+  (415 - steep diagonal foreshortening): POSE geometry, not drawn
+  drift - both spears visually complete with butt + blade + tassel.
+  No shortened cells.
+- Visual (gameplay + 2x zooms cells 2/3/4): tumble curled upside-
+  down with spear diagonal; impact side-lying on the shoulder;
+  DOWN flat on back, motionless, eyes closed, spear gripped
+  loosely alongside - the shared bookend, clean and still.
+  Identity locked (helmet/plume readable even prone); no extra
+  limbs, forks, clipping, drift, panels, or text. Neighbor slivers
+  at tile edges are clean straddles (9 survivors, no merges).
+- Keep/cull (provisional, finalized at prepare): the generator
+  placed the arc at cells 0-4, so keep [0,1,2,3,4]
+  (topple/airborne/tumble/impact/DOWN); cull {5,6,7,8} in memory.
+
 ### jump-candidate-1 (ACCEPTED 2026-10-03) — sha `31340a8e…`
 
 - Request 5/16 (jump sheet 1/2). Refs in order: body master
@@ -143,5 +169,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 5/16 used (walk + jab1 + jab2 + finisher + jump c1 accepted). 11 spare.
+- Authoring: 6/16 used (walk + jab1 + jab2 + finisher + jump + fall c1 accepted). 10 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.
