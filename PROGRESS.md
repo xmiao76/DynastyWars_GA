@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 10:16 UTC - CMR-10A (attempt 1, IN_PROGRESS - special sheet accepted)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 8 sheets
+  accepted, budget 11/16). No PENDING FILING, review 0/4.
+- Work completed: reserved special sheet 1/2 BEFORE generating
+  (zhaoyun 12/16, total 64/200) and generated
+  special-candidate-1 (sha 604252d3): ACCEPTED - 9/9 clean, all
+  cells covered, 0 edge, gate green; raise/coil/pre-spin/strike/
+  follow arc genuine with NO effects (sweep IS the special);
+  identity/anatomy verified at gameplay + 2x + bbox crops. The
+  quick-RANSAC numbers (243-634) are meaningless on occluded
+  sweep poses (proven: cell 1 measured 243 yet its bbox shows a
+  complete spear) - bbox crops + zooms prove all keep spears
+  whole; only the endpoint method counts here. Keep [0,1,2,3,4],
+  cull {5,6,7,8}.
+- Files changed: art/motion/zhaoyun/special-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record), art/motion/generation-budget.json (12/16), TASKS.md,
+  PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census green; bbox-crop + zoom proofs for all keep cells;
+  visual review on fingerprinted files. No code changes, so no
+  lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: rider sequence (last), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker.
+- Next recommended task: CMR-10A (rider sheet).
+
 ### 2026-10-03 09:47 UTC - CMR-10A (attempt 1, IN_PROGRESS - misc resolved: c1 rejected, c2 accepted via no-vertical rule)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 7 sheets

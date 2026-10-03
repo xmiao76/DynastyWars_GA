@@ -7,6 +7,34 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### special-candidate-1 (ACCEPTED 2026-10-03) — sha `604252d3…`
+
+- Request 12/16 (special sheet 1/2). Refs: body `a1067c2a`,
+  portrait `dff59167`. Prompt: 3x3 whirlwind sweep per
+  AUTHORING-PLAN (raise/coil/pre-spin/strike/follow + spares;
+  sweep IS the special, no effects) + identity + length contract
+  + split rule + no-vertical rule.
+- Mechanical: 1536x1024; opaque≥96 share 26.5%; sheet-edge 0px;
+  20 components @96 -> 9 survivors, all cells covered, glow
+  115210, specks 19px; gate green.
+- Length spot-check: quick-RANSAC numbers (243-634, inliers
+  64-190, one no-axis) are MEANINGLESS on this sheet - sweep
+  poses wrap body/hands around the shafts, fragmenting the wood
+  mask (cell 1 measured 243 yet its bbox crop shows a complete
+  butt-to-blade spear). Full-bbox crops PROVE cells 0+1 whole;
+  2x zooms PROVE cells 2/3/4 whole (butt + blade + tassel each).
+  All 9 spears visually full-length; no shorts. Standing lesson:
+  on occluded poses only the endpoint-adjudicated acceptance-4
+  method counts; the quick tool is a no-axis/gross-gap screen.
+- Visual (gameplay + 2x zooms + bbox crops): raise/coil/pre-spin/
+  strike/follow arc genuine; no projectiles/glow/effects (sweep
+  IS the special, as briefed); identity locked; wrapped fingers;
+  single full spears; uniform heads; cape flares correctly; no
+  clipping, drift, extra limbs, forks, panels, or text.
+- Keep/cull (provisional, finalized at prepare): the generator
+  placed the arc at cells 0-4, so keep [0,1,2,3,4]; cull
+  {5,6,7,8} in memory.
+
 ### misc-candidate-2 (ACCEPTED 2026-10-03) — sha `4cfc8b14…`
 
 - Request 11/16 (misc sheet 2/2; first tool call 520'd with no
@@ -250,5 +278,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 11/16 used (7 sheets accepted + misc c1 rejected + getup edit rejected). 5 spare.
+- Authoring: 12/16 used (8 sheets accepted + misc c1 rejected + getup edit rejected). 4 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.
