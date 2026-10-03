@@ -5093,3 +5093,35 @@ and the three pre-redesign enhancements - all DONE and verified)
         V-14 sub-verdict updated (J1/J3 fixed).
 - Non-goals: pauldron art itself, hand paint (UIR-12).
 
+### UIR-15 - Strike arms bend; no parallel rails
+
+- Status: DONE (attempt 2, 2026-09-27 UTC - owner V-14 request,
+  verified full-green same day)
+- Source: UI review 2026-09-27, findings V-14 J6 (S2)
+- Evidence: artifacts/review/latest/anatomy/*.png (attack/thrust/chop
+  on polearm fighters) - both arms run near-straight and parallel
+  under the haft like rails. One-handers and the bow read fine.
+- Root cause: POSE - src/game/art/poses.ts strike arm geometry plus
+  the weapons.ts arm solution rest too straight: elbows keep little
+  flexion and the two arms share one direction.
+- Requirement: two-handed strikes keep visible elbow flexion and break
+  the parallel: differentiate the arms (lead/push roles), keep both
+  fists on the haft with separation, keep hands/weapons clear of the
+  face per the existing gates.
+- Acceptance criteria:
+  - [x] Elbow-flexion + elbow-side measure
+        (test/game/uir15-strikearms.test.ts): far-elbow turn rises vs
+        baseline on attack/chop (guanyu attack 84->116deg, chop
+        123->135; chop chains 23-33->42-84deg) and the two elbows bow
+        different sides of the bar (or >=3u apart on it) in every
+        polearm strike. Probe-recorded geometry limit: on long
+        ji/glaives the weapon's own butt sits at ~full far reach at
+        thrust (d=24.1 vs reach 24.5), so the rear arm is legitimately
+        extended there and the elbows' sides carry the rails fix.
+        Grip-hold guard: every strike keeps the far hand on the haft.
+  - [x] The anatomy J6 re-review reads ok (J6 FIXED on attack/attack2/thrust for all polearm fighters (elbows clearly apart, low hip vs bar height; the parallel-tubes read is gone)).
+  - [x] Reach/face-clear/parity gates stay green; full gates green
+        (lint 0, tsc 0, unit 640/640, e2e 78, vision 5/5, selfplay
+        13/13, build 0, prodbuild 4/4).
+- Non-goals: new poses, timing changes, in-betweens (BODY-24).
+

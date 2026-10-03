@@ -22,6 +22,42 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:08 UTC - CMR-09B DONE (attempt 1 - gates green, checklist 8/8)
+
+- Status before: CMR-09B IN_PROGRESS (registration, captures, review
+  done; gates pending).
+- Work completed: ran the spec-handoff gates and closed out. (1) E2E:
+  registering zhangfei changed stage scope everywhere (the default 2P
+  is always requested) - updated motion-loader (5 spots), motion-look
+  and guanyu-actions expectations to the designed sets (sorted,
+  polled for convergence; archer deferral past 12 MB asserted where
+  it applies); motion-loader 5/5, guanyu-actions 3/3 (enabled),
+  motion-look 4/4 (enabled) green. Full e2e: 87 passed + 2 known-
+  intermittent flakes (emberscale, coop keys), both green in
+  isolation with pinned values - unrelated to this diff (no ember/
+  input code touched; coop flipped green/red/green across identical-
+  code runs). (2) Vision 5/5. (3) Prodbuild 8/8 after extending the
+  pilot to the 6-request / 4-pack stage scope. (4) Signal 13/13 on
+  re-run (one seed flaked in the first run, green isolated;
+  identical-code runs differ => flake, not regression). Checklist
+  annotated 8/8 in CMR-09B.md; TASKS 09B -> DONE (CMR-10A unblocked);
+  rule-8 upkeep moved UIR-15 (oldest DONE, 2026-09-27) to
+  TASKS-ARCHIVE.md (21 -> 20 DONE).
+- Files changed: e2e/{motion-loader,guanyu-actions,motion-look}.spec.ts,
+  prodbuild/motion.spec.ts, docs/motion-tasks/CMR-09B.md (checklist),
+  TASKS.md, TASKS-ARCHIVE.md, PROGRESS.md. No game-code changes this
+  turn (expectation updates only).
+- Verification run: motion-loader 5/5, guanyu-actions 3/3,
+  motion-look 4/4, emberscale 2/2 isolated, coop 6/6 isolated,
+  vision 5/5, prodbuild 8/8, signal 13/13, units 883|1-known-G6|6
+  (unchanged code, prior full run), lint/tsc clean.
+- Result: CMR-09B DONE (attempt 1). CMR-10A UNGATED.
+- Status after: CMR-09B DONE.
+- Remaining work or blocker: none on 09B. Producer verifies
+  independently on fresh captures per cadence (done 06:55 for the
+  09B motion evidence).
+- Next recommended task: CMR-10A (Zhao Yun author/prepare).
+
 ### 2026-10-03 06:55 UTC - Producer pass (due visual review at 4b4671c; clean, no filings)
 
 - Status before: review due (4 src/game commits since e730034, all

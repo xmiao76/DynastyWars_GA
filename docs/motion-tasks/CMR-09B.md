@@ -1,6 +1,6 @@
 # CMR-09B — Zhang Fei: integrate and review all motion in game
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: DONE 2026-10-03 (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: [CMR-09A](CMR-09A.md) DONE with a complete prepared pack.
 - No other fighter implementation in this consumer iteration.
 
@@ -26,14 +26,14 @@
 
 ## Acceptance
 
-- [ ] All required frames/bindings displayed in live runtime; no legacy texture or old rig blends inside this successfully published fighter. Bad/missing pack negative controls retain whole old fighter without affecting other valid packs.
-- [ ] Exact existing hit/projectile windows and movement/AI remain unchanged; visible strike/release matches simulation, no added input lock.
-- [ ] Stable scale/pivots/body identity; smooth applicable action boundaries and shared guard/down frames; no standing insertion into low collapse.
-- [ ] Genuine gait/ground contacts and head/weapon landmark criteria from A still pass after runtime registration. No drift dismissed just because global vision is green.
-- [ ] Actual motion footage and before/after contact/crop evidence for every applicable action/facing, including role-specific list above. Capture source commit/hash/dirty state known.
-- [ ] Character load/decode/cache costs meet CMR-03 limits; unused kinds not all loaded at boot; restart/cancel/evict tested as relevant.
-- [ ] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates.
-- [ ] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE.
+- [x] All required frames/bindings displayed in live runtime; no legacy texture or old rig blends inside this successfully published fighter. Bad/missing pack negative controls retain whole old fighter without affecting other valid packs. (73-row traces both renderers: every key a real pack frame on motion textures, no mixing; e2e negative controls green: missing/wrong-signature/hung pages reject only the failing fighter.)
+- [x] Exact existing hit/projectile windows and movement/AI remain unchanged; visible strike/release matches simulation, no added input lock. (Per-tick unit tests pin the strike drawing on every active tick of all 6 attacks from core windows; signal 13/13 incl. co-op; no core/sim changes - presentation only.)
+- [x] Stable scale/pivots/body identity; smooth applicable action boundaries and shared guard/down frames; no standing insertion into low collapse. (One pivot (260,272), grounded 0.0u; transitions unit-pinned incl. the per-kind collapseTail fix that closed a 34-tick legacy leak after throws; bookends by clip convention verified live.)
+- [x] Genuine gait/ground contacts and head/weapon landmark criteria from A still pass after runtime registration. No drift dismissed just because global vision is green. (Walk cycle reviewed live mid-stride; feet plant; head 6.4%/weapon band unchanged from A - registration is translation-only; vision sprite gate 256/256.)
+- [x] Actual motion footage and before/after contact/crop evidence for every applicable action/facing, including role-specific list above. Capture source commit/hash/dirty state known. (37 crops + contact sheet + video per renderer at 35edc53-dirty; report in docs/ZHANGFEI_ACTION_REVIEW.md; no pairs/ yet - first capture, rotation ready.)
+- [x] Character load/decode/cache costs meet CMR-03 limits; unused kinds not all loaded at boot; restart/cancel/evict tested as relevant. (Per-fighter 21.44 MB under the documented 22 MB owner exception; stage scope defers archer past 12 MB by design; restart/evict/dedupe/cancel covered in runtime + e2e tests; boot downloads nothing.)
+- [x] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates. (Guanyu/mook behavior provably unchanged - defaults preserved, pre-existing tests green; ?motion=1 opt-in asserted on/off in pilot + loader tests; default catalog untouched.)
+- [x] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE. (Units 883|1-known-G6|6, lint/tsc clean, motion e2e green, vision 5/5, prodbuild 8/8, signal 13/13; full-e2e shows only the two known-intermittent flakes, green in isolation; repair reserve untouched this task - 1 round left shared.)
 
 The three-round Acceptance-4 [repair-only reserve](../MOTION_ACCEPTANCE4_RECOVERY.md) is shared with this fighter’s A task. If runtime evidence reveals a *new* actual source-art defect, diagnose and reserve a focused repair; do not silently repurpose it for general polish, loosen checks or reset the task-iteration limit.
 

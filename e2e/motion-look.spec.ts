@@ -38,7 +38,7 @@ for (const [variant, query, renderer] of [
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
     if (variant !== 'current') {
       await expect.poll(() => requested.length, { timeout: 15_000 }).toBe(1)
-      expect(await page.evaluate(() => Object.keys(window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual(['guanyu'])
+      await expect.poll(async () => Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
     }
     const introUp = (): Promise<boolean> => page.evaluate(() => !!window.__DW_GAME__?.scene.getScene('hud')?.children.list.some((o) => o.name === 'introCard'))
     await expect.poll(introUp).toBe(true) // Enter before it exists does nothing.

@@ -57,7 +57,10 @@ test('stage-scoped loading: measured downloads, restart and stage progression ne
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   await expect.poll(() => requested.length, { timeout: 15_000 }).toBe(2)
   await expect.poll(() => responses.length, { timeout: 15_000 }).toBe(2)
-  expect(await motionsKeys(page)).toEqual(['guanyu'])
+  // Stage scope packs the hero + default 2P + stage mooks (archer deferred:
+  // 13.34 MB planned would pass the 12 MiB cap); fetch settlement order is
+  // nondeterministic, so compare sorted once converged.
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
   expect(await spriteId(page, 'playerId')).toBe('entity:guanyu:motion:walk:0')
   // Measured stage-entry downloads (contract: <= 12 MiB).
   const bytes = (await Promise.all(responses.map(async (r) => (await r.body().catch(() => Buffer.alloc(0))).length))).reduce((a, b) => a + b, 0)
@@ -78,7 +81,7 @@ test('stage-scoped loading: measured downloads, restart and stage progression ne
     return g?.sim?.seed
   })).toBe(44)
   expect(requested, 'stage progression re-downloads nothing').toHaveLength(2)
-  expect(await motionsKeys(page)).toEqual(['guanyu'])
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
   expect(errors).toEqual([])
 })
 
@@ -91,7 +94,9 @@ test('co-op: the default hero is ready at stage entry and joins immediately with
   await page.evaluate(() => window.__DW__!.startGame('zhaoyun', 42, 'stage1'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   await expect.poll(() => requested.length, { timeout: 15_000 }).toBe(2)
-  expect(await motionsKeys(page)).toEqual(['guanyu'])
+  // Packless hero + guanyu 2P + stage mooks fit the cap (9.30 MB): all four
+  // publish; fetch order is nondeterministic so compare sorted.
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
   expect(await page.evaluate(() => window.__DW__!.joinP2!())).toBe(true)
   await expect.poll(() => page.evaluate(() => {
     const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
@@ -112,8 +117,10 @@ test('missing pack page rejects the fighter and a co-op join falls back whole-le
   await page.evaluate(() => window.__DW__!.startGame('zhangfei', 42, 'stage1'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   // Atomic rejection: the first failed page stops the pack (no later pages).
+  // Guanyu fails whole while the hero pack and stage mooks publish (archer
+  // stays deferred: 13.34 MB planned would pass the 12 MiB cap).
   await expect.poll(() => requested.length, { timeout: 15_000 }).toBeGreaterThanOrEqual(1)
-  await expect.poll(() => motionsKeys(page), { message: 'zhangfei publishes; guanyu falls back whole, nothing partial', timeout: 15_000 }).toEqual(['zhangfei'])
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { message: 'zhangfei publishes; guanyu falls back whole, nothing partial', timeout: 15_000 }).toEqual(['soldier', 'spearman', 'zhangfei'])
   // Uncached optional hero: the join prepares the pack first (bounded); the
   // bounded failure joins the hero with whole-legacy art.
   expect(await page.evaluate(() => window.__DW__!.joinP2!())).toBe(true)
@@ -123,7 +130,7 @@ test('missing pack page rejects the fighter and a co-op join falls back whole-le
   })).toBe(true)
   expect(await spriteId(page, 'player2Id').then((k) => k.includes(':motion:'))).toBe(false)
   expect(await spriteId(page, 'playerId').then((k) => k.includes(':motion:')), 'the hero with a valid pack shows motion art').toBe(true)
-  expect(await motionsKeys(page)).toEqual(['zhangfei'])
+  expect((await motionsKeys(page)).sort()).toEqual(['soldier', 'spearman', 'zhangfei'])
   expect(errors).toEqual([])
 })
 
@@ -138,7 +145,9 @@ test('wrong-signature bytes reject the fighter (SHA-256 mismatch), other art unt
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
   await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage1'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
-  expect(await motionsKeys(page)).toEqual([])
+  // Guanyu falls back whole (its sheet is garbage); the hero-2P pack and
+  // stage mooks still publish (archer deferred by the cap as usual).
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['soldier', 'spearman', 'zhangfei'])
   expect(await spriteId(page, 'playerId').then((k) => k.includes(':motion:'))).toBe(false)
   // Hero/body art (the fighter's other valid art) survives the rejection.
   expect(await page.evaluate(() => {
@@ -160,7 +169,8 @@ test('a hung pack download times out within the bound and the stage falls back t
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 30_000 }).toBe('game')
   expect(Date.now() - began, 'bounded: the stage enters without the hung page').toBeLessThan(25_000)
   await expect.poll(() => requested.length, { timeout: 15_000 }).toBe(2)
-  expect(await motionsKeys(page), 'whole fighter legacy, never partial').toEqual([])
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['soldier', 'spearman', 'zhangfei'])
+  expect(await motionsKeys(page).then((keys) => keys.includes('guanyu')), 'whole fighter legacy, never partial').toBe(false)
   expect(await spriteId(page, 'playerId').then((k) => k.includes(':motion:'))).toBe(false)
   expect(errors).toEqual([])
 })

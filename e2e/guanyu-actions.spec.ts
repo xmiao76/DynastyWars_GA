@@ -132,9 +132,11 @@ test('missing additional action atlas rejects both packs rather than mixing mode
   expect(await page.evaluate(() => Object.keys(window.__DW_GAME__?.scene.getScene('boot').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
   await page.evaluate(() => window.__DW__!.startGame('guanyu', 42))
   await expect.poll(() => page.evaluate(() => window.__DW__!.getSnapshot().scene)).toBe('game')
-  // Whole-fighter rejection: one missing page means NOTHING publishes, and the
-  // hero renders legacy art rather than a mixed/partial model.
-  expect(await page.evaluate(() => Object.keys(window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
+  // Whole-fighter rejection: one missing page means guanyu publishes
+  // NOTHING, and the hero renders legacy art rather than a mixed/partial
+  // model - while catalogued siblings still publish (archer deferred by
+  // the cap as usual).
+  await expect.poll(async () => Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort(), { timeout: 15_000 }).toEqual(['soldier', 'spearman', 'zhangfei'])
   const legacyKey = await page.evaluate(() => {
     const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
     game.syncSprites()

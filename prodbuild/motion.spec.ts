@@ -12,9 +12,10 @@ const URL = 'http://localhost:4321'
 
 /**
  * CMR-03 acceptance 6 against the ACTUAL dist build (extended by CMR-06B,
- * CMR-07B): the runtime stays opt-in, nothing downloads or publishes at
+ * CMR-07B, CMR-09B): the runtime stays opt-in, nothing downloads or publishes at
  * boot, stage entry fetches exactly the catalogued packs' pages (guanyu's
- * two + the stage's soldier, spearman and archer pages), and both renderers display
+ * two + the default-2P zhangfei two + the stage's soldier and spearman pages;
+ * archer defers past the 12 MiB cap), and both renderers display
  * shared atlas frames whose trim/pivot restores the old per-cell registration.
  */
 for (const renderer of ['canvas', 'webgl'] as const) {
@@ -22,7 +23,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
     test(`built motion pilot is ${enabled ? 'opted in' : 'off by default'} (${renderer})`, async ({ page }) => {
       const requests: string[] = [], errors: string[] = []
       page.on('request', (r) => {
-        if (/(guanyu-(motion|actions)-sheet|soldier-motion-sheet|spearman-motion-sheet|archer-motion-sheet)/.test(r.url()) && r.resourceType() !== 'script') requests.push(r.url())
+        if (/(guanyu-(motion|actions)-sheet|soldier-motion-sheet|spearman-motion-sheet|archer-motion-sheet|zhangfei-(motion|actions)-sheet)/.test(r.url()) && r.resourceType() !== 'script') requests.push(r.url())
       })
       page.on('pageerror', (e) => errors.push(String(e)))
       await page.goto(`${URL}/?renderer=${renderer}&autopilot=1${enabled ? '&motion=1' : ''}`)
@@ -34,8 +35,10 @@ for (const renderer of ['canvas', 'webgl'] as const) {
       await page.evaluate(() => window.__DW__?.startGame('guanyu', 42, 'stage1'))
       await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
       if (enabled) {
-        await expect.poll(() => requests.length, { timeout: 15_000 }).toBe(5)
-        expect(Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman'])
+        await expect.poll(() => requests.length, { timeout: 15_000 }).toBe(6)
+        // Publication lags fetch-start (decode + verify + install), so poll
+        // for convergence rather than reading once.
+        await expect.poll(async () => Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
       } else {
         expect(requests).toEqual([])
       }

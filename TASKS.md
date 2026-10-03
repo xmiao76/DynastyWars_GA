@@ -199,21 +199,19 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-09B - Zhang Fei: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; owner directed "do (a)+(c)"
-  2026-10-03 and the fix is implemented: narrow per-pack decoded
-  exception 22 MiB for zhangfei-1 flowing prepare -> manifest ->
-  emit -> catalog, honored at both catalog enforcement points and
-  the pipeline gate; pipeline gate now counts page pixels (trim sum
-  kept as trimBytes, never gates); catalog entry + publish wiring
-  landed; zhangfei publishes in the runtime tests; all 5 packs
-  re-verified (guanyu/mooks <= 16 MiB, zhangfei 21.44 MB <= 22 MB).
-  Captures + review done 2026-10-03 (73 rows, 0 errors, 37 crops,
-  both renderers; report in docs/ZHANGFEI_ACTION_REVIEW.md; one real
-  defect found + fixed: shared lowCollapse guanyu literals caused
-  ~34 ticks of legacy fallback after every throw - backward-
-  compatible per-kind collapseTail + tests, old packs unchanged).
-  Remaining: vision, prodbuild, signal per the spec handoff, then
-  DONE.)
+- Status: DONE (attempt 1; 2026-10-03, verified). Zhangfei pack
+  registered + published behind ?motion=1 (catalog entry, 20-clip
+  table, dispatch, validator; 22 MiB owner exception with the
+  pipeline gate now counting page pixels); captures green both
+  renderers (73 rows, 0 errors, 37 crops each) with the fighter
+  review in docs/ZHANGFEI_ACTION_REVIEW.md; per-kind collapseTail
+  fixed a 34-tick legacy leak after throws (guanyu/mooks provably
+  unchanged); gates green (units 883|1-known-G6|6, motion e2e,
+  vision 5/5, prodbuild 8/8, signal 13/13; full e2e shows only the
+  two known-intermittent flakes, green in isolation). Evidence:
+  [review](docs/ZHANGFEI_ACTION_REVIEW.md) /
+  [PROVENANCE.md](art/motion/zhangfei/PROVENANCE.md).
+  CMR-10A is unblocked.
 - Dependency: CMR-09A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09B](docs/motion-tasks/CMR-09B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic zhangfei pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
@@ -669,38 +667,6 @@ Add future enhancement tasks below this heading.
         fixed (self-check) - the last of its three parts (sky UIR-9,
         ridges UIR-10, ground here).
 - Non-goals: collision, or the lane depth.
-
-### UIR-15 - Strike arms bend; no parallel rails
-
-- Status: DONE (attempt 2, 2026-09-27 UTC - owner V-14 request,
-  verified full-green same day)
-- Source: UI review 2026-09-27, findings V-14 J6 (S2)
-- Evidence: artifacts/review/latest/anatomy/*.png (attack/thrust/chop
-  on polearm fighters) - both arms run near-straight and parallel
-  under the haft like rails. One-handers and the bow read fine.
-- Root cause: POSE - src/game/art/poses.ts strike arm geometry plus
-  the weapons.ts arm solution rest too straight: elbows keep little
-  flexion and the two arms share one direction.
-- Requirement: two-handed strikes keep visible elbow flexion and break
-  the parallel: differentiate the arms (lead/push roles), keep both
-  fists on the haft with separation, keep hands/weapons clear of the
-  face per the existing gates.
-- Acceptance criteria:
-  - [x] Elbow-flexion + elbow-side measure
-        (test/game/uir15-strikearms.test.ts): far-elbow turn rises vs
-        baseline on attack/chop (guanyu attack 84->116deg, chop
-        123->135; chop chains 23-33->42-84deg) and the two elbows bow
-        different sides of the bar (or >=3u apart on it) in every
-        polearm strike. Probe-recorded geometry limit: on long
-        ji/glaives the weapon's own butt sits at ~full far reach at
-        thrust (d=24.1 vs reach 24.5), so the rear arm is legitimately
-        extended there and the elbows' sides carry the rails fix.
-        Grip-hold guard: every strike keeps the far hand on the haft.
-  - [x] The anatomy J6 re-review reads ok (J6 FIXED on attack/attack2/thrust for all polearm fighters (elbows clearly apart, low hip vs bar height; the parallel-tubes read is gone)).
-  - [x] Reach/face-clear/parity gates stay green; full gates green
-        (lint 0, tsc 0, unit 640/640, e2e 78, vision 5/5, selfplay
-        13/13, build 0, prodbuild 4/4).
-- Non-goals: new poses, timing changes, in-betweens (BODY-24).
 
 ### UIR-16 - Keep the far fist off the near arm on two-handed strikes
 
