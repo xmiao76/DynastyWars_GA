@@ -5,6 +5,41 @@ reference hashes + verdict recorded here. Budget: 16 shared across
 10A/10B; repair reserve (3 rounds) separate, only for diagnosed
 source-art defects after a failed acceptance 4.
 
+## Acceptance-4 verdict (2026-10-03) — FAIL on weapon length; repair round 1 queued
+
+Method: spear-line (RANSAC + tip-to-butt extension) + presence-based
+endpoint adjudication + landmarks-final record (adapted from the 09A
+scripts; largest-wins mapping throughout). Overlay + suspect strips +
+face forensics reviewed with the image tool on fingerprinted files.
+
+- WEAPON LENGTH: raw adjudicator FULL 39/56, spread 85.3% (140-397.6).
+  Overlay verification PROVED 6 FULL cells are geometric misfits
+  (fitted axis visibly off the shaft, locking onto body diagonals
+  through boot-leather pixels: getup:1, special:1, special:4, jab2:1,
+  jab2:2, finisher:3 - strip filed in ignored artifacts). CORRECTED
+  FULL (misfits removed on geometric grounds, documented per cell):
+  n=33, 233.1-397.6, spread 50.6% (min getup:4 stand, max
+  finisher:1 drive). Walk family alone: 9/9, 9.4% PASS. VERDICT:
+  FAIL - genuine short spears remain (getup verticals + mid-range
+  cells), not measurement noise.
+- DIRECTION: raw 3 violations >60deg; all invalid on review (2
+  involve geometric misfit axes; getup:3->4 is a vertical sign-flip
+  artifact, 37deg undirected). CORRECTED: 0 valid violations. PASS.
+- HEAD: auto face-cluster method VOID for this fighter (proven:
+  forensic strips show the "face" boxes on helmet trim + plume
+  shadows, which pass the skin gate; even walk:0's box misses the
+  face). Reported D0/D1/D2 spreads (100/48/58%) are meaningless.
+  Indirect scale evidence is consistent (guard figures post-factor
+  ~5%, trim blobs 5.5%, face-to-ground consistent) - no drift
+  detected, but no valid direct head measurement either. VERDICT:
+  UNVERIFIED - manual frontal brow-to-chin measurement queued
+  alongside repair round 1.
+- OVERALL: FAIL (weapon length) -> acceptance-4 repair protocol,
+  round 1 next: diagnose true shorts per cell (incl. re-measuring
+  the 6 misfits + the unexamined getup row), focused redraws,
+  re-prepare, re-measure. Repair reserve 3/3 untouched; authoring
+  15/16 (1 spare preserved, not spent on repairs).
+
 ## Attempts
 
 ### tallcell-redraw-2 (ACCEPTED 2026-10-03) — sha `70372e0d…`

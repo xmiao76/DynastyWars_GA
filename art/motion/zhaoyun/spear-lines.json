@@ -1,0 +1,1234 @@
+[
+  {
+    "id": "walk:0",
+    "label": "guard",
+    "seq": "walk",
+    "pos": 0,
+    "cell": 0,
+    "scale": 0.700052,
+    "displayed": 322.7,
+    "length": 461,
+    "shaftCoverage": 0.85,
+    "inliers": 189,
+    "angle": -11,
+    "tipAtHigh": true,
+    "a": [
+      52,
+      234
+    ],
+    "b": [
+      504,
+      148
+    ]
+  },
+  {
+    "id": "walk:1",
+    "label": "walk1",
+    "seq": "walk",
+    "pos": 1,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 319.9,
+    "length": 457,
+    "shaftCoverage": 0.79,
+    "inliers": 181,
+    "angle": -5,
+    "tipAtHigh": true,
+    "a": [
+      571,
+      216
+    ],
+    "b": [
+      1025,
+      174
+    ]
+  },
+  {
+    "id": "walk:2",
+    "label": "walk2",
+    "seq": "walk",
+    "pos": 2,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 315.7,
+    "length": 451,
+    "shaftCoverage": 0.84,
+    "inliers": 168,
+    "angle": -15,
+    "tipAtHigh": true,
+    "a": [
+      1094,
+      246
+    ],
+    "b": [
+      1529,
+      131
+    ]
+  },
+  {
+    "id": "walk:3",
+    "label": "walk3",
+    "seq": "walk",
+    "pos": 3,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 329.7,
+    "length": 471,
+    "shaftCoverage": 0.87,
+    "inliers": 204,
+    "angle": -11,
+    "tipAtHigh": true,
+    "a": [
+      67,
+      568
+    ],
+    "b": [
+      528,
+      480
+    ]
+  },
+  {
+    "id": "walk:4",
+    "label": "walk4",
+    "seq": "walk",
+    "pos": 4,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 322,
+    "length": 460,
+    "shaftCoverage": 0.8,
+    "inliers": 172,
+    "angle": -11,
+    "tipAtHigh": true,
+    "a": [
+      585,
+      568
+    ],
+    "b": [
+      1036,
+      484
+    ]
+  },
+  {
+    "id": "walk:5",
+    "label": "walk5",
+    "seq": "walk",
+    "pos": 5,
+    "cell": 5,
+    "scale": 0.700052,
+    "displayed": 321.3,
+    "length": 459,
+    "shaftCoverage": 0.87,
+    "inliers": 170,
+    "angle": -12,
+    "tipAtHigh": true,
+    "a": [
+      1081,
+      570
+    ],
+    "b": [
+      1528,
+      471
+    ]
+  },
+  {
+    "id": "walk:6",
+    "label": "walk6",
+    "seq": "walk",
+    "pos": 6,
+    "cell": 6,
+    "scale": 0.700052,
+    "displayed": 332.5,
+    "length": 475,
+    "shaftCoverage": 0.83,
+    "inliers": 188,
+    "angle": -10,
+    "tipAtHigh": true,
+    "a": [
+      49,
+      901
+    ],
+    "b": [
+      517,
+      821
+    ]
+  },
+  {
+    "id": "walk:7",
+    "label": "walk7",
+    "seq": "walk",
+    "pos": 7,
+    "cell": 7,
+    "scale": 0.700052,
+    "displayed": 322,
+    "length": 460,
+    "shaftCoverage": 0.84,
+    "inliers": 179,
+    "angle": -6,
+    "tipAtHigh": true,
+    "a": [
+      582,
+      890
+    ],
+    "b": [
+      1038,
+      841
+    ]
+  },
+  {
+    "id": "walk:8",
+    "label": "walk8",
+    "seq": "walk",
+    "pos": 8,
+    "cell": 8,
+    "scale": 0.700052,
+    "displayed": 302.4,
+    "length": 432,
+    "shaftCoverage": 0.88,
+    "inliers": 160,
+    "angle": -10,
+    "tipAtHigh": true,
+    "a": [
+      1103,
+      886
+    ],
+    "b": [
+      1528,
+      814
+    ]
+  },
+  {
+    "id": "jab1:0",
+    "label": "windup",
+    "seq": "jab1",
+    "pos": 0,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 356.3,
+    "length": 509,
+    "shaftCoverage": 0.86,
+    "inliers": 262,
+    "angle": -19,
+    "tipAtHigh": true,
+    "a": [
+      546,
+      229
+    ],
+    "b": [
+      1027,
+      65
+    ]
+  },
+  {
+    "id": "jab1:1",
+    "label": "drive",
+    "seq": "jab1",
+    "pos": 1,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 359.1,
+    "length": 513,
+    "shaftCoverage": 0.58,
+    "inliers": 105,
+    "angle": -4,
+    "tipAtHigh": true,
+    "a": [
+      1013,
+      189
+    ],
+    "b": [
+      1523,
+      155
+    ]
+  },
+  {
+    "id": "jab1:2",
+    "label": "extension",
+    "seq": "jab1",
+    "pos": 2,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 394.1,
+    "length": 563,
+    "shaftCoverage": 0.51,
+    "inliers": 129,
+    "angle": -1,
+    "tipAtHigh": true,
+    "a": [
+      59,
+      459
+    ],
+    "b": [
+      621,
+      454
+    ]
+  },
+  {
+    "id": "jab1:3",
+    "label": "follow",
+    "seq": "jab1",
+    "pos": 3,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 267.4,
+    "length": 382,
+    "shaftCoverage": 0.74,
+    "inliers": 157,
+    "angle": 10,
+    "tipAtHigh": true,
+    "a": [
+      643,
+      455
+    ],
+    "b": [
+      1019,
+      519
+    ]
+  },
+  {
+    "id": "jab1:4",
+    "label": "recover",
+    "seq": "jab1",
+    "pos": 4,
+    "cell": 5,
+    "scale": 0.700052,
+    "displayed": 313.6,
+    "length": 448,
+    "shaftCoverage": 0.85,
+    "inliers": 203,
+    "angle": 11,
+    "tipAtHigh": true,
+    "a": [
+      1080,
+      477
+    ],
+    "b": [
+      1519,
+      561
+    ]
+  },
+  {
+    "id": "jab2:0",
+    "label": "chamber-low",
+    "seq": "jab2",
+    "pos": 0,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 327.6,
+    "length": 468,
+    "shaftCoverage": 0.76,
+    "inliers": 159,
+    "angle": -14,
+    "tipAtHigh": true,
+    "a": [
+      522,
+      226
+    ],
+    "b": [
+      976,
+      116
+    ]
+  },
+  {
+    "id": "jab2:1",
+    "label": "drive",
+    "seq": "jab2",
+    "pos": 1,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 194.6,
+    "length": 278,
+    "shaftCoverage": 0.64,
+    "inliers": 135,
+    "angle": -66,
+    "tipAtHigh": true,
+    "a": [
+      1071,
+      293
+    ],
+    "b": [
+      1186,
+      41
+    ]
+  },
+  {
+    "id": "jab2:2",
+    "label": "extension",
+    "seq": "jab2",
+    "pos": 2,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 210.7,
+    "length": 301,
+    "shaftCoverage": 0.54,
+    "inliers": 102,
+    "angle": -32,
+    "tipAtHigh": true,
+    "a": [
+      62,
+      531
+    ],
+    "b": [
+      317,
+      372
+    ]
+  },
+  {
+    "id": "jab2:3",
+    "label": "follow",
+    "seq": "jab2",
+    "pos": 3,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 322,
+    "length": 460,
+    "shaftCoverage": 0.86,
+    "inliers": 183,
+    "angle": -13,
+    "tipAtHigh": true,
+    "a": [
+      618,
+      545
+    ],
+    "b": [
+      1064,
+      438
+    ]
+  },
+  {
+    "id": "jab2:4",
+    "label": "recover",
+    "seq": "jab2",
+    "pos": 4,
+    "cell": 5,
+    "scale": 0.700052,
+    "displayed": 350,
+    "length": 500,
+    "shaftCoverage": 0.87,
+    "inliers": 166,
+    "angle": -5,
+    "tipAtHigh": true,
+    "a": [
+      1026,
+      618
+    ],
+    "b": [
+      1524,
+      577
+    ]
+  },
+  {
+    "id": "finisher:0",
+    "label": "coil",
+    "seq": "finisher",
+    "pos": 0,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 352.8,
+    "length": 504,
+    "shaftCoverage": 0.83,
+    "inliers": 137,
+    "angle": -13,
+    "tipAtHigh": true,
+    "a": [
+      547,
+      178
+    ],
+    "b": [
+      1038,
+      68
+    ]
+  },
+  {
+    "id": "finisher:1",
+    "label": "drive",
+    "seq": "finisher",
+    "pos": 1,
+    "cell": 6,
+    "scale": 0.700052,
+    "displayed": 397.6,
+    "length": 568,
+    "shaftCoverage": 0.68,
+    "inliers": 115,
+    "angle": -16,
+    "tipAtHigh": true,
+    "a": [
+      73,
+      837
+    ],
+    "b": [
+      619,
+      685
+    ]
+  },
+  {
+    "id": "finisher:2",
+    "label": "extension",
+    "seq": "finisher",
+    "pos": 2,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 387.8,
+    "length": 554,
+    "shaftCoverage": 0.61,
+    "inliers": 137,
+    "angle": -1,
+    "tipAtHigh": true,
+    "a": [
+      94,
+      459
+    ],
+    "b": [
+      647,
+      450
+    ]
+  },
+  {
+    "id": "finisher:3",
+    "label": "follow",
+    "seq": "finisher",
+    "pos": 3,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 170.1,
+    "length": 243,
+    "shaftCoverage": 0.67,
+    "inliers": 101,
+    "angle": -76,
+    "tipAtHigh": true,
+    "a": [
+      750,
+      606
+    ],
+    "b": [
+      808,
+      371
+    ]
+  },
+  {
+    "id": "finisher:4",
+    "label": "recover",
+    "seq": "finisher",
+    "pos": 4,
+    "cell": 5,
+    "scale": 0.700052,
+    "displayed": 265.3,
+    "length": 379,
+    "shaftCoverage": 0.47,
+    "inliers": 66,
+    "angle": 24,
+    "tipAtHigh": true,
+    "a": [
+      1115,
+      476
+    ],
+    "b": [
+      1460,
+      630
+    ]
+  },
+  {
+    "id": "jump:0",
+    "label": "takeoff",
+    "seq": "jump",
+    "pos": 0,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 347.2,
+    "length": 496,
+    "shaftCoverage": 0.68,
+    "inliers": 211,
+    "angle": -21,
+    "tipAtHigh": true,
+    "a": [
+      599,
+      233
+    ],
+    "b": [
+      1061,
+      56
+    ]
+  },
+  {
+    "id": "jump:1",
+    "label": "ascent",
+    "seq": "jump",
+    "pos": 1,
+    "cell": 0,
+    "scale": 0.700052,
+    "displayed": 366.8,
+    "length": 524,
+    "shaftCoverage": 0.72,
+    "inliers": 171,
+    "angle": 4,
+    "tipAtHigh": true,
+    "a": [
+      52,
+      279
+    ],
+    "b": [
+      573,
+      318
+    ]
+  },
+  {
+    "id": "jump:2",
+    "label": "apex",
+    "seq": "jump",
+    "pos": 2,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 406.7,
+    "length": 581,
+    "shaftCoverage": 0.75,
+    "inliers": 316,
+    "angle": 21,
+    "tipAtHigh": true,
+    "a": [
+      991,
+      104
+    ],
+    "b": [
+      1533,
+      310
+    ]
+  },
+  {
+    "id": "jump:3",
+    "label": "kick",
+    "seq": "jump",
+    "pos": 3,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 381.5,
+    "length": 545,
+    "shaftCoverage": 0.6,
+    "inliers": 158,
+    "angle": -14,
+    "tipAtHigh": true,
+    "a": [
+      35,
+      560
+    ],
+    "b": [
+      562,
+      424
+    ]
+  },
+  {
+    "id": "jump:4",
+    "label": "descent",
+    "seq": "jump",
+    "pos": 4,
+    "cell": 5,
+    "scale": 0.700052,
+    "displayed": 319.2,
+    "length": 456,
+    "shaftCoverage": 0.74,
+    "inliers": 128,
+    "angle": 16,
+    "tipAtHigh": true,
+    "a": [
+      1091,
+      557
+    ],
+    "b": [
+      1527,
+      685
+    ]
+  },
+  {
+    "id": "jump:5",
+    "label": "landing",
+    "seq": "jump",
+    "pos": 5,
+    "cell": 7,
+    "scale": 0.700052,
+    "displayed": 329.7,
+    "length": 471,
+    "shaftCoverage": 0.75,
+    "inliers": 166,
+    "angle": 0,
+    "tipAtHigh": true,
+    "a": [
+      604,
+      817
+    ],
+    "b": [
+      1074,
+      816
+    ]
+  },
+  {
+    "id": "fall:0",
+    "label": "topple",
+    "seq": "fall",
+    "pos": 0,
+    "cell": 0,
+    "scale": 0.700052,
+    "displayed": 368.2,
+    "length": 526,
+    "shaftCoverage": 0.73,
+    "inliers": 334,
+    "angle": 25,
+    "tipAtHigh": true,
+    "a": [
+      17,
+      121
+    ],
+    "b": [
+      493,
+      344
+    ]
+  },
+  {
+    "id": "fall:1",
+    "label": "airborne",
+    "seq": "fall",
+    "pos": 1,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 324.1,
+    "length": 463,
+    "shaftCoverage": 0.93,
+    "inliers": 263,
+    "angle": -25,
+    "tipAtHigh": true,
+    "a": [
+      607,
+      216
+    ],
+    "b": [
+      1026,
+      21
+    ]
+  },
+  {
+    "id": "fall:2",
+    "label": "tumble",
+    "seq": "fall",
+    "pos": 2,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 291.9,
+    "length": 417,
+    "shaftCoverage": 0.87,
+    "inliers": 272,
+    "angle": -34,
+    "tipAtHigh": true,
+    "a": [
+      1133,
+      270
+    ],
+    "b": [
+      1478,
+      38
+    ]
+  },
+  {
+    "id": "fall:3",
+    "label": "impact",
+    "seq": "fall",
+    "pos": 3,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 318.5,
+    "length": 455,
+    "shaftCoverage": 0.75,
+    "inliers": 173,
+    "angle": 8,
+    "tipAtHigh": true,
+    "a": [
+      38,
+      603
+    ],
+    "b": [
+      487,
+      668
+    ]
+  },
+  {
+    "id": "fall:4",
+    "label": "DOWN",
+    "seq": "fall",
+    "pos": 4,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 414.4,
+    "length": 592,
+    "shaftCoverage": 0.88,
+    "inliers": 363,
+    "angle": 6,
+    "tipAtHigh": true,
+    "a": [
+      504,
+      626
+    ],
+    "b": [
+      1092,
+      684
+    ]
+  },
+  {
+    "id": "getup:0",
+    "label": "elbow",
+    "seq": "getup",
+    "pos": 0,
+    "cell": 0,
+    "scale": 0.700052,
+    "displayed": 184.1,
+    "length": 263,
+    "shaftCoverage": 0.62,
+    "inliers": 116,
+    "angle": -44,
+    "tipAtHigh": true,
+    "a": [
+      193,
+      319
+    ],
+    "b": [
+      381,
+      136
+    ]
+  },
+  {
+    "id": "getup:1",
+    "label": "kneel",
+    "seq": "getup",
+    "pos": 1,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 140,
+    "length": 200,
+    "shaftCoverage": 0.51,
+    "inliers": 111,
+    "angle": -50,
+    "tipAtHigh": false,
+    "a": [
+      685,
+      185
+    ],
+    "b": [
+      814,
+      33
+    ]
+  },
+  {
+    "id": "getup:2",
+    "label": "crouch",
+    "seq": "getup",
+    "pos": 2,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 177.1,
+    "length": 253,
+    "shaftCoverage": 0.52,
+    "inliers": 106,
+    "angle": -68,
+    "tipAtHigh": true,
+    "a": [
+      1243,
+      309
+    ],
+    "b": [
+      1337,
+      75
+    ]
+  },
+  {
+    "id": "getup:3",
+    "label": "half-rise",
+    "seq": "getup",
+    "pos": 3,
+    "cell": 8,
+    "scale": 0.700052,
+    "displayed": 168,
+    "length": 240,
+    "shaftCoverage": 0.58,
+    "inliers": 105,
+    "angle": -70,
+    "tipAtHigh": true,
+    "a": [
+      1243,
+      940
+    ],
+    "b": [
+      1326,
+      715
+    ]
+  },
+  {
+    "id": "getup:4",
+    "label": "stand",
+    "seq": "getup",
+    "pos": 4,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 233.1,
+    "length": 333,
+    "shaftCoverage": 0.63,
+    "inliers": 88,
+    "angle": 73,
+    "tipAtHigh": false,
+    "a": [
+      769,
+      356
+    ],
+    "b": [
+      865,
+      674
+    ]
+  },
+  {
+    "id": "misc:0",
+    "label": "hurt-recoil",
+    "seq": "misc",
+    "pos": 0,
+    "cell": 0,
+    "scale": 0.636347,
+    "displayed": 337.9,
+    "length": 531,
+    "shaftCoverage": 0.65,
+    "inliers": 111,
+    "angle": 18,
+    "tipAtHigh": false,
+    "a": [
+      7,
+      117
+    ],
+    "b": [
+      512,
+      278
+    ]
+  },
+  {
+    "id": "misc:1",
+    "label": "hurt-fold",
+    "seq": "misc",
+    "pos": 1,
+    "cell": 1,
+    "scale": 0.636347,
+    "displayed": 262.2,
+    "length": 412,
+    "shaftCoverage": 0.71,
+    "inliers": 108,
+    "angle": -23,
+    "tipAtHigh": true,
+    "a": [
+      588,
+      239
+    ],
+    "b": [
+      966,
+      77
+    ]
+  },
+  {
+    "id": "misc:2",
+    "label": "grab-clamp",
+    "seq": "misc",
+    "pos": 2,
+    "cell": 7,
+    "scale": 0.636347,
+    "displayed": 339.2,
+    "length": 533,
+    "shaftCoverage": 0.75,
+    "inliers": 147,
+    "angle": 10,
+    "tipAtHigh": true,
+    "a": [
+      504,
+      826
+    ],
+    "b": [
+      1028,
+      917
+    ]
+  },
+  {
+    "id": "misc:3",
+    "label": "grab-hold",
+    "seq": "misc",
+    "pos": 3,
+    "cell": 3,
+    "scale": 0.636347,
+    "displayed": 283.2,
+    "length": 445,
+    "shaftCoverage": 0.74,
+    "inliers": 147,
+    "angle": 23,
+    "tipAtHigh": true,
+    "a": [
+      104,
+      462
+    ],
+    "b": [
+      514,
+      632
+    ]
+  },
+  {
+    "id": "misc:4",
+    "label": "release",
+    "seq": "misc",
+    "pos": 4,
+    "cell": 4,
+    "scale": 0.636347,
+    "displayed": 309.3,
+    "length": 486,
+    "shaftCoverage": 0.72,
+    "inliers": 117,
+    "angle": -1,
+    "tipAtHigh": true,
+    "a": [
+      541,
+      491
+    ],
+    "b": [
+      1026,
+      482
+    ]
+  },
+  {
+    "id": "special:0",
+    "label": "raise",
+    "seq": "special",
+    "pos": 0,
+    "cell": 0,
+    "scale": 0.700052,
+    "displayed": 282.8,
+    "length": 404,
+    "shaftCoverage": 0.67,
+    "inliers": 83,
+    "angle": -25,
+    "tipAtHigh": true,
+    "a": [
+      107,
+      185
+    ],
+    "b": [
+      471,
+      13
+    ]
+  },
+  {
+    "id": "special:1",
+    "label": "coil",
+    "seq": "special",
+    "pos": 1,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 170.1,
+    "length": 243,
+    "shaftCoverage": 0.51,
+    "inliers": 92,
+    "angle": -27,
+    "tipAtHigh": true,
+    "a": [
+      607,
+      170
+    ],
+    "b": [
+      823,
+      60
+    ]
+  },
+  {
+    "id": "special:2",
+    "label": "pre-spin",
+    "seq": "special",
+    "pos": 2,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 238.7,
+    "length": 341,
+    "shaftCoverage": 0.59,
+    "inliers": 74,
+    "angle": 2,
+    "tipAtHigh": true,
+    "a": [
+      1166,
+      169
+    ],
+    "b": [
+      1506,
+      179
+    ]
+  },
+  {
+    "id": "special:3",
+    "label": "strike",
+    "seq": "special",
+    "pos": 3,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 443.8,
+    "length": 634,
+    "shaftCoverage": 0.81,
+    "inliers": 190,
+    "angle": 0,
+    "tipAtHigh": true,
+    "a": [
+      32,
+      470
+    ],
+    "b": [
+      665,
+      469
+    ]
+  },
+  {
+    "id": "special:4",
+    "label": "follow",
+    "seq": "special",
+    "pos": 4,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 175.7,
+    "length": 251,
+    "shaftCoverage": 0.34,
+    "inliers": 67,
+    "angle": -49,
+    "tipAtHigh": true,
+    "a": [
+      746,
+      565
+    ],
+    "b": [
+      911,
+      377
+    ]
+  },
+  {
+    "id": "rider:0",
+    "label": "idle",
+    "seq": "rider",
+    "pos": 0,
+    "cell": 1,
+    "scale": 0.700052,
+    "displayed": 343.7,
+    "length": 491,
+    "shaftCoverage": 0.84,
+    "inliers": 229,
+    "angle": -23,
+    "tipAtHigh": true,
+    "a": [
+      575,
+      266
+    ],
+    "b": [
+      1026,
+      76
+    ]
+  },
+  {
+    "id": "rider:1",
+    "label": "trot",
+    "seq": "rider",
+    "pos": 1,
+    "cell": 6,
+    "scale": 0.700052,
+    "displayed": 343.7,
+    "length": 491,
+    "shaftCoverage": 0.85,
+    "inliers": 238,
+    "angle": -29,
+    "tipAtHigh": true,
+    "a": [
+      76,
+      936
+    ],
+    "b": [
+      504,
+      698
+    ]
+  },
+  {
+    "id": "rider:2",
+    "label": "mount",
+    "seq": "rider",
+    "pos": 2,
+    "cell": 2,
+    "scale": 0.700052,
+    "displayed": 299.6,
+    "length": 428,
+    "shaftCoverage": 0.91,
+    "inliers": 232,
+    "angle": -25,
+    "tipAtHigh": true,
+    "a": [
+      1132,
+      279
+    ],
+    "b": [
+      1518,
+      96
+    ]
+  },
+  {
+    "id": "rider:3",
+    "label": "sweep-windup",
+    "seq": "rider",
+    "pos": 3,
+    "cell": 3,
+    "scale": 0.700052,
+    "displayed": 344.4,
+    "length": 492,
+    "shaftCoverage": 0.69,
+    "inliers": 180,
+    "angle": 12,
+    "tipAtHigh": true,
+    "a": [
+      16,
+      374
+    ],
+    "b": [
+      496,
+      479
+    ]
+  },
+  {
+    "id": "rider:4",
+    "label": "sweep",
+    "seq": "rider",
+    "pos": 4,
+    "cell": 4,
+    "scale": 0.700052,
+    "displayed": 438.9,
+    "length": 627,
+    "shaftCoverage": 0.64,
+    "inliers": 193,
+    "angle": -2,
+    "tipAtHigh": true,
+    "a": [
+      553,
+      469
+    ],
+    "b": [
+      1179,
+      450
+    ]
+  },
+  {
+    "id": "rider:5",
+    "label": "dismount",
+    "seq": "rider",
+    "pos": 5,
+    "cell": 5,
+    "scale": 0.700052,
+    "displayed": 276.5,
+    "length": 395,
+    "shaftCoverage": 0.55,
+    "inliers": 103,
+    "angle": 35,
+    "tipAtHigh": true,
+    "a": [
+      1191,
+      428
+    ],
+    "b": [
+      1514,
+      654
+    ]
+  }
+]

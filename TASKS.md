@@ -219,14 +219,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10A - Zhao Yun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner directed "do (a)"
-  2026-10-03 and it is executed: 2 tall cells redrawn compact
-  (grid-constrained second try after a free-form oversize fail)
-  + composited (9 clean each) + prepare re-solved with the 21MB
-  exception: base 0.700052, guard 226.1px (94.2% of Guan Yu,
-  above mook), pages 20.61MB <= 22.02MB, deterministic, 0
-  step-downs. Budget 15/16. Remaining: landmark acceptance,
-  continuity review.)
+- Status: IN_PROGRESS (attempt 1; owner do-(a) executed, pack
+  solves at hero scale (guard 226.1px, pages 20.61MB <= 22.02MB).
+  Acceptance-4 MEASURED 2026-10-03: weapon length FAIL (FULL
+  85.3% raw, 50.6% corrected after removing 6 overlay-proven
+  misfits; walk family 9.4% passes), direction PASS corrected
+  (0 valid violations), head UNVERIFIED (auto face-cluster
+  method proven void on helmet/plume - measures trim, not faces).
+  Repair protocol round 1 queued (diagnose + redraw shorts +
+  manual head measurement). Budget 15/16 + repair 3/3.)
 - Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 15:15 UTC - CMR-10A (attempt 1, IN_PROGRESS - acceptance-4 FAILS on weapon length; repair round 1 queued)
+
+- Status before: CMR-10A IN_PROGRESS (pack solves at hero scale
+  under the 21MB exception, budget 15/16). No PENDING FILING,
+  review 0/4.
+- Work completed: adapted + ran the full landmark chain
+  (spear-line + presence adjudicator + landmarks-final, all with
+  largest-wins mapping). WEAPON: raw FULL 39/56 at 85.3%; overlay
+  review PROVED 6 FULL cells are geometric misfits (axes locked
+  onto body diagonals via boot pixels, not the shafts) -
+  corrected FULL n=33 spans 50.6% (233.1-397.6): FAIL (walk
+  family alone 9.4% passes). DIRECTION: 3 raw violations all
+  invalid (2 on misfit axes, 1 vertical sign-flip = 37deg
+  undirected): corrected PASS. HEAD: auto face-cluster method
+  proven VOID (forensic strips: boxes sit on helmet trim + plume
+  shadows that pass the skin gate, incl. walk:0) - D0/D1/D2
+  meaningless; indirect figure/trim consistency ~5% shows no
+  drift; manual frontal measurement queued. Full verdict with
+  per-cell grounds in PROVENANCE.md; overlay + suspect + forensic
+  strips in ignored artifacts (fingerprinted reads).
+- Files changed: scripts/spear-line-zhaoyun.mjs +
+  spear-adjudicate-zhaoyun.mjs + landmarks-final-zhaoyun.mjs
+  (new), art/motion/zhaoyun/spear-lines.json + landmarks-final.json
+  (new; force-added), PROVENANCE.md (verdict), TASKS.md,
+  PROGRESS.md. Overlays/strips in ignored artifacts/.
+- Verification run: chain green end-to-end (56/56 measured, 39
+  FULL adjudicated, JSON written); every challenged number backed
+  by overlay/strip/forensic image reads on fingerprinted files;
+  corrected spread recomputed independently (50.6%); eslint clean
+  on the 3 new scripts.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: acceptance-4 REPAIR ROUND 1
+  (diagnose true shorts per cell incl. re-measuring misfits +
+  the getup row, focused redraws, re-prepare, re-measure) +
+  manual frontal head measurement. Repair reserve 3/3 untouched;
+  authoring 15/16 (1 spare, not for repairs). No blocker.
+- Next recommended task: CMR-10A (repair round 1).
+
 ### 2026-10-03 14:50 UTC - CMR-10A (attempt 1, IN_PROGRESS - owner "do (a)" executed; pack solves at hero scale)
 
 - Status before: CMR-10A BLOCKED (fit + budget contradiction;
