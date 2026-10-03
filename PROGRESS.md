@@ -22,6 +22,51 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 16:00 UTC - CMR-10A BLOCKED (attempt 1, second block - R1 partial; 3 splices infeasible; waiver requested)
+
+- Status before: CMR-10A IN_PROGRESS (R1 diagnosed, 7-cell redraw
+  planned). No PENDING FILING, review 0/4.
+- Work completed: executed repair round 1 end-to-end. Reserved R1
+  (persisted pending BEFORE the call) + generated the 7-cell grid
+  redraw (sha 68e3ab28; 7/7 clean, 0 edge): TRUE-endpoint verify
+  shows all 7 drawings fixed (getup verticals 338/233 -> 516/464;
+  others into/near band; jab1:3 548 TRUE after exposing a boot
+  endpoint). Settled R1 accepted with evidence. Spliced into -r1
+  sheet copies: 4/7 clean (getup x2, special:4, misc:1 - 9 comps,
+  all cells covered), 3/7 COLLIDED (finisher:4 blade overlaps cell
+  5's figure; rider:5 butt meets cell 4's blade; jab1:3 blade deep
+  inside cell 4's torso) - all sandwiched with no slack, PROVEN
+  infeasible with contact visuals (bad composites deleted, not
+  committed). Re-prepared (base/guard/pages unchanged in range:
+  226.1px, 20.16MB <= 22.02MB, deterministic de869ad2) +
+  re-measured: FULL 39 at 72.5% (was 85.3%); residual floor
+  (jab1:3 267 + borderlines) unmovable by rounds 2-3 (same
+  crowding). Verdict: partial success, full compliance
+  unreachable -> WAIVER REQUESTED with for/against/alternatives
+  in PROVENANCE.md (09A precedent). Repair 1/3
+  spent; authoring 15/16.
+- Files changed: art/motion/zhaoyun/acceptance4-round1-candidate-1.png
+  + *-r1.png x3 (getup/special/misc composites; force-added) +
+  repair-r1-reference.png (force-added) + PROVENANCE.md (R1 outcome
+  + waiver request), scripts (SHEETS -> -r1), repair ledger
+  (R1 settled accepted), registration.json + spear-lines.json +
+  landmarks-final.json (new numbers), TASKS.md, PROGRESS.md.
+  Contact/verify strips in ignored artifacts (fingerprinted reads).
+- Verification run: reserve-before-call + settle with SHAs per
+  protocol; redraw census + TRUE-endpoint overlay per cell;
+  composite recounts; prepare deterministic; full re-measure
+  chain green (numbers above). No game-code changes; eslint on
+  touched scripts (run at commit).
+- Result: CMR-10A BLOCKED (attempt 1, second block - waiver
+  decision required; repair path exhausted by proof, not by
+  budget).
+- Status after: CMR-10A BLOCKED.
+- Remaining work or blocker: BLOCKED on owner waive/decline (see
+  PROVENANCE.md waiver request). If waived: record + continuity
+  review + DONE. If declined: owner picks an alternative (full
+  re-briefs / ritual rounds / manual heads first).
+- Next recommended task: CMR-10A (owner decision).
+
 ### 2026-10-03 15:25 UTC - CMR-10A (attempt 1, IN_PROGRESS - repair round 1 diagnosed; 7-cell redraw list final)
 
 - Status before: CMR-10A IN_PROGRESS (acceptance-4 failed on

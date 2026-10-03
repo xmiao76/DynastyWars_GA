@@ -5,6 +5,51 @@ reference hashes + verdict recorded here. Budget: 16 shared across
 10A/10B; repair reserve (3 rounds) separate, only for diagnosed
 source-art defects after a failed acceptance 4.
 
+## Repair round 1 — outcome (2026-10-03): partial (4/7 spliced); 3 splice-infeasible
+
+- Redraws verified: getup:1 516 (was 338), getup:4 464 (was 233),
+  special:4 425 (was 393, at edge), misc:1 439 (was 412),
+  finisher:4 437 (was 381), rider:5 513 (was 391), jab1:3 548 TRUE
+  (butt-to-blade; the 679 auto-read was a boot endpoint). All 7
+  drawings fixed.
+- Splice: 4/7 clean (getup x2, special:4, misc:1 -> -r1 sheets,
+  9 comps each, all cells covered). 3/7 COLLIDED and PROVEN
+  infeasible with contact visuals: finisher:4's blade overlaps
+  cell 5's figure; rider:5's butt meets cell 4's blade at the
+  boundary; jab1:3's blade overlaps deep into cell 4's torso.
+  All three sandwiched with no slack. Bad composites deleted.
+- Re-prepare + re-measure: base unchanged (0.700052), guard
+  226.1px, pages 20.16MB <= 22.02MB, deterministic (de869ad2).
+  FULL 39 cells at 72.5% (was 85.3%); walk 9.4% still passes.
+  Residual floor (jab1:3 267 + borderlines) cannot be moved by
+  rounds 2-3 (same crowding) -> no ritual burning.
+
+## Acceptance-4 waiver request (2026-10-03; owner decision required)
+
+Following the 09A precedent (waived with full disclosure after
+demonstrated repair limits), CMR-10A requests waiver of the weapon-
+length spread item:
+- FOR: walk family 9.4% passes (the core gait); 4/7 worst shorts
+  fixed by R1 (getup verticals resolved); direction passes
+  corrected; no scale drift detected anywhere (figures post-factor
+  ~5%); remaining shorts are 15-25% under (not 50%+ like 09A's
+  worst); splice infeasibility of the 3 structural cells is proven
+  with visuals (not assumed); rounds 2-3 demonstrably cannot close
+  the band (same crowding).
+- AGAINST / DISCLOSED: FULL spread ~35-40% post-R1 (exact number
+  depends on misfit handling); 3 cells (jab1:3, finisher:4,
+  rider:5) stay short permanently under this layout; head-size is
+  UNVERIFIED by direct measurement (auto method void on helmet/
+  plume; manual frontal measurement offered as follow-up);
+  borderline cells sit 6-14% under mass.
+- ALTERNATIVES CONSIDERED: full-sheet re-briefs for jab1/finisher/
+  rider (3 requests = all remaining budget, high new-defect risk,
+  poses change) - not recommended; ritual rounds 2-3 on
+  borderlines - cannot move the floor, not recommended.
+- If waived: record waiver + ship with disclosed numbers (as 09A);
+  head manual measurement still recommended for completeness.
+  If declined: owner directs which alternative to burn.
+
 ## Repair round 1 — diagnosis (2026-10-03; execution next)
 
 Method: TRUE endpoint lengths (gold-butt-cluster to steel-tip direct,

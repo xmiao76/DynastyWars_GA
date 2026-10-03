@@ -798,19 +798,19 @@
     "pos": 1,
     "cell": 1,
     "scale": 0.700052,
-    "displayed": 140,
-    "length": 200,
-    "shaftCoverage": 0.51,
-    "inliers": 111,
-    "angle": -50,
-    "tipAtHigh": false,
+    "displayed": 366.1,
+    "length": 523,
+    "shaftCoverage": 0.75,
+    "inliers": 190,
+    "angle": -24,
+    "tipAtHigh": true,
     "a": [
-      685,
-      185
+      544,
+      264
     ],
     "b": [
-      814,
-      33
+      1020,
+      48
     ]
   },
   {
@@ -864,19 +864,19 @@
     "pos": 4,
     "cell": 4,
     "scale": 0.700052,
-    "displayed": 233.1,
-    "length": 333,
-    "shaftCoverage": 0.63,
-    "inliers": 88,
-    "angle": 73,
-    "tipAtHigh": false,
+    "displayed": 329,
+    "length": 470,
+    "shaftCoverage": 0.93,
+    "inliers": 218,
+    "angle": -12,
+    "tipAtHigh": true,
     "a": [
-      769,
-      356
+      542,
+      554
     ],
     "b": [
-      865,
-      674
+      1000,
+      453
     ]
   },
   {
@@ -908,19 +908,19 @@
     "pos": 1,
     "cell": 1,
     "scale": 0.636347,
-    "displayed": 262.2,
-    "length": 412,
-    "shaftCoverage": 0.71,
-    "inliers": 108,
-    "angle": -23,
+    "displayed": 280.6,
+    "length": 441,
+    "shaftCoverage": 0.91,
+    "inliers": 183,
+    "angle": -26,
     "tipAtHigh": true,
     "a": [
-      588,
-      239
+      582,
+      248
     ],
     "b": [
-      966,
-      77
+      978,
+      57
     ]
   },
   {
@@ -1084,19 +1084,19 @@
     "pos": 4,
     "cell": 4,
     "scale": 0.700052,
-    "displayed": 175.7,
-    "length": 251,
-    "shaftCoverage": 0.34,
-    "inliers": 67,
-    "angle": -49,
+    "displayed": 297.5,
+    "length": 425,
+    "shaftCoverage": 0.47,
+    "inliers": 90,
+    "angle": -7,
     "tipAtHigh": true,
     "a": [
-      746,
-      565
+      725,
+      475
     ],
     "b": [
-      911,
-      377
+      1147,
+      426
     ]
   },
   {

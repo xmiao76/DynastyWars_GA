@@ -25,9 +25,9 @@ const SHEETS = {
   finisher: 'finisher-candidate-1.png',
   jump: 'jump-candidate-1.png',
   fall: 'fall-candidate-1.png',
-  getup: 'getup-candidate-2.png',
-  misc: 'misc-candidate-2.png',
-  special: 'special-candidate-1.png',
+  getup: 'getup-candidate-2-r1.png',
+  misc: 'misc-candidate-2-r1.png',
+  special: 'special-candidate-1-r1.png',
   rider: 'rider-candidate-1.png',
 }
 // Standing-guard-like cells usable as scale evidence (pos varies).

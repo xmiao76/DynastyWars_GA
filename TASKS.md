@@ -219,16 +219,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10A - Zhao Yun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner do-(a) executed, pack
-  solves at hero scale. Acceptance-4 FAILS on weapon (FULL 85.3%
-  raw, 50.6% corrected). Repair round 1 DIAGNOSED 2026-10-03:
-  TRUE endpoint lengths establish 7 redraw cells (getup:1/4,
-  special:4, finisher:4, rider:5, misc:1, jab1:3 - all verified
-  short with correct endpoints); 5 RANSAC shorts proven fine
-  (getup:0/2/3, special:1, finisher:3); 3 occluded-butt cells
-  UNVERIFIED, excluded from R1 (jab2:1/2, misc:3). R1 executes
-  next (reserve + grid redraw + composite + re-prepare +
-  re-measure + manual heads). Budget 15/16 + repair 3/3.)
+- Status: BLOCKED (attempt 1; repair round 1 EXECUTED 2026-10-03:
+  7 redraws verified fixed (getup verticals resolved), but only 4/7
+  splice cleanly - finisher:4/rider:5/jab1:3 collide with neighbors
+  and are PROVEN infeasible with contact visuals (sandwiched, no
+  slack). Post-R1 FULL still fails (~35-40%; walk 9.4% passes).
+  Rounds 2-3 cannot move the floor (same crowding) -> no ritual
+  burn. WAIVER REQUESTED (09A precedent): weapon-length spread
+  with full disclosure (for/against/alternatives in PROVENANCE.md);
+  head manual measurement offered as follow-up. Awaiting owner
+  waive/decline with direction.)
 - Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

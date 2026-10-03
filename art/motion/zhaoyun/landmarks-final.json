@@ -5,13 +5,13 @@
       "n": 56,
       "min": 12.4,
       "max": 36.4,
-      "spreadPct": 100.1
+      "spreadPct": 102.5
     },
     "D1_shape_rule": {
-      "n": 15,
+      "n": 13,
       "min": 15.2,
       "max": 26.2,
-      "spreadPct": 48.3,
+      "spreadPct": 48.7,
       "ids": [
         "walk:0",
         "walk:1",
@@ -23,9 +23,7 @@
         "walk:7",
         "finisher:4",
         "fall:4",
-        "getup:1",
         "getup:4",
-        "special:4",
         "rider:1",
         "rider:3"
       ]
@@ -46,9 +44,9 @@
   "weapon": {
     "FULL_set": {
       "n": 39,
-      "min": 140,
+      "min": 170.1,
       "max": 397.6,
-      "spreadPct": 85.3,
+      "spreadPct": 72.5,
       "ids": [
         "walk:0",
         "walk:1",
@@ -95,7 +93,7 @@
       "n": 37,
       "min": 170.1,
       "max": 381.5,
-      "spreadPct": 69.6
+      "spreadPct": 67
     },
     "walk_family": {
       "n": 9,
@@ -544,11 +542,11 @@
       "label": "kneel",
       "scale": 0.700052,
       "face": {
-        "w": 74,
-        "h": 65,
-        "area": 1346
+        "w": 55,
+        "h": 34,
+        "area": 402
       },
-      "displayed": 25.68
+      "displayed": 14.04
     },
     {
       "id": "getup:2",
@@ -580,11 +578,11 @@
       "label": "stand",
       "scale": 0.700052,
       "face": {
-        "w": 52,
-        "h": 51,
-        "area": 735
+        "w": 45,
+        "h": 46,
+        "area": 794
       },
-      "displayed": 18.98
+      "displayed": 19.73
     },
     {
       "id": "misc:0",
@@ -604,11 +602,11 @@
       "label": "hurt-fold",
       "scale": 0.636347,
       "face": {
-        "w": 75,
-        "h": 32,
-        "area": 1317
+        "w": 58,
+        "h": 22,
+        "area": 440
       },
-      "displayed": 23.09
+      "displayed": 13.35
     },
     {
       "id": "misc:2",
@@ -700,11 +698,11 @@
       "label": "follow",
       "scale": 0.700052,
       "face": {
-        "w": 60,
-        "h": 47,
-        "area": 1095
+        "w": 42,
+        "h": 21,
+        "area": 368
       },
-      "displayed": 23.17
+      "displayed": 13.43
     },
     {
       "id": "rider:0",

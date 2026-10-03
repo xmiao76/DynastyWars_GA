@@ -96,6 +96,27 @@
           "outputSha256": "8aab44c0cb745bfeb24ceda7f5f04b90f4d3ce790bb907a199ad4495391a1e55"
         }
       ]
+    },
+    "zhaoyun": {
+      "rounds": [
+        {
+          "number": 1,
+          "status": "accepted",
+          "cells": [
+            "getup:1",
+            "getup:4",
+            "special:4",
+            "finisher:4",
+            "rider:5",
+            "misc:1",
+            "jab1:3"
+          ],
+          "failure": "TRUE-endpoint lengths 233-416 raw vs ~470 mass (12-50% under): getup:1 kneel 338 + getup:4 stand 233 (vertical shorts), special:4 393, finisher:4 381, rider:5 391, misc:1 412, jab1:3 416 (mid-span shorts); all endpoints verified on butt+blade via overlay. Walk family 9.4% passes; these 7 fail the 10% band.",
+          "sourceSha256": "0974f5be673accd1ed7f53ab6932eeb0761d48531aa59359f5600936371be03b",
+          "evidence": "acceptance4-round1-candidate-1.png (7 clean components in cells 0-6, 0 edge, gate green). TRUE-endpoint verify (butt-to-blade, overlay-read): getup:1 516 (was 338), getup:4 464 (was 233), special:4 425 (was 393, at band edge), finisher:4 437 (was 381), rider:5 513 (was 391), misc:1 439 (was 412), jab1:3 548 (was 416; the 679 auto-read was a boot endpoint, true butt-to-blade verified). 6/7 clean fixes into/near band; special:4 marginal. Splice into -r1 sheet copies + re-prepare + re-measure next.",
+          "outputSha256": "68e3ab2863e35edcebebf834a44078ba7909e9ec2fd979536dda5255bcdb8aa1"
+        }
+      ]
     }
   }
 }

@@ -180,7 +180,7 @@
         6,
         7
       ],
-      "sha256": "40aaac55793aed815320bfcbc3f2fcadec141f2b60ce7adcc7067bc404beb1fd",
+      "sha256": "3e63cdfa9e032ca43bcd99a3bdfcce88b43d3151a8f4cb8803f3d6d56276e6e8",
       "scale": 0.700052,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: mean 0.97 within resolution (ground 0.983, height 0.958) - factor 1"
@@ -202,7 +202,7 @@
         6,
         8
       ],
-      "sha256": "4cfc8b14060236d202c0739c704a982c619936d8f974499e0aa1c528faa3e4ad",
+      "sha256": "fbce41d385854f33c5a3b9336e5340a9f65523c6248762db600788eb639a3d37",
       "scale": 0.636347,
       "scaleFactor": 0.909,
       "scaleEvidence": "applied: two geometric proxies agree (ground 0.908, height 0.91)"
@@ -218,13 +218,14 @@
       "culledCells": [
         5,
         5,
+        5,
         6,
         7,
         7,
         8,
         8
       ],
-      "sha256": "604252d30e808ed2844a9071cecf5c398da9f0700a00b103d2a2a9691d517653",
+      "sha256": "229c78ba91384a2e9b0719d7d3c20f4a93d11b7782fb5bc909db5f7b1f1f651d",
       "scale": 0.700052,
       "scaleFactor": 1,
       "scaleEvidence": "UNRESOLVED: mean 0.964 within resolution (ground 0.958, height 0.97) - factor 1"
@@ -623,6 +624,7 @@
         }
       ],
       "culledCells": [
+        5,
         5,
         5,
         6,

@@ -25,9 +25,9 @@ const SHEETS = {
   finisher: 'finisher-candidate-1.png',
   jump: 'jump-candidate-1b.png',
   fall: 'fall-candidate-1b.png',
-  getup: 'getup-candidate-2.png',
-  misc: 'misc-candidate-2.png',
-  special: 'special-candidate-1.png',
+  getup: 'getup-candidate-2-r1.png',
+  misc: 'misc-candidate-2-r1.png',
+  special: 'special-candidate-1-r1.png',
   rider: 'rider-candidate-1.png',
 }
 // Kept cells (prepare layout): position -> source cell (play order).
