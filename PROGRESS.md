@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 21:55 UTC - CMR-10B (attempt 1, IN_PROGRESS - canvas capture done; all actions pass self-check)
+
+- Status before: CMR-10B IN_PROGRESS (registration wired). No
+  PENDING FILING, review 1/4.
+- Work completed: extended the capture harness for zhaoyun
+  (pack loading, zy.* bindings, hero action list, resources with
+  the 21MB cap) + the capture spec (timeout, zy.* attack map,
+  17-action isolated list with the finisher strike at tick 8 for
+  zy's shorter windows). Canvas capture green: 73 rows, 0 trace/
+  page errors, 0 hard integrity, 2 standing open landmarks,
+  32/6 coverage (stop/release/dismount unseen = transition clips,
+  sampled as frames, no gap). Reviewed the contact sheet (37
+  crops) + enlarged jumpkick/special/jab1/knockdown crops: every
+  action renders full motion art correctly, both facings mirror,
+  no legacy blends/blanks/pops. Only defect visible: ghost
+  slivers at some frame edges (e.g. jab1-right) = the already-
+  filed shared trim defect, no new findings, no repair triggered.
+  Wrote docs/ZHAOYUN_ACTION_REVIEW.md (per-action verdicts +
+  indexed artifacts).
+- Files changed: scripts/motion-capture.mjs, e2e/motion-capture.spec.ts,
+  docs/ZHAOYUN_ACTION_REVIEW.md (new), TASKS.md, PROGRESS.md.
+  Capture outputs in ignored artifacts/motion-review/ (read).
+- Verification run: capture self-check passed (numbers above);
+  contact + 4 crops read on fingerprinted files; eslint clean.
+  (The pwsh exit-1 on the capture command is the stderr-warning
+  artifact; the harness printed self-check passed with complete
+  fresh outputs.)
+- Result: CMR-10B IN_PROGRESS (attempt 1).
+- Status after: CMR-10B IN_PROGRESS.
+- Remaining work or blocker: webgl capture + vision/prodbuild/
+  signal gates, then DONE. No blocker.
+- Next recommended task: CMR-10B (webgl + gates).
+
 ### 2026-10-03 21:44 UTC - CMR-10B (attempt 1, IN_PROGRESS - registration wired; units green)
 
 - Status before: CMR-10A DONE (CMR-10B ungated). No PENDING FILING,
