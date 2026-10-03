@@ -4,6 +4,7 @@ import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import type Phaser from 'phaser'
 import { CONTRACT_CAPS, type BudgetCaps } from '../../src/game/adapters/motion-catalog'
+import type { MotionArt } from '../../src/game/art/motion-clips'
 import {
   MotionRuntime,
   MOTION_PACKS,
@@ -220,6 +221,7 @@ describe('stage-scoped motion runtime', () => {
     const rep = rt.budget()
     expect(rep.perFighterDecoded['zhangfei']).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
     expect(rep.perFighterDecoded['zhangfei']).toBeLessThanOrEqual(22 * 1024 * 1024)
+    expect((motions()['zhangfei'] as MotionArt).collapseTail, 'published art carries the per-kind collapse tail').toEqual(['fall:3', 'fall:4'])
     // Restart/stage progression: shutdown then a new stage entry reuses the
     // cache with ZERO downloads (textures + registry survive the restart).
     rt.cancelLoads()

@@ -62,6 +62,17 @@ if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer') {
   packRevision = singlePrepared.revision
   pivot = { x: singlePrepared.box.width, y: singlePrepared.box.groundY * singlePrepared.density }
 }
+if (fighter === 'zhangfei') {
+  // Two-page hero pack, one prepared record: both page hashes + revision +
+  // pivot come from it (pivot = full cell width, ground line in px).
+  singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/zhangfei-prepared.json`, 'utf8'))
+  sourceHashes = {
+    'zhangfei-motion-sheet.png': singlePrepared.sha256.sheet,
+    'zhangfei-actions-sheet.png': singlePrepared.sha256.actions,
+  }
+  packRevision = singlePrepared.revision
+  pivot = { x: singlePrepared.box.width, y: singlePrepared.box.groundY * singlePrepared.density }
+}
 
 // ---- rotate the previous capture (before/after pairs across rotations) ----
 if (existsSync(run)) {
@@ -122,10 +133,15 @@ const bindings = fighter === 'soldier'
     ? { 'spear.thrust': 'thrust' }
     : fighter === 'archer'
       ? {} // Shooters bind no melee attacks (the core skips the check on empty bindings).
-      : {
-        'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
-        'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
-      }
+      : fighter === 'zhangfei'
+        ? {
+          'zf.jab1': 'jab1', 'zf.jab2': 'jab2', 'zf.finisher': 'finisher',
+          'zf.jumpkick': 'jumpkick', 'zf.special': 'special', 'mounted.sweep': 'mountedsweep',
+        }
+        : {
+          'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
+          'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
+        }
 const verdict = validateTrace(rows, {
   pack: { frames: packFrames },
   bindings,
@@ -140,7 +156,9 @@ const injectedActions = fighter === 'soldier'
     ? ['idle', 'thrust', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
     : fighter === 'archer'
       ? ['idle', 'shoot-release', 'shoot-reload', 'shoot-draw', 'shoot-aim', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
-      : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+      : fighter === 'zhangfei'
+        ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+        : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
   actions: actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
@@ -191,7 +209,13 @@ const report = {
         ? { networkBytes: 1352663, sourceBytes: 1352663, decodedBytes: 1835 * 866 * 4, gpuBytes: 1835 * 866 * 4 }
         : fighter === 'archer'
           ? { networkBytes: 1830948, sourceBytes: 1830948, decodedBytes: 2045 * 924 * 4, gpuBytes: 2045 * 924 * 4 }
-          : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
+          : fighter === 'zhangfei'
+            ? {
+              networkBytes: 3007913 + 1028932, sourceBytes: 3007913 + 1028932,
+              decodedBytes: 2004 * 2026 * 4 + 1693 * 768 * 4, gpuBytes: 2004 * 2026 * 4 + 1693 * 768 * 4,
+              caps: { pageLimit: 2048, decodedPerFighter: 22 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
+            }
+            : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
     clonedCanvasBytes: 0,
   }),
   coverageSummary: {

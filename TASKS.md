@@ -207,9 +207,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   kept as trimBytes, never gates); catalog entry + publish wiring
   landed; zhangfei publishes in the runtime tests; all 5 packs
   re-verified (guanyu/mooks <= 16 MiB, zhangfei 21.44 MB <= 22 MB).
-  Remaining: captures both facings/renderers (isolated + mixed +
-  interactions), fighter review report, vision/prodbuild/signal per
-  the spec handoff.)
+  Captures + review done 2026-10-03 (73 rows, 0 errors, 37 crops,
+  both renderers; report in docs/ZHANGFEI_ACTION_REVIEW.md; one real
+  defect found + fixed: shared lowCollapse guanyu literals caused
+  ~34 ticks of legacy fallback after every throw - backward-
+  compatible per-kind collapseTail + tests, old packs unchanged).
+  Remaining: vision, prodbuild, signal per the spec handoff, then
+  DONE.)
 - Dependency: CMR-09A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-09B](docs/motion-tasks/CMR-09B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic zhangfei pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

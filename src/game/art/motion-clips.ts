@@ -36,6 +36,13 @@ export interface MotionArt {
   attackBindings?: Record<string, string>
   /** Per-kind state dispatch (soldier frame names differ from the hero set). */
   frameDispatch?: (art: MotionArt, entity: MotionEntity) => string
+  /**
+   * Per-kind low-collapse tail (thrown/getup-interrupt continuity). Default
+   * is Guan Yu's ['fall:5', 'fall:6']; packs whose inventory lacks those
+   * frames MUST set their own impact-then-down pair, or the collapse shows
+   * missing frames (legacy fallback) instead of settling.
+   */
+  collapseTail?: [string, string]
 }
 const IDLE = 'walk:0'
 const DOWN = 'fall:6'

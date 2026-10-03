@@ -235,20 +235,21 @@ export function pacingReport(rows, { limitation } = {}) {
 
 /** Resource report in the CMR-03 budget vocabulary, with caps kept separate. */
 export function resourceReport(budget = {}) {
+  const caps = budget.caps ?? {
+    pageLimit: 2048,
+    decodedPerFighter: 16 * 1024 * 1024,
+    retainedCache: 128 * 1024 * 1024,
+    stageDownloads: 12 * 1024 * 1024,
+  }
   return {
     networkBytes: budget.networkBytes ?? 0,
     sourceBytes: budget.sourceBytes ?? 0,
     decodedBytes: budget.decodedBytes ?? 0,
     gpuBytes: budget.gpuBytes ?? 0,
     clonedCanvasBytes: budget.clonedCanvasBytes ?? 0,
-    caps: budget.caps ?? {
-      pageLimit: 2048,
-      decodedPerFighter: 16 * 1024 * 1024,
-      retainedCache: 128 * 1024 * 1024,
-      stageDownloads: 12 * 1024 * 1024,
-    },
-    withinCaps: (budget.decodedBytes ?? 0) <= 16 * 1024 * 1024
-      && (budget.networkBytes ?? 0) <= 12 * 1024 * 1024,
+    caps,
+    withinCaps: (budget.decodedBytes ?? 0) <= (caps.decodedPerFighter ?? 16 * 1024 * 1024)
+      && (budget.networkBytes ?? 0) <= (caps.stageDownloads ?? 12 * 1024 * 1024),
   }
 }
 

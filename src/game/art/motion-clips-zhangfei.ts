@@ -38,6 +38,13 @@ export const ZHANGFEI_ATTACK_BINDINGS: Record<string, string> = {
   'mounted.sweep': 'dismountedsweep',
 }
 
+/**
+ * Low-collapse tail (thrown/getup-interrupt continuity): impact then DOWN.
+ * Without it the shared player emits guanyu 'fall:5/6' literals that do not
+ * exist in this pack (legacy fallback instead of settling).
+ */
+export const ZHANGFEI_COLLAPSE_TAIL: [string, string] = ['fall:3', 'fall:4']
+
 /** Frame exposures for the hero states; durations derive from core data. */
 export function zhangfeiClips(): MotionArt['clips'] {
   const clips = {

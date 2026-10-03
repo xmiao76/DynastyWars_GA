@@ -41,11 +41,19 @@ export function advanceMotion(art: MotionArt, entity: MotionEntity, tick: number
       out.alreadyDown = (prev.state === 'knockdown' && prev.frame === 'fall:6') || prev.state === 'dead'
     }
     const enteringFall = (entity.state === 'knockdown' || entity.state === 'dying') && prev.state !== entity.state
-    if (enteringFall && prev.state === 'thrown') out.lowCollapse = { frames: [prev.frame, 'fall:5', 'fall:6'] }
+    // Per-kind collapse tail (default Guan Yu's): packs without fall:5/6
+    // set their own impact-then-down pair so the collapse settles on real
+    // drawings instead of missing frames.
+    const collapseTail: [string, string] = art.collapseTail ?? ['fall:5', 'fall:6']
+    if (enteringFall && prev.state === 'thrown') out.lowCollapse = { frames: [prev.frame, ...collapseTail] }
     if (enteringFall && (prev.state === 'getup' || prev.state === 'knockdown')) {
-      const low = /^getup:([1-7])$/.exec(prev.frame)
-      if (low) out.lowCollapse = { frames: [prev.frame, ...Array.from({ length: Number(low[1]) - 1 }, (_, i) => `getup:${Number(low[1]) - i - 1}`), 'fall:6'] }
-      else if (prev.frame === 'fall:6') out.lowCollapse = { frames: ['fall:6'] }
+      // [0-7]: compact packs show getup:0 (zhangfei elbow); Guan Yu never
+      // displays getup:0 (its clip uses DOWN then 1-7), so the wider class
+      // is dead code for guanyu and behavior-preserving for every old pack
+      // (mook groups never match ^getup:).
+      const low = /^getup:([0-7])$/.exec(prev.frame)
+      if (low) out.lowCollapse = { frames: [prev.frame, ...Array.from({ length: Number(low[1]) - 1 }, (_, i) => `getup:${Number(low[1]) - i - 1}`), collapseTail[1]] }
+      else if (prev.frame === collapseTail[1]) out.lowCollapse = { frames: [collapseTail[1]] }
     }
     if (enteringFall && prev.z > 0) {
       out.fallLift = { height: prev.z, sinceStateTick: 0 }

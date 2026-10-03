@@ -5,8 +5,10 @@ import { ATTACKS } from '../../src/core/attacks'
 import { zhangfeiPreparedRecord, motionPackManifest, MOTION_PACKS } from '../../src/game/adapters/motion-art'
 import type { MotionArt, MotionEntity } from '../../src/game/art/motion-clips'
 import { sampleClip, motionFrameForEntity } from '../../src/game/art/motion-clips'
+import { advanceMotion } from '../../src/game/art/motion-player'
 import {
   ZHANGFEI_ATTACK_BINDINGS,
+  ZHANGFEI_COLLAPSE_TAIL,
   ZHANGFEI_FRAMES,
   motionFrameForZhangfei,
   zhangfeiClips,
@@ -34,6 +36,9 @@ const art: MotionArt = {
   actionSheet: {} as CanvasImageSource,
   clips: zhangfeiClips(),
   attackBindings: ZHANGFEI_ATTACK_BINDINGS,
+  // Production-faithful routing + collapse (as publishMotionArtRecord sets).
+  frameDispatch: motionFrameForZhangfei,
+  collapseTail: ZHANGFEI_COLLAPSE_TAIL,
 }
 const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
 
@@ -279,5 +284,45 @@ describe('zhangfei state dispatch (every state, key ticks)', () => {
       expect(allFrames.has(frame), `${e.state} -> ${frame} must be a pack frame`).toBe(true)
     }
     expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null, mountedOn: null })).toBe('walk:0')
+  })
+})
+
+describe('zhangfei collapse continuity (per-kind lowCollapse tail)', () => {
+  const packFrames = new Set(Object.keys(meta.frames))
+
+  it('pins the impact-then-DOWN tail; every tail frame exists in the pack', () => {
+    expect(ZHANGFEI_COLLAPSE_TAIL).toEqual(['fall:3', 'fall:4'])
+    for (const f of ZHANGFEI_COLLAPSE_TAIL) expect(packFrames.has(f), `tail frame ${f} in pack`).toBe(true)
+  })
+
+  it('thrown -> knockdown settles through impact onto DOWN, never a missing frame', () => {
+    const flight = advanceMotion(art, { ...base, state: 'thrown', stateTick: 6, z: 10 }, 6)
+    expect(flight.frame).toBe('fall:3')
+    const impact = advanceMotion(art, { ...base, state: 'knockdown', stateTick: 0 }, 7, flight.playback)
+    expect(impact.frame).toBe('fall:3')
+    const t2 = advanceMotion(art, { ...base, state: 'knockdown', stateTick: 2 }, 9, impact.playback)
+    expect(t2.frame).toBe('fall:3')
+    const t4 = advanceMotion(art, { ...base, state: 'knockdown', stateTick: 4 }, 11, t2.playback)
+    expect(t4.frame).toBe('fall:4')
+    const held = advanceMotion(art, { ...base, state: 'knockdown', stateTick: 30 }, 37, t4.playback)
+    expect(held.frame, 'DOWN holds through the knockdown').toBe('fall:4')
+    for (const f of [flight.frame, impact.frame, t2.frame, t4.frame, held.frame]) {
+      expect(packFrames.has(f), `${f} in pack`).toBe(true)
+    }
+  })
+
+  it('getup interrupted by dying walks back down the poses onto DOWN', () => {
+    const seated = advanceMotion(art, { ...base, state: 'getup', stateTick: 10 }, 45)
+    expect(seated.frame).toBe('getup:2')
+    const defeat = advanceMotion(art, { ...base, state: 'dying', stateTick: 0 }, 46, seated.playback)
+    expect(defeat.frame).toBe('getup:2')
+    expect(advanceMotion(art, { ...base, state: 'dying', stateTick: 2 }, 48, defeat.playback).frame).toBe('getup:1')
+    expect(advanceMotion(art, { ...base, state: 'dying', stateTick: 6 }, 52, defeat.playback).frame).toBe('fall:4')
+    // Elbow edge (getup:0): the [0-7] class covers compact packs.
+    const elbow = advanceMotion(art, { ...base, state: 'getup', stateTick: 2 }, 60)
+    expect(elbow.frame).toBe('getup:0')
+    const defeat0 = advanceMotion(art, { ...base, state: 'dying', stateTick: 0 }, 61, elbow.playback)
+    expect(defeat0.frame).toBe('getup:0')
+    expect(advanceMotion(art, { ...base, state: 'dying', stateTick: 4 }, 65, defeat0.playback).frame).toBe('fall:4')
   })
 })

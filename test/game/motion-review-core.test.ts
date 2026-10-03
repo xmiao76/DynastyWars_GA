@@ -170,6 +170,9 @@ describe('pacing and resource reports', () => {
     expect(report.caps.decodedPerFighter).toBe(16 * 1024 * 1024)
     expect(resourceReport({ networkBytes: 13 * 1024 * 1024 }).withinCaps).toBe(false)
     expect(resourceReport({ decodedBytes: 17 * 1024 * 1024 }).withinCaps).toBe(false)
+    // A documented per-pack exception flows through the caps it carries.
+    expect(resourceReport({ decodedBytes: 21441312, caps: { decodedPerFighter: 22 * 1024 * 1024 } }).withinCaps).toBe(true)
+    expect(resourceReport({ decodedBytes: 21441312 }).withinCaps).toBe(false)
   })
 })
 

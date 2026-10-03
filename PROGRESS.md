@@ -22,6 +22,58 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 06:29 UTC - CMR-09B (attempt 1, IN_PROGRESS - captures green both renderers; review report; 1 real defect fixed)
+
+- Status before: CMR-09B IN_PROGRESS (registration landed; captures +
+  review + gates pending).
+- Work completed: (1) extended the capture harness for the hero action
+  set (17 isolated actions at review-meaningful ticks incl. mounted
+  samples, parameterized zf.* attackIds; runner provenance/bindings/
+  coverage/resources branches; resourceReport.withinCaps now honors
+  passed caps). Two harness bugs of mine found via probes and fixed:
+  injected special/jumpattack MUST carry real attackIds (the sim
+  fail-fasts otherwise and wedges all later snapshots - 3 timeouts
+  diagnosed to this); adjacent isolated actions must not share a sim
+  state at decreasing ticks (trace clock false-positive - list
+  reordered). (2) Captures green both renderers (73 rows, 0 trace
+  errors, 0 hard/blank, 2 standard opens, 37 crops + contact sheet +
+  video each; coverage 32/6 with stop/release/dismount honestly
+  unseen - transition clips with no driving sim state, unit-covered).
+  (3) Reviewed every action at game size + enlarged (report in
+  docs/ZHANGFEI_ACTION_REVIEW.md): all keys match dispatch exactly,
+  bookends hold, renderer parity except the 2 known pre-existing
+  splits (hurt tint canvas/webgl, dead alpha 0 - both reproduced
+  exactly, not zhangfei defects). (4) One REAL defect found in the
+  trace review and fixed: shared lowCollapse guanyu literals
+  ('fall:5/6') caused ~34 ticks of legacy fallback after every
+  zhangfei throw (ticks 2-35 of the knockdown) - fixed with a
+  backward-compatible optional per-kind collapseTail (zhangfei:
+  impact-then-DOWN; guanyu/mooks provably unchanged) + 3 unit tests
+  + publish-wiring pin. Scope note: bounded work 3 routes shared
+  defects to blockers, but a defect that directly violates this
+  task's acceptance 1 (no old-rig blends) with a 10-line compatible
+  fix is the smallest coherent change, not an unrelated refactor;
+  mooks keep their documented behavior (their tasks are DONE).
+- Files changed: e2e/motion-capture.spec.ts (hero lists),
+  scripts/motion-capture.mjs (zhangfei branches),
+  scripts/motion-review-core.mjs (caps-honoring withinCaps),
+  src/game/art/motion-player.ts (collapseTail) + motion-clips.ts
+  (type) + motion-clips-zhangfei.ts (tail const) +
+  src/game/adapters/motion-art.ts (publish attach),
+  test/game/motion-{zhangfei,review-core}.test.ts,
+  docs/ZHANGFEI_ACTION_REVIEW.md (new), TASKS.md, PROGRESS.md.
+  Captures/videos/landmarks in ignored artifacts/. Probe specs
+  deleted after use.
+- Verification run: captures self-check passed both renderers (0/0/0,
+  videos play); eslint clean; typecheck clean; full unit suite 883
+  passed + 6 skipped with ONLY the known G6 baseline failure;
+  pre-existing transition tests green (guanyu default preserved).
+- Result: CMR-09B IN_PROGRESS (attempt 1).
+- Status after: CMR-09B IN_PROGRESS.
+- Remaining work or blocker: vision, prodbuild, signal per the spec
+  handoff (all-cache/local runs), then DONE. No blocker.
+- Next recommended task: CMR-09B (gates + close-out).
+
 ### 2026-10-03 04:40 UTC - CMR-09B (attempt 1, IN_PROGRESS - owner "do (a)+(c)" executed; zhangfei publishes)
 
 - Status before: CMR-09B BLOCKED (prepared pack exceeded the runtime
