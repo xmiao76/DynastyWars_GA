@@ -7,6 +7,34 @@ source-art defects after a failed acceptance 4.
 
 ## Attempts
 
+### finisher-candidate-1 (ACCEPTED WITH REMAP 2026-10-03) — sha `9fe37b20…`
+
+- Request 4/16 (finisher sheet 1/2). Refs in order: body master
+  `a1067c2a`, portrait master `dff59167`. Prompt: 3x3 heavy sweep
+  per AUTHORING-PLAN (cells 1-5 = coil/launch/bridge/impact/follow;
+  0/6/7/8 spares) + identity lock + length contract + cape rule.
+- Mechanical: 1536x1024; opaque≥96 share 33.0%; sheet-edge 0px;
+  28 components @96 -> 9 survivors after cleanup (glow 112812,
+  specks 33px, within tolerance); gate green.
+- DEFECT FOUND + RESOLVED WITHOUT NEW REQUESTS: cell 2 (drive)
+  carries an EXTRA blade-like shaft at bottom-center. Flood ownership
+  proof: all 17 probe pixels belong to cell 2's own component
+  (area 64640) - not a neighbor straddle. Verdict: forked/duplicated
+  weapon element -> cell 2 REJECTED per the no-forks rule. Salvage:
+  spare cell 6 (mid-lunge, horizontal spear) reads naturally between
+  coil (cell 1) and extension (cell 3) - verified side-by-side in
+  play order. Final map: keep {1,6,3,4,5}, cull {0,2,7,8}.
+- Length spot-check: quick-RANSAC numbers (221-566) are method noise
+  on this sheet (occluded/diagonal poses fragment the mask; steep-
+  axis misfits on cells 4/5/7/8). Full-bbox crops PROVE cells 4+5
+  whole (butt + blade + tassel each, straddling cleanly, no merges).
+  No shortened spears observed anywhere; rigorous endpoint
+  adjudication lands after all sheets.
+- Visual (gameplay + 2x zooms + bbox crops): sweep arc reads
+  coil -> drive -> extension -> follow -> recover; identity locked;
+  wrapped fingers; single shafts (except rejected cell 2); uniform
+  heads; cape behind; no clipping, drift, extra limbs, panels, text.
+
 ### jab2-candidate-1 (ACCEPTED 2026-10-03) — sha `3dc80660…`
 
 - Request 3/16 (jab2 sheet 1/2). Refs in order: body master
@@ -86,5 +114,5 @@ source-art defects after a failed acceptance 4.
 
 ## Budgets
 
-- Authoring: 3/16 used (walk + jab1 + jab2 c1 accepted). 13 spare.
+- Authoring: 4/16 used (walk + jab1 + jab2 + finisher c1 accepted). 12 spare.
 - Repair reserve: 3/3 untouched. Shared with CMR-10B.

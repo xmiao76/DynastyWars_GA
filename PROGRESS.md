@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 08:44 UTC - CMR-10A (attempt 1, IN_PROGRESS - finisher sheet accepted with remap)
+
+- Status before: CMR-10A IN_PROGRESS (identity + plan, 3 sheets
+  accepted, budget 3/16). No PENDING FILING, review 0/4.
+- Work completed: reserved finisher sheet 1/2 BEFORE generating
+  (zhaoyun 4/16, total 56/200) and generated finisher-candidate-1
+  (sha 9fe37b20): ACCEPTED WITH REMAP - gate green (9 survivors, 0
+  edge, glow/specks in tolerance), but cell 2 (drive) carries an
+  EXTRA blade-like shaft at bottom-center. Flood ownership proof
+  (all 17 probe pixels in cell 2's own component) ruled out
+  neighbor straddle -> cell 2 REJECTED per the no-forks rule.
+  Salvaged at zero extra cost: spare cell 6 verified side-by-side
+  as the natural drive between coil (1) and extension (3); final
+  map keep {1,6,3,4,5}, cull {0,2,7,8}. Full-bbox crops prove cells
+  4+5 whole (their low RANSAC numbers are method misfits, same
+  documented limitation as jab2). Arc/identity/anatomy verified at
+  gameplay + 2x.
+- Files changed: art/motion/zhaoyun/finisher-candidate-1.png (new;
+  force-added per committed-sources rule) + PROVENANCE.md (attempt
+  record + remap), art/motion/generation-budget.json (4/16),
+  TASKS.md, PROGRESS.md. Diagnostics in ignored artifacts/tmpcheck/.
+- Verification run: budget gate consulted before the call; pipeline
+  gate + census green; flood-fill ownership proof for the defect;
+  play-order arc check for the salvage; bbox-crop blade proofs;
+  visual review on fingerprinted files. No code changes, so no
+  lint/tests apply.
+- Result: CMR-10A IN_PROGRESS (attempt 1).
+- Status after: CMR-10A IN_PROGRESS.
+- Remaining work or blocker: 6 sequences (jump next), prepare with
+  page-aware solving, landmark acceptance, continuity review. No
+  blocker.
+- Next recommended task: CMR-10A (jump sheet).
+
 ### 2026-10-03 08:35 UTC - CMR-10A (attempt 1, IN_PROGRESS - jab2 sheet accepted first try)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, walk + jab1

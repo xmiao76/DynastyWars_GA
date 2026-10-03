@@ -220,9 +220,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-10A - Zhao Yun: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; identity + plan done; walk +
-  jab1 + jab2 candidates ACCEPTED first try each (9 clean
-  components each, 0 edge, verified); budget 3/16. Remaining: 7
-  sequences, prepare, landmark acceptance, continuity review.)
+  jab1 + jab2 + finisher candidates ACCEPTED (finisher with remap:
+  cell 2 forked blade rejected, spare cell 6 promoted - zero extra
+  cost); budget 4/16. Remaining: 6 sequences, prepare, landmark
+  acceptance, continuity review.)
 - Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
