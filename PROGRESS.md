@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 00:04 UTC - CMR-09A (attempt 1, IN_PROGRESS - acceptance-4 method v2, adjudication next)
+
+- Status before: CMR-09A IN_PROGRESS (pack prepared 07d6a9c; acceptance-4
+  landmarks remained).
+- Work completed: acceptance-4 measurement machinery. `scripts/pike-line-
+  zhangfei.mjs` (new) adapts the spearman's spear-line RANSAC with two
+  hardenings: component-masked sampling (wide poses straddle nominal cells;
+  neighbour bleed would corrupt extents) and BOTH-end extension through
+  non-wood fittings (tip through blade/tassel, butt through gold cap).
+  Method v1 failed on 24/56 cells - root cause found by colour census: the
+  pike shaft is a very DARK red-brown (rgb 23,5,3-55,23,8, hue 0-22, v
+  0.02-0.22) and the spearman's wood gate missed it entirely in the
+  getup/misc/special/rider sheets. v2 (gate fixed, run gap 40->130 for
+  torso interruptions, extension cap 150->180) measures 54/56 cells into
+  `pike-lines.json` + a 56-tile endpoint overlay. Head half computed from
+  the committed face data on the 56 kept cells.
+- Result (NOT yet a pass - adjudication required): pike raw displayed
+  spread 155-466px mixes full and partial views (occluded cells under-
+  measure, axis-bleed over-measures - jump:3 610 at cov 0.50 merged with
+  the extended leg); head clean cluster is tight (walk cycle 24.3-25.0 =
+  2.8%, walk+jab upright 6.4%) but 9 cells have limb-merged clusters
+  (fall:0 131x93 etc.). Per contract, occluded/merged cells are UNVERIFIED,
+  not passes: the fully-observable/comparable subsets need the 08A-class
+  per-cell adjudication (overlay + zooms, tag with grounds) before any
+  spread claim. Full disclosure will accompany the verdicts.
+- Files changed: scripts/pike-line-zhangfei.mjs (new),
+  art/motion/zhangfei/{pike-lines.json (new), PROVENANCE.md}, PROGRESS.md.
+  Overlay + colour-census helper in artifacts/ (untracked/ignored).
+- Verification run: eslint clean on the new script (exit 0); method runs
+  deterministic (seeded RANSAC); 54/56 measured with per-cell
+  cov/angle/inliers recorded. No src changes.
+- Status after: CMR-09A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: adjudication turn (56-cell overlay + zooms,
+  comparable/occluded/merged tags with grounds) -> both spreads on the
+  verified subsets -> checklist + DONE. No blocker.
+- Next recommended task: continue CMR-09A (acceptance-4 adjudication).
+
 ### 2026-10-02 23:50 UTC - CMR-09A (attempt 1, IN_PROGRESS - owner picked (c); pack PREPARED, budget PASS)
 
 - Status before: CMR-09A BLOCKED on the budget/hierarchy limits conflict

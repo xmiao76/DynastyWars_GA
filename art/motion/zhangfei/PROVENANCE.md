@@ -124,6 +124,43 @@ option list is preserved for the historical record:
     displaying 74-78% of Guan Yu - at/below the mook archer (111.5
     world px vs 97) - hierarchy caveat recorded for CMR-24.
 
+## Acceptance-4 measurement (2026-10-02, in progress): method v2 works, adjudication next
+
+**Pike length** (`scripts/pike-line-zhangfei.mjs`, adapted from the
+spearman's spear-line method with two hardenings: component-masked
+sampling - the wide poses straddle nominal cells so neighbour bleed would
+corrupt extents - and BOTH-end extension through non-wood fittings).
+Method v1 failed on 24/56 cells with a documented root cause: the pike
+shaft is a very DARK red-brown (rgb 23,5,3-55,23,8; hue 0-22, v 0.02-0.22)
+and the spearman's wood gate (r>=45, v>=0.12) missed it entirely in the
+getup/misc/special/rider sheets. v2 (gate fixed, run gap 40->130 for torso
+interruptions, extension cap 150->180) measures **54/56 cells**
+(`pike-lines.json`; overlay `artifacts/motion/zhangfei/landmarks/
+pike-line-overlay.png` for endpoint adjudication). Raw displayed spread
+across all measured cells is 155-466px (97.8%) but that MIXES full and
+partial views - known biases: occluded cells under-measure (special:1
+coil 155 - pike behind the body), axis-bleed cells over-measure (jump:3
+kick 610 at cov 0.50 - run merged with the extended leg). Per the
+contract, occluded/foreshortened cells are UNVERIFIED, not passes: the
+"fully observable" subset must be adjudicated by eye on the overlay (the
+08A precedent's human side tags + per-cell endpoint adjudication) before
+any spread claim.
+
+**Head size** (face-cluster sqrt-area x sheet scale, from
+measurements-raw.json on the 56 kept cells): the clean cluster is tight -
+walk cycle 24.3-25.0 (**2.8%**), walk+jab upright set 24.3-25.9 (6.4%) -
+but the raw 56-cell spread is 135.8% because 9 cells have limb-merged
+clusters (fall:0 131x93, fall:3 115x148, misc:4 169x65, jump:2 110x128,
+special:0 79x148 etc. - raised arms merge into the topmost skin cluster),
+and tilted/expressive heads inflate the merge (rider mounts ~19.1-19.9).
+The 08A precedent (comparable-orientation subset measured, contaminants
+excluded with grounds, FULL set disclosed) applies exactly.
+
+Next: one adjudication turn - review the 56-cell overlay + zoomed cell
+crops, tag every cell comparable/occluded/merged with grounds, verify
+endpoint placement where visible, then compute both spreads on the
+verified subsets and record pass/fail with the full disclosure.
+
 ## Budgets
 
 - Authoring: 12/16 used (ALL 10 sequences accepted: walk + jab1
