@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 11:52 UTC - Producer pass (signals green; 10A BLOCKED numbers independently verified; IDLE)
+
+- Status before: CMR-10A BLOCKED awaiting owner direction (options
+  a/b/c); all 26 TODOs gated behind it; review count 0/4, no
+  PENDING FILING. No IN_PROGRESS, no actionable TODO -> producer.
+- Work completed: (1) signals green and matching snapshots: logic
+  13/13 (8.2m, no violations/page errors) + vision 5/5 (2.9m, both
+  negative controls failing correctly, parity/sprite/HUD gates
+  green) - no regression. (2) No capture: review not due, no
+  PENDING, no unverified findings, grid full (step 3a N/A).
+  (3) No UX_REVIEW.md pending. (4) Independently verified the 10A
+  BLOCKED claim from committed records with separate arithmetic:
+  fit bound recomputed 0.635071 EXACT (tallest kept cell fall:0
+  422px), guard 198.2px at recorded base, hero base 0.6935 exceeds
+  fit (forbidden), projected pages at hero base 20.08MB = +19.7%
+  over cap (~9.2 frames to cut) - every number matches; the
+  contradiction is real, not a script bug. BLOCKED stands as the
+  correct status. (5) No new S1-S3 defects found; no proposals
+  (opportunity review N/A - blocked TODO work exists; the e2e
+  flakes stay documented observations, not findings).
+- Files changed: PROGRESS.md only (this entry). No game-code,
+  ledger, or task changes; nothing to verify beyond the signals.
+- Verification run: signal 13/13 + vision 5/5 per above, both
+  matching the latest snapshots; BLOCKED arithmetic re-derived
+  independently (numbers above).
+- Result: IDLE - NO NEW FINDINGS.
+- Status after: CMR-10A still BLOCKED (owner decision pending);
+  queue unchanged.
+- Remaining work or blocker: owner picks 10A (a)/(b)/(c); loop
+  continues producer IDLEs until then. No new blocker.
+- Next recommended task: CMR-10A (execute owner direction).
+
 ### 2026-10-03 11:19 UTC - CMR-10A BLOCKED (attempt 1, first block - 56-frame hero-scale pack cannot fit 16MB + cell bounds)
 
 - Status before: CMR-10A IN_PROGRESS (all 10 sheets accepted,
