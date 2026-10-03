@@ -219,11 +219,22 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-10A - Zhao Yun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; identity + plan done; ALL 10
-  sheets ACCEPTED - walk/jab1/jab2/finisher/jump/fall/getup/misc/
-  special/rider (finisher remap, jump apex + getup 2 cells flagged
-  for repair); budget 13/16. Remaining: prepare with page-aware
-  solving, landmark acceptance, continuity review.)
+- Status: BLOCKED (attempt 1; prepare script + first pack built
+  2026-10-03. Budget contradiction PROVEN with exact numbers: 56
+  kept frames cannot fit BOTH hero-scale guard (>=224px, above
+  mook 223) AND the 16MB page cap. Fit bound 0.635
+  (fall:0 topple 422px tall vs 268px content cap -> guard <=205px;
+  need base 0.6935) AND budget bound (~20.1MB pages at hero base vs
+  16MB cap; gap ~10 frames). Two-proxy factors honestly measured:
+  only misc evidenced (0.909, ~1.5% help); cannot close either gap
+  (no invented factors). Owner picks: (a) narrow ~21MB per-pack
+  exception (zhangfei precedent) + 2 focused redraws of the tall
+  cells (fall:0, jump:2) to fix fit - keeps 56 frames at hero
+  scale, 15/16 budget; (b) ~10-frame pose cut (walk 9->7, all 5s
+  ->4s, jump/rider 6->5) + the same 2 redraws - 46 frames at 16MB
+  hero scale, choppier motion; (c) accept ~205px guard below the
+  mook floor (hierarchy waiver, NOT recommended). Awaiting owner
+  direction; no further spend until picked.)
 - Dependency: CMR-09B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-10A](docs/motion-tasks/CMR-10A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable zhaoyun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

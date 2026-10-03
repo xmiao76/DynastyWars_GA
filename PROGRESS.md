@@ -22,6 +22,52 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-03 11:19 UTC - CMR-10A BLOCKED (attempt 1, first block - 56-frame hero-scale pack cannot fit 16MB + cell bounds)
+
+- Status before: CMR-10A IN_PROGRESS (all 10 sheets accepted,
+  budget 13/16). No PENDING FILING, review 0/4.
+- Work completed: wrote scripts/prepare-zhaoyun.mjs (zhangfei
+  template + zhaoyun keep maps incl. non-row-major play orders +
+  page-aware solving: trim target cap/1.30 measured slack, then
+  packed pages VERIFIED with step-down, no silent over-cap) and
+  scripts/measure-zhaoyun.mjs (guard cells at varied positions,
+  helmet-widened face gates). First pack built deterministic
+  (56 frames, single 2019x1946 page): pages 15.7MB FIT, but guard
+  only 198px. Diagnosis with exact numbers: (1) FIT bound 0.635
+  (fall:0 topple 422px vs 268px cap; jump:2 apex 404px next) caps
+  guard at 205px - need base 0.6935 for the 224px floor;
+  (2) BUDGET: at hero base, pages ~20.1MB vs 16MB cap (gap ~10
+  frames). Two-proxy factors honestly measured (misc 0.909 the
+  only applied factor, ~1.5% help); no evidence supports more,
+  and none is invented. Fixed a real bug found en route: the
+  measurement cell-mapper was last-wins (measured a 1px speck as
+  the walk guard); now largest-wins (same latent fragility exists
+  in prepare-zhangfei.mjs, which worked by luck - left untouched
+  since that pack is DONE/verified).
+- Files changed: scripts/prepare-zhaoyun.mjs + measure-zhaoyun.mjs
+  (new), art/motion/zhaoyun/registration.json + measurements-
+  raw.json + scale-compare.json (new diagnostic records;
+  force-added), TASKS.md, PROGRESS.md. Pack outputs in ignored
+  artifacts/motion/zhaoyun/.
+- Verification run: prepare runs green + deterministic (sha
+  81f263cd); measurement green (guard table + evidence table in
+  the log); contradiction recomputed twice from independent
+  numbers (fit from tallest kept cell, budget from trim scaling x
+  measured 1.243x page overhead). No game-code changes; eslint on
+  the two new scripts (run at commit).
+- Result: CMR-10A BLOCKED (attempt 1, first block - exact blocker
+  requiring an owner contract/scope decision).
+- Status after: CMR-10A BLOCKED.
+- Remaining work or blocker: BLOCKED on owner pick: (a) narrow
+  ~21MB per-pack exception (zhangfei precedent) + 2 focused
+  redraws of the tall cells (fall:0, jump:2) to fix fit - keeps 56
+  frames at hero scale, ends 15/16; (b) ~10-frame pose cut
+  (walk 9->7, all 5s->4s, jump/rider 6->5) + the same 2 redraws -
+  46 frames at 16MB hero scale, choppier; (c) accept ~205px guard
+  below the mook floor (NOT recommended). No further spend until
+  picked. Recommendation available on request.
+- Next recommended task: CMR-10A (execute owner direction).
+
 ### 2026-10-03 10:44 UTC - CMR-10A (attempt 1, IN_PROGRESS - rider sheet accepted, ALL 10 sequences done)
 
 - Status before: CMR-10A IN_PROGRESS (identity + plan, 9 sheets

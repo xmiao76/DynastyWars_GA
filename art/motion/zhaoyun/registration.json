@@ -1,0 +1,681 @@
+{
+  "fighter": "zhaoyun",
+  "model": "one uniform scale PER SHEET (two-proxy guard evidence when measured; factor 1 UNVERIFIED until then) + cell-centre/ground anchors; page-aware base (largest base fitting both cell axes with trims under cap/1.30 packing slack, then packed pages verified under the 16MiB contract)",
+  "box": {
+    "width": 260,
+    "height": 144,
+    "groundY": 136
+  },
+  "density": 2,
+  "contentCapPx": 268,
+  "widthCapPx": 514,
+  "packSlack": 1.3,
+  "fitBound": 0.6350710900473934,
+  "budgetBound": 0.619736842105263,
+  "base": 0.613539,
+  "guanyuWalkGuardPx": 240,
+  "mookArcherGuardPx": 223,
+  "walkGuardFittedPx": 198.17309699999998,
+  "sheets": {
+    "walk": {
+      "keptCells": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "culledCells": [],
+      "sha256": "ee9cc74d8354443da58b848061144a39d76f000028655899e2c39b478a57f4f0",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "reference sheet"
+    },
+    "jab1": {
+      "keptCells": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "culledCells": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        7,
+        8,
+        8,
+        8
+      ],
+      "sha256": "e90fb80b742734e8fc0b76aeca39b55792dfe322c4f45b624bf2876aa571e28d",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "jab2": {
+      "keptCells": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "culledCells": [
+        0,
+        6,
+        7,
+        7,
+        8,
+        8
+      ],
+      "sha256": "3dc80660be699fbef74d94217db067e535d2bd1e10f2d15452b6e4d67f3dc7af",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "finisher": {
+      "keptCells": [
+        1,
+        6,
+        3,
+        4,
+        5
+      ],
+      "culledCells": [
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8
+      ],
+      "sha256": "9fe37b20709776a816ca71830ae16d87ad80c0b8459d1480a822c88e83213482",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "jump": {
+      "keptCells": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        7
+      ],
+      "culledCells": [
+        4,
+        4,
+        6,
+        6,
+        6,
+        8,
+        8
+      ],
+      "sha256": "31340a8e5bd3dbe9a682e9f92cbbaf6e20543658c72702954a2917d6a26b7b62",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "fall": {
+      "keptCells": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "culledCells": [
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8
+      ],
+      "sha256": "bc1ee39adc88685501b64e4b4abed91dbd300102bee81755e1c99406afa1def9",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "getup": {
+      "keptCells": [
+        0,
+        1,
+        2,
+        8,
+        4
+      ],
+      "culledCells": [
+        3,
+        3,
+        5,
+        5,
+        5,
+        6,
+        7
+      ],
+      "sha256": "40aaac55793aed815320bfcbc3f2fcadec141f2b60ce7adcc7067bc404beb1fd",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "misc": {
+      "keptCells": [
+        0,
+        1,
+        7,
+        3,
+        4
+      ],
+      "culledCells": [
+        2,
+        2,
+        5,
+        5,
+        6,
+        6,
+        8
+      ],
+      "sha256": "4cfc8b14060236d202c0739c704a982c619936d8f974499e0aa1c528faa3e4ad",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "special": {
+      "keptCells": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "culledCells": [
+        5,
+        5,
+        6,
+        7,
+        7,
+        8,
+        8
+      ],
+      "sha256": "604252d30e808ed2844a9071cecf5c398da9f0700a00b103d2a2a9691d517653",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    },
+    "rider": {
+      "keptCells": [
+        1,
+        6,
+        2,
+        3,
+        4,
+        5
+      ],
+      "culledCells": [
+        0,
+        0,
+        0,
+        0,
+        7,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8
+      ],
+      "sha256": "b6880a326580c7da79ee0d7f3d8e081fa682a48371c0bc734350b01f4dbc0fd0",
+      "scale": 0.613539,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+    }
+  },
+  "layout": {
+    "walk": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 0,
+          "label": "guard"
+        },
+        {
+          "position": 1,
+          "cell": 1,
+          "label": "walk1"
+        },
+        {
+          "position": 2,
+          "cell": 2,
+          "label": "walk2"
+        },
+        {
+          "position": 3,
+          "cell": 3,
+          "label": "walk3"
+        },
+        {
+          "position": 4,
+          "cell": 4,
+          "label": "walk4"
+        },
+        {
+          "position": 5,
+          "cell": 5,
+          "label": "walk5"
+        },
+        {
+          "position": 6,
+          "cell": 6,
+          "label": "walk6"
+        },
+        {
+          "position": 7,
+          "cell": 7,
+          "label": "walk7"
+        },
+        {
+          "position": 8,
+          "cell": 8,
+          "label": "walk8"
+        }
+      ],
+      "culledCells": []
+    },
+    "jab1": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 1,
+          "label": "windup"
+        },
+        {
+          "position": 1,
+          "cell": 2,
+          "label": "drive"
+        },
+        {
+          "position": 2,
+          "cell": 3,
+          "label": "extension"
+        },
+        {
+          "position": 3,
+          "cell": 4,
+          "label": "follow"
+        },
+        {
+          "position": 4,
+          "cell": 5,
+          "label": "recover"
+        }
+      ],
+      "culledCells": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        6,
+        6,
+        7,
+        8,
+        8,
+        8
+      ]
+    },
+    "jab2": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 1,
+          "label": "chamber-low"
+        },
+        {
+          "position": 1,
+          "cell": 2,
+          "label": "drive"
+        },
+        {
+          "position": 2,
+          "cell": 3,
+          "label": "extension"
+        },
+        {
+          "position": 3,
+          "cell": 4,
+          "label": "follow"
+        },
+        {
+          "position": 4,
+          "cell": 5,
+          "label": "recover"
+        }
+      ],
+      "culledCells": [
+        0,
+        6,
+        7,
+        7,
+        8,
+        8
+      ]
+    },
+    "finisher": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 1,
+          "label": "coil"
+        },
+        {
+          "position": 1,
+          "cell": 6,
+          "label": "drive"
+        },
+        {
+          "position": 2,
+          "cell": 3,
+          "label": "extension"
+        },
+        {
+          "position": 3,
+          "cell": 4,
+          "label": "follow"
+        },
+        {
+          "position": 4,
+          "cell": 5,
+          "label": "recover"
+        }
+      ],
+      "culledCells": [
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8
+      ]
+    },
+    "jump": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 1,
+          "label": "takeoff"
+        },
+        {
+          "position": 1,
+          "cell": 0,
+          "label": "ascent"
+        },
+        {
+          "position": 2,
+          "cell": 2,
+          "label": "apex"
+        },
+        {
+          "position": 3,
+          "cell": 3,
+          "label": "kick"
+        },
+        {
+          "position": 4,
+          "cell": 5,
+          "label": "descent"
+        },
+        {
+          "position": 5,
+          "cell": 7,
+          "label": "landing"
+        }
+      ],
+      "culledCells": [
+        4,
+        4,
+        6,
+        6,
+        6,
+        8,
+        8
+      ]
+    },
+    "fall": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 0,
+          "label": "topple"
+        },
+        {
+          "position": 1,
+          "cell": 1,
+          "label": "airborne"
+        },
+        {
+          "position": 2,
+          "cell": 2,
+          "label": "tumble"
+        },
+        {
+          "position": 3,
+          "cell": 3,
+          "label": "impact"
+        },
+        {
+          "position": 4,
+          "cell": 4,
+          "label": "DOWN"
+        }
+      ],
+      "culledCells": [
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8
+      ]
+    },
+    "getup": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 0,
+          "label": "elbow"
+        },
+        {
+          "position": 1,
+          "cell": 1,
+          "label": "kneel"
+        },
+        {
+          "position": 2,
+          "cell": 2,
+          "label": "crouch"
+        },
+        {
+          "position": 3,
+          "cell": 8,
+          "label": "half-rise"
+        },
+        {
+          "position": 4,
+          "cell": 4,
+          "label": "stand"
+        }
+      ],
+      "culledCells": [
+        3,
+        3,
+        5,
+        5,
+        5,
+        6,
+        7
+      ]
+    },
+    "misc": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 0,
+          "label": "hurt-recoil"
+        },
+        {
+          "position": 1,
+          "cell": 1,
+          "label": "hurt-fold"
+        },
+        {
+          "position": 2,
+          "cell": 7,
+          "label": "grab-clamp"
+        },
+        {
+          "position": 3,
+          "cell": 3,
+          "label": "grab-hold"
+        },
+        {
+          "position": 4,
+          "cell": 4,
+          "label": "release"
+        }
+      ],
+      "culledCells": [
+        2,
+        2,
+        5,
+        5,
+        6,
+        6,
+        8
+      ]
+    },
+    "special": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 0,
+          "label": "raise"
+        },
+        {
+          "position": 1,
+          "cell": 1,
+          "label": "coil"
+        },
+        {
+          "position": 2,
+          "cell": 2,
+          "label": "pre-spin"
+        },
+        {
+          "position": 3,
+          "cell": 3,
+          "label": "strike"
+        },
+        {
+          "position": 4,
+          "cell": 4,
+          "label": "follow"
+        }
+      ],
+      "culledCells": [
+        5,
+        5,
+        6,
+        7,
+        7,
+        8,
+        8
+      ]
+    },
+    "rider": {
+      "positions": [
+        {
+          "position": 0,
+          "cell": 1,
+          "label": "idle"
+        },
+        {
+          "position": 1,
+          "cell": 6,
+          "label": "trot"
+        },
+        {
+          "position": 2,
+          "cell": 2,
+          "label": "mount"
+        },
+        {
+          "position": 3,
+          "cell": 3,
+          "label": "sweep-windup"
+        },
+        {
+          "position": 4,
+          "cell": 4,
+          "label": "sweep"
+        },
+        {
+          "position": 5,
+          "cell": 5,
+          "label": "dismount"
+        }
+      ],
+      "culledCells": [
+        0,
+        0,
+        0,
+        0,
+        7,
+        7,
+        7,
+        7,
+        7,
+        8,
+        8
+      ]
+    }
+  }
+}
