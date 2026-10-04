@@ -22,6 +22,59 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 13:16 UTC - CMR-11A (attempt 1, IN_PROGRESS - special v2 accepted via proven spare remap)
+
+- Status before: CMR-11A IN_PROGRESS, v2 walk/jab1/jab2/finisher
+  source drawings accepted but no full pack. No PENDING FILING;
+  visual review count 1/4; unrelated `.gitignore` not edited.
+- Work completed: read core wy.special exactly (damage 20, startup
+  6, active 12, recover 12, AOE), saved `special-v2-prompt.txt`.
+  Reserved special whole-sheet candidate 2/2 BEFORE image request
+  (request 17/26, total 84/200). Ordered visual refs inspected:
+  legacy game weapon `71c288d1`, body master `ee0a0200`, portrait
+  `0fc579c1`, cleaned v2 guard `46546eca`, accepted finisher
+  derivative `6f622f91`. Preferred ChatGPT image generated
+  `special-v2-candidate-1.png` SHA `1826002e` (one image).
+- Visual/mechanical: opened cleaned 3×3 contact sha `701df245`,
+  noted long dark wooden haft with gold butt, gold ferrule/red
+  tassel and silver curved head in all intended core poses;
+  distinct grounded sweeping special, no painted FX, purple
+  turban/beard/bronze silhouette stable. Nine alpha-connected
+  components, 0 edge pixels; cleanAlpha removed 91,423 glow
+  pixels and one tiny speck below 150k residue tolerance.
+  Endpoint overlay sha `c80f9add` reviewed: raw core [0..4]
+  [483,495,439,503,510]px, spread ~14.6%, FAIL because
+  source pre-spin cell 2 short. Spare 6 has no visible butt, so
+  detector's 111px ferrule-to-tip number is INVALID, not a
+  foreshortened full weapon.
+- Safe no-request recovery: reordered to [0 raise,1 coil,8
+  pre-spin,3 strike,4 follow], visually inspected ordered
+  contact sha `5576dcbf` (changed pre-spin into braced low
+  sweep), cull [2,5,6,7]. True endpoint lengths
+  [483,495,482,503,510]px, 5.6611% within-sheet spread, axis
+  steps ≤21°. SHA-pinned `scripts/prepare-weiyan-special-v2-source.mjs`
+  reproduced a transparent five-figure derivative
+  `special-v2-prepared-source.png` sha `5040f1ea` twice; 0 edge,
+  0 surviving specks, 50,500 halos removed. Opened derivative
+  with image tool: all five complete weapons, rejected cells gone.
+- Files changed: image source, exact prompt, prepared derivative,
+  source-preparation script, generation-budget ledger, v2 plan,
+  provenance, TASKS, PROGRESS; all new `art/motion` sources
+  force-added, no runtime/shipping changes.
+- Verification run: `node scripts/prepare-weiyan-special-v2-source.mjs`
+  twice and eslint green; `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36 passed; `npm run lint`
+  green and `npm run typecheck` green. No vision/prodbuild (no UI/
+  shipping edits); full suite not rerun (known G6 arm-chain failure).
+  Not a full-pack acceptance claim.
+- Result/status after: CMR-11A IN_PROGRESS, fifth v2 sequence
+  source-accepted at source-only evidence; decoded cap, guard/
+  cross-sequence length, head and offline review UNVERIFIED.
+- Remaining work/next: jump/fall/getup/misc/rider v2 authoring
+  (five whole sheets), 16MiB-first page packing, landmark and
+  continuity review. Budget 17/26 (9 authoring left), repair
+  reserve 3/3 untouched. Next: jump v2, reserve-before-call.
+
 ### 2026-10-04 12:44 UTC - CMR-11A (attempt 1, IN_PROGRESS - finisher v2 accepted with safe spare remap)
 
 - Status before: CMR-11A IN_PROGRESS; v2 walk/jab1/jab2 sources

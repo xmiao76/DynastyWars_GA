@@ -101,7 +101,7 @@
     "weiyan": {
       "role": "hero",
       "cap": 26,
-      "used": 16,
+      "used": 17,
       "sheetCandidates": {
         "walk": 2,
         "jab1": 2,
@@ -111,7 +111,7 @@
         "fall": 1,
         "getup": 1,
         "misc": 1,
-        "special": 1,
+        "special": 2,
         "rider": 1
       },
       "note": "Owner extension 2026-10-04 (\"Do A\"): cap 16 -> 26 (+10) for the Wei Yan weapon re-brief. The ten accepted sheets drew the wrong weapon (game contract: 69u long-handled dao with haft + tassel, figures.ts / WEAPON_ART.md); see art/motion/weiyan/PROVENANCE.md ROOT CAUSE. Usage is NOT reset (used was 10 at the time of the extension). The 200 global cap and the two-whole-sheet-candidates-per-sequence rule are unchanged: every sequence has exactly one v2 whole-sheet candidate left; any further correction is a focused edit."

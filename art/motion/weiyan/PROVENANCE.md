@@ -1,12 +1,12 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 16/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 17/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  refs but weapon-rejected; v2 walk, source-preserving jab1/jab2
-  splices, and finisher selected-cell derivative accepted as
-  drawings. Ten requests remain. Full pack still unverified;
+  refs but weapon-rejected; v2 walk, jab1/jab2 SHA-preserving
+  splices, finisher and special safe-cull derivatives accepted as
+  DRAWINGS only. Nine requests remain, full pack unverified;
   global 200/two whole sheets per sequence unchanged; walk/jab1/
-  jab2/finisher each used both whole-sheet slots.
+  jab2/finisher/special each used both whole-sheet slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -15,14 +15,57 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 16/26, total 83/200; walk/jab1/jab2/finisher each
-consumed a second whole-sheet candidate (jab1/jab2 later edits were
+ledger now says 17/26, total 84/200; walk/jab1/jab2/finisher/
+special each consumed a second whole-sheet candidate (jab1/jab2 edits were
 FOCUSED, not third whole-sheet candidates), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### special-v2-candidate-1 — selected-cell source ACCEPTED 2026-10-04; sha `1826002e…`
+
+- Request 17/26, special sheet candidate 2/2, reserved/persisted
+  BEFORE one image call. Preferred ChatGPT image returned a single
+  1536×1024 sheet. Exact `special-v2-prompt.txt`; ordered SHA refs
+  legacy weapon `71c288d1`, body master `ee0a0200`, portrait
+  `0fc579c1`, cleaned walk-v2 guard `46546eca`, accepted finisher
+  prepared source `6f622f91`. Game core wy.special: damage 20,
+  startup 6, active 12, recover 12, aoe; no painted VFX.
+- Mechanical: 9/9 alpha-connected figures distributed across all
+  nine cells, zero source-edge contact. Standard cleanup removed
+  91,423 low-alpha halo pixels + one 1px speck (under 150k);
+  cleaned contact inspected. Stable purple turban, short beard,
+  bronze pauldrons, long wood shaft with gold butt/ferrule/red
+  tassel and small silver curved blade; distinct grounded sweep.
+- TRUE endpoint overlay actually read: source cells 0..8
+  [483,495,439,503,510,451,INVALID,494,482]px; cell 6
+  L=111px is ferrule-to-tip because gold butt is not visible.
+  ORIGINAL first-five length spread (510−439)/486 = ~14.6%,
+  FAIL; source cell 2's blade spans short relative to same-sheet
+  ruler, so do not claim pass by omitting the discrepancy.
+- Legitimate spare replacement: cell 8 is a full-polearm low
+  pre-spin setup with pommel and steel tip visible, and makes a
+  readable ordered action [0 raise,1 coil,8 pre-spin,3 strike,
+  4 follow]. Checked play-order contact `5576dcbf` and endpoint
+  overlay `c80f9add`: kept lengths [483,495,482,503,510], mean
+  494.6, spread (510−482)/494.6 = **5.6611%**, directions
+  [-22,-1,3,8,14] degrees; consecutive steps ≤21° (<60).
+  Cull [2,5,6,7] including anomalous short pre-spin cell2 and
+  missing-butt spare6; no extra request.
+- `scripts/prepare-weiyan-special-v2-source.mjs` pins ORIGINAL SHA
+  and culls only those four cells before alpha cleanup. Two runs
+  produced the same `special-v2-prepared-source.png` sha
+  `5040f1ea` with five separated figures [0,1,3,4,8], no
+  outer-edge pixels, 50,500 halo pixels removed and zero specks.
+  Actually viewed prepared transparent sheet: full gold butt /
+  red tassel / blade on each of five kept poses, other four gone.
+- ACCEPTED source drawings only. Full pack fit, consistent scale,
+  cross-sequence 10% head/weapon spread, direction continuity and
+  offline exposure remain UNVERIFIED. Ledger 17/26, nine left,
+  repair reserve 3/3 untouched; no runtime activation or 16MiB
+  exception assumed.
 
 ### finisher-v2-candidate-1 — selected-cell source ACCEPTED 2026-10-04; sha `ff69e72c…`
 

@@ -296,12 +296,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   [0 coil,1 launch,3 heavy extension,6 follow,4 recover], 5 clean
   separated components with zero edge contact; true pommel-tip
   [522,510,543,506,494]px, mean 515, spread 9.5146% within
-  finisher sheet, directed steps ≤30°. Source accepted only;
-  full cross-sequence acceptance/16MiB cap unverified. Six v2
-  sequences remain; pack/offline review remains. Ledger 16/26;
-  10 remain; repair reserve 3/3 untouched. No runtime activation
-  or decode-cap exception assumed. Next: v2 special.
-  See AUTHORING-PLAN-V2.md and PROVENANCE.md.
+  finisher sheet, directed steps ≤30°. Special-v2 request
+  17/26 generated nine clean figures; raw core cell 2 has a
+  shortened 439px weapon (first-five spread ~14.6%, FAIL).
+  Reviewed spare remap: SHA-pinned `special-v2-prepared-source.png`
+  sha 5040f1ea, keep/play [0 raise,1 coil,8 pre-spin,3 strike,
+  4 follow], cull [2,5,6,7] (spare 6 has no butt), five separate
+  unclipped drawings. True lengths [483,495,482,503,510]px,
+  5.6611% within sheet; steps ≤21°. Source drawings accepted
+  ONLY; full cross-sequence acceptance/16MiB cap unverified.
+  Five v2 sequences remain (jump,fall,getup,misc,rider), plus
+  page-aware pack/offline review. Ledger 17/26; nine remain;
+  repair reserve 3/3 untouched. No runtime activation or decode
+  exception assumed. Next: v2 jump. See AUTHORING-PLAN-V2.md
+  and PROVENANCE.md.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
