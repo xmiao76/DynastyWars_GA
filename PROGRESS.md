@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 04:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - factors measured; getup 0.916 applied)
+
+- Status before: CMR-11A IN_PROGRESS (first pack fits 16MB,
+  all factors 1 UNVERIFIED). No PENDING FILING, review 1/4.
+- Work completed: wrote scripts/measure-weiyan.mjs (guard cells
+  walk:0 + getup:4 only - no standing spares elsewhere; face
+  gates widened to 25..70/20..64 for the turban+beard-cropped
+  face band) and ran it. Two-proxy verdict: getup ground 0.918
+  + height 0.914 agree (spread 0.004) -> factor 0.916 APPLIED
+  (sheet drawn ~9% big); all other non-walk sheets UNVERIFIED
+  at 1 (no guard cells; face medians systematically bigger than
+  walk, noted as secondary evidence only, not applied).
+  Re-prepared: base 0.663804 (up from 0.659523), guard 225.7px
+  (margin now 2.7px above floor), pages 15.47MB <= 16MB (still
+  fits), deterministic (ab2a2d2a), 0 step-downs.
+- Files changed: scripts/measure-weiyan.mjs (new),
+  art/motion/weiyan/measurements-raw.json + scale-compare.json
+  (new; force-added) + registration.json (new numbers),
+  TASKS.md, PROGRESS.md. Pack outputs in ignored artifacts/.
+- Verification run: measurement green (guard table + evidence
+  table in the log); factor rule applied mechanically (spread
+  <=0.05, |1-mean| > 0.05); prepare green + deterministic
+  (numbers above); eslint clean.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: landmark acceptance (dao lengths
+  + direction vs 10%/60deg), continuity review. No blocker.
+- Next recommended task: CMR-11A (landmarks).
+
 ### 2026-10-04 03:46 UTC - CMR-11A (attempt 1, IN_PROGRESS - first pack fits 16MB at hero scale)
 
 - Status before: CMR-11A IN_PROGRESS (10 sheets accepted,

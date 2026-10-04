@@ -10,12 +10,12 @@
   "contentCapPx": 268,
   "widthCapPx": 514,
   "packSlack": 1.28,
-  "fitBound": 0.7204301075268817,
-  "budgetBound": 0.6661849710982658,
-  "base": 0.659523,
+  "fitBound": 0.7592067988668555,
+  "budgetBound": 0.670509662894184,
+  "base": 0.663804,
   "guanyuWalkGuardPx": 240,
   "mookArcherGuardPx": 223,
-  "walkGuardFittedPx": 224.23782,
+  "walkGuardFittedPx": 225.69335999999998,
   "sheets": {
     "walk": {
       "keptCells": [
@@ -31,7 +31,7 @@
       ],
       "culledCells": [],
       "sha256": "78491237441fc3cf913384d6eac96cc0202b3072e9c9dd8b5051fa4c685b9bc4",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "reference sheet"
     },
@@ -50,7 +50,7 @@
         8
       ],
       "sha256": "1cd3eb152e3ba22d93ad8eca899d23bbf2bf51f51d9ee3ddf4275067bc54cbfd",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -69,7 +69,7 @@
         8
       ],
       "sha256": "747595959c7f7962809015dcc9d062102c8e646814a41fcbb4946fc1fe3d1011",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -88,7 +88,7 @@
         8
       ],
       "sha256": "8101c92160fde8ca6b265720deacacefbb09857873e36882f59b2d6cd138ff2f",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -107,7 +107,7 @@
         8
       ],
       "sha256": "f296114904cf1d1e88dfddb27b1062f80b20a75e430437013588b98e97bdccdc",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -126,7 +126,7 @@
         8
       ],
       "sha256": "cd3d7414af5342eeae65a3c8bd1a01facf7106330fd9fe007a8dd5e3e959e190",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -145,9 +145,9 @@
         8
       ],
       "sha256": "78949e6bbbb8d82e390dab30f3a07fad5d253492419add29173d4bcace1de800",
-      "scale": 0.659523,
-      "scaleFactor": 1,
-      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
+      "scale": 0.608044,
+      "scaleFactor": 0.916,
+      "scaleEvidence": "applied: two geometric proxies agree (ground 0.918, height 0.914)"
     },
     "misc": {
       "keptCells": [
@@ -164,7 +164,7 @@
         8
       ],
       "sha256": "69be09d175285a65ba30625048b6bf5a8a7bd8acc832fa8eeb7fe40e5d17b3c1",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -183,7 +183,7 @@
         8
       ],
       "sha256": "95c51b7e8a21ba9441351a7ead007bffb301acd0ae7aff1460cdaabb801c559d",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -202,7 +202,7 @@
         8
       ],
       "sha256": "1d80450df3c7bfdf37356fba8eb129fd262a4954638cc9c6f12cb07cb3de18ef",
-      "scale": 0.659523,
+      "scale": 0.663804,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     }
