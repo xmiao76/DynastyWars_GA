@@ -1,12 +1,13 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 17/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 18/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  refs but weapon-rejected; v2 walk, jab1/jab2 SHA-preserving
-  splices, finisher and special safe-cull derivatives accepted as
-  DRAWINGS only. Nine requests remain, full pack unverified;
-  global 200/two whole sheets per sequence unchanged; walk/jab1/
-  jab2/finisher/special each used both whole-sheet slots.
+  refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
+  splices, finisher/special cull derivatives source-accepted.
+  Jump-v2 source NOT ACCEPTED (full-length weapon spread and
+  grounding failure). Eight authoring requests remain; full pack
+  unverified. Global 200/two whole sheets per sequence unchanged;
+  walk/jab1/jab2/finisher/special/jump used both whole-sheet slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -15,14 +16,61 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 17/26, total 84/200; walk/jab1/jab2/finisher/
-special each consumed a second whole-sheet candidate (jab1/jab2 edits were
+ledger now says 18/26, total 85/200; walk/jab1/jab2/finisher/
+special/jump each consumed a second whole-sheet candidate (jab1/jab2 edits were
 FOCUSED, not third whole-sheet candidates), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jump-v2-candidate-1 — REJECTED as complete jump sequence 2026-10-04; sha `64470647…`
+
+- Request 18/26, whole-sheet jump candidate 2/2; `reserve()`
+  saved BEFORE one image call. Prompt `jump-v2-prompt.txt` records
+  airborne kick and long-haft contract. Ordered refs legacy weapon
+  `71c288d1`, body `ee0a0200`, portrait `0fc579c1`, walk guard
+  `46546eca`, special prepared source `5040f1ea` for style only.
+  Preferred ChatGPT image provider returned 1536×1024 source;
+  original preserved untouched.
+- Mechanical: 9/9 separate alpha≥96 components, 0 outer image
+  border pixels, cleanAlpha removed 92,179 subthreshold glow and
+  0 specks under 150k tolerance. Clean 3×3 contact and true
+  endpoint overlay actually viewed. Purple turban/bronze shoulders/
+  beard and full gold butt-red tassel-curved steel weapon remain
+  visible across sheet; there are genuine crouch/ascent/tuck/kick/
+  descent shapes, not nine static repeats.
+- Whole-weapon pommel-to-tip raw lengths [541,491,475,579,485,
+  439,506,469,457]px. Intended six core poses [0,1,2,3,4,5]
+  have ~20.2% spread (579→439 across kick/landing), FAIL
+  ≤10%. Kick cell3 is an exaggerated stretched body (bbox 583×
+  278) with 579px weapon; it is not an occluded blade or invalid
+  detector—the overlay's rings mark real fittings. Grounded
+  takeoff cell0 is also 541px, long versus apex 475px.
+- Explored ordered spare map [0 takeoff,1 ascent,2 apex,6 kick,
+  4 descent,8 landing], inspected the actual six-pose contact:
+  spare6 does have extended kicking boot and 506px full weapon,
+  but cell8 is an ordinary LOW GROUNDED CROUCH (not a landing with
+  one foot lowering), and this mapping leaves takeoff 541px vs
+  landing 457px, ~17% gap; ≤10% still FAILS. The contact also
+  shows ground-line inconsistency: source takeoff0 feet bleed
+  below its nominal first-row ground (bbox y1=365) and source
+  descent4 extends into the third-row ground zone (bbox y1=689);
+  this can be legitimate cell straddle but requires registration
+  measurement; do not claim ≤1.5u intended grounded error.
+- NO source drawing is accepted yet for complete jump clip; do
+  not cull by VALUE or use unrelated poses to fake compliance.
+  One WHOLE-SHEET jump candidate remains impossible (2/2 spent).
+  Next bounded turn: diagnose whether a single ordinary-authoring
+  FOCUSED request can redraw named jump:0 (long takeoff),
+  jump:3 (long kick) and jump:5 (short landing), or substitute
+  grounded walk-v2 guard as shared bookend only if contract
+  allows it without lying about jump landing; measure after
+  and inspect pose continuity at gameplay size. Repair reserve
+  3/3 stays acceptance-4-only. Budget 18/26 (8 remain) with
+  four other v2 sheets planned (fall/getup/misc/rider) and
+  therefore at most four ordinary focused requests spare.
 
 ### special-v2-candidate-1 — selected-cell source ACCEPTED 2026-10-04; sha `1826002e…`
 

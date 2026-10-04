@@ -22,6 +22,54 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 17:22 UTC - CMR-11A (attempt 1, IN_PROGRESS - jump source fails rigid weapon spread)
+
+- Status before: CMR-11A IN_PROGRESS; five v2 source sequences
+  accepted as drawings, pack not assembled. No PENDING FILING;
+  review count 1/4, unrelated `.gitignore` left unchanged.
+- Work completed: read exact wy.jumpkick from core (startup4,
+  active20, damage10/reach28); saved jump-v2-prompt.txt with
+  6 core + 3 spare airborne/ground transitions, persistent
+  two-hand long dao. Inspected ordered references legacy weapon
+  `71c288d1`, body `ee0a0200`, portrait `0fc579c1`, cleaned
+  guard anchor `46546eca`, accepted special `5040f1ea` (body
+  style only). Reserved jump whole-sheet candidate 2/2 before
+  one image call, ledger 18/26 (global 85/200); generated
+  immutable `jump-v2-candidate-1.png` sha `64470647`.
+- Mechanical: 1536×1024, nine separately connected components,
+  0 alpha≥96 edge pixels; standard cleanup removes 92,179 halo
+  pixels, zero specks. Viewed cleaned 3×3 contact sha `502e944a`:
+  readable purple turban/bronze shoulder/short beard, true
+  flying ascent/apex/extended kick, two hands on full polearm;
+  heights vary with pose (not normalized per pose).
+- Honest acceptance-4 diagnosis: actually viewed gold butt and
+  steel-tip endpoint overlay sha `0bd5e709`, raw lengths
+  [541,491,475,579,485,439,506,469,457]px. Six core [0..5]
+  spread ~20.2% (579−439), FAIL. Cell3 kick exaggerated with
+  579px shaft; takeoff0 541px long, landing5 439px short.
+  Reviewed alternate six-pose ordered contact sha `5ec4dc71`:
+  replacing kick3 with spare6 yields shorter 506px kick but
+  landing8 crouch still 457px and a 541→457 gap; not a valid
+  ≤10% solution. No values called foreshortened without evidence;
+  no source-derived pack or runtime activation, no 16MiB waiver.
+- Files changed: exact prompt, original image, generation ledger,
+  V2 plan, PROVENANCE, TASKS and PROGRESS. No shipping/UI edits;
+  diagnostics remain ignored. New art files force-added.
+- Verification run: alpha/component audit and endpoint measurement
+  (commands under ignored artifacts/tmpcheck); `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint` and `npm run typecheck` green. Full unit
+  suite not rerun (known prior V-15b G6 failure); browser and
+  production gates not applicable to offline source authoring.
+- Result/status after: CMR-11A IN_PROGRESS (jump source rejected;
+  authoring request counted 18/26, eight remaining, repair reserve
+  3/3 untouched). Five v2 sources remain accepted as drawings only.
+- Remaining work/next: diagnose focused repair of named
+  jump:0/3/5 (one ordinary authoring request if evidence supports
+  pose-matched splice), then fall/getup/misc/rider v2 whole sheets,
+  page-aware 16MiB-first fit, cross-sequence landmark and offline
+  continuity review. No third jump whole-sheet attempt.
+
 ### 2026-10-04 13:16 UTC - CMR-11A (attempt 1, IN_PROGRESS - special v2 accepted via proven spare remap)
 
 - Status before: CMR-11A IN_PROGRESS, v2 walk/jab1/jab2/finisher

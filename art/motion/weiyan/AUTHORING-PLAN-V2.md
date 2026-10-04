@@ -12,17 +12,18 @@ reserve-before-call, carried learnings) still applies.
   each sequence holds exactly one v1 candidate, so each gets exactly
   ONE v2 whole-sheet candidate; any further fix is a focused edit.
 - v2 plan: 10 sheets = 10 requests -> 20/26, 6 spares for focused
-  edits before corrections. Walk/jab1/jab2/finisher/special v2
-  whole sheets used requests 11/12/14/16/17; focused corrections
+  edits before corrections. Walk/jab1/jab2/finisher/special/jump
+  whole sheets used requests 11/12/14/16/17/18; focused corrections
   13/26 (jab1:1/2) and 15/26 (jab2:2/3) produced source-
-  preserving prepared sheets. Finisher culls [2,5,7,8] and plays
-  [0,1,3,6,4] (source-length spread 9.5146%); special culls
-  [2,5,6,7] and plays [0,1,8,3,4] (5.6611%). Jab2 9.9534%
-  remains marginal; cross-sequence acceptance unverified.
-  Five whole-sheet sequences remain; nine authoring requests
-  available (5 planned + 4 spare maximum). Walk/jab1/jab2/
-  finisher/special whole-sheet slots consumed; separate acceptance-
-  4 repair reserve 3/3 untouched.
+  preserving prepared sheets. Finisher/special cull/reorder worked;
+  jump-v2 SOURCE does NOT pass whole-weapon spread: six raw core
+  frames ~20.2%, alternate kick spare + landing still ~17% gap.
+  Do not accept/cull by value; diagnose three named jump cells
+  before any single focused edit. Four whole-sheet sequences
+  fall/getup/misc/rider remain; eight authoring requests available
+  (4 planned + 4 focused maximum). Whole-sheet slots consumed for
+  walk/jab1/jab2/finisher/special/jump, repair 3/3 remains
+  acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

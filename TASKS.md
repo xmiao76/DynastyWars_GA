@@ -305,11 +305,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   unclipped drawings. True lengths [483,495,482,503,510]px,
   5.6611% within sheet; steps ≤21°. Source drawings accepted
   ONLY; full cross-sequence acceptance/16MiB cap unverified.
-  Five v2 sequences remain (jump,fall,getup,misc,rider), plus
-  page-aware pack/offline review. Ledger 17/26; nine remain;
-  repair reserve 3/3 untouched. No runtime activation or decode
-  exception assumed. Next: v2 jump. See AUTHORING-PLAN-V2.md
-  and PROVENANCE.md.
+  Jump-v2 request 18/26 generated nine clean components and
+  airborne/kicking poses, but core [0..5] weapon spread ~20.2%
+  ([541,491,475,579,485,439]px), FAIL. Spare kick6 (506px)
+  improves pose, yet landing8 (457px) leaves ~17% gap to
+  takeoff0 541px, still FAIL. No jump source accepted; no third
+  whole-sheet candidate. Next: diagnose/focused authoring edit
+  named jump0/3/5 (one request only if pose/fit feasible),
+  preserve original and remeasure; never waive 10% by culling.
+  Four whole-sheet sequences fall/getup/misc/rider remain plus
+  pack/continuity review. Ledger 18/26, eight requests remain
+  (four planned, four focused possible); repair reserve 3/3
+  untouched. No runtime/decode exception. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
