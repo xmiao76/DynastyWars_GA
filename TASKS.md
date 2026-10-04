@@ -252,8 +252,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-11A - Wei Yan: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; identity + plan done; ALL 10
-  sheets ACCEPTED (rider keep [0,1,2,3,4,5], no horse parts);
-  budget 10/16. Next: prepare script + first pack.)
+  sheets ACCEPTED; prepare script + FIRST PACK done 2026-10-04:
+  base 0.659523 (budget-bound), guard 224.2px (above mook floor),
+  pages 15.44MB <= 16MB contract (16MB-first SUCCEEDS, no
+  exception), deterministic; budget 10/16. Next: measurement +
+  factors + landmark acceptance.)
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

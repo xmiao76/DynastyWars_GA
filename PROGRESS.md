@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 03:46 UTC - CMR-11A (attempt 1, IN_PROGRESS - first pack fits 16MB at hero scale)
+
+- Status before: CMR-11A IN_PROGRESS (10 sheets accepted,
+  budget 10/16). No PENDING FILING, review 1/4.
+- Work completed: wrote scripts/prepare-weiyan.mjs (zhaoyun
+  template + weiyan keep maps incl. the jump remap + 16MB-first
+  solving: PAGE_CAP = contract, no decodedCapBytes override) and
+  ran the first pack: base 0.659523 (BUDGET-bound 0.666; fit
+  0.720 - no tall-cell crisis), guard 224.2px = 93.4% of Guan
+  Yu (ABOVE the 223 mook floor, 1.2px margin), 56 frames, 2
+  pages (2000x1862 + 635x216), 15.44MB <= 16MB contract (8%
+  headroom), deterministic (6c824b4c), 0 step-downs, all
+  factors 1 UNVERIFIED (measurement next). The 16MB-first
+  strategy SUCCEEDS - no exception needed.
+- Files changed: scripts/prepare-weiyan.mjs (new),
+  art/motion/weiyan/registration.json (new; force-added),
+  TASKS.md, PROGRESS.md. Pack outputs in ignored artifacts/.
+- Verification run: prepare green + deterministic (numbers
+  above); eslint clean on the new script; fit/budget bounds
+  read from the solver log. No game-code changes.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: measurement + per-sheet factors +
+  landmark acceptance + continuity review. No blocker (guard
+  margin thin at 1.2px - factors may nudge it; re-check then).
+- Next recommended task: CMR-11A (measurement + factors).
+
 ### 2026-10-04 03:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - rider sheet accepted, ALL 10 sequences done)
 
 - Status before: CMR-11A IN_PROGRESS (9 sheets accepted, budget
