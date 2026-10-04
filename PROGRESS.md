@@ -22,6 +22,50 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 05:21 UTC - CMR-11A (attempt 1, IN_PROGRESS - acceptance-4 FAILS on weapon length; per-sheet proportion drift)
+
+- Status before: CMR-11A IN_PROGRESS (pack solved, getup factor
+  applied). No PENDING FILING, review 1/4.
+- Work completed: ran the landmark chain on all 56 kept cells.
+  (1) A copy of the 10A RANSAC spear fit was run first and
+  DISCARDED on overlay review - its axes ran through the torso on
+  short-gripped diagonals (jab2:2 517, jab1:4 448), so none of
+  its numbers were used. Replaced with scripts/dao-true-weiyan.mjs
+  (steel-blade cluster + PCA axis + bronze guard/pommel location),
+  overlay-reviewed per cell. WEAPON: blade spread 69.7% over 55
+  measurable cells (special:1 UNVERIFIED, blade hidden); walk
+  family 5.2% passes; only 13/55 within +/-5% of the walk median.
+  The failure is STRUCTURAL PER SHEET: median blade vs walk is
+  getup 1.17, misc 1.18, rider 1.17, fall 1.19 (long) and
+  special 0.84, jump 0.87 (short, partly foreshortening
+  exclusions); getup/misc are internally consistent (8-9%
+  within-sheet). CORRECTED same turn: matched guard cells
+  (walk:0 vs getup:4) show figure 1.094x but blade 1.160x, so the
+  dao is ~6% long relative to the body on those sheets - a uniform
+  scale can fix the body OR the blade; the two proxies disagree by
+  0.052 (> the 0.05 agreement rule), so no blade factor is
+  applied. DIRECTION: 44 chord-undirected steps, 2 at 60.5-61.7
+  (jab1:3->4, jump:0->1): PASS-marginal. HEAD: auto cluster void
+  (forensic strip: hand, bronze pauldron, blade steel, prone face;
+  upright hits are only the cheek/mouth band) - UNVERIFIED.
+- Files changed: scripts/dao-true-weiyan.mjs (new),
+  art/motion/weiyan/dao-true.json (new; force-added),
+  PROVENANCE.md (full verdicts + correction), TASKS.md,
+  PROGRESS.md. Overlays/strips in ignored artifacts/. The
+  superseded RANSAC/adjudicate/landmarks copies were deleted
+  uncommitted.
+- Verification run: overlay of all 56 cells + the 12-cell face
+  forensic strip read on fingerprinted files; stats re-derived
+  by three independent scripts (blade bands, matched-guard
+  proportion, chord steps); eslint clean on the committed script.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: comparable-set diagnosis (separate
+  true source-art drift from foreshortening exclusions), then
+  repair round 1 (reserve-before-call, 3/3 available) or an
+  owner waiver (09A/10A precedent). No blocker yet.
+- Next recommended task: CMR-11A (diagnose comparable set).
+
 ### 2026-10-04 04:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - factors measured; getup 0.916 applied)
 
 - Status before: CMR-11A IN_PROGRESS (first pack fits 16MB,

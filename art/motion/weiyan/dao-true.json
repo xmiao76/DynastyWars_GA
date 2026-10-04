@@ -1,0 +1,1330 @@
+[
+  {
+    "id": "walk:0",
+    "seq": "walk",
+    "pos": 0,
+    "cell": 0,
+    "blade": 194,
+    "whole": 272,
+    "bladeDisp": 128.8,
+    "wholeDisp": 180.6,
+    "angle": 24,
+    "steelPx": 2065,
+    "tip": [
+      433,
+      288
+    ],
+    "base": [
+      257,
+      209
+    ],
+    "pommel": [
+      186,
+      177
+    ]
+  },
+  {
+    "id": "walk:1",
+    "seq": "walk",
+    "pos": 1,
+    "cell": 1,
+    "blade": 187,
+    "whole": 264,
+    "bladeDisp": 124.1,
+    "wholeDisp": 175.2,
+    "angle": 26,
+    "steelPx": 1660,
+    "tip": [
+      961,
+      302
+    ],
+    "base": [
+      793,
+      221
+    ],
+    "pommel": [
+      723,
+      187
+    ]
+  },
+  {
+    "id": "walk:2",
+    "seq": "walk",
+    "pos": 2,
+    "cell": 2,
+    "blade": 193,
+    "whole": 274,
+    "bladeDisp": 128.1,
+    "wholeDisp": 181.9,
+    "angle": 27,
+    "steelPx": 1812,
+    "tip": [
+      1463,
+      313
+    ],
+    "base": [
+      1291,
+      225
+    ],
+    "pommel": [
+      1219,
+      188
+    ]
+  },
+  {
+    "id": "walk:3",
+    "seq": "walk",
+    "pos": 3,
+    "cell": 3,
+    "blade": 187,
+    "whole": 271,
+    "bladeDisp": 124.1,
+    "wholeDisp": 179.9,
+    "angle": 25,
+    "steelPx": 1730,
+    "tip": [
+      461,
+      636
+    ],
+    "base": [
+      292,
+      556
+    ],
+    "pommel": [
+      216,
+      520
+    ]
+  },
+  {
+    "id": "walk:4",
+    "seq": "walk",
+    "pos": 4,
+    "cell": 4,
+    "blade": 187,
+    "whole": 265,
+    "bladeDisp": 124.1,
+    "wholeDisp": 175.9,
+    "angle": 26,
+    "steelPx": 1707,
+    "tip": [
+      979,
+      631
+    ],
+    "base": [
+      810,
+      550
+    ],
+    "pommel": [
+      740,
+      516
+    ]
+  },
+  {
+    "id": "walk:5",
+    "seq": "walk",
+    "pos": 5,
+    "cell": 5,
+    "blade": 194,
+    "whole": 273,
+    "bladeDisp": 128.8,
+    "wholeDisp": 181.2,
+    "angle": 23,
+    "steelPx": 1657,
+    "tip": [
+      1485,
+      634
+    ],
+    "base": [
+      1306,
+      557
+    ],
+    "pommel": [
+      1234,
+      526
+    ]
+  },
+  {
+    "id": "walk:6",
+    "seq": "walk",
+    "pos": 6,
+    "cell": 6,
+    "blade": 195,
+    "whole": 275,
+    "bladeDisp": 129.4,
+    "wholeDisp": 182.5,
+    "angle": 26,
+    "steelPx": 1651,
+    "tip": [
+      471,
+      961
+    ],
+    "base": [
+      295,
+      877
+    ],
+    "pommel": [
+      223,
+      842
+    ]
+  },
+  {
+    "id": "walk:7",
+    "seq": "walk",
+    "pos": 7,
+    "cell": 7,
+    "blade": 187,
+    "whole": 267,
+    "bladeDisp": 124.1,
+    "wholeDisp": 177.2,
+    "angle": 25,
+    "steelPx": 1435,
+    "tip": [
+      985,
+      958
+    ],
+    "base": [
+      817,
+      878
+    ],
+    "pommel": [
+      744,
+      843
+    ]
+  },
+  {
+    "id": "walk:8",
+    "seq": "walk",
+    "pos": 8,
+    "cell": 8,
+    "blade": 185,
+    "whole": 266,
+    "bladeDisp": 122.8,
+    "wholeDisp": 176.6,
+    "angle": 26,
+    "steelPx": 1652,
+    "tip": [
+      1473,
+      965
+    ],
+    "base": [
+      1306,
+      885
+    ],
+    "pommel": [
+      1233,
+      849
+    ]
+  },
+  {
+    "id": "jab1:0",
+    "seq": "jab1",
+    "pos": 0,
+    "cell": 0,
+    "blade": 132,
+    "whole": 154,
+    "bladeDisp": 87.6,
+    "wholeDisp": 102.2,
+    "angle": -25,
+    "steelPx": 1173,
+    "tip": [
+      303,
+      6
+    ],
+    "base": [
+      182,
+      61
+    ],
+    "pommel": [
+      162,
+      70
+    ]
+  },
+  {
+    "id": "jab1:1",
+    "seq": "jab1",
+    "pos": 1,
+    "cell": 1,
+    "blade": 176,
+    "whole": 197,
+    "bladeDisp": 116.8,
+    "wholeDisp": 130.8,
+    "angle": 22,
+    "steelPx": 2170,
+    "tip": [
+      997,
+      280
+    ],
+    "base": [
+      834,
+      213
+    ],
+    "pommel": [
+      815,
+      205
+    ]
+  },
+  {
+    "id": "jab1:2",
+    "seq": "jab1",
+    "pos": 2,
+    "cell": 2,
+    "blade": 176,
+    "whole": 192,
+    "bladeDisp": 116.8,
+    "wholeDisp": 127.5,
+    "angle": 0,
+    "steelPx": 2184,
+    "tip": [
+      1506,
+      180
+    ],
+    "base": [
+      1330,
+      181
+    ],
+    "pommel": [
+      1314,
+      181
+    ]
+  },
+  {
+    "id": "jab1:3",
+    "seq": "jab1",
+    "pos": 3,
+    "cell": 3,
+    "blade": 198,
+    "whole": 252,
+    "bladeDisp": 131.4,
+    "wholeDisp": 167.3,
+    "angle": 30,
+    "steelPx": 2434,
+    "tip": [
+      541,
+      662
+    ],
+    "base": [
+      371,
+      562
+    ],
+    "pommel": [
+      324,
+      534
+    ]
+  },
+  {
+    "id": "jab1:4",
+    "seq": "jab1",
+    "pos": 4,
+    "cell": 4,
+    "blade": 178,
+    "whole": 255,
+    "bladeDisp": 118.2,
+    "wholeDisp": 169.3,
+    "angle": -31,
+    "steelPx": 2392,
+    "tip": [
+      953,
+      406
+    ],
+    "base": [
+      801,
+      498
+    ],
+    "pommel": [
+      735,
+      538
+    ]
+  },
+  {
+    "id": "jab2:0",
+    "seq": "jab2",
+    "pos": 0,
+    "cell": 0,
+    "blade": 190,
+    "whole": 267,
+    "bladeDisp": 126.1,
+    "wholeDisp": 177.2,
+    "angle": -13,
+    "steelPx": 3448,
+    "tip": [
+      19,
+      280
+    ],
+    "base": [
+      204,
+      237
+    ],
+    "pommel": [
+      279,
+      220
+    ]
+  },
+  {
+    "id": "jab2:1",
+    "seq": "jab2",
+    "pos": 1,
+    "cell": 1,
+    "blade": 212,
+    "whole": 237,
+    "bladeDisp": 140.7,
+    "wholeDisp": 157.3,
+    "angle": -25,
+    "steelPx": 4546,
+    "tip": [
+      986,
+      97
+    ],
+    "base": [
+      794,
+      187
+    ],
+    "pommel": [
+      771,
+      197
+    ]
+  },
+  {
+    "id": "jab2:2",
+    "seq": "jab2",
+    "pos": 2,
+    "cell": 2,
+    "blade": 178,
+    "whole": 253,
+    "bladeDisp": 118.2,
+    "wholeDisp": 167.9,
+    "angle": -3,
+    "steelPx": 3129,
+    "tip": [
+      1528,
+      206
+    ],
+    "base": [
+      1350,
+      214
+    ],
+    "pommel": [
+      1275,
+      217
+    ]
+  },
+  {
+    "id": "jab2:3",
+    "seq": "jab2",
+    "pos": 3,
+    "cell": 3,
+    "blade": 162,
+    "whole": 299,
+    "bladeDisp": 107.5,
+    "wholeDisp": 198.5,
+    "angle": 25,
+    "steelPx": 3173,
+    "tip": [
+      609,
+      645
+    ],
+    "base": [
+      462,
+      576
+    ],
+    "pommel": [
+      338,
+      518
+    ]
+  },
+  {
+    "id": "jab2:4",
+    "seq": "jab2",
+    "pos": 4,
+    "cell": 4,
+    "blade": 214,
+    "whole": 296,
+    "bladeDisp": 142.1,
+    "wholeDisp": 196.5,
+    "angle": 31,
+    "steelPx": 4014,
+    "tip": [
+      962,
+      643
+    ],
+    "base": [
+      779,
+      533
+    ],
+    "pommel": [
+      709,
+      490
+    ]
+  },
+  {
+    "id": "finisher:0",
+    "seq": "finisher",
+    "pos": 0,
+    "cell": 0,
+    "blade": 185,
+    "whole": 198,
+    "bladeDisp": 122.8,
+    "wholeDisp": 131.4,
+    "angle": -5,
+    "steelPx": 3441,
+    "tip": [
+      77,
+      218
+    ],
+    "base": [
+      261,
+      203
+    ],
+    "pommel": [
+      274,
+      202
+    ]
+  },
+  {
+    "id": "finisher:1",
+    "seq": "finisher",
+    "pos": 1,
+    "cell": 1,
+    "blade": 166,
+    "whole": 249,
+    "bladeDisp": 110.2,
+    "wholeDisp": 165.3,
+    "angle": 33,
+    "steelPx": 2355,
+    "tip": [
+      1030,
+      292
+    ],
+    "base": [
+      891,
+      202
+    ],
+    "pommel": [
+      821,
+      156
+    ]
+  },
+  {
+    "id": "finisher:2",
+    "seq": "finisher",
+    "pos": 2,
+    "cell": 2,
+    "blade": 174,
+    "whole": 264,
+    "bladeDisp": 115.5,
+    "wholeDisp": 175.2,
+    "angle": 37,
+    "steelPx": 2471,
+    "tip": [
+      1518,
+      335
+    ],
+    "base": [
+      1379,
+      230
+    ],
+    "pommel": [
+      1307,
+      176
+    ]
+  },
+  {
+    "id": "finisher:3",
+    "seq": "finisher",
+    "pos": 3,
+    "cell": 3,
+    "blade": 171,
+    "whole": 190,
+    "bladeDisp": 113.5,
+    "wholeDisp": 126.1,
+    "angle": 24,
+    "steelPx": 2211,
+    "tip": [
+      597,
+      652
+    ],
+    "base": [
+      441,
+      582
+    ],
+    "pommel": [
+      423,
+      574
+    ]
+  },
+  {
+    "id": "finisher:4",
+    "seq": "finisher",
+    "pos": 4,
+    "cell": 4,
+    "blade": 205,
+    "whole": 289,
+    "bladeDisp": 136.1,
+    "wholeDisp": 191.8,
+    "angle": 12,
+    "steelPx": 3461,
+    "tip": [
+      1031,
+      567
+    ],
+    "base": [
+      830,
+      523
+    ],
+    "pommel": [
+      748,
+      505
+    ]
+  },
+  {
+    "id": "jump:0",
+    "seq": "jump",
+    "pos": 0,
+    "cell": 0,
+    "blade": 170,
+    "whole": 310,
+    "bladeDisp": 112.8,
+    "wholeDisp": 205.8,
+    "angle": -22,
+    "steelPx": 1938,
+    "tip": [
+      52,
+      314
+    ],
+    "base": [
+      211,
+      252
+    ],
+    "pommel": [
+      341,
+      200
+    ]
+  },
+  {
+    "id": "jump:1",
+    "seq": "jump",
+    "pos": 1,
+    "cell": 1,
+    "blade": 154,
+    "whole": 170,
+    "bladeDisp": 102.2,
+    "wholeDisp": 112.8,
+    "angle": 39,
+    "steelPx": 1397,
+    "tip": [
+      527,
+      29
+    ],
+    "base": [
+      646,
+      126
+    ],
+    "pommel": [
+      659,
+      136
+    ]
+  },
+  {
+    "id": "jump:2",
+    "seq": "jump",
+    "pos": 2,
+    "cell": 6,
+    "blade": 156,
+    "whole": 172,
+    "bladeDisp": 103.6,
+    "wholeDisp": 114.2,
+    "angle": 12,
+    "steelPx": 2336,
+    "tip": [
+      24,
+      687
+    ],
+    "base": [
+      177,
+      719
+    ],
+    "pommel": [
+      192,
+      723
+    ]
+  },
+  {
+    "id": "jump:3",
+    "seq": "jump",
+    "pos": 3,
+    "cell": 3,
+    "blade": 155,
+    "whole": 194,
+    "bladeDisp": 102.9,
+    "wholeDisp": 128.8,
+    "angle": 15,
+    "steelPx": 1543,
+    "tip": [
+      19,
+      496
+    ],
+    "base": [
+      169,
+      536
+    ],
+    "pommel": [
+      206,
+      545
+    ]
+  },
+  {
+    "id": "jump:4",
+    "seq": "jump",
+    "pos": 4,
+    "cell": 5,
+    "blade": 257,
+    "whole": 337,
+    "bladeDisp": 170.6,
+    "wholeDisp": 223.7,
+    "angle": 10,
+    "steelPx": 4768,
+    "tip": [
+      1513,
+      631
+    ],
+    "base": [
+      1260,
+      585
+    ],
+    "pommel": [
+      1182,
+      571
+    ]
+  },
+  {
+    "id": "jump:5",
+    "seq": "jump",
+    "pos": 5,
+    "cell": 7,
+    "blade": 245,
+    "whole": 320,
+    "bladeDisp": 162.6,
+    "wholeDisp": 212.4,
+    "angle": 36,
+    "steelPx": 3971,
+    "tip": [
+      1017,
+      1013
+    ],
+    "base": [
+      817,
+      871
+    ],
+    "pommel": [
+      756,
+      828
+    ]
+  },
+  {
+    "id": "fall:0",
+    "seq": "fall",
+    "pos": 0,
+    "cell": 0,
+    "blade": 130,
+    "whole": 203,
+    "bladeDisp": 86.3,
+    "wholeDisp": 134.8,
+    "angle": -21,
+    "steelPx": 1668,
+    "tip": [
+      20,
+      314
+    ],
+    "base": [
+      142,
+      267
+    ],
+    "pommel": [
+      210,
+      241
+    ]
+  },
+  {
+    "id": "fall:1",
+    "seq": "fall",
+    "pos": 1,
+    "cell": 1,
+    "blade": 222,
+    "whole": 320,
+    "bladeDisp": 147.4,
+    "wholeDisp": 212.4,
+    "angle": 17,
+    "steelPx": 4649,
+    "tip": [
+      928,
+      344
+    ],
+    "base": [
+      715,
+      279
+    ],
+    "pommel": [
+      622,
+      250
+    ]
+  },
+  {
+    "id": "fall:2",
+    "seq": "fall",
+    "pos": 2,
+    "cell": 2,
+    "blade": 211,
+    "whole": 298,
+    "bladeDisp": 140.1,
+    "wholeDisp": 197.8,
+    "angle": -30,
+    "steelPx": 3778,
+    "tip": [
+      1508,
+      101
+    ],
+    "base": [
+      1325,
+      207
+    ],
+    "pommel": [
+      1249,
+      250
+    ]
+  },
+  {
+    "id": "fall:3",
+    "seq": "fall",
+    "pos": 3,
+    "cell": 3,
+    "blade": 223,
+    "whole": 322,
+    "bladeDisp": 148,
+    "wholeDisp": 213.7,
+    "angle": 7,
+    "steelPx": 3915,
+    "tip": [
+      479,
+      674
+    ],
+    "base": [
+      257,
+      647
+    ],
+    "pommel": [
+      159,
+      635
+    ]
+  },
+  {
+    "id": "fall:4",
+    "seq": "fall",
+    "pos": 4,
+    "cell": 4,
+    "blade": 266,
+    "whole": 355,
+    "bladeDisp": 176.6,
+    "wholeDisp": 235.7,
+    "angle": 7,
+    "steelPx": 4377,
+    "tip": [
+      1061,
+      662
+    ],
+    "base": [
+      797,
+      629
+    ],
+    "pommel": [
+      709,
+      617
+    ]
+  },
+  {
+    "id": "getup:0",
+    "seq": "getup",
+    "pos": 0,
+    "cell": 0,
+    "blade": 224,
+    "whole": 314,
+    "bladeDisp": 136.2,
+    "wholeDisp": 190.9,
+    "angle": 16,
+    "steelPx": 3413,
+    "tip": [
+      551,
+      328
+    ],
+    "base": [
+      336,
+      266
+    ],
+    "pommel": [
+      249,
+      241
+    ]
+  },
+  {
+    "id": "getup:1",
+    "seq": "getup",
+    "pos": 1,
+    "cell": 1,
+    "blade": 245,
+    "whole": 334,
+    "bladeDisp": 149,
+    "wholeDisp": 203.1,
+    "angle": 21,
+    "steelPx": 3562,
+    "tip": [
+      1037,
+      322
+    ],
+    "base": [
+      808,
+      232
+    ],
+    "pommel": [
+      725,
+      199
+    ]
+  },
+  {
+    "id": "getup:2",
+    "seq": "getup",
+    "pos": 2,
+    "cell": 2,
+    "blade": 239,
+    "whole": 337,
+    "bladeDisp": 145.3,
+    "wholeDisp": 204.9,
+    "angle": 30,
+    "steelPx": 3827,
+    "tip": [
+      1460,
+      327
+    ],
+    "base": [
+      1253,
+      206
+    ],
+    "pommel": [
+      1169,
+      156
+    ]
+  },
+  {
+    "id": "getup:3",
+    "seq": "getup",
+    "pos": 3,
+    "cell": 3,
+    "blade": 244,
+    "whole": 337,
+    "bladeDisp": 148.4,
+    "wholeDisp": 204.9,
+    "angle": 31,
+    "steelPx": 4070,
+    "tip": [
+      454,
+      641
+    ],
+    "base": [
+      246,
+      514
+    ],
+    "pommel": [
+      166,
+      466
+    ]
+  },
+  {
+    "id": "getup:4",
+    "seq": "getup",
+    "pos": 4,
+    "cell": 4,
+    "blade": 225,
+    "whole": 314,
+    "bladeDisp": 136.8,
+    "wholeDisp": 190.9,
+    "angle": 29,
+    "steelPx": 3416,
+    "tip": [
+      955,
+      660
+    ],
+    "base": [
+      759,
+      551
+    ],
+    "pommel": [
+      681,
+      507
+    ]
+  },
+  {
+    "id": "misc:0",
+    "seq": "misc",
+    "pos": 0,
+    "cell": 0,
+    "blade": 217,
+    "whole": 308,
+    "bladeDisp": 144,
+    "wholeDisp": 204.5,
+    "angle": 24,
+    "steelPx": 3888,
+    "tip": [
+      477,
+      300
+    ],
+    "base": [
+      278,
+      212
+    ],
+    "pommel": [
+      195,
+      175
+    ]
+  },
+  {
+    "id": "misc:1",
+    "seq": "misc",
+    "pos": 1,
+    "cell": 1,
+    "blade": 219,
+    "whole": 308,
+    "bladeDisp": 145.4,
+    "wholeDisp": 204.5,
+    "angle": 29,
+    "steelPx": 3957,
+    "tip": [
+      938,
+      318
+    ],
+    "base": [
+      747,
+      211
+    ],
+    "pommel": [
+      670,
+      167
+    ]
+  },
+  {
+    "id": "misc:2",
+    "seq": "misc",
+    "pos": 2,
+    "cell": 2,
+    "blade": 221,
+    "whole": 312,
+    "bladeDisp": 146.7,
+    "wholeDisp": 207.1,
+    "angle": 20,
+    "steelPx": 3855,
+    "tip": [
+      1447,
+      287
+    ],
+    "base": [
+      1240,
+      212
+    ],
+    "pommel": [
+      1154,
+      181
+    ]
+  },
+  {
+    "id": "misc:3",
+    "seq": "misc",
+    "pos": 3,
+    "cell": 3,
+    "blade": 232,
+    "whole": 328,
+    "bladeDisp": 154,
+    "wholeDisp": 217.7,
+    "angle": 3,
+    "steelPx": 4957,
+    "tip": [
+      483,
+      543
+    ],
+    "base": [
+      251,
+      533
+    ],
+    "pommel": [
+      155,
+      528
+    ]
+  },
+  {
+    "id": "misc:4",
+    "seq": "misc",
+    "pos": 4,
+    "cell": 4,
+    "blade": 235,
+    "whole": 324,
+    "bladeDisp": 156,
+    "wholeDisp": 215.1,
+    "angle": 8,
+    "steelPx": 4813,
+    "tip": [
+      966,
+      565
+    ],
+    "base": [
+      733,
+      532
+    ],
+    "pommel": [
+      645,
+      519
+    ]
+  },
+  {
+    "id": "special:0",
+    "seq": "special",
+    "pos": 0,
+    "cell": 0,
+    "blade": 157,
+    "whole": 248,
+    "bladeDisp": 104.2,
+    "wholeDisp": 164.6,
+    "angle": -33,
+    "steelPx": 1098,
+    "tip": [
+      43,
+      137
+    ],
+    "base": [
+      175,
+      52
+    ],
+    "pommel": [
+      252,
+      3
+    ]
+  },
+  {
+    "id": "special:1",
+    "seq": "special",
+    "pos": 1,
+    "cell": 1,
+    "blade": null,
+    "whole": null,
+    "bladeDisp": null,
+    "wholeDisp": null,
+    "steelPx": 555
+  },
+  {
+    "id": "special:2",
+    "seq": "special",
+    "pos": 2,
+    "cell": 2,
+    "blade": 151,
+    "whole": null,
+    "bladeDisp": 100.2,
+    "wholeDisp": null,
+    "angle": -9,
+    "steelPx": 1067,
+    "tip": [
+      1162,
+      270
+    ],
+    "base": [
+      1312,
+      248
+    ],
+    "pommel": null
+  },
+  {
+    "id": "special:3",
+    "seq": "special",
+    "pos": 3,
+    "cell": 3,
+    "blade": 174,
+    "whole": 252,
+    "bladeDisp": 115.5,
+    "wholeDisp": 167.3,
+    "angle": 2,
+    "steelPx": 2668,
+    "tip": [
+      598,
+      484
+    ],
+    "base": [
+      424,
+      478
+    ],
+    "pommel": [
+      346,
+      475
+    ]
+  },
+  {
+    "id": "special:4",
+    "seq": "special",
+    "pos": 4,
+    "cell": 4,
+    "blade": 156,
+    "whole": 215,
+    "bladeDisp": 103.6,
+    "wholeDisp": 142.7,
+    "angle": 10,
+    "steelPx": 1410,
+    "tip": [
+      1072,
+      530
+    ],
+    "base": [
+      918,
+      504
+    ],
+    "pommel": [
+      860,
+      494
+    ]
+  },
+  {
+    "id": "rider:0",
+    "seq": "rider",
+    "pos": 0,
+    "cell": 0,
+    "blade": 251,
+    "whole": 347,
+    "bladeDisp": 166.6,
+    "wholeDisp": 230.3,
+    "angle": 15,
+    "steelPx": 4623,
+    "tip": [
+      517,
+      297
+    ],
+    "base": [
+      274,
+      232
+    ],
+    "pommel": [
+      182,
+      207
+    ]
+  },
+  {
+    "id": "rider:1",
+    "seq": "rider",
+    "pos": 1,
+    "cell": 1,
+    "blade": 231,
+    "whole": 320,
+    "bladeDisp": 153.3,
+    "wholeDisp": 212.4,
+    "angle": 18,
+    "steelPx": 3823,
+    "tip": [
+      986,
+      307
+    ],
+    "base": [
+      766,
+      234
+    ],
+    "pommel": [
+      682,
+      206
+    ]
+  },
+  {
+    "id": "rider:2",
+    "seq": "rider",
+    "pos": 2,
+    "cell": 2,
+    "blade": 204,
+    "whole": 276,
+    "bladeDisp": 135.4,
+    "wholeDisp": 183.2,
+    "angle": 30,
+    "steelPx": 4133,
+    "tip": [
+      1332,
+      306
+    ],
+    "base": [
+      1155,
+      204
+    ],
+    "pommel": [
+      1093,
+      169
+    ]
+  },
+  {
+    "id": "rider:3",
+    "seq": "rider",
+    "pos": 3,
+    "cell": 3,
+    "blade": 158,
+    "whole": 287,
+    "bladeDisp": 104.9,
+    "wholeDisp": 190.5,
+    "angle": -4,
+    "steelPx": 2161,
+    "tip": [
+      17,
+      394
+    ],
+    "base": [
+      174,
+      385
+    ],
+    "pommel": [
+      303,
+      377
+    ]
+  },
+  {
+    "id": "rider:4",
+    "seq": "rider",
+    "pos": 4,
+    "cell": 4,
+    "blade": 214,
+    "whole": 301,
+    "bladeDisp": 142.1,
+    "wholeDisp": 199.8,
+    "angle": 2,
+    "steelPx": 3232,
+    "tip": [
+      1148,
+      479
+    ],
+    "base": [
+      933,
+      471
+    ],
+    "pommel": [
+      846,
+      468
+    ]
+  },
+  {
+    "id": "rider:5",
+    "seq": "rider",
+    "pos": 5,
+    "cell": 5,
+    "blade": 223,
+    "whole": 318,
+    "bladeDisp": 148,
+    "wholeDisp": 211.1,
+    "angle": 36,
+    "steelPx": 3789,
+    "tip": [
+      1460,
+      672
+    ],
+    "base": [
+      1279,
+      543
+    ],
+    "pommel": [
+      1202,
+      487
+    ]
+  }
+]

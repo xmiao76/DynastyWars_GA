@@ -5,6 +5,103 @@
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
+## Acceptance-4 measurement (2026-10-04) — FAIL on weapon length (genuine, per-sheet)
+
+Method: `scripts/dao-true-weiyan.mjs` (committed). Largest steel
+cluster = blade; PCA axis; tip = steel extreme; blade base = the
+end with bronze (guard); pommel located by bronze within 14px of
+the axis. A first RANSAC axis fit (copied from the 10A spear chain)
+was DISCARDED: the overlay review showed its axes running through
+the torso on short-gripped diagonals (jab2:2 517, jab1:4 448 read
+as full-body lines), so its numbers are not evidence. All 56 cells
+overlay-reviewed on the fingerprinted contact (green tip / orange
+blade-base / cyan pommel); endpoints sit on the true fittings in all
+but the exceptions listed below.
+
+- BLADE length (tip to guard), displayed px at the applied scales:
+  55/56 measured (special:1 UNVERIFIED - blade mostly hidden behind
+  the head/arm, steel 555px). Spread **69.7%** (86.3-176.6) over all
+  measured; walk family alone **5.2%** (n=9, 122.8-129.4) PASSES.
+  Only 13/55 cells sit in the +/-5% band around the walk median
+  124.1.
+- The failure is STRUCTURAL PER SHEET, not scatter. Median blade vs
+  walk: jab1 0.94, jab2 1.02, finisher 0.93, jump 0.87, special
+  0.84, and fall 1.19, getup 1.17, misc 1.18, rider 1.17. Within-
+  sheet spreads are small on getup (8.9%) and misc (8.0%) - the
+  generator drew each sheet with a consistent but DIFFERENT dao
+  size (getup/misc/rider/fall ~17-19% long; special/jump 13-16%
+  short). Applying the guard-evidence factor to getup (0.916) moved
+  it the right way but only the walk and getup sheets carry guard
+  cells, so the other eight sheets stay at factor 1, UNVERIFIED.
+- Foreshortening/occlusion floor: jab1:0 (88), fall:0 (86),
+  special:0/2/4 (100-104), jump:1/2/3 (102-104) read short because
+  the blade points toward/away from the camera or is occluded; they
+  are comparable-set EXCLUSIONS per the recovery protocol, not
+  proven art defects, and the long-side cells cannot be excluded on
+  that ground.
+- VERDICT: weapon-length spread FAILS the <=10% item.
+- CORRECTION (same turn, measured): an earlier draft of this verdict
+  said the fix was a per-sheet scale factor. The matched standing-
+  guard cells (walk:0 vs getup:4, same pose) disprove that: the
+  FIGURE is 1.094x walk (bboxH 372 vs 340) but the BLADE is 1.160x
+  (raw 225 vs 194), i.e. the dao is drawn ~6% longer RELATIVE TO THE
+  BODY on getup. One uniform scale per sheet can reconcile the body
+  OR the blade, not both: the body-proxy factor (0.914, applied)
+  leaves the blade ~6% long on that pose (and ~17% long across the
+  sheet median, 1.17x walk even after the factor), while the blade-
+  proxy factor (0.862) would shrink the figure to 94.3% of the walk
+  guard. The two proxies DISAGREE by 0.052 (> the 0.05 agreement
+  rule), so NO blade factor may be applied - the rule exists
+  exactly for this case, and it is not bent here.
+- Consequence: the long sheets (getup, misc, rider, fall; ~17-19%
+  over walk) carry a proportion drift in the drawings themselves.
+  That is a source-art defect class, so the acceptance-4 recovery
+  protocol applies (reserve-before-call focused redraws, repair
+  ledger 0/3 used), OR an owner waiver on the 09A/10A precedent.
+  The short sheets (special 0.84, jump 0.87) are mostly the
+  foreshortening exclusions above and need the comparable-set
+  review before anything is redrawn. No image request this turn.
+
+## Direction (2026-10-04) — marginal 2/44, authored-bridge candidates
+
+- Chord (tip-vs-base) UNDIRECTED step check, 44 steps: 2 exceed
+  60deg: jab1:3 -> jab1:4 (61.7) and jump:0 -> jump:1 (60.5) - both
+  within 1.7deg of the limit. The directed (+up, 0=right) angles
+  show the drawings genuinely swing the blade through ~170deg
+  between the specials' coil/strike and the rider windup/sweep
+  (e.g. jab2:0 -167deg -> jab2:1 +25deg), but those are 180deg
+  flips of the SAME blade axis (undirected equivalent is the
+  precedent method from 09A/10A) - not a pose discontinuity.
+- VERDICT: PASS-marginal (undirected precedent method, 2 cells at
+  60.5-61.7 by chord) pending the registration-level re-check after
+  any sheet scale change (angles are scale-invariant, so a scale
+  fix cannot cure them; an authored bridge or one focused redraw
+  of jab1:4 would). Not blocking while the weapon item is open.
+
+## Head (2026-10-04) — auto face-cluster method VOID again (turban/beard/hand/steel/pauldron hits)
+
+- D0/D1/D2: 55.3% / 54.7% / 43.7% (n=56/49/19); walk alone 9.7%.
+  These are NOT head measurements. Forensic strip (12 cells,
+  fingerprinted read) proves the "face" clusters land on a HAND
+  (jab1:0, fall:0), a bronze PAULDRON (misc:1), BLADE STEEL (jump:2:
+  59x18 steel read as skin) and a foreshortened prone face (fall:4),
+  while the upright faces (walk:0/4, getup:4, jab2:2, finisher:2,
+  rider:0, special:3) are the lower-right cheek/mouth band only -
+  turban crops the forehead, beard crops the jaw - so the cluster is
+  a fraction of the head even when it is on the face.
+- Same treatment as 10A: no direct number is claimed. Indirect
+  evidence only: upright cluster displayed sizes cluster at
+  13.7-17.7 across walk/getup/finisher/rider/special with no
+  drift pattern, but the getup/finisher/rider faces read ~10-25%
+  larger than walk:0 in the strip - CONSISTENT with the blade
+  evidence (those sheets were drawn larger), so the sheet-scale
+  offsets above are the same defect seen twice, not two defects.
+- Head UNVERIFIED by direct measurement. The getup/finisher/rider
+  faces reading larger than walk:0 fits the same per-sheet drawing-
+  size drift as the blade evidence, but that is an inference from a
+  contaminated detector, not a measurement - it stays UNVERIFIED and
+  rides with the weapon-length decision (redraw round or waiver).
+
 ## Attempts
 
 ### rider-candidate-1 (ACCEPTED 2026-10-04) — sha `1d80450d…`

@@ -252,10 +252,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-11A - Wei Yan: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; identity + plan done; ALL 10
-  sheets ACCEPTED; pack RE-SOLVED with factors 2026-10-04: base
-  0.663804, guard 225.7px, pages 15.47MB <= 16MB (getup factor
-  0.916 applied, rest UNVERIFIED at 1); budget 10/16. Next:
-  landmark acceptance (dao lengths + direction).)
+  sheets ACCEPTED; pack solves at hero scale inside the 16MB
+  contract (base 0.663804, guard 225.7px, pages 15.47MB). 
+  Acceptance-4 MEASURED 2026-10-04: weapon length FAILS (blade
+  spread 69.7%; walk family 5.2% passes) - structural per-sheet
+  proportion drift (getup/misc/rider/fall dao ~17-19% long vs
+  walk; matched guard cells prove the blade is 6% long relative
+  to the body, so no uniform factor can fix it and the two-proxy
+  rule correctly blocks one); direction PASS-marginal (2/44 at
+  60.5-61.7 by chord); head UNVERIFIED (auto cluster void: lands
+  on hand/pauldron/steel). Budget 10/16 + repair 3/3 untouched.
+  Next: diagnose the comparable set, then repair round 1 or
+  owner waiver.)
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
