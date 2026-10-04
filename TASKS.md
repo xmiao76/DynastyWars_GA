@@ -252,9 +252,9 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-11A - Wei Yan: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; identity + plan done; walk +
-  jab1 + jab2 sheets ACCEPTED (jab2 keep [0,1,2,3,4], low set
-  distinct from jab1, no verticals); budget 3/16. Next:
-  finisher sheet.)
+  jab1 + jab2 + finisher sheets ACCEPTED (finisher keep
+  [0,1,2,3,4], heavy diagonals within rule); budget 4/16. Next:
+  jump sheet.)
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

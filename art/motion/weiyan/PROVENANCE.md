@@ -1,11 +1,25 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 3/16 used (walk + jab1 + jab2 accepted). 13 spare.
+- Authoring: 4/16 used (walk + jab1 + jab2 + finisher accepted). 12 spare.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
 ## Attempts
+
+### finisher-candidate-1 (ACCEPTED 2026-10-04) — sha `8101c921…`
+
+- Request 4/16 (sheet finisher 1/2). Refs in order: body master
+  `ee0a0200`, portrait master `0fc579c1`, walk-guard anchor
+  `2a3635ca`. Prompt: 3x3 heavy diagonal chop + spares (weightier
+  than slash/sweep), identity lock, dao length vs the anchor.
+- Mechanical: 9/9 clean, all cells covered, 0 edge, gate green
+  (glow 102K, 0 specks); wide straddles (to 541px) but no merges.
+- Review: keep [0,1,2,3,4] in play order (coil/launch/chop-
+  extension/impact-follow/recover) - all heavy diagonals within
+  the 50deg rule (extension ~35-40deg), clearly weightier than
+  the jabs; full uniform dao, clean anatomy, no forks/verticals.
+  Cull {5,6,7,8} (clean spares).
 
 ### jab2-candidate-1 (ACCEPTED 2026-10-04) — sha `74759595…`
 

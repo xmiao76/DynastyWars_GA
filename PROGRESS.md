@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 00:44 UTC - CMR-11A (attempt 1, IN_PROGRESS - finisher sheet accepted)
+
+- Status before: CMR-11A IN_PROGRESS (3 sheets accepted, budget
+  3/16). No PENDING FILING, review 1/4.
+- Work completed: reserved finisher sheet 1/2 BEFORE generating
+  (weiyan 4/16, total 71/200) and generated finisher-candidate-1
+  (sha 8101c921, 3 refs incl. guard anchor): ACCEPTED - 9/9
+  clean, all cells covered, 0 edge, gate green; wide straddles
+  (to 541px) with zero merges. Keep [0,1,2,3,4] in play order
+  (coil/launch/chop-extension/impact-follow/recover), all heavy
+  diagonals within the 50deg rule, clearly weightier than the
+  jabs; full uniform dao, clean anatomy, no forks/verticals.
+  Cull {5,6,7,8}.
+- Files changed: art/motion/weiyan/finisher-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (4/16),
+  TASKS.md, PROGRESS.md. Strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 6 more sheets (jump next), then
+  prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (jump sheet).
+
 ### 2026-10-04 00:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - jab2 sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (walk + jab1 accepted,
