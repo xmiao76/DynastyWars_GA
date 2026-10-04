@@ -22,6 +22,33 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 02:51 UTC - CMR-11A (attempt 1, IN_PROGRESS - special sheet accepted)
+
+- Status before: CMR-11A IN_PROGRESS (8 sheets accepted, budget
+  8/16). No PENDING FILING, review 1/4.
+- Work completed: reserved special sheet 1/2 BEFORE generating
+  (weiyan 9/16, total 76/200); first image call failed with a
+  transient fetch error (no image), retried under the SAME
+  reservation (1 image for 1 slot). Generated special-
+  candidate-1 (sha 95c51b7e, 3 refs incl. guard anchor):
+  ACCEPTED - 9/9 clean, all cells covered, 0 edge, gate green
+  (glow 96K, 0 specks). Keep [0,1,2,3,4] in play order (raise/
+  coil/pre-spin/strike/follow) with zero effects paint anywhere;
+  dao full in all, clean anatomy, no forks/verticals (steepest
+  ~45deg, within rule). Cull {5,6,7,8}.
+- Files changed: art/motion/weiyan/special-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (9/16),
+  TASKS.md, PROGRESS.md. Strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 1 more sheet (rider), then
+  prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (rider sheet).
+
 ### 2026-10-04 02:43 UTC - CMR-11A (attempt 1, IN_PROGRESS - misc sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (7 sheets accepted, budget

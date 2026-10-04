@@ -1,11 +1,26 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 8/16 used (walk + jab1 + jab2 + finisher + jump + fall + getup + misc accepted). 8 spare.
+- Authoring: 9/16 used (walk + jab1 + jab2 + finisher + jump + fall + getup + misc + special accepted). 7 spare.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
 ## Attempts
+
+### special-candidate-1 (ACCEPTED 2026-10-04) — sha `95c51b7e…`
+
+- Request 9/16 (sheet special 1/2). Refs in order: body master
+  `ee0a0200`, portrait master `0fc579c1`, walk-guard anchor
+  `2a3635ca`. Prompt: 3x3 whirlwind special + spares, zero
+  effects paint. First image call failed with a transient fetch
+  error (no image); retried under the SAME reservation (1 image
+  for 1 slot, per the 10A 520 precedent).
+- Mechanical: 9/9 clean, all cells covered, 0 edge, gate green
+  (glow 96K, 0 specks).
+- Review: keep [0,1,2,3,4] in play order (raise/coil/pre-spin/
+  strike/follow) - zero effects paint anywhere (no speed lines
+  or glows); dao full in all, clean anatomy, no forks/verticals
+  (steepest blade ~45deg, within rule). Cull {5,6,7,8}.
 
 ### misc-candidate-1 (ACCEPTED 2026-10-04) — sha `69be09d1…`
 
