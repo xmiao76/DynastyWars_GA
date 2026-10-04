@@ -22,6 +22,54 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 12:44 UTC - CMR-11A (attempt 1, IN_PROGRESS - finisher v2 accepted with safe spare remap)
+
+- Status before: CMR-11A IN_PROGRESS; v2 walk/jab1/jab2 sources
+  accepted as drawings, not packed. No PENDING FILING, review 1/4,
+  pre-existing `.gitignore` change untouched.
+- Work completed: read wy.finisher exact core window (startup 13,
+  active 6, recover 18, reach 30). Reserved second/last whole-sheet
+  finisher candidate 2/2 BEFORE image call (request 16/26, global
+  83/200); generated source `finisher-v2-candidate-1.png` sha
+  `ff69e72c`. Exact prompt in finisher-v2-prompt.txt and ordered
+  refs weapon `71c288d1`, body `ee0a0200`, face `0fc579c1`,
+  cleaned walk-v2 anchor `46546eca`, jab2 accepted source
+  `e61f9883` (body/style only). No short-saber weapon ref.
+- Source review: nine visually distinct heavy two-hand low/diagonal
+  polearm chops, stable turban/bronze/short beard, shaft + red
+  tassel + ferrule + silver head in each. 9 connected figures, but
+  raw core cell 2 touches x=1535 at sheet RIGHT edge (pipeline
+  fail) and true butt-tip raw 0..4 = [522,510,489,543,494]px,
+  spread ~10.6% >10%, so RAW sheet REJECTED. One threshold edge
+  pixel; alpha cleanup removed 89,999 halo + one 1px speck.
+- Proved safe alternate: reviewed ordered contact using [0 coil,
+  1 launch, 3 heavy extension, 6 follow, 4 recover]. Full wooden
+  haft, gold pommel and steel tip visibly present in all; true
+  endpoint overlay sha `ede21402` read. Lengths [522,510,543,
+  506,494]px, mean 515, spread 49/515=9.5146% (marginal SOURCE
+  pass); direction steps approximately [25,30,4,3]° (≤60).
+  Source #3 extends, #6 provides motion-bridging follow; avoided
+  clipping and shortening WITHOUT another image request.
+- New SHA-pinned `scripts/prepare-weiyan-finisher-v2-source.mjs`
+  culls [2,5,7,8] from ORIGINAL in memory and uses standard alpha
+  cleanup. Ran twice: deterministic prepared sheet sha `6f622f91`,
+  exactly five separate kept components at [0,1,3,4,6], 0 outer
+  edge touch, 49,370 residual glow pixels removed, 0 specks.
+  Opened generated transparent sheet, saw culls removed, intact
+  poses/weapon. Source file + exact prompt + prepared derivative
+  force-added; ledger/plan/provenance/task/progress updated.
+- Verification run: script twice same digest, `npx eslint` green;
+  `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint` green;
+  `npm run typecheck` green. No shipping/UI changes; no vision or
+  prodbuild. Full unit suite not rerun (known V-15b G6 failure).
+- Result/status after: CMR-11A IN_PROGRESS (four v2 source sheets
+  accepted as drawings; FULL pack unprepared and unverified).
+- Remaining work/next: six v2 sequences, page-aware 16MiB-first
+  fit, cross-sheet acceptance-4 and offline continuity. Budget
+  16/26 (10 remaining), repair reserve 3/3. Next v2 special sheet,
+  reserve-before-call; no runtime activation or pack exception.
+
 ### 2026-10-04 12:10 UTC - CMR-11A (attempt 1, IN_PROGRESS - focused jab2:2/3 splice, marginal source-level weapon pass)
 
 - Status before: CMR-11A IN_PROGRESS; jab2-v2 original lacks rear

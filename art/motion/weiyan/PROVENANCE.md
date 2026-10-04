@@ -1,13 +1,12 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 15/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 16/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  refs but weapon-rejected; v2 walk and source-preserving jab1/jab2
-  splices accepted as drawings. Original jab2 source remains
-  rejected; its repaired cells 2/3 live in a separate SHA-pinned
-  prepared source. 11 requests remain. Pack still unverified;
-  global 200 and two sheets/sequence unchanged; walk/jab1/jab2
-  used both whole-sheet slots.
+  refs but weapon-rejected; v2 walk, source-preserving jab1/jab2
+  splices, and finisher selected-cell derivative accepted as
+  drawings. Ten requests remain. Full pack still unverified;
+  global 200/two whole sheets per sequence unchanged; walk/jab1/
+  jab2/finisher each used both whole-sheet slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -16,14 +15,56 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 15/26, total 82/200; walk/jab1/jab2 each consumed
-its second whole-sheet candidate (jab1/jab2 later requests were
+ledger now says 16/26, total 83/200; walk/jab1/jab2/finisher each
+consumed a second whole-sheet candidate (jab1/jab2 later edits were
 FOCUSED, not third whole-sheet candidates), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### finisher-v2-candidate-1 — selected-cell source ACCEPTED 2026-10-04; sha `ff69e72c…`
+
+- Request 16/26, second (last) whole-sheet candidate for finisher,
+  reserved in durable ledger BEFORE generation. Preferred ChatGPT
+  image returned one sheet; exact `finisher-v2-prompt.txt`, ordered
+  refs legacy weapon `71c288d1`, body `ee0a0200`, face `0fc579c1`,
+  cleaned v2 guard `46546eca`, accepted jab2 prepared source
+  `e61f9883` (body/pose continuity, legacy weapon remains authority).
+- Mechanical: original 1536×1024 has 9 clean components, but one
+  alpha≥96 pixel touches RIGHT SHEET EDGE on source cell 2 (bbox
+  x1=1535). Therefore the RAW sheet CANNOT be accepted as-is.
+  Standard cleanup removes 89,999 halo pixels plus 1 tiny speck.
+  All nine long wooden poles, gold pommels/ferrules, red tassels,
+  silver blade, bearded purple Wei Yan remain readable and all
+  nine poses have distinct stances. Read full contact and actual
+  pommel/tip overlay: source lengths [522,510,489,543,494,482,
+  506,539,462] raw px; raw core cells 0..4 spread
+  (543−489)/511.6 ≈10.6% => FAILS the ≤10% criterion.
+- The sheet has clean SPARES. Use a *pose-reviewed* remap rather
+  than another request: core play order [0 coil,1 launch,3 heavy
+  extension/impact,6 follow,4 recover] draws a legible move with
+  back/shoulder commitment beyond jab1/2, and all weapon tips /
+  butts visible. TRUE endpoint overlay reviewed for kept 0/1/3/
+  6/4: [522,510,543,506,494]px, mean 515, spread 49/515=
+  **9.5146%** (marginal source-level pass); next-frame axis
+  changes about 25,30,4,3 degrees (≤60). Culls [2,5,7,8] in
+  memory; notably cell 2 was the clipped one. This may also
+  ease future pack fitting, but no fit conclusion is drawn.
+- `scripts/prepare-weiyan-finisher-v2-source.mjs` hashes/pins raw
+  source, culls named drawings in memory, applies standard alpha
+  cleanup, asserts exactly five separate kept components at
+  [0,1,3,4,6] and no outer-edge touch. Resulting immutable-
+  derived `finisher-v2-prepared-source.png` sha `6f622f91…`
+  reproduced byte-identically twice. Actually opened cleaned
+  output (full polearms/purple/beard visible, four culls gone).
+- ACCEPTED only the selected five source drawings, not the whole
+  generated nine-cell original; full pack-scale hierarchy,
+  cross-sequence length spread, ≤16MiB decode cap and offline
+  continuity still UNVERIFIED. Budget 16/26, ten authoring left;
+  separate acceptance-4 reserve 3/3 untouched. No runtime art
+  activation and no page-cap exception assumed.
 
 ### jab2-v2-focused-r1 — ACCEPTED two-cell splice 2026-10-04; sha `6388c4e9…`
 

@@ -288,10 +288,19 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   9 separate figures, keep [0..4] and cull short spare 7. True
   butt-to-tip [491,468,498,453,451] raw px, mean 472.2, spread
   **9.9534%**, a marginal source-level ≤10% pass; angles all
-  ≤12° with steps ≤8°. Cross-sheet acceptance unverified. Seven
-  other v2 sequences, pack fit and full offline review remain.
-  Ledger 15/26; 11 remain; repair reserve 3/3 untouched; no runtime
-  activation or 16MiB exception assumed. Next: v2 finisher.
+  ≤12° with steps ≤8°. Finisher-v2 request 16/26 generated heavy
+  chop poses but raw cell 2 touched the image's right border
+  (pipeline FAIL) and raw [0..4] length spread was ~10.6%
+  (acceptance FAIL). Verified spare substitution/culling:
+  `finisher-v2-prepared-source.png` sha 6f622f91, play order
+  [0 coil,1 launch,3 heavy extension,6 follow,4 recover], 5 clean
+  separated components with zero edge contact; true pommel-tip
+  [522,510,543,506,494]px, mean 515, spread 9.5146% within
+  finisher sheet, directed steps ≤30°. Source accepted only;
+  full cross-sequence acceptance/16MiB cap unverified. Six v2
+  sequences remain; pack/offline review remains. Ledger 16/26;
+  10 remain; repair reserve 3/3 untouched. No runtime activation
+  or decode-cap exception assumed. Next: v2 special.
   See AUTHORING-PLAN-V2.md and PROVENANCE.md.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
