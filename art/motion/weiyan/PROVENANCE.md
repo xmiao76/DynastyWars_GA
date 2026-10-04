@@ -1,10 +1,11 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 12/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 13/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets are retained as
-  pose references but weapon-rejected; v2 walk is source-accepted;
-  v2 jab1 is rejected as drawn (missing rear haft/pommel in cells
-  1,2,7; see entries). 14 requests remain.
+  pose references but weapon-rejected; v2 walk and the SOURCE-
+  PRESERVING jab1 focused splice are accepted as drawings (pack
+  still unverified). The unmodified jab1 source lacks rear haft/
+  pommel in cells 1,2,7; spare 7 stays culled. 13 requests remain.
   Global 200 and two whole-sheet candidates per sequence unchanged;
   walk and jab1 have both whole-sheet slots spent.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
@@ -15,13 +16,53 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 12/26, total 79/200; walk's and jab1's second
-(last) sheet candidates are consumed, and the separate repair reserve
+ledger now says 13/26, total 80/200; walk's and jab1's second
+(last) sheet candidates are consumed (the third jab1 request was
+FOCUSED, not a third whole-sheet candidate), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jab1-v2-focused-r1 — ACCEPTED two-cell splice 2026-10-04; sha `64547d1a…`
+
+- Request 13/26 from ordinary authoring ledger (kind `focused`,
+  seq jab1), RESERVED/SAVED BEFORE the image call. Repair ledger
+  3/3 untouched. Prompt `jab1-v2-focused-r1-prompt.txt` names ONLY
+  jab1:1 drive + jab1:2 extension. Ordered refs: original v2
+  jab1 `39223dc7`, accepted walk-v2 `a8e44840`, legacy weapon
+  `71c288d1`, body `ee0a0200`, face `0fc579c1`. Actual result
+  from preferred ChatGPT image subscription (no fallback notice).
+- The model did NOT honor pixel-for-pixel preservation: all nine
+  drawings changed (47–52k solid/changed pixels per untouched
+  source cell). It DID add full rear wood shafts and gold pommels
+  to named cells 1 and 2, with two hands on each shaft, gold
+  ferrules, red tassels and single steel blades. The source has
+  9 connected figures, zero alpha≥96 sheet-edge pixels, 0 specks;
+  98,632 halo pixels cleaned by standard alpha gate under 150k.
+  Raw output preserved, not treated as an accepted whole sheet.
+- Reproducible, source-preserving local merge by
+  `scripts/splice-weiyan-jab1-v2.mjs`: pin BOTH input hashes,
+  copy complete cleaned alpha components ONLY from repair for
+  named cells 1/2, complete ORIGINAL components for every other
+  cell (0,3,4,5,6,7,8). Pixel-owner collision guard and
+  post-splice 9-component/edge gates pass; per-component SHA-256
+  recorded by script proves unchanged drawings really come from
+  v2 original despite the provider's global redraw. Source
+  `jab1-v2-prepared-source.png` sha `b39a260b…` (original and
+  repair unmodified). Keep [0,1,2,3,4]; cull [5,6,7,8],
+  especially spare 7 whose rear shaft remains missing.
+- TRUE endpoint overlay actually reviewed: gold butt and silver tip
+  land on fittings in all FIVE kept cells; tip-to-pommel raw px
+  [469,479,469,495,463] with spread **6.7% of mean**, passing
+  this sheet's 10% visible-weapon-length item. Directed axis
+  angles [17,-1,-3,24,2]°; consecutive steps [18,2,27,22]°
+  (all under 60°). Evidence is sheet-local at raw source scale;
+  the full pack and cross-sheet acceptance remain UNVERIFIED.
+- Remaining: 8 v2 whole-sheet sequences, page-aware solve and
+  capture/landmark review. No v2 runtime activation, no 16MiB
+  exception assumed; budget 13/26 (13 remaining).
 
 ### jab1-v2-candidate-1 — REJECTED as full sequence 2026-10-04; sha `39223dc7…`
 

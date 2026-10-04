@@ -22,6 +22,53 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 08:37 UTC - CMR-11A (attempt 1, IN_PROGRESS - focused jab1:1/2 repair and source-preserving splice)
+
+- Status before: CMR-11A IN_PROGRESS (jab1 whole sheet rejected:
+  cells 1/2 missing rear haft/pommel; 12/26 authoring used); no
+  PENDING FILING, visual-review count 1/4. Existing `.gitignore`
+  modification not touched.
+- Work completed: preserved v2 original `39223dc7`, read it plus
+  accepted walk `a8e44840`, legacy weapon `71c288d1`, body
+  `ee0a0200`, portrait `0fc579c1`. Reserved **one ordinary focused
+  authoring** request (13/26, global 80/200) for named jab1:1/2
+  before image generation; repair ledger remains 3/3. Generated
+  `jab1-v2-focused-r1.png` sha `64547d1a` using committed exact
+  prompt. The edit gave both target poses full rear wooden haft and
+  golden butt, but redrew ALL nine cells despite the pixel-preserve
+  request (47-52k solid changed pixels per non-target nominal cell).
+  Rejected full generated sheet as a replacement; retained raw
+  output and original unchanged.
+- Files changed: `scripts/splice-weiyan-jab1-v2.mjs` (new,
+  SHA-pinned, component-owner collision + edge guards), committed
+  input images original remained untouched, new focused image +
+  exact prompt + prepared source, budget ledger, v2 plan,
+  PROVENANCE.md, TASKS.md, PROGRESS.md. Deterministic splice takes
+  only cleaned complete components 1/2 from focused result; all
+  other components from source, hashes recorded per cell. Produced
+  `jab1-v2-prepared-source.png` sha `b39a260b` (9 separated clean
+  components, no image-edge contact). Keep [0..4], cull [5..8],
+  including spare 7 still without butt.
+- Verification run: input SHA-256 checked, 9/9 separated component
+  and collision/edge gates pass; rerun of splice returns same
+  b39a260b hash. Actually viewed source-preserving merged sheet
+  and true-endpoint overlay sha `fb21882b`: pommel and steel-tip
+  rings hit real fittings on kept cells 0..4; raw lengths
+  [469,479,469,495,463]px, 6.7% within-sheet spread, directed
+  steps [18,2,27,22]° (all ≤60). This is not whole-cast/pack
+  acceptance. `npx vitest run test/game/motion-budget.test.ts`
+  8/8; `npm run lint` and `npm run typecheck` green. No shipping/UI
+  files changed; browser/production checks not run, full unit suite
+  not rerun (previous known V-15b G6 failure).
+- Result/status after: CMR-11A IN_PROGRESS; walk and jab1 v2 source
+  drawings accepted, but no v2 pack prepared or runtime registered.
+- Remaining work or blocker: eight remaining v2 sheets, scales,
+  page-aware 16MiB-first prepare, cross-sequence acceptance-4 and
+  offline capture/continuity review. 13/26 authoring requests remain.
+- Next recommended task: generate jab2 v2 with ref order legacy
+  weapon/body/portrait/walk guard and original jab2 as POSE-only
+  reference if necessary; reserve a whole-sheet request before it.
+
 ### 2026-10-04 08:23 UTC - CMR-11A (attempt 1, IN_PROGRESS - jab1 v2 generated; rear haft missing in core poses)
 
 - Status before: CMR-11A IN_PROGRESS (owner A authorized 26 total

@@ -11,13 +11,14 @@ reserve-before-call, carried learnings) still applies.
   Global 200 and the two-whole-sheets-per-sequence rule unchanged:
   each sequence holds exactly one v1 candidate, so each gets exactly
   ONE v2 whole-sheet candidate; any further fix is a focused edit.
-- v2 plan: 10 sheets = 10 requests -> 20/26, 6 spare for focused
-  edits before any corrections. Walk and jab1 v2 used requests
-  11–12/26; jab1's generated drive/extension cells 1–2 omit the
-  rear haft/pommel (source REJECTED until a focused repair). Eight
-  other whole-sheet sequences remain; no more whole-sheet
-  walk/jab1 candidates allowed. A focused authoring correction
-  counts against 26; repair reserve 3/3 remains acceptance-4 only.
+- v2 plan: 10 sheets = 10 requests -> 20/26, 6 spares for focused
+  edits before corrections. Walk/jab1 v2 whole sheets used requests
+  11–12/26; source jab1:1/2 lacked rear haft/pommel. Focused authoring
+  request 13/26 produced a two-component-only, original-preserving
+  splice (`jab1-v2-prepared-source.png`); eight other whole-sheet
+  sequences remain, 13/26 requests available (8 planned + 5 spare).
+  No more whole-sheet walk/jab1 candidates allowed. Repair reserve
+  3/3 remains acceptance-4 only.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

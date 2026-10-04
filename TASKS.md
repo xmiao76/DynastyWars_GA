@@ -268,13 +268,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   and extension 2 and spare 7 OMIT the rear haft/pommel: source
   REJECTED for integration. Overlay's 111/118/126px numbers on
   those cells are invalid ferrule-to-tip distances, not weapon
-  lengths; visible omission is the actual defect. No third jab1
-  whole sheet; next step is one budgeted focused correction of
-  jab1:1/2 against intact poses and guard anchor. Pack fit, eight
-  other sequence re-briefs, cross-sequence acceptance-4 and offline
-  review remain. Ledger 12/26; 14 remain; repair reserve 3/3
-  untouched; no v2 runtime activation or 16MiB exception assumed.
-  See AUTHORING-PLAN-V2.md and PROVENANCE.md.
+  lengths; visible omission is the actual defect. Focused authoring
+  request 13/26 re-authored jab1:1/2; the provider also redrew other
+  drawings, so a deterministic component-owner splice retains only
+  1/2 from the edit and ALL other cells from the immutable original.
+  Resulting `jab1-v2-prepared-source.png` has 9 separated figures,
+  unchanged non-target component hashes; overlay-verified kept cells
+  [0..4] have true pommel-to-tip lengths [469,479,469,495,463]
+  raw px (6.7% within this sheet), direction steps ≤27°; source
+  accepted, pack NOT YET prepared. Spare 7 remains culled. No third
+  jab1 whole sheet allowed. Eight other sequence re-briefs, pack fit,
+  cross-sequence acceptance-4 and offline review remain. Ledger
+  13/26; 13 remain; repair reserve 3/3 untouched; no v2 runtime
+  activation or 16MiB exception assumed. Next: v2 jab2. See
+  AUTHORING-PLAN-V2.md and PROVENANCE.md.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
