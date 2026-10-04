@@ -22,6 +22,61 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 18:03 UTC - CMR-11A (attempt 1, IN_PROGRESS - focused jump edit partial; clip still fails)
+
+- Status before: CMR-11A IN_PROGRESS; jump original 18/26 used,
+  takeoff0 541px, airborne kick3 579px, landing5 439px;
+  six-pose spread ~20.2% FAIL. No PENDING FILING, review 1/4,
+  unrelated `.gitignore` untouched.
+- Work completed: read/verified original jump `64470647`, accepted
+  walk `a8e44840`, legacy weapon `71c288d1`, body master
+  `ee0a0200`, portrait `0fc579c1`. Reserved one ordinary focused
+  AUTHORING request before image call (19/26, total 86/200),
+  repair reserve stays 3/3. Prompt saved verbatim
+  `jump-v2-focused-r1-prompt.txt` names only jump0/3/5. Preferred
+  ChatGPT image returned `jump-v2-focused-r1.png` sha `513b3b4e`;
+  original kept immutable.
+- Actual image audit/review: focused output 9 separate figures, 0
+  outer-edge pixels, 97,047 alpha halo pixels and four tiny specks
+  cleaned within 150k tolerance. Viewed cleaned 3x3 and gold-
+  pommel/steel-tip overlay sha `ce0f07d4`: output cell0 477px
+  (correct, planted crouch); cell3 533px (STILL too long for kick);
+  cell5 437px (STILL too short for landing). Full generator sheet
+  repainted untargeted figures and was NOT adopted wholesale.
+- `scripts/splice-weiyan-jump-v2.mjs` SHA-pins both inputs and
+  copies complete focused component ONLY jump0, original 1..8;
+  collision, 9-component, outer-edge gates pass. Ran twice:
+  deterministic `jump-v2-prepared-source.png` sha `5a4244cf`.
+  Opened prepared output; crouched takeoff has full gold butt,
+  kick extended and others preserved. This is PROVISIONAL, not an
+  accepted complete jump source.
+- Explored pose-based alternatives WITHOUT fudging acceptance:
+  [focused0 takeoff, original1 ascent, original2 apex, original6
+  kick, original4 descent, original8 crouch/landing] source lengths
+  [477,491,475,506,485,457], spread 10.17% >10 (FAIL).
+  Swapping last for original7 yields numeric 7.03%, but actually
+  viewed order sha `b05dcbf7`: both boots on cell7 are airborne;
+  cannot mislabel it as landing. No further image request this
+  iteration; need exact landing/guard-bookend clip contract.
+- Files changed: original remains immutable; new focused output,
+  exact prompt, provisional prepared source, splice script,
+  durable ledger, V2 plan, PROVENANCE, TASKS, PROGRESS. Ignored
+  diagnostics not staged.
+- Verification run: `node scripts/splice-weiyan-jump-v2.mjs`
+  twice same sha; `npx eslint` on splice passed;
+  `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36 passed;
+  `npm run lint` green, `npm run typecheck` green.
+  Browser/prodbuild not applicable to offline source; full suite
+  not rerun (known V-15b G6 failure).
+- Result/status after: CMR-11A IN_PROGRESS (jump source remains
+  UNACCEPTED, 19/26 used, seven authoring remain). Other five
+  v2 sequences source-accepted only; no pack or runtime activation.
+- Remaining work/next: clarify jump landing vs guard handoff,
+  perhaps one focused edit to make source5 a ~480px true landing;
+  four other v2 sheets fall/getup/misc/rider planned and 16MiB/
+  cross-sheet acceptance offline gates remain. No third whole jump.
+
 ### 2026-10-04 17:22 UTC - CMR-11A (attempt 1, IN_PROGRESS - jump source fails rigid weapon spread)
 
 - Status before: CMR-11A IN_PROGRESS; five v2 source sequences

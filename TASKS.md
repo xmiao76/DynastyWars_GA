@@ -309,14 +309,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   airborne/kicking poses, but core [0..5] weapon spread ~20.2%
   ([541,491,475,579,485,439]px), FAIL. Spare kick6 (506px)
   improves pose, yet landing8 (457px) leaves ~17% gap to
-  takeoff0 541px, still FAIL. No jump source accepted; no third
-  whole-sheet candidate. Next: diagnose/focused authoring edit
-  named jump0/3/5 (one request only if pose/fit feasible),
-  preserve original and remeasure; never waive 10% by culling.
-  Four whole-sheet sequences fall/getup/misc/rider remain plus
-  pack/continuity review. Ledger 18/26, eight requests remain
-  (four planned, four focused possible); repair reserve 3/3
-  untouched. No runtime/decode exception. See V2 plan/provenance.
+  takeoff0 541px, still FAIL. Focused authoring request 19/26
+  targeted jump0/3/5: corrected takeoff0 477px; kick3 533px
+  still too long; landing5 437px still too short. SHA-pinned
+  `jump-v2-prepared-source.png` sha 5a4244cf preserves original
+  1..8 and splices only repaired 0, 9 separated drawings.
+  Reviewed alternate kick6 + grounded crouch8 at [477,491,
+  475,506,485,457]px => 10.17% FAIL; choosing airborne spare7
+  as landing yields a numeric ~7% but is a FALSE semantic pass.
+  Jump remains UNACCEPTED, no third whole-sheet. Next: diagnose
+  clip contract and landing technique before spending another
+  focused request. Four other whole sheets fall/getup/misc/rider
+  remain plus pack/offline review. Ledger 19/26, seven remain
+  (four planned, three focused); repair reserve 3/3 untouched.
+  No runtime/decode exception. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -1,13 +1,14 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 18/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 19/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
   splices, finisher/special cull derivatives source-accepted.
-  Jump-v2 source NOT ACCEPTED (full-length weapon spread and
-  grounding failure). Eight authoring requests remain; full pack
-  unverified. Global 200/two whole sheets per sequence unchanged;
-  walk/jab1/jab2/finisher/special/jump used both whole-sheet slots.
+  Jump-v2 still NOT ACCEPTED: focused edit fixed takeoff weapon,
+  but kick/landing remain semantically or length-invalid.
+  Seven authoring requests remain, full pack unverified; global
+  200/two whole sheets/sequence unchanged; walk/jab1/jab2/
+  finisher/special/jump used both whole-sheet slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -16,14 +17,61 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 18/26, total 85/200; walk/jab1/jab2/finisher/
-special/jump each consumed a second whole-sheet candidate (jab1/jab2 edits were
-FOCUSED, not third whole-sheet candidates), and the separate repair reserve
+ledger now says 19/26, total 86/200; walk/jab1/jab2/finisher/
+special/jump each consumed a second whole-sheet candidate (later
+jab1/jab2/jump edits were FOCUSED, not third whole-sheet
+candidates), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jump-v2-focused-r1 — PARTIAL salvage only; source still UNACCEPTED 2026-10-04; sha `513b3b4e…`
+
+- Request 19/26, ordinary AUTHORING `kind:'focused'`, targeting
+  jump:0 takeoff (541px long), jump:3 kick (579px long), jump:5
+  landing (439px short). Reserved/persisted BEFORE one image call;
+  repair-only 3/3 ledger untouched. Exact
+  `jump-v2-focused-r1-prompt.txt`; ordered refs original jump
+  `64470647`, accepted walk `a8e44840`, legacy weapon `71c288d1`,
+  body master `ee0a0200`, portrait `0fc579c1` (all read by image
+  tool). Preferred ChatGPT image returned 1536×1024; original
+  source kept immutable.
+- Focused output has 9 separate alpha-connected drawings, no sheet
+  edge touch; standard cleanup removes 97,047 low-alpha pixels
+  plus four 1px specks. Model again repainted UNTARGETED poses
+  despite explicit preservation request; full edited sheet is NOT
+  a replacement. True endpoint overlay read: repaired candidates
+  cell0 477px (good crouch, gold pommel/steel tip on fittings),
+  cell3 533px (still too long for kick), cell5 437px (still too
+  SHORT for landing). Kick and landing cannot be accepted just
+  because generator returned output. Original spare kick6 has
+  506px, but value-selected substitution with a false landing
+  violates semantic and rigid-length acceptance.
+- Hash-pinned `scripts/splice-weiyan-jump-v2.mjs` salvages ONLY
+  repaired cell0, keeps original full alpha component for other
+  eight; asserts collision, 9 figures and no edge touch. Rebuilt
+  `jump-v2-prepared-source.png` sha `5a4244cf` byte-identically
+  twice. Actually opened merged PNG: cell0 takeoff still crouched
+  with two hands and complete 477px dao; other source poses intact.
+  This derivative is PROVISIONAL, NOT a source-accepted jump clip.
+- Examined alternate first-six play order [focused0 takeoff 477,
+  original1 ascent491, original2 apex475, original6 kick506,
+  original4 descent485, original8 crouch/landing457] ⇒ 10.17%
+  spread, still over 10%; original8 is a deep crouch rather than
+  leg-lowering landing. Substituting original7 469px makes a
+  numeric 7.03% window, but visual ordered contact shows BOTH
+  boots still airborne in cell7, so labelling it landing would be
+  a FALSE semantic pass. No compliant six-pose sequence proven.
+- Next: read the clip contract and check whether landing can be
+  a legitimate guard-bookend handoff, or whether focused cell5
+  needs a separate deterministic polearm-only edit; hold any
+  second image request until the method and remaining budget are
+  analyzed. Four v2 whole sheets fall/getup/misc/rider still
+  planned, leaving at most 3 ordinary authoring focused calls
+  (19/26 used, 7 left). Cross-sheet acceptance and 16MiB fit
+  remain unverified; no runtime activation or waiver.
 
 ### jump-v2-candidate-1 — REJECTED as complete jump sequence 2026-10-04; sha `64470647…`
 
