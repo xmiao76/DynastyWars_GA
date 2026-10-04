@@ -22,6 +22,57 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 08:23 UTC - CMR-11A (attempt 1, IN_PROGRESS - jab1 v2 generated; rear haft missing in core poses)
+
+- Status before: CMR-11A IN_PROGRESS (owner A authorized 26 total
+  requests; correct dao walk-v2 sheet source-accepted). No PENDING
+  FILING; visual-review counter 1/4. Existing `.gitignore` edit
+  left untouched.
+- Work completed: locked 3×3 Wei Yan jab1 prompt to core wy.jab1
+  9/5/14 and the long-handled dao, saved verbatim in
+  `jab1-v2-prompt.txt`; read ordered reference images and SHA-256:
+  weapon spec `71c288d1`, body `ee0a0200`, portrait `0fc579c1`,
+  walk-v2 guard `46546eca`. RESERVED whole-sheet jab1 candidate
+  2/2 before requesting image; ledger now 12/26, global 79/200,
+  14 remaining. First image call returned transient `fetch failed`
+  (no image); identical retry under the SAME reservation returned
+  source `jab1-v2-candidate-1.png` SHA `39223dc7`. Source original
+  preserved. No v1 weapon used as a reference.
+- Evidence/review: mechanical audit gave 9/9 clean connected figures,
+  all grid cells covered, no alpha≥96 border pixels, zero specks;
+  standard cleanup removed 91,381 low-alpha halo pixels within
+  150k tolerance. Inspected cleaned contact sheet sha `a25cbabb`:
+  windup 0, low follow 3 and recover 4 show the long haft, ferrule,
+  red tassel, blade, two-handed grip and on-model purple/bearded
+  identity. Core drive 1 and extension 2, plus spare 7, show blade
+  and ferrule but **no visible rear haft or pommel**; cannot accept
+  as whole rigid weapon. An initial color-based endpoint tool gave
+  111/118/126px and a false 115.9% spread because its blue butt
+  dots were on FERRULES in cells 1/2/7 (reviewed overlay sha
+  `c5e42a2e`). Discarded those numbers; they are not evidence of
+  weapon length. The missing rear half is directly visible source
+  art, not a measurement-only issue. Intact core 0/3/4 reported
+  469/495/463px respectively; no cross-sequence pass claimed.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts`
+  8/8 (also proves jab1 third whole sheet prohibited); `npm run
+  lint` clean; `npm run typecheck` clean. No UI/shipping code
+  changed; vision/prodbuild not run. Previous full suite known
+  V-15b G6 arm-chain failure, not rerun here.
+- Files changed: art/motion/generation-budget.json, weiyan
+  jab1-v2-candidate-1.png and exact prompt, AUTHORING-PLAN-V2.md,
+  PROVENANCE.md, test/game/motion-budget.test.ts, TASKS.md and
+  PROGRESS.md. Generated review/overlay scripts and files in ignored
+  artifacts/, not shipping. New `art/motion` files force-added.
+- Result/status after: CMR-11A IN_PROGRESS, jab1-v2 full-sequence
+  candidate REJECTED as drawn (core drive/extension miss rear haft);
+  walk-v2 remains source accepted. Repair reserve 3/3 untouched.
+- Remaining work/next: use a single **focused authoring** edit
+  (not a third whole-sheet candidate and not the acceptance-4-only
+  repair reserve) for named jab1:1 and jab1:2, preserving original
+  source. Inspect splice feasibility/true endpoints first, then
+  continue remaining eight v2 sequences, page-aware prepare and
+  full offline review. No runtime activation yet.
+
 ### 2026-10-04 07:19 UTC - CMR-11A (attempt 1, IN_PROGRESS - owner A authorized; correct long-handled dao walk-v2 source accepted)
 
 - Status before: CMR-11A BLOCKED awaiting owner decision. Owner explicitly

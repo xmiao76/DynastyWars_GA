@@ -12,9 +12,12 @@ reserve-before-call, carried learnings) still applies.
   each sequence holds exactly one v1 candidate, so each gets exactly
   ONE v2 whole-sheet candidate; any further fix is a focused edit.
 - v2 plan: 10 sheets = 10 requests -> 20/26, 6 spare for focused
-  edits. Walk v2 was request 11/26; the remaining nine v2 sheets
-  would bring usage to 20/26. Repair reserve 3/3 untouched
-  (acceptance-4 only).
+  edits before any corrections. Walk and jab1 v2 used requests
+  11–12/26; jab1's generated drive/extension cells 1–2 omit the
+  rear haft/pommel (source REJECTED until a focused repair). Eight
+  other whole-sheet sequences remain; no more whole-sheet
+  walk/jab1 candidates allowed. A focused authoring correction
+  counts against 26; repair reserve 3/3 remains acceptance-4 only.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

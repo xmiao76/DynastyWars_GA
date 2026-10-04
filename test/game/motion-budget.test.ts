@@ -110,9 +110,12 @@ describe('generation budget caps', () => {
     // The newly spent v2 walk sheet is candidate 2/2; the ledger must
     // reject a third even though the owner increased the fighter cap.
     expect(wy?.sheetCandidates.walk).toBe(2)
-    expect(() => reserve(ledger, 'weiyan', { role: 'hero', kind: 'sheet', sequence: 'walk' }))
-      .toThrow(/sheet candidate 3/)
-    expect(wy?.used).toBeGreaterThanOrEqual(11)
+    expect(wy?.sheetCandidates.jab1).toBe(2)
+    for (const seq of ['walk', 'jab1']) {
+      expect(() => reserve(ledger, 'weiyan', { role: 'hero', kind: 'sheet', sequence: seq }))
+        .toThrow(/sheet candidate 3/)
+    }
+    expect(wy?.used).toBeGreaterThanOrEqual(12)
     // Other heroes' caps are untouched.
     expect(ledger.fighters['zhaoyun']?.cap).toBe(16)
     expect(ledger.fighters['zhangfei']?.cap).toBe(16)

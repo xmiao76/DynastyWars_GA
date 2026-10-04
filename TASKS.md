@@ -261,13 +261,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   reserved and generated as walk sheet candidate 2/2; source nine
   figures mechanically clean, visual weapon identity correct and
   overlay-checked tip-to-pommel walk spread 7.9% (459–497 raw px),
-  versus ~451px comparator derived from Zhao Yun. Source sheet
-  accepted only; pack fit, other nine sequence re-briefs,
-  cross-sequence acceptance-4 and offline review still required;
-  no v2 asset has entered the runtime. Ledger 11/26; 15 remain;
-  repair reserve 3/3 untouched. V1 pack's 15.47MB fit does NOT
-  imply v2's long polearm fits 16MiB. See AUTHORING-PLAN-V2.md,
-  IDENTITY.md correction and PROVENANCE.md v2 attempt.
+  versus ~451px comparator derived from Zhao Yun. Jab1-v2 request
+  12/26 was reserved then generated with ordered weapon/body/face/
+  guard refs (one transient fetch failure, same reservation retry);
+  nine components and source identity pass, but jab1 core drive 1
+  and extension 2 and spare 7 OMIT the rear haft/pommel: source
+  REJECTED for integration. Overlay's 111/118/126px numbers on
+  those cells are invalid ferrule-to-tip distances, not weapon
+  lengths; visible omission is the actual defect. No third jab1
+  whole sheet; next step is one budgeted focused correction of
+  jab1:1/2 against intact poses and guard anchor. Pack fit, eight
+  other sequence re-briefs, cross-sequence acceptance-4 and offline
+  review remain. Ledger 12/26; 14 remain; repair reserve 3/3
+  untouched; no v2 runtime activation or 16MiB exception assumed.
+  See AUTHORING-PLAN-V2.md and PROVENANCE.md.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

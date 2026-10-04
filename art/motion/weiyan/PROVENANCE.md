@@ -1,10 +1,12 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 11/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 12/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets are retained as
-  pose references but weapon-rejected; v2 walk is provisional
-  (see its entry). 15 requests remain. Global 200 and the two
-  whole-sheet candidates per sequence remain unchanged.
+  pose references but weapon-rejected; v2 walk is source-accepted;
+  v2 jab1 is rejected as drawn (missing rear haft/pommel in cells
+  1,2,7; see entries). 14 requests remain.
+  Global 200 and two whole-sheet candidates per sequence unchanged;
+  walk and jab1 have both whole-sheet slots spent.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -13,12 +15,56 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 11/26, total 78/200; walk's second (last) sheet
-candidate is consumed, and the separate repair reserve stays 3/3.
+ledger now says 12/26, total 79/200; walk's and jab1's second
+(last) sheet candidates are consumed, and the separate repair reserve
+stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jab1-v2-candidate-1 — REJECTED as full sequence 2026-10-04; sha `39223dc7…`
+
+- Request 12/26, jab1 sheet candidate 2/2, RESERVED BEFORE the image
+  call via `reserve(ledger, 'weiyan', { role:'hero', n:1,
+  kind:'sheet', sequence:'jab1' })`. First tool attempt returned
+  transient `fetch failed` with no image; retried the IDENTICAL
+  prompt/refs under that one reservation and received one image
+  from preferred ChatGPT image provider (no fallback notice).
+  Exact prompt is `jab1-v2-prompt.txt`; reference order/hash:
+  `weapon-spec-reference.png` `71c288d1…` (only weapon authority),
+  body master `ee0a0200…`, portrait master `0fc579c1…`, accepted
+  cleaned walk-v2 guard anchor `46546eca…`. No v1 short-saber ref.
+- Mechanical: 1536×1024, nine clean components, each nominal grid
+  cell covered, no alpha≥96 on sheet edges, 0 detached specks;
+  `cleanAlpha` removed 91,381 halo/glow pixels under the 150,000
+  tolerance. Candidate kept immutable. Source has partially
+  transparent paint (0 fully opaque, 517,495 partial pixels).
+- Cleaned 3×3 contact actually inspected: cells 0..4 make a
+  usable windup/drive/extension/low follow/recover arc; purple
+  turban, black-grey beard, bronze pauldrons and long haft with
+  red tassel/ferrule persist, both hands grip the pole, no obvious
+  forks or clipped outer edges. Optional cells 5..8 are spares;
+  their silhouettes differ enough for a backup pose.
+- Endpoint-overlay diagnosis: cells 1, 2 and 7 have no visible
+  pommel or rear haft beyond the leading fist—the long weapon is
+  genuinely CUT SHORT, despite correct-looking ferrule/tassel and
+  blade. The naive leftmost GOLD pixel finder therefore lands on
+  their ferrules (111/118/126px blade-only chords); those lengths
+  are NOT valid tip-to-pommel observations and may not be counted
+  as short-weapon measurements or acceptance passes. The image
+  itself independently shows the absent ~200px butt section in
+  those three cells. Cells 0,3,4 (core poses with observable ends)
+  measure 469,495,463px; other spares 5,6,8 read 445,450,417px.
+  Core drive (1) and extension (2) remain missing the full weapon:
+  three comparable core poses cannot establish five-pose acceptance.
+- DECISION: REJECT this source as a full-sequence replacement;
+  no third whole-sheet jab1 permitted. Next turn: reserve one
+  **focused** authoring edit (ordinary ledger, NOT repair reserve
+  until an assembled pack fails acceptance-4) to redraw only
+  jab1:1 and jab1:2 against the intact jab1:0/3/4 and walk anchor;
+  preserve the original source and review splice feasibility.
+  No pack rebuild or runtime activation yet; 14 requests remain.
 
 ### walk-v2-candidate-1 — source ACCEPTED 2026-10-04; pack still UNVERIFIED; sha `a8e44840…`
 
