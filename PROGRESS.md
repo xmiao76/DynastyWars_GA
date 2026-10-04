@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 01:15 UTC - CMR-11A (attempt 1, IN_PROGRESS - jump sheet accepted with remap)
+
+- Status before: CMR-11A IN_PROGRESS (4 sheets accepted, budget
+  4/16). No PENDING FILING, review 1/4.
+- Work completed: reserved jump sheet 1/2 BEFORE generating
+  (weiyan 5/16, total 72/200) and generated jump-candidate-1
+  (sha f2961149, 3 refs incl. guard anchor): ACCEPTED with
+  remap - 9/9 clean, all cells covered, 0 edge, gate green.
+  Keep [0,1,6,3,5,7] in play order (takeoff/ascent/apex/kick/
+  descent/landing); cell 2's stretched apex (329x416, steep
+  blade) culled for fit (would cap base at 0.644, guard ~208px
+  - the 10A tall-apex lesson applied at review time instead of
+  repair time); cell 6's tucked ball subs as apex. Cull {2,4,8}.
+  All kept: full uniform dao, clean anatomy, no forks.
+- Files changed: art/motion/weiyan/jump-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (5/16),
+  TASKS.md, PROGRESS.md. Strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  fit math recomputed for the cull decision (268/416 = 0.644
+  cap proven); visual review on fingerprinted files. No code
+  changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 5 more sheets (fall next), then
+  prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (fall sheet).
+
 ### 2026-10-04 00:44 UTC - CMR-11A (attempt 1, IN_PROGRESS - finisher sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (3 sheets accepted, budget

@@ -1,11 +1,27 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 4/16 used (walk + jab1 + jab2 + finisher accepted). 12 spare.
+- Authoring: 5/16 used (walk + jab1 + jab2 + finisher + jump accepted). 11 spare.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
 ## Attempts
+
+### jump-candidate-1 (ACCEPTED 2026-10-04) — sha `f2961149…`
+
+- Request 5/16 (sheet jump 1/2). Refs in order: body master
+  `ee0a0200`, portrait master `0fc579c1`, walk-guard anchor
+  `2a3635ca`. Prompt: 3x3 airborne arc + spares, all feet off
+  ground, dao gripped throughout.
+- Mechanical: 9/9 clean, all cells covered, 0 edge, gate green
+  (glow 89K, 0 specks); cell bboxes incl. a tall 329x416 apex.
+- Review: keep [0,1,6,3,5,7] in play order (takeoff/ascent/
+  apex/kick/descent/landing). Cell 2's stretched apex (416px
+  tall, steep blade) is CULLED for fit - it would cap base at
+  0.644 (guard ~208px, below the hero floor); cell 6's tucked
+  ball (303px, horizontal dao) subs as apex (gather-then-
+  explode before the kick, same accepted pattern as zhaoyun).
+  Cull {2,4,8}. All kept: full uniform dao, clean anatomy.
 
 ### finisher-candidate-1 (ACCEPTED 2026-10-04) — sha `8101c921…`
 
