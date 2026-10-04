@@ -1,13 +1,12 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 13/26 used (owner `Do A`: +10 to Wei Yan's original
-  16-request cap; usage NOT reset). V1 ten sheets are retained as
-  pose references but weapon-rejected; v2 walk and the SOURCE-
-  PRESERVING jab1 focused splice are accepted as drawings (pack
-  still unverified). The unmodified jab1 source lacks rear haft/
-  pommel in cells 1,2,7; spare 7 stays culled. 13 requests remain.
-  Global 200 and two whole-sheet candidates per sequence unchanged;
-  walk and jab1 have both whole-sheet slots spent.
+- Authoring: 14/26 used (owner `Do A`: +10 to Wei Yan's original
+  16-request cap; usage NOT reset). V1 ten sheets retained as pose
+  references but weapon-rejected; v2 walk and SOURCE-PRESERVING jab1
+  splice accepted as drawings. V2 jab2 first source REJECTED (core
+  extension cell 2 missing rear haft/pommel). 12 requests remain.
+  Pack still unverified. Global 200 and two sheets per sequence
+  unchanged; walk, jab1, jab2 have both sheet slots spent.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -16,14 +15,51 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 13/26, total 80/200; walk's and jab1's second
-(last) sheet candidates are consumed (the third jab1 request was
-FOCUSED, not a third whole-sheet candidate), and the separate repair reserve
+ledger now says 14/26, total 81/200; walk/jab1/jab2 each consumed
+its second whole-sheet candidate (the third jab1 request was FOCUSED,
+not a third whole-sheet candidate), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jab2-v2-candidate-1 — REJECTED as full sequence 2026-10-04; sha `fdfc74cf…`
+
+- Request 14/26, jab2 whole-sheet candidate 2/2; `reserve(ledger,
+  'weiyan',{role:'hero',n:1,kind:'sheet',sequence:'jab2'})` saved
+  BEFORE generating. Preferred ChatGPT image returned one sheet.
+  Exact `jab2-v2-prompt.txt`; ordered refs and hashes: legacy weapon
+  `71c288d1`, body `ee0a0200`, portrait `0fc579c1`, accepted
+  walk guard anchor `46546eca`, accepted jab1 prepared source
+  `b39a260b` (body/action continuity, NOT a weapon alternative).
+- Mechanical: 1536×1024, 9/9 connected figure components in 9
+  nominal cells, zero alpha≥96 outer-border hits. Standard cleanup
+  removed 79,180 halo pixels under 150k and ONE 1px speck; clean
+  contact reviewed. Core cells 0 chamber, 1 drive, 2 extension,
+  3 follow, 4 recover are low, bent-knee sweeps distinct from jab1
+  chest-height jabs; turban, beard, bronze shoulders, purple robe,
+  gold ferrule, red tassel and curved silver blade remain on-model.
+- TRUE endpoint overlay actually read: 0/1/3/4 have a gold rear
+  pommel with blade-tip chord lengths [491,468,422,451] raw px.
+  Core extension 2 has **NO REAR WOOD/POMMEL**, a genuine source-art
+  defect, not just detector noise; the 112px automated chord starts
+  at its FERRULE and is INVALID as full weapon length. Spare cell
+  7 has the same missing butt and a bogus 125px chord; cull it.
+  Further: intact follow cell 3 is only 422px versus 491px chamber,
+  so even after extension repair the four unoccluded core values
+  vary ~15%, over the ≤10% eventual acceptance item. Fix cell 3
+  in the SAME focused batch as cell 2 if its long haft can be
+  extended while preserving position/ground; do not lower the
+  threshold or discard it merely for being shorter.
+- Status: REJECT source as complete pack input; no third whole
+  jab2 sheet available. Next: single source-preserving focused
+  ordinary-authoring request for named jab2:2 + jab2:3, with the
+  accepted walk guard and full jab2:0/1 as length anchors. Source
+  original immutable; model may redraw untargeted drawings, so
+  splice complete components only, check collisions and per-cell
+  hashes. Budget 14/26 (12 remaining), repair reserve 3/3
+  untouched. No partial pack build or runtime activation.
 
 ### jab1-v2-focused-r1 — ACCEPTED two-cell splice 2026-10-04; sha `64547d1a…`
 

@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 08:47 UTC - CMR-11A (attempt 1, IN_PROGRESS - jab2 low-sweep source diagnosis)
+
+- Status before: CMR-11A IN_PROGRESS; walk and jab1 v2 source drawings
+  accepted, ledger 13/26. No PENDING FILING; review count 1/4;
+  unrelated `.gitignore` modification untouched.
+- Work completed: read exact wy.jab2 timing from core (9 startup,
+  5 active, 14 recover, reach 28), made saved 3x3 low-sweep
+  `jab2-v2-prompt.txt`. Ordered image refs/hashes legacy game weapon
+  `71c288d1`, body `ee0a0200`, portrait `0fc579c1`, accepted
+  walk-v2 cleaned guard `46546eca`, accepted jab1-v2 spliced source
+  `b39a260b`. Reserved WHOLE-SHEET jab2 candidate 2/2 BEFORE the
+  image call; one generated `jab2-v2-candidate-1.png` SHA
+  `fdfc74cf` (request 14/26, total 81/200). No v1 wrong-weapon
+  reference used.
+- Visual evidence: actually opened cleaned 3x3 contact sha
+  `91a3aa2e` and tip/butt overlay sha `69d6338e`: nine distinct
+  crouching/lunging sweep poses clearly lower than jab1, with
+  on-model turban/beard/bronze/purple and gold-ferrule/red-tassel/
+  silver-head weapon. Core extension jab2:2 has no rear haft/pommel;
+  color finder marks its FERRULE and reports 112px—INVALID whole
+  weapon length. Spare 7 similarly lacks rear butt (125px invalid),
+  to be culled. Intact follow jab2:3 spans only 422px versus
+  chamber jab2:0 491px, a genuine shortened weapon; do not call it
+  foreshortening or discard an otherwise clear pose. Kept core
+  readings for 0/1/3/4: [491,468,422,451]px; no ≤10% pass.
+- Mechanical check: `node artifacts/tmpcheck/weiyan-jab2-v2-audit.mjs`
+  gave 9/9 separated figures in all cells, 0 threshold border
+  pixels; standard alpha cleanup removed 79,180 halo pixels and
+  one 1px speck within 150k tolerance. Original source preserved.
+  No shipping/UI code edited; no browser/production gate required.
+- Files changed: source candidate + exact prompt, generation budget,
+  weiyan PROVENANCE.md and AUTHORING-PLAN-V2.md, TASKS.md,
+  PROGRESS.md. Contact/landmark diagnostics ignored.
+- Result/status after: CMR-11A IN_PROGRESS; jab2 source REJECTED as
+  complete pack input pending focused correction. No v2 pack or
+  runtime activation. Budget 14/26 (12 left), repair reserve 3/3.
+- Remaining work/next: next bounded iteration one ORDINARY AUTHORING
+  focused request repairing jab2:2 missing butt and jab2:3 short
+  full-length shaft, preserving other component hashes; verify true
+  endpoint overlay and splice before acceptance. Seven further
+  v2 sheets then page-aware 16MiB-first prepare and full offline
+  acceptance remain.
+
 ### 2026-10-04 08:37 UTC - CMR-11A (attempt 1, IN_PROGRESS - focused jab1:1/2 repair and source-preserving splice)
 
 - Status before: CMR-11A IN_PROGRESS (jab1 whole sheet rejected:

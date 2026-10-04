@@ -276,12 +276,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   unchanged non-target component hashes; overlay-verified kept cells
   [0..4] have true pommel-to-tip lengths [469,479,469,495,463]
   raw px (6.7% within this sheet), direction steps ≤27°; source
-  accepted, pack NOT YET prepared. Spare 7 remains culled. No third
-  jab1 whole sheet allowed. Eight other sequence re-briefs, pack fit,
-  cross-sequence acceptance-4 and offline review remain. Ledger
-  13/26; 13 remain; repair reserve 3/3 untouched; no v2 runtime
-  activation or 16MiB exception assumed. Next: v2 jab2. See
-  AUTHORING-PLAN-V2.md and PROVENANCE.md.
+  accepted, pack NOT YET prepared. Spare 7 remains culled. Jab2-v2
+  request 14/26 generated nine separated low-sweep poses (distinct
+  from jab1), but core extension 2 and spare 7 omit the rear wood
+  haft/pommel, and core follow 3 measures only 422px tip-to-butt vs
+  491px in chamber 0; source is NOT accepted. Detector's 112px on
+  cell 2 is ferrule-to-tip, INVALID for full weapon. No third whole
+  jab2 sheet: next focused edit must repair named jab2:2/3, preserve
+  original/unchanged poses and remeasure. Seven other v2 sequences,
+  pack fit, full acceptance-4 and offline review remain. Ledger
+  14/26; 12 remain; repair reserve 3/3 untouched; no runtime
+  activation/16MiB exception assumed. See AUTHORING-PLAN-V2.md
+  and PROVENANCE.md.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
