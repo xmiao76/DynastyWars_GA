@@ -83,14 +83,58 @@ tassel. The game's own definition says otherwise:
 
 Measured consequence (walk cells, same-figure-height scale: Wei Yan
 and Zhao Yun are both Build.height 1.0): drawn tip-to-pommel 270 raw
-px on a 340px figure = 0.79 figure-heights; Zhao Yun's 72u spear is
-461 on 323 = 1.43. At that unit scale the drawn weapon is ~40u,
-~58% of its 69u contract, and SHORTER than the mooks' 46u sword.
-The drawn blade also has no haft/tassel, so the silhouette identity
-(long-handled dao) is missing, not just its length.
+px on a 340px figure = 0.79 figure-heights; Zhao Yun's spear is
+461 on 323 = 1.43. CORRECTED arithmetic: `WEAPONS.length` is the
+HAFT length, not tip-to-butt: Zhao Yun's spear spans about 72+22=94u
+with its blade overhang; the dao spans 69+23=92u. Hence the v1
+weapon's equivalent is about 55u (270/451*92), ~60% of the
+92u tip-to-butt target, NOT the previously stated ~40u/58% of
+69u or a proven ordering against the sword. The silhouette defect
+is unchanged: the v1 drawing has no long haft/tassel.
 
 What this invalidates: the weapon identity of ALL ten accepted sheets
 (poses, bodies, faces and turban remain on-model and are reusable as
 pose/identity references). What it does not invalidate: the pack
 mechanics (fit/budget/registration), which are weapon-agnostic.
+
+## v2 WEAPON SPECIFICATION (2026-10-04, owner "Do A") - AUTHORITATIVE
+
+Derived from sources, not memory (figures.ts WEAPONS.dao + weapons.ts
+traceBlade('dao') + the legacy render crop `weapon-spec-reference.png`,
+sha `71c288d1`, which shows the carried and the horizontal pose):
+
+- LONG-HANDLED DAO: a straight dark-wood HAFT with fine ring-grooves
+  (legacy render), a gold/bronze FERRULE ring where haft meets steel,
+  a RED TASSEL (cloth tuft) hanging at the socket, and a single-
+  edged steel blade at the far end: near-straight spine, ONE
+  controlled cutting belly, an angled point (clipped, rising tip).
+  Gold/bronze pommel cap at the butt end. NO disc guard, NO short
+  grip - the v1 sabre's disc guard and 8cm grip were wrong.
+- Proportions (estimate, not a pixel-exact art contract): rig haft
+  length 69u and `traceBlade('dao')` tip at `fore+23`, so the
+  tip-to-butt span is about 92u; Zhao Yun's 72u haft plus 22u blade
+  overhang spans about 94u. Using Zhao Yun's walk spear ~461 raw px
+  yields ~4.90px/u and a ~451px dao tip-to-butt comparator (0.98x
+  the spear), with a long wooden haft and a short blade at its end.
+  The v1 short saber measured ~270px (~60% of that comparator).
+  Shaft thickness is stylistic, NOT a separately enforced 26px
+  raw-sheet target: the legacy figure and actual v2 art are visual
+  authorities for the haft/tassel/blade design.
+- Carries: two hands on the haft (near hand at the grip, far hand
+  forward along it); the long haft passes the body, so the poses are
+  hold-at-guard-diagonal, level thrust, high diagonal chop, low sweep.
+- Rules carried from the spear sheets, unchanged and now binding
+  again: the weapon is RIGID and NEVER shortened to fit a cell; it
+  angles diagonally and may straddle cell lines into EMPTY space,
+  never touching another drawing or the sheet border; NO-VERTICAL
+  (stay within ~45deg of horizontal - a 450px weapon cannot stand
+  in a 341px cell and the generator shortens instead of
+  straddling); figures keep gutters (bodies never touch across
+  lines); haft, tassel and blade visible on EVERY drawing.
+- The v1 sheets are still POSE/IDENTITY references (body, face,
+  turban, robe, bronze). They are NOT weapon references: every
+  v2 prompt names the legacy render as the ONLY weapon authority and
+  says to ignore the short sabre in any other reference image.
+- Face/head: unchanged from the v1 identity above (turban, short
+  black-grey beard, weathered tan skin).
 

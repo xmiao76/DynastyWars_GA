@@ -89,6 +89,35 @@ describe('generation budget caps', () => {
     expect(guanyu?.note).toMatch(/No new Guan Yu generation/)
   })
 
+  it('records the owner Wei Yan extension without resetting usage or touching the global rules', () => {
+    // Owner "Do A" 2026-10-04: cap 16 -> 26 for the weapon re-brief. Usage
+    // was 10 at that time and is never reset; the 200-total cap and the
+    // two-whole-sheets-per-sequence rule are unchanged.
+    const ledger = loadLedger(DEFAULT_LEDGER_PATH)
+    const wy = ledger.fighters['weiyan']
+    expect(ledger.totalCap).toBe(200)
+    expect(ledger.sheetCandidatesPerSequence).toBe(2)
+    expect(wy?.cap).toBe(26)
+    expect(wy?.used).toBeGreaterThanOrEqual(10)
+    expect(wy?.note).toMatch(/Owner extension 2026-10-04/)
+    expect(wy?.note).toMatch(/NOT reset/)
+    // Every sequence already holds its v1 candidate: a v2 whole sheet is the
+    // last one allowed, so the per-sequence rule still bites.
+    for (const seq of ['walk', 'jab1', 'jab2', 'finisher', 'jump', 'fall', 'getup', 'misc', 'special', 'rider']) {
+      expect(wy?.sheetCandidates[seq], seq).toBeGreaterThanOrEqual(1)
+      expect(wy?.sheetCandidates[seq], seq).toBeLessThanOrEqual(2)
+    }
+    // The newly spent v2 walk sheet is candidate 2/2; the ledger must
+    // reject a third even though the owner increased the fighter cap.
+    expect(wy?.sheetCandidates.walk).toBe(2)
+    expect(() => reserve(ledger, 'weiyan', { role: 'hero', kind: 'sheet', sequence: 'walk' }))
+      .toThrow(/sheet candidate 3/)
+    expect(wy?.used).toBeGreaterThanOrEqual(11)
+    // Other heroes' caps are untouched.
+    expect(ledger.fighters['zhaoyun']?.cap).toBe(16)
+    expect(ledger.fighters['zhangfei']?.cap).toBe(16)
+  })
+
   it('rejects malformed requests', () => {
     const ledger = emptyLedger()
     expect(() => reserve(ledger, 'x', { role: 'hero', n: 0 })).toThrow(/positive integer/)

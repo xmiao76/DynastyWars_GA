@@ -1,9 +1,72 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 10/16 used (ALL 10 sequences accepted). 6 spare.
+- Authoring: 11/26 used (owner `Do A`: +10 to Wei Yan's original
+  16-request cap; usage NOT reset). V1 ten sheets are retained as
+  pose references but weapon-rejected; v2 walk is provisional
+  (see its entry). 15 requests remain. Global 200 and the two
+  whole-sheet candidates per sequence remain unchanged.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
+
+## Owner option A in progress (2026-10-04): correct long-handled dao
+
+Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
+16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
+ledger now says 11/26, total 78/200; walk's second (last) sheet
+candidate is consumed, and the separate repair reserve stays 3/3.
+`AUTHORING-PLAN-V2.md` and the authoritative v2 section in
+`IDENTITY.md` re-brief every sequence from the actual legacy rig.
+The v1 pack is NOT accepted or integrated; its source sheets stay
+untouched and provide pose/identity reference only.
+
+### walk-v2-candidate-1 — source ACCEPTED 2026-10-04; pack still UNVERIFIED; sha `a8e44840…`
+
+- Request 11/26, walk sheet candidate 2/2, RESERVED BEFORE the image
+  call; actual provider reported only as the preferred ChatGPT image
+  subscription (no fallback notice). Exact prompt in
+  `walk-v2-prompt.txt`; refs in order: game's own
+  `weapon-spec-reference.png` sha `71c288d1…` (weapon authority),
+  body master `ee0a0200…` (build/costume), portrait master
+  `0fc579c1…` (face/beard); v1 short-saber walk NOT included, to
+  prevent weapon contamination. All 3 refs were read in the image
+  tool before this image request. Requested 1536×1024 high quality.
+- Mechanical gate: 9 alpha-connected figures, all 9 grid cells
+  covered, zero solid/alpha-threshold edge contact, 0 specks;
+  `cleanAlpha` removed 107,380 low-alpha glow/residue pixels within
+  the 150,000 tolerance (original PNG untouched). Source alpha
+  is NOT strictly binary (0 fully opaque pixels, 484,389 partial),
+  but the same cleanup approach as earlier sheets yields a clean
+  nine-figure transparent contact for review; no drawn ground
+  shadows remain after cleanup. Figure bboxes by cell are
+  448–492px wide × 318–326px tall.
+- Visual (source + cleaned 3×3 contact reviewed): correct LONG
+  wooden haft with gold butt/ferrule, red tassel and curved steel
+  blade in each drawing; both hands contact it, stocky purple
+  turbaned identity and short beard persist; walk cycle alternates
+  legs, guard cell 0 is planted. Blade remains angled ~13–17°
+  below horizontal, no verticals. Some blades legitimately cross
+  nominal gutters into empty adjacent space, without a merged
+  component or a cut image border; keep [0..8] provisionally.
+- Independent first-pass *walk-only* measurement tool:
+  `node scripts/dao-v2-walk-measure.mjs` gives raw tip-to-pommel
+  459–497px (mean 481px, 7.9% of mean spread) vs ~451px target
+  estimated from Zhao Yun's spear/rigger ratio. The walk-family
+  **length spread passes ≤10%**, but the ~7% absolute overshoot is
+  only an estimate (Zhao Yun and Wei Yan share Build.height=1 but
+  their sheet figure poses and headgear differ); do not use the
+  target as a registration correction. The tool's tip/bronze
+  extrema were CROSS-CHECKED by reading
+  `artifacts/tmpcheck/weiyan-v2-walk-endpoints.png`: blue circles sit
+  on the gold pommels and green circles on the steel tips in all
+  nine cells, with a red chord following each visible haft/blade;
+  this confirms the *walk* measurement rather than merely the
+  color threshold. Cross-sheet acceptance remains UNKNOWN.
+- Not yet packed, page-scaled or offline-continuity-reviewed; the
+  previous v1 15.47MB pack is NOT evidence that v2 fits 16MiB.
+  The accepted pose reference `weiyan-v2-guard-anchor.png` exists
+  only in ignored diagnostics pending that check. The other nine
+  v2 sequences and CMR-11B remain outstanding.
 
 ## ROOT CAUSE FOUND (2026-10-04): the sheets draw the WRONG WEAPON
 
@@ -20,10 +83,14 @@ of truth, and the failure is not a registration or scatter problem:
   spec lists under "read first" and which I did not open. All ten
   sheets were then authored to that wrong weapon. See the
   CORRECTION section appended to IDENTITY.md.
-- Measured: drawn tip-to-pommel is 270 raw px on a 340px figure
-  (0.79 figure-heights); Zhao Yun's 72u spear is 1.43. At the same
-  unit scale the drawn weapon is ~40u = ~58% of the 69u contract,
-  shorter than the mook 46u sword, with no haft and no tassel.
+- Measured: v1 tip-to-pommel 270 raw px on a 340px figure
+  (0.79 figure-heights); Zhao Yun's spear ~461/323 = 1.43.
+  CORRECTION 2026-10-04: 69u is the *haft*, and the blade extends
+  about 23u more (`weapons.ts`); the total target is ~92u, versus
+  Zhao Yun's ~94u. On that estimated comparator, v1 is ~60% of
+  the correct drawn length (~55u equivalent), not "40u/58% of
+  69u" or a proven ordering versus a mook sword. Independently,
+  it has no long haft and no tassel.
 - Acceptance impact: this is a design-identity defect that
   predates and dominates the spread failure. A dao that is the
   wrong weapon cannot pass identity ("consistent weapon design",

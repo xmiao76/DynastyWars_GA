@@ -1,4 +1,10 @@
-# Wei Yan authoring plan (CMR-11A)
+# Wei Yan authoring plan (CMR-11A, v1 short-saber plan SUPERSEDED)
+
+Weapon instructions and the 16-request budget below belong to the
+superseded v1 attempt. The owner authorized option A on 2026-10-04;
+for all subsequent requests use [AUTHORING-PLAN-V2.md](AUTHORING-PLAN-V2.md)
+with the corrected long-handled dao and durable 26-request Wei Yan
+cap. Keep this v1 record for provenance, not as an active prompt.
 
 ## Sequences (10 sheets, 3x3 1536x1024, play-order keep maps)
 

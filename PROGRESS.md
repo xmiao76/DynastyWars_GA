@@ -22,6 +22,57 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 07:19 UTC - CMR-11A (attempt 1, IN_PROGRESS - owner A authorized; correct long-handled dao walk-v2 source accepted)
+
+- Status before: CMR-11A BLOCKED awaiting owner decision. Owner explicitly
+  replied `Do A` (bounded extension for the correct long-handled dao),
+  authorizing the re-brief; no PENDING FILING, visual review 1/4.
+- Work completed: recorded Wei Yan cap 16→26 in the durable authoring
+  ledger; usage was NOT reset (10 v1 requests stayed spent). Reserved
+  request 11/26 for the walk v2 sheet candidate 2/2 BEFORE image
+  generation; global 200 and two-per-sequence limits unchanged.
+  Re-briefed weapon from figures.ts WEAPONS.dao + weapons.ts blade
+  path + WEAPON_ART.md, assembled/read a legacy-render reference
+  (`weapon-spec-reference.png`, sha 71c288d1), then generated
+  `walk-v2-candidate-1.png` (sha a8e44840) with ordered refs legacy
+  weapon, body master ee0a0200, portrait master 0fc579c1 and exact
+  committed prompt. Earlier v1 short-saber sheets remain intact as
+  pose references only. Corrected earlier BAD unit arithmetic:
+  69u is haft length, plus ~23u blade overhang = ~92u total; the
+  v1 sword's ~270px is ~60% of the ~451px spear-derived whole-weapon
+  comparator, not proven "40u shorter than a mook sword".
+- Verification run: 9/9 clean alpha-connected components, zero
+  solid-threshold border hits, zero specks, 107,380 low-alpha
+  residue removed by the standard cleanup under 150k tolerance;
+  cleaned 3×3 contact and endpoint overlay were actually reviewed.
+  Long wooden haft, gold pommel/ferrule, red tassel, curved single
+  steel blade and two hands are visible in every cell, with
+  alternating walk poses and no vertical carries. Cross-checked
+  endpoint circles on true pommels and steel tips in all nine cells;
+  tip-to-pommel 459–497 raw px, 7.9% spread (walk-family only),
+  directions ~13–17deg. Budget unit tests 8/8, lint and typecheck
+  green. Full `npm run test`: 906 passed, 6 skipped, 1 FAILED in
+  known pre-existing V-15b G6 (`arm-chain.test.ts`, far fist over
+  near arm across many legacy fighters); no src/game, core or
+  shipping assets were edited by this iteration. This is NOT a
+  green full test suite and no regression fix is claimed.
+- Files changed: art/motion/generation-budget.json, weiyan
+  IDENTITY.md, AUTHORING-PLAN.md (v1 superseded), new
+  AUTHORING-PLAN-V2.md, PROVENANCE.md, weapon-spec-reference.png,
+  walk-v2-candidate-1.png and exact prompt; scoped ledger unit test,
+  walk endpoint measurement script, TASKS.md, CMR-11A spec and rollout
+  contract; PROGRESS.md. Force-add the new ignored art files. Existing
+  `.gitignore` modification was not staged.
+- Result/status after: CMR-11A IN_PROGRESS (attempt 1; walk v2
+  SOURCE accepted, pack and cross-sheet acceptance UNVERIFIED).
+- Remaining work or blocker: other nine v2 sheets; re-prepare at
+  measured per-sheet scales and 16MiB-first cap (no exception
+  presumed); full acceptance-4, offline continuity and CMR-11B
+  handoff. Do not integrate any partial pack.
+- Next recommended task: CMR-11A v2 jab1, using legacy weapon ref,
+  body and face masters and the measured cleaned walk-v2 guard
+  anchor; reserve before the image call.
+
 ### 2026-10-04 05:40 UTC - CMR-11A BLOCKED (attempt 1 - root cause: the sheets draw the WRONG WEAPON; owner decision required)
 
 - Status before: CMR-11A IN_PROGRESS (acceptance-4 failed on weapon

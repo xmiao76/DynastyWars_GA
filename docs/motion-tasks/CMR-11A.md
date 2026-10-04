@@ -25,7 +25,7 @@
 
 ## Request budget
 
-At most **16 image requests total for Wei Yan**, shared across CMR-11A/CMR-11B and all continuation rounds; at most two whole-sheet candidates per sequence. Existing budget record is authoritative; never reset it on model/task changes. Preserve every attempt/prompt/ordered reference hash/verdict and remaining allowance. If unavailable tools or cap exhaustion prevent complete accepted art, record exact BLOCKED input rather than publish a partial set.
+Originally **16 image requests total for Wei Yan**, shared across CMR-11A/CMR-11B and all continuation rounds. **Owner exception, 2026-10-04, “Do A”: +10 Wei Yan authoring requests, cap 26; the ten v1 requests are still spent.** The durable [budget ledger](../../art/motion/generation-budget.json) is authoritative. The original two-whole-sheet-candidates-per-sequence and 200-global-request limits are unchanged. Preserve every attempt/prompt/ordered reference hash/verdict and remaining allowance. If unavailable tools or cap exhaustion prevent complete accepted art, record exact BLOCKED input rather than publish a partial set. This extension does NOT authorize a page/decode-cap exception.
 
 For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTION_ACCEPTANCE4_RECOVERY.md): reserve before a focused image request, preserve source originals, re-prepare and remeasure. The owner-approved three-round repair-only reserve is separate from the authoring cap stated above; it does not reset task iterations or lower the 10%/60° checks.
 
