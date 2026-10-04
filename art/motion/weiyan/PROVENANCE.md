@@ -1,11 +1,24 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 6/16 used (walk + jab1 + jab2 + finisher + jump + fall accepted). 10 spare.
+- Authoring: 7/16 used (walk + jab1 + jab2 + finisher + jump + fall + getup accepted). 9 spare.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
 ## Attempts
+
+### getup-candidate-1 (ACCEPTED 2026-10-04) — sha `78949e6b…`
+
+- Request 7/16 (sheet getup 1/2). Refs in order: body master
+  `ee0a0200`, portrait master `0fc579c1`, walk-guard anchor
+  `2a3635ca`. Prompt: 3x3 prone-to-stand arc + spares, dao
+  gripped throughout.
+- Mechanical: 9/9 clean, all cells covered, 0 edge, gate green
+  (glow 64K, 0 specks).
+- Review: keep [0,1,2,3,4] in play order (elbow/kneel/crouch/
+  half-rise/stand) - stand matches the guard reference; dao
+  full in all, clean anatomy, no forks/verticals.
+  Cull {5,6,7,8} (clean spares).
 
 ### fall-candidate-1 (ACCEPTED 2026-10-04) — sha `cd3d7414…`
 

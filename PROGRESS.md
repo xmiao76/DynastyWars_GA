@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 02:36 UTC - CMR-11A (attempt 1, IN_PROGRESS - getup sheet accepted)
+
+- Status before: CMR-11A IN_PROGRESS (6 sheets accepted, budget
+  6/16). No PENDING FILING, review 1/4.
+- Work completed: reserved getup sheet 1/2 BEFORE generating
+  (weiyan 7/16, total 74/200) and generated getup-candidate-1
+  (sha 78949e6b, 3 refs incl. guard anchor): ACCEPTED - 9/9
+  clean, all cells covered, 0 edge, gate green (glow 64K, 0
+  specks). Keep [0,1,2,3,4] in play order (elbow/kneel/crouch/
+  half-rise/stand) with stand matching the guard reference;
+  dao full in all, clean anatomy, no forks/verticals.
+  Cull {5,6,7,8}.
+- Files changed: art/motion/weiyan/getup-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (7/16),
+  TASKS.md, PROGRESS.md. Strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 3 more sheets (misc next), then
+  prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (misc sheet).
+
 ### 2026-10-04 01:44 UTC - CMR-11A (attempt 1, IN_PROGRESS - fall sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (5 sheets accepted, budget
