@@ -22,6 +22,59 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 05:40 UTC - CMR-11A BLOCKED (attempt 1 - root cause: the sheets draw the WRONG WEAPON; owner decision required)
+
+- Status before: CMR-11A IN_PROGRESS (acceptance-4 failed on weapon
+  length, diagnosis pending). No PENDING FILING, review 1/4.
+- Work completed: diagnosed the weapon failure and found it is not a
+  registration or scatter problem. (1) Built a geometric comparable-
+  set classifier (guard visibility + tip-occlusion only). It first
+  also excluded wide blades as "foreshortened"; rotated-blade crops
+  (equal zoom, fingerprinted read) disproved that - every blade lies
+  in the image plane with the guard edge-on, so a wider blade is a
+  differently DRAWN blade, and excluding it would have passed the
+  item by exclusion. Width is now a reported design indicator, not
+  an exclusion (40/55 cells drift >25%). Comparable n=45, spread
+  66.3%. (2) Computed the ceiling of any registration fix: even
+  perfect per-sheet medians leave 48.6%; best 10% window keeps 16
+  of 45 cells (29 to redraw). Repair capacity is ~15 usable cells
+  (27 slots x 0.57 empirical yield) and shared with 11B. (3) While
+  sizing the drawn weapon against the game I read figures.ts (listed
+  under the spec's "read first", which I had NOT opened when writing
+  IDENTITY.md): WEAPONS.dao is a LONG-HANDLED dao, 69u, haft 5.2,
+  red tassel; docs/WEAPON_ART.md: "long-handled dao"; the legacy rig
+  render shows a long pole. My IDENTITY.md said ~58u single-handed
+  saber, no tassel, from memory. Drawn weapon measures ~40u (58% of
+  contract, shorter than the 46u mook sword) with no haft/tassel.
+  The ten sheets are on-model for body/face/turban/poses but the
+  weapon identity is wrong, so redrawing cells to a length target
+  cannot pass identity. IDENTITY.md corrected in place (original
+  text superseded, not deleted). TASKS -> BLOCKED with options.
+- Files changed: scripts/dao-comparable-weiyan.mjs (new),
+  art/motion/weiyan/dao-comparable.json (new; force-added),
+  IDENTITY.md (correction), PROVENANCE.md (root cause above the
+  measurements), TASKS.md, PROGRESS.md. No image calls; no ledger
+  change (authoring 10/16, repair 3/3).
+- Verification run: comparable run (n=45) + width-vs-pose check +
+  ceiling/window/capacity script + weapon-size ratio script, each
+  re-derived independently; figures.ts WEAPONS ladder and
+  WEAPON_ART.md read in full; legacy anatomy render viewed;
+  eslint clean on the new script. Honest limit: the 40u figure
+  uses Zhao Yun's spear as the unit scale (both Build.height 1.0);
+  it is a ratio estimate, not a pixel-exact contract measurement -
+  the direction (much shorter, no haft/tassel) is unambiguous from
+  the images regardless.
+- Result: CMR-11A BLOCKED (attempt 1; first block; a design-spec
+  error of mine, discovered by diagnosis, needing an owner
+  scope/budget decision).
+- Status after: CMR-11A BLOCKED.
+- Remaining work or blocker: BLOCKED on owner choice (TASKS.md
+  options A/B/C). Recommendation: A (bounded re-brief with the
+  correct long-handled dao, plan for the zhaoyun-style per-pack
+  exception). Wei Yan's pack mechanics, references and this
+  measurement toolchain all carry over.
+- Next recommended task: owner direction on CMR-11A.
+
 ### 2026-10-04 05:21 UTC - CMR-11A (attempt 1, IN_PROGRESS - acceptance-4 FAILS on weapon length; per-sheet proportion drift)
 
 - Status before: CMR-11A IN_PROGRESS (pack solved, getup factor

@@ -28,7 +28,7 @@ an additional reference when needed (provenance-recorded per use).
   portrait) + lamellar hints under the robe collar.
 - No cape, no plume, no helmet. Hands: defined fingers, weathered.
 
-## The rigid dao (~58 units)
+## The rigid dao (SUPERSEDED - see CORRECTION at the end; "~58u saber" was WRONG)
 
 - Single-edged saber: broad steel blade with clipped tip, bronze
   disc guard, dark wood grip with bronze pommel. No tassel.
@@ -57,3 +57,40 @@ an additional reference when needed (provenance-recorded per use).
   beard black-grey ~0x2a2a2e, blade steel ~0xb9c2cc.
 - Light: upper-left key (matches the cast). Camera: strict side
   view for all sheets. Transparent backgrounds, no effects, no grids.
+
+## CORRECTION (2026-10-04) - the weapon was specified wrong
+
+Found while diagnosing the acceptance-4 weapon failure, by reading the
+sources the CMR-11A spec lists under "read first" (`figures.ts`) that I
+did NOT read when I wrote this file. I took "~58u" from memory of the
+sword/jian row and described a short single-handed saber with no
+tassel. The game's own definition says otherwise:
+
+- `src/game/art/figures.ts` WEAPONS.dao = `{ length: 69, haft: 5.2,
+  head: 'dao', tassel: true }` - a LONG-HANDLED polearm with a haft
+  and a red tassel at the socket. Contract ladder (units): pike 82, ji
+  78, glaive 76, spear 72, **dao 69**, sword 46, bow 42. The dao is
+  the fifth-longest weapon, 3u under the spear - NOT a short blade.
+- `docs/WEAPON_ART.md`: "Wei Yan retains this game's long-handled
+  dao" (owner-selected silhouette, ART-15: near-straight spine, angled
+  point, single cutting edge - on a long haft).
+- The legacy rig render (artifacts/review/latest/anatomy/weiyan.png)
+  shows exactly that: a long wooden pole, small blade at the top,
+  red tassel.
+- CMR-11A bounded work 1: lock identity from existing original
+  sources and never change figure definitions to fit a generated
+  picture. The ten accepted sheets do the opposite.
+
+Measured consequence (walk cells, same-figure-height scale: Wei Yan
+and Zhao Yun are both Build.height 1.0): drawn tip-to-pommel 270 raw
+px on a 340px figure = 0.79 figure-heights; Zhao Yun's 72u spear is
+461 on 323 = 1.43. At that unit scale the drawn weapon is ~40u,
+~58% of its 69u contract, and SHORTER than the mooks' 46u sword.
+The drawn blade also has no haft/tassel, so the silhouette identity
+(long-handled dao) is missing, not just its length.
+
+What this invalidates: the weapon identity of ALL ten accepted sheets
+(poses, bodies, faces and turban remain on-model and are reusable as
+pose/identity references). What it does not invalidate: the pack
+mechanics (fit/budget/registration), which are weapon-agnostic.
+

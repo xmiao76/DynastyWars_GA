@@ -5,7 +5,49 @@
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
+## ROOT CAUSE FOUND (2026-10-04): the sheets draw the WRONG WEAPON
+
+Diagnosing the weapon-length failure below led back to the source
+of truth, and the failure is not a registration or scatter problem:
+
+- The game's contract (`src/game/art/figures.ts` WEAPONS.dao) is a
+  LONG-HANDLED dao: length 69u, haft 5.2, red tassel - fifth-longest
+  weapon, 3u under the spear (spear 72, glaive 76, ji 78, pike 82).
+  `docs/WEAPON_ART.md`: "Wei Yan retains this game's long-handled
+  dao." The legacy rig render shows a long pole with a small blade.
+- `IDENTITY.md` (mine) specified a ~58u single-handed saber with no
+  tassel, from memory instead of from figures.ts, which the CMR-11A
+  spec lists under "read first" and which I did not open. All ten
+  sheets were then authored to that wrong weapon. See the
+  CORRECTION section appended to IDENTITY.md.
+- Measured: drawn tip-to-pommel is 270 raw px on a 340px figure
+  (0.79 figure-heights); Zhao Yun's 72u spear is 1.43. At the same
+  unit scale the drawn weapon is ~40u = ~58% of the 69u contract,
+  shorter than the mook 46u sword, with no haft and no tassel.
+- Acceptance impact: this is a design-identity defect that
+  predates and dominates the spread failure. A dao that is the
+  wrong weapon cannot pass identity ("consistent weapon design",
+  "rigid weapon landmarks") however tightly its length clusters, and
+  the repair-protocol "keep the same stable original" premise fails
+  because the original is wrong, not drifting.
+- Not fixable by the available levers (computed, not assumed):
+  best 10%-spread window of the 45 comparable cells keeps 16 and
+  needs 29 redrawn; the repair reserve is 3 rounds x 9 cells = 27
+  slots at ~0.57 empirical splice yield (10A R1) = ~15 usable, and is
+  shared with CMR-11B; remaining authoring is 6 whole-sheet
+  candidates. And redrawing cells to a length target would still
+  leave every cell the wrong weapon. The correct remedy is a re-brief
+  of the weapon across the sequences (a long-handled dao with haft
+  and tassel), which exceeds the 16-request authoring cap when added
+  to the 10 already spent (6 left vs 9-10 sequences affected).
+- This is therefore an OWNER DECISION, not a loop-reachable fix.
+  Options and a recommendation are in the TASKS.md status.
+
 ## Acceptance-4 measurement (2026-10-04) — FAIL on weapon length (genuine, per-sheet)
+
+(Superseded in importance by the root cause above; kept because the
+measurements and method are valid for whatever weapon is finally
+drawn, and because they are how the root cause was found.)
 
 Method: `scripts/dao-true-weiyan.mjs` (committed). Largest steel
 cluster = blade; PCA axis; tip = steel extreme; blade base = the

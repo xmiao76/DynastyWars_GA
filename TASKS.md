@@ -251,19 +251,36 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-11A - Wei Yan: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; identity + plan done; ALL 10
-  sheets ACCEPTED; pack solves at hero scale inside the 16MB
-  contract (base 0.663804, guard 225.7px, pages 15.47MB). 
-  Acceptance-4 MEASURED 2026-10-04: weapon length FAILS (blade
-  spread 69.7%; walk family 5.2% passes) - structural per-sheet
-  proportion drift (getup/misc/rider/fall dao ~17-19% long vs
-  walk; matched guard cells prove the blade is 6% long relative
-  to the body, so no uniform factor can fix it and the two-proxy
-  rule correctly blocks one); direction PASS-marginal (2/44 at
-  60.5-61.7 by chord); head UNVERIFIED (auto cluster void: lands
-  on hand/pauldron/steel). Budget 10/16 + repair 3/3 untouched.
-  Next: diagnose the comparable set, then repair round 1 or
-  owner waiver.)
+- Status: BLOCKED (attempt 1; owner decision required 2026-10-04).
+  ROOT CAUSE of the weapon-length failure: the ten accepted sheets
+  draw the WRONG WEAPON. The game's contract (src/game/art/
+  figures.ts WEAPONS.dao; docs/WEAPON_ART.md) is a LONG-HANDLED dao,
+  69u with haft and red tassel (spear 72u); my IDENTITY.md specified
+  a ~58u single-handed saber from memory without opening figures.ts
+  (listed under the spec's "read first"). Measured: drawn weapon
+  ~40u (~58% of contract, shorter than the 46u mook sword), no haft,
+  no tassel. This is an identity defect that dominates the spread
+  failure (blade spread 69.7%; best 10% window keeps 16/45
+  comparable cells; per-sheet factors cannot fix it - residual
+  48.6% even with perfect per-sheet medians). Repair levers are
+  insufficient by computation: ~15 usable repair cells vs 29
+  needed, and every redrawn cell would still be the wrong weapon.
+  Everything else stands: pack mechanics fit the 16MB contract
+  (15.47MB, base 0.663804, guard 225.7px, deterministic); poses,
+  bodies, faces and turban are on-model and reusable as references;
+  direction PASS-marginal; head UNVERIFIED (auto cluster void).
+  Budget 10/16 authoring + repair 3/3 untouched.
+  OWNER OPTIONS: (A, recommended) authorize a bounded extension of
+  the Wei Yan authoring cap (~+10 requests, total ledger 77/200 so
+  the global cap is not near) to re-brief all sequences with the
+  correct long-handled dao, using the accepted sheets as pose/
+  identity references; expect the zhaoyun pattern (a 72u-class
+  weapon needed a ~21MB per-pack exception + tall-cell redraws, so
+  plan for that, not 16MB). (B) declare the short saber the new
+  canonical weapon - a separate art/definition task changing
+  figures.ts + legacy rig + WEAPON_ART.md, outside CMR's non-goals.
+  (C) waive and ship as drawn - not recommended: motion mode would
+  show a different weapon than legacy.)
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
