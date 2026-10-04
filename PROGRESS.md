@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 02:43 UTC - CMR-11A (attempt 1, IN_PROGRESS - misc sheet accepted)
+
+- Status before: CMR-11A IN_PROGRESS (7 sheets accepted, budget
+  7/16). No PENDING FILING, review 1/4.
+- Work completed: reserved misc sheet 1/2 BEFORE generating
+  (weiyan 8/16, total 75/200) and generated misc-candidate-1
+  (sha 69be09d1, 3 refs incl. guard anchor): ACCEPTED - 9/9
+  clean, all cells covered, 0 edge, gate green (glow 79K, 0
+  specks). Keep [0,1,2,3,4] in play order (hurt-recoil/hurt-
+  fold/grab-clamp/grab-hold/release) with defined fingers on
+  all extended hands (no mittens); dao full in all, clean
+  anatomy, no forks/verticals. Cull {5,6,7,8}.
+- Files changed: art/motion/weiyan/misc-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (8/16),
+  TASKS.md, PROGRESS.md. Strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: 2 more sheets (special next),
+  then prepare/measure/accept/continuity. No blocker.
+- Next recommended task: CMR-11A (special sheet).
+
 ### 2026-10-04 02:36 UTC - CMR-11A (attempt 1, IN_PROGRESS - getup sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (6 sheets accepted, budget
