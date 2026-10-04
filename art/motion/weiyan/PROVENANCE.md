@@ -1,12 +1,13 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 14/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 15/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  references but weapon-rejected; v2 walk and SOURCE-PRESERVING jab1
-  splice accepted as drawings. V2 jab2 first source REJECTED (core
-  extension cell 2 missing rear haft/pommel). 12 requests remain.
-  Pack still unverified. Global 200 and two sheets per sequence
-  unchanged; walk, jab1, jab2 have both sheet slots spent.
+  refs but weapon-rejected; v2 walk and source-preserving jab1/jab2
+  splices accepted as drawings. Original jab2 source remains
+  rejected; its repaired cells 2/3 live in a separate SHA-pinned
+  prepared source. 11 requests remain. Pack still unverified;
+  global 200 and two sheets/sequence unchanged; walk/jab1/jab2
+  used both whole-sheet slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -15,14 +16,51 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 14/26, total 81/200; walk/jab1/jab2 each consumed
-its second whole-sheet candidate (the third jab1 request was FOCUSED,
-not a third whole-sheet candidate), and the separate repair reserve
+ledger now says 15/26, total 82/200; walk/jab1/jab2 each consumed
+its second whole-sheet candidate (jab1/jab2 later requests were
+FOCUSED, not third whole-sheet candidates), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jab2-v2-focused-r1 — ACCEPTED two-cell splice 2026-10-04; sha `6388c4e9…`
+
+- Request 15/26, ordinary authoring `kind:'focused'` for named
+  jab2:2 extension (missing butt) + jab2:3 follow (422px short).
+  Reserved and persisted BEFORE one image call; repair reserve 3/3
+  untouched. Exact prompt `jab2-v2-focused-r1-prompt.txt`, ordered
+  refs source `fdfc74cf`, accepted walk `a8e44840`, legacy weapon
+  `71c288d1`, body `ee0a0200`, portrait `0fc579c1` (all read
+  with image tool before the call). Preferred ChatGPT image provider
+  returned one focused output; original source retained unmodified.
+- The generated output visibly repaired BOTH target drawings: cell
+  2 now has a long brown rear haft ending in a gold pommel, cell 3
+  rear shaft lengthened; both preserve two-handed grip, red tassel,
+  curved steel blade and low crouching identities. Target tip-to-
+  pommel: 498px (2) and 453px (3), confirmed by visible endpoint
+  overlay on actual gold caps and steel tips. The model also
+  redrew untargeted cells, so its entire sheet is NOT accepted.
+- `scripts/splice-weiyan-jab2-v2.mjs` SHA-pins both original and
+  focused inputs, cleans alpha at threshold 96, selects full
+  component owner from repair only for [2,3] and original for
+  [0,1,4,5,6,7,8]; collision, outer-edge and 9-component gates
+  pass. Rebuild twice returned byte-identical
+  `jab2-v2-prepared-source.png` sha `e61f9883` (9 separated,
+  every non-target cell copied from immutable original). Keep
+  [0,1,2,3,4]; CULL [5,6,7,8] including still-short spare 7.
+- Source-level TRUE pommel-to-tip [491,468,498,453,451] raw px,
+  mean 472.2; spread 47/472.2 = **9.9534%**, a very NARROW
+  within-sheet pass of the ≤10% rule (rounded display says 10.0%:
+  DO NOT round the threshold up to a robust pass). Direction angles
+  [6,9,9,12,4]° and all adjacent steps ≤8°. Visually reviewed
+  clean merged 3×3 and labeled endpoint overlay: blue rings on
+  gold butts, green on steel tips for every KEPT cell. Whole-pack
+  and cross-sheet acceptance are still UNVERIFIED; this marginal
+  source pass needs scale-aware cross-sequence recheck.
+- Budget now 15/26 (11 remaining); no third whole-sheet jab2,
+  no decoded/page-cap exception and no runtime activation.
 
 ### jab2-v2-candidate-1 — REJECTED as full sequence 2026-10-04; sha `fdfc74cf…`
 

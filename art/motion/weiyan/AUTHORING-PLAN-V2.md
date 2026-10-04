@@ -13,14 +13,15 @@ reserve-before-call, carried learnings) still applies.
   ONE v2 whole-sheet candidate; any further fix is a focused edit.
 - v2 plan: 10 sheets = 10 requests -> 20/26, 6 spares for focused
   edits before corrections. Walk/jab1/jab2 v2 whole sheets were
-  requests 11/12/14; focused jab1:1/2 repair request 13/26 produced
-  `jab1-v2-prepared-source.png` via source-preserving component
-  splice. Jab2 source request 14/26 has missing rear haft in core
-  cell 2 and a too-short full weapon in cell 3: one focused edit
-  for BOTH named cells is next. Seven other whole-sheet sequences
-  remain; 12/26 requests available (7 planned + 5 focused at most).
-  Walk/jab1/jab2 whole-sheet slots all consumed; repair reserve
-  3/3 remains acceptance-4 only.
+  requests 11/12/14; focused corrections 13/26 (jab1:1/2) and
+  15/26 (jab2:2/3) produced source-preserving
+  `jab1-v2-prepared-source.png` and `jab2-v2-prepared-source.png`.
+  Jab2's 9.9534% within-sheet weapon spread is MARGINAL at the
+  unchanged ≤10% limit; do not claim cross-sheet acceptance.
+  Seven other whole-sheet sequences remain; 11 authoring requests
+  available (7 planned + 4 spare maximum). Walk/jab1/jab2 whole-
+  sheet slots all consumed; repair reserve 3/3 remains acceptance-
+  4 only.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 12:10 UTC - CMR-11A (attempt 1, IN_PROGRESS - focused jab2:2/3 splice, marginal source-level weapon pass)
+
+- Status before: CMR-11A IN_PROGRESS; jab2-v2 original lacks rear
+  butt in extension 2, follow 3 short at 422px. No PENDING FILING,
+  visual-review count 1/4, unrelated `.gitignore` not touched.
+- Work completed: reserved one **ordinary authoring-focused** request
+  jab2 (15/26, global 82/200) before the single `image_generate`
+  call; repair reserve 3/3 untouched. Saved exact prompt and refs:
+  source `fdfc74cf`, accepted walk `a8e44840`, legacy weapon
+  `71c288d1`, body `ee0a0200`, portrait `0fc579c1`; source hash
+  and references verified/read. Generated focused image `6388c4e9`:
+  cell 2 gains long rear wood shaft/gold pommel, cell 3 extends
+  shaft. All nine figures repainted by provider despite focused
+  brief, so the full image was NOT substituted wholesale.
+- Files changed: `scripts/splice-weiyan-jab2-v2.mjs` SHA-pins both
+  immutable inputs and copies ONLY complete cells 2/3 from repair,
+  other seven from original with alpha cleanup, collision and
+  edge/9-component gates. New `jab2-v2-focused-r1.png`, exact
+  prompt, deterministic `jab2-v2-prepared-source.png` sha
+  `e61f9883`, budget, v2 plan, PROVENANCE, TASKS and PROGRESS.
+  Original candidate remained unchanged; splicing twice produced
+  the SAME e61f9883 hash. Keep [0..4], cull [5..8] incl. short 7.
+- Evidence/review: viewed assembled transparent 3×3 and endpoint
+  overlay sha `37ad272c`: rings land on actual gold POMMEL and
+  steel TIP in every kept cell. Lengths source raw px
+  [491,468,498,453,451], mean 472.2, max-min=47,
+  47/472.2=9.9534% (MARGINAL ≤10% within-sheet pass; rounded
+  display 10.0% conceals margin, not a robust cross-sheet pass).
+  Angles [6,9,9,12,4]°, adjacent steps ≤8°. Nine separate
+  connected drawings; no outer-edge contact or collisions.
+- Verification run: `node scripts/splice-weiyan-jab2-v2.mjs`
+  ran twice, same digest; `npx eslint scripts/splice-weiyan-jab2-v2.mjs`
+  green; `npx vitest run test/game/motion-budget.test.ts` 8/8,
+  `npm run lint` green, `npm run typecheck` green. No shipping/UI
+  edits; vision/prodbuild not applicable. Full unit suite not
+  rerun (previous known V-15b G6 failure), no pack/runtime activation.
+- Result/status after: CMR-11A IN_PROGRESS; v2 walk, jab1, jab2
+  source drawings accepted subject to full-pack limits/review.
+- Remaining work/next: seven v2 sheets, 16MiB-first page-aware
+  prepare, scale + cross-sheet acceptance-4 and offline continuity.
+  Ledger 15/26, 11 requests remain. Next v2 finisher whole-sheet
+  candidate 2/2 (reserve first).
+
 ### 2026-10-04 08:47 UTC - CMR-11A (attempt 1, IN_PROGRESS - jab2 low-sweep source diagnosis)
 
 - Status before: CMR-11A IN_PROGRESS; walk and jab1 v2 source drawings
