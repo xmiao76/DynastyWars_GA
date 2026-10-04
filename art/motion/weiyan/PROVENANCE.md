@@ -1,11 +1,24 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 9/16 used (walk + jab1 + jab2 + finisher + jump + fall + getup + misc + special accepted). 7 spare.
+- Authoring: 10/16 used (ALL 10 sequences accepted). 6 spare.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
 ## Attempts
+
+### rider-candidate-1 (ACCEPTED 2026-10-04) — sha `1d80450d…`
+
+- Request 10/16 (sheet rider 1/2). Refs in order: body master
+  `ee0a0200`, portrait master `0fc579c1`, walk-guard anchor
+  `2a3635ca`. Prompt: 3x3 seated rider set + spares, no horse
+  parts anywhere.
+- Mechanical: 9/9 clean, all cells covered, 0 edge, gate green
+  (glow 87K, 0 specks).
+- Review: keep [0,1,2,3,4,5] in play order (idle/trot/mount/
+  windup/sweep/dismount) - all seated straddling with NO horse
+  parts drawn; dao full in all, clean anatomy, no forks/
+  verticals. Cull {6,7,8} (clean spares).
 
 ### special-candidate-1 (ACCEPTED 2026-10-04) — sha `95c51b7e…`
 

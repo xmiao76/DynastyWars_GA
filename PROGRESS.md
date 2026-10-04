@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-04 03:13 UTC - CMR-11A (attempt 1, IN_PROGRESS - rider sheet accepted, ALL 10 sequences done)
+
+- Status before: CMR-11A IN_PROGRESS (9 sheets accepted, budget
+  9/16). No PENDING FILING, review 1/4.
+- Work completed: reserved rider sheet 1/2 BEFORE generating
+  (weiyan 10/16, total 77/200) and generated rider-candidate-1
+  (sha 1d80450d, 3 refs incl. guard anchor): ACCEPTED - 9/9
+  clean, all cells covered, 0 edge, gate green (glow 87K, 0
+  specks). Keep [0,1,2,3,4,5] in play order (idle/trot/mount/
+  windup/sweep/dismount), all seated straddling with NO horse
+  parts drawn; dao full in all, clean anatomy, no forks/
+  verticals. Cull {6,7,8}.
+- Files changed: art/motion/weiyan/rider-candidate-1.png (new;
+  force-added) + PROVENANCE.md, generation-budget.json (10/16),
+  TASKS.md, PROGRESS.md. Strip in ignored artifacts/.
+- Verification run: budget gate consulted before the call;
+  pipeline gate + census mechanically green (numbers above);
+  visual review with the image tool on fingerprinted files.
+  No code changes, so no lint/tests apply.
+- Result: CMR-11A IN_PROGRESS (attempt 1).
+- Status after: CMR-11A IN_PROGRESS.
+- Remaining work or blocker: prepare with page-aware solving
+  (16MB-first per plan), landmark acceptance, continuity
+  review. No blocker.
+- Next recommended task: CMR-11A (prepare script + first pack).
+
 ### 2026-10-04 02:51 UTC - CMR-11A (attempt 1, IN_PROGRESS - special sheet accepted)
 
 - Status before: CMR-11A IN_PROGRESS (8 sheets accepted, budget
