@@ -22,7 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
-### 2026-10-05 10:15 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup single-fix 2/3 DONE (cell 4 270 dead-center))
+### 2026-10-05 10:48 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup ACCEPTED via 3 singles + splice, 7.45% robust pass)
+
+- Status before: CMR-12A IN_PROGRESS (getup fixes 2/3 banked,
+  16/20). No PENDING FILING, review 2/4 (not due), unrelated
+  `.gitignore` untouched.
+- Work completed: reserved BEFORE the call (17/20, global 109/200),
+  generated `getup-fix-4.png` sha `b31f2fcd` (one image, first try;
+  ONLY cell 5). Audited 9/9, 0 edge (single-cell briefs finish 5/5
+  on layout). 3x zone: guard pose kept EXACTLY, single bow + string
+  + air; chord (1458,352)-(1448,622) = 270.2px in-band. Spliced
+  (`splice-huangzhong-getup.mjs`, committed): {3: fix-2, 4: fix-3,
+  5: fix-4} + rest orig → sha `0ea3732e`, 9 figures, gates + hash
+  proof, byte-identical rerun. Keep-set [0..5] overlay-verified
+  (all 12 markers on wood): [260.6,260.4,280.3,266.2,270.1,270.2],
+  spread **7.45% robust PASS**; direction max 0.9° pass. Six keep
+  cells (jump precedent). Getup ACCEPTED (5 requests).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (17/20), `getup-fix-4.png`
+  + prompt + `getup-prepared-source.png` (force-added), splice
+  script (new), PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md,
+  PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 17/20).
+  7/10 sequences accepted.
+- Remaining work or blocker: misc sheet candidate 1/2 (reserve
+  first). No blocker. 3 left for 3 sheets exactly.
+- Next recommended task: CMR-12A misc sheet.
+
+### 2026-10-05 10:15 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup single-fix 2/3 DONE (cell 4 270 in-band))
 
 - Status before: CMR-12A IN_PROGRESS (getup fix 1/3 banked, 15/20).
   No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`

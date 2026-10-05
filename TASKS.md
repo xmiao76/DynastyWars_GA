@@ -409,11 +409,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; owner funded +3 2026-10-05 for
-  sequential single-cell getup fixes (cap 20); fix 1/3 DONE
-  (cell 3: 310.3→266.2) + fix 2/3 DONE (cell 4: 300.3→270.1
-  dead-center, pose kept, banked); next: fix 3/3 (cell 5),
-  then splice {3,4,5} + re-measure + verdict. Prior BLOCKED
-  detail preserved below.
+  sequential single-cell getup fixes (cap 20); all three DONE
+  (c3 266.2, c4 270.1, c5 270.2, poses kept); spliced
+  (`0ea3732e`, deterministic) keep [0..5] = 7.45% robust PASS,
+  direction 0.9° pass → getup ACCEPTED (5 requests). 7/10 done.
+  Next: misc sheet (reserve first). Ledger 17/20, global 109/200;
+  3 left for 3 sheets (misc/special/rider). Prior BLOCKED detail
+  preserved below.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;

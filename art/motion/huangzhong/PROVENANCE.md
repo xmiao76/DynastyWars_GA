@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 16/20 used (6/10 ACCEPTED; getup single-fix 2/3
-  DONE — cells 3+4 banked 266/270 in-band, poses kept). Global
-  108/200; getup 1/2 left. Repair reserve 3/3 untouched (shared
-  with CMR-12B, acceptance-4 only). BUDGET: 4 left (1 fix + 3
-  sheets) — on rails.
+- Authoring: 17/20 used (7/10 ACCEPTED; getup via 3 single
+  fixes + splice, keep 7.45% robust pass). Global 109/200; getup
+  1/2 left. Repair reserve 3/3 untouched (shared with CMR-12B,
+  acceptance-4 only). BUDGET: 3 left for 3 sheets (misc/special/
+  rider) — exactly on rails.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,31 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 17/20 — getup single-fix 3/3 (cell 5: 310→270) + splice + 7.45% PASS → ACCEPTED 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/getup)` → used 17,
+  remaining 3, total 109 (guard: expected 16/20, held).
+- Exact prompt: `getup-fix4-prompt.txt` (ONLY cell 5, pose kept,
+  bow ~270–275). Ordered refs: getup orig (vehicle, FIRST),
+  weapon-spec, fall, body, portrait. One image, first try.
+- Output: `getup-fix-4.png` sha `b31f2fcd…` (1536×1024). 9/9, 0
+  edge (single-cell briefs finish 5/5 on layout). 3x zone: guard
+  pose kept EXACTLY, single bow + string + air; chord
+  (1458,352)-(1448,622) = 270.2px — in band. All three singles
+  landed (266.2, 270.1, 270.2): the sequential strategy beat the
+  3-cell collapse. Lesson CONFIRMED: one cell per focused call.
+- Splice (`scripts/splice-huangzhong-getup.mjs`, committed):
+  {3: fix-2, 4: fix-3, 5: fix-4} + rest orig, SHA-pinned, gates +
+  hash proof, byte-identical rerun → `getup-prepared-source.png`
+  sha `0ea3732e`.
+- Keep-set [0..5] on spliced (overlay read; all 12 on wood):
+  [260.6,260.4,280.3,266.2,270.1,270.2], mean 268.0, spread
+  **7.45% ROBUST pass** (2.5pp under gate); direction max 0.9°
+  PASS. Six keep cells (jump [0,1,2,6,4,5] precedent for 6-frame
+  actions). Culls 6,7,8 (rise spares).
+- Verdict: getup source ACCEPTED (5 requests: sheet 13 + failed
+  3-cell fix 14 + three singles 15/16/17). 7/10 sequences done.
 
 ### Request 16/20 — getup single-fix 2/3: cell 4 DONE (300→270 dead-center) 2026-10-05
 
