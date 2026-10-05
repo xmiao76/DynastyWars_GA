@@ -350,11 +350,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   526px). Reviewed spare remap: `misc-v2-prepared-source.png`
   sha 84a23584, keep/play [0 recoil,1 fold,2 clamp,7 hold,
   4 release], cull [3,5,6,8]; true lengths [488,461,479,484,
-  501]px, 8.29% within sheet; steps ≤20°. NINE v2 sequences
-  source-accepted; pack/continuity unverified. One whole sheet
-  rider remains plus pack/offline review. Ledger 23/26 (one
-  planned, two focused); repair reserve 3/3 untouched; no runtime
-  or decode exception. Next: v2 rider. See V2 plan/provenance.
+  501]px, 8.29% within sheet; steps ≤20°. Rider-v2 request
+  24/26 (LAST whole-sheet slot) generated nine clean seated poses,
+  no horse parts, but core six spread ~30% FAIL: sweep cell4 long
+  (554px), dismount cell5 short (406px) AND its blade cut by the
+  sheet edge (25 border px) — endpoint-verified, no spare or
+  retouch fix (tip would be invented). Next: one focused edit of
+  rider:4/5 + source-preserving splice. NINE v2 sequences
+  source-accepted; pack/continuity unverified. Ledger 24/26 (no
+  whole sheets left, two focused max); repair reserve 3/3 untouched;
+  no runtime or decode exception. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

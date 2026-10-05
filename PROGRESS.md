@@ -22,6 +22,48 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 01:27 UTC - CMR-11A (attempt 1, IN_PROGRESS - rider v2 generated; sweep long + dismount blade cut at edge)
+
+- Status before: CMR-11A IN_PROGRESS (9/10 v2 sequences
+  source-accepted; ledger 23/26). No PENDING FILING, review 1/4,
+  unrelated `.gitignore` untouched.
+- Work completed: wrote exact `rider-v2-prompt.txt` (idle/trot/
+  mount/windup/sweep/dismount + 3 spares, seated straddle, NO
+  horse parts); inspected misc prepared source `84a23584` as 5th
+  continuity ref (other 4 refs verified this model session).
+  Reserved rider sheet candidate 2/2 BEFORE the call (request
+  24/26, global 91/200 — LAST whole-sheet slot); one generation,
+  first try, no retry → source `rider-v2-candidate-1.png` sha
+  `21bda51b` (preferred provider, no fallback notice). Original
+  preserved.
+- Verification run: mechanical audit 9/9 components BUT 25
+  alpha≥96 pixels ON the right sheet border (dismount cell5's
+  blade tip cut at x=1535 — pipeline FAIL); 0 specks, 96,597
+  glow removed. Cleaned contact sha `ab2ca6fe` reviewed:
+  correct seated arc, zero horse parts, stable identity.
+  Endpoint overlay sha `b8f1b2fc` reviewed: all cells
+  [512,491,485,516,554,406,507,487,469]px; core six spread
+  148/494 = 30.0% FAIL — sweep cell4 genuinely LONG (554px),
+  dismount cell5 SHORT (406px) because cut. No spare fix
+  (both irreplaceable poses) and no retouch fix (a cut-off
+  blade tip cannot be reconstructed by translating real
+  pixels — that would invent art). `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `rider-v2-candidate-1.png` + exact prompt (new,
+  force-added), generation-budget.json, PROVENANCE.md, TASKS.md,
+  AUTHORING-PLAN-V2.md, PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; rider source REJECTED
+  as complete input. Nine sequences source-accepted; no runtime
+  activation.
+- Remaining work or blocker: one focused edit of rider:4/5 +
+  source-preserving splice (→25/26), then 16MiB-first prepare,
+  landmark + continuity review. No blocker.
+- Next recommended task: CMR-11A rider focused edit (reserve
+  before the image call; last whole-sheet slot spent, only
+  focused edits remain).
+
 ### 2026-10-05 01:16 UTC - CMR-11A (attempt 1, IN_PROGRESS - misc v2 accepted via spare hold remap, first try)
 
 - Status before: CMR-11A IN_PROGRESS (8/10 v2 sequences

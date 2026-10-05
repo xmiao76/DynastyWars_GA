@@ -1,12 +1,12 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 23/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 24/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
-  splices, finisher/special/getup/misc cull derivatives, jump/fall
-  retouches source-accepted. Three authoring requests remain, full
-  pack unverified; global 200/two whole sheets/sequence unchanged;
-  all but rider used both slots.
+  refs but weapon-rejected. Nine v2 sequences source-accepted;
+  rider-v2 source NOT ACCEPTED (sweep long, dismount clipped).
+  Two authoring requests remain, full pack unverified; global
+  200/two whole sheets/sequence unchanged; every sequence used
+  both whole-sheet slots (only focused edits remain).
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -15,7 +15,7 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 23/26, total 90/200; every consumed second
+ledger now says 24/26, total 91/200; every consumed second
 whole-sheet candidate stands; later jab1/jab2/jump/fall edits were
 FOCUSED, not third whole-sheet candidates; and the separate repair
 reserve
@@ -24,6 +24,44 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### rider-v2-candidate-1 — REJECTED as complete sequence 2026-10-05; sha `21bda51b…`
+
+- Request 24/26, rider sheet candidate 2/2 (LAST whole-sheet
+  slot), reserved/persisted BEFORE one image call. Preferred
+  ChatGPT image returned a single 1536×1024 sheet, first try.
+  Exact `rider-v2-prompt.txt`; ordered SHA refs legacy weapon
+  `71c288d1`, body master `ee0a0200`, portrait `0fc579c1`,
+  cleaned walk-v2 guard `46546eca`, accepted misc prepared
+  source `84a23584` (body/style continuity only).
+- Mechanical: 9/9 alpha-connected figures across all nine cells,
+  but 25 alpha≥96 pixels ON the sheet's right border (dismount
+  cell5's blade tip cut at x=1535 — pipeline FAIL). Standard
+  cleanup removed 96,597 low-alpha halo pixels + zero specks
+  (under 150k); cleaned contact inspected. All nine seated
+  straddling with NO horse parts drawn; turban/beard/bronze/
+  purple stable; idle/trot/mount/windup/sweep/dismount arc
+  reads correctly; no forks/verticals.
+- TRUE endpoint overlay actually read: source cells 0..8
+  [512,491,485,516,554,406,507,487,469]px. Core six [0..5] =
+  [512,491,485,516,554,406]px, mean 494.0, spread 148/494 =
+  30.0%, FAIL. TWO genuine defects, both endpoint-verified:
+  sweep cell4 LONG (554px, rings on true fittings) and
+  dismount cell5 SHORT (406px) *because its blade is cut by
+  the sheet edge* (green ring sits exactly on the border;
+  steel mass only 1362px vs ~2000-2700 elsewhere). Angles
+  [-4,11,-9,-9,-5,17]°, steps ≤22 (direction fine).
+- No spare fix: dismount is irreplaceable (only dismount pose;
+  spares 6/7/8 are plain seated) and sweep is irreplaceable
+  (only extended sweep). Retouch cannot invent the 25px of
+  blade tip cut off at the border — that would be fabrication
+  beyond the translate/duplicate precedent. Next: ONE focused
+  ordinary-authoring edit of named rider:4 + rider:5 (→25/26),
+  then source-preserving splice + re-measure. Poses are right;
+  no third whole sheet exists.
+- Source REJECTED as complete pack input. Budget 24/26 (2
+  remain, focused-only), repair reserve 3/3 untouched; no
+  runtime activation or 16MiB exception assumed.
 
 ### misc-v2-candidate-1 — selected-cell source ACCEPTED 2026-10-05; sha `b4b2f3eb…`
 

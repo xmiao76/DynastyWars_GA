@@ -38,11 +38,13 @@ reserve-before-call, carried learnings) still applies.
   via spare remap [6,1,8,3,4] at 9.32% (cull [0,2,5,7]).
   Misc whole sheet request 23/26, first try; raw core 13.2%
   FAIL (hold 526 long), accepted via spare remap [0,1,2,7,4]
-  at 8.29% (cull [3,5,6,8]). One whole-sheet sequence rider
-  remains; three authoring requests available (1 planned +
-  2 focused MAX). All prior whole-sheet slots consumed, repair
-  3/3 remains acceptance-4-only. Cross-sequence acceptance
-  UNVERIFIED.
+  at 8.29% (cull [3,5,6,8]). Rider whole sheet request 24/26,
+  first try; core six ~30% FAIL (sweep 554 long, dismount 406
+  short + blade cut at sheet edge, verified). No spare/retouch
+  fix: one focused edit of rider:4/5 is next. NO whole-sheet
+  sequences remain; two authoring requests available (focused
+  ONLY, 2 max). All whole-sheet slots consumed, repair 3/3
+  remains acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).
