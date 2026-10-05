@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 05:38 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 fix-2 fixed cell 3, splice v1 measured 14.51% FAIL on cell-2 shortfall)
+
+- Status before: CMR-12A IN_PROGRESS (jab1 fix-1 partial, 3/16).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved fix-2 BEFORE the call (4/16, global
+  96/200) and generated `jab1-fix-2.png` sha `8221b0bf` (one
+  image; vertical-bow thrust for cell 3 only). 3x zone read:
+  lunge kept + COMPLETE vertical recurve (nocks, string, air;
+  chord 220.1 programmatic) — pivot proven. Spliced v1
+  (`splice-huangzhong-jab1.mjs`, committed, linted): {1: fix-1,
+  3: fix-2} + rest orig → sha `c593c6f9`, 9 figures, collision/
+  edge gates, unchanged-cell hash proof, byte-identical rerun.
+  Keep-set [0..4] overlay-verified (all 10 markers on wood):
+  [205.0,212.8,189.7,220.1,219.1], spread **14.51% FAIL**;
+  direction max 19.6° pass. Sole driver cell 2 (in-plane, well-
+  drawn, just 10% short — clean length defect; swapping redraws
+  for length alone would be cherry-picking, refused).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint` (incl.
+  splice script), `npm run typecheck` green. No vision/prodbuild/
+  e2e (unwired art only).
+- Files changed: `generation-budget.json` (4/16), `jab1-fix-2.png`
+  + `jab1-fix2-prompt.txt` + `jab1-prepared-source.png` v1
+  (superseded-not-accepted; force-added), splice script (new),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 4/16).
+- Remaining work or blocker: fix-3 (cell 2 bow longer, pose kept)
+  + re-splice v2 + re-measure. No blocker.
+- Next recommended task: CMR-12A jab1 fix-3 (reserve first).
+
 ### 2026-10-05 05:24 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 fix-1 PARTIAL: cell 1 fixed, cell 3 failed, cell-2 verdict corrected)
 
 - Status before: CMR-12A IN_PROGRESS (jab1 core rejected, 2/16).

@@ -421,9 +421,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   (shaft gone, 4x-verified), cell 2 proven always-clean
   (request-2 sleeve misread corrected), cell 3 UNCHANGED (still
   partial ~76px hook — sideways recurve failed 6/6). Pivot:
-  fix-2 re-briefs cell 3 as vertical-bow thrust (proven 13/13
-  concept), then splice {1: fix-1, 3: fix-2} + {0,2,4: orig}.
-  Ledger 3/16, global 95/200; repair reserve 3/3 untouched).
+  fix-2 (`8221b0bf`) FIXED cell 3 (vertical pivot proven:
+  complete recurve, chord 220.1). Spliced v1 (`c593c6f9`,
+  deterministic, hash-proofed) but keep-set FAILS 14.51%
+  (cell 2 short at 189.7 vs 205–220 cluster; direction 19.6°
+  pass). Next: fix-3 (cell 2 bow longer, pose kept) + re-splice
+  v2 + re-measure. Ledger 4/16, global 96/200; repair reserve
+  3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

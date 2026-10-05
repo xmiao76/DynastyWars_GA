@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 3/16 used (walk ACCEPTED; jab1 fix-1: cell 1
-  FIXED, cell 2 always-clean, cell 3 still partial — fix-2 next).
-  Global 95/200; jab1 has 1 sheet left. Repair reserve 3/3
-  untouched (shared with CMR-12B, acceptance-4 only).
+- Authoring: 4/16 used (walk ACCEPTED; jab1 fix-2 fixed cell 3
+  via vertical pivot; spliced v1 measured 14.51% FAIL on cell-2
+  shortfall — fix-3 next). Global 96/200; jab1 sheet still 1/2.
+  Repair reserve 3/3 untouched (shared with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,39 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 4/16 — jab1 fix-2 (cell 3 vertical pivot) + splice v1 + keep-set 14.51% FAIL 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/jab1)` → used 4,
+  remaining 12, total 96 (guard: expected used=3, held).
+- Exact prompt: `jab1-fix2-prompt.txt` (vertical-bow thrust for
+  ONLY cell 3, pose kept). Ordered refs: fix-1 `8e767cc2`
+  (vehicle, FIRST), weapon-spec, walk, body, portrait. One image.
+- Output: `jab1-fix-2.png` sha
+  `8221b0bf65a46ce1bec341cd8a4f7e60db9de2afb4f978afaba636bf42e9b63a`
+  (1536×1024). Mechanical: 9/9, 0 edge. Cell-3 bbox narrowed
+  (x1 503→437: horizontal bar gone).
+- Cell 3: FIXED ✓ — 3x zone read: extended lunge kept, COMPLETE
+  vertical recurve in the fists (both nocks + full string + air
+  gap, no arrows/shafts). Chord 220.1px programmatic
+  ((394,352)-(387,572)). The pivot is proven: provider draws
+  vertical recurves correctly, not sideways ones.
+- Splice v1 (`scripts/splice-huangzhong-jab1.mjs`, committed):
+  {1: fix-1, 3: fix-2} + {0,2,4,5,6,7,8: orig}, SHA-pinned,
+  collision + edge gates, unchanged-cell hash proof, byte-
+  identical rerun → `jab1-prepared-source.png` v1 sha `c593c6f9`
+  (9 figures; SUPERSEDED pending fix-3 — not accepted).
+- Keep-set [0..4] on v1 (overlay `huangzhong-jab1-keepmeasure.png`
+  read; all 10 markers on wood): [205.0,212.8,189.7,220.1,219.1],
+  mean 209.3, spread **14.51% FAIL**; direction max step 19.6°
+  PASS. Sole driver: cell 2 short (189.7 vs 205–220 cluster).
+  Cell 2 is correctly drawn + in-plane (no foreshortening dodge)
+  — a clean LENGTH defect. Swapping in fix-1/fix-2's redrawn
+  cell 2 for length alone would be value cherry-picking
+  (archer precedent) — FORBIDDEN without independent grounds.
+- Next: request 5/16 focused fix of ONLY cell 2 (pose kept, bow
+  redrawn ~8–10% longer into the 205–215 cluster), then re-splice
+  v2 + re-measure. Spares 5,6 stay culled.
 
 ### Request 3/16 — jab1 focused fix cells 1,2,3: PARTIAL (cell 1 fixed, cell 3 failed) 2026-10-05
 
