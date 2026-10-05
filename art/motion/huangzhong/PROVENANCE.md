@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 12/16 used (6/10 ACCEPTED; fall waived 9.26% +
-  diagonal-DOWN waiver, owner option (c)). Global 104/200; fall
-  1/2 left. Repair reserve 3/3 untouched (shared with CMR-12B,
-  acceptance-4 only). BUDGET: 4 left for 4 sheets (getup/misc/
-  special/rider) — zero margin stands.
+- Authoring: 13/16 used (6/10 ACCEPTED; getup 1/2 design PASS,
+  LENGTH FAILS on verified pose-correlated tier gap — BLOCKED).
+  Global 105/200; getup 1/2 left. Repair reserve 3/3 untouched
+  (shared with CMR-12B, acceptance-4 only). BUDGET: 3 left for
+  3 sheets (misc/special/rider) — zero margin stands.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,37 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 13/16 — getup 3x3 sheet candidate 1/2: design PASS, LENGTH FAILS (tier gap) → BLOCKED 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/getup)` → used 13,
+  remaining 3, total 105 (guard: expected used=12, held).
+- Exact prompt: `getup-prompt.txt` (DOWN→guard arc, vertical bows
+  + OBSERVABILITY briefed: both tips in empty space, 245–260px
+  band). Ordered refs: weapon-spec, body, portrait, fall
+  `f7eca5e1` (all tool-issued — first try, zero errors).
+- Output: `getup-candidate-1.png` sha `735ab57a…` (1536×1024).
+  Mechanical: 9/9, 0 edge (cell 0 x0=17, cell 2 y0=7 — legal).
+  Design: 9/9 vertical recurves, clean DOWN→guard arc, lock
+  match, zero defects; observability brief OBEYED (all tips in
+  empty space — first-try overlay verification). Poses ACCEPTED.
+  NOTE: getup:0 DOWN is FLAT vs fall:4's waived diagonal DOWN —
+  1-frame pop at the sequence boundary, noted for 12B.
+- Length (overlay-verified FIRST TRY, all 12 rings on wood, no
+  adjustment needed): [260.6, 260.4, 280.3, 310.3, 300.3, 310.3],
+  FULL-6 spread **17.38% FAIL**; direction max 0.7° PASS. tiers:
+  prone/kneel {c0,c1,c2} ≈ 260–280 vs crouch/stand {c3,c4,c5} ≈
+  300–310 — provider scaled bow with figure height (REAL this
+  time: verified markers, not measurement artifact). Every 5-keep
+  spans both tiers (top cells irreplaceable, bottom mandatory) →
+  min possible spread ~14%+. Spares cannot bridge (extremes
+  locked). No passing path within authority; any fix/reshoot
+  costs ≥1 → shortfall (3 left for 3 sheets).
+- VERDICT: getup BLOCKED — OWNER DECISION: (a) extend budget +1
+  for targeted fix (shorten tier-2 bows to ~265, or lengthen
+  tier-1 to ~300), (b) waive 17.5% (within 09A 35–40% precedent
+  class), (c) re-brief (same shortfall), or (d) other direction.
+  No spend beyond the sheet (13/16).
 
 ### Owner waiver (c) 2026-10-05 → fall ACCEPTED [0,1,2,3,4] at 9.26% (no image call)
 

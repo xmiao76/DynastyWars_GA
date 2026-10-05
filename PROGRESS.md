@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 09:41 UTC - CMR-12A (attempt 1, BLOCKED - getup length fails on verified tier gap, owner call)
+
+- Status before: CMR-12A IN_PROGRESS (6/10 accepted, 12/16). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved getup sheet 1/2 BEFORE the call (13/16,
+  global 105/200) and generated `getup-candidate-1.png` sha
+  `735ab57a` (first try, zero errors). Audited 9/9, 0 edge.
+  Design fully clean: 9/9 vertical recurves, clean DOWN→guard arc,
+  observability brief OBEYED (all tips in empty space — first-try
+  overlay verification with zero adjustments). Length: overlay-
+  verified [260.6,260.4,280.3,310.3,300.3,310.3] = **17.38%
+  FAIL** (direction max 0.7° pass) — provider scaled bow with
+  figure height (prone/kneel ~260–280 vs crouch/stand ~300–310),
+  REAL (verified markers, not artifact). Every 5-keep spans both
+  tiers (extremes locked: top cells irreplaceable, bottom
+  mandatory; min ~14%+) and no spare bridges them. Also noted:
+  getup:0 DOWN is flat vs fall:4's waived diagonal (1-frame pop
+  at the boundary — flagged for 12B with the existing handoff).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (13/16),
+  `getup-candidate-1.png` + `getup-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A BLOCKED (attempt 1).
+- Remaining work or blocker: OWNER DECISION (design verified,
+  lengths truly inconsistent; zero budget margin forbids
+  unilateral fixes): (a) fund +1 targeted fix, (b) waive 17.5%
+  (09A 35–40% precedent class), (c) re-brief, or (d) redirect.
+  3 requests remain for misc/special/rider either way.
+- Next recommended task: BLOCKED — awaiting owner (no autonomous
+  action available).
+
 ### 2026-10-05 09:24 UTC - CMR-12A (attempt 1, IN_PROGRESS - owner waiver (c): fall ACCEPTED, queue resumed)
 
 - Status before: CMR-12A BLOCKED (fall verdict needed owner call).

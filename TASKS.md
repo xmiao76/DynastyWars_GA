@@ -408,7 +408,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner chose waiver (c) 2026-10-05:
+- Status: BLOCKED (attempt 1; OWNER DECISION NEEDED on getup: design
+  passes but bow lengths split pose-correlated tiers (prone/kneel
+  ~260–280 vs crouch/stand ~300–310, overlay-verified 17.38%);
+  every keep spans both tiers (min ~14%+); zero budget margin (3
+  left for 3 sheets) forbids unilateral fixes — options: fund +1
+  fix, waive 17.5% (09A precedent class), re-brief, or redirect.
+  Prior waiver detail preserved below. Owner chose waiver (c)
+  2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;
   12B handoff: re-confirm DOWN at integration, repair reserve as
   backstop. Prior BLOCKED detail preserved below. Fall verdict: best
@@ -495,7 +502,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   2026-10-05: owner chose waiver (c) → fall ACCEPTED (script-exact
   9.26%, correcting 9.29% hand math; diagonal-DOWN waiver recorded;
   no splice). Next: getup sheet (reserve first). Ledger 12/16;
-  4 left for 4 sheets (getup/misc/special/rider).
+  4 left for 4 sheets (getup/misc/special/rider). Getup sheet 1/2
+  (`735ab57a`, 9/9 clean verticals, observability obeyed, poses
+  pass): LENGTH FAILS — overlay-verified [260.6,260.4,280.3,310.3,
+  300.3,310.3] = 17.38%, pose-correlated tiers (prone/kneel vs
+  crouch/stand); every 5-keep spans tiers (min ~14%+); spares
+  cannot bridge (extremes locked). BLOCKED (owner options: fund
+  +1 fix, waive 17.5%, re-brief, redirect). Ledger 13/16; 3 left
+  for 3 sheets (misc/special/rider).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
