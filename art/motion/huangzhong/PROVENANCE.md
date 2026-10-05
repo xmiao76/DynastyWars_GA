@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 6/16 used (walk + jab1 ACCEPTED; jab2 1/2
-  generated, keep 10.40% FAIL on c4 outlier — fix next).
-  Global 98/200; jab2 sheet 1/2 left. Repair reserve 3/3
-  untouched (shared with CMR-12B, acceptance-4 only).
+- Authoring: 7/16 used (walk + jab1 + jab2 ACCEPTED; jab2 via
+  1 focused fix + splice, keep spread 5.80%). Global 99/200;
+  jab2 sheet 1/2 left. Repair reserve 3/3 untouched (shared
+  with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,30 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 7/16 — jab2 fix (cell 4 shorter) + splice + keep 5.80% PASS → ACCEPTED 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/jab2)` → used 7,
+  remaining 9, total 99 (guard: expected used=6, held).
+- Exact prompt: `jab2-fix-prompt.txt` (ONLY cell 4, pose kept,
+  bow ~6–8% shorter into 188–196). Ordered refs: jab2 orig
+  `1cb7304b` (vehicle, FIRST), weapon-spec, walk, body, portrait
+  (all tool-issued attachments — no repeat of the request-6
+  registration failure). One image, first try, no errors.
+- Output: `jab2-fix-1.png` sha
+  `f10b07687a218795ce6b2a844c317914a46d9b08122a34cd8f02c4f0b5502688`
+  (1536×1024). Mechanical: 9/9, 0 edge. 3x zone read: lunge kept,
+  single bow + string + air; 5x tip micros: (909,411)-(905,610)
+  = 199.0px — dead in-band (no overshoot this time).
+- Splice (`scripts/splice-huangzhong-jab2.mjs`, committed):
+  {4: fix-1} + rest orig, SHA-pinned, gates + hash proof, byte-
+  identical rerun → `jab2-prepared-source.png` sha `303148c9`.
+- Keep-set [0..4] on spliced (overlay read; all 10 on wood):
+  [188.7,195.0,187.9,191.4,199.0], mean 192.4, spread **5.80%
+  robust PASS** (4pp under gate); direction max step 8.1° PASS.
+  Culls 5,6,7,8 (spares; 7,8 run long ~219 — unused).
+- Verdict: jab2 source ACCEPTED (2 requests). Running lesson:
+  brief absolute bands AND verify after — provider noise ±10%.
 
 ### Request 6/16 — jab2 3x3 sheet candidate 1/2: keep 10.40% FAIL (c4 outlier) 2026-10-05
 

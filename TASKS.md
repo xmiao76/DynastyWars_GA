@@ -433,9 +433,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   keep-set 10.40% FAIL on c4 outlier (208 vs 188–195 cluster;
   direction 8.1° pass; no spare remap — 7,8 also long). Tool
   lesson: read_image local files before using as refs (2
-  attachment errors, same reservation retry). Next: focused fix
-  (cell 4 bow shorter) + splice + re-measure. Ledger 6/16,
-  global 98/200; repair reserve 3/3 untouched).
+  attachment errors, same reservation retry). Fix (`f10b0768`)
+  landed cell 4 at 199.0px in-band; splice (`303148c9`,
+  deterministic) keep-set 5.80% robust PASS, direction 8.1°
+  pass → jab2 ACCEPTED (2 requests). Ledger 7/16, global 99/200;
+  repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

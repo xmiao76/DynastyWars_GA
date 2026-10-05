@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 06:21 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab2 ACCEPTED via fix + splice, 5.80% robust pass)
+
+- Status before: CMR-12A IN_PROGRESS (jab2 keep failed on c4,
+  6/16). No PENDING FILING, review 2/4 (not due), unrelated
+  `.gitignore` untouched.
+- Work completed: reserved fix BEFORE the call (7/16, global
+  99/200) and generated `jab2-fix-1.png` sha `f10b0768` (one
+  image first try, no errors; all refs tool-issued). 3x zone +
+  5x tip micros read: lunge kept, single bow + string + air,
+  chord (909,411)-(905,610) = 199.0px — dead in-band. Spliced
+  (`splice-huangzhong-jab2.mjs`, committed): {4: fix-1} + rest
+  orig → sha `303148c9`, 9 figures, gates + hash proof, byte-
+  identical rerun. Keep-set [0..4] overlay-verified (all 10 on
+  wood): [188.7,195.0,187.9,191.4,199.0], spread **5.80% robust
+  PASS**; direction max 8.1° pass. Jab2 ACCEPTED (2 requests).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (7/16), `jab2-fix-1.png`
+  + `jab2-fix-prompt.txt` + `jab2-prepared-source.png` (force-
+  added), splice script (new), PROVENANCE.md, AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 7/16).
+  Walk + jab1 + jab2 accepted (3/10 sequences).
+- Remaining work or blocker: finisher sheet candidate 1/2
+  (vertical-bow sweep per spec; reserve first). No blocker.
+- Next recommended task: CMR-12A finisher sheet (hz.finisher
+  10dmg/26 reach/8/5/14).
+
 ### 2026-10-05 06:11 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab2 sheet 1/2: design clean, keep 10.40% FAIL on c4 outlier)
 
 - Status before: CMR-12A IN_PROGRESS (walk + jab1 accepted, 5/16).
