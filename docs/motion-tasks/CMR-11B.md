@@ -1,6 +1,6 @@
 # CMR-11B — Wei Yan: integrate and review all motion in game
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: IN_PROGRESS (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: [CMR-11A](CMR-11A.md) DONE with a complete prepared pack.
 - No other fighter implementation in this consumer iteration.
 

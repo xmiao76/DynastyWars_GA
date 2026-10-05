@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 03:44 UTC - CMR-11B (attempt 1, IN_PROGRESS - registration wired: emit + clips/dispatch/validator + catalog + 22 tests green)
+
+- Status before: CMR-11B TODO (CMR-11A DONE, pack rev weiyan-2).
+  No PENDING FILING, review 1/4, unrelated `.gitignore` untouched.
+- Work completed: slice 1 mirroring CMR-10B's registration commit.
+  New `scripts/emit-weiyan-runtime.mjs` (zhaoyun pattern, but asserts
+  NO decodedCapBytes — 16MB-first holds) emitted 56-frame record
+  rev weiyan-2 + two atlas PNGs (1948×1877, 618×199). New
+  `src/game/art/motion-clips-weiyan.ts`: core-derived clip table
+  (exact wy.* windows read at implementation: jab1/jab2 9/5/14,
+  finisher 13/6/18, jumpkick 4/20 aerial, special 6/12/12 aoe,
+  mounted.sweep 8/6/14), full state dispatch (rider:3 windup /
+  rider:4 sweep like zhaoyun), WEIYAN_FRAMES (56), pack validator,
+  collapse tail [fall:3, fall:4]. Wired `motion-art.ts` (imports,
+  `weiyanPreparedRecord`, WEIYAN_PAGES with emit constants,
+  MOTION_PACKS entry, publish validator/clips/dispatch/collapse
+  ternaries). New `test/game/motion-weiyan.test.ts` (22 tests:
+  registration + negative controls, bookends, core-timing clips,
+  strike windows, dispatch incl. weiyan-specific jab1 suffix tick
+  4 for slower startup, reachability minus rider:2, clamping,
+  routing, collapse continuity).
+- Verification run: `npx vitest run test/game/motion-weiyan.test.ts`
+  22/22 (one initial typo, `t4.playback` in its own initializer,
+  fixed); full unit suite 928 passed + 6 skipped with ONLY the
+  known pre-existing V-15b G6 arm-chain failure (no regressions;
+  +22 new); `npm run lint`, `npm run typecheck` green. No e2e/
+  vision/prodbuild this slice (no behavior or render-path change
+  yet; captures come next per task plan).
+- Files changed: `emit-weiyan-runtime.mjs` (new),
+  `motion-clips-weiyan.ts` (new), `weiyan-prepared.json` +
+  2 atlas PNGs (new, emitted), `motion-art.ts` (wiring),
+  `motion-weiyan.test.ts` (new), TASKS.md, `CMR-11B.md`,
+  PROGRESS.md.
+- Result/status after: CMR-11B IN_PROGRESS; pack registered and
+  unit-verified behind `?motion=1` plumbing (opt-in; defaults
+  legacy). No gameplay changes.
+- Remaining work or blocker: browser captures (isolated/mixed/
+  interaction, both facings, Canvas/WebGL/mobile) + action review
+  report + producer verification. No blocker. Budget 25/26,
+  repair reserve 2/3.
+- Next recommended task: CMR-11B capture pass (extend review
+  harness for weiyan if needed, run captures, review frames).
+
 ### 2026-10-05 03:28 UTC - CMR-11A (attempt 1, DONE - continuity review PASS; pack complete, no runtime activation)
 
 - Status before: CMR-11A IN_PROGRESS; all acceptance evidence
