@@ -34,7 +34,7 @@ For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTI
 - [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
 - [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
 - [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
+- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10% (spread is canonically (max−min)/mean per `scripts/pack-projection.mjs`); direction steps≤60° or authored bridge. Unknowns cannot establish compliance. Run the pack-projection gate after EACH sheet against the ONE fixed global brief band; attempt deterministic shaft retouch before reserve image rounds; heads by overlay-landmark protocol (see `docs/MOTION_ACCEPTANCE4_RECOVERY.md`).
 - [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
 - [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
 - [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.

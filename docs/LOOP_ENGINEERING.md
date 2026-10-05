@@ -194,6 +194,19 @@ blocked-task rules still apply; nothing auto-reopens a BLOCKED task or launches
 a second runner. A real unresolved visual defect remains IN_PROGRESS/BLOCKED,
 never a forced green pass.
 
+Three framework additions (owner-approved, after the 09A–12A waiver run)
+attack the failure earlier, in order: (1) a running pack-projection gate
+(`scripts/pack-projection.mjs`) re-scores the FULL-pack verdict after every
+sheet acceptance against ONE fixed global brief band — WARN steers the next
+brief, STOP repairs or re-shoots an accepted sheet while budget remains, and
+silent band re-centering (the 12A ratchet) is rejected; (2) deterministic
+shaft retouch (`scripts/motion-retouch.mjs`, generalized from the 11A
+campaign) fixes length outliers with zero image requests before any reserve
+round is spent; (3) heads are gated by the overlay-landmark protocol on
+comparable upright poses as primary evidence, so an auto-detector void no
+longer auto-blocks a consistent set. Spread stays canonically
+(max−min)/mean ≤10%; thresholds never move.
+
 | Result | Batch/scheduled behavior | Exit |
 | --- | --- | --- |
 | COMPLETED / IN_PROGRESS | May continue within requested finite budget | 0 |

@@ -13,16 +13,22 @@ Execute exactly one bounded CONSUMER iteration:
    why they failed rather than repeating them.
 4. Inspect existing code and working changes. Implement the smallest coherent
    change that advances the selected task. Do not overwrite unrelated work.
-4a. For a CMR character AUTHORING task whose Acceptance 4 fails, follow
-    `docs/MOTION_ACCEPTANCE4_RECOVERY.md` on THIS selected task. Distinguish
-    bad measurement from actual art first; if named source drawings need
-    repair, reserve one focused request before generating, redraw only those
-    cells, preserve originals, re-prepare the affected pack and remeasure.
-    Three one-request rounds per fighter are available in a separately
-    recorded 51-request repair reserve. Keep the 10%/60-degree criteria,
-    all other caps and AGENTS.md's three unsuccessful CONSUMER iterations.
-    Unknown measurements are not passes. Never reopen a BLOCKED task or
-    start another task, runner or writer to use this protocol.
+4a. For a CMR character AUTHORING task, run the Acceptance-4 projection
+    gate after EACH sheet acceptance (`scripts/pack-projection.mjs`):
+    fix ONE global brief band from the anchor sheet and never silently
+    re-center it; steer WARNs inside the reported window; STOP means
+    repair or re-shoot an accepted sheet now. When Acceptance 4 fails,
+    follow `docs/MOTION_ACCEPTANCE4_RECOVERY.md` on THIS selected task:
+    distinguish bad measurement from actual art first, attempt
+    deterministic shaft retouch (`scripts/motion-retouch.mjs`, zero
+    ledger cost) before image rounds, and only then reserve one focused
+    request per round (three rounds per fighter, separately recorded
+    51-request reserve), redraw only named cells, preserve originals,
+    re-prepare the affected pack and remeasure. Keep the 10%/60-degree
+    criteria, all other caps and AGENTS.md's three unsuccessful CONSUMER
+    iterations. Unknown measurements are not passes. Never reopen a
+    BLOCKED task or start another task, runner or writer to use this
+    protocol.
 5. Add meaningful tests for changed behavior. When pinning a defect, confirm
    the regression test fails without the fix, then passes with it. Record both.
 6. Run relevant PROJECT.md checks. UI-related work also requires `npm run vision`
