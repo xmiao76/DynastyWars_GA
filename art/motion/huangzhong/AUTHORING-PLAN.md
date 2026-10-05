@@ -1,10 +1,10 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 4/10 ACCEPTED; jump 1/2 design PASS, length INCONCLUSIVE (hand-reads contradict) — auto chord tool next; 10/16 spent.
+Status: 4/10 ACCEPTED; jump fix adopted (kick pose broken!) — remap kick from orig c6/c8, descent from c4/fix-c4, existing pixels only; 11/16 spent, ZERO margin left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 16, used 10 (+jump sheet 1/2). Global 102/200.
+- huangzhong cap 16, used 11 (+jump fix, adopted). Global 103/200.
   Two whole-sheet candidates per sequence, unchanged (jump 1/2
   left).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused

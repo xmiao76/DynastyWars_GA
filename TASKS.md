@@ -455,8 +455,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   demonstrated grounds (c4 read still open; PCA fits retired for
   recurves — they overshoot curled tips). Next: c4 closing micro
   + focused fix (c3 vertical re-brief; c4 if out-of-band) +
-  splice + re-measure. Ledger 10/16, global 102/200; repair
-  reserve 3/3 untouched).
+  splice + re-measure. Concurrent turn raced + died silent;
+  adopted its jump fix (`2eba6a10`, ledger 11): fix cell 3 broke
+  the kick pose (tuck now — REJECTED), cell 4 unmeasured.
+  Remap hunt via ASCII maps inconclusive (unreadable at width).
+  Jump MUST close with zero new calls (5 left for 5 sheets):
+  kick from {orig c6/c8} + descent from {orig/fix c4} via 2x
+  views + one overlay. Else BLOCKED. Ledger 11/16, global
+  103/200; repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

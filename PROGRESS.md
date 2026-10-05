@@ -22,6 +22,42 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 07:47 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump fix adopted from dead turn; kick pose broken, remap hunt next)
+
+- Status before: CMR-12A IN_PROGRESS (jump verdict reached, 10/16
+  committed) + a racing concurrent turn I yielded to last tick. No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: verified the concurrent turn DIED silent (19+ min
+  no activity, no commit) via file-activity survey, then adopted its
+  orphaned jump fix (`jump-fix-1.png` sha `2eba6a10`, reservation
+  11/16) rather than waste the spend. Re-audited it myself (9/9,
+  0 edge) and read its clean review: fix cell 3 REJECTED — the
+  provider REMOVED the kick leg (tuck now, bbox 423→288 wide),
+  violating pose-keep; fix cell 4 plausibly kept but unmeasured;
+  fix cell 2 gained a stray kick (position-locked, unusable —
+  refused cross-file relocation as method invention). Remap hunt
+  via wide ASCII maps proved UNREADABLE at 150-char width (my
+  column-counting unreliable) — nothing scored, admitted plainly.
+  HONESTY NOTE: my yield-turn write overwrote their prompt draft,
+  so request 11's exact prompt text is LOST; I deleted the
+  misleading file instead of committing a false record (known
+  intent preserved in PROVENANCE). BUDGET ALARM: 5 left for 5
+  sheets — jump must close with ZERO new calls.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (art+docs only).
+  Liveness re-checked before commit (only my files moving).
+- Files changed: `generation-budget.json` (adopt 11/16),
+  `jump-fix-1.png` (force-added, rejected-for-kick), PROVENANCE.md
+  (alert + log), AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 11/16).
+- Remaining work or blocker: kick from {orig c6/c8} + descent from
+  {orig c4/fix c4} via 2x zone VIEWS + ONE overlay (adjust once
+  max) → splice + verdict. No other path (budget). If no combo
+  verifies → jump BLOCKED with arithmetic for owner.
+- Next recommended task: CMR-12A jump remap verdict (no image call).
+
 ### 2026-10-05 07:21 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump full-curve verdict: FAIL on c3 short/diagonal)
 
 - Status before: CMR-12A IN_PROGRESS (jump length unresolved,
