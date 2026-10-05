@@ -1,11 +1,10 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 4/12 used (2/7 ACCEPTED; combo 1/2 design PASS,
-  length FAILS on cell-0 shortfall + cell-1 overshoot — fix +
-  retouch prescribed). Global 116/200; combo 1/2 left. Repair
-  reserve 3/3 untouched (shared with CMR-13B, acceptance-4
-  only). Projection: walk+charge recorded, WARN (8.14%); combo
-  HELD (not recorded).
+- Authoring: 5/12 used (2/7 ACCEPTED; combo fix-1 REJECTED —
+  overshot 516px; fix-2 + retouch prescribed). Global 117/200;
+  combo 1/2 left. Repair reserve 3/3 untouched (shared with
+  CMR-13B, acceptance-4 only). Projection: walk+charge recorded,
+  WARN (8.14%); combo HELD (not recorded).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +12,31 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 5/12 — combo single-cell fix-1: pose/orientation PASS, LENGTH FAILS (516px overshoot) → REJECTED 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/combo)` → used 5,
+  remaining 7, total 117 (guard: expected 4/12, held).
+- Exact prompt: `combo-fix1-prompt.txt` (ONLY cell 0, diagonalize
+  + lengthen to ~420–430). Ordered refs: combo orig (vehicle,
+  FIRST), body, portrait. One image, first try.
+- Output: `combo-fix-1.png` sha `1f8c8642…` (1536×1024). 9/9, 0
+  edge (layout obeyed — single-cell briefs 7/7). 3x zone: coiled
+  stance kept, single diagonal glaive + crescent + tassel, no
+  extras — BUT chord (18,72)-(472,318) = 516.4px, overshooting
+  the 420–430 brief by +22% (provider drew max-diagonal; the
+  "generator ignores pixel targets" lesson re-proven).
+- Salvage assessed + rejected: pommel-end retouch-shorten (−91px)
+  is INFEASIBLE — the gripping fist sits at t≈76–116 inside any
+  viable moving piece (t0>111 required), so the piece would split
+  the fist (proven by coordinate analysis, no run wasted).
+  Blade-end shorten infeasible (tassel detaches or piece exceeds
+  maxShortenPx). REJECTED, kept per precedent.
+- Prescription (next turn): (1) fix-2 re-shoot (1 request):
+  EXPLICIT endpoint bounds (blade stays right of x=60, pommel
+  left of x=430) + compact ~420px brief to counteract the
+  max-diagonal bias; (2) FREE retouch-shorten cell 1 (463.1→~425,
+  −38px pommel-end, proven pattern). Then splice + re-verify.
 
 ### Request 4/12 — combo 3x3 sheet candidate 1/2: design PASS, LENGTH FAILS (cell-0 short + cell-1 long) 2026-10-05
 

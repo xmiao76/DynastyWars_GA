@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 23:14 UTC - CMR-13A (attempt 1, IN_PROGRESS - combo fix-1 REJECTED (516 overshoot); fix-2 next)
+
+- Status before: CMR-13A IN_PROGRESS (combo 1/2 FAIL, 4/12). No
+  PENDING FILING, review 3/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved BEFORE the call (5/12, global 117/200),
+  generated `combo-fix-1.png` sha `1f8c8642` (one image, first try;
+  ONLY cell 0). Audited 9/9, 0 edge (single-cell briefs 7/7 on
+  layout). 3x zone: coiled stance kept, single diagonal glaive +
+  crescent + tassel, no extras — BUT chord (18,72)-(472,318) =
+  516.4px, overshooting the 420–430 brief by +22% (provider drew
+  max-diagonal; pixel targets ignored again). Salvage PROVEN
+  infeasible by coordinate analysis (no run wasted): pommel-end
+  retouch would split the gripping fist (fist at t≈76–116 inside
+  any viable piece with t0>111); blade-end detaches the tassel or
+  exceeds maxShortenPx. REJECTED, kept per precedent.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (5/12), `combo-fix-1.png`
+  + prompt (rejected, kept), PROVENANCE.md, AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 5/12).
+- Remaining work or blocker: fix-2 re-shoot with EXPLICIT endpoint
+  bounds (blade tip x>60, pommel x<430 — compositional constraint
+  the provider can follow) + free retouch-shorten cell 1 (−38px),
+  then splice + re-verify + record. No blocker. 7 left for 5 sheets.
+- Next recommended task: CMR-13A combo fix-2 + retouch.
+
 ### 2026-10-05 22:48 UTC - CMR-13A (attempt 1, IN_PROGRESS - combo 1/2: design PASS, length FAILS (short+long))
 
 - Status before: CMR-13A IN_PROGRESS (2/7 accepted, 3/12). No

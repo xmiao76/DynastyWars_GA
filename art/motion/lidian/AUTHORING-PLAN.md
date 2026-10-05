@@ -1,12 +1,12 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: 2/7 ACCEPTED; combo 1/2 design PASS but LENGTH FAILS (c0 297 short + c1 463 long); fix+retouch prescribed; 4/12 spent, 8 left.
+Status: 2/7 ACCEPTED; combo fix-1 REJECTED (516 overshoot, unsalvageable); fix-2 + retouch prescribed; 5/12 spent, 7 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- lidian cap 12 (role: boss), used 4 (+combo sheet 1/2). Global
-  116/200. Two whole-sheet candidates per sequence, unchanged
-  (combo 1/2 left).
+- lidian cap 12 (role: boss), used 5 (+combo fix-1, REJECTED).
+  Global 117/200. Two whole-sheet candidates per sequence,
+  unchanged (combo 1/2 left).
 - Repair reserve 3/3 untouched (shared with CMR-13B,
   acceptance-4 only). Deterministic shaft retouch is attempted
   BEFORE any reserve image round (spec item 4).
