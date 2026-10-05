@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 18:27 UTC - CMR-12A (attempt 1, BLOCKED - continuity review PASS; item 4 waiver sole remainder)
+
+- Status before: CMR-12A BLOCKED (acceptance-4 waiver requested).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched. Owner pinged the queue; the waiver decision is still
+  open, so this turn completes the remaining DONE-eligible work
+  (continuity review) without touching the blocked item.
+- Work completed: wrote `scripts/display-sheet-huangzhong.mjs`
+  (zhaoyun pattern) and rendered contact + 10 play-order strips
+  from pack `0e8b5c49`. REVIEWED all 11 sheets: walk guard +
+  8-cycle (feet plant, no skate); jab1/jab2/finisher distinct
+  arcs; remapped jump legible (grounded takeoff/landing, airborne
+  kick); fall topple→DOWN (diagonal per waiver request); remapped
+  getup rises to guard-matching stand; misc reactions grounded
+  with remapped release natural; special natural with zero arrows;
+  rider 6 seated with zero horse parts. Identity stable all 57;
+  no mitten/extra/floating hands or forked shafts. Bookends walk:0
+  guard + fall:4 DOWN present and role-correct. Ground ≤1.5u by
+  pipeline anchoring + visual pass; airborne float; rider dangles
+  correctly. Ghost slivers: none observed. Item 7 verified: the 2
+  src/game commits since 4b4671c are 10B/11B work, zero from 12A;
+  no runtime activation (pack stays ignored).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint` (incl.
+  new script), `npm run typecheck` green. No vision/prodbuild/e2e
+  (offline pack only).
+- Files changed: `scripts/display-sheet-huangzhong.mjs` (new),
+  PROVENANCE.md, TASKS.md, PROGRESS.md. Pack outputs stay ignored.
+- Result/status after: CMR-12A BLOCKED (attempt 1). Acceptance
+  tally: items 1,2,3,5,6,7 PASS with evidence; item 4 (47.22% +
+  head-void) awaits the owner waiver decision.
+- Remaining work or blocker: OWNER DECISION on item 4 (waive
+  47.22%+void / fund redraw / redirect). On waiver: check the 7
+  boxes in CMR-12A.md, mark DONE, unblock 12B.
+- Next recommended task: BLOCKED — awaiting owner (no autonomous
+  action available).
+
 ### 2026-10-05 18:04 UTC - PRODUCER pass (still blocked, nothing changed; IDLE)
 
 - Trigger: no IN_PROGRESS (CMR-12A owner-BLOCKED on acceptance-4

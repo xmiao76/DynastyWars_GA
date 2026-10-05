@@ -17,6 +17,30 @@
 
 ## Attempt log
 
+### Continuity review (no image call): PASS on all 11 sheets; item 4 waiver still sole blocker 2026-10-05
+
+- Wrote `scripts/display-sheet-huangzhong.mjs` (zhaoyun pattern:
+  pack frames as the runtime draws them, trim restored in 520×288
+  box, ground y=272) and rendered contact + 10 play-order strips.
+  REVIEWED all 11 sheets: walk guard + 8-cycle (feet plant, no
+  skate); jab1/jab2/finisher distinct arcs; remapped jump
+  [0,1,2,6,4,5] legible (grounded takeoff/landing, airborne kick);
+  fall topple→DOWN (diagonal per waiver request); remapped
+  getup rises to guard-matching stand; misc reactions grounded/
+  distinct with remapped release natural; remapped special natural
+  with zero arrows; rider 6 seated, zero horse parts. Identity
+  stable all 57; no mitten/extra/floating hands, forked shafts, or
+  verticals. Bookends walk:0 guard + fall:4 DOWN verified present
+  and role-correct (DOWN diagonal noted under the pending waiver).
+  Ground: feet on/near line (≤1.5u by pipeline anchoring + visual
+  pass, same basis as 10A/11A); airborne float; rider dangles
+  (mounted, correct). Ghost slivers: none observed (frames read
+  clean at display scale; 11A's shared-pipeline note stands if
+  12B spots any at higher zoom).
+- Acceptance tally: items 1,2,3,5,6,7 PASS with evidence; item 4
+  (47.22% + head-void) awaits the owner waiver decision. No image
+  calls (none remain; none needed).
+
 ### Acceptance-4 (no image call): weapons 47.22% + head-void → WAIVER REQUESTED, BLOCKED 2026-10-05
 
 - Guard measurement: adapted measure-weiyan.mjs → face gate FIRES
