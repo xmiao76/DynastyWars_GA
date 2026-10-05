@@ -1,6 +1,6 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 5/10 ACCEPTED; fall 1/2 design PASS, length INCONCLUSIVE (halo bias — measure on CLEANED alpha!); 12/16 spent, ZERO margin for 4 left.
+Status: 6/10 ACCEPTED (fall waived 9.26% + diagonal DOWN, owner option (c)); 12/16 spent, ZERO margin for 4 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 

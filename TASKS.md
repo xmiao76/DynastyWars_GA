@@ -408,7 +408,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1; OWNER DECISION NEEDED on fall: best
+- Status: IN_PROGRESS (attempt 1; owner chose waiver (c) 2026-10-05:
+  fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;
+  12B handoff: re-confirm DOWN at integration, repair reserve as
+  backstop. Prior BLOCKED detail preserved below. Fall verdict: best
   verified keep [0,1,2,3,4] = 9.29% marginal but DOWN is diagonal
   (flat-DOWN bookend broken); flat-DOWN sets fail at 11.8%; zero
   budget margin (4 left for 4 sheets) forbids unilateral fixes —
@@ -488,7 +491,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   best 5-set [0,1,2,3,4] = 9.29% marginal BUT its DOWN (c4) is
   diagonal, breaking the shared flat-DOWN bookend; flat-DOWN
   sets fail centrally (11.8%). No passing path within authority
-  (c0/c2 bind 9.29%; zero budget margin forbids fixes).
+  (c0/c2 bind 9.29%; zero budget margin forbids fixes). RESUMED
+  2026-10-05: owner chose waiver (c) → fall ACCEPTED (script-exact
+  9.26%, correcting 9.29% hand math; diagonal-DOWN waiver recorded;
+  no splice). Next: getup sheet (reserve first). Ledger 12/16;
+  4 left for 4 sheets (getup/misc/special/rider).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
@@ -497,6 +504,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-12B - Huang Zhong: integrate/review in motion
 
 - Status: TODO
+- Handoff from 12A (owner waiver (c) 2026-10-05, binding): fall keep
+  [0,1,2,3,4] carries a WAIVED diagonal DOWN (~30°, cell 4) + 9.26%
+  spread. At integration review, re-confirm DOWN acceptability
+  (getup/dead start from it; cross-fighter bookend consistency);
+  if it breaks registration or consistency, repair via the
+  acceptance-4 reserve (3 rounds, separately tracked), NOT
+  authoring budget. Do not silently re-waive.
 - Dependency: CMR-12A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12B](docs/motion-tasks/CMR-12B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic huangzhong pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

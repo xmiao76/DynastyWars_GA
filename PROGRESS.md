@@ -22,6 +22,30 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 09:24 UTC - CMR-12A (attempt 1, IN_PROGRESS - owner waiver (c): fall ACCEPTED, queue resumed)
+
+- Status before: CMR-12A BLOCKED (fall verdict needed owner call).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched. Owner chose option (c) via direct reply.
+- Work completed: recorded the waiver — fall keep [0,1,2,3,4] at
+  script-exact 9.26% (correcting my 9.29% hand-math slip; array
+  [264.2, 255.0, 240.5, 260.3, 260.4], direction max 3.0°) +
+  diagonal-DOWN (~30°) deviation, 09A→10A precedent class. No
+  splice (all-orig). Reset 12A BLOCKED → IN_PROGRESS; appended
+  binding 12B handoff (re-confirm DOWN at integration; repair
+  reserve as backstop, never silent re-waive). 6/10 accepted.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (docs only).
+- Files changed: PROVENANCE.md (waiver), AUTHORING-PLAN.md,
+  TASKS.md (12A resumed + 12B handoff), PROGRESS.md. No ledger
+  change (still 12/16).
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 12/16).
+- Remaining work or blocker: getup sheet candidate 1/2 (reserve
+  first). No blocker. ZERO margin: 4 left for getup/misc/
+  special/rider.
+- Next recommended task: CMR-12A getup sheet.
+
 ### 2026-10-05 09:16 UTC - PRODUCER pass (still blocked, nothing changed; IDLE)
 
 - Trigger: no IN_PROGRESS (CMR-12A owner-BLOCKED) and no READY

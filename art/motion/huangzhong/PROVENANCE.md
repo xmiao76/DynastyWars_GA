@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 12/16 used (5/10 ACCEPTED; fall 1/2 design PASS,
-  length INCONCLUSIVE — halo bias found, gradient tool next).
-  Global 104/200; fall 1/2 left. Repair reserve 3/3 untouched
-  (shared with CMR-12B, acceptance-4 only). BUDGET: 4 left for
-  4 sheets — zero margin stands.
+- Authoring: 12/16 used (6/10 ACCEPTED; fall waived 9.26% +
+  diagonal-DOWN waiver, owner option (c)). Global 104/200; fall
+  1/2 left. Repair reserve 3/3 untouched (shared with CMR-12B,
+  acceptance-4 only). BUDGET: 4 left for 4 sheets (getup/misc/
+  special/rider) — zero margin stands.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,27 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Owner waiver (c) 2026-10-05 → fall ACCEPTED [0,1,2,3,4] at 9.26% (no image call)
+
+- Owner chose option (c): waive to measured spread with the
+  deviation precisely recorded (09A→10A precedent class).
+- Accepted numbers (script-exact from overlay round 2 endpoints;
+  corrects my 9.29% hand-math slip): keep [264.2, 255.0, 240.5,
+  260.3, 260.4] in play order [0,1,2,3,4], mean 256.1, spread
+  **9.26% marginal** (±2% method tolerance disclosed); direction
+  max step 3.0° PASS. All 12 markers overlay-verified on wood.
+  Culls: 5 (min-outlier 234.5), 6, 7, 8 (DOWN-variant spares).
+- Waived deviations: (1) spread 9.26% (same marginal class as
+  walk 9.09 / jab1 8.96 / finisher 8.13 / jump 8.78); (2) DOWN
+  (cell 4) diagonal ~30° vs the shared flat-DOWN bookend.
+  No splice (all-orig; candidate IS the source). Cost: 1 request
+  (sheet 12). 6/10 sequences done.
+- HANDOFF to CMR-12B (binding): re-confirm DOWN acceptability at
+  integration review (getup/dead start from DOWN); if the tilted
+  DOWN breaks registration or cross-fighter consistency, repair
+  via the acceptance-4 reserve (3 rounds, separately tracked —
+  NOT authoring budget). Do not silently re-waive.
 
 ### Fall verdict round: BLOCKED on diagonal DOWN + marginal spread (no image call) 2026-10-05
 
