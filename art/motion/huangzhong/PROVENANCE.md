@@ -1,8 +1,8 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 2/16 used (walk 1/2 ACCEPTED; jab1 1/2 generated,
-  core weapons REJECTED, poses accepted — focused fix next).
-  Global 94/200; jab1 has 1 sheet left. Repair reserve 3/3
+- Authoring: 3/16 used (walk ACCEPTED; jab1 fix-1: cell 1
+  FIXED, cell 2 always-clean, cell 3 still partial — fix-2 next).
+  Global 95/200; jab1 has 1 sheet left. Repair reserve 3/3
   untouched (shared with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
@@ -15,6 +15,40 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 3/16 — jab1 focused fix cells 1,2,3: PARTIAL (cell 1 fixed, cell 3 failed) 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/jab1)` → used 3,
+  remaining 13, total 95 (guard: expected used=2, held). Focused
+  edits don't consume sheet slots (jab1 still 1/2).
+- Exact prompt: `jab1-fix-prompt.txt` (committed; sideways-recurve
+  geometry spelled out). Ordered refs: jab1 orig `0d319260`
+  (edit vehicle, FIRST), weapon-spec `398dfd56`, walk `806bb045`,
+  body `338d9c9e`, portrait `4dcac826`. One image, no retry.
+- Output: `jab1-fix-1.png` sha
+  `8e767cc22f415c0d23834cf8129688c42a1813831a3be048f28f400d7c881194`
+  (1536×1024). Mechanical: 9/9, 0 edge (audit read). Untargeted
+  cells micro-redrawn (bboxes shifted) — will NOT be used.
+- Cell 1: FIXED ✓ (4x before/after: extra shaft gone, clean robe,
+  lunge + vertical bow intact).
+- Cell 2: CORRECTION — was NEVER defective. My request-2 verdict
+  misread the extended gold sleeve as a shaft at 1x/2x. Direct
+  3x zone view of the ORIGINAL (`huangzhong-jab1-c2orig.png`,
+  read) proves a clean single vertical bow, both hands on it.
+  The error cost nothing (fix-all-3 still correct; fix cell 2
+  also clean). Splice will use ORIGINAL cell 2 (immutable first).
+- Cell 3: FAILED ✗ — before/after near-identical (4x pairs read):
+  still one limb + partial string, no observable second nock
+  (~76px hooked fragment vs the 185–200 band). The provider can
+  NOT draw the sideways recurve (failed 6/6 thrust cells across
+  both sheets). PIVOT (evidence-based): re-brief cell 3 as a
+  VERTICAL-bow thrust — extended lunge pose kept, same proven
+  vertical recurve (13/13 correct: walk 9 + jab1 0,4,7,8) punched
+  forward at arm's length, full nocks + string + air. Play to
+  demonstrated strength, not repetition.
+- Next: request 4/16 focused fix of ONLY cell 3 (vertical-bow
+  thrust), then ONE splice {1: fix-1, 3: fix-2} + {0,2,4: orig},
+  then keep-set measure + verdict. Spares 5,6 stay culled.
 
 ### Request 2/16 — jab1 3x3 sheet candidate 1/2: core REJECTED (poses accepted, weapons rejected) 2026-10-05
 
@@ -39,7 +73,10 @@
   PLUS an extra horizontal arrow-like shaft from the off-hand
   (4x: thin straight uniform wood ~140px, no nocks — forbidden
   either as a painted arrow or a second weapon; verdict is
-  interpretation-proof). Cells 3,5,6 thrust bows are PARTIAL:
+  interpretation-proof). [CORRECTION logged at request 3: the 4x
+  proof covered cell 1 only; cell 2 never had the shaft (gold
+  sleeve misread at 1x/2x) and was always clean.] Cells 3,5,6
+  thrust bows are PARTIAL:
   cell-3 4x shows one limb + partial string only, lower nock
   unobservable (staff-with-hook read) — length UNVERIFIABLE,
   and as the extension core cell this alone fails [0..4].

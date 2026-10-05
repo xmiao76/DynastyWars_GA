@@ -417,9 +417,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   generated (`0d319260`, 9/9 clean): poses accepted but core
   weapons REJECTED (cells 1,2 extra arrow-like shaft; 3,5,6
   partial thrust bows, strike nock unobservable — no spare
-  remap). Next: ONE focused edit redrawing only 1,2,3 with
-  explicit sideways-recurve geometry + splice + re-measure.
-  Ledger 2/16, global 94/200; repair reserve 3/3 untouched).
+  remap). Focused fix-1 (`8e767cc2`) PARTIAL: cell 1 fixed
+  (shaft gone, 4x-verified), cell 2 proven always-clean
+  (request-2 sleeve misread corrected), cell 3 UNCHANGED (still
+  partial ~76px hook — sideways recurve failed 6/6). Pivot:
+  fix-2 re-briefs cell 3 as vertical-bow thrust (proven 13/13
+  concept), then splice {1: fix-1, 3: fix-2} + {0,2,4: orig}.
+  Ledger 3/16, global 95/200; repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

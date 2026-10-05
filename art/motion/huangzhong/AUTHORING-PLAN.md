@@ -1,11 +1,12 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: walk ACCEPTED; jab1 1/2 core weapons rejected (poses ok) — focused fix 1,2,3 next; 2/16 spent.
+Status: walk ACCEPTED; jab1 fix-1 partial (c1 fixed, c2 clean, c3 failed) — fix-2 for c3 as vertical-bow thrust next; 3/16 spent.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 16, used 2 (walk 1/2, jab1 1/2). Global
-  94/200. Two whole-sheet candidates per sequence, unchanged.
+- huangzhong cap 16, used 3 (+jab1 focused fix-1). Global
+  95/200. Two whole-sheet candidates per sequence, unchanged
+  (jab1 sheet still 1/2).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused
   corrections before any repair need. Repair reserve 3/3 untouched
   (shared with CMR-12B, acceptance-4 only).

@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 05:24 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 fix-1 PARTIAL: cell 1 fixed, cell 3 failed, cell-2 verdict corrected)
+
+- Status before: CMR-12A IN_PROGRESS (jab1 core rejected, 2/16).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved focused fix BEFORE the call (3/16,
+  global 95/200; sheet slots untouched) and generated
+  `jab1-fix-1.png` sha `8e767cc2` (one image, no retry; 5 refs
+  with sideways-recurve geometry spelled out). Audited 9/9, 0
+  edge. Before/after 4x pairs prove: cell 1 FIXED (extra shaft
+  gone, clean robe, lunge + vertical bow intact); cell 3 FAILED
+  (before≈after: still one limb + partial string, ~76px hooked
+  fragment vs the 185–200 band — sideways recurve now 0/6 across
+  both sheets). Cell 2 CORRECTION: my request-2 verdict was wrong
+  (gold sleeve misread as shaft at 1x/2x); direct 3x zone view of
+  the ORIGINAL proves a clean single bow — always-clean, splice
+  uses the original. Evidence-based pivot: fix-2 re-briefs cell 3
+  as a VERTICAL-bow thrust (extended lunge kept; vertical recurve
+  is 13/13 proven) instead of repeating the failed concept.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (3/16),
+  `jab1-fix-1.png` + `jab1-fix-prompt.txt` (new, force-added),
+  PROVENANCE.md (attempt log + cell-2 correction), AUTHORING-
+  PLAN.md, TASKS.md, PROGRESS.md. Diagnostics in ignored tmpcheck.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 3/16).
+  Jab1 keep set: 0,2,4 orig ready; 1 fix-1 ready; 3 pending fix-2.
+- Remaining work or blocker: fix-2 (cell 3 only, vertical-bow
+  thrust) + splice {1: fix-1, 3: fix-2} + {0,2,4: orig} +
+  keep-set measure + verdict. No blocker.
+- Next recommended task: CMR-12A jab1 fix-2 (reserve first).
+
 ### 2026-10-05 05:12 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 sheet 1/2: poses accepted, core weapons rejected, focused fix prescribed)
 
 - Status before: CMR-12A IN_PROGRESS (walk accepted, 1/16). No
