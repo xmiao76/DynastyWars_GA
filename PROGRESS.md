@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 06:34 UTC - CMR-12A (attempt 1, IN_PROGRESS - finisher sheet 1/2: design clean, keep FAILS ~19% pose-correlated)
+
+- Status before: CMR-12A IN_PROGRESS (3/10 accepted, 7/16). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved finisher sheet 1/2 BEFORE the call
+  (8/16, global 100/200; sibling ref read_image'd first — first
+  try, zero errors) and generated `finisher-candidate-1.png` sha
+  `dae97d05`. Audited 9/9, 0 edge. Design fully clean (9/9
+  verticals, distinct sweep poses, lock match). But keep-set
+  [0..4] measures [221.0,230.0,238.0,252.0,207.1] via 5x micros
+  (2x reads under-read curled tips by 10–20px — corrected):
+  spread **~19.5% FAIL**. Systematic provider habit, not noise:
+  deeper lunge = longer bow (c4 recover 207 < c0 221 < c1 230 <
+  c2 238 < c3 impact 252); spares 5,6 also long, so NO remap.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (8/16),
+  `finisher-candidate-1.png` + `finisher-prompt.txt` (new,
+  force-added), PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md,
+  PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 8/16).
+- Remaining work or blocker: finisher focused fix (cells 1,2,3
+  bows to ~210–215 matching c0/c4, poses kept) + splice +
+  re-measure. No blocker (not a re-roll: habit would repeat).
+- Next recommended task: CMR-12A finisher fix (reserve first).
+
 ### 2026-10-05 06:21 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab2 ACCEPTED via fix + splice, 5.80% robust pass)
 
 - Status before: CMR-12A IN_PROGRESS (jab2 keep failed on c4,

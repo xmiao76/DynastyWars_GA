@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 7/16 used (walk + jab1 + jab2 ACCEPTED; jab2 via
-  1 focused fix + splice, keep spread 5.80%). Global 99/200;
-  jab2 sheet 1/2 left. Repair reserve 3/3 untouched (shared
-  with CMR-12B, acceptance-4 only).
+- Authoring: 8/16 used (walk + jab1 + jab2 ACCEPTED; finisher
+  1/2 keep FAILS ~19% on pose-correlated lengths — fix next).
+  Global 100/200; finisher 1/2 left. Repair reserve 3/3 untouched
+  (shared with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,32 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 8/16 — finisher 3x3 sheet candidate 1/2: keep FAILS ~19% (pose-correlated lengths) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/finisher)` → used 8,
+  remaining 8, total 100 (guard: expected used=7, held).
+- Exact prompt: `finisher-prompt.txt` (vertical-bow sweep,
+  185–200px band briefed). Ordered refs: weapon-spec, body,
+  portrait, jab2-prepared (read_image'd FIRST per lesson —
+  first try, zero errors).
+- Output: `finisher-candidate-1.png` sha
+  `dae97d059c3420dfc41b6dbcb638bdba468c392cdb9015c874095c2285094232`
+  (1536×1024). Mechanical: 9/9, 0 edge. Design fully clean:
+  9/9 vertical recurves, distinct sweep poses, lock match, zero
+  defects. Vertical-only brief holds 3/3 sheets.
+- Keep-set [0..4] (uppers 2x/5x, lowers 5x micros — my 2x reads
+  under-read curled tips by 10–20px, micros corrected):
+  [221.0,230.0,238.0,252.0,207.1], spread **~19.5% FAIL**.
+  Systematic, not noise: bow length grows with pose extension
+  (c4 recover 207 < c0 guard 221 < c1 coil 230 < c2 launch 238 <
+  c3 impact 252). Spares 5,6 also long (~238–241) — NO remap.
+  Direction uncomputed (length fails first; all near-vertical).
+- Fix path: ONE focused edit on cells 1,2,3 (the long trio),
+  bows redrawn to ~210–215 (match c0/c4 cluster), poses kept;
+  then splice + re-measure. Brief ABSOLUTE band + "identical to
+  cells 0,4" (relative anchor). NOT a re-roll (habit would
+  repeat). Provider absolute accuracy: ±10% noise + pose bias.
 
 ### Request 7/16 — jab2 fix (cell 4 shorter) + splice + keep 5.80% PASS → ACCEPTED 2026-10-05
 

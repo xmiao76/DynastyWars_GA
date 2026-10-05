@@ -436,8 +436,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   attachment errors, same reservation retry). Fix (`f10b0768`)
   landed cell 4 at 199.0px in-band; splice (`303148c9`,
   deterministic) keep-set 5.80% robust PASS, direction 8.1°
-  pass → jab2 ACCEPTED (2 requests). Ledger 7/16, global 99/200;
-  repair reserve 3/3 untouched).
+  pass → jab2 ACCEPTED (2 requests). Finisher sheet 1/2
+  (`dae97d05`, 9/9 clean verticals, poses pass): keep-set FAILS
+  ~19.5% — pose-correlated lengths (c4 207 < c0 221 < c1 230 <
+  c2 238 < c3 252; deeper lunge = longer bow; spares 5,6 also
+  long, no remap). Next: focused fix (cells 1,2,3 bows to
+  ~210–215, match c0/c4) + splice + re-measure. Ledger 8/16,
+  global 100/200; repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
