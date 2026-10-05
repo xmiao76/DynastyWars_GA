@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 22:20 UTC - CMR-13A (attempt 1, IN_PROGRESS - charge ACCEPTED via 3-op retouch, 3.84% pass)
+
+- Status before: CMR-13A IN_PROGRESS (charge held on STOP, 3/12).
+  No PENDING FILING, review 3/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: deterministic pommel-end retouch
+  (`scripts/retouch-lidian-charge.mjs`, committed): 3 shorten ops
+  on cells 2/3/4 (shifts (48,-12)/(23,-6)/(40,-16) along the
+  pommel→blade axes), all achieved-vs-predicted gates ±0.1px,
+  composition gates pass. Method proven en route: narrow-strip
+  measure (wide strips catch robe pixels), op band must cover
+  the full flared cap (10→14 left edges, 20 clean on 2/4, cell-3
+  flare needed 30 — a 30px chunk then a 5px dot, both caught by
+  before/after visual pairs, not gates). Joints read clean at 4x.
+  Output sha `40054db9`. Keep-set [0..4] overlay-verified (all 10
+  on wood): [441.5,437.9,424.9,425.1,425.2], spread **3.84%
+  PASS**; direction max 6.3° pass. Charge ACCEPTED (1 request +
+  free retouch). Projection: WARN (8.14%, N=14), window
+  [400.2,441.8], no drift.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint` (incl.
+  retouch driver), `npm run typecheck` green. No vision/prodbuild/
+  e2e (unwired art only).
+- Files changed: `charge-prepared-source.png` + `pack-projection.
+  json` (force-added), retouch driver (new), PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md. No ledger change
+  (retouch is free).
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 3/12).
+  2/7 sequences accepted.
+- Remaining work or blocker: combo sheet candidate 1/2 (reserve
+  first; brief INSIDE the fixed band). No blocker. 9 left for 5
+  sheets.
+- Next recommended task: CMR-13A combo sheet.
+
 ### 2026-10-05 21:47 UTC - CMR-13A (attempt 1, IN_PROGRESS - charge 1/2 locally PASS, projection STOP; retouch next)
 
 - Status before: CMR-13A IN_PROGRESS (walk accepted, band fixed,

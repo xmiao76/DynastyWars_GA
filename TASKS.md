@@ -553,13 +553,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; walk ACCEPTED (2 requests);
-  band [399.7,441.8] fixed. Charge sheet 1/2 (`a0cfe1b1`, 9/9
-  levelled glaives, poses pass): within-sheet 8.03% PASS
-  overlay-verified BUT pack-projection STOP (global 15.26%: cells
-  2/4 overshoot band hi by 26–32px) → HELD, not accepted. Next:
-  deterministic pommel-end retouch on cells 2/3/4 into ~425
-  (free, spec-mandated before image rounds), then re-verify +
-  record. Ledger 3/12, global 115/200; 9 left.)
+  band [399.7,441.8] fixed. Charge RETOUCHED (3 pommel-shorten
+  ops, all gates ±0.1px, joints visually clean): keep [0..4] =
+  3.84% PASS overlay-verified, direction 6.3° pass → charge
+  ACCEPTED (1 request + free retouch); projection WARN (8.14%).
+  2/7 done. Next: combo sheet (reserve first; brief INSIDE the
+  fixed band). Ledger 3/12, global 115/200; 9 left.)
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

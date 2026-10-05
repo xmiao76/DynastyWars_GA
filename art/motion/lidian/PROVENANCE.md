@@ -1,11 +1,10 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 3/12 used (1/7 ACCEPTED; charge 1/2 locally PASS
-  but projection-STOP — retouch prescribed). Global 115/200;
-  charge 1/2 left. Repair reserve 3/3 untouched (shared with
-  CMR-13B, acceptance-4 only). Projection: band [399.7,441.8];
-  walk recorded; charge HELD (not recorded — only accepted
-  sheets record).
+- Authoring: 3/12 used (2/7 ACCEPTED; charge via 3-op pommel
+  retouch, keep 3.84% pass). Global 115/200; charge 1/2 left.
+  Repair reserve 3/3 untouched (shared with CMR-13B,
+  acceptance-4 only). Projection: walk+charge recorded, WARN
+  (8.14%), steer next to [400.2,441.8]; no drift.
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +12,32 @@
   attack-id names).
 
 ## Attempt log
+
+### Retouch (no image call): 3-op pommel shorten on charge 2/3/4 → 3.84% PASS → ACCEPTED 2026-10-05
+
+- Driver `scripts/retouch-lidian-charge.mjs` (committed): hash-pinned
+  candidate in, 3 shorten ops (u = pommel→blade from verified
+  endpoints; shifts (48,-12)/(23,-6)/(40,-16) px; t0 75/50/70),
+  achieved-vs-predicted gates (±1px), composition gates, prepared
+  source out. Method lessons (all gate- or visually-proven): (1)
+  measure hook must use the NARROW haft strip (wide strips catch
+  robe pixels behind the pommel and inflate t-range); (2) op band
+  must cover the FULL flared pommel cap (band 10→14 left edge
+  pixels; band 20 clean on 2/4; cell-3 flare needed 30 — a 30px
+  leftover chunk, then a 5px dot, both caught by before/after
+  visual pairs, NOT by gates); (3) measure band follows the op
+  band so leftovers would trip the gate. Final: all 3 ops land
+  ±0.1px, joints read clean at 4x, zero fragments.
+- Output: `charge-prepared-source.png` sha `40054db9…` (9 figures,
+  correct cells, no edge). Keep-set [0..4] overlay-verified (all
+  10 on wood): [441.5,437.9,424.9,425.1,425.2], spread **3.84%
+  PASS**; direction max 6.3° pass. Culls 5–8.
+- Projection: charge recorded (scale 1): WARN (global 8.14% over
+  N=14, min 408.1, max 442.8); steering window [400.2,441.8];
+  no drift. Cost: ZERO requests (deterministic, not a ledger
+  event).
+- Verdict: charge source ACCEPTED (1 request + free retouch). 2/7
+  sequences done.
 
 ### Request 3/12 — charge 3x3 sheet candidate 1/2: locally PASS, projection STOP → HELD for retouch 2026-10-05
 

@@ -1,6 +1,6 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: 1/7 ACCEPTED; charge 1/2 locally PASS but projection-STOP (15.3%) — retouch prescribed; 3/12 spent, 9 left.
+Status: 2/7 ACCEPTED (charge: 3.84% via 3-op retouch); projection WARN (8.14%); 3/12 spent, 9 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
