@@ -1,5 +1,6 @@
 {
   "fighter": "weiyan",
+  "revision": "weiyan-2",
   "model": "one uniform scale PER SHEET (two-proxy guard evidence when measured; factor 1 UNVERIFIED until then) + cell-centre/ground anchors; page-aware base (largest base fitting both cell axes with trims under cap/1.28 packing slack, then packed pages verified under the 16MiB contract)",
   "box": {
     "width": 260,
@@ -10,12 +11,12 @@
   "contentCapPx": 268,
   "widthCapPx": 514,
   "packSlack": 1.28,
-  "fitBound": 0.7592067988668555,
-  "budgetBound": 0.670509662894184,
-  "base": 0.663804,
+  "fitBound": 0.708994708994709,
+  "budgetBound": 0.6302083333333333,
+  "base": 0.623906,
   "guanyuWalkGuardPx": 240,
   "mookArcherGuardPx": 223,
-  "walkGuardFittedPx": 225.69335999999998,
+  "walkGuardFittedPx": 199.02601399999998,
   "sheets": {
     "walk": {
       "keptCells": [
@@ -30,8 +31,8 @@
         8
       ],
       "culledCells": [],
-      "sha256": "78491237441fc3cf913384d6eac96cc0202b3072e9c9dd8b5051fa4c685b9bc4",
-      "scale": 0.663804,
+      "sha256": "a8e4484049262fb77e36fd7b0708456d23f8a1c576e7f8a6739a41b11823b703",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "reference sheet"
     },
@@ -49,8 +50,8 @@
         7,
         8
       ],
-      "sha256": "1cd3eb152e3ba22d93ad8eca899d23bbf2bf51f51d9ee3ddf4275067bc54cbfd",
-      "scale": 0.663804,
+      "sha256": "b39a260b913c8170e777340d1551feabcb3986c95bc6d39ec281963447c89bb6",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -68,8 +69,8 @@
         7,
         8
       ],
-      "sha256": "747595959c7f7962809015dcc9d062102c8e646814a41fcbb4946fc1fe3d1011",
-      "scale": 0.663804,
+      "sha256": "e61f9883ae5ed962c50e181f2888df9976fa7dfc325199a7dd6dc02ea537ed8d",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -77,18 +78,13 @@
       "keptCells": [
         0,
         1,
-        2,
         3,
+        6,
         4
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ],
-      "sha256": "8101c92160fde8ca6b265720deacacefbb09857873e36882f59b2d6cd138ff2f",
-      "scale": 0.663804,
+      "culledCells": [],
+      "sha256": "6f622f91a920f6d594411a0a1e2d65fcba314301c4d84fae4b714666067f842b",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -96,18 +92,18 @@
       "keptCells": [
         0,
         1,
+        2,
         6,
-        3,
-        5,
-        7
+        4,
+        5
       ],
       "culledCells": [
-        2,
-        4,
+        3,
+        7,
         8
       ],
-      "sha256": "f296114904cf1d1e88dfddb27b1062f80b20a75e430437013588b98e97bdccdc",
-      "scale": 0.663804,
+      "sha256": "0f3dc6318e66622d615187ae5cf7e9551c928fbbbe4e870e52387a51576d4385",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -125,46 +121,36 @@
         7,
         8
       ],
-      "sha256": "cd3d7414af5342eeae65a3c8bd1a01facf7106330fd9fe007a8dd5e3e959e190",
-      "scale": 0.663804,
+      "sha256": "161b4efed5cd232bb88cdce829d71a47ebcd7a3204ebb2b5f5493ee8ef1db91c",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
     "getup": {
       "keptCells": [
-        0,
+        6,
         1,
-        2,
+        8,
         3,
         4
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ],
-      "sha256": "78949e6bbbb8d82e390dab30f3a07fad5d253492419add29173d4bcace1de800",
-      "scale": 0.608044,
-      "scaleFactor": 0.916,
-      "scaleEvidence": "applied: two geometric proxies agree (ground 0.918, height 0.914)"
+      "culledCells": [],
+      "sha256": "e88295dcba36752529d5c6b519bd2a105cff1ef68da1becbfbf99882dc8970ab",
+      "scale": 0.623906,
+      "scaleFactor": 1,
+      "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
     "misc": {
       "keptCells": [
         0,
         1,
         2,
-        3,
+        7,
         4
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ],
-      "sha256": "69be09d175285a65ba30625048b6bf5a8a7bd8acc832fa8eeb7fe40e5d17b3c1",
-      "scale": 0.663804,
+      "culledCells": [],
+      "sha256": "84a23584c66fbe878fe7db656e729c1807f189f3cab8cd6f16977bce1630651c",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -172,18 +158,13 @@
       "keptCells": [
         0,
         1,
-        2,
+        8,
         3,
         4
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ],
-      "sha256": "95c51b7e8a21ba9441351a7ead007bffb301acd0ae7aff1460cdaabb801c559d",
-      "scale": 0.663804,
+      "culledCells": [],
+      "sha256": "5040f1ea5c4b7c37b2482b1d302f14a05bfc66b8f40de6f0bc46dcbc58a339ce",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     },
@@ -201,8 +182,8 @@
         7,
         8
       ],
-      "sha256": "1d80450df3c7bfdf37356fba8eb129fd262a4954638cc9c6f12cb07cb3de18ef",
-      "scale": 0.663804,
+      "sha256": "5c5cba35cdaaa171cd24a745fff342703c0f33d6265ce31a5bcf2160d3c20975",
+      "scale": 0.623906,
       "scaleFactor": 1,
       "scaleEvidence": "UNVERIFIED (guardScale or heightRatio missing) - factor 1"
     }
@@ -342,12 +323,12 @@
         },
         {
           "position": 2,
-          "cell": 2,
+          "cell": 3,
           "label": "extension"
         },
         {
           "position": 3,
-          "cell": 3,
+          "cell": 6,
           "label": "follow"
         },
         {
@@ -356,12 +337,7 @@
           "label": "recover"
         }
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ]
+      "culledCells": []
     },
     "jump": {
       "positions": [
@@ -377,28 +353,28 @@
         },
         {
           "position": 2,
-          "cell": 6,
+          "cell": 2,
           "label": "apex"
         },
         {
           "position": 3,
-          "cell": 3,
+          "cell": 6,
           "label": "kick"
         },
         {
           "position": 4,
-          "cell": 5,
+          "cell": 4,
           "label": "descent"
         },
         {
           "position": 5,
-          "cell": 7,
+          "cell": 5,
           "label": "landing"
         }
       ],
       "culledCells": [
-        2,
-        4,
+        3,
+        7,
         8
       ]
     },
@@ -441,7 +417,7 @@
       "positions": [
         {
           "position": 0,
-          "cell": 0,
+          "cell": 6,
           "label": "elbow"
         },
         {
@@ -451,7 +427,7 @@
         },
         {
           "position": 2,
-          "cell": 2,
+          "cell": 8,
           "label": "crouch"
         },
         {
@@ -465,12 +441,7 @@
           "label": "stand"
         }
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ]
+      "culledCells": []
     },
     "misc": {
       "positions": [
@@ -491,7 +462,7 @@
         },
         {
           "position": 3,
-          "cell": 3,
+          "cell": 7,
           "label": "grab-hold"
         },
         {
@@ -500,12 +471,7 @@
           "label": "release"
         }
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ]
+      "culledCells": []
     },
     "special": {
       "positions": [
@@ -521,7 +487,7 @@
         },
         {
           "position": 2,
-          "cell": 2,
+          "cell": 8,
           "label": "pre-spin"
         },
         {
@@ -535,12 +501,7 @@
           "label": "follow"
         }
       ],
-      "culledCells": [
-        5,
-        6,
-        7,
-        8
-      ]
+      "culledCells": []
     },
     "rider": {
       "positions": [

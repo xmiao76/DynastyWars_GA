@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 01:52 UTC - CMR-11A (attempt 1, IN_PROGRESS - v2 pack first solve FITS 16MB at factors=1 UNVERIFIED)
+
+- Status before: CMR-11A IN_PROGRESS (all 10 v2 sequences
+  source-accepted; ledger 25/26). No PENDING FILING, review 1/4,
+  unrelated `.gitignore` untouched.
+- Work completed: wrote `scripts/prepare-weiyan-v2.mjs` (new; v1
+  script untouched for reproducibility) pointing at the ten
+  accepted v2 sources with their proven keep maps (row-major,
+  remaps, splices, retouches), revision weiyan-2, v2-named
+  measurement files (absent → all factors honestly 1
+  UNVERIFIED; v1 factors NOT reused). Ran first solve.
+- Verification run: base 0.623906 (BUDGET-bound; fit 0.709),
+  zero step-downs; 56 frames / 56 unique / 0 duplicates / 34
+  unused; deterministic double-run manifest `007790c5`; pages
+  1939×1899 + 612×197 (≤2048²); page pixels 15,210,900 B =
+  14.51 MiB ≤16MiB (9.3% margin) — NO exception needed,
+  16MB-first holds. 9 suspects, all bounds-overlap review flags
+  (straddling polearms; no merges — alpha separation verified).
+  `registration.json` SUPERSEDED v1→v2 (v1: base 0.663804, guard
+  225.7px, kept in git history). Guard now 199.0px = 82.9% of
+  Guan Yu 240 (below mook archer 223px) — recorded as an open
+  hierarchy observation, NOT a gate failure; owner judges at
+  11B captures. `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`,
+  `npm run typecheck` green. No UI/shipping changes; full suite
+  not rerun (known V-15b G6 failure).
+- Files changed: `prepare-weiyan-v2.mjs` (new),
+  `registration.json` (v1→v2 supersession), PROVENANCE.md,
+  TASKS.md, AUTHORING-PLAN-V2.md, PROGRESS.md. Pack outputs in
+  ignored artifacts/ (regenerable).
+- Result/status after: CMR-11A IN_PROGRESS; pack exists and fits.
+  Acceptance-4 landmarks, two-proxy factors, continuity review
+  remain; no runtime activation.
+- Remaining work or blocker: v2 guard/height measurement, then
+  cross-sequence acceptance-4 + offline continuity review. No
+  blocker. Budget 25/26 (one focused spare left).
+- Next recommended task: CMR-11A v2 guard measurement (no image
+  call; writes measurements-v2-raw.json + scale-compare-v2.json).
+
 ### 2026-10-05 01:41 UTC - CMR-11A (attempt 1, IN_PROGRESS - rider ACCEPTED via focused splice + retouch; all 10 v2 sequences done)
 
 - Status before: CMR-11A IN_PROGRESS; rider core spread 30% FAIL

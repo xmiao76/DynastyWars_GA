@@ -2,11 +2,12 @@
 
 - Authoring: 25/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  refs but weapon-rejected. ALL TEN v2 sequences source-accepted
-  (rider via focused splice + retouch). One authoring request
-  remains, full pack unverified; global 200/two whole sheets/
-  sequence unchanged; every sequence used both whole-sheet slots
-  (only focused edits remain).
+  refs but weapon-rejected. ALL TEN v2 sequences source-accepted.
+  Pack FIRST SOLVE done (16MB-first fit proven at factors=1
+  UNVERIFIED). One authoring request remains; acceptance-4 +
+  continuity unverified. Global 200/two whole sheets/sequence
+  unchanged; every sequence used both whole-sheet slots (only
+  focused edits remain).
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -24,6 +25,38 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### v2 pack first solve — FITS 16MB, factors UNVERIFIED 2026-10-05; manifest `007790c5…`
+
+- New `scripts/prepare-weiyan-v2.mjs` (v1 script untouched for
+  reproducibility) points at the ten accepted v2 sources with
+  their proven keep maps; revision `weiyan-2`. V2 guard
+  measurement files do not exist yet, so ALL per-sheet factors
+  are honestly 1 UNVERIFIED (v1 factors NOT reused — different
+  art). `registration.json` SUPERSEDED v1→v2 (v1 kept in git
+  history; v1 numbers: base 0.663804, guard 225.7px).
+- Solve: base 0.623906 (BUDGET-bound; fit bound 0.709), zero
+  step-downs. 56 frames / 56 unique / 0 duplicates / 34 unused
+  cells; deterministic double-run manifest `007790c5`.
+  Pages 1939×1899 + 612×197 (both ≤2048²); page pixels
+  15,210,900 B = 14.51 MiB ≤ 16MiB contract (9.3% margin).
+  NO exception needed or requested — 16MB-first holds.
+- 9 suspects, ALL `bounds overlap - review for merge` between
+  adjacent figures (jab1×2, jab2, finisher, jump×2, fall,
+  rider×2): expected bounding-box overlaps from straddling
+  polearms, NOT merges — every sheet verified 9 (or 5)
+  alpha-separated components and the pack built all 56 unique
+  frames. Same review-flag class as prior packs.
+- Honest scale note: walk guard 199.0px = 82.9% of Guan Yu 240
+  (mook archer 223px) — v2 Wei Yan renders SMALLER than a mook,
+  the price of the correct long dao under the cap (v1 short dao:
+  225.7px). No acceptance criterion pins absolute scale; factors
+  still UNVERIFIED (two-proxy measurement next); owner judges
+  the rendered hierarchy at 11B captures. NOT a contradiction —
+  no exception case.
+- Next: v2 guard/height measurement (two-proxy factors),
+  cross-sequence acceptance-4 landmarks, offline continuity
+  review. No runtime activation.
 
 ### rider-v2-retouched-source — ACCEPTED rider drawings 2026-10-05; sha `5c5cba35…`
 

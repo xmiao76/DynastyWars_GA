@@ -45,11 +45,14 @@ reserve-before-call, carried learnings) still applies.
   dismount's blade (450, clear of edge); spliced both, then
   deterministic retouch extended dismount 450→480px. Final
   [512,491,485,516,481,480]px, spread 7.29% ≤10% source-level
-  PASS. ALL TEN v2 sequences source-accepted; next is pack
-  assembly (prepare script update), measurement, acceptance-4
-  and continuity review. One authoring request remains (focused
-  ONLY). All whole-sheet slots consumed, repair 3/3 remains
-  acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
+  PASS. ALL TEN v2 sequences source-accepted. Pack FIRST SOLVE
+  done (`prepare-weiyan-v2.mjs`, rev weiyan-2, factors=1
+  UNVERIFIED): base 0.623906, 56/56 unique, deterministic,
+  15.21MB ≤16MB with 9.3% margin, pages ≤2048². Next: v2 guard/
+  height measurement (two-proxy factors), cross-sequence
+  acceptance-4, continuity review. One authoring request remains
+  (focused ONLY). All whole-sheet slots consumed, repair 3/3
+  remains acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

@@ -361,10 +361,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   then deterministic retouch extended dismount 450→480px
   (`5c5cba35`, only cell5 changed, seams reviewed). Final
   [512,491,485,516,481,480]px, spread 7.29% ≤10% source-level
-  PASS; steps ≤20°. ALL TEN v2 sequences source-accepted; pack
-  assembly + acceptance-4 + continuity review remain. Ledger
-  25/26 (one focused spare); repair reserve 3/3 untouched; no
-  runtime or decode exception. Next: v2 pack prepare. See V2
+  PASS; steps ≤20°. ALL TEN v2 sequences source-accepted. Pack
+  FIRST SOLVE done (`prepare-weiyan-v2.mjs`, rev weiyan-2): base
+  0.623906 budget-bound, 56/56 unique frames, deterministic
+  manifest `007790c5`, pages ≤2048², 15.21MB ≤16MB (9.3% margin),
+  zero step-downs; 9 bounds-overlap suspects (review flags, no
+  merges). Guard 199px (82.9% Guan Yu; factors UNVERIFIED).
+  Acceptance-4 + continuity review remain. Ledger 25/26 (one
+  focused spare); repair reserve 3/3 untouched; no runtime or
+  decode exception. Next: v2 guard measurement. See V2
   plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
