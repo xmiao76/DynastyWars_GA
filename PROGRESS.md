@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 01:16 UTC - CMR-11A (attempt 1, IN_PROGRESS - misc v2 accepted via spare hold remap, first try)
+
+- Status before: CMR-11A IN_PROGRESS (8/10 v2 sequences
+  source-accepted; ledger 22/26). No PENDING FILING, review 1/4,
+  unrelated `.gitignore` untouched.
+- Work completed: wrote exact `misc-v2-prompt.txt` (hurt-recoil/
+  hurt-fold/grab-clamp/grab-hold/release + 4 spares, no second
+  figure); inspected getup prepared source `e88295dc` as 5th
+  continuity ref (other 4 refs verified this model session).
+  Reserved misc sheet candidate 2/2 BEFORE the call (request
+  23/26, global 90/200); one generation, first try, no retry →
+  source `misc-v2-candidate-1.png` sha `b4b2f3eb` (preferred
+  provider, no fallback notice). Original preserved.
+- Verification run: mechanical audit 9/9 clean components, 0 edge,
+  0 specks, 94,893 glow removed; cleaned contact sha `247723aa`
+  reviewed (correct recoil/fold/brace/release arc, defined
+  fingers, stable identity). Endpoint overlay sha `c1df5a65`
+  reviewed: all cells [488,461,479,526,501,464,507,484,488]px;
+  raw core [0..4] spread 65/491 = 13.2% FAIL (hold cell3 long
+  526px, true endpoints). Spare remap play [0,1,2,7,4]
+  (spare7 = true lean-back hold pose): ordered contact sha
+  `efe903c4` viewed; lengths [488,461,479,484,501]px, mean
+  482.6, spread 8.29% ≤10% source-level PASS; angles
+  [-14,6,1,-8,-5]°, steps ≤20 (separate sub-actions). SHA-pinned
+  cull script ran twice, byte-identical `misc-v2-prepared-
+  source.png` sha `84a23584` (5 figures [0,1,2,4,7], 0 edge);
+  prepared sheet viewed. `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `misc-v2-candidate-1.png` + exact prompt (new,
+  force-added), `misc-v2-prepared-source.png` (new, force-added),
+  `prepare-weiyan-misc-v2-source.mjs` (new),
+  generation-budget.json, PROVENANCE.md, TASKS.md,
+  AUTHORING-PLAN-V2.md, PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; NINE v2 sequences
+  source-accepted. Pack/continuity still unverified; no runtime
+  activation.
+- Remaining work or blocker: v2 rider (last whole sheet),
+  16MiB-first prepare, landmark + continuity review. No blocker.
+- Next recommended task: CMR-11A v2 rider (reserve whole-sheet
+  candidate 2/2 before the image call).
+
 ### 2026-10-05 01:02 UTC - CMR-11A (attempt 1, IN_PROGRESS - getup v2 accepted via spare remap, first try)
 
 - Status before: CMR-11A IN_PROGRESS (7/10 v2 sequences

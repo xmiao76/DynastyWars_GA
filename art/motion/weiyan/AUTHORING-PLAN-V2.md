@@ -36,10 +36,13 @@ reserve-before-call, carried learnings) still applies.
   are right. Getup whole sheet request 22/26, first try; raw
   core 19.8% FAIL (elbow 537 long, crouch 440 short), accepted
   via spare remap [6,1,8,3,4] at 9.32% (cull [0,2,5,7]).
-  Two whole-sheet sequences misc/rider remain; four authoring
-  requests available (2 planned + 2 focused MAX). All prior
-  whole-sheet slots consumed, repair 3/3 remains acceptance-4-
-  only. Cross-sequence acceptance UNVERIFIED.
+  Misc whole sheet request 23/26, first try; raw core 13.2%
+  FAIL (hold 526 long), accepted via spare remap [0,1,2,7,4]
+  at 8.29% (cull [3,5,6,8]). One whole-sheet sequence rider
+  remains; three authoring requests available (1 planned +
+  2 focused MAX). All prior whole-sheet slots consumed, repair
+  3/3 remains acceptance-4-only. Cross-sequence acceptance
+  UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

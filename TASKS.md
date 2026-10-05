@@ -345,11 +345,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   source.png` sha e88295dc, keep/play [6 elbow-push,1 kneel,
   8 crouch,3 half-rise,4 stand], cull [0,2,5,7]; true lengths
   [500,469,500,515,485]px, 9.32% within sheet; steps ≤5°.
-  EIGHT v2 sequences source-accepted; pack/continuity unverified.
-  Two whole sheets misc/rider remain plus pack/offline review.
-  Ledger 22/26 (two planned, two focused); repair reserve 3/3
-  untouched; no runtime or decode exception. Next: v2 misc.
-  See V2 plan/provenance.
+  Misc-v2 request 23/26 generated nine clean poses but raw core
+  [488,461,479,526,501]px spread 13.2% FAIL (hold cell3 long
+  526px). Reviewed spare remap: `misc-v2-prepared-source.png`
+  sha 84a23584, keep/play [0 recoil,1 fold,2 clamp,7 hold,
+  4 release], cull [3,5,6,8]; true lengths [488,461,479,484,
+  501]px, 8.29% within sheet; steps ≤20°. NINE v2 sequences
+  source-accepted; pack/continuity unverified. One whole sheet
+  rider remains plus pack/offline review. Ledger 23/26 (one
+  planned, two focused); repair reserve 3/3 untouched; no runtime
+  or decode exception. Next: v2 rider. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
