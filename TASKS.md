@@ -382,11 +382,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   proven by crop analysis + a safely-aborted flood run). Repair
   round R1 instead: getup:6 redrawn 500→554px (displayed 293.35,
   in-band), pose preserved, overlay-verified, settled accepted,
-  spliced (`a34991ff`). Campaign now 14 retouch ops (proven
-  configs) on 6 files. Next: fix campaign script (bounds-check,
-  drop graft, repoint getup input) + run + seam reviews +
-  re-measure. Ledger 25/26; repair reserve 2/3 remain; no runtime
-  or decode exception. See V2 plan/provenance.
+  spliced (`a34991ff`). 14-op campaign COMPLETE (script fixed:
+  bounds-checks, pristine snapshots, graft removed): all gates
+  green, achieved ±1px on all 14, all seams reviewed clean
+  (incl. 105px fill + finisher:3 dirt zone). Re-measure: weapon
+  FULL-56 289.0–316.8 spread **9.1% PASS**; direction max 29°
+  PASS; head still auto-VOID + consistency. Re-solve: base
+  0.629727, deterministic `58d10b89`, 14.42MB (9.9% margin).
+  Continuity review remains. Ledger 25/26; repair reserve 2/3
+  remain; no runtime or decode exception. Next: offline
+  continuity review. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

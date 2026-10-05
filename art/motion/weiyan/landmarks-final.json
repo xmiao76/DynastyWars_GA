@@ -5,70 +5,70 @@
     "perSequenceDisplayed": {
       "walk": {
         "n": 9,
-        "min": 290.4,
-        "max": 314.4,
+        "min": 289,
+        "max": 313,
         "spreadPct": 7.9
       },
       "jab1": {
         "n": 5,
-        "min": 292.9,
-        "max": 313.1,
+        "min": 291.6,
+        "max": 311.7,
         "spreadPct": 6.7
       },
       "jab2": {
         "n": 5,
-        "min": 285.3,
-        "max": 315,
-        "spreadPct": 10
+        "min": 294.7,
+        "max": 313.6,
+        "spreadPct": 6.2
       },
       "finisher": {
         "n": 5,
-        "min": 312.5,
-        "max": 343.5,
-        "spreadPct": 9.5
+        "min": 311.1,
+        "max": 316.8,
+        "spreadPct": 1.8
       },
       "jump": {
         "n": 6,
-        "min": 300.5,
-        "max": 320.1,
-        "spreadPct": 6.4
+        "min": 299.1,
+        "max": 314.9,
+        "spreadPct": 5.2
       },
       "fall": {
         "n": 5,
-        "min": 297.3,
-        "max": 317.6,
+        "min": 296,
+        "max": 316.1,
         "spreadPct": 6.5
       },
       "getup": {
         "n": 5,
-        "min": 248.3,
-        "max": 272.7,
-        "spreadPct": 9.3
+        "min": 292,
+        "max": 302.5,
+        "spreadPct": 3.5
       },
       "misc": {
         "n": 5,
-        "min": 291.6,
-        "max": 316.9,
+        "min": 290.3,
+        "max": 315.5,
         "spreadPct": 8.3
       },
       "special": {
         "n": 5,
-        "min": 304.9,
-        "max": 322.6,
-        "spreadPct": 5.7
+        "min": 303.5,
+        "max": 316.8,
+        "spreadPct": 4.3
       },
       "rider": {
         "n": 6,
-        "min": 303.7,
-        "max": 326.4,
-        "spreadPct": 7.3
+        "min": 302.3,
+        "max": 316.1,
+        "spreadPct": 4.5
       }
     },
     "FULL_all_kept_displayed": {
       "n": 56,
-      "min": 248.3,
-      "max": 343.5,
-      "spreadPct": 31.3
+      "min": 289,
+      "max": 316.8,
+      "spreadPct": 9.1
     },
     "FULL_ids": [
       "walk:0",
@@ -132,14 +132,14 @@
   "head": {
     "D0_all": {
       "n": 56,
-      "min": 12.5,
-      "max": 23.1,
-      "spreadPct": 71.3
+      "min": 12.4,
+      "max": 23,
+      "spreadPct": 71.2
     },
     "D1_shape_rule": {
       "n": 45,
-      "min": 12.5,
-      "max": 23.1,
+      "min": 12.4,
+      "max": 23,
       "spreadPct": 71.8
     },
     "D1_ids": [
@@ -195,7 +195,7 @@
       "walk:3(0.82)",
       "walk:4(0.82)",
       "walk:7(0.82)",
-      "getup:0(1.62)",
+      "getup:0(1.41)",
       "misc:3(0.82)",
       "special:0(0.64)",
       "special:4(1.62)",
@@ -204,15 +204,15 @@
     ],
     "D2_upright_family": {
       "n": 19,
-      "min": 12.6,
+      "min": 12.5,
       "max": 14.8,
       "spreadPct": 16.8
     },
     "D2_walk_only": {
       "n": 9,
-      "min": 12.6,
+      "min": 12.5,
       "max": 13,
-      "spreadPct": 3.7
+      "spreadPct": 3.8
     },
     "missing_face_ids": []
   },
@@ -220,16 +220,16 @@
     "perSequenceMaxStep": {
       "walk": 4,
       "jab1": 27,
-      "jab2": 8,
-      "finisher": 30,
+      "jab2": 9,
+      "finisher": 29,
       "jump": 10,
       "fall": 10,
-      "getup": 5,
+      "getup": 6,
       "misc": 20,
       "special": 21,
       "rider": 20
     },
-    "globalMaxStep": 30
+    "globalMaxStep": 29
   },
   "cells": [
     {
@@ -238,7 +238,7 @@
       "position": 0,
       "cell": 0,
       "label": "guard",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 471,
       "angle": 15,
       "tip": [
@@ -250,13 +250,13 @@
         122
       ],
       "steel": 1557,
-      "displayed": 297.96,
+      "displayed": 296.6,
       "face": {
         "w": 24,
         "h": 27,
         "area": 423
       },
-      "displayedHead": 13.01
+      "displayedHead": 12.95
     },
     {
       "id": "walk:1",
@@ -264,7 +264,7 @@
       "position": 1,
       "cell": 1,
       "label": "walk1",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 477,
       "angle": 15,
       "tip": [
@@ -276,13 +276,13 @@
         122
       ],
       "steel": 1578,
-      "displayed": 301.75,
+      "displayed": 300.38,
       "face": {
         "w": 23,
         "h": 28,
         "area": 417
       },
-      "displayedHead": 12.92
+      "displayedHead": 12.86
     },
     {
       "id": "walk:2",
@@ -290,7 +290,7 @@
       "position": 2,
       "cell": 2,
       "label": "walk2",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 459,
       "angle": 16,
       "tip": [
@@ -302,13 +302,13 @@
         120
       ],
       "steel": 1482,
-      "displayed": 290.37,
+      "displayed": 289.04,
       "face": {
         "w": 23,
         "h": 28,
         "area": 394
       },
-      "displayedHead": 12.56
+      "displayedHead": 12.5
     },
     {
       "id": "walk:3",
@@ -316,7 +316,7 @@
       "position": 3,
       "cell": 3,
       "label": "walk3",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 480,
       "angle": 15,
       "tip": [
@@ -328,13 +328,13 @@
         452
       ],
       "steel": 1515,
-      "displayed": 303.65,
+      "displayed": 302.27,
       "face": {
         "w": 23,
         "h": 28,
         "area": 425
       },
-      "displayedHead": 13.04
+      "displayedHead": 12.98
     },
     {
       "id": "walk:4",
@@ -342,7 +342,7 @@
       "position": 4,
       "cell": 4,
       "label": "walk4",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 495,
       "angle": 14,
       "tip": [
@@ -354,13 +354,13 @@
         451
       ],
       "steel": 1559,
-      "displayed": 313.14,
+      "displayed": 311.71,
       "face": {
         "w": 23,
         "h": 28,
         "area": 407
       },
-      "displayedHead": 12.76
+      "displayedHead": 12.7
     },
     {
       "id": "walk:5",
@@ -368,7 +368,7 @@
       "position": 5,
       "cell": 5,
       "label": "walk5",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 476,
       "angle": 15,
       "tip": [
@@ -380,13 +380,13 @@
         452
       ],
       "steel": 1439,
-      "displayed": 301.12,
+      "displayed": 299.75,
       "face": {
         "w": 25,
         "h": 28,
         "area": 412
       },
-      "displayedHead": 12.84
+      "displayedHead": 12.78
     },
     {
       "id": "walk:6",
@@ -394,7 +394,7 @@
       "position": 6,
       "cell": 6,
       "label": "walk6",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 495,
       "angle": 15,
       "tip": [
@@ -406,13 +406,13 @@
         789
       ],
       "steel": 1543,
-      "displayed": 313.14,
+      "displayed": 311.71,
       "face": {
         "w": 24,
         "h": 28,
         "area": 416
       },
-      "displayedHead": 12.9
+      "displayedHead": 12.84
     },
     {
       "id": "walk:7",
@@ -420,7 +420,7 @@
       "position": 7,
       "cell": 7,
       "label": "walk7",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 497,
       "angle": 13,
       "tip": [
@@ -432,13 +432,13 @@
         793
       ],
       "steel": 1610,
-      "displayed": 314.41,
+      "displayed": 312.97,
       "face": {
         "w": 23,
         "h": 28,
         "area": 396
       },
-      "displayedHead": 12.59
+      "displayedHead": 12.53
     },
     {
       "id": "walk:8",
@@ -446,7 +446,7 @@
       "position": 8,
       "cell": 8,
       "label": "walk8",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 477,
       "angle": 17,
       "tip": [
@@ -458,13 +458,13 @@
         789
       ],
       "steel": 1518,
-      "displayed": 301.75,
+      "displayed": 300.38,
       "face": {
         "w": 23,
         "h": 27,
         "area": 415
       },
-      "displayedHead": 12.89
+      "displayedHead": 12.83
     },
     {
       "id": "jab1:0",
@@ -472,7 +472,7 @@
       "position": 0,
       "cell": 0,
       "label": "windup",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 469,
       "angle": 17,
       "tip": [
@@ -484,13 +484,13 @@
         117
       ],
       "steel": 2829,
-      "displayed": 296.69,
+      "displayed": 295.34,
       "face": {
         "w": 29,
         "h": 28,
         "area": 509
       },
-      "displayedHead": 14.27
+      "displayedHead": 14.21
     },
     {
       "id": "jab1:1",
@@ -498,7 +498,7 @@
       "position": 1,
       "cell": 1,
       "label": "drive",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 479,
       "angle": -1,
       "tip": [
@@ -510,13 +510,13 @@
         120
       ],
       "steel": 1902,
-      "displayed": 303.02,
+      "displayed": 301.64,
       "face": {
         "w": 28,
         "h": 28,
         "area": 472
       },
-      "displayedHead": 13.74
+      "displayedHead": 13.68
     },
     {
       "id": "jab1:2",
@@ -524,7 +524,7 @@
       "position": 2,
       "cell": 2,
       "label": "extension",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 469,
       "angle": -3,
       "tip": [
@@ -536,13 +536,13 @@
         138
       ],
       "steel": 1940,
-      "displayed": 296.69,
+      "displayed": 295.34,
       "face": {
         "w": 27,
         "h": 29,
         "area": 473
       },
-      "displayedHead": 13.76
+      "displayedHead": 13.7
     },
     {
       "id": "jab1:3",
@@ -550,7 +550,7 @@
       "position": 3,
       "cell": 3,
       "label": "follow",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 495,
       "angle": 24,
       "tip": [
@@ -562,13 +562,13 @@
         430
       ],
       "steel": 2563,
-      "displayed": 313.14,
+      "displayed": 311.71,
       "face": {
         "w": 31,
         "h": 27,
         "area": 492
       },
-      "displayedHead": 14.03
+      "displayedHead": 13.97
     },
     {
       "id": "jab1:4",
@@ -576,7 +576,7 @@
       "position": 4,
       "cell": 4,
       "label": "recover",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 463,
       "angle": 2,
       "tip": [
@@ -588,13 +588,13 @@
         492
       ],
       "steel": 2728,
-      "displayed": 292.9,
+      "displayed": 291.56,
       "face": {
         "w": 27,
         "h": 28,
         "area": 460
       },
-      "displayedHead": 13.57
+      "displayedHead": 13.51
     },
     {
       "id": "jab2:0",
@@ -602,7 +602,7 @@
       "position": 0,
       "cell": 0,
       "label": "chamber-low",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 491,
       "angle": 6,
       "tip": [
@@ -614,13 +614,13 @@
         208
       ],
       "steel": 1988,
-      "displayed": 310.61,
+      "displayed": 309.2,
       "face": {
         "w": 28,
         "h": 29,
         "area": 473
       },
-      "displayedHead": 13.76
+      "displayedHead": 13.7
     },
     {
       "id": "jab2:1",
@@ -628,7 +628,7 @@
       "position": 1,
       "cell": 1,
       "label": "drive",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 468,
       "angle": 9,
       "tip": [
@@ -640,13 +640,13 @@
         169
       ],
       "steel": 1771,
-      "displayed": 296.06,
+      "displayed": 294.71,
       "face": {
         "w": 29,
         "h": 27,
         "area": 469
       },
-      "displayedHead": 13.7
+      "displayedHead": 13.64
     },
     {
       "id": "jab2:2",
@@ -654,7 +654,7 @@
       "position": 2,
       "cell": 2,
       "label": "extension",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 498,
       "angle": 9,
       "tip": [
@@ -666,13 +666,13 @@
         181
       ],
       "steel": 1982,
-      "displayed": 315.04,
+      "displayed": 313.6,
       "face": {
         "w": 29,
         "h": 28,
         "area": 513
       },
-      "displayedHead": 14.33
+      "displayedHead": 14.26
     },
     {
       "id": "jab2:3",
@@ -680,25 +680,25 @@
       "position": 3,
       "cell": 3,
       "label": "follow",
-      "scale": 0.632606,
-      "rawL": 453,
-      "angle": 12,
+      "scale": 0.629727,
+      "rawL": 480,
+      "angle": 13,
       "tip": [
         562,
         571
       ],
       "pom": [
-        120,
-        474
+        93,
+        467
       ],
       "steel": 2135,
-      "displayed": 286.57,
+      "displayed": 302.27,
       "face": {
         "w": 29,
         "h": 34,
         "area": 549
       },
-      "displayedHead": 14.82
+      "displayedHead": 14.75
     },
     {
       "id": "jab2:4",
@@ -706,25 +706,25 @@
       "position": 4,
       "cell": 4,
       "label": "recover",
-      "scale": 0.632606,
-      "rawL": 451,
+      "scale": 0.629727,
+      "rawL": 481,
       "angle": 4,
       "tip": [
         1022,
         538
       ],
       "pom": [
-        572,
-        506
+        542,
+        502
       ],
       "steel": 1736,
-      "displayed": 285.31,
+      "displayed": 302.9,
       "face": {
         "w": 28,
         "h": 27,
         "area": 453
       },
-      "displayedHead": 13.46
+      "displayedHead": 13.4
     },
     {
       "id": "finisher:0",
@@ -732,25 +732,25 @@
       "position": 0,
       "cell": 0,
       "label": "coil",
-      "scale": 0.632606,
-      "rawL": 522,
+      "scale": 0.629727,
+      "rawL": 502,
       "angle": 10,
       "tip": [
         531,
         280
       ],
       "pom": [
-        17,
-        191
+        36,
+        195
       ],
       "steel": 1892,
-      "displayed": 330.22,
+      "displayed": 316.12,
       "face": {
         "w": 31,
         "h": 29,
         "area": 531
       },
-      "displayedHead": 14.58
+      "displayedHead": 14.51
     },
     {
       "id": "finisher:1",
@@ -758,25 +758,25 @@
       "position": 1,
       "cell": 1,
       "label": "launch",
-      "scale": 0.632606,
-      "rawL": 510,
+      "scale": 0.629727,
+      "rawL": 503,
       "angle": -15,
       "tip": [
         1064,
         63
       ],
       "pom": [
-        571,
-        193
+        578,
+        191
       ],
       "steel": 1996,
-      "displayed": 322.63,
+      "displayed": 316.75,
       "face": {
         "w": 30,
         "h": 30,
         "area": 528
       },
-      "displayedHead": 14.54
+      "displayedHead": 14.47
     },
     {
       "id": "finisher:2",
@@ -784,25 +784,25 @@
       "position": 2,
       "cell": 3,
       "label": "extension",
-      "scale": 0.632606,
-      "rawL": 543,
-      "angle": 15,
+      "scale": 0.629727,
+      "rawL": 503,
+      "angle": 14,
       "tip": [
         577,
         611
       ],
       "pom": [
-        52,
-        474
+        90,
+        486
       ],
       "steel": 2610,
-      "displayed": 343.51,
+      "displayed": 316.75,
       "face": {
         "w": 32,
         "h": 29,
         "area": 541
       },
-      "displayedHead": 14.71
+      "displayedHead": 14.65
     },
     {
       "id": "finisher:3",
@@ -810,25 +810,25 @@
       "position": 3,
       "cell": 6,
       "label": "follow",
-      "scale": 0.632606,
-      "rawL": 506,
+      "scale": 0.629727,
+      "rawL": 500,
       "angle": 11,
       "tip": [
         529,
         892
       ],
       "pom": [
-        32,
-        796
+        38,
+        795
       ],
       "steel": 1952,
-      "displayed": 320.1,
+      "displayed": 314.86,
       "face": {
         "w": 28,
         "h": 28,
         "area": 493
       },
-      "displayedHead": 14.05
+      "displayedHead": 13.98
     },
     {
       "id": "finisher:4",
@@ -836,7 +836,7 @@
       "position": 4,
       "cell": 4,
       "label": "recover",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 494,
       "angle": 8,
       "tip": [
@@ -848,13 +848,13 @@
         476
       ],
       "steel": 2094,
-      "displayed": 312.51,
+      "displayed": 311.09,
       "face": {
         "w": 30,
         "h": 30,
         "area": 523
       },
-      "displayedHead": 14.47
+      "displayedHead": 14.4
     },
     {
       "id": "jump:0",
@@ -862,7 +862,7 @@
       "position": 0,
       "cell": 0,
       "label": "takeoff",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 477,
       "angle": 2,
       "tip": [
@@ -874,13 +874,13 @@
         239
       ],
       "steel": 2243,
-      "displayed": 301.75,
+      "displayed": 300.38,
       "face": {
         "w": 54,
         "h": 42,
         "area": 1069
       },
-      "displayedHead": 20.68
+      "displayedHead": 20.59
     },
     {
       "id": "jump:1",
@@ -888,7 +888,7 @@
       "position": 1,
       "cell": 1,
       "label": "ascent",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 491,
       "angle": 8,
       "tip": [
@@ -900,13 +900,13 @@
         135
       ],
       "steel": 2146,
-      "displayed": 310.61,
+      "displayed": 309.2,
       "face": {
         "w": 72,
         "h": 57,
         "area": 1332
       },
-      "displayedHead": 23.09
+      "displayedHead": 22.98
     },
     {
       "id": "jump:2",
@@ -914,7 +914,7 @@
       "position": 2,
       "cell": 2,
       "label": "apex",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 475,
       "angle": -2,
       "tip": [
@@ -926,13 +926,13 @@
         128
       ],
       "steel": 1801,
-      "displayed": 300.49,
+      "displayed": 299.12,
       "face": {
         "w": 33,
         "h": 29,
         "area": 546
       },
-      "displayedHead": 14.78
+      "displayedHead": 14.71
     },
     {
       "id": "jump:3",
@@ -940,25 +940,25 @@
       "position": 3,
       "cell": 6,
       "label": "kick",
-      "scale": 0.632606,
-      "rawL": 506,
+      "scale": 0.629727,
+      "rawL": 500,
       "angle": 6,
       "tip": [
         524,
         846
       ],
       "pom": [
-        21,
-        792
+        27,
+        794
       ],
       "steel": 2223,
-      "displayed": 320.1,
+      "displayed": 314.86,
       "face": {
         "w": 32,
         "h": 29,
         "area": 561
       },
-      "displayedHead": 14.98
+      "displayedHead": 14.92
     },
     {
       "id": "jump:4",
@@ -966,7 +966,7 @@
       "position": 4,
       "cell": 4,
       "label": "descent",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 485,
       "angle": 12,
       "tip": [
@@ -978,13 +978,13 @@
         467
       ],
       "steel": 1997,
-      "displayed": 306.81,
+      "displayed": 305.42,
       "face": {
         "w": 35,
         "h": 29,
         "area": 568
       },
-      "displayedHead": 15.08
+      "displayedHead": 15.01
     },
     {
       "id": "jump:5",
@@ -992,7 +992,7 @@
       "position": 5,
       "cell": 5,
       "label": "landing",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 483,
       "angle": 9,
       "tip": [
@@ -1004,13 +1004,13 @@
         516
       ],
       "steel": 1444,
-      "displayed": 305.55,
+      "displayed": 304.16,
       "face": {
         "w": 31,
         "h": 29,
         "area": 529
       },
-      "displayedHead": 14.55
+      "displayedHead": 14.48
     },
     {
       "id": "fall:0",
@@ -1018,7 +1018,7 @@
       "position": 0,
       "cell": 0,
       "label": "topple",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 502,
       "angle": -16,
       "tip": [
@@ -1030,13 +1030,13 @@
         251
       ],
       "steel": 2269,
-      "displayed": 317.57,
+      "displayed": 316.12,
       "face": {
         "w": 30,
         "h": 32,
         "area": 585
       },
-      "displayedHead": 15.3
+      "displayedHead": 15.23
     },
     {
       "id": "fall:1",
@@ -1044,7 +1044,7 @@
       "position": 1,
       "cell": 1,
       "label": "airborne",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 470,
       "angle": -6,
       "tip": [
@@ -1056,13 +1056,13 @@
         213
       ],
       "steel": 2048,
-      "displayed": 297.32,
+      "displayed": 295.97,
       "face": {
         "w": 30,
         "h": 30,
         "area": 564
       },
-      "displayedHead": 15.02
+      "displayedHead": 14.96
     },
     {
       "id": "fall:2",
@@ -1070,7 +1070,7 @@
       "position": 2,
       "cell": 2,
       "label": "tumble",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 485,
       "angle": -1,
       "tip": [
@@ -1082,13 +1082,13 @@
         203
       ],
       "steel": 1733,
-      "displayed": 306.81,
+      "displayed": 305.42,
       "face": {
         "w": 36,
         "h": 29,
         "area": 419
       },
-      "displayedHead": 12.95
+      "displayedHead": 12.89
     },
     {
       "id": "fall:3",
@@ -1096,7 +1096,7 @@
       "position": 3,
       "cell": 3,
       "label": "impact",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 500,
       "angle": -2,
       "tip": [
@@ -1108,13 +1108,13 @@
         607
       ],
       "steel": 2539,
-      "displayed": 316.3,
+      "displayed": 314.86,
       "face": {
         "w": 34,
         "h": 31,
         "area": 632
       },
-      "displayedHead": 15.9
+      "displayedHead": 15.83
     },
     {
       "id": "fall:4",
@@ -1122,7 +1122,7 @@
       "position": 4,
       "cell": 4,
       "label": "DOWN",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 490,
       "angle": -2,
       "tip": [
@@ -1134,13 +1134,13 @@
         643
       ],
       "steel": 2679,
-      "displayed": 309.98,
+      "displayed": 308.57,
       "face": {
         "w": 33,
         "h": 25,
         "area": 565
       },
-      "displayedHead": 15.04
+      "displayedHead": 14.97
     },
     {
       "id": "getup:0",
@@ -1148,25 +1148,25 @@
       "position": 0,
       "cell": 6,
       "label": "elbow",
-      "scale": 0.529491,
-      "rawL": 500,
+      "scale": 0.527081,
+      "rawL": 554,
       "angle": 9,
       "tip": [
-        511,
-        940
+        568,
+        938
       ],
       "pom": [
-        17,
-        866
+        21,
+        851
       ],
-      "steel": 2412,
-      "displayed": 264.75,
+      "steel": 1786,
+      "displayed": 292,
       "face": {
-        "w": 76,
-        "h": 47,
-        "area": 1374
+        "w": 86,
+        "h": 61,
+        "area": 1570
       },
-      "displayedHead": 19.63
+      "displayedHead": 20.88
     },
     {
       "id": "getup:1",
@@ -1174,25 +1174,25 @@
       "position": 1,
       "cell": 1,
       "label": "kneel",
-      "scale": 0.529491,
-      "rawL": 469,
+      "scale": 0.527081,
+      "rawL": 574,
       "angle": 5,
       "tip": [
         1056,
         222
       ],
       "pom": [
-        588,
-        185
+        484,
+        170
       ],
       "steel": 2473,
-      "displayed": 248.33,
+      "displayed": 302.54,
       "face": {
         "w": 32,
         "h": 32,
         "area": 624
       },
-      "displayedHead": 13.23
+      "displayedHead": 13.17
     },
     {
       "id": "getup:2",
@@ -1200,25 +1200,25 @@
       "position": 2,
       "cell": 8,
       "label": "crouch",
-      "scale": 0.529491,
-      "rawL": 500,
-      "angle": 10,
+      "scale": 0.527081,
+      "rawL": 574,
+      "angle": 11,
       "tip": [
         1527,
         919
       ],
       "pom": [
-        1035,
-        829
+        963,
+        812
       ],
       "steel": 2182,
-      "displayed": 264.75,
+      "displayed": 302.54,
       "face": {
         "w": 34,
         "h": 32,
         "area": 632
       },
-      "displayedHead": 13.31
+      "displayedHead": 13.25
     },
     {
       "id": "getup:3",
@@ -1226,25 +1226,25 @@
       "position": 3,
       "cell": 3,
       "label": "half-rise",
-      "scale": 0.529491,
-      "rawL": 515,
-      "angle": 5,
+      "scale": 0.527081,
+      "rawL": 565,
+      "angle": 6,
       "tip": [
         568,
         586
       ],
       "pom": [
-        55,
-        538
+        6,
+        531
       ],
       "steel": 2398,
-      "displayed": 272.69,
+      "displayed": 297.8,
       "face": {
         "w": 31,
         "h": 33,
         "area": 614
       },
-      "displayedHead": 13.12
+      "displayedHead": 13.06
     },
     {
       "id": "getup:4",
@@ -1252,25 +1252,25 @@
       "position": 4,
       "cell": 4,
       "label": "stand",
-      "scale": 0.529491,
-      "rawL": 485,
+      "scale": 0.527081,
+      "rawL": 574,
       "angle": 10,
       "tip": [
         1074,
         556
       ],
       "pom": [
-        596,
-        475
+        509,
+        457
       ],
       "steel": 2414,
-      "displayed": 256.8,
+      "displayed": 302.54,
       "face": {
         "w": 30,
         "h": 30,
         "area": 556
       },
-      "displayedHead": 12.49
+      "displayedHead": 12.43
     },
     {
       "id": "misc:0",
@@ -1278,7 +1278,7 @@
       "position": 0,
       "cell": 0,
       "label": "hurt-recoil",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 488,
       "angle": -14,
       "tip": [
@@ -1290,13 +1290,13 @@
         214
       ],
       "steel": 2072,
-      "displayed": 308.71,
+      "displayed": 307.31,
       "face": {
         "w": 30,
         "h": 28,
         "area": 514
       },
-      "displayedHead": 14.34
+      "displayedHead": 14.28
     },
     {
       "id": "misc:1",
@@ -1304,7 +1304,7 @@
       "position": 1,
       "cell": 1,
       "label": "hurt-fold",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 461,
       "angle": 6,
       "tip": [
@@ -1316,13 +1316,13 @@
         168
       ],
       "steel": 2051,
-      "displayed": 291.63,
+      "displayed": 290.3,
       "face": {
         "w": 65,
         "h": 49,
         "area": 1129
       },
-      "displayedHead": 21.26
+      "displayedHead": 21.16
     },
     {
       "id": "misc:2",
@@ -1330,7 +1330,7 @@
       "position": 2,
       "cell": 2,
       "label": "grab-clamp",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 479,
       "angle": 1,
       "tip": [
@@ -1342,13 +1342,13 @@
         159
       ],
       "steel": 1929,
-      "displayed": 303.02,
+      "displayed": 301.64,
       "face": {
         "w": 31,
         "h": 29,
         "area": 548
       },
-      "displayedHead": 14.81
+      "displayedHead": 14.74
     },
     {
       "id": "misc:3",
@@ -1356,7 +1356,7 @@
       "position": 3,
       "cell": 7,
       "label": "grab-hold",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 484,
       "angle": -8,
       "tip": [
@@ -1368,13 +1368,13 @@
         831
       ],
       "steel": 2090,
-      "displayed": 306.18,
+      "displayed": 304.79,
       "face": {
         "w": 28,
         "h": 34,
         "area": 561
       },
-      "displayedHead": 14.98
+      "displayedHead": 14.92
     },
     {
       "id": "misc:4",
@@ -1382,7 +1382,7 @@
       "position": 4,
       "cell": 4,
       "label": "release",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 501,
       "angle": -5,
       "tip": [
@@ -1394,13 +1394,13 @@
         474
       ],
       "steel": 2520,
-      "displayed": 316.94,
+      "displayed": 315.49,
       "face": {
         "w": 29,
         "h": 30,
         "area": 534
       },
-      "displayedHead": 14.62
+      "displayedHead": 14.55
     },
     {
       "id": "special:0",
@@ -1408,7 +1408,7 @@
       "position": 0,
       "cell": 0,
       "label": "raise",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 483,
       "angle": -22,
       "tip": [
@@ -1420,13 +1420,13 @@
         223
       ],
       "steel": 1516,
-      "displayed": 305.55,
+      "displayed": 304.16,
       "face": {
         "w": 36,
         "h": 56,
         "area": 922
       },
-      "displayedHead": 19.21
+      "displayedHead": 19.12
     },
     {
       "id": "special:1",
@@ -1434,7 +1434,7 @@
       "position": 1,
       "cell": 1,
       "label": "coil",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 495,
       "angle": -1,
       "tip": [
@@ -1446,13 +1446,13 @@
         220
       ],
       "steel": 1518,
-      "displayed": 313.14,
+      "displayed": 311.71,
       "face": {
         "w": 29,
         "h": 27,
         "area": 487
       },
-      "displayedHead": 13.96
+      "displayedHead": 13.9
     },
     {
       "id": "special:2",
@@ -1460,7 +1460,7 @@
       "position": 2,
       "cell": 8,
       "label": "pre-spin",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 482,
       "angle": 3,
       "tip": [
@@ -1472,13 +1472,13 @@
         840
       ],
       "steel": 1485,
-      "displayed": 304.92,
+      "displayed": 303.53,
       "face": {
         "w": 28,
         "h": 27,
         "area": 467
       },
-      "displayedHead": 13.67
+      "displayedHead": 13.61
     },
     {
       "id": "special:3",
@@ -1486,7 +1486,7 @@
       "position": 3,
       "cell": 3,
       "label": "strike",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 503,
       "angle": 8,
       "tip": [
@@ -1498,13 +1498,13 @@
         491
       ],
       "steel": 1983,
-      "displayed": 318.2,
+      "displayed": 316.75,
       "face": {
         "w": 29,
         "h": 27,
         "area": 458
       },
-      "displayedHead": 13.54
+      "displayedHead": 13.48
     },
     {
       "id": "special:4",
@@ -1512,25 +1512,25 @@
       "position": 4,
       "cell": 4,
       "label": "follow",
-      "scale": 0.632606,
-      "rawL": 510,
+      "scale": 0.629727,
+      "rawL": 501,
       "angle": 14,
       "tip": [
         1091,
         602
       ],
       "pom": [
-        596,
-        481
+        604,
+        483
       ],
       "steel": 1740,
-      "displayed": 322.63,
+      "displayed": 315.49,
       "face": {
         "w": 55,
         "h": 34,
         "area": 618
       },
-      "displayedHead": 15.73
+      "displayedHead": 15.65
     },
     {
       "id": "rider:0",
@@ -1538,25 +1538,25 @@
       "position": 0,
       "cell": 0,
       "label": "idle",
-      "scale": 0.632606,
-      "rawL": 512,
+      "scale": 0.629727,
+      "rawL": 502,
       "angle": -4,
       "tip": [
         543,
         145
       ],
       "pom": [
-        32,
+        42,
         181
       ],
       "steel": 2397,
-      "displayed": 323.89,
+      "displayed": 316.12,
       "face": {
         "w": 30,
         "h": 32,
         "area": 603
       },
-      "displayedHead": 15.53
+      "displayedHead": 15.46
     },
     {
       "id": "rider:1",
@@ -1564,7 +1564,7 @@
       "position": 1,
       "cell": 1,
       "label": "trot",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 491,
       "angle": 11,
       "tip": [
@@ -1576,13 +1576,13 @@
         148
       ],
       "steel": 2232,
-      "displayed": 310.61,
+      "displayed": 309.2,
       "face": {
         "w": 32,
         "h": 32,
         "area": 625
       },
-      "displayedHead": 15.82
+      "displayedHead": 15.74
     },
     {
       "id": "rider:2",
@@ -1590,7 +1590,7 @@
       "position": 2,
       "cell": 2,
       "label": "mount",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 485,
       "angle": -9,
       "tip": [
@@ -1602,13 +1602,13 @@
         160
       ],
       "steel": 2332,
-      "displayed": 306.81,
+      "displayed": 305.42,
       "face": {
         "w": 25,
         "h": 40,
         "area": 422
       },
-      "displayedHead": 13
+      "displayedHead": 12.94
     },
     {
       "id": "rider:3",
@@ -1616,25 +1616,25 @@
       "position": 3,
       "cell": 3,
       "label": "sweep-windup",
-      "scale": 0.632606,
-      "rawL": 516,
+      "scale": 0.629727,
+      "rawL": 502,
       "angle": -9,
       "tip": [
         522,
         388
       ],
       "pom": [
-        13,
-        472
+        27,
+        470
       ],
       "steel": 2701,
-      "displayed": 326.42,
+      "displayed": 316.12,
       "face": {
         "w": 31,
         "h": 36,
         "area": 671
       },
-      "displayedHead": 16.39
+      "displayedHead": 16.31
     },
     {
       "id": "rider:4",
@@ -1642,7 +1642,7 @@
       "position": 4,
       "cell": 4,
       "label": "sweep",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 481,
       "angle": -5,
       "tip": [
@@ -1654,13 +1654,13 @@
         485
       ],
       "steel": 1962,
-      "displayed": 304.28,
+      "displayed": 302.9,
       "face": {
         "w": 33,
         "h": 33,
         "area": 736
       },
-      "displayedHead": 17.16
+      "displayedHead": 17.08
     },
     {
       "id": "rider:5",
@@ -1668,7 +1668,7 @@
       "position": 5,
       "cell": 5,
       "label": "dismount",
-      "scale": 0.632606,
+      "scale": 0.629727,
       "rawL": 480,
       "angle": 11,
       "tip": [
@@ -1680,13 +1680,13 @@
         482
       ],
       "steel": 1819,
-      "displayed": 303.65,
+      "displayed": 302.27,
       "face": {
         "w": 69,
         "h": 50,
         "area": 1177
       },
-      "displayedHead": 21.7
+      "displayedHead": 21.6
     }
   ]
 }

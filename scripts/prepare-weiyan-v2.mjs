@@ -44,14 +44,14 @@ const BOX = { width: 260, height: 144, groundY: 136 }
 const SHEETS = {
   walk: 'walk-v2-candidate-1.png',
   jab1: 'jab1-v2-prepared-source.png',
-  jab2: 'jab2-v2-prepared-source.png',
-  finisher: 'finisher-v2-prepared-source.png',
-  jump: 'jump-v2-retouched-source.png',
+  jab2: 'jab2-v2-normalized-source.png',
+  finisher: 'finisher-v2-normalized-source.png',
+  jump: 'jump-v2-normalized-source.png',
   fall: 'fall-v2-retouched-source.png',
-  getup: 'getup-v2-prepared-source.png',
+  getup: 'getup-v2-normalized-source.png',
   misc: 'misc-v2-prepared-source.png',
-  special: 'special-v2-prepared-source.png',
-  rider: 'rider-v2-retouched-source.png',
+  special: 'special-v2-normalized-source.png',
+  rider: 'rider-v2-normalized-source.png',
 }
 
 // Kept source cells per sequence (row-major 0..8), IN PLAY ORDER.

@@ -54,13 +54,14 @@ reserve-before-call, carried learnings) still applies.
   14.43MB (9.8% margin). Acceptance-4 DIAGNOSED: weapon
   FULL-56 31.3% FAIL (exact 15-cell list; per-sheet all pass),
   head auto VOID + consistency passes, direction max 30° PASS.
-  Next: 14-op campaign (getup elbow fixed by R1 redraw instead:
-  deterministic paths all failed, R1 500→554px accepted+spliced).
-  Fix script (bounds-check, drop graft, repoint getup input) +
-  run + seam reviews + re-measure. If ops fail gates/seams →
-  STOP → waiver request (09A/10A precedent). One authoring
-  request remains (focused ONLY). Repair reserve 2/3 remain.
-  Cross-sequence acceptance UNVERIFIED.
+  14-op campaign COMPLETE (bounds-check fixed, graft dropped,
+  getup input = repaired source): all gates green, achieved ±1px
+  on all 14, all 14 seams reviewed clean. Re-measure: weapon
+  FULL-56 9.1% PASS, direction max 29° PASS. NO waiver needed for
+  weapon. Next: offline continuity review (contact + 10 strips +
+  bookends), then DONE. One authoring request remains (focused
+  ONLY). Repair reserve 2/3 remain. Cross-sequence acceptance
+  VERIFIED (weapon+direction; head VOID+consistency per 10A).
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

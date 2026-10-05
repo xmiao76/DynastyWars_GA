@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 03:12 UTC - CMR-11A (attempt 1, IN_PROGRESS - acceptance campaign COMPLETE: weapon FULL-56 9.1% PASS, no waiver needed)
+
+- Status before: CMR-11A IN_PROGRESS; weapon FULL 31.3% FAIL
+  with 15-cell list; R1 fixed getup elbow, 14 retouch ops pending.
+  No PENDING FILING, review 1/4, unrelated `.gitignore` untouched.
+- Work completed: fixed campaign script (bounds-check every
+  placement/fill/sample — the wrap bug class; pristine per-op
+  snapshots; dropped graft/flood; repointed getup input to R1
+  repaired source) and ran all 14 ops: 6 extends + 8 shortens
+  across 6 files, every gate green (isolation, fill-target,
+  achieved ±1px on all 14 — 11 exact — counts, edges, atomic
+  write). Outputs: 6 `*-normalized-source.png` files.
+- Verification run: all 14 seams reviewed at 3x (3 contacts):
+  continuous shafts, intact caps/grips/neighbors — including
+  getup:1's 105px fill (uniform) and high-risk finisher:3 (no
+  smear). Re-pointed prepare + landmarks at normalized files and
+  re-ran: FULL-56 289.0–316.8 spread **9.1% PASS** (was 31.3%);
+  per-sequence 1.8%–8.3% all pass; direction max 29° PASS; head
+  unchanged (auto-VOID + consistency). Re-solve: base 0.629727,
+  deterministic manifest `58d10b89`, pages ≤2048², 14.42 MiB
+  (9.9% margin), 0 step-downs. Suspects 9→11 (2 new box overlaps
+  from lengthened shafts; alpha-separation verified, no merges —
+  ghost-sliver watch item for 11B). `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `retouch-weiyan-acceptance4.mjs` (new, verified),
+  6 normalized PNGs (new, force-added), `prepare-weiyan-v2.mjs`
+  (SHEETS→normalized), `landmarks-final-weiyan-v2.mjs` (FILES+
+  RECORDED→new), `landmarks-final.json` + `registration.json`
+  (new numbers), PROVENANCE.md, TASKS.md, AUTHORING-PLAN-V2.md,
+  PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; acceptance-4 weapon+
+  direction PASS. Only offline continuity review remains before
+  DONE. No runtime activation.
+- Remaining work or blocker: continuity review (contact sheet +
+  10 play-order strips + guard/down bookends at gameplay size).
+  No blocker. Budget 25/26, repair reserve 2/3.
+- Next recommended task: CMR-11A offline continuity review (no
+  image call; final gate before DONE).
+
 ### 2026-10-05 02:52 UTC - CMR-11A (attempt 1, IN_PROGRESS - R1 repair round ACCEPTED (getup elbow 500→554px, in-band); deterministic paths for it exhausted first)
 
 - Status before: CMR-11A IN_PROGRESS; acceptance-4 weapon FULL

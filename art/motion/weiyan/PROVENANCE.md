@@ -7,9 +7,11 @@
   fit, 9.8% margin). Acceptance-4 DIAGNOSED: weapon FULL-56
   31.3% FAIL (15-cell list), head auto VOID + consistency PASS,
   direction PASS. Repair R1 ACCEPTED (getup elbow 500→554px,
-  in-band); 14-cell retouch campaign next. One authoring request
-  remains. Global 200/two whole sheets/sequence unchanged; every
-  sequence used both whole-sheet slots (only focused edits remain).
+  in-band); 14-op retouch campaign COMPLETE, all seams verified.
+  Acceptance-4 weapon now **9.1% PASS**. Continuity review remains.
+  One authoring request remains. Global 200/two whole sheets/
+  sequence unchanged; every sequence used both whole-sheet slots
+  (only focused edits remain).
 - Repair reserve: 2/3 remain (R1 spent on getup:6; shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -27,6 +29,31 @@ remain.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### acceptance-4 campaign COMPLETE — weapon FULL-56 9.1% PASS 2026-10-05; manifest `58d10b89…`
+
+- `scripts/retouch-weiyan-acceptance4.mjs` ran all 14 ops with
+  every gate green: 6 extends (getup c1/c8/c3/c4 incl. the 105px
+  fill, jab2 c3/c4) + 8 shortens (finisher ×4 incl. high-risk c3,
+  jump c6, rider ×2, special c4). Achieved-vs-predicted ±1px on
+  all 14 (11 exact, 3 off-by-one); per-file counts/edges hold;
+  byte-identical rerun; 6 `*-normalized-source.png` outputs.
+- All 14 seams reviewed at 3x (3 contacts): continuous shafts,
+  intact caps/grips/neighbors — including the flagged risks
+  (getup:1 long fill reads uniform; finisher:3 landing shows no
+  smear). No op failed; no waiver needed for weapon.
+- Re-measure (`landmarks-final.json`, cross-check clean): FULL-56
+  289.0–316.8, mean ~303.8, spread **9.1% PASS** (was 31.3%);
+  per-sequence 1.8%–8.3% all pass; direction max 29° PASS. Head
+  stays auto-VOID (71.8%, verified junk) with consistency
+  evidence (walk 3.8%, guards 4.1%). Re-solve: base 0.629727,
+  deterministic `58d10b89`, pages ≤2048², 14.42 MiB (9.9%
+  margin), 0 step-downs. Suspects 9→11 (2 new bounds-overlaps
+  from lengthened boxes; alpha-separation verified, no merges).
+- Watch item for 11B: more kept↔kept box overlaps (ghost-sliver
+  shared pipeline limitation, same class as zhangfei/zhaoyun).
+- Remaining: offline continuity review (contact + 10 strips +
+  bookends), then DONE. Budget 25/26, repair 2/3.
 
 ### acceptance-4 R1 — getup elbow redrawn 500→554px, ACCEPTED + spliced 2026-10-05; sha `12d3981d…`
 
