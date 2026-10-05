@@ -377,11 +377,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   (getup tail 248-273 + finisher top 343.5; exact 15-cell failing
   list recorded); head auto-method VOID (verified pauldron/hand
   misfires) with consistency evidence passing (walk 3.7%, guards
-  4.1%); direction max 30° PASS. Getup repair room probed (4×
-  rear-extend fit, 1× needs novel forward op). Next: bounded
-  15-cell deterministic retouch campaign (no image requests).
-  Ledger 25/26; repair reserve 3/3 untouched; no runtime or decode
-  exception. See V2 plan/provenance.
+  4.1%); direction max 30° PASS. All 15 repair cells profiled
+  (axis/slab/room + per-cell shifts recorded): 14× proven ops
+  GO, getup:0 needs novel forward blade-assembly op (space
+  verified); 3 risks flagged (105px fill, finisher:2 landing
+  dirt, novel op). Next: campaign script + run + seam reviews +
+  re-measure (no image requests). Ledger 25/26; repair reserve
+  3/3 untouched; no runtime or decode exception. See V2
+  plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

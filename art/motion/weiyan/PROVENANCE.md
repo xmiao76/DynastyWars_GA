@@ -6,9 +6,10 @@
   Pack re-solved with VERIFIED getup factor 0.837 (16MB-first
   fit, 9.8% margin). Acceptance-4 DIAGNOSED: weapon FULL-56
   31.3% FAIL (15-cell list), head auto VOID + consistency PASS,
-  direction PASS. Repair campaign next. One authoring request
-  remains. Global 200/two whole sheets/sequence unchanged; every
-  sequence used both whole-sheet slots (only focused edits remain).
+  direction PASS. All 15 repair cells profiled, campaign GO (3
+  flagged risks). One authoring request remains. Global 200/two
+  whole sheets/sequence unchanged; every sequence used both
+  whole-sheet slots (only focused edits remain).
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -26,6 +27,36 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### acceptance-4 repair profile — 15 cells scoped, campaign GO (3 risks) 2026-10-05
+
+- Profiler measured axis/slab/clearance for every failing cell
+  (band [288.9,319.3] displayed, targets ≈304 centre except where
+  room forces band-edge). Per-cell ops (raw px, T0=20 all):
+- EXTENDS (rear cap-slide + median fill, proven): getup c1
+  469→574 (+105, room 400, slab [20,40]); getup c8 500→574 (+74,
+  room 400); getup c4 485→574 (+89, room 256); getup c3 515→565
+  (+50 REDUCED for 56px edge room, lands 6px clear, displayed
+  299.1 ✓); jab2 c3 453→481 (+28, room 125); jab2 c4 451→481
+  (+30, room 234). All slabs clean, all gaps land empty (gates
+  re-verify).
+- SHORTENS (cap-forward overlap, DOWN precedent): finisher c0
+  522→503 (+19, landing [20,39] clean); c1 510→503 (+7);
+  c6 506→500 (+6); jump c6 506→500 (+6); rider c0 512→502 (+10);
+  c3 516→502 (+14); special c4 510→502 (+8) — all landings clean
+  shaft. Finisher c3 543→503 (+40): landing crosses sparse
+  finger/stray pixels t∈[48,60] — HIGH-RISK, review-gated.
+- NOVEL: getup c6 500→574 (+74) canNOT go rear (17px to sheet
+  edge) → forward blade-assembly extension (400px clear space);
+  T1 + hand profiled in campaign; method sound, unproven.
+- Risks: (1) getup:1 +105px fill (longest ever; gameplay view
+  decides, 5x will look harsh); (2) finisher c3 landing dirt
+  (seam review); (3) getup c6 novel forward op. Predicted final
+  spread ≈9.1% (bound by unrepaired walk:2 290.4 / special:3
+  318.2). Any op failing gates/seams → cell stays → re-evaluate
+  (waiver path if gate still fails).
+- Next: campaign script (15 ops) + run + seam reviews + re-measure.
+  No image requests; budget stays 25/26.
 
 ### acceptance-4 diagnosis — weapon FULL 31.3% FAIL, head VOID, direction PASS 2026-10-05; landmarks `landmarks-final.json`
 

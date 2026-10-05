@@ -54,11 +54,13 @@ reserve-before-call, carried learnings) still applies.
   14.43MB (9.8% margin). Acceptance-4 DIAGNOSED: weapon
   FULL-56 31.3% FAIL (exact 15-cell list; per-sheet all pass),
   head auto VOID + consistency passes, direction max 30° PASS.
-  Next: bounded 15-cell deterministic retouch campaign (no image
-  requests); if ops fail gates/seams → STOP → waiver request
-  (09A/10A precedent). One authoring request remains (focused
-  ONLY). All whole-sheet slots consumed, repair 3/3 remains
-  acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
+  Next: campaign script (15 ops) + run + seam reviews +
+  re-measure (no image requests); if ops fail gates/seams →
+  STOP → waiver request (09A/10A precedent). All 15 cells
+  profiled with per-cell parameters recorded. One authoring
+  request remains (focused ONLY). All whole-sheet slots consumed,
+  repair 3/3 remains acceptance-4-only. Cross-sequence acceptance
+  UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

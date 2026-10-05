@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 02:18 UTC - CMR-11A (attempt 1, IN_PROGRESS - repair campaign batch 1: all 15 cells profiled, campaign GO with 3 risks)
+
+- Status before: CMR-11A IN_PROGRESS; acceptance-4 diagnosed
+  (weapon FULL-56 31.3% FAIL, 15-cell list). No PENDING FILING,
+  review 1/4, unrelated `.gitignore` untouched.
+- Work completed: wrote + ran a 15-cell profiler (axis, cap/
+  ferrule centroids, cross-axis opacity profile, bidirectional
+  clearance raycasts) over the six affected final sources. Set
+  per-cell op parameters against band [288.9,319.3] (target
+  ≈304 displayed): 7 extends (getup ×5 incl. reduced +50 for
+  cell3's 56px edge room, jab2 ×2) + 8 shortens (finisher ×4,
+  jump:3, rider ×2, special:4, mostly band-top targets to keep
+  landings in clean shaft). Predicted final spread ≈9.1%
+  (bound by unrepaired walk:2/special:3).
+- Verification run: profiler output reviewed cell by cell (all
+  T0 zones narrow/clean; slabs placed in clean spans; rooms
+  verified: worst cases getup:1 back-400 for +105, getup:3
+  back-56 for +50, finisher:2 landing crosses sparse pixels
+  t≥48). 3 risks flagged honestly: (1) getup:1 +105px fill
+  (longest ever; gameplay view decides); (2) finisher:2 landing
+  dirt (seam review gates it); (3) getup:0 needs NOVEL forward
+  blade-assembly extension (rear room only 17px; 400px clear
+  forward space verified; T1/hands profiled in campaign).
+  No art changed this turn (diagnostic). `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: PROVENANCE.md (per-cell campaign table),
+  TASKS.md, AUTHORING-PLAN-V2.md, PROGRESS.md. Profiler stays in
+  ignored artifacts/.
+- Result/status after: CMR-11A IN_PROGRESS; campaign fully
+  scoped with parameters. No runtime activation.
+- Remaining work or blocker: campaign script (15 ops) + run +
+  seam reviews + re-measure + verdict; then continuity review. No
+  blocker. Budget 25/26, repair reserve 3/3.
+- Next recommended task: CMR-11A campaign script + run (batch 2).
+
 ### 2026-10-05 02:11 UTC - CMR-11A (attempt 1, IN_PROGRESS - acceptance-4 DIAGNOSED: weapon FULL 31.3% FAIL, head VOID, direction PASS; repair campaign scoped)
 
 - Status before: CMR-11A IN_PROGRESS; pack fitted, acceptance-4
