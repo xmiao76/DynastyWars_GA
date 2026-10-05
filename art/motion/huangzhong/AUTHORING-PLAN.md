@@ -1,11 +1,11 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 6/10 ACCEPTED; getup single-fix 1/3 DONE (c3 266 in-band, pose kept); 15/20 spent, 5 left (2 fixes + 3 sheets).
+Status: 6/10 ACCEPTED; getup single-fix 2/3 DONE (c3 266, c4 270, poses kept); 16/20 spent, 4 left (1 fix + 3 sheets).
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 20 (owner +3 2026-10-05), used 15 (+getup
-  single-fix 1/3, DONE). Global 107/200. Two whole-sheet
+- huangzhong cap 20 (owner +3 2026-10-05), used 16 (+getup
+  single-fix 2/3, DONE). Global 108/200. Two whole-sheet
   candidates per sequence, unchanged (getup 1/2 left).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused
   corrections before any repair need. Repair reserve 3/3 untouched

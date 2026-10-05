@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 15/20 used (6/10 ACCEPTED; owner +3 funded; getup
-  single-fix 1/3 DONE — cell 3 bow 310→266 in-band, pose kept).
-  Global 107/200; getup 1/2 left. Repair reserve 3/3 untouched
-  (shared with CMR-12B, acceptance-4 only). BUDGET: 5 left (2
-  getup fixes + 3 sheets) — back on rails.
+- Authoring: 16/20 used (6/10 ACCEPTED; getup single-fix 2/3
+  DONE — cells 3+4 banked 266/270 in-band, poses kept). Global
+  108/200; getup 1/2 left. Repair reserve 3/3 untouched (shared
+  with CMR-12B, acceptance-4 only). BUDGET: 4 left (1 fix + 3
+  sheets) — on rails.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,24 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 16/20 — getup single-fix 2/3: cell 4 DONE (300→270 dead-center) 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/getup)` → used 16,
+  remaining 4, total 108 (guard: expected 15/20, held).
+- Exact prompt: `getup-fix3-prompt.txt` (ONLY cell 4, pose kept,
+  bow ~270–275). Ordered refs: getup orig (vehicle, FIRST),
+  weapon-spec, fall, body, portrait. One image, first try.
+- Output: `getup-fix-3.png` sha `53f34305…` (1536×1024).
+  Mechanical: 9/9, 0 edge (layout obeyed — single-cell briefs
+  now 4/4). 3x zone read: rising-crouch pose kept EXACTLY,
+  single vertical bow + string + air, no extras. Chord
+  (953,358)-(945,628) = 270.1px — DEAD CENTER of band (inside
+  the 255–285 continue window; no abort). Banked (only cell 4
+  used).
+- Next: fix 3/3 (cell 5, same pattern) → splice {3: fix-2, 4:
+  fix-3, 5: fix-4} + full re-measure + verdict. 4 left = 1 fix
+  + 3 sheets exactly.
 
 ### Request 15/20 (owner +3 funded) — getup single-fix 1/3: cell 3 DONE (310→266 in-band) 2026-10-05
 

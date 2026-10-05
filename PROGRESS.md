@@ -22,6 +22,31 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 10:15 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup single-fix 2/3 DONE (cell 4 270 dead-center))
+
+- Status before: CMR-12A IN_PROGRESS (getup fix 1/3 banked, 15/20).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved BEFORE the call (16/20, global 108/200),
+  generated `getup-fix-3.png` sha `53f34305` (one image, first try;
+  ONLY cell 4). Audited 9/9, 0 edge (layout obeyed — single-cell
+  briefs now 4/4). 3x zone read: rising-crouch pose kept EXACTLY,
+  single vertical bow + string + air, no extras; chord
+  (953,358)-(945,628) = 270.1px — DEAD CENTER of band (inside the
+  255–285 continue window; no abort). Banked (only cell 4 used).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (16/20),
+  `getup-fix-3.png` + prompt (new, force-added), PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 16/20).
+- Remaining work or blocker: fix 3/3 (cell 5, same pattern) →
+  splice {3: fix-2, 4: fix-3, 5: fix-4} + re-measure + verdict.
+  No blocker. 4 left = 1 fix + 3 sheets exactly.
+- Next recommended task: CMR-12A getup fix 3/3 (cell 5, reserve
+  first; abort to reassess if outside 255–285).
+
 ### 2026-10-05 10:04 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup single-fix 1/3 DONE (cell 3 266 in-band))
 
 - Status before: CMR-12A BLOCKED (funded 3-cell fix failed);
