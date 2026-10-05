@@ -1,6 +1,6 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 10/10 ACCEPTED + pack built; acceptance-4: weapons 47.22% + head-void → WAIVER REQUESTED, BLOCKED; 20/20 spent.
+Status: CMR-12A DONE (owner waived item 4 2026-10-05; all 7 boxes checked). Pack huangzhong-1 complete. 20/20 spent.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 

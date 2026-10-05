@@ -1,6 +1,6 @@
 # CMR-12A — Huang Zhong: author and prepare complete whole-character pack
 
-- Queue status: IN_PROGRESS (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
+- Queue status: DONE (attempt 1, 2026-10-05; owner waived item 4 same day). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-11B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-12B](CMR-12B.md) is the separate runtime/capture task.
 
@@ -31,13 +31,13 @@ For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTI
 
 ## Acceptance
 
-- [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
-- [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
-- [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
-- [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
-- [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
-- [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
+- [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
+- [x] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
+- [x] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
+- [x] WAIVED by owner 2026-10-05 (weapons 47.22% FULL + head-void; 07A/09A precedent class) — was: comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge.
+- [x] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
+- [x] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
+- [x] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
 
 ## Checks/handoff
 

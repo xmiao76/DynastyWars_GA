@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 19:03 UTC - CMR-12A (attempt 1, DONE - owner waived item 4; all 7 acceptance items closed)
+
+- Status before: CMR-12A BLOCKED (acceptance-4 waiver requested).
+  Owner replied "waive now, mark DONE". No PENDING FILING, review
+  2/4 (not due), unrelated `.gitignore` untouched.
+- Work completed: recorded the owner waiver (item 4 closed with
+  documented limitation: weapons 47.22% FULL over N=57 verified
+  chords + head-void; 07A/09A precedent class), checked all 7
+  boxes in `docs/motion-tasks/CMR-12A.md`, marked 12A DONE.
+  Evidence recap: 10/10 sequences accepted (6 as-is, 3 spliced,
+  1 remapped+jump-style, 1 waived-diagonal DOWN); pack
+  `huangzhong-1` deterministic (`0e8b5c49`, 57/57 unique, 1 page,
+  12.1MiB); continuity PASS all 11 display sheets; zero 12A
+  src/game changes (git-verified); no runtime activation; budget
+  20/20 exactly (extensions documented + tested); repair reserve
+  3/3 handed to 12B intact (with fall-DOWN re-confirm handoff).
+- Verification run: FULL unit suite 951 passed + 6 skipped with
+  ONLY the known G6 `arm-chain.test.ts` V-15b failure (confirmed
+  same file/test, pre-existing, owner-blocked UIR-16, unrelated —
+  zero 12A src changes); motion budget+pipeline 37/37; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e (no
+  UI/shipping changes; offline pack only).
+- Files changed: PROVENANCE.md (waiver), AUTHORING-PLAN.md (done),
+  TASKS.md (DONE), `docs/motion-tasks/CMR-12A.md` (status +
+  checked boxes), PROGRESS.md.
+- Result/status after: CMR-12A DONE (attempt 1). CMR-12B (runtime
+  integration/review) UNBLOCKED — next consumer takes it.
+- Remaining work or blocker: none on 12A. Queue: 12B ready.
+- Next recommended task: CMR-12B (consumer).
+
 ### 2026-10-05 18:44 UTC - CMR-12A (attempt 1, BLOCKED - reviewed owner framework arrivals; waiver still pending)
 
 - Status before: CMR-12A BLOCKED (acceptance-4 waiver requested).

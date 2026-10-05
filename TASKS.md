@@ -408,12 +408,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1; continuity review PASSED all 11 sheets
-  (arcs legible, identity stable, bookends present, ground correct,
-  no defects observed); ONLY item 4 remains — OWNER DECISION NEEDED
-  on acceptance-4: weapons 47.22% + head-void, waiver requested
-  (07A/09A precedents); repair infeasible (~40 cells vs 27
-  capacity). Prior: owner funded +3 2026-10-05 for
+- Status: DONE (attempt 1, 2026-10-05, verified same day). Owner
+  waived item 4 ("waive now, mark DONE"): weapons 47.22% FULL +
+  head-void with documented limitation (07A 18.2% / 09A 88.3%
+  precedent class). All other items verified: 57/57 unique frames,
+  1 page, 12.1MiB, deterministic `0e8b5c49`; continuity PASS all
+  11 sheets; zero 12A src/game changes; no runtime activation.
+  Repair reserve 3/3 handed to 12B intact (+ fall-DOWN re-confirm
+  handoff). CMR-12B unblocked. Prior: owner funded +3 2026-10-05
+  for
   sequential single-cell getup fixes (cap 20); all three DONE
   (c3 266.2, c4 270.1, c5 270.2, poses kept); spliced
   (`0ea3732e`, deterministic) keep [0..5] = 7.45% robust PASS,

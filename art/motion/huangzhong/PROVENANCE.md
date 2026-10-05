@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 20/20 used (10/10 ACCEPTED; pack built; acceptance-4:
-  weapons 47.22% + head-void → WAIVER REQUESTED). Global 112/200.
-  Repair reserve 3/3 untouched (shared with CMR-12B,
+- Authoring: 20/20 used (10/10 ACCEPTED; pack huangzhong-1 built;
+  acceptance-4 WAIVED by owner 2026-10-05 — TASK DONE). Global
+  112/200. Repair reserve 3/3 untouched (shared with CMR-12B,
   acceptance-4 only). Per-sheet factors all 1 (figures uniform;
-  verified correct). No requests remain for art.
+  verified correct).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,29 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Owner waiver 2026-10-05 ("waive now, mark DONE") → CMR-12A DONE
+
+- Owner granted the acceptance-4 waiver by direct instruction
+  (decision reply, no new evidence required): item 4 closed with
+  documented limitation (weapons 47.22% FULL over N=57 verified
+  chords, min 184.0 walk → max 300.3 misc/rider; heads VOID —
+  face gate merges gold/beard, demonstrated). Precedent class:
+  07A (spears 18.2%) and 09A (weapons 88.3% FULL + head-void).
+- All 7 acceptance items now closed: (1) manifest complete, 57/57
+  unique frames, no old-part reuse; (2) identity/anatomy verified
+  across all sheets + continuity review; (3) pivots/ground ≤1.5u
+  by pipeline anchoring + visual pass, no clipping/halo; (4)
+  WAIVED (this entry); (5) 1 page 1988×1594, 12.1MiB ≤ 16MiB,
+  deterministic manifest `0e8b5c49`, hashes/provenance complete;
+  (6) continuity reviewed on all 11 display sheets with bookends
+  stable (fall DOWN diagonal noted under the earlier fall waiver);
+  (7) zero 12A src/game changes (git-verified), no runtime
+  activation (pack stays ignored for 12B).
+- Repair reserve 3/3 untouched — handed to CMR-12B intact, with
+  the standing handoffs: (a) fall diagonal DOWN re-confirmation,
+  (b) acceptance-4 weapon drift awareness (no action required
+  unless integration review demands it).
 
 ### Continuity review (no image call): PASS on all 11 sheets; item 4 waiver still sole blocker 2026-10-05
 
