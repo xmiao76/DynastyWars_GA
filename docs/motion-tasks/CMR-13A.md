@@ -1,6 +1,6 @@
 # CMR-13A — Li Dian: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: IN_PROGRESS (attempt 1; setup done, walk sheet next).
 - Dependencies: CMR-12B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-13B](CMR-13B.md) is the separate runtime/capture task.
 

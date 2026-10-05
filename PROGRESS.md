@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 20:44 UTC - CMR-13A (attempt 1, IN_PROGRESS - setup: identity locked, 7-sheet plan, 0/12)
+
+- Status before: CMR-12B DONE; CMR-13A TODO (first in queue,
+  dependency met). No PENDING FILING, review 3/4 (not due),
+  unrelated `.gitignore` untouched.
+- Work completed (setup slice, NO image call): read the 13A spec
+  (boss, glaive, cap 12, new item-4 process mandates); inspected
+  body + portrait masters (clean-shaven officer, blue helmet/
+  scale armor, lean build); read rig truth (glaive 76u/haft 5.2/
+  crescent/tassel; BOSS_LEAN 1.04/1.08/1.08/0.94) + enemy def (hp
+  180, speed 1.1, hitstun 10) + attack windows (charge 10/18/20,
+  combo 9/4/12, heavy 16/6/24); read `pack-projection.mjs` fully
+  (fix-once band from walk median, per-sheet gate, drift check)
+  + heads overlay-landmark protocol. Wrote `IDENTITY.md` (binding
+  terms), `AUTHORING-PLAN.md` (7 sheets: walk/charge/combo/heavy/
+  misc/fall/getup; no jump/mounted/special; projection + retouch
+  process), `PROVENANCE.md` (scaffold + setup entry).
+- Verification run: `npm run lint`, `npm run typecheck` green
+  (docs-only turn; no units affected). No vision/prodbuild/e2e.
+- Files changed: `art/motion/lidian/{IDENTITY,AUTHORING-PLAN,
+  PROVENANCE}.md` (new, force-added), TASKS.md (13A IN_PROGRESS),
+  CMR-13A.md (status), PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 0/12).
+- Remaining work or blocker: walk sheet 1/2 (reserve first; boss
+  cap 12) → on acceptance, fix the global brief band from its
+  median → remaining 6 sheets under the running gate. No blocker.
+- Next recommended task: CMR-13A walk sheet.
+
 ### 2026-10-05 20:33 UTC - CMR-12B (attempt 1, DONE - all gates green, all 8 acceptance items verified)
 
 - Status before: CMR-12B IN_PROGRESS (slices 1-2 done). No PENDING
