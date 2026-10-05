@@ -413,9 +413,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   (c3 266.2, c4 270.1, c5 270.2, poses kept); spliced
   (`0ea3732e`, deterministic) keep [0..5] = 7.45% robust PASS,
   direction 0.9° pass → getup ACCEPTED (5 requests). 7/10 done.
-  Next: misc sheet (reserve first). Ledger 17/20, global 109/200;
-  3 left for 3 sheets (misc/special/rider). Prior BLOCKED detail
-  preserved below.
+  Misc sheet 1/2 (`bad2eceb`, 9/9 verticals, poses pass): cell 4
+  DETACHED bow (mechanical defect, 10 components) → release
+  remapped to spare cell 8 (upright ward-off read); deterministic
+  repair assessed + rejected (68px gap too large). Keep
+  [0,1,2,3,8] = ~0% PASS overlay-verified, direction 0.2° pass →
+  misc ACCEPTED (1 request). 8/10 done. Next: special sheet
+  (reserve first). Ledger 18/20, global 110/200; 2 left for 2
+  sheets (special/rider). Prior BLOCKED detail preserved below.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;

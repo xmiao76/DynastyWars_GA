@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 17/20 used (7/10 ACCEPTED; getup via 3 single
-  fixes + splice, keep 7.45% robust pass). Global 109/200; getup
-  1/2 left. Repair reserve 3/3 untouched (shared with CMR-12B,
-  acceptance-4 only). BUDGET: 3 left for 3 sheets (misc/special/
+- Authoring: 18/20 used (8/10 ACCEPTED; misc via [0,1,2,3,8]
+  remap (cell 4 detached), ~0% spread). Global 110/200; misc 1/2
+  left. Repair reserve 3/3 untouched (shared with CMR-12B,
+  acceptance-4 only). BUDGET: 2 left for 2 sheets (special/
   rider) — exactly on rails.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
@@ -16,6 +16,34 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 18/20 — misc 3x3 sheet candidate 1/2: cell 4 detached → remap [0,1,2,3,8] → ACCEPTED 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/misc)` → used 18,
+  remaining 2, total 110 (guard: expected used=17, held).
+- Exact prompt: `misc-prompt.txt` (hurt/grab arc, vertical bows +
+  observability, 260–275px band). Ordered refs: weapon-spec,
+  body, portrait, getup-prepared `0ea3732e` (read_image'd first —
+  first try, zero errors).
+- Output: `misc-candidate-1.png` sha `bad2eceb…` (1536×1024).
+  Mechanical: TEN components (not 9!) — cell 4's bow is DETACHED
+  (43×303 strip at x949–991, 64px gap to the fist; release-shove
+  pose extended the arm past the bow). All other cells clean,
+  0 edge. Design: 9/9 vertical recurves, distinct hurt/grab arc,
+  lock match, zero other defects. Poses ACCEPTED.
+- Deterministic-repair assessment: translating the bow 68px into
+  the fist was REJECTED without executing (gap too large to read
+  as a touch-up; composition override risk; script scaffolded
+  then abandoned when the gap measured 64px, not ~20px).
+- Remap (no image call): release slot 4 → spare cell 8 (upright
+  ward-off read, coherent; orig c4 culled on the demonstrated
+  mechanical defect). 2x zone reads + overlay (read; all 10
+  markers on wood, chords track): keep [300.3×5] in play order
+  [0,1,2,3,8], spread **~0% (≤3% with tolerances) PASS** —
+  tightest yet (uniform poses → uniform bows); direction max
+  0.2° PASS. Culls: 4 (detached), 5,6,7 (spares).
+- Verdict: misc ORIG ACCEPTED via remap (no splice). Cost: 1
+  request. 8/10 sequences done.
 
 ### Request 17/20 — getup single-fix 3/3 (cell 5: 310→270) + splice + 7.45% PASS → ACCEPTED 2026-10-05
 

@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 11:23 UTC - CMR-12A (attempt 1, IN_PROGRESS - misc ACCEPTED via [0,1,2,3,8] remap, ~0% spread)
+
+- Status before: CMR-12A IN_PROGRESS (7/10 accepted, 17/20). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved misc sheet 1/2 BEFORE the call (18/20,
+  global 110/200) and generated `misc-candidate-1.png` sha
+  `bad2eceb` (first try, zero errors; sibling ref pre-registered).
+  Audited TEN components — cell 4's bow DETACHED (43×303 strip,
+  64px gap to fist; release-shove overextended). All else clean,
+  0 edge; design fully clean (9/9 verticals, distinct hurt/grab
+  arc). Deterministic repair ASSESSED and rejected without
+  executing (68px teleport = composition override, not touch-up).
+  Remapped release → spare cell 8 (upright ward-off read);
+  overlay-verified (all 10 markers on wood): keep [300.3×5] in
+  play order [0,1,2,3,8], spread **~0% PASS** (≤3% with
+  tolerances — tightest yet); direction max 0.2° pass. Culls 4
+  (detached), 5,6,7. Misc ACCEPTED (1 request).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (18/20),
+  `misc-candidate-1.png` + `misc-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 18/20).
+  8/10 sequences accepted.
+- Remaining work or blocker: special sheet candidate 1/2 (reserve
+  first; hz.special INERT swing + arrow at start — paint NO
+  arrows!). No blocker. 2 left for 2 sheets exactly.
+- Next recommended task: CMR-12A special sheet.
+
 ### 2026-10-05 10:48 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup ACCEPTED via 3 singles + splice, 7.45% robust pass)
 
 - Status before: CMR-12A IN_PROGRESS (getup fixes 2/3 banked,
