@@ -22,6 +22,44 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 01:59 UTC - CMR-11A (attempt 1, IN_PROGRESS - v2 guard measurement VERIFIED, getup factor 0.837 applied, pack re-solved)
+
+- Status before: CMR-11A IN_PROGRESS; v2 pack first solve fit at
+  factors=1 UNVERIFIED. No PENDING FILING, review 1/4, unrelated
+  `.gitignore` untouched.
+- Work completed: wrote `scripts/measure-weiyan-v2.mjs` (v1 script
+  untouched; same skin-cluster + bbox method, v2 sources,
+  guard-like cells walk:0 + getup:4). Ran it → wrote
+  `measurements-v2-raw.json` + `scale-compare-v2.json`.
+- Verification run: guard faces VERIFIED on a rendered overlay
+  (green boxes on true face bands, red centre lines, yellow
+  ground lines): walk:0 24×27 f2g 276, getup:4 30×30 f2g 332.
+  Proxies ground 0.831 + height 0.844 agree (spread 0.013) →
+  factor 0.837 APPLIED to getup (visibly oversized, shrink
+  genuine). Honest thin spot recorded: walk face-size evidence
+  n<3 (gate w≥25 misses walk:0's 24px face by 1px), so the
+  informational per-sheet face factors are junk — but the applied
+  rule uses only the two VERIFIED geometric proxies; no gate
+  changes. Re-ran `prepare-weiyan-v2.mjs`: base 0.632606, 56/56
+  unique, deterministic manifest `2fef24a5`, pages ≤2048²,
+  14.43 MiB (9.8% margin), 0 step-downs, same 9 review-flag
+  suspects; guard 201.8px = 84.1% Guan Yu. `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `measure-weiyan-v2.mjs` (new),
+  `measurements-v2-raw.json` + `scale-compare-v2.json` (new,
+  force-added), `registration.json` (new solve numbers),
+  PROVENANCE.md, TASKS.md, AUTHORING-PLAN-V2.md, PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; pack fitted with
+  verified factors. Acceptance-4 landmarks + continuity review
+  remain; no runtime activation.
+- Remaining work or blocker: cross-sequence acceptance-4
+  (head/weapon spread, direction steps at fitted scale) +
+  offline continuity review. No blocker. Budget 25/26.
+- Next recommended task: CMR-11A v2 acceptance-4 landmarks (no
+  image call).
+
 ### 2026-10-05 01:52 UTC - CMR-11A (attempt 1, IN_PROGRESS - v2 pack first solve FITS 16MB at factors=1 UNVERIFIED)
 
 - Status before: CMR-11A IN_PROGRESS (all 10 v2 sequences

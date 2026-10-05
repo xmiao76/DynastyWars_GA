@@ -1,0 +1,7 @@
+{
+  "method": "guard figure bbox height ratio vs walk (same standing-guard pose); only sheets with a guard-like cell",
+  "ratios": {
+    "walk": 1,
+    "getup": 0.844
+  }
+}

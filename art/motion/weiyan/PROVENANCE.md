@@ -3,9 +3,9 @@
 - Authoring: 25/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. ALL TEN v2 sequences source-accepted.
-  Pack FIRST SOLVE done (16MB-first fit proven at factors=1
-  UNVERIFIED). One authoring request remains; acceptance-4 +
-  continuity unverified. Global 200/two whole sheets/sequence
+  Pack re-solved with VERIFIED getup factor 0.837 (16MB-first
+  fit, 9.8% margin). One authoring request remains; acceptance-4
+  + continuity unverified. Global 200/two whole sheets/sequence
   unchanged; every sequence used both whole-sheet slots (only
   focused edits remain).
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
@@ -25,6 +25,34 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### v2 guard measurement — getup factor 0.837 VERIFIED, pack re-solved 2026-10-05; manifest `2fef24a5…`
+
+- New `scripts/measure-weiyan-v2.mjs` (v1 script untouched): same
+  skin-cluster + bbox method over the ten v2 sources; guard-like
+  cells walk:0 + getup:4 only (no other standing guards). Wrote
+  `measurements-v2-raw.json` + `scale-compare-v2.json`.
+- Guard faces VERIFIED on overlay (green boxes on true
+  eyes/nose/cheeks bands, red centre lines, yellow ground lines):
+  walk:0 face 24×27 area 423 f2g 276; getup:4 face 30×30 area
+  556 f2g 332. Proxies: ground 276/332=0.831, height 319/378=
+  0.844; spread 0.013 ≤0.05, mean → factor 0.837 APPLIED
+  (getup visibly oversized in overlay, shrink genuine).
+  Face-area proxy 0.872 recorded, unused by rule.
+- Honest thin spot: walk face-size evidence n<3 (walk:0's own
+  24px-wide face misses the w≥25 gate by 1px) → referenceFaceSize
+  =26.46 rests on <3 faces and per-sheet face-size factors are
+  informational JUNK; the applied rule uses only the two
+  geometric proxies (verified above). No gate changes (would be
+  cherry-picking).
+- Re-solve: base 0.632606 (was 0.623906), getup scale 0.529491,
+  all else factor 1 UNVERIFIED (correct — no guard cells).
+  56/56 unique, deterministic manifest `2fef24a5`, pages ≤2048²,
+  15,127,960 B = 14.43 MiB (9.8% margin), 0 step-downs, 9
+  bounds-overlap suspects (same review-flag class). Guard 201.8px
+  = 84.1% Guan Yu.
+- Next: cross-sequence acceptance-4 landmarks + offline continuity
+  review. No runtime activation.
 
 ### v2 pack first solve — FITS 16MB, factors UNVERIFIED 2026-10-05; manifest `007790c5…`
 

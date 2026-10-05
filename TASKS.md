@@ -367,10 +367,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   manifest `007790c5`, pages ≤2048², 15.21MB ≤16MB (9.3% margin),
   zero step-downs; 9 bounds-overlap suspects (review flags, no
   merges). Guard 199px (82.9% Guan Yu; factors UNVERIFIED).
-  Acceptance-4 + continuity review remain. Ledger 25/26 (one
-  focused spare); repair reserve 3/3 untouched; no runtime or
-  decode exception. Next: v2 guard measurement. See V2
-  plan/provenance.
+  V2 guard measurement VERIFIED (overlay: true faces): getup
+  factor 0.837 APPLIED (ground 0.831 + height 0.844, spread
+  0.013); all else factor 1 (no guard cells). Re-solve: base
+  0.632606, 56/56 unique, deterministic `2fef24a5`, 14.43MB
+  (9.8% margin), guard 201.8px. Acceptance-4 + continuity review
+  remain. Ledger 25/26 (one focused spare); repair reserve 3/3
+  untouched; no runtime or decode exception. Next: acceptance-4
+  landmarks. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

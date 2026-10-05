@@ -48,9 +48,11 @@ reserve-before-call, carried learnings) still applies.
   PASS. ALL TEN v2 sequences source-accepted. Pack FIRST SOLVE
   done (`prepare-weiyan-v2.mjs`, rev weiyan-2, factors=1
   UNVERIFIED): base 0.623906, 56/56 unique, deterministic,
-  15.21MB ≤16MB with 9.3% margin, pages ≤2048². Next: v2 guard/
-  height measurement (two-proxy factors), cross-sequence
-  acceptance-4, continuity review. One authoring request remains
+  15.21MB ≤16MB with 9.3% margin, pages ≤2048². V2 guard
+  measurement VERIFIED (overlay): getup factor 0.837 applied;
+  re-solve base 0.632606, 56/56 unique, deterministic `2fef24a5`,
+  14.43MB (9.8% margin). Next: cross-sequence acceptance-4
+  landmarks + continuity review. One authoring request remains
   (focused ONLY). All whole-sheet slots consumed, repair 3/3
   remains acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
