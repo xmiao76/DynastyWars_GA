@@ -1,12 +1,11 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 20/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 21/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
-  splices, finisher/special cull derivatives, jump retouch
-  source-accepted. Fall-v2 source NOT ACCEPTED (tumble short,
-  DOWN long). Six authoring requests remain, full pack
-  unverified; global 200/two whole sheets/sequence unchanged;
+  splices, finisher/special cull derivatives, jump retouch, fall
+  retouch source-accepted. Five authoring requests remain, full
+  pack unverified; global 200/two whole sheets/sequence unchanged;
   walk/jab1/jab2/finisher/special/jump/fall used both slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
@@ -16,15 +15,60 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 20/26, total 87/200; walk/jab1/jab2/finisher/
-special/jump/fall each consumed a second whole-sheet candidate
-(later jab1/jab2/jump edits were FOCUSED, not third whole-sheet
-candidates), and the separate repair reserve
+ledger now says 21/26, total 88/200; every consumed second
+whole-sheet candidate stands; later jab1/jab2/jump/fall edits were
+FOCUSED, not third whole-sheet candidates; and the separate repair
+reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### fall-v2-retouched-source — ACCEPTED fall drawings 2026-10-05; sha `161b4efe…`
+
+- Deterministic authored retouch of BOTH outliers (jump-landing
+  method, NO image request): tumble cell2 EXTENDED 438→485px
+  (cap piece −47px along 1.93° axis, 985 px moved, 795 gap px
+  median-filled; 6px clearance to neighbor verified + 9-component
+  gate); DOWN cell4 SHORTENED 558→490px (cap piece +68px overlap,
+  1,378 px, no fill invented). Poses untouched; input hash-pinned
+  (`3516d964`). `scripts/retouch-weiyan-fall-v2.mjs`, eslint clean.
+- Method notes (honest): color-gated head exclusion was tried and
+  REMOVED after two false trips (cap gold (128,89,22) at h=37.9
+  matched skin; shaft wood (128,86,65) at v=0.502 matched skin) —
+  DOWN cap selection is flood-fill from the pommel centroid with a
+  count gate (~1.1k expected; a head leak would add 10k+). A first
+  extend run split cell2 (10 components) because the median slab
+  was sampled post-clear; fixed by sampling pristine input. A gap-
+  strip gate initially tripped on real turban pixels 6px from the
+  cap; verified by RGB dump + 4x crop that a true transparent gap
+  separates them. All failures encoded as gates, not silent.
+- Verified: only cells 2,4 differ (other 7 component-SHA identical
+  to input); output rebuilt byte-identically on rerun; 4x seam
+  crops reviewed (tumble join continuous; DOWN cap intact, turban
+  undamaged, cap/shaft join clean); endpoint overlay re-read
+  (rings on true fittings, incl. shifted caps).
+- Final play order row-major [0..4], cull [5..8]:
+  [502,470,485,500,490]px, mean 489.4, spread **6.54%** (≤10%
+  source-level PASS); angles [-16,-6,-1,-2,-2]°, steps 10,5,1,0.
+  Source-level only: scale/ground/16MiB/cross-sequence/continuity
+  UNVERIFIED. No runtime activation, no waiver.
+
+### fall-v2-focused-r1 — under-corrected, preserved unused 2026-10-05; sha `41de76eb…`
+
+- Request 21/26, ordinary AUTHORING kind focused for named fall:2
+  + fall:4, RESERVED BEFORE call. Exact prompt in
+  `fall-v2-focused-r1-prompt.txt`; refs: original fall `3516d964`,
+  walk `a8e44840`, weapon `71c288d1`, body `ee0a0200`, portrait
+  `0fc579c1`. Preferred provider, one image, no fallback notice.
+- Result: tumble 438→460px (+22 of +47 needed), DOWN 558→549px
+  (−9 of −68 needed) — movement in the right direction on both,
+  but still outside any compliant band. Preserved immutable;
+  NOT spliced (deterministic retouch on the original achieved
+  full correction instead). Lesson (3rd data point after jump):
+  the generator does not honor explicit pixel-length targets —
+  prefer deterministic retouch whenever poses are already right.
 
 ### fall-v2-candidate-1 — REJECTED as complete sequence 2026-10-05; sha `3516d964…`
 

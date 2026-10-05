@@ -332,12 +332,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   [502,470,438,500,558]px spread 24.3% FAIL: tumble cell2
   genuinely short (438px), DOWN cell4 genuinely long (558px),
   both endpoint-verified; DOWN irreplaceable so no spare remap
-  works. Next: deterministic authored retouch of fall:2 (extend)
-  + fall:4 (shorten), no image request unless unclean. Six v2
-  sequences source-accepted; pack/continuity unverified. Three
-  whole sheets getup/misc/rider remain plus pack/offline review.
-  Ledger 20/26 (three planned, three focused); repair reserve 3/3
-  untouched; no runtime or decode exception. See V2 plan/provenance.
+  works. Focused request 21/26 under-corrected both (tumble +22px,
+  DOWN −9px); preserved unused. Deterministic retouch instead
+  (`retouch-weiyan-fall-v2.mjs`, input-pinned): tumble extended
+  438→485px, DOWN shortened 558→490px; other 7 components
+  hash-identical; seams + endpoints reviewed. `fall-v2-retouched-
+  source.png` sha 161b4efe, deterministic rerun. Final [0..4]:
+  [502,470,485,500,490]px, spread 6.54% ≤10% source-level PASS;
+  steps ≤10°. SEVEN v2 sequences source-accepted; pack/continuity
+  unverified. Three whole sheets getup/misc/rider remain plus
+  pack/offline review. Ledger 21/26 (three planned, two focused);
+  repair reserve 3/3 untouched; no runtime or decode exception.
+  Next: v2 getup. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 00:50 UTC - CMR-11A (attempt 1, IN_PROGRESS - fall ACCEPTED via two-cell deterministic retouch; focused edit under-corrected)
+
+- Status before: CMR-11A IN_PROGRESS; fall core spread 24.3% FAIL
+  (tumble 438px short, DOWN 558px long, no spare fix). No PENDING
+  FILING, review 1/4, unrelated `.gitignore` untouched.
+- Work completed: reserved + ran focused ordinary-authoring edit
+  (request 21/26, global 88/200) for named fall:2/4 with exact
+  committed prompt — provider moved both the right way but far
+  short (tumble +22px to 460, DOWN −9px to 549); preserved as
+  `fall-v2-focused-r1.png` sha `41de76eb` but NOT spliced.
+  Deterministic retouch on the ORIGINAL instead
+  (`scripts/retouch-weiyan-fall-v2.mjs`, input-pinned): tumble
+  extended 438→485px (median wood fill, 6px neighbor clearance
+  verified), DOWN shortened 558→490px (cap-piece overlap, flood-
+  selected to exclude the adjacent turban). Poses untouched.
+- Verification run: script gates caught and fixed two real bugs
+  during development (color-gate false trips on cap gold/wood →
+  removed in favor of geometric+flood selection; slab sampled
+  post-clear splitting a component → pristine-input sampling).
+  Final: 9 components, no edge contact, byte-identical rerun
+  (`161b4efe`); other 7 components hash-identical to input; 4x
+  seam crops reviewed (both joins continuous, turban undamaged);
+  endpoint overlay re-read (rings on shifted caps). Final [0..4]:
+  [502,470,485,500,490]px, spread 6.54% ≤10% source-level PASS;
+  angles [-16,-6,-1,-2,-2]°, steps ≤10°. `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `fall-v2-focused-r1.png` + exact prompt (new,
+  preserved unused), `retouch-weiyan-fall-v2.mjs` (new),
+  `fall-v2-retouched-source.png` (new, force-added),
+  generation-budget.json, PROVENANCE.md, TASKS.md,
+  AUTHORING-PLAN-V2.md, PROGRESS.md. Lesson recorded: generator
+  ignores explicit pixel-length targets — prefer retouch when
+  poses are right.
+- Result/status after: CMR-11A IN_PROGRESS; SEVEN v2 sequences
+  source-accepted (walk,jab1,jab2,finisher,special,jump,fall).
+  Pack/continuity still unverified; no runtime activation.
+- Remaining work or blocker: v2 getup/misc/rider (3 whole sheets),
+  16MiB-first prepare, landmark + continuity review. No blocker.
+- Next recommended task: CMR-11A v2 getup (reserve whole-sheet
+  candidate 2/2 before the image call).
+
 ### 2026-10-05 00:22 UTC - CMR-11A (attempt 1, IN_PROGRESS - fall v2 generated; tumble short + DOWN long, retouch planned)
 
 - Status before: CMR-11A IN_PROGRESS (6/10 v2 sequences

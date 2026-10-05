@@ -26,11 +26,16 @@ reserve-before-call, carried learnings) still applies.
   retouched5). Never use still-airborne spare7 as a fake landing.
   Fall whole sheet request 20/26 (poses correct; tumble 438px
   short + DOWN 558px long, no spare fix since DOWN is
-  irreplaceable): next is a deterministic authored retouch of
-  BOTH cells (extend cell2, shorten cell4), no image request
-  unless the retouch reads unclean. Three whole-sheet sequences
-  getup/misc/rider remain; six authoring requests available
-  (3 planned + 3 focused MAX). All prior whole-sheet slots
+  irreplaceable). Focused edit 21/26 under-corrected both cells
+  (+22/−9px); preserved unused. Deterministic retouch instead
+  (`retouch-weiyan-fall-v2.mjs`, geometric selection + gap gates,
+  seams reviewed): tumble 438→485px, DOWN 558→490px; final
+  [502,470,485,500,490]px, spread 6.54% ≤10% source-level PASS.
+  Lesson: generator ignores explicit pixel-length targets
+  (jump 1/3, fall 0/2 full fixes) — prefer retouch when poses
+  are right. Three whole-sheet sequences getup/misc/rider
+  remain; five authoring requests available (3 planned +
+  2 focused MAX). All prior whole-sheet slots
   consumed, repair 3/3 remains acceptance-4-only.
   Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
