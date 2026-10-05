@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 07:05 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump sheet 1/2: design PASS, length INCONCLUSIVE, spiral stopped)
+
+- Status before: CMR-12A IN_PROGRESS (4/10 accepted, 9/16). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved jump sheet 1/2 BEFORE the call (10/16,
+  global 102/200) and generated `jump-candidate-1.png` sha
+  `82ed19c3` (first try, zero errors). Audited 9/9, 0 edge.
+  Design fully clean: 9/9 vertical recurves, role-correct arc
+  with a genuine kick strike (cell 3: extended leg + braced bow),
+  lock match, zero defects. Length: FIVE micro/ASCII rounds
+  produced CONTRADICTORY endpoint reads (±20px swings across 2x
+  grids, 5x micros, 1px maps — curled-tip misreads, peephole
+  misses, boot/limb confusion, string-vs-limb ambiguity). No
+  value better than noise; STOPPED per bounded-iteration
+  discipline rather than prescribing from garbage (finisher
+  lesson applied). No verdict; no fix prescribed.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (10/16),
+  `jump-candidate-1.png` + `jump-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+  Diagnostics in ignored `artifacts/tmpcheck/`.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 10/16).
+- Remaining work or blocker: ONE automated bow-chord tool
+  (archer-v10 pattern: narrow-run limb tracing + full-curve maps
+  + single overlay verification of all 12 endpoints), then verdict
+  from its numbers only. No blocker. Budget watch: 6 left for 5
+  sequences + pack risks — fixes now need ground truth first.
+- Next recommended task: CMR-12A jump chord tool + verdict (no
+  image call).
+
 ### 2026-10-05 06:51 UTC - CMR-12A (attempt 1, IN_PROGRESS - finisher ORIG accepted at 8.13%; the fix was unneeded, 2x reads lied)
 
 - Status before: CMR-12A IN_PROGRESS (finisher keep failed per

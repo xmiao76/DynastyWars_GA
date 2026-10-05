@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 9/16 used (walk + jab1 + jab2 + finisher ACCEPTED;
-  finisher ORIG as-is at 8.13% — the fix was unneeded). Global
-  101/200; finisher 1/2 left. Repair reserve 3/3 untouched (shared
-  with CMR-12B, acceptance-4 only).
+- Authoring: 10/16 used (4/10 ACCEPTED; jump 1/2 design clean,
+  LENGTH UNRESOLVED — hand-reads contradict, auto-tool next).
+  Global 102/200; jump 1/2 left. Repair reserve 3/3 untouched
+  (shared with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,33 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 10/16 — jump 3x3 sheet candidate 1/2: design PASS, length INCONCLUSIVE (method failed) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/jump)` → used 10,
+  remaining 6, total 102 (guard: expected used=9, held).
+- Exact prompt: `jump-prompt.txt` (takeoff→kick→landing, vertical
+  bows, 225–240px band). Ordered refs: weapon-spec, body,
+  portrait, finisher `dae97d05` (tool-issued — first try, zero
+  errors).
+- Output: `jump-candidate-1.png` sha
+  `82ed19c36b5ff8e321a40cbb3d5aa19a530cfcc152235c97d47f85c184309c74`
+  (1536×1024). Mechanical: 9/9, 0 edge. Design: 9/9 vertical
+  recurves, role-correct arc incl. a genuine kick strike (cell 3,
+  leg extended + braced bow), lock match, zero defects. Poses
+  ACCEPTED; keep map [0..5] (takeoff/ascent/apex/kick/descent/
+  landing) + spares 6,7,8.
+- Length: UNRESOLVED. Five micro/ASCII rounds produced
+  CONTRADICTORY reads (±20px swings: 2x under-reads curled tips;
+  peephole centers miss; boot/limb color confusion; string-vs-
+  limb ambiguity). Candidate values span ~185–260 depending on
+  method — no better than noise. STOPPED the spiral per bounded-
+  iteration discipline instead of burning a fix on garbage reads
+  (the finisher lesson, applied one turn late).
+- Next: ONE automated bow-chord tool (archer-v10 pattern:
+  narrow-run limb tracing + full-curve maps + overlay verification
+  of all 12 endpoints in a single pass), then verdict from ITS
+  numbers only. No more hand-read peepholes.
 
 ### Request 9/16 — finisher fix (unneeded!) + TRUE measure → ORIG ACCEPTED at 8.13% 2026-10-05
 

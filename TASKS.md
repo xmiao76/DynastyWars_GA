@@ -444,8 +444,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   183, c3 to ~266). Micro-verified TRUTH: orig keep
   [241.5,232.1,241.0,251.0,231.6] = 8.13% PASS (2x reads had
   under-read curled tips) → finisher ORIG ACCEPTED as-is (no
-  splice). Ledger 9/16, global 101/200; repair reserve 3/3
-  untouched).
+  splice). Jump sheet 1/2 (`82ed19c3`, 9/9 clean verticals,
+  genuine kick, poses pass): LENGTH INCONCLUSIVE — 5 micro/ASCII
+  rounds contradict (±20px swings). Stopped the spiral. Next: ONE
+  automated chord tool (archer-v10) + verdict. Ledger 10/16,
+  global 102/200; repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
