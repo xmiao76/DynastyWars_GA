@@ -22,6 +22,50 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 01:02 UTC - CMR-11A (attempt 1, IN_PROGRESS - getup v2 accepted via spare remap, first try)
+
+- Status before: CMR-11A IN_PROGRESS (7/10 v2 sequences
+  source-accepted; ledger 21/26). No PENDING FILING, review 1/4,
+  unrelated `.gitignore` untouched.
+- Work completed: wrote exact `getup-v2-prompt.txt` (elbow/kneel/
+  crouch/half-rise/stand + 4 spares, stand targets guard);
+  inspected fall retouched source `161b4efe` as 5th continuity
+  ref (other 4 refs verified this model session). Reserved getup
+  sheet candidate 2/2 BEFORE the call (request 22/26, global
+  89/200); one generation, first try, no retry → source
+  `getup-v2-candidate-1.png` sha `a2a361d4` (preferred provider,
+  no fallback notice). Original preserved.
+- Verification run: mechanical audit 9/9 clean components, 0 edge
+  (nearest bbox x0=9), 9 tiny specks removed, 78,190 glow removed;
+  cleaned contact sha `4be7a453` reviewed (correct rise arc,
+  stand matches guard stance). Endpoint overlay sha `dbbfeca0`
+  reviewed: all cells [537,469,440,515,485,437,500,483,500]px;
+  raw core [0..4] spread 97/489.2 = 19.8% FAIL (elbow 537 long,
+  crouch 440 short, both true endpoints). Spare remap play
+  [6 elbow-push,1 kneel,8 crouch,3 half-rise,4 stand]: ordered
+  contact sha `ddb0566b` viewed (legible low→stand rise, both
+  spares true same-phase poses); lengths [500,469,500,515,485]px,
+  mean 493.8, spread 9.32% ≤10% source-level PASS; angles
+  [9,5,10,5,10]°, steps ≤5. SHA-pinned cull script ran twice,
+  byte-identical `getup-v2-prepared-source.png` sha `e88295dc`
+  (5 figures [1,3,4,6,8], 0 edge); prepared sheet viewed.
+  `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`,
+  `npm run typecheck` green. No UI/shipping changes; full suite
+  not rerun (known V-15b G6 failure).
+- Files changed: `getup-v2-candidate-1.png` + exact prompt (new,
+  force-added), `getup-v2-prepared-source.png` (new, force-added),
+  `prepare-weiyan-getup-v2-source.mjs` (new),
+  generation-budget.json, PROVENANCE.md, TASKS.md,
+  AUTHORING-PLAN-V2.md, PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; EIGHT v2 sequences
+  source-accepted. Pack/continuity still unverified; no runtime
+  activation.
+- Remaining work or blocker: v2 misc/rider (2 whole sheets),
+  16MiB-first prepare, landmark + continuity review. No blocker.
+- Next recommended task: CMR-11A v2 misc (reserve whole-sheet
+  candidate 2/2 before the image call).
+
 ### 2026-10-05 00:50 UTC - CMR-11A (attempt 1, IN_PROGRESS - fall ACCEPTED via two-cell deterministic retouch; focused edit under-corrected)
 
 - Status before: CMR-11A IN_PROGRESS; fall core spread 24.3% FAIL

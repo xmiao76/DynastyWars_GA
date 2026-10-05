@@ -1,12 +1,13 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 21/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 22/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
-  splices, finisher/special cull derivatives, jump retouch, fall
-  retouch source-accepted. Five authoring requests remain, full
-  pack unverified; global 200/two whole sheets/sequence unchanged;
-  walk/jab1/jab2/finisher/special/jump/fall used both slots.
+  splices, finisher/special cull derivatives, jump/fall retouches,
+  getup cull derivative source-accepted. Four authoring requests
+  remain, full pack unverified; global 200/two whole sheets/
+  sequence unchanged; walk/jab1/jab2/finisher/special/jump/fall/
+  getup used both slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -15,7 +16,7 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 21/26, total 88/200; every consumed second
+ledger now says 22/26, total 89/200; every consumed second
 whole-sheet candidate stands; later jab1/jab2/jump/fall edits were
 FOCUSED, not third whole-sheet candidates; and the separate repair
 reserve
@@ -24,6 +25,50 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### getup-v2-candidate-1 — selected-cell source ACCEPTED 2026-10-05; sha `a2a361d4…`
+
+- Request 22/26, getup sheet candidate 2/2, reserved/persisted
+  BEFORE one image call. Preferred ChatGPT image returned a single
+  1536×1024 sheet, first try. Exact `getup-v2-prompt.txt`; ordered
+  SHA refs legacy weapon `71c288d1`, body master `ee0a0200`,
+  portrait `0fc579c1`, cleaned walk-v2 guard `46546eca`, accepted
+  fall retouched source `161b4efe` (body/style continuity only).
+- Mechanical: 9/9 alpha-connected figures distributed across all
+  nine cells, zero source-edge contact (nearest bbox x0=9).
+  Standard cleanup removed 78,190 low-alpha halo pixels + nine
+  1px specks (under 150k); cleaned contact inspected. Stable
+  purple turban, short beard, bronze pauldrons, long wood shaft
+  with gold butt/ferrule/red tassel and small silver curved blade;
+  distinct prone-push/kneel/crouch/rise/stand arc, no verticals.
+- TRUE endpoint overlay actually read: source cells 0..8
+  [537,469,440,515,485,437,500,483,500]px. Raw core [0..4] =
+  [537,469,440,515,485]px, spread 97/489.2 = 19.8%, FAIL
+  (elbow cell0 long at 537, crouch cell2 short at 440; both
+  endpoint-verified, not ferrule-hits).
+- Legitimate spare replacement: cell 6 (bent-over hand-on-ground
+  push-up phase, 500px) subs for elbow, cell 8 (deep crouch,
+  500px) subs for crouch, giving play order [6 elbow-push,
+  1 kneel, 8 crouch, 3 half-rise, 4 stand] with lengths
+  [500,469,500,515,485], mean 493.8, spread 46/493.8 =
+  **9.32%**, directions [9,5,10,5,10]°, steps ≤5. Ordered
+  contact actually viewed: low push → kneel → deep crouch →
+  rising lunge → upright guard is a legible rise; both spares
+  are true same-phase poses, not value-picked mismatches.
+  Cull [0,2,5,7]; no extra request.
+- `scripts/prepare-weiyan-getup-v2-source.mjs` pins ORIGINAL SHA
+  and culls only those four cells before alpha cleanup. Two runs
+  produced the same `getup-v2-prepared-source.png` sha
+  `e88295dc` with five separated figures [1,3,4,6,8], no
+  outer-edge pixels, 44,833 halo pixels removed and nine 1px
+  specks. Actually viewed prepared transparent sheet: full gold
+  butt / red tassel / blade on each of five kept poses, other
+  four gone.
+- ACCEPTED source drawings only. Full pack fit, consistent scale,
+  cross-sequence 10% head/weapon spread, direction continuity and
+  offline exposure remain UNVERIFIED. Ledger 22/26, four left,
+  repair reserve 3/3 untouched; no runtime activation or 16MiB
+  exception assumed.
 
 ### fall-v2-retouched-source — ACCEPTED fall drawings 2026-10-05; sha `161b4efe…`
 
