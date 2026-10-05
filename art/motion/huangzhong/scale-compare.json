@@ -1,0 +1,17 @@
+{
+  "method": "guard figure bbox height ratio vs walk (same standing-guard pose); only sheets with a guard-like cell. Faces unusable for huangzhong (skin gate merges gold robe/headband/beard into multi-thousand-px clusters — see PROVENANCE debug dump), so no face proxy exists and per-sheet factors stay 1 (figures uniform: walk:0 vs getup:5 agree 2.7%).",
+  "ratios": {
+    "walk": 1,
+    "getup": 0.974
+  },
+  "contextHeights": {
+    "walk:0": 334,
+    "getup:5": 343,
+    "special:4": 332,
+    "misc:8": 324,
+    "jab1:0": 343,
+    "jab2:0": 346,
+    "finisher:0": 355
+  },
+  "note": "Context heights (324-355, stance-adjacent but not verified-guard) show figures roughly uniform while overlay-verified bow chords drift 184-300: the drift is bow-relative-to-figure (provider design drift across sheets), NOT sheet-scale miscalibration. Rescaling sheets would break figure uniformity; factors correctly stay 1."
+}

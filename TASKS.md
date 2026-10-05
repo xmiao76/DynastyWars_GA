@@ -408,7 +408,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner funded +3 2026-10-05 for
+- Status: BLOCKED (attempt 1; OWNER DECISION NEEDED on acceptance-4:
+  weapons 47.22% + head-void, waiver requested (07A/09A precedents);
+  repair infeasible (~40 cells vs 27 capacity). Prior: owner funded
+  +3 2026-10-05 for
   sequential single-cell getup fixes (cap 20); all three DONE
   (c3 266.2, c4 270.1, c5 270.2, poses kept); spliced
   (`0ea3732e`, deterministic) keep [0..5] = 7.45% robust PASS,
@@ -429,11 +432,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   weiyan pattern): 57/57 unique frames, 1 page 1988×1594,
   12.1MiB ≤ 16MiB (0 step-downs), deterministic manifest
   `0e8b5c49`, registration.json committed; 6 suspects dismissed
-  as bbox-overlap noise (9-component audits + exact frame counts
-  prove no merges); per-sheet factors 1 UNVERIFIED (guard
-  measurement next). Next: guard two-proxy + acceptance-4, then
-  continuity review → DONE. Ledger 20/20; global 112/200. Prior
-  BLOCKED detail preserved below.
+  as bbox-overlap noise. Acceptance-4 measured: weapons 47.22%
+  FAIL (N=57 verified chords, monotonic 191→300 provider drift)
+  + head-void (face gate merges gold/beard — demonstrated);
+  figures uniform (guards agree 2.7%) so factors correctly stay 1
+  (re-prepare byte-identical). Repair infeasible (~40 cells vs 27
+  capacity). → BLOCKED, WAIVER REQUESTED (07A 18.2% / 09A 88.3%
+  precedents bracket 47.22%). Ledger 20/20; global 112/200.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;

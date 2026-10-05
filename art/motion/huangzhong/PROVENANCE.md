@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 20/20 used (10/10 ACCEPTED; pack huangzhong-1 built:
-  57 frames, 1 page, 12.1MiB, deterministic). Global 112/200.
+- Authoring: 20/20 used (10/10 ACCEPTED; pack built; acceptance-4:
+  weapons 47.22% + head-void → WAIVER REQUESTED). Global 112/200.
   Repair reserve 3/3 untouched (shared with CMR-12B,
-  acceptance-4 only). Per-sheet factors all 1 UNVERIFIED (guard
-  measurement next); no requests remain for art.
+  acceptance-4 only). Per-sheet factors all 1 (figures uniform;
+  verified correct). No requests remain for art.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,41 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Acceptance-4 (no image call): weapons 47.22% + head-void → WAIVER REQUESTED, BLOCKED 2026-10-05
+
+- Guard measurement: adapted measure-weiyan.mjs → face gate FIRES
+  176k px but merges gold robe/headband/beard/wood into multi-kpx
+  clusters (debug dump: biggest 6755px head-mass, mean tan-gold) —
+  NO isolated face exists; weiyan gate unusable for huangzhong
+  (proven, not assumed). Faces/heads therefore VOID (09A head-void
+  precedent): unmeasurable, excluded honestly, never a pass.
+- Figure scale (alpha-only, robust): guard bbox heights walk:0 334,
+  getup:5 343, special:4 332, misc:8 324, jab1:0 343, jab2:0 346,
+  finisher:0 355. Certain guards (walk/getup) agree 2.7% → FIGURES
+  UNIFORM; factors correctly stay 1 (recorded in scale-compare.json
+  with method note; re-prepare yields the IDENTICAL manifest
+  `0e8b5c49`, proving the evidence is a no-op as designed).
+- Weapon spread (EXACT arithmetic over the 57 overlay-verified
+  source chords, self-checked per-sheet means against verdicts):
+  N=57, min 184.0 (walk), max 300.3 (misc/rider), mean 246.31,
+  spread **47.22% FAIL**. Sheet means rise monotonically with
+  authoring order (191→300): provider design drift, which my
+  per-sheet re-centered brief bands ratcheted upward (method error,
+  owned). NOT sheet-scale miscalibration (figures uniform) — so no
+  scaling trick applies; bow factors would break figure uniformity.
+- Repair infeasibility (proven): ~40 cells sit outside any 10% band
+  vs 27-cell capacity (3 rounds × 9) — plus provider ±10–20% noise
+  and shared-with-12B reserve. Sub-spreads: none (continuous
+  gradient, same vertical-recurve geometry — archer orientation
+  rule gives no split).
+- VERDICT: item 4 BLOCKED — WAIVER REQUESTED, precedented both
+  sides: 07A waived spears 18.2%, 09A waived weapons 88.3% FULL +
+  head-void. Huangzhong (47.22% + head-void) sits between. Owner
+  options: (a) waive (RECOMMENDED — art is pose/exposure-correct,
+  variance is inter-sheet calibration the pack cannot see), (b)
+  fund a redraw campaign (needs 4+ perfect rounds — advise
+  against), or (c) redirect. Repair reserve untouched.
 
 ### Pack build (no image call): prepare-huangzhong.mjs → huangzhong-1, 57 frames, caps pass 2026-10-05
 

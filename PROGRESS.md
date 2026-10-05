@@ -22,6 +22,41 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 13:25 UTC - CMR-12A (attempt 1, BLOCKED - acceptance-4: weapons 47.22% + head-void, waiver requested)
+
+- Status before: CMR-12A IN_PROGRESS (pack built, 20/20). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: guard-scale investigation + exact acceptance-4
+  arithmetic. Faces PROVEN unusable (skin gate fires 176k px but
+  merges gold robe/headband/beard/wood into multi-kpx clusters —
+  debug dump; no isolated face exists) → heads VOID (09A
+  precedent). Guard figure heights (alpha-only): walk:0 334 vs
+  getup:5 343 agree 2.7% → FIGURES UNIFORM, so per-sheet factors
+  correctly stay 1 (scale-compare.json recorded; re-prepare yields
+  byte-identical manifest `0e8b5c49`). Weapon spread over the 57
+  overlay-verified chords (self-checked transcriptions): N=57,
+  min 184.0, max 300.3, mean 246.31 → **47.22% FAIL**; sheet means
+  rise monotonically with authoring order (my per-sheet
+  re-centered brief bands ratcheted the provider upward — method
+  error, owned). No scaling trick applies (figures uniform +
+  bows drifted); sub-spreads unjustified (continuous gradient,
+  same geometry); repair infeasible (~40 cells outside any 10%
+  band vs 27 capacity + noise + shared reserve).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (offline pack only).
+- Files changed: `art/motion/huangzhong/scale-compare.json` (new,
+  force-added), `scripts/measure-huangzhong.mjs` (new),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md (BLOCKED), PROGRESS.md.
+- Result/status after: CMR-12A BLOCKED (attempt 1).
+- Remaining work or blocker: OWNER DECISION — waive acceptance-4
+  (07A 18.2% / 09A 88.3%+void precedents bracket 47.22%+void;
+  RECOMMENDED: art is pose/exposure-correct, variance is
+  inter-sheet calibration) or redirect. Repair reserve untouched.
+- Next recommended task: BLOCKED — awaiting owner (no autonomous
+  action available).
+
 ### 2026-10-05 12:50 UTC - CMR-12A (attempt 1, IN_PROGRESS - pack huangzhong-1 built: 57 frames, 12.1MiB, deterministic)
 
 - Status before: CMR-12A IN_PROGRESS (10/10 accepted, 20/20). No

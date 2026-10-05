@@ -1,6 +1,6 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 10/10 ACCEPTED + pack huangzhong-1 built (57 frames, 12.1MiB, deterministic); 20/20 spent. Next: guard measurement + acceptance-4.
+Status: 10/10 ACCEPTED + pack built; acceptance-4: weapons 47.22% + head-void → WAIVER REQUESTED, BLOCKED; 20/20 spent.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
