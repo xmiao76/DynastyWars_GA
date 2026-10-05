@@ -41,10 +41,15 @@ reserve-before-call, carried learnings) still applies.
   at 8.29% (cull [3,5,6,8]). Rider whole sheet request 24/26,
   first try; core six ~30% FAIL (sweep 554 long, dismount 406
   short + blade cut at sheet edge, verified). No spare/retouch
-  fix: one focused edit of rider:4/5 is next. NO whole-sheet
-  sequences remain; two authoring requests available (focused
-  ONLY, 2 max). All whole-sheet slots consumed, repair 3/3
-  remains acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
+  fix: focused edit 25/26 fixed sweep (554→481) and completed
+  dismount's blade (450, clear of edge); spliced both, then
+  deterministic retouch extended dismount 450→480px. Final
+  [512,491,485,516,481,480]px, spread 7.29% ≤10% source-level
+  PASS. ALL TEN v2 sequences source-accepted; next is pack
+  assembly (prepare script update), measurement, acceptance-4
+  and continuity review. One authoring request remains (focused
+  ONLY). All whole-sheet slots consumed, repair 3/3 remains
+  acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

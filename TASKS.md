@@ -355,11 +355,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   no horse parts, but core six spread ~30% FAIL: sweep cell4 long
   (554px), dismount cell5 short (406px) AND its blade cut by the
   sheet edge (25 border px) — endpoint-verified, no spare or
-  retouch fix (tip would be invented). Next: one focused edit of
-  rider:4/5 + source-preserving splice. NINE v2 sequences
-  source-accepted; pack/continuity unverified. Ledger 24/26 (no
-  whole sheets left, two focused max); repair reserve 3/3 untouched;
-  no runtime or decode exception. See V2 plan/provenance.
+  retouch fix (tip would be invented). Focused request 25/26
+  fixed sweep (554→481px) and completed dismount's blade clear
+  of the edge but short (450px); spliced both (`c80ff854`),
+  then deterministic retouch extended dismount 450→480px
+  (`5c5cba35`, only cell5 changed, seams reviewed). Final
+  [512,491,485,516,481,480]px, spread 7.29% ≤10% source-level
+  PASS; steps ≤20°. ALL TEN v2 sequences source-accepted; pack
+  assembly + acceptance-4 + continuity review remain. Ledger
+  25/26 (one focused spare); repair reserve 3/3 untouched; no
+  runtime or decode exception. Next: v2 pack prepare. See V2
+  plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

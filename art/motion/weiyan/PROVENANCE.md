@@ -1,12 +1,12 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 24/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 25/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
-  refs but weapon-rejected. Nine v2 sequences source-accepted;
-  rider-v2 source NOT ACCEPTED (sweep long, dismount clipped).
-  Two authoring requests remain, full pack unverified; global
-  200/two whole sheets/sequence unchanged; every sequence used
-  both whole-sheet slots (only focused edits remain).
+  refs but weapon-rejected. ALL TEN v2 sequences source-accepted
+  (rider via focused splice + retouch). One authoring request
+  remains, full pack unverified; global 200/two whole sheets/
+  sequence unchanged; every sequence used both whole-sheet slots
+  (only focused edits remain).
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -15,15 +15,51 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 24/26, total 91/200; every consumed second
-whole-sheet candidate stands; later jab1/jab2/jump/fall edits were
-FOCUSED, not third whole-sheet candidates; and the separate repair
-reserve
+ledger now says 25/26, total 92/200; every consumed second
+whole-sheet candidate stands; later jab1/jab2/jump/fall/rider
+edits were FOCUSED, not third whole-sheet candidates; and the
+separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### rider-v2-retouched-source — ACCEPTED rider drawings 2026-10-05; sha `5c5cba35…`
+
+- Deterministic authored retouch of the SPLICED dismount cell
+  (450→480px): cap piece −29px along the measured 13.51° axis
+  (1,132 px moved), gap median-filled with real shaft wood
+  (626 px). Poses untouched; input hash-pinned to the splice
+  output `c80ff854`. `scripts/retouch-weiyan-rider-v2.mjs`.
+- Verified: only cell 5 differs (other 8 component-SHA identical
+  to the splice input); output rebuilt byte-identically on rerun;
+  4x seam crop reviewed (continuous shaft, matching highlight,
+  neighboring blade and robe untouched); endpoint overlay re-read
+  (blue ring on the shifted pommel, green on the complete tip).
+- Final play order row-major [0..5], cull [6,7,8]:
+  [512,491,485,516,481,480]px, mean 494.2, spread **7.29%**
+  (≤10% source-level PASS); angles [-4,11,-9,-9,-5,11]°,
+  steps 15,20,0,4,16 (≤60). Source-level only: scale/ground/
+  16MiB/cross-sequence/continuity UNVERIFIED. No runtime
+  activation, no waiver.
+
+### rider-v2-focused-r1 — sweep fixed, dismount still short 2026-10-05; sha `9eb1726f…`
+
+- Request 25/26, ordinary AUTHORING kind focused for named
+  rider:4 + rider:5, RESERVED BEFORE call. Exact prompt in
+  `rider-v2-focused-r1-prompt.txt`; refs: original rider
+  `21bda51b`, walk `a8e44840`, weapon `71c288d1`, body
+  `ee0a0200`, portrait `0fc579c1`. Preferred provider, one
+  image, no fallback notice.
+- Result: sweep cell4 554→481px FIXED (pose preserved);
+  dismount cell5 blade completed clear of the edge but only
+  450px (still short). Mechanical 9/9, 0 edge, 11 specks
+  removed. `scripts/splice-weiyan-rider-v2.mjs` (SHA-pinned,
+  component-owner collision + edge gates) spliced ONLY cells
+  4/5 into the immutable original → `rider-v2-prepared-source`
+  sha `c80ff854`, 9 separated figures. Dismount then retouched
+  (above) instead of spending another request.
 
 ### rider-v2-candidate-1 — REJECTED as complete sequence 2026-10-05; sha `21bda51b…`
 

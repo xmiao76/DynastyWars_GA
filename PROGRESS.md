@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 01:41 UTC - CMR-11A (attempt 1, IN_PROGRESS - rider ACCEPTED via focused splice + retouch; all 10 v2 sequences done)
+
+- Status before: CMR-11A IN_PROGRESS; rider core spread 30% FAIL
+  (sweep 554 long, dismount 406 + blade cut at edge). No PENDING
+  FILING, review 1/4, unrelated `.gitignore` untouched.
+- Work completed: reserved + ran focused ordinary-authoring edit
+  (request 25/26, global 92/200) for named rider:4/5 with exact
+  committed prompt. Result `rider-v2-focused-r1.png` sha
+  `9eb1726f`: sweep FIXED 554→481px (pose preserved), dismount
+  blade completed clear of the edge but still short (450px).
+  SHA-pinned splice of ONLY cells 4/5 into the immutable original
+  → `rider-v2-prepared-source.png` sha `c80ff854` (9 separated,
+  per-cell origins recorded). Deterministic retouch then extended
+  dismount 450→480px (cap piece −29px along 13.51° axis, median
+  wood fill, 5px neighbor clearance verified + gates) →
+  `rider-v2-retouched-source.png` sha `5c5cba35`.
+- Verification run: splice + retouch scripts each deterministic
+  (byte-identical reruns); isolation proof (only cells 4,5 differ
+  from original; only cell5 differs from splice); 4x seam crop
+  reviewed (continuous shaft, neighbor blade/robe untouched);
+  endpoint overlay re-read (rings on shifted caps). Final core
+  [512,491,485,516,481,480]px, mean 494.2, spread 7.29% ≤10%
+  source-level PASS; angles [-4,11,-9,-9,-5,11]°, steps ≤20.
+  `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`,
+  `npm run typecheck` green. No UI/shipping changes; full suite
+  not rerun (known V-15b G6 failure).
+- Files changed: `rider-v2-focused-r1.png` + exact prompt (new,
+  force-added), `splice-weiyan-rider-v2.mjs` (new),
+  `rider-v2-prepared-source.png` + `rider-v2-retouched-source.png`
+  (new, force-added), `retouch-weiyan-rider-v2.mjs` (new),
+  generation-budget.json, PROVENANCE.md, TASKS.md,
+  AUTHORING-PLAN-V2.md, PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; ALL TEN v2 sequences
+  source-accepted. Pack assembly, measurement, acceptance-4 and
+  continuity review remain; no runtime activation.
+- Remaining work or blocker: update prepare script to v2 sources
+  + keep maps, solve 16MiB-first fit, full landmark + continuity
+  review. No blocker. Budget 25/26 (one focused spare left).
+- Next recommended task: CMR-11A v2 pack prepare (no image call).
+
 ### 2026-10-05 01:27 UTC - CMR-11A (attempt 1, IN_PROGRESS - rider v2 generated; sweep long + dismount blade cut at edge)
 
 - Status before: CMR-11A IN_PROGRESS (9/10 v2 sequences
