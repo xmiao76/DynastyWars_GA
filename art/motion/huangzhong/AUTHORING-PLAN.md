@@ -1,11 +1,11 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 5/10 ACCEPTED (jump via [0,1,2,6,4,5] remap, 8.78%); 11/16 spent, ZERO margin for 5 sheets left.
+Status: 5/10 ACCEPTED; fall 1/2 design PASS, length INCONCLUSIVE (halo bias — measure on CLEANED alpha!); 12/16 spent, ZERO margin for 4 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 16, used 11 (+jump fix, adopted). Global 103/200.
-  Two whole-sheet candidates per sequence, unchanged (jump 1/2
+- huangzhong cap 16, used 12 (+fall sheet 1/2). Global 104/200.
+  Two whole-sheet candidates per sequence, unchanged (fall 1/2
   left).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused
   corrections before any repair need. Repair reserve 3/3 untouched

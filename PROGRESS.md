@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 08:25 UTC - CMR-12A (attempt 1, IN_PROGRESS - fall sheet 1/2: design PASS, length INCONCLUSIVE (halo bias found))
+
+- Status before: CMR-12A IN_PROGRESS (5/10 accepted, 11/16). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved fall sheet 1/2 BEFORE the call (12/16,
+  global 104/200) and generated `fall-candidate-1.png` sha
+  `f7eca5e1` (first try, zero errors). Audited 9/9, 0 edge
+  (prone straddles legal + separated). Design fully clean: 9/9
+  vertical recurves, distinct topple→DOWN arc with THREE flat
+  DOWN variants (5,7,8), lock match, zero defects — poses
+  ACCEPTED. Length: 2x reads + overlay round 1 REJECTED its own
+  numbers — every top marker floated ~10px above the wood: I had
+  measured RAW alpha including generator halo (cleanAlpha removes
+  134k halo px; the pipeline cleans before measuring and so must
+  I). Combined with curl/merge noise, no honest number exists;
+  stopped instead of stacking tolerance. Direction likewise
+  unmeasured.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (12/16),
+  `fall-candidate-1.png` + `fall-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 12/16).
+- Remaining work or blocker: gradient-tip tool (endpoints = last
+  strong-edge + wood-colored pixel on CLEANED data) + ONE overlay
+  verification + verdict (no image call). No blocker. ZERO margin:
+  4 left for getup/misc/special/rider.
+- Next recommended task: CMR-12A fall gradient verdict (no image call).
+
 ### 2026-10-05 07:58 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump ACCEPTED via [0,1,2,6,4,5] remap, 8.78%)
 
 - Status before: CMR-12A IN_PROGRESS (jump kick unsolved, 11/16).

@@ -1,9 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 11/16 used (5/10 ACCEPTED; jump via spare remap
-  [0,1,2,6,4,5], 8.78%). Global 103/200; jump 1/2 left. Repair
-  reserve 3/3 untouched (shared with CMR-12B, acceptance-4 only).
-  BUDGET: 5 left for 5 sheets — zero margin stands.
+- Authoring: 12/16 used (5/10 ACCEPTED; fall 1/2 design PASS,
+  length INCONCLUSIVE — halo bias found, gradient tool next).
+  Global 104/200; fall 1/2 left. Repair reserve 3/3 untouched
+  (shared with CMR-12B, acceptance-4 only). BUDGET: 4 left for
+  4 sheets — zero margin stands.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +16,35 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 12/16 — fall 3x3 sheet candidate 1/2: design PASS, length INCONCLUSIVE (halo bias) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/fall)` → used 12,
+  remaining 4, total 104 (guard: expected used=11, held).
+- Exact prompt: `fall-prompt.txt` (topple→DOWN arc, vertical
+  bows, 240–255px band). Ordered refs: weapon-spec, body,
+  portrait, jump `82ed19c3` (all tool-issued — first try, zero
+  errors).
+- Output: `fall-candidate-1.png` sha `f7eca5e1…` (1536×1024).
+  Mechanical: 9/9, 0 edge (prone straddles legal, separated).
+  Design: 9/9 vertical recurves, distinct fall arc incl. THREE
+  flat DOWN variants (5,7,8), lock match, zero defects — the
+  cleanest sheet yet for design. Poses ACCEPTED.
+- Length: INCONCLUSIVE with a diagnosed cause. 2x reads → overlay
+  round 1 ADJUDICATED every top marker ~10px HIGH (floating in
+  empty space): measuring RAW alpha catches generator HALO above
+  true wood tips (cleanAlpha removes ~134k halo px for a reason —
+  I measured pre-cleanup!). Bottom markers mostly on wood. All
+  prior endpoint rounds inherit this +10px top bias unevenly,
+  plus curl/merge noise — combined method noise ±15px ENDPOINT,
+  exceeding the gate. No honest number exists yet; direction
+  likewise unmeasured (all near-vertical visually).
+- Fix (next turn, no image call): gradient-tip tool — endpoints
+  = last STRONG-EDGE + wood-colored pixel along the limb axis on
+  cleanAlpha-CLEANED data (never raw), all 12 endpoints uniform,
+  ONE overlay verification, then verdict. If STILL inconclusive
+  → fall BLOCKED with arithmetic (cannot pass unknowns; cannot
+  afford re-brief: 4 left for 4 sheets).
 
 ### Jump verdict (no image call): spare remap [0,1,2,6,4,5] → 8.78% PASS, ACCEPTED 2026-10-05
 

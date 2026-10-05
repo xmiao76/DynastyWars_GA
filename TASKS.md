@@ -469,7 +469,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   = 8.78% marginal PASS, direction 10.0° pass (overlay: all 12
   markers on wood) → jump ORIG ACCEPTED as-is, no splice. 5/10
   done. ZERO margin: 5 requests left for fall/getup/misc/special/
-  rider (11/16).
+  rider (11/16). Fall sheet 1/2 (`f7eca5e1`, 9/9 clean verticals,
+  three flat DOWNs, poses pass): length INCONCLUSIVE — overlay
+  round 1 exposed systematic +10px top bias (measured RAW alpha
+  incl. generator halo; must measure CLEANED). Next: gradient-tip
+  tool on cleaned data + single overlay verdict (no image call).
+  Ledger 12/16, global 104/200; 4 left for 4 sheets.
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
