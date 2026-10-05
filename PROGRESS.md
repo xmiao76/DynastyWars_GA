@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 21:47 UTC - CMR-13A (attempt 1, IN_PROGRESS - charge 1/2 locally PASS, projection STOP; retouch next)
+
+- Status before: CMR-13A IN_PROGRESS (walk accepted, band fixed,
+  2/12). No PENDING FILING, review 3/4 (not due), unrelated
+  `.gitignore` untouched.
+- Work completed: reserved charge sheet 1/2 BEFORE the call (3/12,
+  global 115/200) and generated `charge-candidate-1.png` sha
+  `a0cfe1b1` (first try, zero errors; sibling ref pre-registered).
+  Audited 9/9, 0 edge. Design fully clean: 9/9 levelled glaives
+  with crescents + tassels, distinct dash arc, lock match. Length
+  (overlay-verified, all 10 on wood): [441.5,437.9,474.4,448.9,
+  468.3], within-sheet **8.03% PASS** (direction max 6.3° pass) —
+  BUT pack-level STOP: walk [408.1..442.8] + charge [437.9..474.4]
+  → global 15.26% over gate (provider overshot the in-band brief
+  by +10% on extended dash poses). The gate worked as designed
+  (caught at sheet 2, budget intact). NOT accepted/recorded.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (3/12),
+  `charge-candidate-1.png` + `charge-prompt.txt` (new,
+  force-added), PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md,
+  PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 3/12).
+- Remaining work or blocker: deterministic pommel-end shaft
+  retouch on charge cells 2/3/4 into ~425 (free, spec-mandated
+  before image rounds), then re-verify + record + accept. No
+  blocker. 9 left for 6 sheets.
+- Next recommended task: CMR-13A charge retouch.
+
 ### 2026-10-05 21:31 UTC - CMR-13A (attempt 1, IN_PROGRESS - walk ACCEPTED via fix + splice, 8.21%; band fixed)
 
 - Status before: CMR-13A IN_PROGRESS (walk 1/2 length FAIL, 1/12).

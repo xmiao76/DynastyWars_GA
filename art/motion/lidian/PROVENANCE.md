@@ -1,11 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 2/12 used (1/7 ACCEPTED; walk via cell-0 fix +
-  splice, keep 8.21% pass). Global 114/200; walk 1/2 left.
-  Repair reserve 3/3 untouched (shared with CMR-13B,
-  acceptance-4 only). Projection LIVE: band [399.7,441.8] fixed
-  from walk median 420.2 (WARN: walk fills 8.2%; steer next
-  sheets to [400.5,441.8]).
+- Authoring: 3/12 used (1/7 ACCEPTED; charge 1/2 locally PASS
+  but projection-STOP — retouch prescribed). Global 115/200;
+  charge 1/2 left. Repair reserve 3/3 untouched (shared with
+  CMR-13B, acceptance-4 only). Projection: band [399.7,441.8];
+  walk recorded; charge HELD (not recorded — only accepted
+  sheets record).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +13,31 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 3/12 — charge 3x3 sheet candidate 1/2: locally PASS, projection STOP → HELD for retouch 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/charge)` → used 3,
+  remaining 9, total 115 (guard: expected 2/12, held).
+- Exact prompt: `charge-prompt.txt` (dash arc, levelled glaives,
+  410–430px band-inside brief). Ordered refs: body, portrait,
+  walk-prepared `1c715d29` (read_image'd first — first try, zero
+  errors).
+- Output: `charge-candidate-1.png` sha `a0cfe1b1…` (1536×1024).
+  Mechanical: 9/9, 0 edge, 1 speck. Design: 9/9 levelled glaives
+  with crescents + tassels, distinct dash arc, lock match, zero
+  defects. Poses ACCEPTED.
+- Length (overlay-verified, all 10 on wood): [441.5,437.9,474.4,
+  448.9,468.3], within-sheet spread **8.03% PASS**; direction max
+  6.3° PASS. BUT pack-level: walk [408.1..442.8] + charge
+  [437.9..474.4] → global min 408.1, max 474.4, mean ~434.4 →
+  **15.26% STOP** (provider overshot the brief by +10% on the
+  extended dash poses; cells 2/4 exceed band hi 441.8 by 26–32px).
+  The gate worked as designed (caught at sheet 2, budget intact).
+- Verdict: NOT ACCEPTED as-is (not recorded — only accepted sheets
+  record). Prescription (next turn): DETERMINISTIC shaft retouch
+  (spec-mandated before image rounds): pommel-end shorten on cells
+  2 (−49px), 3 (−24px), 4 (−43px) into ~425 (shorten = overlap, no
+  fill fabrication; blades untouched). Free (not a ledger event).
 
 ### Request 2/12 — walk single-cell fix (cell 0: 324→412 diagonal) + splice + 8.21% PASS → ACCEPTED 2026-10-05
 

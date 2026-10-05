@@ -1,12 +1,12 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: 1/7 ACCEPTED (walk: 8.21% via cell-0 fix + splice); band [399.7,441.8] fixed; 2/12 spent, 10 left.
+Status: 1/7 ACCEPTED; charge 1/2 locally PASS but projection-STOP (15.3%) — retouch prescribed; 3/12 spent, 9 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- lidian cap 12 (role: boss), used 2 (+walk fix). Global 114/200.
-  Two whole-sheet candidates per sequence, unchanged (walk 1/2
-  left).
+- lidian cap 12 (role: boss), used 3 (+charge sheet 1/2). Global
+  115/200. Two whole-sheet candidates per sequence, unchanged
+  (charge 1/2 left).
 - Repair reserve 3/3 untouched (shared with CMR-13B,
   acceptance-4 only). Deterministic shaft retouch is attempted
   BEFORE any reserve image round (spec item 4).
