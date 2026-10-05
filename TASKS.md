@@ -425,10 +425,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   (`8f6b81db`, 9/9 seated riders, zero horse parts, poses pass):
   keep [0..5] = 1.34% PASS overlay-verified, direction 0.2° pass
   → rider ACCEPTED (LAST request, 20/20). **10/10 sequences
-  done.** Next: 12A DONE checklist (identity/actions/registration/
-  provenance/landmark budgets + offline review + acceptance-4
-  cross-sequence check). Ledger 20/20 exhausted on plan; global
-  112/200. Prior BLOCKED detail preserved below.
+  done.** Pack huangzhong-1 BUILT (`prepare-huangzhong.mjs`,
+  weiyan pattern): 57/57 unique frames, 1 page 1988×1594,
+  12.1MiB ≤ 16MiB (0 step-downs), deterministic manifest
+  `0e8b5c49`, registration.json committed; 6 suspects dismissed
+  as bbox-overlap noise (9-component audits + exact frame counts
+  prove no merges); per-sheet factors 1 UNVERIFIED (guard
+  measurement next). Next: guard two-proxy + acceptance-4, then
+  continuity review → DONE. Ledger 20/20; global 112/200. Prior
+  BLOCKED detail preserved below.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;

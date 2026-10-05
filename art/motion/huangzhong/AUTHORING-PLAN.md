@@ -1,6 +1,6 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 10/10 ACCEPTED (rider as-is [0..5], 1.34%); 20/20 spent, budget exhausted on plan. Next: DONE checklist.
+Status: 10/10 ACCEPTED + pack huangzhong-1 built (57 frames, 12.1MiB, deterministic); 20/20 spent. Next: guard measurement + acceptance-4.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 

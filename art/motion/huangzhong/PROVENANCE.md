@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 20/20 used (10/10 ACCEPTED; rider [0..5] as-is,
-  1.34% spread). Global 112/200. Repair reserve 3/3 untouched
-  (shared with CMR-12B, acceptance-4 only). BUDGET EXHAUSTED
-  exactly on plan (no requests remain; any further correction
-  needs owner extension or the acceptance-4 repair reserve).
+- Authoring: 20/20 used (10/10 ACCEPTED; pack huangzhong-1 built:
+  57 frames, 1 page, 12.1MiB, deterministic). Global 112/200.
+  Repair reserve 3/3 untouched (shared with CMR-12B,
+  acceptance-4 only). Per-sheet factors all 1 UNVERIFIED (guard
+  measurement next); no requests remain for art.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,37 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Pack build (no image call): prepare-huangzhong.mjs → huangzhong-1, 57 frames, caps pass 2026-10-05
+
+- Wrote `scripts/prepare-huangzhong.mjs` (weiyan pattern: SHEETS
+  with prepared sources where spliced — jab1 v2, jab2, getup —
+  plus KEEP play orders incl. jump [0,1,2,6,4,5] + misc [0,1,2,3,8]
+  remaps; same hero BOX/scale model; page-aware base; retry loop).
+  First run: base 0.621358, 0 step-downs, manifest `0e8b5c49…`
+  DETERMINISTIC (rerun-verified in-script).
+- Pack: 57 frames (57 unique = exact keep counts, no aliases, no
+  merges), ONE page 1988×1594 (≤2048²), page pixels 12,675,488 B
+  ≤ 16MiB contract (16MB-first HOLDS, no exception). Walk guard
+  207.5px = 86.5% of Guan Yu. `registration.json` committed
+  (scales, cells, culls, factors, fit). Pack pages stay ignored
+  (artifacts) until 12B.
+- Per-sheet factors: all 1 UNVERIFIED (no measurements-raw.json /
+  scale-compare.json yet — guard two-proxy measurement is next;
+  reported honestly, weiyan flow). Culled-cell duplicate listings
+  (e.g. jump "3×6") are per-component zeroing records (figure +
+  haze fragments), not extra drawings — misc's detached bow
+  provably zeroed (cell 4 appears twice = figure + bow).
+- Suspects (6, all "bounds overlap — review for merge"): DISMISSED
+  as bbox-overlap noise, not pixel merges — every sheet audited
+  9 components (misc 10 incl. the culled bow) and the pack holds
+  exactly 57 unique frames; merged figures would reduce both
+  counts. Same triage class as prior packs' known pipeline notes.
+- Next: guard-scale two-proxy measurement (walk-guard anchors per
+  sheet → measurements-raw.json + scale-compare.json) → re-prepare
+  with factors → acceptance-4 cross-sequence spread → offline
+  continuity review (display sheets) → DONE. No image calls remain
+  or needed for any of it.
 
 ### Request 20/20 — rider 3x3 sheet candidate 1/2: ACCEPTED as-is [0..5] at 1.34% (LAST request) 2026-10-05
 

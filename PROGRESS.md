@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 12:50 UTC - CMR-12A (attempt 1, IN_PROGRESS - pack huangzhong-1 built: 57 frames, 12.1MiB, deterministic)
+
+- Status before: CMR-12A IN_PROGRESS (10/10 accepted, 20/20). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: wrote `scripts/prepare-huangzhong.mjs` (weiyan
+  pattern: prepared sources where spliced — jab1 v2, jab2, getup;
+  KEEP play orders incl. jump [0,1,2,6,4,5] + misc [0,1,2,3,8]
+  remaps; same hero BOX/scale model; page-aware base + retry).
+  First run: base 0.621358, 0 step-downs, manifest `0e8b5c49`
+  DETERMINISTIC (rerun-verified in-script). Pack: 57 frames (57
+  unique = exact keep counts, no aliases/merges), ONE page
+  1988×1594 (≤2048²), 12,675,488 B ≤ 16MiB (16MB-first holds, no
+  exception). `registration.json` committed (scales/cells/culls/
+  factors/fit); pack pages stay ignored for 12B. 6 suspects all
+  "bounds overlap": DISMISSED as bbox noise (9-component audits +
+  exact 57-frame count prove no pixel merges). Per-sheet factors
+  all 1 UNVERIFIED (guard two-proxy measurement next, reported
+  honestly per weiyan flow).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint` (incl.
+  new script), `npm run typecheck` green. No vision/prodbuild/e2e
+  (offline pack only, no runtime activation).
+- Files changed: `scripts/prepare-huangzhong.mjs` (new),
+  `art/motion/huangzhong/registration.json` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 20/20).
+- Remaining work or blocker: guard-scale two-proxy measurement →
+  re-prepare with factors → acceptance-4 cross-sequence spread →
+  offline continuity review (display sheets) → DONE. No blocker.
+  No image calls remain or needed.
+- Next recommended task: CMR-12A guard measurement + acceptance-4.
+
 ### 2026-10-05 12:18 UTC - CMR-12A (attempt 1, IN_PROGRESS - rider ACCEPTED as-is [0..5], 1.34%; 10/10 done)
 
 - Status before: CMR-12A IN_PROGRESS (9/10 accepted, 19/20). No
