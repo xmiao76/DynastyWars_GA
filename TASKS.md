@@ -14,14 +14,6 @@ The owner accepts Guan Yu's enhancements and authorizes all characters through l
 
 Selection: due producer review first, then the earliest ready CMR task; continue it while IN_PROGRESS. A failed prerequisite prevents later CMR tasks from starting. One repository writer/one task per iteration; do not bypass existing retry, verification or permission rules. Older active tracks below are owner-deferred with evidence intact. No runner/scheduler policy changes.
 
-### CMR-02 - Generic per-kind motion profiles/playback
-
-- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
-- Dependency: CMR-01 DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-02](docs/motion-tasks/CMR-02.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Non-Guan hero/melee/boss/archer fixtures; exact per-actor windows/cues and interruption tests; preserve Guan Yu output and core schemas.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
 ### CMR-03 - Stage-aware bounded atlas loading/cache
 
 - Status: DONE (attempt 3, 2026-10-01 UTC, verified same day; 3 attempts
@@ -392,8 +384,8 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-11B - Wei Yan: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; CMR-11A DONE with prepared pack
-  rev weiyan-2, manifest `58d10b89`, 16MB-first fit, no exception).
+- Status: DONE (attempt 1, 2026-10-05 UTC, verified same day;
+  CMR-11A DONE with prepared pack rev weiyan-2).
   Slice 1 DONE: emit runtime assets + clips/dispatch/validator +
   catalog wiring + 22 unit tests green (mirrors CMR-10B; NO decoded
   exception). Slice 2 DONE: capture harness wired for weiyan
@@ -403,8 +395,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   coop/mixed covered); contacts (37 crops ×2) + 4 enlarged crops
   reviewed; per-action verdicts all PASS (self-check) in
   `docs/WEIYAN_ACTION_REVIEW.md`; ghost slivers disclosed as the
-  known shared limitation. Next: vision/prodbuild/signal gates,
-  then DONE.
+  known shared limitation. Slice 3 DONE: vision 5/5, prodbuild
+  8/8 (motion pilot opt-in/out both renderers on built bundle),
+  signal 13/13 (incl. weiyan marathon, zero violations),
+  motion-loader e2e 5/5, full unit 928+6 with only known G6.
+  All 8 acceptance items verified; no gameplay changes; defaults
+  legacy, opt-in only.
 - Dependency: CMR-11A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11B](docs/motion-tasks/CMR-11B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic weiyan pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

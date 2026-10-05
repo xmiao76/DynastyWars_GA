@@ -5219,3 +5219,11 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Acceptance: Pin Guan Yu displayed pixels/pivots/exposures; inventory 17 humanoids and horse; reproduce baseline failures and record resource/generation budgets.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
 
+### CMR-02 - Generic per-kind motion profiles/playback (archived 2026-10-05; CMR-11B DONE pushed past 20)
+
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
+- Dependency: CMR-01 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-02](docs/motion-tasks/CMR-02.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Non-Guan hero/melee/boss/archer fixtures; exact per-actor windows/cues and interruption tests; preserve Guan Yu output and core schemas.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+

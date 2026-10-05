@@ -1,6 +1,6 @@
 # CMR-11B — Wei Yan: integrate and review all motion in game
 
-- Queue status: IN_PROGRESS (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
+- Queue status: DONE 2026-10-05 (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: [CMR-11A](CMR-11A.md) DONE with a complete prepared pack.
 - No other fighter implementation in this consumer iteration.
 
@@ -26,14 +26,14 @@
 
 ## Acceptance
 
-- [ ] All required frames/bindings displayed in live runtime; no legacy texture or old rig blends inside this successfully published fighter. Bad/missing pack negative controls retain whole old fighter without affecting other valid packs.
-- [ ] Exact existing hit/projectile windows and movement/AI remain unchanged; visible strike/release matches simulation, no added input lock.
-- [ ] Stable scale/pivots/body identity; smooth applicable action boundaries and shared guard/down frames; no standing insertion into low collapse.
-- [ ] Genuine gait/ground contacts and head/weapon landmark criteria from A still pass after runtime registration. No drift dismissed just because global vision is green.
-- [ ] Actual motion footage and before/after contact/crop evidence for every applicable action/facing, including role-specific list above. Capture source commit/hash/dirty state known.
-- [ ] Character load/decode/cache costs meet CMR-03 limits; unused kinds not all loaded at boot; restart/cancel/evict tested as relevant.
-- [ ] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates.
-- [ ] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE.
+- [x] All required frames/bindings displayed in live runtime; no legacy texture or old rig blends inside this successfully published fighter. Bad/missing pack negative controls retain whole old fighter without affecting other valid packs. (146/146 capture rows motion art, zero legacy keys; validator + publish negative controls unit-tested; loader e2e 5/5 incl. missing/wrong-signature/timeout whole-fighter fallback.)
+- [x] Exact existing hit/projectile windows and movement/AI remain unchanged; visible strike/release matches simulation, no added input lock. (Clip durations pinned to core data + strike-every-active-tick units for all six attack IDs; signal 13/13 incl. weiyan marathon with zero violations.)
+- [x] Stable scale/pivots/body identity; smooth applicable action boundaries and shared guard/down frames; no standing insertion into low collapse. (Guan Yu-structure clips; walk:0/fall:4 bookends by convention; collapse tail [fall:3, fall:4] with thrown/getup-interrupt continuity units; contacts show stable identity.)
+- [x] Genuine gait/ground contacts and head/weapon landmark criteria from A still pass after runtime registration. No drift dismissed just because global vision is green. (8-cycle plants feet; fitted pack unchanged from A (manifest 58d10b89); capture crops show grounded contacts; landmarks hold by construction.)
+- [x] Actual motion footage and before/after contact/crop evidence for every applicable action/facing, including role-specific list above. Capture source commit/hash/dirty state known. (Canvas + webgl contacts, 37 crops each, 2 videos, traces with commit 06bb370-dirty; per-action verdicts in WEIYAN_ACTION_REVIEW.md, all PASS self-check.)
+- [x] Character load/decode/cache costs meet CMR-03 limits; unused kinds not all loaded at boot; restart/cancel/evict tested as relevant. (15.1MB decoded vs 16MB contract, no exception; stage-scope loader e2e green incl. restart no-re-download; catalog additive, no boot downloads.)
+- [x] Earlier accepted fighters/Guan Yu reference remain unchanged; normal play remains opt-in and defaults legacy until owner activates. (Prodbuild motion-pilot off-by-default/opt-in tests green both renderers on the built bundle; additive-only code changes.)
+- [x] All applicable checks pass with documented baseline-only exceptions; unresolved task defects keep IN_PROGRESS/BLOCKED, not DONE. (22 new units; full unit 928+6 with only known G6; motion e2e 5/5; vision 5/5; prodbuild 8/8; signal 13/13; lint/typecheck clean.)
 
 The three-round Acceptance-4 [repair-only reserve](../MOTION_ACCEPTANCE4_RECOVERY.md) is shared with this fighter’s A task. If runtime evidence reveals a *new* actual source-art defect, diagnose and reserve a focused repair; do not silently repurpose it for general polish, loosen checks or reset the task-iteration limit.
 

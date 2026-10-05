@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 04:17 UTC - CMR-11B (attempt 1, DONE - all gates green; Wei Yan motion complete, opt-in only)
+
+- Status before: CMR-11B IN_PROGRESS; captures + review done,
+  final gates pending. No PENDING FILING, review 2/4, unrelated
+  `.gitignore` untouched.
+- Work completed: final gates for the DONE verdict. Vision 5/5
+  green (all core screens + sprite/hud/negative gates). Prodbuild
+  8/8 green (incl. motion pilot off-by-default AND opted-in on
+  canvas + webgl against the built bundle — Wei Yan ships
+  inactive by default). Signal 13/13 green (incl. weiyan marathon
+  clearing 2 stages with zero violations/page errors — real
+  gameplay through the sim with the new art wired). Motion-loader
+  e2e 5/5 green (stage scope, co-op join, missing/wrong-signature/
+  timeout whole-fighter fallbacks). Unit re-confirmed 22/22
+  weiyan (full suite 928+6 with only known G6, unchanged);
+  lint + typecheck green. Note: parallel gate launch collided on
+  port 5177 (signal needs a rerun solo) — process lesson, no code
+  impact.
+- Verification run: all 8 CMR-11B acceptance items checked with
+  evidence in `docs/motion-tasks/CMR-11B.md`: live 146-row motion
+  capture with zero legacy keys; exact core windows pinned by
+  unit tests + strike-every-active-tick; stable bookends +
+  collapse continuity; fitted landmarks hold; footage + contacts
+  + traces with commit provenance; 15.1MB within contract caps,
+  no boot downloads; earlier fighters untouched; checks green
+  with baseline-only exceptions. Ghost slivers remain the single
+  disclosed shared limitation (producer triage).
+- Files changed: TASKS.md (11B DONE), `docs/motion-tasks/CMR-11B.md`
+  (status + checked acceptance), `TASKS-ARCHIVE.md` (CMR-02 moved:
+  21 DONE > 20), PROGRESS.md. No code/art changes this slice.
+- Result/status after: CMR-11B DONE (attempt 1). Wei Yan motion
+  is COMPLETE (author + integrate). Next in queue: CMR-12A
+  (Huang Zhong author/prepare, TODO).
+- Remaining work or blocker: none for 11B. Standing notes: PROGRESS.md
+  archival still needs a dedicated careful turn (~4580 lines);
+  ghost-sliver pipeline defect awaits producer triage/owner direction.
+- Next recommended task: CMR-12A (new fighter authoring; separate
+  budget/identity).
+
 ### 2026-10-05 04:00 UTC - CMR-11B (attempt 1, IN_PROGRESS - canvas + webgl captures green, action review all PASS)
 
 - Status before: CMR-11B IN_PROGRESS (registration wired). No
