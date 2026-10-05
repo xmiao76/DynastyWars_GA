@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 09:11 UTC - PRODUCER pass (signals green, no new findings; queue owner-blocked)
+
+- Trigger: no IN_PROGRESS (CMR-12A owner-BLOCKED) and no READY
+  TODO (all 22 CMR TODOs transitively depend on blocked 12A;
+  UIR-16/19 rule-5 BLOCKED, GYM/BODY/ENH owner-deferred — none
+  reopened). Review not due (2/4 src/game), no PENDING FILING.
+- Signals: `npm run signal` 13/13 green (marathons incl. new-hero
+  huangzhong/weiyan clears, co-op, seeds, weapons, perf; zero
+  violations/page errors); `npm run vision` 5/5 green (parity all
+  screens no failures, visual health, sprite gate 256/256 +
+  85/85 weapons + 170/170 retracts, HUD 1/1, BOTH negative
+  controls failing correctly). Both match the 2026-10-02
+  baseline — no regression.
+- Visual review: 3a trigger was a FALSE POSITIVE — grep matched
+  the append-only history line "fixed e4872ce (unverified)" but
+  V-15a/c/d/e current state (ledger header + 2026-09-28 entry)
+  is VERIFIED on the 9fd19c2 capture (lesson: judge ledger state
+  from `### V-n` headers, not `- Status` history lines). No
+  PENDING batch, no `?` grid cells, review not due → no full
+  re-judgement owed. Still ran `npm run review:capture` (fresh
+  PNGs) and read combat + boss frames at gameplay size: stage
+  cards readable, HUD complete, actors posed behind, no blanks
+  or breakage, V-15b pairs untouched (owner-blocked, not
+  re-opened).
+- Proposals: NONE filed. Step-6 opportunity review not authorized
+  (TODO work exists, though blocked — not filing busywork past an
+  owner block). No UX notes (file absent).
+- Files changed: PROGRESS.md only. No game/source changes.
+- Result/status after: queue unchanged (CMR-12A BLOCKED awaiting
+  owner fall decision; everything else sequenced behind it).
+- Next recommended task: none autonomous — owner unblocks 12A
+  (accept/fund+1/waive/re-brief), then consumer resumes.
+
 ### 2026-10-05 08:48 UTC - CMR-12A (attempt 1, BLOCKED - fall verdict: diagonal DOWN + marginal spread needs owner call)
 
 - Status before: CMR-12A IN_PROGRESS (fall length open, 12/16).
