@@ -22,6 +22,42 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 06:51 UTC - CMR-12A (attempt 1, IN_PROGRESS - finisher ORIG accepted at 8.13%; the fix was unneeded, 2x reads lied)
+
+- Status before: CMR-12A IN_PROGRESS (finisher keep failed per
+  2x reads, 8/16). No PENDING FILING, review 2/4 (not due),
+  unrelated `.gitignore` untouched.
+- Work completed: reserved fix BEFORE the call (9/16, global
+  101/200) and generated `finisher-fix-1.png` sha `c2b52933`
+  (one image, first try). But micro-verification REVERSED the
+  premise: fix cells measured c1 230 (unchanged), c2 183
+  (OVERSHOT short), c3 ~266 (GREW) — the fix actively hurt and
+  is REJECTED unused. Meanwhile properly micro-verified ORIG
+  endpoints (5x + 1px maps, all 10): TRUE keep
+  [241.5,232.1,241.0,251.0,231.6], spread **8.13% marginal PASS**,
+  direction max 5.0° pass (overlay read, all markers on wood).
+  The "~19% pose-correlated fail" was MEASUREMENT ARTIFACT — 2x
+  reads under-read curled tips by 10–24px. Finisher ORIG
+  ACCEPTED as-is (walk precedent, no splice). Hard lessons
+  banked: micro FIRST for endpoints; fixes reshuffle (±10–20%),
+  don't converge — prescribe only from ground truth, for
+  DEFECTS not tuning.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (9/16), `finisher-fix-
+  1.png` + prompt (rejected, kept per precedent, force-added),
+  PROVENANCE.md (attempt log + request-8 correction), AUTHORING-
+  PLAN.md, TASKS.md, PROGRESS.md. (No splice script/output: orig
+  accepted unmodified.)
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 9/16).
+  Walk + jab1 + jab2 + finisher accepted (4/10 sequences).
+- Remaining work or blocker: jump sheet candidate 1/2 (airborne
+  poses; reserve first; MICRO endpoints before any verdict). No
+  blocker. Budget watch: 7 left for 6 sequences + pack risks.
+- Next recommended task: CMR-12A jump sheet (vertical bows;
+  hz.jumpkick 9dmg/4/20 aerial).
+
 ### 2026-10-05 06:34 UTC - CMR-12A (attempt 1, IN_PROGRESS - finisher sheet 1/2: design clean, keep FAILS ~19% pose-correlated)
 
 - Status before: CMR-12A IN_PROGRESS (3/10 accepted, 7/16). No

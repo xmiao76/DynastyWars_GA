@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 8/16 used (walk + jab1 + jab2 ACCEPTED; finisher
-  1/2 keep FAILS ~19% on pose-correlated lengths — fix next).
-  Global 100/200; finisher 1/2 left. Repair reserve 3/3 untouched
-  (shared with CMR-12B, acceptance-4 only).
+- Authoring: 9/16 used (walk + jab1 + jab2 + finisher ACCEPTED;
+  finisher ORIG as-is at 8.13% — the fix was unneeded). Global
+  101/200; finisher 1/2 left. Repair reserve 3/3 untouched (shared
+  with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,34 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 9/16 — finisher fix (unneeded!) + TRUE measure → ORIG ACCEPTED at 8.13% 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/finisher)` → used 9,
+  remaining 7, total 101 (guard: expected used=8, held).
+- Exact prompt: `finisher-fix-prompt.txt` (cells 1,2,3 shorter
+  into ~210–215). Ordered refs: finisher orig (vehicle), weapon-
+  spec, jab2-prepared, body, portrait. One image, first try.
+- Output: `finisher-fix-1.png` sha `c2b52933…` (9/9, 0 edge).
+  Measured: fix c1 230.2 (unchanged), c2 183 (OVERSHOT short!),
+  c3 ~266 (GREW longer!). The fix actively HURT — REJECTED,
+  unused. Provider absolute noise confirmed ±10–20% per redraw.
+- PIVOT: micro-verified the ORIGINAL properly (5x micros + 1px
+  maps for all 10 endpoints — my 2x reads had under-read curled
+  tips by 10–24px, fabricating the "~19% fail"): TRUE orig keep
+  [241.5,232.1,241.0,251.0,231.6], mean 239.4, spread **8.13%
+  marginal PASS** (overlay read, all 10 on wood); direction max
+  5.0° PASS. The "pose-correlated gradient" was MEASUREMENT
+  ARTIFACT (bad reads), not provider behavior — CORRECTION to
+  the request-8 log. No splice (walk precedent: candidate IS
+  source).
+- Verdict: finisher ORIG ACCEPTED (2 requests, 1 wasted).
+  HARD LESSONS: (1) NEVER trust 2x eye-reads for curled tips —
+  micro FIRST, prescribe from micros; (2) fixes reshuffle, don't
+  converge — verify ground truth before prescribing (this fix
+  was prescribed from garbage reads); (3) provider redraws vary
+  ±10–20%, so fixes are for DEFECTS (missing/extra parts), not
+  fine length tuning.
 
 ### Request 8/16 — finisher 3x3 sheet candidate 1/2: keep FAILS ~19% (pose-correlated lengths) 2026-10-05
 
@@ -32,15 +60,14 @@
 - Keep-set [0..4] (uppers 2x/5x, lowers 5x micros — my 2x reads
   under-read curled tips by 10–20px, micros corrected):
   [221.0,230.0,238.0,252.0,207.1], spread **~19.5% FAIL**.
-  Systematic, not noise: bow length grows with pose extension
-  (c4 recover 207 < c0 guard 221 < c1 coil 230 < c2 launch 238 <
-  c3 impact 252). Spares 5,6 also long (~238–241) — NO remap.
-  Direction uncomputed (length fails first; all near-vertical).
-- Fix path: ONE focused edit on cells 1,2,3 (the long trio),
-  bows redrawn to ~210–215 (match c0/c4 cluster), poses kept;
-  then splice + re-measure. Brief ABSOLUTE band + "identical to
-  cells 0,4" (relative anchor). NOT a re-roll (habit would
-  repeat). Provider absolute accuracy: ±10% noise + pose bias.
+  [SUPERSEDED at request 9: those 2x reads were systematically
+  SHORT; TRUE micro-verified keep is [241.5,232.1,241.0,251.0,
+  231.6] = 8.13% PASS. The "pose correlation" was measurement
+  artifact — the fix below was prescribed from garbage reads.]
+- Fix path (EXECUTED at request 9, then REJECTED): ONE focused
+  edit on cells 1,2,3 — output reshuffled (c1 230 unchanged, c2
+  overshot to 183, c3 grew to ~266). Unused. Lesson: fixes are
+  for DEFECTS, not fine tuning; verify ground truth FIRST.
 
 ### Request 7/16 — jab2 fix (cell 4 shorter) + splice + keep 5.80% PASS → ACCEPTED 2026-10-05
 
