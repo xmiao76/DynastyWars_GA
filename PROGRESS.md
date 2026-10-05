@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 21:17 UTC - CMR-13A (attempt 1, IN_PROGRESS - walk 1/2: design PASS, length FAILS on guard shortfall)
+
+- Status before: CMR-13A IN_PROGRESS (setup done, 0/12). No
+  PENDING FILING, review 3/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved walk sheet 1/2 BEFORE the call (1/12,
+  global 113/200; boss slot created) and generated
+  `walk-candidate-1.png` sha `2f364ede` (first try, zero errors;
+  text glaive spec sufficed — no weapon ref exists). Audited 9/9,
+  0 edge, 0 specks. Design fully clean: 9/9 crescent blades + red
+  tassels, guard + 8 distinct walk poses, lock match. Length
+  (overlay-verified, all 18 on wood): [324.2,409.0,408.1,416.9,
+  420.3,420.2,438.4,442.8,441.8] = **28.69% FAIL** (direction max
+  45.4° pass) — pose-forced: the upright guard glaive already
+  spans its full 341px cell height while diagonal carries fit
+  408–443. The 8-cycle alone passes (8.17%). No projection state
+  yet (band fixes from the ACCEPTED walk median).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (lidian 1/12),
+  `walk-candidate-1.png` + `walk-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 1/12).
+- Remaining work or blocker: single-cell fix on cell 0
+  (diagonal-carry guard, ~420px target, must land [400,450];
+  reserve first). No blocker. 11 left.
+- Next recommended task: CMR-13A walk fix (cell 0 diagonal).
+
 ### 2026-10-05 20:44 UTC - CMR-13A (attempt 1, IN_PROGRESS - setup: identity locked, 7-sheet plan, 0/12)
 
 - Status before: CMR-12B DONE; CMR-13A TODO (first in queue,

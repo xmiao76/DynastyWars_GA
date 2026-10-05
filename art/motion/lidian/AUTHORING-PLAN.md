@@ -1,11 +1,12 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: setup DONE (identity locked, plan written); 0/12 spent. Next: walk sheet 1/2 (reserve first).
+Status: walk 1/2 design PASS but LENGTH FAILS (guard 324 vs cycle ~425, pose-forced); fix prescribed; 1/12 spent, 11 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- lidian cap 12 (role: boss), used 0. Global 112/200 at plan time.
-  Two whole-sheet candidates per sequence, unchanged.
+- lidian cap 12 (role: boss), used 1 (+walk sheet 1/2). Global
+  113/200. Two whole-sheet candidates per sequence, unchanged
+  (walk 1/2 left).
 - Repair reserve 3/3 untouched (shared with CMR-13B,
   acceptance-4 only). Deterministic shaft retouch is attempted
   BEFORE any reserve image round (spec item 4).

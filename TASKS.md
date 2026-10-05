@@ -552,8 +552,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; setup DONE — identity locked,
-  7-sheet plan, projection process armed; 0/12 spent)
+- Status: IN_PROGRESS (attempt 1; walk sheet 1/2 (`2f364ede`,
+  9/9 clean glaives, poses pass): design PASS, length FAILS —
+  upright guard glaive 324.2 vs diagonal cycle 408–443 (pose-
+  forced fit gap, 28.69%; direction 45.4° pass). 8-cycle alone
+  passes (8.17%). Next: single-cell fix on cell 0 (diagonal
+  carry, ~420px target, [400,450] window; reserve first).
+  Ledger 1/12, global 113/200; 11 left.)
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
