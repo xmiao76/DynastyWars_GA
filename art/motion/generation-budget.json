@@ -118,8 +118,8 @@
     },
     "huangzhong": {
       "role": "hero",
-      "cap": 16,
-      "used": 13,
+      "cap": 17,
+      "used": 14,
       "sheetCandidates": {
         "walk": 1,
         "jab1": 1,
@@ -128,7 +128,8 @@
         "jump": 1,
         "fall": 1,
         "getup": 1
-      }
+      },
+      "note": "Owner extension 2026-10-05 (\"fund +1 targeted fix\"): cap 16 -> 17 (+1) for the getup tier-gap fix (crouch/stand bows ~300-310 vs prone/kneel ~260-280, overlay-verified 17.38%; see art/motion/huangzhong/PROVENANCE.md). Usage is NOT reset (used was 13 at the time of the extension). The 200 global cap and the two-whole-sheet-candidates-per-sequence rule are unchanged."
     }
   }
 }

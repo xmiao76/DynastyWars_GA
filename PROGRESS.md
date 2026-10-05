@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 09:52 UTC - CMR-12A (attempt 1, BLOCKED - funded getup fix FAILED structurally (3 giant figures))
+
+- Status before: CMR-12A BLOCKED (getup tier gap); owner chose
+  "fund +1 targeted fix". No PENDING FILING, review 2/4 (not
+  due), unrelated `.gitignore` untouched.
+- Work completed: recorded owner +1 extension (huangzhong cap
+  16→17 + ledger note + new budget test, weiyan precedent;
+  usage NOT reset), reserved BEFORE the call (14/17, global
+  106/200), and generated `getup-fix-1.png` sha `e6a520cd` (cells
+  3,4,5 bows 300–310 → ~270, poses kept). Audit: STRUCTURAL
+  FAILURE — THREE components (not 9!), each a GIANT figure
+  (125–144k px, 2–3× area) in zones 2/6/7 (not briefed 3/4/5).
+  Provider ignored "copy six cells" and misplaced the rest.
+  UNSALVAGEABLE (wrong scale + positions + missing cells) —
+  REJECTED, kept per precedent. Lesson: multi-cell focused edits
+  unreliable (finisher reshuffle → this collapse); single-cell
+  fixes went 2/2. Tier gap STANDS; 3 left for 3 sheets.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37 (incl. new extension
+  test); `npm run lint`, `npm run typecheck` green. No
+  vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (cap 17 + note, 14/17),
+  `test/game/motion-budget.test.ts` (extension test),
+  `getup-fix-1.png` + `getup-fix-prompt.txt` (rejected, kept),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A BLOCKED (attempt 1).
+- Remaining work or blocker: OWNER DECISION (fresh options):
+  (a) fund +3 for sequential SINGLE-cell fixes (multi-cell proven
+  unreliable — 3 separate requests), (b) waive 17.38% (09A 35–40%
+  precedent class), (c) re-brief, or (d) redirect/descope.
+- Next recommended task: BLOCKED — awaiting owner (no autonomous
+  action available).
+
 ### 2026-10-05 09:43 UTC - PRODUCER pass (still blocked, nothing changed; IDLE)
 
 - Trigger: no IN_PROGRESS (CMR-12A owner-BLOCKED on getup tier

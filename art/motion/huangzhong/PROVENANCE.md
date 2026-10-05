@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 13/16 used (6/10 ACCEPTED; getup 1/2 design PASS,
-  LENGTH FAILS on verified pose-correlated tier gap — BLOCKED).
-  Global 105/200; getup 1/2 left. Repair reserve 3/3 untouched
-  (shared with CMR-12B, acceptance-4 only). BUDGET: 3 left for
-  3 sheets (misc/special/rider) — zero margin stands.
+- Authoring: 14/17 used (6/10 ACCEPTED; owner +1 extension spent
+  on getup fix that FAILED structurally — 3 giant figures;
+  RE-BLOCKED). Global 106/200; getup 1/2 left. Repair reserve 3/3
+  untouched (shared with CMR-12B, acceptance-4 only). BUDGET: 3
+  left for 3 sheets (misc/special/rider) — zero margin stands.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,35 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 14/17 (owner +1 extension) — getup fix FAILED structurally: 3 giant figures, RE-BLOCKED 2026-10-05
+
+- Extension mechanics (weiyan 16→26 precedent): huangzhong cap
+  16→17 + ledger note + new test asserting cap/note/usage/global
+  rules (tests 9/9 incl. new case). Usage NOT reset (was 13).
+  Reserve-before-call: `reserve(..., focused/getup)` → used 14,
+  remaining 3, total 106 (guard: expected 13/17, held).
+- Exact prompt: `getup-fix-prompt.txt` (cells 3,4,5 bows 300–310
+  → ~270 matching top-tier center 267, poses kept EXACTLY, tips
+  in empty space). Ordered refs: getup orig (vehicle), weapon-
+  spec, fall, body, portrait. One image, first try.
+- Output: `getup-fix-1.png` sha `e6a520cd…` — STRUCTURAL FAILURE:
+  audit finds THREE components (not 9!), each a GIANT figure
+  (125–144k px, 2–3× normal area; bboxes 500–700px wide) sitting
+  in zones 2/6/7 (NOT the briefed 3/4/5!). Provider ignored
+  "copy six cells" AND misplaced the three it drew. UNSALVAGEABLE
+  (wrong scale + wrong positions + missing cells; splice needs
+  same-scale same-position). REJECTED, kept per precedent.
+  Lesson sharpened: multi-cell focused edits are unreliable
+  (finisher reshuffle → this collapse); single-cell fixes went
+  2/2 (jab1c2, jab2c4). Never brief 3+ cells again.
+- Getup status: tier gap (17.38%) STANDS, no fix available within
+  budget. RE-BLOCKED — OWNER DECISION (fresh options): (a) fund
+  ANOTHER +1 for a careful SINGLE-cell-iterated fix (3 sequential
+  single-cell fixes = 3 requests — needs +3, not +1!), (b) waive
+  17.38% (within 09A 35–40% precedent class), (c) re-brief the
+  sheet (+1, same shortfall), or (d) redirect/descope. 3 requests
+  remain for misc/special/rider either way.
 
 ### Request 13/16 — getup 3x3 sheet candidate 1/2: design PASS, LENGTH FAILS (tier gap) → BLOCKED 2026-10-05
 

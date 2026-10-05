@@ -408,12 +408,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1; OWNER DECISION NEEDED on getup: design
-  passes but bow lengths split pose-correlated tiers (prone/kneel
-  ~260–280 vs crouch/stand ~300–310, overlay-verified 17.38%);
-  every keep spans both tiers (min ~14%+); zero budget margin (3
-  left for 3 sheets) forbids unilateral fixes — options: fund +1
-  fix, waive 17.5% (09A precedent class), re-brief, or redirect.
+- Status: BLOCKED (attempt 1; OWNER DECISION NEEDED on getup: the
+  funded +1 fix FAILED structurally (3 giant figures in wrong
+  zones, rejected); tier gap 17.38% STANDS with zero budget margin
+  (3 left for 3 sheets) — options: fund +3 for sequential
+  single-cell fixes (multi-cell proven unreliable), waive 17.5%
+  (09A precedent class), re-brief, or redirect.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;
