@@ -326,12 +326,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Final play order [0 takeoff,1 ascent,2 apex,6 kick,4 descent,5
   landing] (cull 3,7,8): true lengths [477,491,475,506,485,483]px,
   mean 486.2, spread 6.376% ≤10% source-level PASS; directed steps
-  ≤10°. Six v2 sequences source-accepted (walk,jab1,jab2,finisher,
-  special,jump); pack/continuity still unverified. Four whole sheets
-  fall/getup/misc/rider remain plus pack/offline review. Ledger
-  unchanged 19/26 (four planned, three focused); repair reserve 3/3
-  untouched; no runtime or decode exception. Next: v2 fall. See V2
-  plan/provenance.
+  ≤10°. Fall-v2 request 20/26 (one transient attachment error,
+  identical retry under same reservation) generated nine clean
+  poses with correct arc incl. flat DOWN bookend, but core
+  [502,470,438,500,558]px spread 24.3% FAIL: tumble cell2
+  genuinely short (438px), DOWN cell4 genuinely long (558px),
+  both endpoint-verified; DOWN irreplaceable so no spare remap
+  works. Next: deterministic authored retouch of fall:2 (extend)
+  + fall:4 (shorten), no image request unless unclean. Six v2
+  sequences source-accepted; pack/continuity unverified. Three
+  whole sheets getup/misc/rider remain plus pack/offline review.
+  Ledger 20/26 (three planned, three focused); repair reserve 3/3
+  untouched; no runtime or decode exception. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

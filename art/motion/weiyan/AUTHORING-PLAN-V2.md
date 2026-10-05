@@ -24,10 +24,15 @@ reserve-before-call, carried learnings) still applies.
   6,4,5], cull [3,7,8]: [477,491,475,506,485,483]px, spread
   6.376% ≤10% source-level PASS (kick = spare6, landing =
   retouched5). Never use still-airborne spare7 as a fake landing.
-  Four v2 whole-sheet sequences fall/getup/misc/rider remain; seven authoring
-  requests available (4 planned + 3 focused MAX). All prior
-  whole-sheet slots consumed, repair 3/3 remains acceptance-4-
-  only. Cross-sequence acceptance UNVERIFIED.
+  Fall whole sheet request 20/26 (poses correct; tumble 438px
+  short + DOWN 558px long, no spare fix since DOWN is
+  irreplaceable): next is a deterministic authored retouch of
+  BOTH cells (extend cell2, shorten cell4), no image request
+  unless the retouch reads unclean. Three whole-sheet sequences
+  getup/misc/rider remain; six authoring requests available
+  (3 planned + 3 focused MAX). All prior whole-sheet slots
+  consumed, repair 3/3 remains acceptance-4-only.
+  Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).

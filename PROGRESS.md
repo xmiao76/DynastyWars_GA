@@ -22,6 +22,48 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 00:22 UTC - CMR-11A (attempt 1, IN_PROGRESS - fall v2 generated; tumble short + DOWN long, retouch planned)
+
+- Status before: CMR-11A IN_PROGRESS (6/10 v2 sequences
+  source-accepted; ledger 19/26). No PENDING FILING, review 1/4,
+  unrelated `.gitignore` untouched.
+- Work completed: wrote exact `fall-v2-prompt.txt` (topple/airborne/
+  tumble/impact/DOWN + 4 spares, flat DOWN bookend specified);
+  inspected all 5 ordered refs (legacy weapon `71c288d1`, body
+  `ee0a0200`, portrait `0fc579c1`, walk guard `46546eca`, jump
+  retouched `0f3dc631`). Reserved fall sheet candidate 2/2 BEFORE
+  the call (request 20/26, global 87/200). First image attempt
+  failed `Attachment object is missing` (no image); re-read refs
+  and retried IDENTICAL call under the SAME reservation → source
+  `fall-v2-candidate-1.png` sha `3516d964` (preferred provider,
+  no fallback notice). Original preserved.
+- Verification run: mechanical audit 9/9 clean components, 0 edge,
+  0 specks, 77,028 glow removed; cleaned contact sha `12c91896`
+  reviewed (correct arc, flat eyes-closed DOWN, distinct spares).
+  Endpoint overlay sha `a1ebec77` reviewed: all cells
+  [502,470,438,500,558,449,502,481,480]px; core [0..4] spread
+  120/493.6 = 24.3% FAIL — tumble cell2 genuinely SHORT (438px),
+  DOWN cell4 genuinely LONG (558px), both endpoint-verified (not
+  ferrule-hits). Spares cannot fix: DOWN is irreplaceable (only
+  flat-on-back), and at 558 no other cell reaches the compliant
+  band (would need ≥505px; best is 502px). Poses correct, so the
+  next step is a deterministic authored retouch (extend cell2,
+  shorten cell4), NOT a generative redraw. `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `fall-v2-candidate-1.png` + exact prompt (new,
+  force-added), generation-budget.json, PROVENANCE.md, TASKS.md,
+  AUTHORING-PLAN-V2.md, PROGRESS.md. Audit scripts stay in ignored
+  artifacts/.
+- Result/status after: CMR-11A IN_PROGRESS; fall source REJECTED
+  as complete input (poses right, two rigid lengths wrong).
+- Remaining work or blocker: fall retouch (both cells) + verify;
+  then v2 getup/misc/rider, 16MiB-first prepare, landmark and
+  continuity review. No blocker.
+- Next recommended task: CMR-11A fall retouch (deterministic,
+  no image request; focused-edit fallback only if unclean).
+
 ### 2026-10-05 00:08 UTC - CMR-11A (attempt 1, IN_PROGRESS - jump ACCEPTED via deterministic landing-shaft retouch, no image request)
 
 - Status before: CMR-11A IN_PROGRESS; jump takeoff fixed (477px)

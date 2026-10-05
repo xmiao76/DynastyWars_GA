@@ -1,15 +1,13 @@
 # Wei Yan provenance (CMR-11A)
 
-- Authoring: 19/26 used (owner `Do A`: +10 to Wei Yan's original
+- Authoring: 20/26 used (owner `Do A`: +10 to Wei Yan's original
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
-  splices, finisher/special cull derivatives source-accepted.
-  Jump-v2 SOURCE-ACCEPTED at drawing level via focused edit (takeoff)
-  plus a deterministic landing-shaft retouch (no image request);
-  see "jump-v2-retouched-source". Seven authoring requests remain,
-  full pack unverified; global
-  200/two whole sheets/sequence unchanged; walk/jab1/jab2/
-  finisher/special/jump used both whole-sheet slots.
+  splices, finisher/special cull derivatives, jump retouch
+  source-accepted. Fall-v2 source NOT ACCEPTED (tumble short,
+  DOWN long). Six authoring requests remain, full pack
+  unverified; global 200/two whole sheets/sequence unchanged;
+  walk/jab1/jab2/finisher/special/jump/fall used both slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -18,15 +16,61 @@
 
 Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 16 → 26 (+10), NOT reset the ten v1 requests. The durable budget
-ledger now says 19/26, total 86/200; walk/jab1/jab2/finisher/
-special/jump each consumed a second whole-sheet candidate (later
-jab1/jab2/jump edits were FOCUSED, not third whole-sheet
+ledger now says 20/26, total 87/200; walk/jab1/jab2/finisher/
+special/jump/fall each consumed a second whole-sheet candidate
+(later jab1/jab2/jump edits were FOCUSED, not third whole-sheet
 candidates), and the separate repair reserve
 stays 3/3.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### fall-v2-candidate-1 — REJECTED as complete sequence 2026-10-05; sha `3516d964…`
+
+- Request 20/26, fall sheet candidate 2/2, RESERVED BEFORE the image
+  call. First image attempt failed with `Attachment object is
+  missing` (no image); all five refs were then re-read in the image
+  tool and the IDENTICAL call retried under the SAME reservation
+  (1 image for 1 slot, per precedent) — preferred ChatGPT image
+  provider, no fallback notice. Exact prompt in
+  `fall-v2-prompt.txt`; refs in order: legacy weapon `71c288d1…`
+  (only weapon authority), body `ee0a0200…`, portrait `0fc579c1…`,
+  walk-v2 guard anchor `46546eca…` (length ruler), jump retouched
+  `0f3dc631…` (body/style continuity only). No v1 weapon ref.
+- Mechanical gate: 9 alpha-connected figures, all 9 grid cells
+  covered, zero edge contact, 0 specks; `cleanAlpha` removed 77,028
+  low-alpha glow pixels within tolerance (original PNG untouched).
+  Tumble compact (444x237, no fit risk); DOWN flat (563x169).
+- Visual (cleaned 3x3 contact sha `12c91896`, actually reviewed):
+  topple leans back off-balance, airborne/tumble genuinely off
+  ground, impact sprawls, DOWN lies flat on back with eyes closed
+  and weapon gripped alongside, spares distinct (twist/crouch/
+  sprawl/prone). Turban/bronze/beard/purple stable, no forks,
+  no verticals, full haft + gold pommel/ferrule + red tassel +
+  curved steel blade visible in every cell.
+- TRUE endpoints (overlay sha `a1ebec77`, actually read; blue on
+  gold pommels, green on steel tips in all 9 cells): all cells
+  [502,470,438,500,558,449,502,481,480]px, angles
+  [-16,-6,-1,-2,-2,6,6,3,0]°. Core [0..4] = [502,470,438,500,
+  558]px, mean 493.6, spread 120/493.6 = **24.3% FAIL**. TWO
+  genuine opposite defects (both endpoint-verified, not
+  ferrule-hits): tumble cell2 SHORT (438px) and DOWN cell4 LONG
+  (558px). Spares cannot fix it: DOWN is irreplaceable (only
+  flat-on-back drawing; spares are twist/crouch/sprawl/prone),
+  and with DOWN at 558 no other cell reaches the compliant band
+  (min would need ≥505px; next-best is 502px). Tumble spares
+  (nearest: spare5 449px, wrong pose anyway) don't help either.
+- DECISION: REJECT as complete pack input; no third whole-sheet
+  fall permitted. Next: deterministic authored retouch (NO image
+  request, jump-landing method) — EXTEND tumble cell2's rear shaft
+  (~438→~485px) and SHORTEN DOWN cell4's (~558→~490px) by rigid
+  axis translation, each verified by seam crop + endpoint overlay
+  + component-hash proof that nothing else moved. Poses are
+  correct; only rigid lengths are wrong, so no generative redraw
+  is justified yet. If either retouch collides or reads unclean,
+  fall back to one focused ordinary-authoring edit. No pack
+  rebuild or runtime activation; 6 requests remain.
 
 ### jump-v2-retouched-source — ACCEPTED jump drawings 2026-10-04; sha `0f3dc631…`
 
