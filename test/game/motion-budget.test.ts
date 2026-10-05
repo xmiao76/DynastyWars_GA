@@ -121,18 +121,22 @@ describe('generation budget caps', () => {
     expect(ledger.fighters['zhangfei']?.cap).toBe(16)
   })
 
-  it('records the owner Huang Zhong extension without resetting usage or touching the global rules', () => {
+  it('records the owner Huang Zhong extensions without resetting usage or touching the global rules', () => {
     // Owner "fund +1 targeted fix" 2026-10-05: cap 16 -> 17 for the
     // getup tier-gap fix (verified 17.38% pose-correlated spread).
     // Usage was 13 at that time and is never reset; the 200-total
     // cap and the two-whole-sheets-per-sequence rule are unchanged.
+    // SECOND extension same day ("fund +3 for sequential single-cell
+    // fixes"): cap 17 -> 20 after the 3-cell fix collapsed
+    // structurally (usage was 14; multi-cell edits unreliable).
     const ledger = loadLedger(DEFAULT_LEDGER_PATH)
     const hz = ledger.fighters['huangzhong']
     expect(ledger.totalCap).toBe(200)
     expect(ledger.sheetCandidatesPerSequence).toBe(2)
-    expect(hz?.cap).toBe(17)
+    expect(hz?.cap).toBe(20)
     expect(hz?.used).toBeGreaterThanOrEqual(13)
     expect(hz?.note).toMatch(/Owner extension 2026-10-05/)
+    expect(hz?.note).toMatch(/SECOND owner extension/)
     expect(hz?.note).toMatch(/NOT reset/)
     // Seven sequences hold v1 candidates; none may exceed two sheets.
     for (const seq of ['walk', 'jab1', 'jab2', 'finisher', 'jump', 'fall', 'getup']) {

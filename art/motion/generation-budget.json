@@ -118,8 +118,8 @@
     },
     "huangzhong": {
       "role": "hero",
-      "cap": 17,
-      "used": 14,
+      "cap": 20,
+      "used": 15,
       "sheetCandidates": {
         "walk": 1,
         "jab1": 1,
@@ -129,7 +129,7 @@
         "fall": 1,
         "getup": 1
       },
-      "note": "Owner extension 2026-10-05 (\"fund +1 targeted fix\"): cap 16 -> 17 (+1) for the getup tier-gap fix (crouch/stand bows ~300-310 vs prone/kneel ~260-280, overlay-verified 17.38%; see art/motion/huangzhong/PROVENANCE.md). Usage is NOT reset (used was 13 at the time of the extension). The 200 global cap and the two-whole-sheet-candidates-per-sequence rule are unchanged."
+      "note": "Owner extension 2026-10-05 (\"fund +1 targeted fix\"): cap 16 -> 17 (+1) for the getup tier-gap fix (crouch/stand bows ~300-310 vs prone/kneel ~260-280, overlay-verified 17.38%; see art/motion/huangzhong/PROVENANCE.md). Usage is NOT reset (used was 13 at the time of the extension). The 200 global cap and the two-whole-sheet-candidates-per-sequence rule are unchanged. SECOND owner extension 2026-10-05 (\"fund +3 for sequential single-cell fixes\"): cap 17 -> 20 (+3) after the 3-cell fix collapsed structurally (multi-cell focused edits unreliable; single-cell fixes went 2/2). Usage is NOT reset (used was 14 at the time of the second extension). Global and per-sequence rules unchanged."
     }
   }
 }

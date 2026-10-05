@@ -1,12 +1,12 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 6/10 ACCEPTED; getup fix (owner +1) FAILED structurally (3 giant figures, rejected) — RE-BLOCKED; 14/17 spent, 3 left for 3 sheets.
+Status: 6/10 ACCEPTED; getup single-fix 1/3 DONE (c3 266 in-band, pose kept); 15/20 spent, 5 left (2 fixes + 3 sheets).
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 17 (owner +1 2026-10-05), used 14 (+getup fix,
-  FAILED). Global 106/200. Two whole-sheet candidates per
-  sequence, unchanged (getup 1/2 left).
+- huangzhong cap 20 (owner +3 2026-10-05), used 15 (+getup
+  single-fix 1/3, DONE). Global 107/200. Two whole-sheet
+  candidates per sequence, unchanged (getup 1/2 left).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused
   corrections before any repair need. Repair reserve 3/3 untouched
   (shared with CMR-12B, acceptance-4 only).

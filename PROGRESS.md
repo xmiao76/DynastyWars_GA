@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 10:04 UTC - CMR-12A (attempt 1, IN_PROGRESS - getup single-fix 1/3 DONE (cell 3 266 in-band))
+
+- Status before: CMR-12A BLOCKED (funded 3-cell fix failed);
+  owner funded +3 sequential singles (cap 20). No PENDING FILING,
+  review 2/4 (not due), unrelated `.gitignore` untouched.
+- Work completed: recorded second extension (cap 17→20 + note +
+  test, weiyan pattern; 9/9 incl. extended case), reserved BEFORE
+  the call (15/20, global 107/200), generated `getup-fix-2.png`
+  sha `302696f9` (one image, first try; ONLY cell 3). Audited
+  9/9, 0 edge (layout obeyed — single-cell briefs now 3/3). 3x
+  zone read: crouch pose kept EXACTLY, single vertical bow +
+  string + air, no extras; chord (452,382)-(443,648) = 266.2px —
+  IN BAND near cluster center 267. Banked for splice (only cell
+  3 used; untargeted drift ignored).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (cap 20 + note, 15/20),
+  `test/game/motion-budget.test.ts` (extension test),
+  `getup-fix-2.png` + prompt (new, force-added), PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md (resumed IN_PROGRESS), PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 15/20).
+- Remaining work or blocker: fix 2/3 (cell 4, same pattern) →
+  3/3 (cell 5) → splice {3,4,5} + re-measure + verdict. No
+  blocker. 5 left = 2 fixes + 3 sheets exactly.
+- Next recommended task: CMR-12A getup fix 2/3 (cell 4, reserve
+  first; abort to reassess if it lands outside 255–285).
+
 ### 2026-10-05 09:52 UTC - CMR-12A (attempt 1, BLOCKED - funded getup fix FAILED structurally (3 giant figures))
 
 - Status before: CMR-12A BLOCKED (getup tier gap); owner chose

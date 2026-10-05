@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 14/17 used (6/10 ACCEPTED; owner +1 extension spent
-  on getup fix that FAILED structurally — 3 giant figures;
-  RE-BLOCKED). Global 106/200; getup 1/2 left. Repair reserve 3/3
-  untouched (shared with CMR-12B, acceptance-4 only). BUDGET: 3
-  left for 3 sheets (misc/special/rider) — zero margin stands.
+- Authoring: 15/20 used (6/10 ACCEPTED; owner +3 funded; getup
+  single-fix 1/3 DONE — cell 3 bow 310→266 in-band, pose kept).
+  Global 107/200; getup 1/2 left. Repair reserve 3/3 untouched
+  (shared with CMR-12B, acceptance-4 only). BUDGET: 5 left (2
+  getup fixes + 3 sheets) — back on rails.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,30 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 15/20 (owner +3 funded) — getup single-fix 1/3: cell 3 DONE (310→266 in-band) 2026-10-05
+
+- Extension mechanics (second): huangzhong cap 17→20 + ledger note
+  + test update (tests 9/9 incl. extended case). Usage NOT reset
+  (was 14). Reserve-before-call: `reserve(..., focused/getup)` →
+  used 15, remaining 5, total 107 (guard: expected 14/20, held).
+- Exact prompt: `getup-fix2-prompt.txt` (ONLY cell 3, pose kept,
+  bow 310→~270 matching sibling center 267). Ordered refs: getup
+  orig (vehicle, FIRST), weapon-spec, fall, body, portrait. One
+  image, first try, no errors.
+- Output: `getup-fix-2.png` sha `302696f9…` (1536×1024).
+  Mechanical: 9/9, 0 edge (layout OBEYED — single-cell briefs now
+  3/3 on layout vs multi-cell 1/2). 3x zone read: crouch pose
+  kept EXACTLY, single vertical bow + string + air, no extras.
+  Chord (452,382)-(443,648) = 266.2px — IN BAND (target 270–275;
+  landed near cluster center 267). Fix #1 BANKED (splice takes
+  ONLY cell 3 from this file; untargeted drift ignored per
+  jab1fix-1 precedent).
+- Next: fix #2 (cell 4, same brief pattern) → fix #3 (cell 5) →
+  splice {3,4,5} + full re-measure + verdict. Adaptive note: if a
+  later fix lands high (~285), cluster tolerates to ~290 (c2
+  280.3 pins top); if one lands <255, STOP and reassess (no retry
+  budget: 5 left = 2 fixes + 3 sheets exactly).
 
 ### Request 14/17 (owner +1 extension) — getup fix FAILED structurally: 3 giant figures, RE-BLOCKED 2026-10-05
 
