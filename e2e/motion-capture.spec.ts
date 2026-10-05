@@ -68,7 +68,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   // the budget scales with the sample count, not the fighter. Measured:
   // ~9s/sample headless (snapshot+decode+dataURL per crop), so the full
   // 70-sample run needs ~11 min.
-  test.setTimeout(FIGHTER === 'zhangfei' || FIGHTER === 'zhaoyun' ? 900_000 : 240_000)
+  test.setTimeout(FIGHTER === 'zhangfei' || FIGHTER === 'zhaoyun' || FIGHTER === 'weiyan' ? 900_000 : 240_000)
   mkdirSync(`${RUN}/frames`, { recursive: true })
   const errors: string[] = []
   page.on('pageerror', (e) => errors.push(String(e)))
@@ -299,6 +299,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     guanyu: { jab1: 'gy.jab1' },
     zhangfei: { jab1: 'zf.jab1', jab2: 'zf.jab2', finisher: 'zf.finisher' },
     zhaoyun: { jab1: 'zy.jab1', jab2: 'zy.jab2', finisher: 'zy.finisher' },
+    weiyan: { jab1: 'wy.jab1', jab2: 'wy.jab2', finisher: 'wy.finisher' },
   }
   const heroIds = ENEMY_KIND
     ? { jab1: '' }
@@ -353,6 +354,29 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
+  // Wei Yan mirrors the Zhang Fei/Zhao Yun 17-action list with wy.* ids;
+  // sample ticks sit mid-active-window of his slower dao windings (jab1/2
+  // strike 9-13 -> tick 11; finisher strikes 13-18 -> tick 15; special
+  // strikes 6-17 -> tick 10; jumpkick active 4-23 -> tick 8 airborne).
+  const weiyanIsolated: Array<[string, Record<string, unknown>]> = [
+    ['idle', { state: 'idle', stateTick: 0 }],
+    ['jab1', { state: 'attack', attackId: 'wy.jab1', stateTick: 11 }],
+    ['hurt', { state: 'hitstun', stateTick: 5 }],
+    ['jab2', { state: 'attack', attackId: 'wy.jab2', stateTick: 11 }],
+    ['knockdown', { state: 'knockdown', stateTick: 12 }],
+    ['finisher', { state: 'attack', attackId: 'wy.finisher', stateTick: 15 }],
+    ['getup', { state: 'getup', stateTick: 10 }],
+    ['special', { state: 'special', attackId: 'wy.special', stateTick: 10 }],
+    ['jump', { state: 'jump', stateTick: 18, airTicks: 18, z: 48 }],
+    ['jumpkick', { state: 'jumpattack', attackId: 'wy.jumpkick', stateTick: 8, airTicks: 18, z: 48 }],
+    ['grab', { state: 'grab', stateTick: 5 }],
+    ['grabbed', { state: 'grabbed', stateTick: 0 }],
+    ['thrown', { state: 'thrown', stateTick: 6, z: 10 }],
+    ['mount', { mountedOn: 7, state: 'idle', stateTick: 0 }],
+    ['mountedsweep', { mountedOn: 7, state: 'attack', attackId: 'mounted.sweep', stateTick: 10 }],
+    ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
+    ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
+  ]
   const guanyuIsolated: Array<[string, Record<string, unknown>]> = [
     ['idle', { state: 'idle', stateTick: 0 }],
     ['jab1', { state: 'attack', attackId: heroIds.jab1, stateTick: 0 }],
@@ -374,7 +398,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
         ['dying', { state: 'dying', stateTick: 0, hp: 0 }],
         ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
       ])
-    : (FIGHTER === 'zhangfei' ? zhangfeiIsolated : FIGHTER === 'zhaoyun' ? zhaoyunIsolated : guanyuIsolated)
+    : (FIGHTER === 'zhangfei' ? zhangfeiIsolated : FIGHTER === 'zhaoyun' ? zhaoyunIsolated : FIGHTER === 'weiyan' ? weiyanIsolated : guanyuIsolated)
   for (const facing of ['right', 'left'] as const) {
     for (const [action, fields] of isolated) {
       await setPlayer({ facing, ...fields })

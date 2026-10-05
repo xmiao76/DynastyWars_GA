@@ -84,6 +84,17 @@ if (fighter === 'zhaoyun') {
   packRevision = singlePrepared.revision
   pivot = { x: singlePrepared.box.width, y: singlePrepared.box.groundY * singlePrepared.density }
 }
+if (fighter === 'weiyan') {
+  // Two-page hero pack, one prepared record: both page hashes + revision +
+  // pivot come from it (pivot = full cell width, ground line in px).
+  singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/weiyan-prepared.json`, 'utf8'))
+  sourceHashes = {
+    'weiyan-motion-sheet.png': singlePrepared.sha256.sheet,
+    'weiyan-actions-sheet.png': singlePrepared.sha256.actions,
+  }
+  packRevision = singlePrepared.revision
+  pivot = { x: singlePrepared.box.width, y: singlePrepared.box.groundY * singlePrepared.density }
+}
 
 // ---- rotate the previous capture (before/after pairs across rotations) ----
 if (existsSync(run)) {
@@ -154,7 +165,12 @@ const bindings = fighter === 'soldier'
             'zy.jab1': 'jab1', 'zy.jab2': 'jab2', 'zy.finisher': 'finisher',
             'zy.jumpkick': 'jumpkick', 'zy.special': 'special', 'mounted.sweep': 'mountedsweep',
           }
-          : {
+          : fighter === 'weiyan'
+            ? {
+              'wy.jab1': 'jab1', 'wy.jab2': 'jab2', 'wy.finisher': 'finisher',
+              'wy.jumpkick': 'jumpkick', 'wy.special': 'special', 'mounted.sweep': 'mountedsweep',
+            }
+            : {
           'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
           'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
         }
@@ -176,7 +192,9 @@ const injectedActions = fighter === 'soldier'
         ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
         : fighter === 'zhaoyun'
           ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
-          : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+          : fighter === 'weiyan'
+            ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+            : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
   actions: actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
@@ -239,7 +257,13 @@ const report = {
                 decodedBytes: 2030 * 1847 * 4 + 1845 * 699 * 4, gpuBytes: 2030 * 1847 * 4 + 1845 * 699 * 4,
                 caps: { pageLimit: 2048, decodedPerFighter: 21 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
               }
-              : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
+              : fighter === 'weiyan'
+                ? {
+                  networkBytes: 3173250 + 146166, sourceBytes: 3173250 + 146166,
+                  decodedBytes: 1948 * 1877 * 4 + 618 * 199 * 4, gpuBytes: 1948 * 1877 * 4 + 618 * 199 * 4,
+                  caps: { pageLimit: 2048, decodedPerFighter: 16 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
+                }
+                : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
     clonedCanvasBytes: 0,
   }),
   coverageSummary: {

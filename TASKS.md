@@ -396,8 +396,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   rev weiyan-2, manifest `58d10b89`, 16MB-first fit, no exception).
   Slice 1 DONE: emit runtime assets + clips/dispatch/validator +
   catalog wiring + 22 unit tests green (mirrors CMR-10B; NO decoded
-  exception). Next: browser captures (isolated/mixed/interaction,
-  both facings/renderers) + action review report.
+  exception). Slice 2 DONE: capture harness wired for weiyan
+  (17-action isolated lists, bindings, coverage, contract-cap
+  resources); canvas + webgl captures green (73 rows each, 0
+  trace/page errors, 0 hard issues, all motion art, both facings,
+  coop/mixed covered); contacts (37 crops ×2) + 4 enlarged crops
+  reviewed; per-action verdicts all PASS (self-check) in
+  `docs/WEIYAN_ACTION_REVIEW.md`; ghost slivers disclosed as the
+  known shared limitation. Next: vision/prodbuild/signal gates,
+  then DONE.
 - Dependency: CMR-11A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11B](docs/motion-tasks/CMR-11B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic weiyan pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.

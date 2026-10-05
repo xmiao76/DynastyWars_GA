@@ -22,6 +22,44 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 04:00 UTC - CMR-11B (attempt 1, IN_PROGRESS - canvas + webgl captures green, action review all PASS)
+
+- Status before: CMR-11B IN_PROGRESS (registration wired). No
+  PENDING FILING, review 2/4, unrelated `.gitignore` untouched.
+- Work completed: wired weiyan into the motion-capture harness
+  (17-action isolated lists with wy.* ids and mid-active sample
+  ticks for his slower dao windows, bindings, coverage, contract-
+  cap resources — no exception) and ran canvas + webgl captures.
+  Both self-checks passed: 73 rows each, 0 trace errors, 0 page
+  errors, 0 hard integrity issues, 0 blanks, all 146 rows motion
+  art (zero legacy leaks), both facings, coop + mixed gameplay
+  covered, all six attack IDs sampled; resources within contract
+  caps (15.1MB decoded). Coverage 32/6 with only the 2 standing
+  unseen-landmark OPENS (producer-verified later, same as all
+  fighters). Reviewed both 37-crop contact sheets + 4 enlarged
+  crops (jab1/jumpkick/special/knockdown right): correct poses
+  per action, feet plant, identity locked, facings mirror with
+  weapon, hit-flash applies over motion art. Per-action verdicts
+  all PASS (self-check) recorded in `docs/WEIYAN_ACTION_REVIEW.md`.
+  Ghost slivers (1-6px neighbor bits in some trims) disclosed as
+  the known shared pipeline limitation, not a source defect.
+- Verification run: harness self-check green both renderers;
+  `npm run lint`, `npm run typecheck` green. (Canvas job exit 1
+  was a pwsh stderr-wrapping artifact of NO_COLOR warnings; the
+  harness itself printed success with complete outputs —
+  confirmed via report.json.) No unit changes this slice; full
+  suite untouched.
+- Files changed: `e2e/motion-capture.spec.ts` + `scripts/motion-
+  capture.mjs` (weiyan wiring), `docs/WEIYAN_ACTION_REVIEW.md`
+  (new), TASKS.md, PROGRESS.md. Captures stay in ignored
+  artifacts/.
+- Result/status after: CMR-11B IN_PROGRESS; runtime evidence
+  complete. Remaining: vision/prodbuild/signal gates, then DONE.
+- Remaining work or blocker: final gates (no behavior changes
+  expected). No blocker. Budget 25/26, repair reserve 2/3.
+- Next recommended task: CMR-11B final gates (vision, prodbuild,
+  signal) + DONE verdict.
+
 ### 2026-10-05 03:44 UTC - CMR-11B (attempt 1, IN_PROGRESS - registration wired: emit + clips/dispatch/validator + catalog + 22 tests green)
 
 - Status before: CMR-11B TODO (CMR-11A DONE, pack rev weiyan-2).
