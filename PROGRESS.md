@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 05:02 UTC - CMR-12A (attempt 1, IN_PROGRESS - walk sheet candidate 1/2 ACCEPTED, 1/16 spent)
+
+- Status before: CMR-12A IN_PROGRESS (identity locked, 0/16).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: rendered the legacy-bow weapon authority
+  (`weapon-spec-reference.png` sha `398dfd56`, idle+walk0 rig
+  windows, source sha recorded), reserved walk sheet 1/2 BEFORE
+  the call (ledger 1/16, global 93/200), generated
+  `walk-candidate-1.png` sha `806bb045` (one image, no retry).
+  Audited: 9/9 components, 0 edge, halo cleaned with no residue
+  (clean review read). Identity/poses pass (guard + 8 distinct
+  walk phases, lock match, no defects). Weapon design passes
+  (recurve, centred riser, string + air gap incl. 4x cell0 proof
+  + column runs; no arrows/forks). Length
+  [194.1,184.0,185.2,201.4,189.0,188.1,186.0,192.0,196.2],
+  spread **9.09% marginal source-level PASS**; direction max
+  3.72° PASS. Method note: 5 automated detector variants failed
+  with documented root causes (color inseparable wood/robe;
+  string merges into robe silhouette; right edge overshoots onto
+  hem — proven by 2D hood map); final numbers use verified
+  programmatic uppers + 5x micro-crop wood-end lowers, all 18
+  endpoints overlay-verified (overlay read). Mean 190.7 lands in
+  the brief's 190–210 estimate.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art
+  sources only; no runtime/render change).
+- Files changed: `generation-budget.json` (huangzhong 1/16),
+  `walk-candidate-1.png` + `walk-prompt.txt` +
+  `weapon-spec-reference.png` (new, force-added), PROVENANCE.md
+  (attempt log), AUTHORING-PLAN.md (status), TASKS.md, PROGRESS.md.
+  Diagnostics stay in ignored `artifacts/tmpcheck/`.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 1/16).
+  Walk source accepted, keep [0..8] provisionally; pack NOT
+  prepared.
+- Remaining work or blocker: jab1 sheet candidate 1/2 next
+  (reserve first; walk guard anchors refs). No blocker.
+- Next recommended task: CMR-12A jab1 sheet (short-range
+  bow-as-staff thrust per core data hz.jab1 6/4/10).
+
 ### 2026-10-05 04:26 UTC - CMR-12A (attempt 1, IN_PROGRESS - identity locked + authoring plan, 0 requests spent)
 
 - Status before: CMR-11B DONE; CMR-12A TODO (dependency met). No

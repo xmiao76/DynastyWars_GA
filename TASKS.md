@@ -411,7 +411,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 - Status: IN_PROGRESS (attempt 1; identity locked from inspected
   masters `338d9c9e`/`4dcac826`, weapon from rig files — 42u
   recurve, hand-centred riser, continuous string, no tassel;
-  10-sheet plan recorded, 0/16 spent).
+  10-sheet plan recorded. Walk sheet candidate 1/2 ACCEPTED
+  (`806bb045`, 9/9 clean, bow chords 184–201px = 9.09% marginal
+  pass overlay-verified, direction max 3.7°). Ledger 1/16,
+  global 93/200; repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
