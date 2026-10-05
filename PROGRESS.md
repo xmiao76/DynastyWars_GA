@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 22:48 UTC - CMR-13A (attempt 1, IN_PROGRESS - combo 1/2: design PASS, length FAILS (short+long))
+
+- Status before: CMR-13A IN_PROGRESS (2/7 accepted, 3/12). No
+  PENDING FILING, review 3/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved combo sheet 1/2 BEFORE the call (4/12,
+  global 116/200) and generated `combo-candidate-1.png` sha
+  `bad5e220` (first try, zero errors). Audited 9/9, 0 edge (cell
+  0 x0=19, cell 3 w=569 — legal). Design fully clean: 9/9
+  crescents + tassels, distinct slash arc, lock match. Length
+  (overlay-verified, all 10 on wood): [297.5,463.1,443.6,440.1,
+  426.4] = **39.97% FAIL** — cell-0 coiled glaive genuinely short
+  (gold butt cap VISIBLE at the fist, not occluded) + cell-1
+  463.1 overshoot. Direction: undirected axes cohere (~25° PASS);
+  blade heading rotates ~155° across windup→strike (authored
+  swing, flagged for 13B runtime verification, not silently
+  passed). NOT recorded (projection untouched).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (4/12),
+  `combo-candidate-1.png` + `combo-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 4/12).
+- Remaining work or blocker: image fix cell 0 (diagonalize coiled
+  glaive + lengthen to ~425, reserve first; ~55%) + free retouch-
+  shorten cell 1 (−38px pommel-end, proven pattern), then splice
+  + re-verify + record. No blocker. 8 left for 5 sheets.
+- Next recommended task: CMR-13A combo fix + retouch.
+
 ### 2026-10-05 22:20 UTC - CMR-13A (attempt 1, IN_PROGRESS - charge ACCEPTED via 3-op retouch, 3.84% pass)
 
 - Status before: CMR-13A IN_PROGRESS (charge held on STOP, 3/12).

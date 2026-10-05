@@ -1,10 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 3/12 used (2/7 ACCEPTED; charge via 3-op pommel
-  retouch, keep 3.84% pass). Global 115/200; charge 1/2 left.
-  Repair reserve 3/3 untouched (shared with CMR-13B,
-  acceptance-4 only). Projection: walk+charge recorded, WARN
-  (8.14%), steer next to [400.2,441.8]; no drift.
+- Authoring: 4/12 used (2/7 ACCEPTED; combo 1/2 design PASS,
+  length FAILS on cell-0 shortfall + cell-1 overshoot — fix +
+  retouch prescribed). Global 116/200; combo 1/2 left. Repair
+  reserve 3/3 untouched (shared with CMR-13B, acceptance-4
+  only). Projection: walk+charge recorded, WARN (8.14%); combo
+  HELD (not recorded).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +13,32 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 4/12 — combo 3x3 sheet candidate 1/2: design PASS, LENGTH FAILS (cell-0 short + cell-1 long) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/combo)` → used 4,
+  remaining 8, total 116 (guard: expected 3/12, held).
+- Exact prompt: `combo-prompt.txt` (slash arc, in-band 410–430px
+  brief). Ordered refs: body, portrait, charge-prepared
+  `40054db9` (read_image'd first — first try, zero errors).
+- Output: `combo-candidate-1.png` sha `bad5e220…` (1536×1024).
+  Mechanical: 9/9, 0 edge (cell 0 x0=19, cell 3 w=569 — legal).
+  Design: 9/9 crescents + tassels, distinct slash arc, lock
+  match, zero defects. Poses ACCEPTED (windup coils blade-back).
+- Length (overlay-verified, all 10 on wood — cell-0 gold butt cap
+  confirmed VISIBLE at the fist, genuinely short not occluded):
+  [297.5,463.1,443.6,440.1,426.4], spread **39.97% FAIL**.
+  Direction: undirected axes cohere (max step ~25° PASS); blade
+  heading rotates ~155° across windup→strike = the authored swing
+  (flagged for 13B runtime readability verification, fall-DOWN
+  style — not a silent pass).
+- Prescription (next turn): (1) IMAGE fix cell 0 (diagonalize the
+  coiled glaive + lengthen to ~425 — full-length blade-back can't
+  fit horizontally; 1 request, ~55%); (2) FREE retouch-shorten
+  cell 1 (463.1→~425, −38px pommel-end, proven pattern). Then
+  splice {0: fix} + retouch → re-verify + record. Retouch-extend
+  for cell 0 assessed + rejected (body blocks the extension path;
+  gates would refuse).
 
 ### Retouch (no image call): 3-op pommel shorten on charge 2/3/4 → 3.84% PASS → ACCEPTED 2026-10-05
 
