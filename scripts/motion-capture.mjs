@@ -54,7 +54,7 @@ let sourceHashes = {
 let packRevision = 'motion-2'
 let pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
 let singlePrepared = null
-if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer') {
+if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer' || fighter === 'huangzhong') {
   // Single-page cast packs: provenance comes from their own prepared record
   // (the guanyu literals above stay exactly as they were for guanyu runs).
   singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/${fighter}-prepared.json`, 'utf8'))
@@ -170,7 +170,12 @@ const bindings = fighter === 'soldier'
               'wy.jab1': 'jab1', 'wy.jab2': 'jab2', 'wy.finisher': 'finisher',
               'wy.jumpkick': 'jumpkick', 'wy.special': 'special', 'mounted.sweep': 'mountedsweep',
             }
-            : {
+            : fighter === 'huangzhong'
+              ? {
+                'hz.jab1': 'jab1', 'hz.jab2': 'jab2', 'hz.finisher': 'finisher',
+                'hz.jumpkick': 'jumpkick', 'hz.special': 'special', 'mounted.sweep': 'mountedsweep',
+              }
+              : {
           'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
           'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
         }
@@ -194,7 +199,9 @@ const injectedActions = fighter === 'soldier'
           ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
           : fighter === 'weiyan'
             ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
-            : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
+            : fighter === 'huangzhong'
+              ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+              : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
   actions: actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
@@ -263,7 +270,13 @@ const report = {
                   decodedBytes: 1948 * 1877 * 4 + 618 * 199 * 4, gpuBytes: 1948 * 1877 * 4 + 618 * 199 * 4,
                   caps: { pageLimit: 2048, decodedPerFighter: 16 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
                 }
-                : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
+                : fighter === 'huangzhong'
+                  ? {
+                    networkBytes: 3643905, sourceBytes: 3643905,
+                    decodedBytes: 1988 * 1594 * 4, gpuBytes: 1988 * 1594 * 4,
+                    caps: { pageLimit: 2048, decodedPerFighter: 16 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
+                  }
+                  : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
     clonedCanvasBytes: 0,
   }),
   coverageSummary: {

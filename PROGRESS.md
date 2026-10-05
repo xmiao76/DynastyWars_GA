@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 19:51 UTC - CMR-12B (attempt 1, IN_PROGRESS - slice 2: captures green both renderers + review PASS)
+
+- Status before: CMR-12B IN_PROGRESS (slice 1 done). No PENDING
+  FILING, review 3/4 (not due), unrelated `.gitignore` untouched.
+- Work completed (mirrors 11B slice 2): wired capture harness for
+  huangzhong (17-action isolated lists with hz.* ids + hz sample
+  ticks incl. special tick 1 = release AT spawn; bindings;
+  coverage; contract-cap resources: 3.6MB network, 12.7MB
+  decoded). Canvas + webgl captures green (73 rows each, 0
+  validation errors, 0 hard issues, same 2 standing opens as
+  every fighter; 146/146 motion rows, 0 legacy; both facings,
+  coop/mixed covered; WebGL matches canvas, hit-flash correct).
+  Reviewed contacts (37 crops ×2) + 5 enlarged crops (jab1,
+  jumpkick, special, knockdown, dead): all actions PASS
+  (self-check) in `docs/HUANGZHONG_ACTION_REVIEW.md`. Diagonal-
+  DOWN handoff re-confirmed acceptable (renders + routes to
+  fall:4 with zero fallbacks; 12A waiver referred, no repair;
+  empty dead crop is harness-wide, weiyan pixel-identical).
+  Ghost slivers: none observed.
+- Verification run: motion budget+pipeline+huangzhong 59/59;
+  `npm run lint`, `npm run typecheck` green. Captures are the
+  e2e evidence (ignored artifacts); vision/prodbuild/signal next.
+- Files changed: `e2e/motion-capture.spec.ts`, `scripts/motion-
+  capture.mjs` (harness wiring), `docs/HUANGZHONG_ACTION_REVIEW.md`
+  (new), TASKS.md, PROGRESS.md. Captures stay ignored.
+- Result/status after: CMR-12B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: slice 3 (vision 5/5, prodbuild 8/8,
+  signal incl. hz marathon, motion-loader e2e, full unit) → DONE.
+  No blocker.
+- Next recommended task: CMR-12B slice 3 (gates).
+
 ### 2026-10-05 19:30 UTC - CMR-12B (attempt 1, IN_PROGRESS - slice 1: registration wired, 22 tests green)
 
 - Status before: CMR-12A DONE (pack rev huangzhong-1); CMR-12B
