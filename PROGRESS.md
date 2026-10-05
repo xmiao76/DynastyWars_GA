@@ -22,6 +22,24 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 18:29 UTC - PRODUCER pass (still blocked, nothing changed; IDLE)
+
+- Trigger: no IN_PROGRESS (CMR-12A owner-BLOCKED on acceptance-4
+  waiver request; continuity review now also PASS) and no READY
+  TODO (22 CMR TODOs gated behind 12A; UIR-16/19 rule-5 BLOCKED;
+  GYM/BODY/ENH owner-deferred — none reopened). Review not due
+  (2/4 src/game), no PENDING FILING.
+- Change detection: HEAD still the continuity-review commit; tree
+  has zero new changes (only the pre-existing unrelated
+  `.gitignore` modification); ledger state unchanged. No owner
+  decision posted yet. No signals re-run.
+- Proposals: NONE filed. No UX notes.
+- Files changed: PROGRESS.md only.
+- Result/status after: queue unchanged (CMR-12A BLOCKED awaiting
+  owner acceptance-4 decision: waive 47.22%+void / fund redraw /
+  redirect).
+- Next recommended task: none autonomous — owner unblocks 12A.
+
 ### 2026-10-05 18:27 UTC - CMR-12A (attempt 1, BLOCKED - continuity review PASS; item 4 waiver sole remainder)
 
 - Status before: CMR-12A BLOCKED (acceptance-4 waiver requested).
