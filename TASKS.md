@@ -450,9 +450,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   automated chord tool (archer-v10) + verdict. Tool v1 built:
   fits only isolated limbs (c1/c2 plausible); merged cells fail
   honestly; fallback micros contradicted (±20–30px). Length
-  STILL unresolved. Next: full-curve maps for all six + single
-  overlay verdict (no peepholes). Ledger 10/16, global 102/200;
-  repair reserve 3/3 untouched).
+  STILL unresolved. Full-curve maps then gave the verdict: c3
+  short+diagonal (~199 vs 232–256 cluster) → jump FAILS on
+  demonstrated grounds (c4 read still open; PCA fits retired for
+  recurves — they overshoot curled tips). Next: c4 closing micro
+  + focused fix (c3 vertical re-brief; c4 if out-of-band) +
+  splice + re-measure. Ledger 10/16, global 102/200; repair
+  reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

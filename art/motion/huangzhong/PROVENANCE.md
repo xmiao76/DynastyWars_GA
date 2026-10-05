@@ -41,6 +41,37 @@
   is honestly UNKNOWN (never a pass) and the sheet fails to a
   targeted fix or remap on demonstrated grounds.
 
+### Full-curve maps + jump verdict: FAIL on c3 short/diagonal (no image call) 2026-10-05
+
+- Rendered full-curve alpha maps for all six keep bows in ONE
+  script and traced each limb end-to-end (no peepholes). Also ran
+  objective 1px column scans for disputed lower tips. Results:
+  - c0: (366,28)-(390,278) = 250.4 (both micro/map, solid).
+  - c1: (834,12)-(868,248) = 238.4 (top from map; bottom = traced
+    string-end, crisp transparent gap below; solid).
+  - c2: (1354,16)-(1346,272) = 256.1 (map; lone pixel at x1323
+    adjudicated headband/speck, not tip).
+  - c3: (273,353)-(~372,524) ≈ 198–200, DIAGONAL 30° lean
+    (column scans prove wood ends y513–523; below is transparent
+    37px+ — the tip is real, not cut off). SHORT outlier +
+    orientation-flagged (archer diagonal rule).
+  - c4: top (805,353) solid (map); bottom UNRESOLVED (merged w/
+    leg; micro vs map contradict 606 vs 642 — needs one wide-net
+    micro to close).
+  - c5: (1405,375)-(1428,615) = 243.3 (top overlay-verified,
+    bottom micro with transparent gap; solid).
+- Verdict: FAIL on demonstrated grounds — c3 (~199, diagonal)
+  sits 40px+ below the solid cluster (c0/c1/c2/c5: 232–256,
+  spread 9.4% among themselves). c4's exact value cannot save
+  c3 (and c4's own read is still open). Rejected alternative:
+  PCA fits (v1 tool) systematically OVERSHOOT curled recurve tips
+  by 10–25px (extreme projection past the curl) — method retired
+  for recurves; map-tracing + column-scan gaps are authoritative.
+- Fix (next turn): focused re-brief of cell 3 (vertical bow per
+  banked rule, ~240–250px cluster size, kick pose kept); include
+  cell 4 ONLY if its closing micro lands out-of-band. Then splice
+  + re-measure + verdict. No spend this turn (10/16).
+
 ### Request 10/16 — jump 3x3 sheet candidate 1/2: design PASS, length INCONCLUSIVE (method failed) 2026-10-05
 
 - Reserve-before-call: `reserve(..., sheet/jump)` → used 10,

@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 07:21 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump full-curve verdict: FAIL on c3 short/diagonal)
+
+- Status before: CMR-12A IN_PROGRESS (jump length unresolved,
+  10/16). No PENDING FILING, review 2/4 (not due), unrelated
+  `.gitignore` untouched.
+- Work completed: full-curve alpha maps for all six keep bows in
+  ONE script + objective 1px column scans, read in a single
+  careful pass (no peepholes). Traced results: c0 250.4, c1
+  238.4 (string-end verified), c2 256.1, c3 ~198–200 DIAGONAL
+  30° (column scans prove wood ends y513–523 with 37px+
+  transparent below — the tip is real, not cut off), c4 top
+  solid but bottom open (merged), c5 243.3. C3 sits 40px+ below
+  the solid cluster (c0/c1/c2/c5: 232–256, 9.4% among
+  themselves) AND breaks the banked vertical rule → jump FAILS
+  on demonstrated grounds. (Side finding: PCA fits systematically
+  overshoot curled recurve tips by 10–25px — retired for recurves;
+  map-tracing + gap scans are authoritative. c4's read stays open
+  but cannot save c3.)
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (no art/runtime
+  changes; docs + ignored tooling only).
+- Files changed: PROVENANCE.md (verdict + numbers), TASKS.md,
+  PROGRESS.md. No ledger change (no image call; still 10/16).
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 10/16).
+- Remaining work or blocker: c4 closing micro + focused fix (c3
+  vertical re-brief ~240–250 cluster size, kick pose kept; c4 if
+  out-of-band) + splice + re-measure + verdict. No blocker.
+- Next recommended task: CMR-12A jump fix (reserve first; micro
+  c4B in the same turn before finalizing the cell list).
+
 ### 2026-10-05 07:15 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump chord tool v1 built, length STILL inconclusive)
 
 - Status before: CMR-12A IN_PROGRESS (jump design pass, length
