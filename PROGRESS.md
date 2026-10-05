@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 08:48 UTC - CMR-12A (attempt 1, BLOCKED - fall verdict: diagonal DOWN + marginal spread needs owner call)
+
+- Status before: CMR-12A IN_PROGRESS (fall length open, 12/16).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: executed the bound verdict round — fresh halo-
+  aware 2x reads for all six fall bows + overlay round 2 with all
+  12 rings adjudicated ON wood (chords track): keep [260.3, 254.4,
+  240.6, 260.3, 260.4, 234.5]. Best 5-set [0,1,2,3,4] = 9.29%
+  marginal (same class as 4 priors; halo bias cancels in spread),
+  BUT its DOWN (cell 4) is diagonal ~30°, breaking the shared
+  flat-DOWN bookend (functional for getup/dead integration;
+  explicitly checked for weiyan). Flat-DOWN sets fail centrally
+  (11.8%). c0/c2 bind every keep at 9.29% — no remap within
+  authority improves it. Also struck jump-contaminated lines from
+  fall's TASKS/PROVENANCE record (c3 "short+diagonal/kick spare"
+  was jump's finding copy-pasted; fall c3 measures ~260 in-band).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (docs only).
+- Files changed: PROVENANCE.md (verdict), TASKS.md (BLOCKED +
+  decontamination), PROGRESS.md. No ledger change (12/16).
+- Result/status after: CMR-12A BLOCKED (attempt 1).
+- Remaining work or blocker: OWNER DECISION (5 methods exhausted;
+  zero budget margin forbids unilateral fixes): (a) accept
+  diagonal DOWN as-is, (b) extend budget +1 for targeted fix,
+  (c) waive to measured 9.3%, or (d) re-brief DOWN. 4 requests
+  remain for getup/misc/special/rider either way.
+- Next recommended task: BLOCKED — awaiting owner (no autonomous
+  action available).
+
 ### 2026-10-05 08:33 UTC - CMR-12A (attempt 1, IN_PROGRESS - width-profile tool v3 FAILED on fall (0/6 verified))
 
 - Status before: CMR-12A IN_PROGRESS (fall design pass, length

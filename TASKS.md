@@ -408,7 +408,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; identity locked from inspected
+- Status: BLOCKED (attempt 1; OWNER DECISION NEEDED on fall: best
+  verified keep [0,1,2,3,4] = 9.29% marginal but DOWN is diagonal
+  (flat-DOWN bookend broken); flat-DOWN sets fail at 11.8%; zero
+  budget margin (4 left for 4 sheets) forbids unilateral fixes —
+  options: accept diagonal DOWN, +1 budget, waive 9.3%, or re-brief
+  DOWN. Prior IN_PROGRESS detail preserved below; identity locked
+  from inspected
   masters `338d9c9e`/`4dcac826`, weapon from rig files — 42u
   recurve, hand-centred riser, continuous string, no tassel;
   10-sheet plan recorded. Walk sheet candidate 1/2 ACCEPTED
@@ -475,11 +481,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   incl. generator halo; must measure CLEANED). Next: gradient-tip
   tool on cleaned data + single overlay verdict (no image call).
   Ledger 12/16, global 104/200; 4 left for 4 sheets. Width-
-  profile tool v3 FAILED (0/6 verified: strip too wide, strict
-  filter dropped real rows, rings off-wood). Standing: c3 short+
-  diagonal (must remap to c6/c8 kick spare). Next: 2x views for
-  remap candidates + ONE overlay (adjust once) → PASS (≤7%) or
-  honest BLOCK. No spend (12/16).
+  profile tool v3 FAILED (0/6 verified). CORRECTION: prior "c3
+  short+diagonal / kick spare" lines were jump findings
+  copy-pasted into fall's record — struck; fall c3 measures
+  ~260 in-band. Overlay round 2 verified all 12 rings on wood:
+  best 5-set [0,1,2,3,4] = 9.29% marginal BUT its DOWN (c4) is
+  diagonal, breaking the shared flat-DOWN bookend; flat-DOWN
+  sets fail centrally (11.8%). No passing path within authority
+  (c0/c2 bind 9.29%; zero budget margin forbids fixes).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

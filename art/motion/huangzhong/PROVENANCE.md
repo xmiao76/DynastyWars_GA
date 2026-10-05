@@ -17,6 +17,29 @@
 
 ## Attempt log
 
+### Fall verdict round: BLOCKED on diagonal DOWN + marginal spread (no image call) 2026-10-05
+
+- Fresh 2x reads + overlay round 2 (all 12 rings adjudicated):
+  keep [260.3(c0),254.4(c1),240.6(c2),260.3(c3),260.4(c4),
+  234.5(c5)]. Rings sit on wood (tops placed halo-aware after
+  round 1's lesson); chords track bows. Halo bias largely
+  CANCELS in spread (uniform shift both extremes).
+- Best 5-set is [0,1,2,3,4] = 9.29% central (min c2 240.6, max
+  c0/c4 ~260.4) with ±2% method noise → [7.3%,11.3%] straddles
+  the gate (marginal-passable by 4/4 prior precedents at 8–9%).
+  BUT its DOWN (cell 4) is DIAGONAL (~30°), breaking the shared
+  flat-DOWN bookend convention (FUNCTIONAL: getup/dead start from
+  DOWN; weiyan's flat DOWN was an explicitly checked criterion).
+  Flat-DOWN options ([0,1,2,3,5] 11.80%, [0,1,2,4,5] 11.80%)
+  fail centrally. c0/c2 alone bind any keep at 9.29% — no
+  remap or adjustment within authority can do better.
+- VERDICT: fall BLOCKED — not on effort (5 methods exhausted:
+  2x, micro, ASCII, column-scan, PCA, width-profile, overlay×2)
+  but as an OWNER DECISION: (a) accept diagonal DOWN as-is,
+  (b) extend budget +1 for a targeted fix, (c) waive to measured
+  9.3%, or (d) re-brief DOWN. Zero budget margin (4 left for 4
+  sheets) forbids unilateral fixes. No spend (still 12/16).
+
 ### Width-profile tool v3: FAILED on fall (no image call) 2026-10-05
 
 - Built per-row-width-profile tracer (narrow-run segments + ONE
