@@ -317,12 +317,21 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Reviewed alternate kick6 + grounded crouch8 at [477,491,
   475,506,485,457]px => 10.17% FAIL; choosing airborne spare7
   as landing yields a numeric ~7% but is a FALSE semantic pass.
-  Jump remains UNACCEPTED, no third whole-sheet. Next: diagnose
-  clip contract and landing technique before spending another
-  focused request. Four other whole sheets fall/getup/misc/rider
-  remain plus pack/offline review. Ledger 19/26, seven remain
-  (four planned, three focused); repair reserve 3/3 untouched.
-  No runtime/decode exception. See V2 plan/provenance.
+  Jump drawings ACCEPTED via deterministic landing retouch (no
+  image request, no ledger event): `retouch-weiyan-jump-landing-v2.mjs`
+  slides ONLY cell5's pommel/cap piece back 44.15px along its axis
+  and fills the gap from a median cross-section of real shaft wood
+  (script + 5x seam crop reviewed; other 8 components hash-identical).
+  `jump-v2-retouched-source.png` sha 0f3dc631, deterministic rerun.
+  Final play order [0 takeoff,1 ascent,2 apex,6 kick,4 descent,5
+  landing] (cull 3,7,8): true lengths [477,491,475,506,485,483]px,
+  mean 486.2, spread 6.376% ≤10% source-level PASS; directed steps
+  ≤10°. Six v2 sequences source-accepted (walk,jab1,jab2,finisher,
+  special,jump); pack/continuity still unverified. Four whole sheets
+  fall/getup/misc/rider remain plus pack/offline review. Ledger
+  unchanged 19/26 (four planned, three focused); repair reserve 3/3
+  untouched; no runtime or decode exception. Next: v2 fall. See V2
+  plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

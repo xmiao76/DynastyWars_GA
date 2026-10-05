@@ -15,13 +15,16 @@ reserve-before-call, carried learnings) still applies.
   edits before corrections. Walk/jab1/jab2/finisher/special/jump
   whole sheets used requests 11/12/14/16/17/18; focused edits
   13/26 (jab1:1/2), 15/26 (jab2:2/3) produced accepted source-
-  preserving prepared sheets. Focused jump edit 19/26 only fixed
-  takeoff0; kick3 remains 533px, landing5 remains 437px, so
-  jump-v2-prepared-source.png is PROVISIONAL and jump clip is NOT
-  accepted. Never use still-airborne spare7 as a fake landing
-  even though that would make a numeric ≤10% spread. Read clip
-  contract/diagnose landing before another request. Four v2 whole-
-  sheet sequences fall/getup/misc/rider remain; seven authoring
+  preserving prepared sheets. Focused jump edit 19/26 fixed takeoff0 only (kick3 533px,
+  landing5 437px still out); a deterministic authored retouch
+  (NO image request, NO ledger event) then extended landing5's
+  rear shaft 439→483px (`retouch-weiyan-jump-landing-v2.mjs`:
+  axis translation + median wood fill; 5x seam reviewed; the
+  other 8 components hash-identical). Jump play order [0,1,2,
+  6,4,5], cull [3,7,8]: [477,491,475,506,485,483]px, spread
+  6.376% ≤10% source-level PASS (kick = spare6, landing =
+  retouched5). Never use still-airborne spare7 as a fake landing.
+  Four v2 whole-sheet sequences fall/getup/misc/rider remain; seven authoring
   requests available (4 planned + 3 focused MAX). All prior
   whole-sheet slots consumed, repair 3/3 remains acceptance-4-
   only. Cross-sequence acceptance UNVERIFIED.

@@ -22,6 +22,52 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 00:08 UTC - CMR-11A (attempt 1, IN_PROGRESS - jump ACCEPTED via deterministic landing-shaft retouch, no image request)
+
+- Status before: CMR-11A IN_PROGRESS; jump takeoff fixed (477px)
+  but kick3 533px / landing5 437px out; best pose-appropriate set
+  10.17% FAIL. No PENDING FILING, review 1/4, unrelated `.gitignore`
+  untouched. A drafted retouch acceptance (script + PROVENANCE entry)
+  was in the working tree, uncommitted, with one unverified number.
+- Work completed: completed and verified the landing retouch instead
+  of spending another image request. `scripts/retouch-weiyan-jump-
+  landing-v2.mjs` (hash-pinned input `jump-v2-prepared-source.png`
+  `5a4244cf`) slides ONLY cell5's pommel/cap piece (1,106 px) back
+  44.15px along its measured 13.26° axis and fills the 788px gap
+  from a per-row MEDIAN cross-section of real shaft wood — no tiling
+  (first tiling variant repeated a grain dot every 6px at 5x and was
+  rejected). All image evidence (2x before/after, endpoint overlay,
+  5x seam crop, six-pose ordered contact) reviewed with recorded
+  shas. Corrected the draft's direction numbers to the measured
+  per-cell values.
+- Verification run: retouch rerun byte-identical (`0f3dc631`,
+  moved 1106 / filled 788 / 9 components, no edge contact);
+  independent endpoint re-measure: retouched cell5 = 483px with
+  pommel ring on the shifted gold cap (1055,516); final play
+  order [0 takeoff,1 ascent,2 apex,6 kick,4 descent,5 landing]
+  (cull 3,7,8): [477,491,475,506,485,483]px, mean 486.2, spread
+  6.376% ≤10% source-level PASS; angles [2,8,-2,6,12,9]°,
+  steps 6,10,8,6,3 (≤10°). Other 8 components hash-identical to
+  input. `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint` and
+  `npm run typecheck` green. No UI/shipping changes (vision/
+  prodbuild N/A); full suite not rerun (known V-15b G6 failure).
+- Files changed: `scripts/retouch-weiyan-jump-landing-v2.mjs`
+  (new), `art/motion/weiyan/jump-v2-retouched-source.png` (new,
+  force-added; originals untouched), PROVENANCE.md (acceptance
+  entry + corrected angles), TASKS.md, AUTHORING-PLAN-V2.md,
+  PROGRESS.md. NO ledger event (authored retouch, not an image
+  request): still 19/26, repair reserve 3/3.
+- Result/status after: CMR-11A IN_PROGRESS; SIX v2 sequences
+  source-accepted (walk,jab1,jab2,finisher,special,jump). Pack
+  fit, cross-sequence acceptance-4 and offline continuity review
+  remain UNVERIFIED; no runtime activation, no waiver.
+- Remaining work or blocker: v2 fall/getup/misc/rider (4 whole
+  sheets), page-aware 16MiB-first prepare, landmark + continuity
+  review. No blocker.
+- Next recommended task: CMR-11A v2 fall (reserve whole-sheet
+  candidate 2/2 before the image call).
+
 ### 2026-10-04 18:03 UTC - CMR-11A (attempt 1, IN_PROGRESS - focused jump edit partial; clip still fails)
 
 - Status before: CMR-11A IN_PROGRESS; jump original 18/26 used,

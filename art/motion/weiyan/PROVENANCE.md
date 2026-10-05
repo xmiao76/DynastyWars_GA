@@ -4,9 +4,10 @@
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. V2 walk, jab1/jab2 SHA-preserving
   splices, finisher/special cull derivatives source-accepted.
-  Jump-v2 still NOT ACCEPTED: focused edit fixed takeoff weapon,
-  but kick/landing remain semantically or length-invalid.
-  Seven authoring requests remain, full pack unverified; global
+  Jump-v2 SOURCE-ACCEPTED at drawing level via focused edit (takeoff)
+  plus a deterministic landing-shaft retouch (no image request);
+  see "jump-v2-retouched-source". Seven authoring requests remain,
+  full pack unverified; global
   200/two whole sheets/sequence unchanged; walk/jab1/jab2/
   finisher/special/jump used both whole-sheet slots.
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
@@ -26,6 +27,86 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### jump-v2-retouched-source — ACCEPTED jump drawings 2026-10-04; sha `0f3dc631…`
+
+- NO image request and NO ledger event: the landing's only defect
+  was a SHORT REAR HAFT (439px vs ~475–506px elsewhere). The shaft is
+  a straight uniform wood cylinder, so lengthening it is a
+  translation along its own axis, done by
+  `scripts/retouch-weiyan-jump-landing-v2.mjs` (input hash-pinned to
+  `jump-v2-prepared-source.png` `5a4244cf`): the pommel/cap piece
+  (axis coordinate t<24, |o|≤40 → 1,106 px) slides back 44.15px
+  along the measured 13.26° axis, and the gap (788 px) is filled
+  from a per-row MEDIAN cross-section of the real shaft wood (t
+  24–44, clean of robe/hand). Only landing cell5 changes.
+- First fill variant tiled a 6px slab and the 5x seam crop showed a
+  repeating dark grain dot every 6px (a dotted line); REJECTED and
+  replaced by the median fill. Re-read the 5x before/after seam
+  crop: continuous cylinder, lengthwise shading preserved, only a
+  faint seam at the join. The retouched drawing at gameplay size
+  and 2x reads as an unaltered grounded landing (both boots planted,
+  knees bent, two-handed grip, gold butt/ferrule/red tassel/steel).
+- Verified by script (`jump-retouch-verify`): cells 0,1,2,3,4,6,7,8
+  component-SHA identical to the input; ONLY cell 5 differs.
+  Output rebuilt byte-identically on rerun (sha `0f3dc631`), 9
+  separated figures, no edge contact.
+- TRUE endpoint measure of retouched cell5: **483px** (pommel
+  ring on the gold cap, tip ring on steel; overlay re-read). Final
+  play order [0 takeoff,1 ascent,2 apex,6 kick,4 descent,5
+  landing] (cull 3,7,8): raw lengths [477,491,475,506,485,483],
+  mean 486.2, spread **6.376%** (≤10% PASS at source level).
+  Cell 3 (579px) is excluded as an over-stretched kick, spare
+  cell6 (506px, full weapon, extended boot) is the kick. Directions
+  [2,8,-2,6,12,9]° in play order (measured per cell), steps
+  6,10,8,6,3 → ≤10°. Ordered contact sha `5c59d9a9`
+  actually viewed: crouch → rise → tuck → kick → descent →
+  grounded landing is a legible clip.
+- Honest limits: the landing is an authored retouch of generator
+  pixels (documented here, deterministic, reversible by re-running
+  from the pinned input); 483px lands inside the sheet's own
+  475–506px band. Source-level only: scale, ground registration
+  (landing cell5 y1=700 vs takeoff0 y1=363 straddle their rows),
+  16MiB fit, cross-sequence spread and offline continuity are
+  UNVERIFIED. No runtime activation, no waiver, repair reserve 3/3.
+- This method (axis translation + median fill of a uniform shaft)
+  is reusable for other short-haft cells in remaining sheets when
+  the drawing is otherwise correct; it never touches a cell that
+  needs a new pose.
+
+### Jump landing contract check (2026-10-04) — NO free guard substitution
+
+- Read `src/game/art/motion-clips-zhaoyun.ts` and
+  `motion-clips-zhangfei.ts`: BOTH count jump:0..5 explicitly as
+  takeoff/ascent/apex/kick/descent/**landing**, with jump arc
+  exposure `jump:5` at airTick28 and `landing`/`kicklanding`
+  transition clips starting on jump:5 BEFORE returning through
+  jump:0 to `walk:0`. The contract in
+  `docs/CAST_MOTION_ROLLOUT.md` requires kick retraction/contact/
+  landing. `walk:0` is only the LAST guard bookend, not a valid
+  substitute for the first contact frame. We cannot call the
+  still-airborne spare7 a landing or silently omit jump:5.
+- Natural candidates: source jump:5 (standing leading boot with
+  knee bend, 439px polearm), source spare8 (two boots braced low
+  crouch, 457px; source0 already serves crouched takeoff). Their
+  geometry is legible but weapon short. With real grounded spare8
+  and spare kick6, even after the improved takeoff0 477px,
+  intact ascent1 491px, apex2 475px and descent4 485px,
+  [477,491,475,506,485,457]px has **10.1695%** spread:
+  still FAILS ≤10%, not roundable down. Using spare7 469px
+  gives a 7.65% NUMERIC spread but its boot is airborne—invalid.
+- Next actionable repair: ordinary AUTHORING focused edit of
+  named jump:5 ONLY, retaining its grounded landing pose and
+  extending its WOODEN rear haft/pommel from 439px to about
+  480–490px without shortening blade; must be SHA-preserving
+  splice and real endpoint/ground review. Once that works,
+  source play map can use [repaired takeoff0, original ascent1,
+  original apex2, original spare6 kick, original descent4,
+  newly repaired landing5]. This is a PREDICTION, not a pass;
+  if edited source stays short or drifts, leave jump unaccepted.
+  Four remaining whole-sheet sequences need four of the seven
+  authoring requests; only three focused requests remain. No
+  request was spent on this diagnosis; ledger stays 19/26.
 
 ### jump-v2-focused-r1 — PARTIAL salvage only; source still UNACCEPTED 2026-10-04; sha `513b3b4e…`
 
