@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 07:15 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump chord tool v1 built, length STILL inconclusive)
+
+- Status before: CMR-12A IN_PROGRESS (jump design pass, length
+  unresolved, 10/16). No PENDING FILING, review 2/4 (not due),
+  unrelated `.gitignore` untouched.
+- Work completed: built the archer-v10-pattern chord tool (outer-
+  strip PCA + narrow-run blob filter + overlay adjudication).
+  Overlay read: c1/c2 fits plausible (265/261px, rings on wood),
+  c0 marginal (274, boot-adjacent), c3 fragment (75px), c4 NO
+  FIT, c5 boot-caught (308px). The tool works only for isolated
+  limbs; huangzhong's bows merge with robe/legs/boots/headband-
+  tails. Fallback micros then contradicted fits AND each other
+  (±20–30px: peephole misses, string-vs-limb and headband-vs-
+  limb confusion). Full-curve maps (c3/c4) proved the only
+  reliable view. Stopped again per bounded discipline — no
+  verdict, no fix, no spend.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (no art/runtime
+  changes; docs + ignored tooling only).
+- Files changed: PROVENANCE.md (method log), TASKS.md, PROGRESS.md.
+  Tool + diagnostics stay in ignored `artifacts/tmpcheck/`.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 10/16).
+  Jump length genuinely unresolved; design PASS stands.
+- Remaining work or blocker: full-curve alpha maps for all six
+  keep bows in ONE script → read tips ONLY from complete curves
+  → ONE overlay verification → verdict. No blocker, but method
+  risk is now the schedule driver (6 requests left for 5
+  sequences + pack).
+- Next recommended task: CMR-12A jump full-curve verdict (no
+  image call; no peepholes).
+
 ### 2026-10-05 07:05 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump sheet 1/2: design PASS, length INCONCLUSIVE, spiral stopped)
 
 - Status before: CMR-12A IN_PROGRESS (4/10 accepted, 9/16). No

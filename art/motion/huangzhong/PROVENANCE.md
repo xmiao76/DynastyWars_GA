@@ -16,6 +16,31 @@
 
 ## Attempt log
 
+### Chord tool v1 + jump length STILL inconclusive (no image call) 2026-10-05
+
+- Built `artifacts/tmpcheck/huangzhong-jump-chord.mjs` (archer-v10
+  pattern: 18% outer-strip PCA + narrow-run ≤20px blob filter +
+  overlay adjudication). Result: c1/c2 fits plausible (265/261),
+  c0 marginal (274, boot-adjacent), c3 fragment (75px), c4 NO FIT,
+  c5 boot-caught (308px). Overlay read confirmed the pattern:
+  the tool works ONLY where limbs hang isolated; huangzhong's
+  bows merge with robe/legs/boots/headband-tails in most cells.
+- Fallback micros then CONTRADICTED each other and the fits
+  (±20–30px swings on c0B/c1B/c3T/c4T/c4B: peephole misses,
+  string-vs-limb confusion, headband-tail mistaken for limb,
+  boot-vs-tip merges). Full-curve maps (c3/c4) proved the ONLY
+  reliable view — but mapping all six + adjudicating exceeds this
+  already-long turn. STOPPED (bounded discipline, second time).
+- Status: jump length genuinely UNRESOLVED. Design PASS stands.
+  No verdict, no fix, no spend (ledger untouched at 10/16).
+- Next (strict protocol, no peepholes): (1) full-curve alpha maps
+  for all six keep bows in ONE script; (2) read tips ONLY from
+  complete curves (trace each limb end-to-end; distrust isolated
+  crops); (3) ONE overlay verification; (4) verdict from those
+  numbers only. If any tip stays merged/unresolvable → that cell
+  is honestly UNKNOWN (never a pass) and the sheet fails to a
+  targeted fix or remap on demonstrated grounds.
+
 ### Request 10/16 — jump 3x3 sheet candidate 1/2: design PASS, length INCONCLUSIVE (method failed) 2026-10-05
 
 - Reserve-before-call: `reserve(..., sheet/jump)` → used 10,

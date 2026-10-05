@@ -447,8 +447,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   splice). Jump sheet 1/2 (`82ed19c3`, 9/9 clean verticals,
   genuine kick, poses pass): LENGTH INCONCLUSIVE — 5 micro/ASCII
   rounds contradict (±20px swings). Stopped the spiral. Next: ONE
-  automated chord tool (archer-v10) + verdict. Ledger 10/16,
-  global 102/200; repair reserve 3/3 untouched).
+  automated chord tool (archer-v10) + verdict. Tool v1 built:
+  fits only isolated limbs (c1/c2 plausible); merged cells fail
+  honestly; fallback micros contradicted (±20–30px). Length
+  STILL unresolved. Next: full-curve maps for all six + single
+  overlay verdict (no peepholes). Ledger 10/16, global 102/200;
+  repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
