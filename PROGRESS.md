@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 06:11 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab2 sheet 1/2: design clean, keep 10.40% FAIL on c4 outlier)
+
+- Status before: CMR-12A IN_PROGRESS (walk + jab1 accepted, 5/16).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved jab2 sheet 1/2 BEFORE the call (6/16,
+  global 98/200). The first TWO image calls failed `Attachment
+  object is missing` — root-caused (not transient): the locally
+  spliced 4th ref had never been registered with the tool;
+  `read_image` on it first, then the IDENTICAL third call
+  succeeded under the SAME reservation (`jab2-candidate-1.png`
+  sha `1cb7304b`). Audited 9/9, 0 edge (cells 1,2 clear the top
+  by 4–6px, legal). Design fully clean: 9/9 vertical recurves
+  (banked rule obeyed), distinct chop poses, lock match, zero
+  arrows/shafts/defects. Keep-set [0..4] via 5x micros + 1px
+  string-end maps (c1B traced to (873,199); c4B wood-end
+  (905,638)): [188.7,195.0,187.9,191.4,208.1], spread **10.40%
+  FAIL**; direction max 8.1° pass. Four cluster at 3.7% — c4
+  alone fails it; spares 7,8 also long (~219), so no remap.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (6/16),
+  `jab2-candidate-1.png` + `jab2-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 6/16).
+- Remaining work or blocker: jab2 focused fix (cell 4 bow ~6%
+  shorter into 188–196, pose kept) + splice + re-measure. No
+  blocker. Provider absolute accuracy ±10% noise — brief band,
+  verify after.
+- Next recommended task: CMR-12A jab2 fix (reserve first).
+
 ### 2026-10-05 05:47 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 ACCEPTED via fix-3 + splice v2, 8.96% marginal pass)
 
 - Status before: CMR-12A IN_PROGRESS (jab1 splice v1 failed on

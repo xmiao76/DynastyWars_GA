@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 5/16 used (walk + jab1 ACCEPTED; jab1 via 3
-  focused fixes + splice v2, keep spread 8.96%). Global 97/200;
-  jab1 sheet still 1/2. Repair reserve 3/3 untouched (shared
-  with CMR-12B, acceptance-4 only).
+- Authoring: 6/16 used (walk + jab1 ACCEPTED; jab2 1/2
+  generated, keep 10.40% FAIL on c4 outlier — fix next).
+  Global 98/200; jab2 sheet 1/2 left. Repair reserve 3/3
+  untouched (shared with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,39 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 6/16 — jab2 3x3 sheet candidate 1/2: keep 10.40% FAIL (c4 outlier) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/jab2)` → used 6,
+  remaining 10, total 98 (guard: expected used=5, held).
+- Exact prompt: `jab2-prompt.txt` (vertical-bow chop, 205–220px
+  band briefed). Ordered refs: weapon-spec, body, portrait,
+  jab1-prepared `5a750da4` (sibling size authority). TOOL LESSON:
+  the first TWO calls failed `Attachment object is missing`
+  because the splice-output ref had never been registered —
+  constructed sha256 IDs don't resolve; `read_image` on the
+  local file first (done), then the IDENTICAL third call
+  succeeded under the SAME reservation. No extra spend.
+- Output: `jab2-candidate-1.png` sha
+  `1cb7304ba12bf9b280abe8bcb3490ecfa052d195dcda158472d767d6dfdcd135`
+  (1536×1024). Mechanical: 9/9, 0 edge (cells 1,2 bows pass 4–6px
+  from the top edge — legal, zero edge pixels), specks 5, glow
+  cleaned with no residue (clean review read).
+- Design: 9/9 CORRECT vertical recurves (banked rule obeyed —
+  zero horizontal/sideways bows, zero arrows/shafts); poses
+  distinct + role-correct (ready/raise/apex/impact/recover +
+  spares); lock match; no defects. The vertical-only brief
+  eliminated the jab1 failure modes entirely.
+- Keep-set [0..4] (10 endpoints via 5x micros + 1px maps; c1B by
+  traced string-end (873,199); c4B by wood-end (905,638)):
+  [188.7,195.0,187.9,191.4,208.1], mean 194.2, spread **10.40%
+  FAIL** (over by 0.4pp; c4's merge-adjacent tip keeps it
+  robustly over); direction max step 8.1° PASS. Four cluster
+  187.9–195.0 (3.7%) — c4 alone (+13–20px) fails it. Spares 7,8
+  run long too (~219–220), so NO spare remap. Fix path: ONE
+  focused edit redrawing ONLY cell 4's bow ~6% shorter into
+  188–196 (pose kept), then splice + re-measure. (Provider
+  absolute accuracy is ±10% noise — brief the band, verify after.)
 
 ### Request 5/16 — jab1 fix-3 (cell 2 longer) + splice v2 + keep-set 8.96% PASS → ACCEPTED 2026-10-05
 

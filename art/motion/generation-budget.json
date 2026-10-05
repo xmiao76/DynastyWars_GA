@@ -119,10 +119,11 @@
     "huangzhong": {
       "role": "hero",
       "cap": 16,
-      "used": 5,
+      "used": 6,
       "sheetCandidates": {
         "walk": 1,
-        "jab1": 1
+        "jab1": 1,
+        "jab2": 1
       }
     }
   }
