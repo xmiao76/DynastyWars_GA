@@ -17,6 +17,32 @@
 
 ## Attempt log
 
+### Width-profile tool v3: FAILED on fall (no image call) 2026-10-05
+
+- Built per-row-width-profile tracer (narrow-run segments + ONE
+  collinear bridge + overlay adjudication) to replace untrustworthy
+  hand reads. Overlay verdict: c0 ring mid-limb (207px, UNDER-read:
+  segment broke early), c1/c2 NO FIT (25% strip too wide, all rows
+  blob-wide), c3 rings OFF-wood (108px garbage on boot/space), c4
+  ring ON but length suspect (207 vs map 260+), c5 top ring FLOATING
+  (99px garbage). 0/6 verified. v3 REJECTED as a method (worse than
+  v1: wider strip admitted more body; strict narrowness dropped
+  real limb rows).
+- Standing facts (multi-method agreement ONLY): c3 is SHORT (~199,
+  diagonal 30°, column-proven, solid) → c3 CANNOT stay in keep;
+  all other bows complete + vertical + roughly sibling-sized
+  (~235–265 across methods, exact numbers untrusted).
+- BINDING DECISION (stops the spiral): next turn measures ONLY
+  what the verdict needs, simplest method first — 2x zone views
+  for remap candidates (orig c6/c8 spare kicks? one must replace
+  c3 as impact) + orig c4 (descent, still open) + re-confirm
+  c0/c1/c2/c5 from existing verified reads; ONE overlay; adjust
+  ONCE; verdict. PASS only if central spread ≤7% (3pp noise
+  margin); else fall BLOCKED honestly (method exhaustion after 3
+  turns + zero budget margin for fixes: 4 left for 4 sheets).
+  No more new methods without retiring this one by verdict.
+  No spend (still 12/16).
+
 ### Request 12/16 — fall 3x3 sheet candidate 1/2: design PASS, length INCONCLUSIVE (halo bias) 2026-10-05
 
 - Reserve-before-call: `reserve(..., sheet/fall)` → used 12,

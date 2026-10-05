@@ -22,6 +22,36 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 08:33 UTC - CMR-12A (attempt 1, IN_PROGRESS - width-profile tool v3 FAILED on fall (0/6 verified))
+
+- Status before: CMR-12A IN_PROGRESS (fall design pass, length
+  open, 12/16). No PENDING FILING, review 2/4 (not due),
+  unrelated `.gitignore` untouched.
+- Work completed: built width-profile tracer v3 (per-row narrow-
+  run segments + one collinear bridge + overlay adjudication) to
+  replace untrustworthy hand reads. Overlay adjudication: c0
+  under-read (segment broke early), c1/c2 NO FIT (25% strip too
+  wide — every row blob-wide), c3 rings OFF-wood (108px garbage),
+  c4 ring on wood but length suspect, c5 top ring floating — 0/6
+  verified, v3 REJECTED (worse than v1: width change admitted
+  body mass, strict filter dropped real limb rows). Standing
+  facts: c3 short+diagonal (must remap to a spare kick); other
+  bows complete/vertical/~235–265 by all methods. BINDING next:
+  2x zone views for remap candidates (orig c6/c8) + orig c4, ONE
+  overlay (adjust once max), then PASS (central ≤7% with margin)
+  or honest BLOCK — no fourth method spiral.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (docs + ignored
+  tooling only).
+- Files changed: PROVENANCE.md (method log), TASKS.md, PROGRESS.md.
+  No ledger change (still 12/16).
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 12/16).
+- Remaining work or blocker: fall remap verdict as bound above.
+  No blocker yet; BLOCK looms if verification fails (zero budget
+  margin: 4 left for 4 sheets).
+- Next recommended task: CMR-12A fall remap verdict (no image call).
+
 ### 2026-10-05 08:25 UTC - CMR-12A (attempt 1, IN_PROGRESS - fall sheet 1/2: design PASS, length INCONCLUSIVE (halo bias found))
 
 - Status before: CMR-12A IN_PROGRESS (5/10 accepted, 11/16). No
