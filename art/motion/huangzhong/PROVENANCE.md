@@ -1,10 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 11/16 used (4/10 ACCEPTED; jump fix adopted from
-  dead concurrent turn — kick pose broken, remap hunt next).
-  Global 103/200; jump 1/2 left. Repair reserve 3/3 untouched
-  (shared with CMR-12B, acceptance-4 only). BUDGET ALARM: 5 left
-  for 5 sheets — jump must close with zero new calls.
+- Authoring: 11/16 used (5/10 ACCEPTED; jump via spare remap
+  [0,1,2,6,4,5], 8.78%). Global 103/200; jump 1/2 left. Repair
+  reserve 3/3 untouched (shared with CMR-12B, acceptance-4 only).
+  BUDGET: 5 left for 5 sheets — zero margin stands.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +15,29 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Jump verdict (no image call): spare remap [0,1,2,6,4,5] → 8.78% PASS, ACCEPTED 2026-10-05
+
+- 2x zone views for orig c6/c8 (spare kicks) + fix c4 + orig c4,
+  read carefully in ONE pass (no peepholes): c6 kick (deepest
+  extension, bbox width 439) bow (417,670)-(395,925) = 255.9;
+  c4 orig (908,355)-(893,615) = 260.4; fix c4 nearly identical
+  (259.4) → orig kept (immutable-first; fix contributes nothing).
+  c8 unmeasured (c6 already fills the slot — deepest kick wins).
+- Final overlay on UNMODIFIED candidate-1 (read; all 12 markers
+  on wood, chords track): keep [251.1,238.4,256.1,255.9,260.4,
+  240.4] in play order [0,1,2,6,4,5], mean 250.4, spread **8.78%
+  marginal PASS** (±2–3% method tolerance disclosed — same class
+  as all prior accepts); direction max step 10.0° PASS. Culls:
+  3 (short+diagonal defect), 7 (tuck spare), 8 (kick spare).
+- Remap grounds (independent of values): (1) orig c3 FORCED out
+  (demonstrated 199px + 30° diagonal — previous turn); (2) c6 is
+  the deepest-extension kick (bbox width, pose read) — selected
+  for pose FIRST, then verified in-band (255.9). The weiyan-jump
+  [0,1,2,6,4,5] pattern recurses exactly.
+- Verdict: jump ORIG ACCEPTED via remap (no splice — walk/
+  finisher precedent: candidate IS the source). Cost: 2 requests
+  (sheet 10 + adopted fix 11, fully unused). 5/10 sequences done.
 
 ### Chord tool v1 + jump length STILL inconclusive (no image call) 2026-10-05
 

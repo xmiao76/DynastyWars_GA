@@ -463,6 +463,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   kick from {orig c6/c8} + descent from {orig/fix c4} via 2x
   views + one overlay. Else BLOCKED. Ledger 11/16, global
   103/200; repair reserve 3/3 untouched).
+  Jump verdict: 2x zone views measured remap candidates — kick =
+  orig c6 (deepest extension, 255.9 in-band), descent = orig c4
+  (260.4; fix c4 identical so orig kept) → keep [0,1,2,6,4,5]
+  = 8.78% marginal PASS, direction 10.0° pass (overlay: all 12
+  markers on wood) → jump ORIG ACCEPTED as-is, no splice. 5/10
+  done. ZERO margin: 5 requests left for fall/getup/misc/special/
+  rider (11/16).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

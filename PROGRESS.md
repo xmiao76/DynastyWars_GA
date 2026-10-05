@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 07:58 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump ACCEPTED via [0,1,2,6,4,5] remap, 8.78%)
+
+- Status before: CMR-12A IN_PROGRESS (jump kick unsolved, 11/16).
+  No PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: 2x zone views for remap candidates (orig c6/c8
+  spare kicks + fix c4 + orig c4), read carefully in ONE pass —
+  kick = orig c6 (deepest extension per bbox width 439, bow
+  (417,670)-(395,925) = 255.9 in-band); descent = orig c4
+  ((908,355)-(893,615) = 260.4; fix c4 measured 259.4 nearly
+  identical, so orig kept per immutable-first — adopted fix
+  contributes nothing). Final overlay on UNMODIFIED candidate-1
+  (read): all 12 markers on wood, chords track; keep
+  [251.1,238.4,256.1,255.9,260.4,240.4] in play order [0,1,2,6,4,5]
+  (weiyan-jump pattern recurses), mean 250.4, spread **8.78%
+  marginal PASS** (±2–3% disclosed); direction max 10.0° pass.
+  Culls 3 (short+diagonal), 7, 8. Remap grounds pose-first
+  (deepest kick), value-verified after — not cherry-picking.
+  Jump ORIG ACCEPTED as-is, no splice. Zero new calls, as required.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (no art/runtime
+  changes; docs only).
+- Files changed: PROVENANCE.md (verdict), AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md. No ledger change (still 11/16).
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 11/16).
+  5/10 sequences accepted (walk/jab1/jab2/finisher/jump).
+- Remaining work or blocker: fall sheet candidate 1/2 (reserve
+  first). No blocker. ZERO margin: 5 requests for fall/getup/
+  misc/special/rider — every sheet must pass first-try or via
+  remap; any further fix risks budget shortfall (owner call).
+- Next recommended task: CMR-12A fall sheet (knockdown arc;
+  hz winds: topple/airborne/tumble/impact/DOWN).
+
 ### 2026-10-05 07:47 UTC - CMR-12A (attempt 1, IN_PROGRESS - jump fix adopted from dead turn; kick pose broken, remap hunt next)
 
 - Status before: CMR-12A IN_PROGRESS (jump verdict reached, 10/16

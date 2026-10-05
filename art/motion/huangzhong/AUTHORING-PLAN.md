@@ -1,6 +1,6 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 4/10 ACCEPTED; jump fix adopted (kick pose broken!) — remap kick from orig c6/c8, descent from c4/fix-c4, existing pixels only; 11/16 spent, ZERO margin left.
+Status: 5/10 ACCEPTED (jump via [0,1,2,6,4,5] remap, 8.78%); 11/16 spent, ZERO margin for 5 sheets left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
