@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 04:26 UTC - CMR-12A (attempt 1, IN_PROGRESS - identity locked + authoring plan, 0 requests spent)
+
+- Status before: CMR-11B DONE; CMR-12A TODO (dependency met). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: opened CMR-12A with the identity-lock iteration
+  (no image calls). Read CMR-12A spec, rollout contract, core
+  data at implementation time (HUANG_ZHONG hp 110/walk 1.5; hz
+  jab1/jab2 6/4/10, finisher 8/5/14, jumpkick 4/20, special INERT
+  4/0/14 + arrow projectile at start, mounted.sweep 8/6/14),
+  `figures.ts` (gold-brown robe, headband, long grey beard, aged
+  skin) and the bow rig (`WEAPONS.bow` 42u recurve, 4.0 haft, no
+  tassel; hand-centred riser; string+limbs enclose air). Inspected
+  both masters with the image tool (body `338d9c9e` 832×1248,
+  portrait `4dcac826` 1145×1374 — both match the spec and the
+  figure plan). Wrote `art/motion/huangzhong/IDENTITY.md` (lock +
+  rig-sourced weapon spec — never from memory, weiyan-v1 lesson),
+  `AUTHORING-PLAN.md` (10 sheets → 10/16 order/keeps, core data,
+  carried method: bracketing refs, no-vertical/split rules,
+  TRUE-endpoint acceptance adapted to nock-to-nock + string
+  topology, retouch-before-regenerate, 16MB-first), and
+  `PROVENANCE.md` stub. Ledger: huangzhong 0/16 (auto-created on
+  first reserve), global 92/200, repair 3/3 eligible/untouched.
+- Verification run: `npm run lint`, `npm run typecheck` green
+  (docs + queue only; no code/art/tests touched — budget test
+  needs no change until first reservation). No vision/prodbuild/
+  e2e (nothing rendered yet).
+- Files changed: TASKS.md (12A IN_PROGRESS), `CMR-12A.md`
+  (status), `IDENTITY.md` + `AUTHORING-PLAN.md` + `PROVENANCE.md`
+  (new, force-added), PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 0/16).
+- Remaining work or blocker: render + record a legacy-bow
+  weapon-spec crop (weapon authority, body master shows none),
+  then walk sheet 1/2. No blocker.
+- Next recommended task: CMR-12A legacy bow reference + walk v1
+  candidate (reserve before the image call).
+
 ### 2026-10-05 04:17 UTC - CMR-11B (attempt 1, DONE - all gates green; Wei Yan motion complete, opt-in only)
 
 - Status before: CMR-11B IN_PROGRESS; captures + review done,

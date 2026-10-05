@@ -408,7 +408,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12A - Huang Zhong: author/prepare full motion pack
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1; identity locked from inspected
+  masters `338d9c9e`/`4dcac826`, weapon from rig files — 42u
+  recurve, hand-centred riser, continuous string, no tassel;
+  10-sheet plan recorded, 0/16 spent).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

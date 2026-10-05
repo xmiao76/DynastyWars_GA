@@ -1,6 +1,6 @@
 # CMR-12A — Huang Zhong: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: IN_PROGRESS (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-11B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-12B](CMR-12B.md) is the separate runtime/capture task.
 
