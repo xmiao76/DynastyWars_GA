@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 18:44 UTC - CMR-12A (attempt 1, BLOCKED - reviewed owner framework arrivals; waiver still pending)
+
+- Status before: CMR-12A BLOCKED (acceptance-4 waiver requested).
+  Due check quiet (review 2/4, no PENDING). This tick found SIX
+  new UNTRACKED files timestamped 18:35–18:42 UTC (author still
+  active — fixed lint+typecheck mid-review): `pack-projection`
+  (running acceptance gate), `motion-retouch` (rigid shaft
+  repair), each with `.d.mts` + tests. Headers claim
+  owner-approved Acceptance-4 framework citing 12A's 47.22%.
+- Work completed (REVIEW ONLY — their files untouched, unstaged,
+  uncommitted): read both modules + both test suites; ran tests
+  22/22 green on the latest files; lint + typecheck green after
+  the author's 18:42 fixes. Assessment: (1) pack-projection pins
+  the (max-min)/mean formula to precedent (06A/07A/09A/12A),
+  fixed-band anti-ratchet + drift detection — forward-looking
+  process control for 13A+, does NOT resolve 12A's spent 47.22%
+  (it would have STOPped at sheet ~3-4; past that now). (2)
+  motion-retouch is STRAIGHT-shaft rigid-axis mechanics (slide
+  cap + median fill, gated) — does NOT apply to huangzhong's
+  CURVED recurve limbs without new curve-following development;
+  not a 12A unblock path as built. Neither changes the pending
+  decision (waive 47.22%+void / fund redraw / redirect).
+- Verification run: new suites 22/22; `npm run lint`, `npm run
+  typecheck` green (post-author-fixes). No vision/prodbuild/e2e.
+  Did NOT run full unit (unchanged game code; motion suites
+  unaffected by review-only tick — full suite re-runs on next
+  game change).
+- Files changed: PROGRESS.md only. The six framework files stay
+  untracked for their author to finish + commit.
+- Result/status after: CMR-12A BLOCKED (attempt 1, awaiting owner
+  acceptance-4 decision).
+- Remaining work or blocker: OWNER DECISION unchanged. Note for
+  owner: the framework drop suggests 12A-adjacent work is active
+  elsewhere — confirm whether the waiver request still stands or
+  a retouch-based plan is coming.
+- Next recommended task: BLOCKED — awaiting owner.
+
 ### 2026-10-05 18:29 UTC - PRODUCER pass (still blocked, nothing changed; IDLE)
 
 - Trigger: no IN_PROGRESS (CMR-12A owner-BLOCKED on acceptance-4
