@@ -22,6 +22,49 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 02:52 UTC - CMR-11A (attempt 1, IN_PROGRESS - R1 repair round ACCEPTED (getup elbow 500→554px, in-band); deterministic paths for it exhausted first)
+
+- Status before: CMR-11A IN_PROGRESS; acceptance-4 weapon FULL
+  31.3% FAIL with 15-cell repair list. No PENDING FILING, review
+  1/4, unrelated `.gitignore` untouched.
+- Work completed: built the 15-op campaign script; its first run
+  FAILED SAFELY (atomic: zero art written) — getup:0 flood
+  selection leaked into the boot (proven by an 87px wrap-around
+  speck + col-0 pixels; the gate caught it). Root-caused a REAL
+  script bug class (negative-x placement wraps to the prior row's
+  end) — hardening queued. Proved getup elbow has NO deterministic
+  fix: rear blocked (edge/boot both cells), forward tangled
+  (hand/ferrule/tassel overlap, no geometric separation — crop
+  verified). Per protocol (evidence-based fix exists via image
+  round), reserved + spent repair round R1 (weiyan 3→2 remain)
+  for named cell getup:6 with exact committed prompt. Result
+  `getup-v2-repair-r1.png` sha `12d3981d`: elbow 500→554px
+  (+54, target 570+), pose/identity preserved, TRUE endpoints
+  overlay-verified, no drift. Displayed 293.35 IN pack band —
+  accepted, no follow-up retouch needed. Settled `accepted` with
+  output SHA. Spliced ONLY cell 6 into prepared →
+  `getup-v2-repaired-source.png` sha `a34991ff` (5 separated
+  figures, origins recorded, sheet viewed).
+- Verification run: R1 overlay reviewed (rings on real fittings);
+  splice gates (SHA pins, collision, 5 components, no edge) pass;
+  deterministic rerun identical (splice script). Reserve-before-
+  call + settle-after-call honored; ledgers valid. `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `getup-v2-repair-r1.png` + exact prompt (new,
+  force-added), `acceptance4-repair-budget.json` (R1 accepted),
+  `splice-weiyan-getup-r1.mjs` (new), `getup-v2-repaired-source.png`
+  (new, force-added), PROVENANCE.md, TASKS.md, AUTHORING-PLAN-V2.md,
+  PROGRESS.md. Campaign script stays uncommitted (needs fixes).
+- Result/status after: CMR-11A IN_PROGRESS; getup elbow fixed
+  (14 retouch ops remain, all proven-config). No runtime activation.
+- Remaining work or blocker: fix campaign script (bounds-check,
+  drop graft/c0, repoint getup input to repaired source) + run 14
+  ops + seam reviews + re-measure + verdict; then continuity
+  review. No blocker. Budget 25/26, repair reserve 2/3.
+- Next recommended task: CMR-11A 14-op campaign run (batch 2).
+
 ### 2026-10-05 02:18 UTC - CMR-11A (attempt 1, IN_PROGRESS - repair campaign batch 1: all 15 cells profiled, campaign GO with 3 risks)
 
 - Status before: CMR-11A IN_PROGRESS; acceptance-4 diagnosed

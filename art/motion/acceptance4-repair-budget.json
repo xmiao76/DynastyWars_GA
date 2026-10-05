@@ -117,6 +117,21 @@
           "outputSha256": "68e3ab2863e35edcebebf834a44078ba7909e9ec2fd979536dda5255bcdb8aa1"
         }
       ]
+    },
+    "weiyan": {
+      "rounds": [
+        {
+          "number": 1,
+          "status": "accepted",
+          "cells": [
+            "getup:6"
+          ],
+          "failure": "getup elbow spare weapon 500px raw (264.75 displayed) vs pack band bottom 288.9: needs +74px rear extension but pommel sits 17px from sheet edge, and forward blade-assembly path is tangled with hand/tassel; deterministic retouch infeasible both directions (see PROVENANCE repair profile); alternate elbow cell0 rear path blocked by boot adjacency (proven by failed flood + wrap speck). Redraw cell6 with ~575px weapon and isolated pommel geometry.",
+          "sourceSha256": "e88295dcba36752529d5c6b519bd2a105cff1ef68da1becbfbf99882dc8970ab",
+          "evidence": "getup cell6 redrawn 500->554px (displayed 293.35, in pack band); pose/identity preserved, true endpoints overlay-verified, no drift/malformation; spliced as only cell into prepared source",
+          "outputSha256": "12d3981dc6f89bb8db8e7a5445e9b1afef329c62b1a77df0694626159559c003"
+        }
+      ]
     }
   }
 }

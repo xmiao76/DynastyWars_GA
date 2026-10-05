@@ -6,11 +6,11 @@
   Pack re-solved with VERIFIED getup factor 0.837 (16MB-first
   fit, 9.8% margin). Acceptance-4 DIAGNOSED: weapon FULL-56
   31.3% FAIL (15-cell list), head auto VOID + consistency PASS,
-  direction PASS. All 15 repair cells profiled, campaign GO (3
-  flagged risks). One authoring request remains. Global 200/two
-  whole sheets/sequence unchanged; every sequence used both
-  whole-sheet slots (only focused edits remain).
-- Repair reserve: 3/3 untouched (shared with CMR-11B).
+  direction PASS. Repair R1 ACCEPTED (getup elbow 500→554px,
+  in-band); 14-cell retouch campaign next. One authoring request
+  remains. Global 200/two whole sheets/sequence unchanged; every
+  sequence used both whole-sheet slots (only focused edits remain).
+- Repair reserve: 2/3 remain (R1 spent on getup:6; shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
 
@@ -21,12 +21,47 @@ Owner explicitly chose A (`Do A`): extend Wei Yan's authoring cap
 ledger now says 25/26, total 92/200; every consumed second
 whole-sheet candidate stands; later jab1/jab2/jump/fall/rider
 edits were FOCUSED, not third whole-sheet candidates; and the
-separate repair reserve
-stays 3/3.
+separate repair reserve now says R1 accepted (getup:6), 2/3
+remain.
 `AUTHORING-PLAN-V2.md` and the authoritative v2 section in
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### acceptance-4 R1 — getup elbow redrawn 500→554px, ACCEPTED + spliced 2026-10-05; sha `12d3981d…`
+
+- Reserved + spent repair round R1 (weiyan 3→2 remain) on named
+  cell getup:6 AFTER deterministic paths failed: c6-rear needs
+  +74 with 17px edge room (infeasible); c6-forward needs blade-
+  assembly move through hand/ferrule/tassel tangle (hand max-t
+  overlaps ferrule min-t, tassel/hand o-overlap — no geometric
+  separation, proven by crop analysis); alternate-elbow c0-rear
+  FAILED at runtime (cap flood leaked into adjacent boot,
+  proven by an 87px wrap-around speck the atomic gates caught —
+  zero art written). No deterministic fix exists for the elbow
+  position; the image round was the evidence-based next step.
+- Exact prompt in `getup-v2-repair-r1-prompt.txt` (named cell6
+  only, ~575px target, isolated-pommel geometry); refs getup
+  candidate `a2a361d4` (edit vehicle; defective artifact is the
+  prepared source `e88295dc` named in the reservation), walk
+  `a8e44840`, weapon `71c288d1`, body `ee0a0200`, portrait
+  `0fc579c1`. Preferred provider, one image.
+- Result: cell6 500→554px (+54; target 570-575, under-shot as
+  usual but directionally right), pose/identity preserved, NO
+  drift/malformation; TRUE endpoints overlay-verified (rings on
+  real pommel/tip). Displayed 554×0.529491=293.35, IN pack band
+  [288.9,319.3] (margin 4.5px, deterministic-certain) — NO
+  follow-up retouch needed. Settled `accepted` with output SHA.
+- `scripts/splice-weiyan-getup-r1.mjs` (SHA-pinned, collision +
+  edge gates) spliced ONLY cell6 into the prepared source →
+  `getup-v2-repaired-source.png` sha `a34991ff`, 5 separated
+  figures, viewed: longer rear shaft, clean.
+- Campaign rescoped: 14 retouch ops remain (getup c1/c8/c3/c4
+  rear-extends on the REPAIRED file + jab2/finisher/jump/rider/
+  special ops as profiled); the campaign script needs its getup
+  input repointed + graft/c0-op removed + placement bounds-check
+  hardening (the wrap bug class). Next: run campaign, seam
+  reviews, re-measure, verdict.
 
 ### acceptance-4 repair profile — 15 cells scoped, campaign GO (3 risks) 2026-10-05
 
@@ -57,6 +92,9 @@ untouched and provide pose/identity reference only.
   (waiver path if gate still fails).
 - Next: campaign script (15 ops) + run + seam reviews + re-measure.
   No image requests; budget stays 25/26.
+- UPDATE (same day): getup elbow eliminated deterministic paths
+  (see R1 entry above) → R1 redraw accepted instead; campaign is
+  now 14 retouch ops on 6 files (getup input = repaired source).
 
 ### acceptance-4 diagnosis — weapon FULL 31.3% FAIL, head VOID, direction PASS 2026-10-05; landmarks `landmarks-final.json`
 
