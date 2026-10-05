@@ -5209,3 +5209,13 @@ and the three pre-redesign enhancements - all DONE and verified)
         sky-done (ridges/ground pending UIR-10/11, which complete it).
 - Non-goals: weather, time of day, or animated sky.
 
+## Archived 2026-10-05 (CMR queue overflow past 20 DONE)
+
+### CMR-01 - Reference, roster/action inventory and budgets
+
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
+- Dependency: None; due producer review still precedes consumer selection
+- Specification: [CMR-01](docs/motion-tasks/CMR-01.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Pin Guan Yu displayed pixels/pivots/exposures; inventory 17 humanoids and horse; reproduce baseline failures and record resource/generation budgets.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+

@@ -8,10 +8,10 @@
   31.3% FAIL (15-cell list), head auto VOID + consistency PASS,
   direction PASS. Repair R1 ACCEPTED (getup elbow 500→554px,
   in-band); 14-op retouch campaign COMPLETE, all seams verified.
-  Acceptance-4 weapon now **9.1% PASS**. Continuity review remains.
-  One authoring request remains. Global 200/two whole sheets/
-  sequence unchanged; every sequence used both whole-sheet slots
-  (only focused edits remain).
+  Acceptance-4 weapon now **9.1% PASS**. Continuity review PASS.
+  CMR-11A DONE 2026-10-05. One authoring request remains. Global
+  200/two whole sheets/sequence unchanged; every sequence used
+  both whole-sheet slots (only focused edits remain).
 - Repair reserve: 2/3 remain (R1 spent on getup:6; shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -29,6 +29,35 @@ remain.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### offline continuity review — PASS 2026-10-05 (contact + 10 strips, fitted pack)
+
+- Rendered `scripts/display-sheet-weiyan.mjs` (zhaoyun pattern):
+  every pack frame as the runtime draws it (trim restored in
+  520×288 box, ground y=272) — contact at gameplay size + 10
+  play-order strips at 2x. All 11 sheets actually reviewed.
+- Verdicts: walk guard + genuine 8-cycle, feet plant, no skate;
+  jab1/jab2/finisher distinct arcs, natural strike/follow;
+  remapped jump [0,1,2,6,4,5] reads crouch→rise→tuck→kick→
+  descent→grounded landing; fall topple→DOWN flat; remapped
+  getup [6,1,8,3,4] rises to a guard-matching stand; misc
+  reactions grounded/distinct; remapped special reads
+  raise→follow; rider 6 seated poses, zero horse parts.
+  Identity stable in all 56; no mitten/extra/floating hands,
+  forked shafts, or verticals (detail verified per-sequence).
+- Bookends: walk:0 upright guard ✓, fall:4 flat DOWN ✓, stable
+  and role-correct. Ground: feet on/near line (≤1.5u by
+  pipeline anchoring + visual pass, same basis as 10A);
+  airborne float; rider boots dangle (mounted, correct).
+- Ghost slivers in ~12-14 frames (1-6px neighbor bits at trim
+  edges, e.g. jump:5/getup:4/rider:2 left-edge blade bits) —
+  SAME shared pipeline limitation as zhangfei/zhaoyun (raw-rect
+  trims over straddles); present equally in retouched and
+  untouched cells, NOT campaign-caused. Disclosed for producer
+  triage / 11B capture watch; not fixed fighter-locally.
+- Pack: manifest `58d10b89`, 56/56 unique, deterministic,
+  14.42 MiB, pages ≤2048². All sources v2 (zero v1 parts);
+  zero src/game changes; no catalog activation. CMR-11A DONE.
 
 ### acceptance-4 campaign COMPLETE — weapon FULL-56 9.1% PASS 2026-10-05; manifest `58d10b89…`
 

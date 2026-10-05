@@ -22,6 +22,57 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 03:28 UTC - CMR-11A (attempt 1, DONE - continuity review PASS; pack complete, no runtime activation)
+
+- Status before: CMR-11A IN_PROGRESS; all acceptance evidence
+  gathered except offline continuity review. No PENDING FILING,
+  review 1/4, unrelated `.gitignore` untouched.
+- Work completed: wrote `scripts/display-sheet-weiyan.mjs`
+  (zhaoyun pattern: pack frames as the runtime draws them, trim
+  restored in 520×288 box, ground y=272) and rendered contact +
+  10 play-order strips. REVIEWED all 11 sheets: walk guard +
+  8-cycle (feet plant, no skate); jab1/jab2/finisher distinct
+  arcs; remapped jump [0,1,2,6,4,5] legible (grounded takeoff/
+  landing, airborne kick); fall topple→DOWN flat; remapped getup
+  rises to guard-matching stand; misc reactions grounded/
+  distinct; remapped special natural; rider 6 seated, zero horse
+  parts. Identity stable all 56; no mitten/extra/floating hands,
+  forked shafts, or verticals. Bookends walk:0 guard + fall:4
+  DOWN verified stable and role-correct. Ground: feet on/near
+  line (≤1.5u by pipeline anchoring + visual pass, same basis as
+  10A); airborne float; rider dangles (mounted, correct). Ghost
+  slivers in ~12-14 frames (1-6px neighbor bits, same shared
+  pipeline limitation as zhangfei/zhaoyun; present equally in
+  retouched and untouched cells → not campaign-caused) —
+  disclosed for producer triage / 11B watch, not fixed locally.
+- Verification run: full unit suite 906 passed + 6 skipped with
+  ONLY the known V-15b G6 arm-chain failure (confirmed same
+  file/test, pre-existing, unrelated — zero src/game changes this
+  task, git-verified); motion budget+pipeline 36/36; `npm run
+  lint`, `npm run typecheck` green. No UI/shipping changes
+  (vision/prodbuild N/A — no runtime or render-path changes).
+- Acceptance verdict (all 7 CMR-11A items, evidence in task file):
+  manifest 58d10b89 deterministic + exposure map; identity/
+  anatomy; fixed pivots/ground, 0 edge pixels; weapon FULL-56
+  9.1% + direction max 29° PASS, head VOID+consistency (10A
+  precedent, NO waiver needed); pages ≤2048², 14.42MB (9.9%
+  margin); continuity cited above; zero Guan Yu/other-fighter
+  changes, no catalog activation.
+- Files changed: `display-sheet-weiyan.mjs` (new), TASKS.md
+  (11A DONE), `docs/motion-tasks/CMR-11A.md` (status + checked
+  acceptance), `TASKS-ARCHIVE.md` (CMR-01 moved: 21 DONE > 20),
+  PROVENANCE.md (continuity section), PROGRESS.md. Review sheets
+  stay in ignored artifacts/.
+- Result/status after: CMR-11A DONE (attempt 1). CMR-11B (runtime
+  integrate/review) UNBLOCKED and TODO-first for next consumer.
+- Remaining work or blocker: none for 11A. Watch items for 11B:
+  ghost slivers, 199-202px guard scale vs mook 223px (owner
+  judges rendered hierarchy). NOTE: PROGRESS.md is ~4580 lines
+  (rule 8 says archive above 500; last archival was 07A-era) —
+  deliberately NOT rushed this turn (evidence-loss risk); needs
+  a dedicated careful archival turn.
+- Next recommended task: CMR-11B (separate runtime/capture task).
+
 ### 2026-10-05 03:12 UTC - CMR-11A (attempt 1, IN_PROGRESS - acceptance campaign COMPLETE: weapon FULL-56 9.1% PASS, no waiver needed)
 
 - Status before: CMR-11A IN_PROGRESS; weapon FULL 31.3% FAIL

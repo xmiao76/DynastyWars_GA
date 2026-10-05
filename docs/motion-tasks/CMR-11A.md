@@ -1,6 +1,6 @@
 # CMR-11A — Wei Yan: author and prepare complete whole-character pack
 
-- Queue status: IN_PROGRESS (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
+- Queue status: DONE 2026-10-05 (attempt 1). Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-10B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-11B](CMR-11B.md) is the separate runtime/capture task.
 
@@ -31,13 +31,13 @@ For an Acceptance-4 failure, use the [bounded diagnosis/redraw protocol](../MOTI
 
 ## Acceptance
 
-- [ ] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses.
-- [ ] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts.
-- [ ] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels.
-- [ ] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance.
-- [ ] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config.
-- [ ] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable.
-- [ ] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A.
+- [x] Complete applicable clip/state/attack manifest; genuinely distinct walking/action drawings, no old-part frames used as missing new poses. (56-frame manifest 58d10b89, deterministic double-run verified; exposure map in registration.json; all drawings v2-verified distinct per sequence; zero v1 parts.)
+- [x] Identity, natural connected anatomy, stable body mass, consistent camera/lighting and weapon design; no mitten/extra/floating hands or forked shafts. (Per-sequence 2-5x reviews + continuity contact/strips; R1 redraw verified; no defects.)
+- [x] Fixed scale/ground/saddle pivots and ≤1.5u intended grounded error; no clipped headgear/boots/blade, halo/key residue or unintended panel pixels. (One registration frame (260x144/groundY 136), grounded pipeline anchors, 0 edge pixels; ghost-sliver shared limitation disclosed - see continuity.)
+- [x] Comparable measured visible head-size and fully observable weapon-length spread≤10%; direction steps≤60° or authored bridge. Unknowns cannot establish compliance. (Weapon FULL-56 9.1% PASS post-campaign with zero cross-check drift; direction max 29° PASS; head auto-method void on turban (verified misfires), accepted on consistency evidence walk 3.7% + verified guards 4.1% per 10A precedent. NO waiver needed.)
+- [x] Pages≤2048², density2, decoded motion≤16MiB, complete signatures/hash/source/provenance; repeats deterministically from sources/config. (2 pages 1948x1877+618x199 ≤2048², density 2, 14.42MB ≤16MB with 9.9% margin and zero step-downs, manifest+hashes+provenance complete, deterministic re-runs verified.)
+- [x] Offline continuity review cites exact frame IDs/crops and source manifest; shared guard/down bookends stable. (Contact sheet + 10 strips reviewed with frame IDs at display scale; walk:0 guard + fall:4 DOWN verified; see PROVENANCE.md continuity section.)
+- [x] Original Guan Yu/other completed fighter frames unchanged. No core/gameplay/runtime catalog activation in A. (Zero src/game changes this task — git-verified; catalog untouched; ?motion=1 opt-in unchanged.)
 
 ## Checks/handoff
 

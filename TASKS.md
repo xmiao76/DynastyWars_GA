@@ -14,14 +14,6 @@ The owner accepts Guan Yu's enhancements and authorizes all characters through l
 
 Selection: due producer review first, then the earliest ready CMR task; continue it while IN_PROGRESS. A failed prerequisite prevents later CMR tasks from starting. One repository writer/one task per iteration; do not bypass existing retry, verification or permission rules. Older active tracks below are owner-deferred with evidence intact. No runner/scheduler policy changes.
 
-### CMR-01 - Reference, roster/action inventory and budgets
-
-- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
-- Dependency: None; due producer review still precedes consumer selection
-- Specification: [CMR-01](docs/motion-tasks/CMR-01.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Pin Guan Yu displayed pixels/pivots/exposures; inventory 17 humanoids and horse; reproduce baseline failures and record resource/generation budgets.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
 ### CMR-02 - Generic per-kind motion profiles/playback
 
 - Status: DONE (attempt 1, 2026-10-01 UTC, verified same day)
@@ -251,10 +243,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-11A - Wei Yan: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; owner explicitly chose option A
-  on 2026-10-04, authorizing +10 Wei Yan authoring requests, cap
-  16→26 without resetting the ten spent; global 200 and two sheets
-  per sequence unchanged). The v1 ten sheets drew a wrong short
+- Status: DONE (attempt 1, 2026-10-05 UTC, verified same day;
+  owner explicitly chose option A on 2026-10-04, authorizing +10
+  Wei Yan authoring requests, cap 16→26 without resetting the ten
+  spent; global 200 and two sheets per sequence unchanged).
+  The v1 ten sheets drew a wrong short
   saber; they remain only as pose/identity references. V2 weapon
   spec now follows figures.ts/WEAPON_ART.md (69u haft + ~23u blade
   overhang, tassel, gold fittings). Walk-v2 request 11/26 was
