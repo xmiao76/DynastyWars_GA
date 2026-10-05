@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 4/16 used (walk ACCEPTED; jab1 fix-2 fixed cell 3
-  via vertical pivot; spliced v1 measured 14.51% FAIL on cell-2
-  shortfall — fix-3 next). Global 96/200; jab1 sheet still 1/2.
-  Repair reserve 3/3 untouched (shared with CMR-12B, acceptance-4 only).
+- Authoring: 5/16 used (walk + jab1 ACCEPTED; jab1 via 3
+  focused fixes + splice v2, keep spread 8.96%). Global 97/200;
+  jab1 sheet still 1/2. Repair reserve 3/3 untouched (shared
+  with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,35 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 5/16 — jab1 fix-3 (cell 2 longer) + splice v2 + keep-set 8.96% PASS → ACCEPTED 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/jab1)` → used 5,
+  remaining 11, total 97 (guard: expected used=4, held).
+- Exact prompt: `jab1-fix3-prompt.txt` (ONLY cell 2, pose kept,
+  bow ~8–10% longer into 205–210). Ordered refs: fix-2 `8221b0bf`
+  (vehicle, FIRST), weapon-spec, walk, body, portrait. One image.
+- Output: `jab1-fix-3.png` sha
+  `ef0e14d873b7f299c09f0690e93a1057060072f74b29a7b771fb563f4f95f10b`
+  (1536×1024). Mechanical: 9/9, 0 edge. 3x zone read: lunge kept,
+  single bow + string + air, visibly longer — provider OVERSHOT
+  to 224.4px (target was 205–210; overshoot pattern noted).
+- Splice v2 (script updated: REPLACE now {1: fix-1, 2: fix-3,
+  3: fix-2}): SHA-pinned, gates + hash proof + byte-identical
+  rerun (one scare: a Windows-missing-`head` pipe broke the first
+  determinism check's harness, NOT the code — clean rerun proved
+  identical; use Select-Object on pwsh) → `jab1-prepared-source.png`
+  v2 sha `5a750da4` (supersedes v1 `c593c6f9`, never accepted).
+- Keep-set [0..4] on v2 (overlay read; all 10 markers on wood):
+  [205.0,212.8,224.4,220.1,219.1], mean 214.3, spread **8.96%
+  marginal source-level PASS** (±2% read tolerance disclosed —
+  same class as walk 9.09% / weiyan-jab2 9.95%); direction max
+  step 19.6° PASS. Culls: 5,6 (partial thrust bows), 7,8 (unused
+  guard spares).
+- Verdict: jab1 source ACCEPTED. Cost 4 requests (sheet + 3
+  focused). Lesson banked: provider cannot draw sideways recurves
+  (0/6) but draws vertical ones reliably — brief ALL future melee
+  action bows vertical (thrust = body lunges, bow stays upright).
 
 ### Request 4/16 — jab1 fix-2 (cell 3 vertical pivot) + splice v1 + keep-set 14.51% FAIL 2026-10-05
 

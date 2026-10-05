@@ -1,10 +1,10 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: walk ACCEPTED; jab1 fix-2 fixed c3 (vertical pivot ✓), splice v1 FAILS 14.51% on c2 shortfall — fix-3 (c2 bow longer) next; 4/16 spent.
+Status: walk + jab1 ACCEPTED (jab1: 8.96% via 3 focused fixes); 5/16 spent. Rule: all melee bows vertical.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 16, used 4 (+jab1 fix-2). Global 96/200.
+- huangzhong cap 16, used 5 (+jab1 fix-3). Global 97/200.
   Two whole-sheet candidates per sequence, unchanged (jab1
   sheet still 1/2).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused

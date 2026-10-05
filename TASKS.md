@@ -425,9 +425,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   complete recurve, chord 220.1). Spliced v1 (`c593c6f9`,
   deterministic, hash-proofed) but keep-set FAILS 14.51%
   (cell 2 short at 189.7 vs 205–220 cluster; direction 19.6°
-  pass). Next: fix-3 (cell 2 bow longer, pose kept) + re-splice
-  v2 + re-measure. Ledger 4/16, global 96/200; repair reserve
-  3/3 untouched).
+  pass). Fix-3 (`ef0e14d8`) lengthened cell 2 (190→224px,
+  overshot but in-band); splice v2 (`5a750da4`, deterministic)
+  keep-set 8.96% marginal PASS, direction 19.6° pass → jab1
+  ACCEPTED (4 requests). Rule: all melee bows vertical.
+  Ledger 5/16, global 97/200; repair reserve 3/3 untouched).
 - Dependency: CMR-11B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-12A](docs/motion-tasks/CMR-12A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable huangzhong identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

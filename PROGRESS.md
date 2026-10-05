@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 05:47 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 ACCEPTED via fix-3 + splice v2, 8.96% marginal pass)
+
+- Status before: CMR-12A IN_PROGRESS (jab1 splice v1 failed on
+  cell 2, 4/16). No PENDING FILING, review 2/4 (not due),
+  unrelated `.gitignore` untouched.
+- Work completed: reserved fix-3 BEFORE the call (5/16, global
+  97/200) and generated `jab1-fix-3.png` sha `ef0e14d8` (one
+  image; cell 2 bow longer, pose kept). 3x zone read: lunge +
+  single bow + string + air intact, chord 224.4 (overshot the
+  205–210 target but in-band). Re-spliced v2 (script: REPLACE +
+  {1: fix-1, 2: fix-3, 3: fix-2}): SHA pins, gates, hash proof,
+  byte-identical rerun → sha `5a750da4` (supersedes unaccepted
+  v1). Keep-set [0..4] overlay-verified (all 10 markers on wood):
+  [205.0,212.8,224.4,220.1,219.1], spread **8.96% marginal PASS**
+  (±2% disclosed); direction max 19.6° pass. Culls 5,6 (partial),
+  7,8 (unused guards). Jab1 ACCEPTED (4 requests). Banked rule:
+  provider draws vertical recurves reliably, sideways never (0/6)
+  — all future melee bows vertical. Process note: Windows pwsh has
+  no `head` — a pipe broke one determinism check's harness (not
+  the code); clean rerun proved identical.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (5/16), `jab1-fix-3.png`
+  + `jab1-fix3-prompt.txt` + `jab1-prepared-source.png` v2
+  (force-added), splice script (v2), PROVENANCE.md, AUTHORING-
+  PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 5/16).
+  Walk + jab1 accepted (2/10 sequences).
+- Remaining work or blocker: jab2 sheet candidate 1/2 (vertical
+  bows throughout per banked rule). No blocker.
+- Next recommended task: CMR-12A jab2 sheet (reserve first;
+  hz.jab2 7dmg/24 reach/6/4/10).
+
 ### 2026-10-05 05:38 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 fix-2 fixed cell 3, splice v1 measured 14.51% FAIL on cell-2 shortfall)
 
 - Status before: CMR-12A IN_PROGRESS (jab1 fix-1 partial, 3/16).
