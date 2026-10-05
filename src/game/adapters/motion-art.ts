@@ -10,6 +10,7 @@ import { archerClips, validArcherPack, motionFrameForArcher } from '../art/motio
 import { zhangfeiClips, validZhangfeiPack, motionFrameForZhangfei, ZHANGFEI_COLLAPSE_TAIL } from '../art/motion-clips-zhangfei'
 import { zhaoyunClips, validZhaoyunPack, motionFrameForZhaoyun, ZHAOYUN_COLLAPSE_TAIL } from '../art/motion-clips-zhaoyun'
 import { weiyanClips, validWeiyanPack, motionFrameForWeiyan, WEIYAN_COLLAPSE_TAIL } from '../art/motion-clips-weiyan'
+import { huangzhongClips, validHuangzhongPack, motionFrameForHuangzhong, HUANGZHONG_COLLAPSE_TAIL } from '../art/motion-clips-huangzhong'
 import { advanceMotion, type MotionPlayback } from '../art/motion-player'
 import { ART_RESOURCE_KEY, heroArtResources } from './hero-art'
 import {
@@ -42,6 +43,8 @@ import zhaoyunActionsSheetUrl from '../assets/motion/zhaoyun-actions-sheet.png'
 import weiyanPreparedJson from '../assets/motion/weiyan-prepared.json'
 import weiyanSheetUrl from '../assets/motion/weiyan-motion-sheet.png'
 import weiyanActionsSheetUrl from '../assets/motion/weiyan-actions-sheet.png'
+import huangzhongPreparedJson from '../assets/motion/huangzhong-prepared.json'
+import huangzhongSheetUrl from '../assets/motion/huangzhong-motion-sheet.png'
 
 export interface MotionPrepared extends MotionPackGeometry {
   signatures: { sheet: string; actions: string }
@@ -106,6 +109,11 @@ export function weiyanPreparedRecord(): MotionPrepared {
   return weiyanPreparedJson as unknown as MotionPrepared
 }
 
+/** Huang Zhong pack record (scripts/emit-huangzhong-runtime.mjs output). */
+export function huangzhongPreparedRecord(): MotionPrepared {
+  return huangzhongPreparedJson as unknown as MotionPrepared
+}
+
 // ---------------------------------------------------------------------------
 // Pack catalog. Every fighter with motion art is listed here; kinds outside
 // the catalog never request anything (no all-cast downloads).
@@ -157,6 +165,11 @@ const ZHAOYUN_PAGES: PackPage[] = [
 const WEIYAN_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: motionTextureKeys('weiyan').sheet, bytes: 3173250, sha256: '636c522290ae97d99631fac12fa387a306b7d60643bfb21c82da38dd47792a86', width: 1948, height: 1877 },
   { name: 'actions', sourceKey: motionTextureKeys('weiyan').actions, bytes: 146166, sha256: '5c841688f2977468e0d10ae19d57a72ce18db15a008aaa83ac0b3697781b4577', width: 618, height: 199 },
+]
+
+/** Huang Zhong single atlas page (CMR-12B; scripts/emit-huangzhong-runtime.mjs). */
+const HUANGZHONG_PAGES: PackPage[] = [
+  { name: 'sheet', sourceKey: motionTextureKeys('huangzhong').sheet, bytes: 3643905, sha256: '0087d9689cf80ccca2f2d723f48106b7af8d1b5b7ccff1884b9c7ed1c87c3cfb', width: 1988, height: 1594 },
 ]
 
 export const MOTION_PACKS: Record<string, MotionPackDef> = {
@@ -215,6 +228,14 @@ export const MOTION_PACKS: Record<string, MotionPackDef> = {
     url: { sheet: weiyanSheetUrl, actions: weiyanActionsSheetUrl },
     meta: weiyanPreparedRecord,
     clips: weiyanClips,
+  },
+  huangzhong: {
+    id: 'huangzhong',
+    revision: 'huangzhong-1',
+    pages: HUANGZHONG_PAGES,
+    url: { sheet: huangzhongSheetUrl, actions: huangzhongSheetUrl },
+    meta: huangzhongPreparedRecord,
+    clips: huangzhongClips,
   },
 }
 
@@ -615,9 +636,9 @@ export function publishMotionArtRecord(
     scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions })
     return undefined
   }
-  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : meta.id === 'zhangfei' ? validZhangfeiPack(meta) : meta.id === 'zhaoyun' ? validZhaoyunPack(meta) : meta.id === 'weiyan' ? validWeiyanPack(meta) : validMotionPack(meta)
+  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : meta.id === 'zhangfei' ? validZhangfeiPack(meta) : meta.id === 'zhaoyun' ? validZhaoyunPack(meta) : meta.id === 'weiyan' ? validWeiyanPack(meta) : meta.id === 'huangzhong' ? validHuangzhongPack(meta) : validMotionPack(meta)
   if (!valid) return reject()
-  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : meta.id === 'zhangfei' ? zhangfeiClips() : meta.id === 'zhaoyun' ? zhaoyunClips() : meta.id === 'weiyan' ? weiyanClips() : guanyuClips())
+  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : meta.id === 'zhangfei' ? zhangfeiClips() : meta.id === 'zhaoyun' ? zhaoyunClips() : meta.id === 'weiyan' ? weiyanClips() : meta.id === 'huangzhong' ? huangzhongClips() : guanyuClips())
   const keys = motionTextureKeys(meta.id)
   const images: CanvasImageSource[] = []
   const pageChecks: Array<[string, { width: number; height: number }, string]> = [[keys.sheet, meta.sheet, meta.signatures.sheet]]
@@ -634,7 +655,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : meta.id === 'zhaoyun' ? motionFrameForZhaoyun : meta.id === 'weiyan' ? motionFrameForWeiyan : undefined, ...(meta.id === 'zhangfei' ? { collapseTail: ZHANGFEI_COLLAPSE_TAIL } : {}), ...(meta.id === 'zhaoyun' ? { collapseTail: ZHAOYUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'weiyan' ? { collapseTail: WEIYAN_COLLAPSE_TAIL } : {}) }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : meta.id === 'zhaoyun' ? motionFrameForZhaoyun : meta.id === 'weiyan' ? motionFrameForWeiyan : meta.id === 'huangzhong' ? motionFrameForHuangzhong : undefined, ...(meta.id === 'zhangfei' ? { collapseTail: ZHANGFEI_COLLAPSE_TAIL } : {}), ...(meta.id === 'zhaoyun' ? { collapseTail: ZHAOYUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'weiyan' ? { collapseTail: WEIYAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'huangzhong' ? { collapseTail: HUANGZHONG_COLLAPSE_TAIL } : {}) }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }

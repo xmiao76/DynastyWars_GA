@@ -1,6 +1,6 @@
 # CMR-12B — Huang Zhong: integrate and review all motion in game
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: IN_PROGRESS (attempt 1; slice 1 registration wired).
 - Dependencies: [CMR-12A](CMR-12A.md) DONE with a complete prepared pack.
 - No other fighter implementation in this consumer iteration.
 

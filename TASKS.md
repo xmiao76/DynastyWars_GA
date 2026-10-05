@@ -547,7 +547,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12B - Huang Zhong: integrate/review in motion
 
-- Status: TODO
+- Status: IN_PROGRESS (attempt 1; 12A DONE with pack rev
+  huangzhong-1). Slice 1 DONE: emit runtime assets (single-page
+  57-frame pack, NO decoded exception) + clips/dispatch/validator
+  + catalog wiring + 22 unit tests green (mirrors 11B; deliberate
+  deviations: 6-frame getup clip, hand-tuned zero-active special
+  with release AT spawn, singlePage hero shape).
 - Handoff from 12A (owner waiver (c) 2026-10-05, binding): fall keep
   [0,1,2,3,4] carries a WAIVED diagonal DOWN (~30°, cell 4) + 9.26%
   spread. At integration review, re-confirm DOWN acceptability

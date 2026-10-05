@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 19:30 UTC - CMR-12B (attempt 1, IN_PROGRESS - slice 1: registration wired, 22 tests green)
+
+- Status before: CMR-12A DONE (pack rev huangzhong-1); CMR-12B
+  TODO, dependency met. No PENDING FILING, review 2/4 (not due),
+  unrelated `.gitignore` untouched.
+- Work completed (mirrors 11B slice 1): wrote
+  `scripts/emit-huangzhong-runtime.mjs` (single-page archer shape
+  + hero bindings + 16MB-first guard) and emitted runtime assets
+  (`huangzhong-prepared.json`, one 1988×1594 sheet, 57 frames, NO
+  decoded exception); wrote `src/game/art/motion-clips-huangzhong.ts`
+  (clips/dispatch/validator, HUANGZHONG_FRAMES total 57); wired
+  catalog + validator + clips + dispatch + collapse tail in
+  `motion-art.ts` (7 spots); wrote `test/game/motion-huangzhong.test.ts`
+  (22 tests). Deliberate deviations from weiyan: 6-frame getup
+  clip; hand-tuned zero-active special (release AT spawn per spec
+  "release follows spawn", coil drawings intentionally
+  undisplayed); first single-page hero shape. All dispatched
+  frames exist in the pack; bookends by convention (walk:0/fall:4).
+- Verification run: new suite 22/22 (one iteration: extended tick
+  coverage for the 6-frame getup keys); motion budget+pipeline
+  37/37; `npm run lint`, `npm run typecheck` green. No
+  vision/prodbuild/e2e (registration only; captures come next).
+- Files changed: emit script (new), clips module (new), adapter
+  wiring, 2 runtime assets (new), test suite (new), TASKS.md
+  (12B IN_PROGRESS), CMR-12B.md (status), PROGRESS.md.
+- Result/status after: CMR-12B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: slice 2 (capture harness + isolated/
+  mixed captures both facings/renderers + review report incl.
+  the binding fall-DOWN re-confirmation) → slice 3 (vision,
+  prodbuild, signal, e2e, full unit) → DONE. No blocker.
+- Next recommended task: CMR-12B slice 2 (captures).
+
 ### 2026-10-05 19:03 UTC - CMR-12A (attempt 1, DONE - owner waived item 4; all 7 acceptance items closed)
 
 - Status before: CMR-12A BLOCKED (acceptance-4 waiver requested).
