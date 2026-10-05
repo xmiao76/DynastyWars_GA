@@ -22,6 +22,34 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 20:33 UTC - CMR-12B (attempt 1, DONE - all gates green, all 8 acceptance items verified)
+
+- Status before: CMR-12B IN_PROGRESS (slices 1-2 done). No PENDING
+  FILING, review 3/4 (not due), unrelated `.gitignore` untouched.
+- Work completed (slice 3): vision 5/5, prodbuild 8/8 (motion
+  pilot off by default + opted in, both renderers on the built
+  bundle), signal 13/13 (incl. huangzhong marathon: 2 stages
+  cleared, zero violations), motion-loader e2e 5/5, full unit
+  973+6 with ONLY the known G6 `arm-chain` V-15b failure. One
+  regression found + fixed in-turn: `motion-runtime.test.ts`
+  used huangzhong as its packless-hero fixture — updated to the
+  catalogued expectation (4 packs incl. hz single page + hz byte
+  fixture; unpacked kinds still rejected). All 8 acceptance items
+  verified; no gameplay changes; defaults legacy, opt-in only.
+  Archived CMR-03 + CMR-04 (22>20 DONE rule → back to 20).
+- Verification run: vision 5/5; prodbuild 8/8; signal 13/13;
+  motion-loader 5/5; full unit 973 passed + 6 skipped + 1 known
+  failure; `npm run lint`, `npm run typecheck` green.
+- Files changed: `test/game/motion-runtime.test.ts` (fixture
+  update), TASKS.md (12B DONE + archive 2), TASKS-ARCHIVE.md
+  (+2), `docs/motion-tasks/CMR-12B.md` (status + checked boxes),
+  PROGRESS.md.
+- Result/status after: CMR-12B DONE (attempt 1). Huang Zhong
+  motion complete (author + integrate/review). CMR-13A (next
+  fighter authoring) UNBLOCKED — next consumer takes it.
+- Remaining work or blocker: none on 12B. Queue: CMR-13A ready.
+- Next recommended task: CMR-13A (consumer).
+
 ### 2026-10-05 19:51 UTC - CMR-12B (attempt 1, IN_PROGRESS - slice 2: captures green both renderers + review PASS)
 
 - Status before: CMR-12B IN_PROGRESS (slice 1 done). No PENDING

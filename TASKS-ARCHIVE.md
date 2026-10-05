@@ -5227,3 +5227,30 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Acceptance: Non-Guan hero/melee/boss/archer fixtures; exact per-actor windows/cues and interruption tests; preserve Guan Yu output and core schemas.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
 
+### CMR-03 - Stage-aware bounded atlas loading/cache (archived 2026-10-05; CMR-12B DONE pushed past 20)
+
+- Status: DONE (attempt 3, 2026-10-01 UTC, verified same day; 3 attempts
+  total - attempt 1 catalog/cache core `7489061`, attempt 2 trimmed repack
+  `3ff7a3d`, attempt 3 stage-scoped runtime + shared atlas frames: fetch +
+  SHA-256 page loader, stage/hero/2P/prefetch scope with zero boot
+  downloads, atomic per-fighter publication with negative controls, trim/
+  pivot frame display (no per-cell canvas clones), refcount/evict/cancel on
+  restart, co-op join paths, opt-in dist behavior on Canvas+WebGL)
+- Dependency: CMR-02 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-03](docs/motion-tasks/CMR-03.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Atomic per-fighter verification, stage/co-op/prefetch/eviction; shared atlas frames; 2048 pages,16MiB/fighter,128MiBcache,12MiB stage-entry ceilings.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+
+### CMR-04 - Generic authoring/preparation/provenance tooling (archived 2026-10-05; CMR-12B DONE pushed past 20)
+
+- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day) - generic
+  fighter-parameterized pipeline (`scripts/motion-pipeline.mjs`) + durable
+  request ledger (`scripts/motion-budget.mjs`, seeded in
+  `art/motion/generation-budget.json`); 28 fixture/negative/determinism
+  tests incl. the Guan Yu 90-frame RGBA/pivot round-trip through the
+  generic restore; no cast generation
+- Dependency: CMR-03 DONE (earlier foundation dependencies apply transitively)
+- Specification: [CMR-04](docs/motion-tasks/CMR-04.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
+- Acceptance: Variable frame/page counts, stable pivots/trim/dedup, deterministic output and durable candidate/request budgets; no new cast art yet.
+- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
+

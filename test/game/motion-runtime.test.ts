@@ -30,6 +30,7 @@ const SPEARMAN_BYTES = readFileSync('src/game/assets/motion/spearman-motion-shee
 const ARCHER_BYTES = readFileSync('src/game/assets/motion/archer-motion-sheet.png')
 const ZHANGFEI_SHEET_BYTES = readFileSync('src/game/assets/motion/zhangfei-motion-sheet.png')
 const ZHANGFEI_ACTION_BYTES = readFileSync('src/game/assets/motion/zhangfei-actions-sheet.png')
+const HUANGZHONG_BYTES = readFileSync('src/game/assets/motion/huangzhong-motion-sheet.png')
 const meta = motionPreparedRecord()
 const keys = motionTextureKeys('guanyu')
 
@@ -129,7 +130,7 @@ function makeIo(
       if (opts.gate) await opts.gate
       if (behavior.kind === 'missing') return new Uint8Array(0)
       if (behavior.kind === 'garbage') return new Uint8Array([1, 2, 3, 4])
-      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
+      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('huangzhong') ? HUANGZHONG_BYTES : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
     },
     sha256: async (bytes) => {
       if (opts.shaThrows) throw new Error(opts.shaThrows)
@@ -244,21 +245,23 @@ describe('stage-scoped motion runtime', () => {
     expect(evictIo.calls).toHaveLength(6)
   }, 60_000)
 
-  it('only catalogued stage packs are requested - packless heroes/kinds never download', async () => {
+  it('only catalogued stage packs are requested - unpacked kinds never download', async () => {
     const { scene, motions } = makeScene()
     const io = makeIo(okPages)
     const rt = new MotionRuntime(io)
+    // Huang Zhong (CMR-12B) is now a catalogued single-page hero pack, so
+    // the stage-1 hero request includes him alongside the stage mooks.
     const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'huangzhong', null))
-    expect([...report.requested].sort()).toEqual(['archer', 'soldier', 'spearman'])
-    expect([...report.published].sort()).toEqual(['archer', 'soldier', 'spearman'])
-    expect(io.calls, 'only the catalogued pack pages download').toHaveLength(3)
-    expect(Object.keys(motions()).sort()).toEqual(['archer', 'soldier', 'spearman'])
+    expect([...report.requested].sort()).toEqual(['archer', 'huangzhong', 'soldier', 'spearman'])
+    expect([...report.published].sort()).toEqual(['archer', 'huangzhong', 'soldier', 'spearman'])
+    expect(io.calls, 'only the catalogued pack pages download').toHaveLength(4)
+    expect(Object.keys(motions()).sort()).toEqual(['archer', 'huangzhong', 'soldier', 'spearman'])
     // Kinds without packs are unsupported, never half-loaded.
     const unsupported = await rt.loadKind(scene, 'lidian')
     expect(unsupported).toEqual({ ok: false, failure: 'unsupported' })
     const unknown = await rt.loadKind(scene, 'caocao')
     expect(unknown).toEqual({ ok: false, failure: 'unsupported' })
-    expect(io.calls).toHaveLength(3)
+    expect(io.calls).toHaveLength(4)
   }, 60_000)
 
   it('stage request derives hero/2P/stage kinds and disjoint future kinds', () => {

@@ -14,33 +14,6 @@ The owner accepts Guan Yu's enhancements and authorizes all characters through l
 
 Selection: due producer review first, then the earliest ready CMR task; continue it while IN_PROGRESS. A failed prerequisite prevents later CMR tasks from starting. One repository writer/one task per iteration; do not bypass existing retry, verification or permission rules. Older active tracks below are owner-deferred with evidence intact. No runner/scheduler policy changes.
 
-### CMR-03 - Stage-aware bounded atlas loading/cache
-
-- Status: DONE (attempt 3, 2026-10-01 UTC, verified same day; 3 attempts
-  total - attempt 1 catalog/cache core `7489061`, attempt 2 trimmed repack
-  `3ff7a3d`, attempt 3 stage-scoped runtime + shared atlas frames: fetch +
-  SHA-256 page loader, stage/hero/2P/prefetch scope with zero boot
-  downloads, atomic per-fighter publication with negative controls, trim/
-  pivot frame display (no per-cell canvas clones), refcount/evict/cancel on
-  restart, co-op join paths, opt-in dist behavior on Canvas+WebGL)
-- Dependency: CMR-02 DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-03](docs/motion-tasks/CMR-03.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Atomic per-fighter verification, stage/co-op/prefetch/eviction; shared atlas frames; 2048 pages,16MiB/fighter,128MiBcache,12MiB stage-entry ceilings.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-04 - Generic authoring/preparation/provenance tooling
-
-- Status: DONE (attempt 1, 2026-10-01 UTC, verified same day) - generic
-  fighter-parameterized pipeline (`scripts/motion-pipeline.mjs`) + durable
-  request ledger (`scripts/motion-budget.mjs`, seeded in
-  `art/motion/generation-budget.json`); 28 fixture/negative/determinism
-  tests incl. the Guan Yu 90-frame RGBA/pivot round-trip through the
-  generic restore; no cast generation
-- Dependency: CMR-03 DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-04](docs/motion-tasks/CMR-04.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Variable frame/page counts, stable pivots/trim/dedup, deterministic output and durable candidate/request budgets; no new cast art yet.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
 ### CMR-05 - Actual-motion capture/review/test harness
 
 - Status: DONE (attempt 1, 2026-10-01 UTC, verified same day) - capture/
@@ -547,21 +520,24 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-12B - Huang Zhong: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; 12A DONE with pack rev
-  huangzhong-1). Slice 1 DONE: emit runtime assets (single-page
-  57-frame pack, NO decoded exception) + clips/dispatch/validator
-  + catalog wiring + 22 unit tests green (mirrors 11B; deliberate
-  deviations: 6-frame getup clip, hand-tuned zero-active special
-  with release AT spawn, singlePage hero shape). Slice 2 DONE:
-  capture harness wired for huangzhong (17-action isolated lists,
-  hz.* bindings, contract-cap resources); canvas + webgl captures
-  green (73 rows each, 0 errors, all motion art, both facings,
-  coop/mixed covered); contacts (37 crops ×2) + 5 enlarged crops
-  reviewed; per-action verdicts all PASS (self-check) in
+- Status: DONE (attempt 1, 2026-10-05 UTC, verified same day;
+  CMR-12A DONE with prepared pack rev huangzhong-1).
+  Slice 1 DONE: emit runtime assets + clips/dispatch/validator +
+  catalog wiring + 22 unit tests green (mirrors 11B; NO decoded
+  exception). Slice 2 DONE: capture harness wired for huangzhong
+  (17-action isolated lists, bindings, coverage, contract-cap
+  resources); canvas + webgl captures green (73 rows each, 0
+  errors, all motion art, both facings, coop/mixed covered);
+  contacts (37 crops ×2) + 5 enlarged crops reviewed; per-action
+  verdicts all PASS (self-check) in
   `docs/HUANGZHONG_ACTION_REVIEW.md`; diagonal-DOWN handoff
   re-confirmed acceptable (renders + routes correctly; 12A waiver
-  referred, no repair; dead-crop emptiness is a harness-wide
-  artifact, weiyan-identical).
+  referred, no repair). Slice 3 DONE: vision 5/5, prodbuild 8/8
+  (motion pilot opt-in/out both renderers on built bundle),
+  signal 13/13 (incl. huangzhong marathon, zero violations),
+  motion-loader e2e 5/5, full unit 973+6 with only known G6.
+  All 8 acceptance items verified; no gameplay changes; defaults
+  legacy, opt-in only.
 - Handoff from 12A (owner waiver (c) 2026-10-05, binding): fall keep
   [0,1,2,3,4] carries a WAIVED diagonal DOWN (~30°, cell 4) + 9.26%
   spread. At integration review, re-confirm DOWN acceptability
