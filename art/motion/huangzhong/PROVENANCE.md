@@ -1,9 +1,9 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 1/16 used (walk sheet candidate 1/2 ACCEPTED).
-  Global 93/200; two whole sheets per sequence unchanged
-  (walk has 1 left). Repair reserve 3/3 untouched (shared
-  with CMR-12B, acceptance-4 only).
+- Authoring: 2/16 used (walk 1/2 ACCEPTED; jab1 1/2 generated,
+  core weapons REJECTED, poses accepted — focused fix next).
+  Global 94/200; jab1 has 1 sheet left. Repair reserve 3/3
+  untouched (shared with CMR-12B, acceptance-4 only).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +15,42 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 2/16 — jab1 3x3 sheet candidate 1/2: core REJECTED (poses accepted, weapons rejected) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/jab1)` → used 2,
+  remaining 14, total 94 (guard: expected used=1, held).
+- Exact prompt: `jab1-prompt.txt` (committed; briefs the MEASURED
+  walk band 185–200px, mean 190.7). Ordered refs: weapon-spec
+  `398dfd56`, body `338d9c9e`, portrait `4dcac826`, walk
+  `806bb045`. Preferred provider, one image.
+- Output: `jab1-candidate-1.png` sha
+  `0d31926004827357f951b9c802c45dfb63a5a675890ff1f65aa160ffc50f577c`
+  (1536×1024). No retry.
+- Mechanical: 9/9 components, 0 edge, specks 10, glow 104855
+  cleaned with no residue (clean review read). All separated.
+- Identity/poses ACCEPTED: all 9 distinct, role-correct
+  (ready/windup/drive/extension/recover + spares), lock match,
+  connected anatomy, no extra limbs/horse/text. The lunges and
+  guards are right; only the weapons fail.
+- Weapon verdicts (clean review + 2x thrust grid + 2× 4x zooms,
+  all read): cells 0,4,7,8 carry CORRECT vertical recurves
+  (string + air, walk-matching). Cells 1,2 show the correct bow
+  PLUS an extra horizontal arrow-like shaft from the off-hand
+  (4x: thin straight uniform wood ~140px, no nocks — forbidden
+  either as a painted arrow or a second weapon; verdict is
+  interpretation-proof). Cells 3,5,6 thrust bows are PARTIAL:
+  cell-3 4x shows one limb + partial string only, lower nock
+  unobservable (staff-with-hook read) — length UNVERIFIABLE,
+  and as the extension core cell this alone fails [0..4].
+- Consequence: NO spare remap (all thrust cells defective; only
+  guards survive). Repair path = ONE focused edit redrawing ONLY
+  cells 1,2,3 (poses preserved) with explicit sideways-recurve
+  geometry (both tips + full string + air in-plane), then
+  SHA-pinned splice + re-measure — the weiyan-jab1 precedent.
+  NOT a whole-sheet re-roll (conceptual defect needs isolation,
+  not repetition). Cells 5,6 culled unused.
+- Remaining: 14/16, jab1 sheet 1/2 left.
 
 ### Request 1/16 — walk 3x3 sheet candidate 1/2: ACCEPTED 2026-10-05
 

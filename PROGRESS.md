@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 05:12 UTC - CMR-12A (attempt 1, IN_PROGRESS - jab1 sheet 1/2: poses accepted, core weapons rejected, focused fix prescribed)
+
+- Status before: CMR-12A IN_PROGRESS (walk accepted, 1/16). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched. Core re-verified: hz.jab1 7dmg/22 reach/6/4/10.
+- Work completed: reserved jab1 sheet 1/2 BEFORE the call (2/16,
+  global 94/200) and generated `jab1-candidate-1.png` sha
+  `0d319260` (one image, no retry; refs weapon/body/portrait/
+  walk + measured 185–200px band briefed). Audited 9/9 clean,
+  0 edge (review read). Poses ACCEPTED (9 distinct role-correct
+  thrust phases, lock match, no anatomy defects). Weapons split:
+  cells 0,4,7,8 correct vertical recurves; cells 1,2 carry an
+  EXTRA horizontal arrow-like shaft beside the bow (4x zoom:
+  thin straight uniform wood, no nocks — forbidden as arrow OR
+  second weapon); cells 3,5,6 thrust bows PARTIAL (cell-3 4x:
+  one limb + partial string, lower nock unobservable). As the
+  extension core cell, cell 3 alone fails [0..4]; no spare remap
+  exists (all thrust cells hit). Repair path set: ONE focused
+  edit redrawing ONLY cells 1,2,3 (poses preserved) with explicit
+  sideways-recurve geometry + splice + re-measure (weiyan-jab1
+  precedent), cells 5,6 culled — not a blind whole-sheet re-roll.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 36/36; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (2/16),
+  `jab1-candidate-1.png` + `jab1-prompt.txt` (new, force-added),
+  PROVENANCE.md (attempt log), AUTHORING-PLAN.md, TASKS.md,
+  PROGRESS.md. Diagnostics in ignored `artifacts/tmpcheck/`.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 2/16).
+- Remaining work or blocker: jab1 focused fix (cells 1,2,3) +
+  splice + re-measure. No blocker.
+- Next recommended task: CMR-12A jab1 focused edit (reserve
+  first; sideways-recurve geometry spelled out).
+
 ### 2026-10-05 05:02 UTC - CMR-12A (attempt 1, IN_PROGRESS - walk sheet candidate 1/2 ACCEPTED, 1/16 spent)
 
 - Status before: CMR-12A IN_PROGRESS (identity locked, 0/16).
