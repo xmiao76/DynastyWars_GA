@@ -22,6 +22,42 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 02:11 UTC - CMR-11A (attempt 1, IN_PROGRESS - acceptance-4 DIAGNOSED: weapon FULL 31.3% FAIL, head VOID, direction PASS; repair campaign scoped)
+
+- Status before: CMR-11A IN_PROGRESS; pack fitted, acceptance-4
+  unverified. No PENDING FILING, review 1/4, unrelated `.gitignore`
+  untouched.
+- Work completed: wrote `scripts/landmarks-final-weiyan-v2.mjs`
+  (zhaoyun method: TRUE endpoints per kept cell, raw cross-checked
+  vs PROVENANCE — all 56 match ±1px, zero mismatches; displayed =
+  raw × sheet scale; face clusters; direction steps). Ran it →
+  wrote `landmarks-final.json` (56 cells) + ignored overlays.
+- Verification run: WEAPON per-sequence displayed ALL pass
+  (5.7%–10.0%) but FULL-56 248.3–343.5 spread **31.3% FAIL**
+  (valid method → real sheet-systematic variation; exact 15-cell
+  failing list recorded). HEAD D0/D1 ~72% — auto-method VOID,
+  verified on face contact (clusters on pauldrons/hands for
+  jump:1, fall:2, misc:1, special:0/4 etc.); consistency evidence
+  passes (walk-only 3.7%, verified guards 4.1% at fitted scale).
+  DIRECTION max 30° PASS. Getup repair room probed: 4/5
+  rear-extensions fit, cell6 needs novel forward op (space
+  verified). Decision: bounded 15-cell deterministic retouch
+  campaign next (no image requests); if ops fail → STOP → waiver
+  request (weiyan 31.3% < zhaoyun waived 35–40%). `npx vitest run
+  test/game/motion-budget.test.ts test/game/motion-pipeline.test.ts`
+  36/36; `npm run lint`, `npm run typecheck` green. No UI/shipping
+  changes; full suite not rerun (known V-15b G6 failure).
+- Files changed: `landmarks-final-weiyan-v2.mjs` (new),
+  `landmarks-final.json` (new, force-added), PROVENANCE.md,
+  TASKS.md, AUTHORING-PLAN-V2.md, PROGRESS.md.
+- Result/status after: CMR-11A IN_PROGRESS; acceptance-4 verdict
+  recorded with evidence. No runtime activation.
+- Remaining work or blocker: 15-cell retouch campaign (profile +
+  script + seam reviews + re-measure), then continuity review. No
+  blocker. Budget 25/26, repair reserve 3/3.
+- Next recommended task: CMR-11A acceptance-4 repair, batch 1
+  (profile all 15 failing cells' axes/slabs/clearances).
+
 ### 2026-10-05 01:59 UTC - CMR-11A (attempt 1, IN_PROGRESS - v2 guard measurement VERIFIED, getup factor 0.837 applied, pack re-solved)
 
 - Status before: CMR-11A IN_PROGRESS; v2 pack first solve fit at

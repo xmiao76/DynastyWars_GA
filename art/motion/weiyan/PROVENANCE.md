@@ -4,10 +4,11 @@
   16-request cap; usage NOT reset). V1 ten sheets retained as pose
   refs but weapon-rejected. ALL TEN v2 sequences source-accepted.
   Pack re-solved with VERIFIED getup factor 0.837 (16MB-first
-  fit, 9.8% margin). One authoring request remains; acceptance-4
-  + continuity unverified. Global 200/two whole sheets/sequence
-  unchanged; every sequence used both whole-sheet slots (only
-  focused edits remain).
+  fit, 9.8% margin). Acceptance-4 DIAGNOSED: weapon FULL-56
+  31.3% FAIL (15-cell list), head auto VOID + consistency PASS,
+  direction PASS. Repair campaign next. One authoring request
+  remains. Global 200/two whole sheets/sequence unchanged; every
+  sequence used both whole-sheet slots (only focused edits remain).
 - Repair reserve: 3/3 untouched (shared with CMR-11B).
 - Masters: body `ee0a0200…`, portrait `0fc579c1…` (inspected
   2026-10-03, required before authoring).
@@ -25,6 +26,41 @@ stays 3/3.
 `IDENTITY.md` re-brief every sequence from the actual legacy rig.
 The v1 pack is NOT accepted or integrated; its source sheets stay
 untouched and provide pose/identity reference only.
+
+### acceptance-4 diagnosis — weapon FULL 31.3% FAIL, head VOID, direction PASS 2026-10-05; landmarks `landmarks-final.json`
+
+- New `scripts/landmarks-final-weiyan-v2.mjs` (zhaoyun method):
+  TRUE endpoints per kept cell (verbatim per-sequence code), raw
+  cross-checked vs PROVENANCE record — all 56 match ±1px, ZERO
+  mismatches; displayed = raw × sheet scale; face clusters +
+  play-order direction steps. Wrote `landmarks-final.json`.
+- WEAPON: per-sequence displayed ALL pass (5.7%–10.0%). FULL-56:
+  248.3–343.5, mean 304.1, spread **31.3% FAIL**. Valid method
+  (overlay-verified endpoints, zero drift) → REAL sheet-systematic
+  variation (finisher long ~328, getup short ~261 after legitimate
+  0.837 figure normalization, rest ~300–315). Exact 15-cell failing
+  list vs mean band [288.9,319.3]: LOW getup×5 + jab2:3,4
+  (extend); HIGH finisher×4 + jump:3 + rider:0,3 + special:4
+  (shorten).
+- HEAD: D0 71.3%, D1 71.8%, D2 upright 16.8% — auto face-cluster
+  method VOID (verified on face contact: clusters on pauldrons/
+  hands for jump:1, fall:2, misc:1, special:0, special:4 etc.;
+  turban/beard crop inconsistently). 10A precedent applies.
+  Consistency evidence PASSES: walk-only 3.7%, overlay-verified
+  guard faces 13.01 vs 12.49 displayed (4.1%), visual uniformity.
+- DIRECTION: max consecutive step 30° (finisher) ≤60 PASS
+  everywhere (walk 4, jab1 27, jab2 8, finisher 30, jump 10,
+  fall 10, getup 5, misc 20, special 21, rider 20).
+- DECISION: bounded deterministic repair campaign (retouch, NO
+  image requests, poses preserved) — NOT a waiver request yet
+  (10A repaired R1 first; resources not exhausted). Getup room
+  probed: 4/5 rear-extensions fit (29–77px needs), cell6 needs
+  novel forward blade-assembly extension (400px clear space;
+  method sound, unproven). Campaign: one multi-op script + seam
+  reviews + re-measure; if ops fail gates/seams → STOP →
+  BLOCKED + waiver request citing 09A/10A (weiyan 31.3% <
+  zhaoyun waived 35–40%, all sheets pass, direction passes).
+- Budget untouched (25/26, repair 3/3); no runtime activation.
 
 ### v2 guard measurement — getup factor 0.837 VERIFIED, pack re-solved 2026-10-05; manifest `2fef24a5…`
 

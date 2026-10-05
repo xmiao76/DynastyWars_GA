@@ -371,10 +371,17 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   factor 0.837 APPLIED (ground 0.831 + height 0.844, spread
   0.013); all else factor 1 (no guard cells). Re-solve: base
   0.632606, 56/56 unique, deterministic `2fef24a5`, 14.43MB
-  (9.8% margin), guard 201.8px. Acceptance-4 + continuity review
-  remain. Ledger 25/26 (one focused spare); repair reserve 3/3
-  untouched; no runtime or decode exception. Next: acceptance-4
-  landmarks. See V2 plan/provenance.
+  (9.8% margin), guard 201.8px. Acceptance-4 DIAGNOSED
+  (`landmarks-final-weiyan-v2.mjs`, 56/56 cross-checked ±1px):
+  weapon per-sheet ALL pass but FULL-56 spread 31.3% FAIL
+  (getup tail 248-273 + finisher top 343.5; exact 15-cell failing
+  list recorded); head auto-method VOID (verified pauldron/hand
+  misfires) with consistency evidence passing (walk 3.7%, guards
+  4.1%); direction max 30° PASS. Getup repair room probed (4×
+  rear-extend fit, 1× needs novel forward op). Next: bounded
+  15-cell deterministic retouch campaign (no image requests).
+  Ledger 25/26; repair reserve 3/3 untouched; no runtime or decode
+  exception. See V2 plan/provenance.
 - Dependency: CMR-10B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-11A](docs/motion-tasks/CMR-11A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable weiyan identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

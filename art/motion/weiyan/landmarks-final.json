@@ -1,0 +1,1692 @@
+{
+  "generatedFrom": "registration.json v2 scales + kept-cell source drawings (TRUE endpoints, overlay-verified method; raw lengths cross-checked vs PROVENANCE record)",
+  "revision": "weiyan-2",
+  "weapon": {
+    "perSequenceDisplayed": {
+      "walk": {
+        "n": 9,
+        "min": 290.4,
+        "max": 314.4,
+        "spreadPct": 7.9
+      },
+      "jab1": {
+        "n": 5,
+        "min": 292.9,
+        "max": 313.1,
+        "spreadPct": 6.7
+      },
+      "jab2": {
+        "n": 5,
+        "min": 285.3,
+        "max": 315,
+        "spreadPct": 10
+      },
+      "finisher": {
+        "n": 5,
+        "min": 312.5,
+        "max": 343.5,
+        "spreadPct": 9.5
+      },
+      "jump": {
+        "n": 6,
+        "min": 300.5,
+        "max": 320.1,
+        "spreadPct": 6.4
+      },
+      "fall": {
+        "n": 5,
+        "min": 297.3,
+        "max": 317.6,
+        "spreadPct": 6.5
+      },
+      "getup": {
+        "n": 5,
+        "min": 248.3,
+        "max": 272.7,
+        "spreadPct": 9.3
+      },
+      "misc": {
+        "n": 5,
+        "min": 291.6,
+        "max": 316.9,
+        "spreadPct": 8.3
+      },
+      "special": {
+        "n": 5,
+        "min": 304.9,
+        "max": 322.6,
+        "spreadPct": 5.7
+      },
+      "rider": {
+        "n": 6,
+        "min": 303.7,
+        "max": 326.4,
+        "spreadPct": 7.3
+      }
+    },
+    "FULL_all_kept_displayed": {
+      "n": 56,
+      "min": 248.3,
+      "max": 343.5,
+      "spreadPct": 31.3
+    },
+    "FULL_ids": [
+      "walk:0",
+      "walk:1",
+      "walk:2",
+      "walk:3",
+      "walk:4",
+      "walk:5",
+      "walk:6",
+      "walk:7",
+      "walk:8",
+      "jab1:0",
+      "jab1:1",
+      "jab1:2",
+      "jab1:3",
+      "jab1:4",
+      "jab2:0",
+      "jab2:1",
+      "jab2:2",
+      "jab2:3",
+      "jab2:4",
+      "finisher:0",
+      "finisher:1",
+      "finisher:2",
+      "finisher:3",
+      "finisher:4",
+      "jump:0",
+      "jump:1",
+      "jump:2",
+      "jump:3",
+      "jump:4",
+      "jump:5",
+      "fall:0",
+      "fall:1",
+      "fall:2",
+      "fall:3",
+      "fall:4",
+      "getup:0",
+      "getup:1",
+      "getup:2",
+      "getup:3",
+      "getup:4",
+      "misc:0",
+      "misc:1",
+      "misc:2",
+      "misc:3",
+      "misc:4",
+      "special:0",
+      "special:1",
+      "special:2",
+      "special:3",
+      "special:4",
+      "rider:0",
+      "rider:1",
+      "rider:2",
+      "rider:3",
+      "rider:4",
+      "rider:5"
+    ]
+  },
+  "head": {
+    "D0_all": {
+      "n": 56,
+      "min": 12.5,
+      "max": 23.1,
+      "spreadPct": 71.3
+    },
+    "D1_shape_rule": {
+      "n": 45,
+      "min": 12.5,
+      "max": 23.1,
+      "spreadPct": 71.8
+    },
+    "D1_ids": [
+      "walk:0",
+      "walk:5",
+      "walk:6",
+      "walk:8",
+      "jab1:0",
+      "jab1:1",
+      "jab1:2",
+      "jab1:3",
+      "jab1:4",
+      "jab2:0",
+      "jab2:1",
+      "jab2:2",
+      "jab2:3",
+      "jab2:4",
+      "finisher:0",
+      "finisher:1",
+      "finisher:2",
+      "finisher:3",
+      "finisher:4",
+      "jump:0",
+      "jump:1",
+      "jump:2",
+      "jump:3",
+      "jump:4",
+      "jump:5",
+      "fall:0",
+      "fall:1",
+      "fall:2",
+      "fall:3",
+      "fall:4",
+      "getup:1",
+      "getup:2",
+      "getup:3",
+      "getup:4",
+      "misc:0",
+      "misc:1",
+      "misc:2",
+      "misc:4",
+      "special:1",
+      "special:2",
+      "special:3",
+      "rider:0",
+      "rider:1",
+      "rider:3",
+      "rider:4"
+    ],
+    "D1_rejected_ids": [
+      "walk:1(0.82)",
+      "walk:2(0.82)",
+      "walk:3(0.82)",
+      "walk:4(0.82)",
+      "walk:7(0.82)",
+      "getup:0(1.62)",
+      "misc:3(0.82)",
+      "special:0(0.64)",
+      "special:4(1.62)",
+      "rider:2(0.63)",
+      "rider:5(1.38)"
+    ],
+    "D2_upright_family": {
+      "n": 19,
+      "min": 12.6,
+      "max": 14.8,
+      "spreadPct": 16.8
+    },
+    "D2_walk_only": {
+      "n": 9,
+      "min": 12.6,
+      "max": 13,
+      "spreadPct": 3.7
+    },
+    "missing_face_ids": []
+  },
+  "direction": {
+    "perSequenceMaxStep": {
+      "walk": 4,
+      "jab1": 27,
+      "jab2": 8,
+      "finisher": 30,
+      "jump": 10,
+      "fall": 10,
+      "getup": 5,
+      "misc": 20,
+      "special": 21,
+      "rider": 20
+    },
+    "globalMaxStep": 30
+  },
+  "cells": [
+    {
+      "id": "walk:0",
+      "seq": "walk",
+      "position": 0,
+      "cell": 0,
+      "label": "guard",
+      "scale": 0.632606,
+      "rawL": 471,
+      "angle": 15,
+      "tip": [
+        501,
+        246
+      ],
+      "pom": [
+        47,
+        122
+      ],
+      "steel": 1557,
+      "displayed": 297.96,
+      "face": {
+        "w": 24,
+        "h": 27,
+        "area": 423
+      },
+      "displayedHead": 13.01
+    },
+    {
+      "id": "walk:1",
+      "seq": "walk",
+      "position": 1,
+      "cell": 1,
+      "label": "walk1",
+      "scale": 0.632606,
+      "rawL": 477,
+      "angle": 15,
+      "tip": [
+        1032,
+        245
+      ],
+      "pom": [
+        571,
+        122
+      ],
+      "steel": 1578,
+      "displayed": 301.75,
+      "face": {
+        "w": 23,
+        "h": 28,
+        "area": 417
+      },
+      "displayedHead": 12.92
+    },
+    {
+      "id": "walk:2",
+      "seq": "walk",
+      "position": 2,
+      "cell": 2,
+      "label": "walk2",
+      "scale": 0.632606,
+      "rawL": 459,
+      "angle": 16,
+      "tip": [
+        1526,
+        247
+      ],
+      "pom": [
+        1085,
+        120
+      ],
+      "steel": 1482,
+      "displayed": 290.37,
+      "face": {
+        "w": 23,
+        "h": 28,
+        "area": 394
+      },
+      "displayedHead": 12.56
+    },
+    {
+      "id": "walk:3",
+      "seq": "walk",
+      "position": 3,
+      "cell": 3,
+      "label": "walk3",
+      "scale": 0.632606,
+      "rawL": 480,
+      "angle": 15,
+      "tip": [
+        517,
+        574
+      ],
+      "pom": [
+        53,
+        452
+      ],
+      "steel": 1515,
+      "displayed": 303.65,
+      "face": {
+        "w": 23,
+        "h": 28,
+        "area": 425
+      },
+      "displayedHead": 13.04
+    },
+    {
+      "id": "walk:4",
+      "seq": "walk",
+      "position": 4,
+      "cell": 4,
+      "label": "walk4",
+      "scale": 0.632606,
+      "rawL": 495,
+      "angle": 14,
+      "tip": [
+        1051,
+        573
+      ],
+      "pom": [
+        571,
+        451
+      ],
+      "steel": 1559,
+      "displayed": 313.14,
+      "face": {
+        "w": 23,
+        "h": 28,
+        "area": 407
+      },
+      "displayedHead": 12.76
+    },
+    {
+      "id": "walk:5",
+      "seq": "walk",
+      "position": 5,
+      "cell": 5,
+      "label": "walk5",
+      "scale": 0.632606,
+      "rawL": 476,
+      "angle": 15,
+      "tip": [
+        1527,
+        578
+      ],
+      "pom": [
+        1068,
+        452
+      ],
+      "steel": 1439,
+      "displayed": 301.12,
+      "face": {
+        "w": 25,
+        "h": 28,
+        "area": 412
+      },
+      "displayedHead": 12.84
+    },
+    {
+      "id": "walk:6",
+      "seq": "walk",
+      "position": 6,
+      "cell": 6,
+      "label": "walk6",
+      "scale": 0.632606,
+      "rawL": 495,
+      "angle": 15,
+      "tip": [
+        515,
+        913
+      ],
+      "pom": [
+        36,
+        789
+      ],
+      "steel": 1543,
+      "displayed": 313.14,
+      "face": {
+        "w": 24,
+        "h": 28,
+        "area": 416
+      },
+      "displayedHead": 12.9
+    },
+    {
+      "id": "walk:7",
+      "seq": "walk",
+      "position": 7,
+      "cell": 7,
+      "label": "walk7",
+      "scale": 0.632606,
+      "rawL": 497,
+      "angle": 13,
+      "tip": [
+        1030,
+        902
+      ],
+      "pom": [
+        545,
+        793
+      ],
+      "steel": 1610,
+      "displayed": 314.41,
+      "face": {
+        "w": 23,
+        "h": 28,
+        "area": 396
+      },
+      "displayedHead": 12.59
+    },
+    {
+      "id": "walk:8",
+      "seq": "walk",
+      "position": 8,
+      "cell": 8,
+      "label": "walk8",
+      "scale": 0.632606,
+      "rawL": 477,
+      "angle": 17,
+      "tip": [
+        1525,
+        926
+      ],
+      "pom": [
+        1068,
+        789
+      ],
+      "steel": 1518,
+      "displayed": 301.75,
+      "face": {
+        "w": 23,
+        "h": 27,
+        "area": 415
+      },
+      "displayedHead": 12.89
+    },
+    {
+      "id": "jab1:0",
+      "seq": "jab1",
+      "position": 0,
+      "cell": 0,
+      "label": "windup",
+      "scale": 0.632606,
+      "rawL": 469,
+      "angle": 17,
+      "tip": [
+        482,
+        254
+      ],
+      "pom": [
+        33,
+        117
+      ],
+      "steel": 2829,
+      "displayed": 296.69,
+      "face": {
+        "w": 29,
+        "h": 28,
+        "area": 509
+      },
+      "displayedHead": 14.27
+    },
+    {
+      "id": "jab1:1",
+      "seq": "jab1",
+      "position": 1,
+      "cell": 1,
+      "label": "drive",
+      "scale": 0.632606,
+      "rawL": 479,
+      "angle": -1,
+      "tip": [
+        1023,
+        115
+      ],
+      "pom": [
+        544,
+        120
+      ],
+      "steel": 1902,
+      "displayed": 303.02,
+      "face": {
+        "w": 28,
+        "h": 28,
+        "area": 472
+      },
+      "displayedHead": 13.74
+    },
+    {
+      "id": "jab1:2",
+      "seq": "jab1",
+      "position": 2,
+      "cell": 2,
+      "label": "extension",
+      "scale": 0.632606,
+      "rawL": 469,
+      "angle": -3,
+      "tip": [
+        1520,
+        111
+      ],
+      "pom": [
+        1052,
+        138
+      ],
+      "steel": 1940,
+      "displayed": 296.69,
+      "face": {
+        "w": 27,
+        "h": 29,
+        "area": 473
+      },
+      "displayedHead": 13.76
+    },
+    {
+      "id": "jab1:3",
+      "seq": "jab1",
+      "position": 3,
+      "cell": 3,
+      "label": "follow",
+      "scale": 0.632606,
+      "rawL": 495,
+      "angle": 24,
+      "tip": [
+        577,
+        628
+      ],
+      "pom": [
+        123,
+        430
+      ],
+      "steel": 2563,
+      "displayed": 313.14,
+      "face": {
+        "w": 31,
+        "h": 27,
+        "area": 492
+      },
+      "displayedHead": 14.03
+    },
+    {
+      "id": "jab1:4",
+      "seq": "jab1",
+      "position": 4,
+      "cell": 4,
+      "label": "recover",
+      "scale": 0.632606,
+      "rawL": 463,
+      "angle": 2,
+      "tip": [
+        1032,
+        512
+      ],
+      "pom": [
+        569,
+        492
+      ],
+      "steel": 2728,
+      "displayed": 292.9,
+      "face": {
+        "w": 27,
+        "h": 28,
+        "area": 460
+      },
+      "displayedHead": 13.57
+    },
+    {
+      "id": "jab2:0",
+      "seq": "jab2",
+      "position": 0,
+      "cell": 0,
+      "label": "chamber-low",
+      "scale": 0.632606,
+      "rawL": 491,
+      "angle": 6,
+      "tip": [
+        513,
+        256
+      ],
+      "pom": [
+        24,
+        208
+      ],
+      "steel": 1988,
+      "displayed": 310.61,
+      "face": {
+        "w": 28,
+        "h": 29,
+        "area": 473
+      },
+      "displayedHead": 13.76
+    },
+    {
+      "id": "jab2:1",
+      "seq": "jab2",
+      "position": 1,
+      "cell": 1,
+      "label": "drive",
+      "scale": 0.632606,
+      "rawL": 468,
+      "angle": 9,
+      "tip": [
+        1005,
+        244
+      ],
+      "pom": [
+        543,
+        169
+      ],
+      "steel": 1771,
+      "displayed": 296.06,
+      "face": {
+        "w": 29,
+        "h": 27,
+        "area": 469
+      },
+      "displayedHead": 13.7
+    },
+    {
+      "id": "jab2:2",
+      "seq": "jab2",
+      "position": 2,
+      "cell": 2,
+      "label": "extension",
+      "scale": 0.632606,
+      "rawL": 498,
+      "angle": 9,
+      "tip": [
+        1524,
+        255
+      ],
+      "pom": [
+        1032,
+        181
+      ],
+      "steel": 1982,
+      "displayed": 315.04,
+      "face": {
+        "w": 29,
+        "h": 28,
+        "area": 513
+      },
+      "displayedHead": 14.33
+    },
+    {
+      "id": "jab2:3",
+      "seq": "jab2",
+      "position": 3,
+      "cell": 3,
+      "label": "follow",
+      "scale": 0.632606,
+      "rawL": 453,
+      "angle": 12,
+      "tip": [
+        562,
+        571
+      ],
+      "pom": [
+        120,
+        474
+      ],
+      "steel": 2135,
+      "displayed": 286.57,
+      "face": {
+        "w": 29,
+        "h": 34,
+        "area": 549
+      },
+      "displayedHead": 14.82
+    },
+    {
+      "id": "jab2:4",
+      "seq": "jab2",
+      "position": 4,
+      "cell": 4,
+      "label": "recover",
+      "scale": 0.632606,
+      "rawL": 451,
+      "angle": 4,
+      "tip": [
+        1022,
+        538
+      ],
+      "pom": [
+        572,
+        506
+      ],
+      "steel": 1736,
+      "displayed": 285.31,
+      "face": {
+        "w": 28,
+        "h": 27,
+        "area": 453
+      },
+      "displayedHead": 13.46
+    },
+    {
+      "id": "finisher:0",
+      "seq": "finisher",
+      "position": 0,
+      "cell": 0,
+      "label": "coil",
+      "scale": 0.632606,
+      "rawL": 522,
+      "angle": 10,
+      "tip": [
+        531,
+        280
+      ],
+      "pom": [
+        17,
+        191
+      ],
+      "steel": 1892,
+      "displayed": 330.22,
+      "face": {
+        "w": 31,
+        "h": 29,
+        "area": 531
+      },
+      "displayedHead": 14.58
+    },
+    {
+      "id": "finisher:1",
+      "seq": "finisher",
+      "position": 1,
+      "cell": 1,
+      "label": "launch",
+      "scale": 0.632606,
+      "rawL": 510,
+      "angle": -15,
+      "tip": [
+        1064,
+        63
+      ],
+      "pom": [
+        571,
+        193
+      ],
+      "steel": 1996,
+      "displayed": 322.63,
+      "face": {
+        "w": 30,
+        "h": 30,
+        "area": 528
+      },
+      "displayedHead": 14.54
+    },
+    {
+      "id": "finisher:2",
+      "seq": "finisher",
+      "position": 2,
+      "cell": 3,
+      "label": "extension",
+      "scale": 0.632606,
+      "rawL": 543,
+      "angle": 15,
+      "tip": [
+        577,
+        611
+      ],
+      "pom": [
+        52,
+        474
+      ],
+      "steel": 2610,
+      "displayed": 343.51,
+      "face": {
+        "w": 32,
+        "h": 29,
+        "area": 541
+      },
+      "displayedHead": 14.71
+    },
+    {
+      "id": "finisher:3",
+      "seq": "finisher",
+      "position": 3,
+      "cell": 6,
+      "label": "follow",
+      "scale": 0.632606,
+      "rawL": 506,
+      "angle": 11,
+      "tip": [
+        529,
+        892
+      ],
+      "pom": [
+        32,
+        796
+      ],
+      "steel": 1952,
+      "displayed": 320.1,
+      "face": {
+        "w": 28,
+        "h": 28,
+        "area": 493
+      },
+      "displayedHead": 14.05
+    },
+    {
+      "id": "finisher:4",
+      "seq": "finisher",
+      "position": 4,
+      "cell": 4,
+      "label": "recover",
+      "scale": 0.632606,
+      "rawL": 494,
+      "angle": 8,
+      "tip": [
+        1050,
+        542
+      ],
+      "pom": [
+        560,
+        476
+      ],
+      "steel": 2094,
+      "displayed": 312.51,
+      "face": {
+        "w": 30,
+        "h": 30,
+        "area": 523
+      },
+      "displayedHead": 14.47
+    },
+    {
+      "id": "jump:0",
+      "seq": "jump",
+      "position": 0,
+      "cell": 0,
+      "label": "takeoff",
+      "scale": 0.632606,
+      "rawL": 477,
+      "angle": 2,
+      "tip": [
+        524,
+        256
+      ],
+      "pom": [
+        47,
+        239
+      ],
+      "steel": 2243,
+      "displayed": 301.75,
+      "face": {
+        "w": 54,
+        "h": 42,
+        "area": 1069
+      },
+      "displayedHead": 20.68
+    },
+    {
+      "id": "jump:1",
+      "seq": "jump",
+      "position": 1,
+      "cell": 1,
+      "label": "ascent",
+      "scale": 0.632606,
+      "rawL": 491,
+      "angle": 8,
+      "tip": [
+        1047,
+        204
+      ],
+      "pom": [
+        561,
+        135
+      ],
+      "steel": 2146,
+      "displayed": 310.61,
+      "face": {
+        "w": 72,
+        "h": 57,
+        "area": 1332
+      },
+      "displayedHead": 23.09
+    },
+    {
+      "id": "jump:2",
+      "seq": "jump",
+      "position": 2,
+      "cell": 2,
+      "label": "apex",
+      "scale": 0.632606,
+      "rawL": 475,
+      "angle": -2,
+      "tip": [
+        1524,
+        109
+      ],
+      "pom": [
+        1049,
+        128
+      ],
+      "steel": 1801,
+      "displayed": 300.49,
+      "face": {
+        "w": 33,
+        "h": 29,
+        "area": 546
+      },
+      "displayedHead": 14.78
+    },
+    {
+      "id": "jump:3",
+      "seq": "jump",
+      "position": 3,
+      "cell": 6,
+      "label": "kick",
+      "scale": 0.632606,
+      "rawL": 506,
+      "angle": 6,
+      "tip": [
+        524,
+        846
+      ],
+      "pom": [
+        21,
+        792
+      ],
+      "steel": 2223,
+      "displayed": 320.1,
+      "face": {
+        "w": 32,
+        "h": 29,
+        "area": 561
+      },
+      "displayedHead": 14.98
+    },
+    {
+      "id": "jump:4",
+      "seq": "jump",
+      "position": 4,
+      "cell": 4,
+      "label": "descent",
+      "scale": 0.632606,
+      "rawL": 485,
+      "angle": 12,
+      "tip": [
+        1107,
+        570
+      ],
+      "pom": [
+        633,
+        467
+      ],
+      "steel": 1997,
+      "displayed": 306.81,
+      "face": {
+        "w": 35,
+        "h": 29,
+        "area": 568
+      },
+      "displayedHead": 15.08
+    },
+    {
+      "id": "jump:5",
+      "seq": "jump",
+      "position": 5,
+      "cell": 5,
+      "label": "landing",
+      "scale": 0.632606,
+      "rawL": 483,
+      "angle": 9,
+      "tip": [
+        1532,
+        593
+      ],
+      "pom": [
+        1055,
+        516
+      ],
+      "steel": 1444,
+      "displayed": 305.55,
+      "face": {
+        "w": 31,
+        "h": 29,
+        "area": 529
+      },
+      "displayedHead": 14.55
+    },
+    {
+      "id": "fall:0",
+      "seq": "fall",
+      "position": 0,
+      "cell": 0,
+      "label": "topple",
+      "scale": 0.632606,
+      "rawL": 502,
+      "angle": -16,
+      "tip": [
+        512,
+        111
+      ],
+      "pom": [
+        30,
+        251
+      ],
+      "steel": 2269,
+      "displayed": 317.57,
+      "face": {
+        "w": 30,
+        "h": 32,
+        "area": 585
+      },
+      "displayedHead": 15.3
+    },
+    {
+      "id": "fall:1",
+      "seq": "fall",
+      "position": 1,
+      "cell": 1,
+      "label": "airborne",
+      "scale": 0.632606,
+      "rawL": 470,
+      "angle": -6,
+      "tip": [
+        1045,
+        160
+      ],
+      "pom": [
+        578,
+        213
+      ],
+      "steel": 2048,
+      "displayed": 297.32,
+      "face": {
+        "w": 30,
+        "h": 30,
+        "area": 564
+      },
+      "displayedHead": 15.02
+    },
+    {
+      "id": "fall:2",
+      "seq": "fall",
+      "position": 2,
+      "cell": 2,
+      "label": "tumble",
+      "scale": 0.632606,
+      "rawL": 485,
+      "angle": -1,
+      "tip": [
+        1522,
+        194
+      ],
+      "pom": [
+        1037,
+        203
+      ],
+      "steel": 1733,
+      "displayed": 306.81,
+      "face": {
+        "w": 36,
+        "h": 29,
+        "area": 419
+      },
+      "displayedHead": 12.95
+    },
+    {
+      "id": "fall:3",
+      "seq": "fall",
+      "position": 3,
+      "cell": 3,
+      "label": "impact",
+      "scale": 0.632606,
+      "rawL": 500,
+      "angle": -2,
+      "tip": [
+        521,
+        589
+      ],
+      "pom": [
+        21,
+        607
+      ],
+      "steel": 2539,
+      "displayed": 316.3,
+      "face": {
+        "w": 34,
+        "h": 31,
+        "area": 632
+      },
+      "displayedHead": 15.9
+    },
+    {
+      "id": "fall:4",
+      "seq": "fall",
+      "position": 4,
+      "cell": 4,
+      "label": "DOWN",
+      "scale": 0.632606,
+      "rawL": 490,
+      "angle": -2,
+      "tip": [
+        1107,
+        625
+      ],
+      "pom": [
+        617,
+        643
+      ],
+      "steel": 2679,
+      "displayed": 309.98,
+      "face": {
+        "w": 33,
+        "h": 25,
+        "area": 565
+      },
+      "displayedHead": 15.04
+    },
+    {
+      "id": "getup:0",
+      "seq": "getup",
+      "position": 0,
+      "cell": 6,
+      "label": "elbow",
+      "scale": 0.529491,
+      "rawL": 500,
+      "angle": 9,
+      "tip": [
+        511,
+        940
+      ],
+      "pom": [
+        17,
+        866
+      ],
+      "steel": 2412,
+      "displayed": 264.75,
+      "face": {
+        "w": 76,
+        "h": 47,
+        "area": 1374
+      },
+      "displayedHead": 19.63
+    },
+    {
+      "id": "getup:1",
+      "seq": "getup",
+      "position": 1,
+      "cell": 1,
+      "label": "kneel",
+      "scale": 0.529491,
+      "rawL": 469,
+      "angle": 5,
+      "tip": [
+        1056,
+        222
+      ],
+      "pom": [
+        588,
+        185
+      ],
+      "steel": 2473,
+      "displayed": 248.33,
+      "face": {
+        "w": 32,
+        "h": 32,
+        "area": 624
+      },
+      "displayedHead": 13.23
+    },
+    {
+      "id": "getup:2",
+      "seq": "getup",
+      "position": 2,
+      "cell": 8,
+      "label": "crouch",
+      "scale": 0.529491,
+      "rawL": 500,
+      "angle": 10,
+      "tip": [
+        1527,
+        919
+      ],
+      "pom": [
+        1035,
+        829
+      ],
+      "steel": 2182,
+      "displayed": 264.75,
+      "face": {
+        "w": 34,
+        "h": 32,
+        "area": 632
+      },
+      "displayedHead": 13.31
+    },
+    {
+      "id": "getup:3",
+      "seq": "getup",
+      "position": 3,
+      "cell": 3,
+      "label": "half-rise",
+      "scale": 0.529491,
+      "rawL": 515,
+      "angle": 5,
+      "tip": [
+        568,
+        586
+      ],
+      "pom": [
+        55,
+        538
+      ],
+      "steel": 2398,
+      "displayed": 272.69,
+      "face": {
+        "w": 31,
+        "h": 33,
+        "area": 614
+      },
+      "displayedHead": 13.12
+    },
+    {
+      "id": "getup:4",
+      "seq": "getup",
+      "position": 4,
+      "cell": 4,
+      "label": "stand",
+      "scale": 0.529491,
+      "rawL": 485,
+      "angle": 10,
+      "tip": [
+        1074,
+        556
+      ],
+      "pom": [
+        596,
+        475
+      ],
+      "steel": 2414,
+      "displayed": 256.8,
+      "face": {
+        "w": 30,
+        "h": 30,
+        "area": 556
+      },
+      "displayedHead": 12.49
+    },
+    {
+      "id": "misc:0",
+      "seq": "misc",
+      "position": 0,
+      "cell": 0,
+      "label": "hurt-recoil",
+      "scale": 0.632606,
+      "rawL": 488,
+      "angle": -14,
+      "tip": [
+        519,
+        99
+      ],
+      "pom": [
+        45,
+        214
+      ],
+      "steel": 2072,
+      "displayed": 308.71,
+      "face": {
+        "w": 30,
+        "h": 28,
+        "area": 514
+      },
+      "displayedHead": 14.34
+    },
+    {
+      "id": "misc:1",
+      "seq": "misc",
+      "position": 1,
+      "cell": 1,
+      "label": "hurt-fold",
+      "scale": 0.632606,
+      "rawL": 461,
+      "angle": 6,
+      "tip": [
+        1019,
+        217
+      ],
+      "pom": [
+        561,
+        168
+      ],
+      "steel": 2051,
+      "displayed": 291.63,
+      "face": {
+        "w": 65,
+        "h": 49,
+        "area": 1129
+      },
+      "displayedHead": 21.26
+    },
+    {
+      "id": "misc:2",
+      "seq": "misc",
+      "position": 2,
+      "cell": 2,
+      "label": "grab-clamp",
+      "scale": 0.632606,
+      "rawL": 479,
+      "angle": 1,
+      "tip": [
+        1514,
+        165
+      ],
+      "pom": [
+        1035,
+        159
+      ],
+      "steel": 1929,
+      "displayed": 303.02,
+      "face": {
+        "w": 31,
+        "h": 29,
+        "area": 548
+      },
+      "displayedHead": 14.81
+    },
+    {
+      "id": "misc:3",
+      "seq": "misc",
+      "position": 3,
+      "cell": 7,
+      "label": "grab-hold",
+      "scale": 0.632606,
+      "rawL": 484,
+      "angle": -8,
+      "tip": [
+        1022,
+        760
+      ],
+      "pom": [
+        543,
+        831
+      ],
+      "steel": 2090,
+      "displayed": 306.18,
+      "face": {
+        "w": 28,
+        "h": 34,
+        "area": 561
+      },
+      "displayedHead": 14.98
+    },
+    {
+      "id": "misc:4",
+      "seq": "misc",
+      "position": 4,
+      "cell": 4,
+      "label": "release",
+      "scale": 0.632606,
+      "rawL": 501,
+      "angle": -5,
+      "tip": [
+        1062,
+        430
+      ],
+      "pom": [
+        563,
+        474
+      ],
+      "steel": 2520,
+      "displayed": 316.94,
+      "face": {
+        "w": 29,
+        "h": 30,
+        "area": 534
+      },
+      "displayedHead": 14.62
+    },
+    {
+      "id": "special:0",
+      "seq": "special",
+      "position": 0,
+      "cell": 0,
+      "label": "raise",
+      "scale": 0.632606,
+      "rawL": 483,
+      "angle": -22,
+      "tip": [
+        503,
+        40
+      ],
+      "pom": [
+        56,
+        223
+      ],
+      "steel": 1516,
+      "displayed": 305.55,
+      "face": {
+        "w": 36,
+        "h": 56,
+        "area": 922
+      },
+      "displayedHead": 19.21
+    },
+    {
+      "id": "special:1",
+      "seq": "special",
+      "position": 1,
+      "cell": 1,
+      "label": "coil",
+      "scale": 0.632606,
+      "rawL": 495,
+      "angle": -1,
+      "tip": [
+        1023,
+        210
+      ],
+      "pom": [
+        528,
+        220
+      ],
+      "steel": 1518,
+      "displayed": 313.14,
+      "face": {
+        "w": 29,
+        "h": 27,
+        "area": 487
+      },
+      "displayedHead": 13.96
+    },
+    {
+      "id": "special:2",
+      "seq": "special",
+      "position": 2,
+      "cell": 8,
+      "label": "pre-spin",
+      "scale": 0.632606,
+      "rawL": 482,
+      "angle": 3,
+      "tip": [
+        1519,
+        868
+      ],
+      "pom": [
+        1038,
+        840
+      ],
+      "steel": 1485,
+      "displayed": 304.92,
+      "face": {
+        "w": 28,
+        "h": 27,
+        "area": 467
+      },
+      "displayedHead": 13.67
+    },
+    {
+      "id": "special:3",
+      "seq": "special",
+      "position": 3,
+      "cell": 3,
+      "label": "strike",
+      "scale": 0.632606,
+      "rawL": 503,
+      "angle": 8,
+      "tip": [
+        553,
+        561
+      ],
+      "pom": [
+        55,
+        491
+      ],
+      "steel": 1983,
+      "displayed": 318.2,
+      "face": {
+        "w": 29,
+        "h": 27,
+        "area": 458
+      },
+      "displayedHead": 13.54
+    },
+    {
+      "id": "special:4",
+      "seq": "special",
+      "position": 4,
+      "cell": 4,
+      "label": "follow",
+      "scale": 0.632606,
+      "rawL": 510,
+      "angle": 14,
+      "tip": [
+        1091,
+        602
+      ],
+      "pom": [
+        596,
+        481
+      ],
+      "steel": 1740,
+      "displayed": 322.63,
+      "face": {
+        "w": 55,
+        "h": 34,
+        "area": 618
+      },
+      "displayedHead": 15.73
+    },
+    {
+      "id": "rider:0",
+      "seq": "rider",
+      "position": 0,
+      "cell": 0,
+      "label": "idle",
+      "scale": 0.632606,
+      "rawL": 512,
+      "angle": -4,
+      "tip": [
+        543,
+        145
+      ],
+      "pom": [
+        32,
+        181
+      ],
+      "steel": 2397,
+      "displayed": 323.89,
+      "face": {
+        "w": 30,
+        "h": 32,
+        "area": 603
+      },
+      "displayedHead": 15.53
+    },
+    {
+      "id": "rider:1",
+      "seq": "rider",
+      "position": 1,
+      "cell": 1,
+      "label": "trot",
+      "scale": 0.632606,
+      "rawL": 491,
+      "angle": 11,
+      "tip": [
+        1060,
+        238
+      ],
+      "pom": [
+        577,
+        148
+      ],
+      "steel": 2232,
+      "displayed": 310.61,
+      "face": {
+        "w": 32,
+        "h": 32,
+        "area": 625
+      },
+      "displayedHead": 15.82
+    },
+    {
+      "id": "rider:2",
+      "seq": "rider",
+      "position": 2,
+      "cell": 2,
+      "label": "mount",
+      "scale": 0.632606,
+      "rawL": 485,
+      "angle": -9,
+      "tip": [
+        1518,
+        84
+      ],
+      "pom": [
+        1039,
+        160
+      ],
+      "steel": 2332,
+      "displayed": 306.81,
+      "face": {
+        "w": 25,
+        "h": 40,
+        "area": 422
+      },
+      "displayedHead": 13
+    },
+    {
+      "id": "rider:3",
+      "seq": "rider",
+      "position": 3,
+      "cell": 3,
+      "label": "sweep-windup",
+      "scale": 0.632606,
+      "rawL": 516,
+      "angle": -9,
+      "tip": [
+        522,
+        388
+      ],
+      "pom": [
+        13,
+        472
+      ],
+      "steel": 2701,
+      "displayed": 326.42,
+      "face": {
+        "w": 31,
+        "h": 36,
+        "area": 671
+      },
+      "displayedHead": 16.39
+    },
+    {
+      "id": "rider:4",
+      "seq": "rider",
+      "position": 4,
+      "cell": 4,
+      "label": "sweep",
+      "scale": 0.632606,
+      "rawL": 481,
+      "angle": -5,
+      "tip": [
+        1074,
+        440
+      ],
+      "pom": [
+        595,
+        485
+      ],
+      "steel": 1962,
+      "displayed": 304.28,
+      "face": {
+        "w": 33,
+        "h": 33,
+        "area": 736
+      },
+      "displayedHead": 17.16
+    },
+    {
+      "id": "rider:5",
+      "seq": "rider",
+      "position": 5,
+      "cell": 5,
+      "label": "dismount",
+      "scale": 0.632606,
+      "rawL": 480,
+      "angle": 11,
+      "tip": [
+        1531,
+        576
+      ],
+      "pom": [
+        1060,
+        482
+      ],
+      "steel": 1819,
+      "displayed": 303.65,
+      "face": {
+        "w": 69,
+        "h": 50,
+        "area": 1177
+      },
+      "displayedHead": 21.7
+    }
+  ]
+}

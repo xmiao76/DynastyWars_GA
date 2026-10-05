@@ -51,10 +51,14 @@ reserve-before-call, carried learnings) still applies.
   15.21MB ≤16MB with 9.3% margin, pages ≤2048². V2 guard
   measurement VERIFIED (overlay): getup factor 0.837 applied;
   re-solve base 0.632606, 56/56 unique, deterministic `2fef24a5`,
-  14.43MB (9.8% margin). Next: cross-sequence acceptance-4
-  landmarks + continuity review. One authoring request remains
-  (focused ONLY). All whole-sheet slots consumed, repair 3/3
-  remains acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
+  14.43MB (9.8% margin). Acceptance-4 DIAGNOSED: weapon
+  FULL-56 31.3% FAIL (exact 15-cell list; per-sheet all pass),
+  head auto VOID + consistency passes, direction max 30° PASS.
+  Next: bounded 15-cell deterministic retouch campaign (no image
+  requests); if ops fail gates/seams → STOP → waiver request
+  (09A/10A precedent). One authoring request remains (focused
+  ONLY). All whole-sheet slots consumed, repair 3/3 remains
+  acceptance-4-only. Cross-sequence acceptance UNVERIFIED.
 - Reserve BEFORE every call; record prompt + ordered reference hashes
   + verdict in PROVENANCE.md (v2 attempts are labelled `-v2-`; v1
   files and records are kept untouched as the before).
