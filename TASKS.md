@@ -418,9 +418,12 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   remapped to spare cell 8 (upright ward-off read); deterministic
   repair assessed + rejected (68px gap too large). Keep
   [0,1,2,3,8] = ~0% PASS overlay-verified, direction 0.2° pass →
-  misc ACCEPTED (1 request). 8/10 done. Next: special sheet
-  (reserve first). Ledger 18/20, global 110/200; 2 left for 2
-  sheets (special/rider). Prior BLOCKED detail preserved below.
+  misc ACCEPTED (1 request). 8/10 done. Special sheet 1/2
+  (`10607c60`, 9/9 clean verticals, ZERO arrows, poses pass):
+  keep [0..4] = ~0% PASS overlay-verified, direction 0.4° pass →
+  special ACCEPTED (1 request). 9/10 done. Next: rider sheet
+  (reserve first; LAST request). Ledger 19/20, global 111/200;
+  1 left for 1 sheet. Prior BLOCKED detail preserved below.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;

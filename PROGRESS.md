@@ -22,6 +22,32 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 11:47 UTC - CMR-12A (attempt 1, IN_PROGRESS - special ACCEPTED as-is [0..4], ~0% spread)
+
+- Status before: CMR-12A IN_PROGRESS (8/10 accepted, 18/20). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved special sheet 1/2 BEFORE the call
+  (19/20, global 111/200) and generated `special-candidate-1.png`
+  sha `10607c60` (first try, zero errors). Audited 9/9, 0 edge.
+  Design fully clean: 9/9 vertical straight recurves, ZERO arrows
+  anywhere (brief obeyed), distinct shot arc, lock match, zero
+  defects. Keep-set [0..4] overlay-verified (all 10 markers on
+  wood): [280.3×5], spread **~0.03% PASS**; direction max 0.4°
+  pass. Culls 5–8. Special ACCEPTED (1 request).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (19/20),
+  `special-candidate-1.png` + `special-prompt.txt` (new,
+  force-added), PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md,
+  PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 19/20).
+  9/10 sequences accepted.
+- Remaining work or blocker: rider sheet candidate 1/2 (reserve
+  first; LAST request — must pass as-is or via remap). No blocker.
+- Next recommended task: CMR-12A rider sheet (mounted sweep).
+
 ### 2026-10-05 11:23 UTC - CMR-12A (attempt 1, IN_PROGRESS - misc ACCEPTED via [0,1,2,3,8] remap, ~0% spread)
 
 - Status before: CMR-12A IN_PROGRESS (7/10 accepted, 17/20). No

@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 18/20 used (8/10 ACCEPTED; misc via [0,1,2,3,8]
-  remap (cell 4 detached), ~0% spread). Global 110/200; misc 1/2
-  left. Repair reserve 3/3 untouched (shared with CMR-12B,
-  acceptance-4 only). BUDGET: 2 left for 2 sheets (special/
-  rider) — exactly on rails.
+- Authoring: 19/20 used (9/10 ACCEPTED; special [0..4] as-is,
+  ~0% spread, zero arrows). Global 111/200; special 1/2 left.
+  Repair reserve 3/3 untouched (shared with CMR-12B,
+  acceptance-4 only). BUDGET: 1 left for 1 sheet (rider) —
+  exactly on rails.
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,26 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 19/20 — special 3x3 sheet candidate 1/2: ACCEPTED as-is [0..4] at ~0% 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/special)` → used 19,
+  remaining 1, total 111 (guard: expected used=18, held).
+- Exact prompt: `special-prompt.txt` (shot motion WITHOUT arrows,
+  vertical UNFLEXED bows, 290–305px band). Ordered refs: weapon-
+  spec, body, portrait, misc `bad2eceb` (all tool-issued — first
+  try, zero errors).
+- Output: `special-candidate-1.png` sha `10607c60…` (1536×1024).
+  Mechanical: 9/9, 0 edge (specks 179, cleaned). Design: 9/9
+  vertical straight recurves, ZERO arrows anywhere (brief obeyed),
+  distinct shot arc (raise/coil/release/follow/recover), lock
+  match, zero defects. Poses ACCEPTED.
+- Keep-set [0..4] (2x zone reads + overlay read; all 10 markers
+  on wood, chords track): [280.3×5], spread **~0.03% PASS**
+  (≤2% with tolerances — provider drew uniform bows); direction
+  max 0.4° PASS. Culls 5–8 (shot spares).
+- Verdict: special ORIG ACCEPTED as-is (no splice). Cost: 1
+  request. 9/10 sequences done.
 
 ### Request 18/20 — misc 3x3 sheet candidate 1/2: cell 4 detached → remap [0,1,2,3,8] → ACCEPTED 2026-10-05
 
