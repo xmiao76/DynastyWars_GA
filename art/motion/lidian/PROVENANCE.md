@@ -1,10 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 1/12 used (walk 1/2: design PASS, length FAILS on
-  guard shortfall — fix prescribed). Global 113/200; walk 1/2
-  left. Repair reserve 3/3 untouched (shared with CMR-13B,
-  acceptance-4 only). No projection state yet (band fixes from
-  the ACCEPTED walk median).
+- Authoring: 2/12 used (1/7 ACCEPTED; walk via cell-0 fix +
+  splice, keep 8.21% pass). Global 114/200; walk 1/2 left.
+  Repair reserve 3/3 untouched (shared with CMR-13B,
+  acceptance-4 only). Projection LIVE: band [399.7,441.8] fixed
+  from walk median 420.2 (WARN: walk fills 8.2%; steer next
+  sheets to [400.5,441.8]).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +13,31 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 2/12 — walk single-cell fix (cell 0: 324→412 diagonal) + splice + 8.21% PASS → ACCEPTED 2026-10-05
+
+- Reserve-before-call: `reserve(..., focused/walk)` → used 2,
+  remaining 10, total 114 (guard: expected 1/12, held).
+- Exact prompt: `walk-fix1-prompt.txt` (ONLY cell 0, stance kept,
+  upright→diagonal carry ~420px). Ordered refs: walk orig
+  (vehicle, FIRST), body, portrait. One image, first try.
+- Output: `walk-fix-1.png` sha `8edb5de3…` (1536×1024). 9/9, 0
+  edge (layout obeyed — single-cell briefs 6/6 across fighters).
+  3x zone: guard stance kept EXACTLY, single diagonal glaive +
+  crescent + tassel, no extras; chord (433,18)-(108,272) =
+  412.5px — IN WINDOW [400,450].
+- Splice (`scripts/splice-lidian-walk.mjs`, committed): {0: fix}
+  + rest orig, SHA-pinned, gates + hash proof, byte-identical
+  rerun → `walk-prepared-source.png` sha `1c715d29`.
+- Keep-set [0..8] on spliced (overlay read; all 18 on wood):
+  [412.5,409.0,408.1,416.9,420.3,420.2,438.4,442.8,441.8], mean
+  423.3, spread **8.21% PASS**; direction max 4.8° PASS.
+- Projection (new process): fixed global band [399.69,441.76]
+  from walk median 420.2 (`pack-projection.json`, committed);
+  walk recorded (scale 1 pre-pack): WARN (8.20% within 2pp —
+  expected, walk fills the band); steering window [400.5,441.8]
+  for charge; no drift (1 sheet).
+- Verdict: walk source ACCEPTED (2 requests). 1/7 sequences done.
 
 ### Request 1/12 — walk 3x3 sheet candidate 1/2: design PASS, LENGTH FAILS (guard shortfall) 2026-10-05
 

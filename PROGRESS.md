@@ -22,6 +22,38 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 21:31 UTC - CMR-13A (attempt 1, IN_PROGRESS - walk ACCEPTED via fix + splice, 8.21%; band fixed)
+
+- Status before: CMR-13A IN_PROGRESS (walk 1/2 length FAIL, 1/12).
+  No PENDING FILING, review 3/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved BEFORE the call (2/12, global 114/200),
+  generated `walk-fix-1.png` sha `8edb5de3` (one image, first try;
+  ONLY cell 0). Audited 9/9, 0 edge (single-cell briefs 6/6 on
+  layout). 3x zone: guard stance kept EXACTLY, single diagonal
+  glaive + crescent + tassel; chord (433,18)-(108,272) = 412.5px
+  in-window. Spliced (`splice-lidian-walk.mjs`, committed): {0:
+  fix} + rest orig → sha `1c715d29`, 9 figures, gates + hash
+  proof, byte-identical rerun. Keep-set [0..8] overlay-verified
+  (all 18 on wood): spread **8.21% PASS**; direction max 4.8°
+  pass. Walk ACCEPTED (2 requests). Fixed the global brief band
+  [399.7,441.8] from walk median 420.2 (`pack-projection.json`,
+  committed); projection WARN with steering window [400.5,441.8].
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint` (incl.
+  splice script), `npm run typecheck` green. No vision/prodbuild/
+  e2e (unwired art only).
+- Files changed: `generation-budget.json` (2/12), `walk-fix-1.png`
+  + prompt + `walk-prepared-source.png` + `pack-projection.json`
+  (force-added), splice script (new), PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 2/12).
+  1/7 sequences accepted.
+- Remaining work or blocker: charge sheet candidate 1/2 (reserve
+  first; brief INSIDE the fixed band [399.7,441.8]). No blocker.
+  10 left for 6 sheets.
+- Next recommended task: CMR-13A charge sheet.
+
 ### 2026-10-05 21:17 UTC - CMR-13A (attempt 1, IN_PROGRESS - walk 1/2: design PASS, length FAILS on guard shortfall)
 
 - Status before: CMR-13A IN_PROGRESS (setup done, 0/12). No

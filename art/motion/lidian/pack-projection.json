@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "fighter": "lidian",
+  "totalSheets": 7,
+  "band": {
+    "lo": 399.6899250550058,
+    "hi": 441.7625487450065
+  },
+  "bandAnchor": "walk",
+  "sheets": [
+    {
+      "name": "walk",
+      "scale": 1,
+      "n": 9,
+      "min": 408.1,
+      "max": 442.8,
+      "mean": 423.33333333333337,
+      "band": {
+        "lo": 399.6899250550058,
+        "hi": 441.7625487450065
+      },
+      "history": []
+    }
+  ]
+}
