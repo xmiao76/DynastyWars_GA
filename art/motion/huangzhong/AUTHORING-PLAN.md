@@ -1,12 +1,12 @@
 # Huang Zhong authoring plan (CMR-12A, attempt 1)
 
-Status: 9/10 ACCEPTED (special as-is [0..4], ~0%, zero arrows); 19/20 spent, 1 left for rider.
+Status: 10/10 ACCEPTED (rider as-is [0..5], 1.34%); 20/20 spent, budget exhausted on plan. Next: DONE checklist.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- huangzhong cap 20 (owner +3 2026-10-05), used 19 (+special
-  sheet 1/2). Global 111/200. Two whole-sheet candidates per
-  sequence, unchanged (special 1/2 left).
+- huangzhong cap 20 (owner +3 2026-10-05), used 20 (+rider
+  sheet 1/2, LAST). Global 112/200. Two whole-sheet candidates
+  per sequence, unchanged (rider 1/2 left, unusable — no budget).
 - Plan: 10 whole sheets = 10 requests → 10/16, 6 spares for focused
   corrections before any repair need. Repair reserve 3/3 untouched
   (shared with CMR-12B, acceptance-4 only).

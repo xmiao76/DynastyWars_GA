@@ -421,9 +421,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   misc ACCEPTED (1 request). 8/10 done. Special sheet 1/2
   (`10607c60`, 9/9 clean verticals, ZERO arrows, poses pass):
   keep [0..4] = ~0% PASS overlay-verified, direction 0.4° pass →
-  special ACCEPTED (1 request). 9/10 done. Next: rider sheet
-  (reserve first; LAST request). Ledger 19/20, global 111/200;
-  1 left for 1 sheet. Prior BLOCKED detail preserved below.
+  special ACCEPTED (1 request). 9/10 done. Rider sheet 1/2
+  (`8f6b81db`, 9/9 seated riders, zero horse parts, poses pass):
+  keep [0..5] = 1.34% PASS overlay-verified, direction 0.2° pass
+  → rider ACCEPTED (LAST request, 20/20). **10/10 sequences
+  done.** Next: 12A DONE checklist (identity/actions/registration/
+  provenance/landmark budgets + offline review + acceptance-4
+  cross-sequence check). Ledger 20/20 exhausted on plan; global
+  112/200. Prior BLOCKED detail preserved below.
   Prior waiver detail preserved below. Owner chose waiver (c)
   2026-10-05:
   fall ACCEPTED [0,1,2,3,4] 9.26% + diagonal-DOWN waiver recorded;

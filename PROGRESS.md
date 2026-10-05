@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-05 12:18 UTC - CMR-12A (attempt 1, IN_PROGRESS - rider ACCEPTED as-is [0..5], 1.34%; 10/10 done)
+
+- Status before: CMR-12A IN_PROGRESS (9/10 accepted, 19/20). No
+  PENDING FILING, review 2/4 (not due), unrelated `.gitignore`
+  untouched.
+- Work completed: reserved rider sheet 1/2 BEFORE the call (LAST
+  request: 20/20, global 112/200) and generated
+  `rider-candidate-1.png` sha `8f6b81db` (first try, zero errors).
+  Audited 9/9, 0 edge (cell 0 x0=17, cell 2 y0=7 — legal).
+  Design fully clean: 9/9 seated riders (bent legs, dangling
+  boots), ZERO horse/saddle/reins parts, vertical bows, distinct
+  mount→sweep arc, lock match. Keep-set [0..5] overlay-verified
+  (all 12 markers on wood): [296.3×3, 300.3×3], spread **1.34%
+  PASS**; direction max 0.2° pass. Culls 6–8. Rider ACCEPTED.
+  **All 10/10 sequences authored.** Budget exhausted exactly on
+  plan (repairs now only via acceptance-4 reserve or owner).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (20/20),
+  `rider-candidate-1.png` + `rider-prompt.txt` (new, force-added),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-12A IN_PROGRESS (attempt 1, 20/20).
+- Remaining work or blocker: 12A DONE checklist (identity/actions/
+  registration/provenance/landmark budgets + offline review +
+  acceptance-4 cross-sequence check) → then DONE → 12B unblocks.
+  No blocker.
+- Next recommended task: CMR-12A completion review.
+
 ### 2026-10-05 11:47 UTC - CMR-12A (attempt 1, IN_PROGRESS - special ACCEPTED as-is [0..4], ~0% spread)
 
 - Status before: CMR-12A IN_PROGRESS (8/10 accepted, 18/20). No

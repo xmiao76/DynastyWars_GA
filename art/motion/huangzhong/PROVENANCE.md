@@ -1,10 +1,10 @@
 # Huang Zhong provenance (CMR-12A)
 
-- Authoring: 19/20 used (9/10 ACCEPTED; special [0..4] as-is,
-  ~0% spread, zero arrows). Global 111/200; special 1/2 left.
-  Repair reserve 3/3 untouched (shared with CMR-12B,
-  acceptance-4 only). BUDGET: 1 left for 1 sheet (rider) —
-  exactly on rails.
+- Authoring: 20/20 used (10/10 ACCEPTED; rider [0..5] as-is,
+  1.34% spread). Global 112/200. Repair reserve 3/3 untouched
+  (shared with CMR-12B, acceptance-4 only). BUDGET EXHAUSTED
+  exactly on plan (no requests remain; any further correction
+  needs owner extension or the acceptance-4 repair reserve).
 - Masters (inspected 2026-10-05, before any request): body
   `338d9c9e…`, portrait `4dcac826…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -16,6 +16,30 @@
   mechanical audit, overlay-verified verdict, remaining allowance.
 
 ## Attempt log
+
+### Request 20/20 — rider 3x3 sheet candidate 1/2: ACCEPTED as-is [0..5] at 1.34% (LAST request) 2026-10-05
+
+- Reserve-before-call: `reserve(..., sheet/rider)` → used 20,
+  remaining 0, total 112 (guard: expected used=19, held). The
+  authoring budget is now EXHAUSTED exactly on plan.
+- Exact prompt: `rider-prompt.txt` (seated rider, NO horse parts,
+  vertical bows, 275–290px band). Ordered refs: weapon-spec,
+  body, portrait, special `10607c60` (all tool-issued — first
+  try, zero errors).
+- Output: `rider-candidate-1.png` sha `8f6b81db…` (1536×1024).
+  Mechanical: 9/9, 0 edge (cell 0 x0=17, cell 2 y0=7 — legal).
+  Design: 9/9 seated riders (legs bent, boots dangling), ZERO
+  horse/saddle/reins parts, vertical bows, distinct mount→sweep
+  arc, lock match, zero defects. Poses ACCEPTED.
+- Keep-set [0..5] (2x zone reads + overlay read; all 12 markers
+  on wood, chords track): [296.3×3, 300.3×3], spread **1.34%
+  PASS**; direction max 0.2° PASS. Culls 6–8. Six keep cells
+  (jump/getup precedent).
+- Verdict: rider ORIG ACCEPTED as-is (no splice). Cost: 1
+  request. **10/10 sequences done.** CMR-12A authoring complete
+  pending the DONE checklist (identity/actions/registration/
+  provenance/landmark budgets + offline review + acceptance-4
+  cross-sequence check — next turn).
 
 ### Request 19/20 — special 3x3 sheet candidate 1/2: ACCEPTED as-is [0..4] at ~0% 2026-10-05
 
