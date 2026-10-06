@@ -553,18 +553,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; walk + charge + combo
-  ACCEPTED; projection WARN 8.30%, N=19). Heavy 1/2
-  (`031e72d5`): DESIGN PASS (arc reads, identity clean,
-  9/9 0-edge) but LENGTH FAIL — c0 292.5 / c1 293.7 /
-  c2 ~302 short, c3/c4 pommels occluded (boot-buckle
-  false hits excluded by zone overlays); spares no
-  substitute. HELD (not recorded). Next: REPAIR round 1
-  (repair ledger, reserve BEFORE call) naming heavy cells
-  0–4, poses kept, full-length visible glaives — pure
-  Acceptance-4 failure per loop.md 4a (retouch: c0 sheet
-  edge + c3/c4 unknown proven; c1/c2 batched for
-  coherence, ≤9 cells allowed). Ledger 9/12, global
-  121/200; authoring 3 left for misc/fall/getup.
+  ACCEPTED; projection WARN 8.30%, N=19). Heavy repair
+  round 1 (`badb586f`) ACCEPTED with residuals: poses
+  kept, all 5 pommels visible (occlusion fixed), c2 400.2
+  in-band; c0/c1 still short (347.1/364.4), c3/c4 long
+  (499.9/489.1). Next: round 2 (cells 0+1 lengthen) + FREE
+  pommel-shorten c3/c4 + splice + verify + projection.
+  Authoring 9/12 (3 left for misc/fall/getup); repair 1/3.
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

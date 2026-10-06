@@ -1,11 +1,12 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 9/12 used (3/7 ACCEPTED; heavy 1/2 DESIGN
-  PASS but LENGTH FAIL — overhead cells short/occluded;
-  HELD for repair round 1). Global 121/200; heavy 1/2
-  left. Repair reserve 3/3 untouched (round 1 prescribed:
-  5 named cells). Projection: walk+charge+combo recorded,
-  WARN (8.30%, N=19); heavy NOT recorded (held).
+- Authoring: 9/12 used (3/7 ACCEPTED; heavy repair round
+  1 ACCEPTED with residuals — all pommels visible, c2
+  in-band, c0/c1 still short, c3/c4 long). Global 121/200;
+  heavy 1/2 left. Repair reserve 2/3 left (round 2
+  prescribed: cells 0+1 lengthen; c3/c4 free shorten).
+  Projection: walk+charge+combo recorded, WARN (8.30%,
+  N=19); heavy NOT recorded (held).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +14,31 @@
   attack-id names).
 
 ## Attempt log
+
+### Repair round 1/3 — heavy cells 0–4 redraw (poses kept): visibility FIXED, lengths scattered → ACCEPTED with residuals 2026-10-06
+
+- Reserve-before-call: `reserveRepairRound(..., lidian,
+  [heavy:0..4], located failure, source 031e72d5)` → round 1
+  pending, persisted. Exact prompt: `heavy-repair1-prompt.txt`
+  (poses kept, blade tips stay, pommel targets per cell for
+  ~425px). Ordered refs: heavy orig (vehicle, FIRST), body,
+  portrait. One image.
+- Output: `heavy-repair-1.png` sha `badb586f…` (1536×1024).
+  9/9, 0 edge, poses kept, single glaives + crescents +
+  tassels. Chords on material: c0 347.1 (+55), c1 364.4
+  (+70), c2 400.2 (+~98, IN BAND), c3 499.9, c4 489.1 (both
+  pommels now VISIBLE in empty margins — occlusion fixed —
+  but overshot). Spread still ~36% FAIL as a set.
+- Settled ACCEPTED (spearman precedent: genuine progress
+  with documented residuals): visibility fixed everywhere,
+  c2 landed, c0/c1 improved. Residuals: (1) round 2 names
+  cells 0+1 (lengthen to ~425, poses kept); (2) FREE
+  pommel-shorten c3 (−75) + c4 (−64) (charge pattern: caps
+  in empty left margins, fists far up-axis — verify with
+  gates+pairs); (3) splice {0–4: repair} + verify + project.
+- Prescription (next turn): round 2 image + both free
+  retouches + splice + full verify + projection record
+  (same turn shape as the combo close).
 
 ### Request 9/12 — heavy 3x3 sheet candidate 1/2: DESIGN PASS, LENGTH FAILS (overheads short/occluded) → HELD for repair round 2026-10-06
 

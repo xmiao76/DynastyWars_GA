@@ -22,6 +22,35 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy repair round 1 ACCEPTED with residuals (visibility fixed, c0/c1 short, c3/c4 long))
+
+- Status before: CMR-13A IN_PROGRESS (3/7 accepted, 9/12;
+  repair 3/3). Review not due (0 src/game commits).
+- Work completed: reserved repair round 1 BEFORE the call
+  (cells heavy:0–4, located failure, source `031e72d5`),
+  generated `heavy-repair-1.png` sha `badb586f` (poses
+  kept, per-cell pommel targets). Audited 9/9, 0 edge.
+  Chords on material: c0 347.1 / c1 364.4 / c2 400.2 /
+  c3 499.9 / c4 489.1 — all pommels now visible (c3/c4
+  occlusion FIXED), c2 in-band, but c0/c1 still short
+  and c3/c4 overshot. Settled ACCEPTED per spearman
+  precedent (genuine progress + documented residuals).
+  Authoring untouched (9/12); repair 1/3 spent.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `acceptance4-repair-budget.json` (round 1),
+  `heavy-repair-1.png` + prompt, PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: round 2 (cells 0+1 lengthen
+  to ~425) + FREE pommel-shorten c3 (−75) + c4 (−64) +
+  splice + full verify + projection record — same turn
+  shape as the combo close. No blocker. Repair 2/3 left.
+- Next recommended task: CMR-13A heavy round 2 + close.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy 1/2 DESIGN PASS, LENGTH FAIL (overheads short/occluded); repair round 1 next)
 
 - Status before: CMR-13A IN_PROGRESS (3/7 accepted, 8/12).

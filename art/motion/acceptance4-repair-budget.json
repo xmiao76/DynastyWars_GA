@@ -132,6 +132,25 @@
           "outputSha256": "12d3981dc6f89bb8db8e7a5445e9b1afef329c62b1a77df0694626159559c003"
         }
       ]
+    },
+    "lidian": {
+      "rounds": [
+        {
+          "number": 1,
+          "status": "accepted",
+          "cells": [
+            "heavy:0",
+            "heavy:1",
+            "heavy:2",
+            "heavy:3",
+            "heavy:4"
+          ],
+          "failure": "Keep cells 0/1/2 glaives short (292.5/293.7/~302px vs 415-425 brief); cells 3/4 pommel caps occluded behind torso (no endpoints). Poses read the arc; lengths/visibility fail Acceptance-4.",
+          "sourceSha256": "031e72d56def656402e0f8ced0bf231ac62852357faba22b0c1f022948e1d5ac",
+          "evidence": "Round redrew heavy:0-4 with poses kept: all 5 pommels now visible in empty margins (c3/c4 occlusion fixed); c2 landed 400.2 in-band; c0/c1 improved +55/+70 to 347.1/364.4 but still short; c3/c4 overshot to 499.9/489.1 (retouch-shorten candidates). Residuals: c0/c1 need round 2 lengthen; c3/c4 need free pommel shorten; then splice+verify.",
+          "outputSha256": "badb586fd4bde2f433d410e73b2045f1089ea509b021daaaed4cb20fac70be42"
+        }
+      ]
     }
   }
 }

@@ -1,0 +1,9 @@
+FOCUSED REPAIR of the FIRST reference (Li Dian heavy sheet 1536x1024, 9 cells row-major). Redraw ONLY cells 0,1,2,3,4 (the keep-set); keep ALL FIVE POSES essentially (same stances, same figure positions, same glaive angles) and fix ONLY the glaives' LENGTH and pommel visibility. Copy cells 5,6,7,8 pixel-identical; same dimensions, transparent background, no shifts.
+
+Defect: the keep glaives measure ~292-360px tip-to-pommel vs the ~425px sibling mean (too short), and cells 3/4 hide their pommel butts behind the body (no visible endpoint). For EACH named cell: keep the blade tip EXACTLY where it is, keep the haft ANGLE, and place the pommel butt cap at its target so the full glaive spans ~415-430px with the butt in EMPTY transparent space, never touching body, robe, legs, boots, or cell borders:
+- cell 0 (top-left): tip stays near (360,10); pommel butt goes near (40,285).
+- cell 1 (top-middle): tip stays near (858,7); pommel butt goes near (560,300).
+- cell 2 (top-right): tip stays near (1524,323); pommel butt goes near (1156,111).
+- cell 3 (middle-left): tip stays near (511,639); pommel butt goes near (90,565), FULLY VISIBLE left of the body (currently hidden behind the torso — bring it into the empty left margin along the existing haft line).
+- cell 4 (middle-center): tip stays near (1008,629); pommel butt goes near (583,600), FULLY VISIBLE (currently hidden — bring it into empty space along the existing haft line).
+Same straight dark-wood hafts, same single crescent blades, same red tassels below the blades; exactly ONE glaive per cell; no second shafts, detached blades, missing tassels, or angle changes. If a named target would touch the body, shift ALONG the haft line until clear — never across it.
