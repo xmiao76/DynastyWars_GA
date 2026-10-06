@@ -1,11 +1,12 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 7/12 used (2/7 ACCEPTED; combo fix-3 REJECTED —
-  518px max-diagonal again AND retouch proven infeasible;
-  fix-4 horizontal recomposition prescribed, last attempt).
-  Global 119/200; combo 1/2 left. Repair reserve 3/3 untouched
-  (shared with CMR-13B, acceptance-4 only). Projection:
-  walk+charge recorded, WARN (8.14%); combo HELD (not recorded).
+- Authoring: 8/12 used (3/7 ACCEPTED — combo closed via
+  fix-4 recompose + 2 free retouches + splice, 4.25% PASS).
+  Global 120/200; combo 1/2 left. Repair reserve 3/3
+  untouched (shared with CMR-13B, acceptance-4 only).
+  Projection: walk+charge+combo recorded, WARN (8.30%,
+  N=19); drift flag noted (means rising, band untouched);
+  steer heavy into [400.8,441.8], aim mid-low.
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +14,52 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 8/12 — combo fix-4 HORIZONTAL RECOMPOSE (494px) + 2 free retouches + splice → 4.25% PASS → ACCEPTED 2026-10-06
+
+- Reserve-before-call: `reserve(..., focused/combo)` → used 8,
+  remaining 4, total 120 (guard: expected 7/12, held). LAST
+  image attempt on this cell per prior prescription.
+- Exact prompt: `combo-fix4-prompt.txt` (ONLY cell 0; RECOMPOSE
+  near-horizontal at chest height, span pinned tip≈45 AND
+  pommel≈470 — the passing orientation on all sheets, after
+  three diagonal failures). Ordered refs: combo orig (vehicle,
+  FIRST), body, portrait. One image.
+- Output: `combo-fix-4.png` sha `eb22ef71…` (1536×1024). 9/9, 0
+  edge. Composition EXCELLENT: low windup coil, near-horizontal
+  glaive at chest height in both fists, head fully above the
+  haft, blade+tassel clear left, single glaive, no defects.
+  Chord (18,196)-(512,213) = 494.3px — overshot again, BUT
+  horizontal overshoot is charge-pattern retouchable (clear
+  margins, no fist/boot in the slide path).
+- Retouch (`scripts/retouch-lidian-combo.mjs`, committed, both
+  ops gated): cell 0 pommel-end shorten −69.03px → 425.3 (band
+  20→24 after an 8px rim sliver was caught by pair+speck scan;
+  final speck scan 0); orig cell 1 pommel-end shorten −37.74px
+  → 425.4 (the "steel at pommel" scare was blue robe trim
+  off-axis, confirmed on the zone overlay; the 5 sub-3px dots
+  are pre-existing in orig). Achieved-vs-predicted ±0.1px both;
+  composition 9/9 both; before/after pairs clean both.
+  Intermediates: `combo-fix-4-retouched.png` (`1f22af0c`),
+  `combo-candidate-1-retouched.png` (`1e427357`). Free.
+- Splice (`scripts/splice-lidian-combo.mjs`, committed):
+  {0: fix} + rest orig-retouched → `combo-prepared-source.png`
+  sha `654fd3a7`, 9 components, per-cell hash proof, no drift.
+- Verify (overlay, all 10 markers on wood): keep-set
+  [425.3,425.3,443.6,440.1,426.4], spread **4.25% PASS**;
+  undirected axes max step 33.2° PASS (≤60); directed blade
+  swing ~147° = the authored swing (same 13B readability flag
+  as orig's 155°). Heads overlay-landmark read (fixed-scale
+  4x crops, crown/chin rows): [81,78,75,78,76], spread
+  **7.7% PASS** (≤10).
+- Projection: combo recorded (scale 1): WARN (global 8.30%
+  over N=19, min 408.1, max 442.8→443.6); steering window
+  [400.8,441.8]; driftSuspected=true (means 423.3→430.9→
+  432.1 rising) — band NOT touched (fixed); heavy briefed
+  mid-low (~415–425) to bend the mean back. No ratchet:
+  extremes stay inside the fixed band.
+- Verdict: combo source ACCEPTED (1 request + free retouch).
+  3/7 sequences done. Culls 5–8.
 
 ### Request 7/12 — combo single-cell fix-3: pinned span IGNORED (518px) + retouch PROVEN infeasible → REJECTED 2026-10-06
 

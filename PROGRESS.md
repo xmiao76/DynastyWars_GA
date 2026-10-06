@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - combo ACCEPTED via fix-4 + retouch + splice, 4.25%; 3/7 done)
+
+- Status before: CMR-13A IN_PROGRESS (2/7 accepted, 7/12).
+  Review not due (0 src/game commits since `6084ab4`).
+- Work completed: reserved BEFORE the call (8/12, global
+  120/200), generated `combo-fix-4.png` sha `eb22ef71` (LAST
+  attempt on cell 0; recomposed near-horizontal). Audited
+  9/9, 0 edge; composition excellent (both fists, head
+  clear, single glaive) but chord 494.3px (over band).
+  Horizontal overshoot IS retouchable (charge pattern):
+  pommel-end shortens cell 0 −69.03px → 425.3 and orig
+  cell 1 −37.74px → 425.4, all gates ±0.1px, clean
+  before/after pairs, speck scans clean (one 8px rim
+  sliver caught → band widened → 0). Gated splice
+  (`654fd3a7`) of {0: fix} + rest orig. Overlay verify
+  (all 10 on wood): keep-set [425.3,425.3,443.6,440.1,
+  426.4], spread 4.25% PASS; undirected direction max
+  step 33.2° PASS (147° directed swing flagged for 13B
+  readability, as before); heads overlay-landmark read
+  [81,78,75,78,76], 7.7% PASS. Projection recorded:
+  WARN 8.30% (N=19), window [400.8,441.8]; drift flag
+  noted, band untouched.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (8/12), `combo-fix-4.png`
+  + prompt, 2 retouched intermediates, `combo-prepared-source.png`,
+  retouch + splice drivers, `pack-projection.json`, PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md. Retouch/splice free.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 8/12).
+  3/7 sequences done.
+- Remaining work or blocker: heavy sheet 1/2 (reserve first;
+  brief mid-low ~415–425 inside [400.8,441.8] to bend the
+  rising means back). No blocker. 4 left for 4 sheets —
+  subsequent sheets must land first-try or retouch-only.
+- Next recommended task: CMR-13A heavy sheet.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - combo fix-3 REJECTED (518px again; retouch infeasible); fix-4 recompose next, last attempt)
 
 - Status before: CMR-13A IN_PROGRESS (2/7 accepted, 6/12).
