@@ -582,20 +582,21 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: BLOCKED (2026-10-06; third consecutive unresolved
-  charge consumer outcome, AGENTS rule5). Five same-scale4x head
-  pairs reviewed; anatomical chin is obscured by beard. Apparent
-  scale/pose/beard drift cannot establish <=10% full-head compliance;
-  no head PASS/quantified FAIL, no further automatic retry.
-  Weapon override `b547809c` preserved: spread6.01%, direction19.5°;
-  charge NOT recorded in projection or runtime, fixed band unchanged.
-  Authoring2/12/global128/200; repair2/3 left, not an iteration reset.
-  NEEDS OWNER: choose a trustworthy landmark/focused-head-redraw route
-  or explicit independent/owner visual acceptance with limitation
-  disclosed, then explicitly reset CMR-14A to TODO. Do not start14B.
-  Evidence: [head diagnosis](art/motion/xiahoudun/HEAD-DIAGNOSIS.md),
-  [machine record](art/motion/xiahoudun/head-diagnosis.json),
-  [round1 audit](art/motion/xiahoudun/charge-repair-1-audit.json).
+- Status: BLOCKED — independent review pending; owner NOW authorized
+  "one independent visual review ... then explicitly reset the task".
+  Three reviewer route runs failed before any closing verdict; no
+  independent acceptance/rejection exists, so conditional reset is
+  recorded but NOT applied. This is reviewer infrastructure failure,
+  not another art/consumer attempt or missing owner decision.
+  Next: complete one same-scale review (or explicit owner-reviewed
+  fallback), record scoped acceptance/named corrections, then reset
+  CMR-14A to TODO under the existing authorization; no14B yet.
+  Head metric remains UNVERIFIED/null; weapon `b547809c`6.01%/19.5°,
+  budgets2/12/global128/200/repair2left and fixed projection unchanged.
+  No new art/runtime use, budget reset or scheduler change authorized.
+  Evidence: [review handoff](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
+  [review state](art/motion/xiahoudun/independent-review.json),
+  [historical diagnosis](art/motion/xiahoudun/HEAD-DIAGNOSIS.md).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

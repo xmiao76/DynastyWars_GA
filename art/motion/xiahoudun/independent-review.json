@@ -1,0 +1,41 @@
+{
+  "fighter": "xiahoudun",
+  "task": "CMR-14A",
+  "status": "PENDING_REVIEW",
+  "verdict": null,
+  "reviewCompleted": false,
+  "reviewerObservations": [],
+  "ownerAuthorization": "do \" use one independent visual review to resolve the head uncertainty, then explicitly reset the task\"",
+  "resetAuthorizedAfterCompletedReview": true,
+  "resetApplied": false,
+  "taskStatus": "BLOCKED",
+  "blockingCondition": "All available independent reviewer runs ended before a closing verdict; premature failure cause not provided. No independent acceptance or rejection exists.",
+  "sources": {
+    "walk": { "file": "walk-prepared-source.png", "sha256": "b395c867c027f837988c5f0fdb676154082d07a43ce9fcc5df8c73786f1bef6c" },
+    "charge": { "file": "charge-repair-1-spliced-source.png", "sha256": "b547809c352dd7b8828d20452c0e7f216caede83b1c143374a704a5d301014e4" }
+  },
+  "reviewerRuns": [
+    { "id": "41931e03-fc8a-45a9-9dba-5274c50d9e27", "route": "muse-subscription-2/muse-spark-1.3", "reasoningEffort": "max", "status": "failed-before-closing-message" },
+    { "id": "6a5bed32-013e-46d6-8839-3d2934ebfe9a", "route": "muse-subscription-2/muse-spark-1.3", "reasoningEffort": "xhigh", "status": "failed-before-closing-message" },
+    { "id": "7fa6ad09-a0f8-4720-a618-e13c66571539", "route": "configured-default", "reasoningEffort": null, "status": "failed-before-closing-message" }
+  ],
+  "headGate": "UNVERIFIED",
+  "numericalHeadSpread": null,
+  "acceptedChargeSheet": false,
+  "projectionRecordAdded": false,
+  "fixture": {
+    "script": "scripts/review-xiahoudun-charge-fixture.mjs",
+    "manifest": "artifacts/motion/xiahoudun/independent-review/manifest.json",
+    "rawToArtScale": 0.66,
+    "density": 2,
+    "bodyPairs": 5,
+    "order": ["walk:0","charge:0","charge:1","charge:2","charge:3","charge:4","walk:0"],
+    "limitations": "Provisional equal-scale offline still fixture only; approximate root/foot composition; no final registration, gameplay-size, exposures, motion/native-video acceptance."
+  },
+  "imageRequestsThisAction": 0,
+  "authoringUsed": 2,
+  "globalAuthoringUsed": 128,
+  "repairRoundsSpent": 1,
+  "repairRoundsRemaining": 2,
+  "next": "Complete one independent same-scale review. Then apply owner-authorized TODO reset with scoped acceptance or named corrections, never a fabricated numerical PASS. If no review can complete, ask for explicit owner-reviewed fallback."
+}

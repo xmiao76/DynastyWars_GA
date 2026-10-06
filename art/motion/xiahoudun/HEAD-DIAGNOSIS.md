@@ -1,7 +1,11 @@
 # CMR-14A — charge head gate, third diagnostic outcome
 
-Status: **BLOCKED — owner decision/reset required** (2026-10-06).
-No generation, retouch, rescale or source-sheet replacement in this iteration.
+Historical status: **BLOCKED — owner decision/reset required** (2026-10-06).
+Update: owner has now authorized independent review THEN reset; reviewer runs
+failed before a verdict, so conditional reset is pending, not applied. Current
+handoff: [INDEPENDENT-REVIEW.md](INDEPENDENT-REVIEW.md). The diagnostic evidence
+below remains historical and is not relabelled numerical/independent PASS.
+No generation, retouch, rescale or source-sheet replacement in that iteration.
 
 ## Reproducible comparison
 

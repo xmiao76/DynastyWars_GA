@@ -1,6 +1,6 @@
 # Xiahou Dun authoring plan (CMR-14A, attempt 1)
 
-Status: BLOCKED (third unresolved charge outcome; owner decision/reset required). 1/7 sheets accepted; charge head gate UNVERIFIED, weapon6.01%/19.5° preserved; authoring2/12 and repair2/3 left. No automatic retry or dependent task.
+Status: BLOCKED — owner authorized independent review THEN task reset, but all reviewer runs failed before verdict. Review pending; conditional reset recorded, not applied. 1/7 sheets accepted; head UNVERIFIED, weapon6.01%/19.5° preserved; authoring2/12, repair2/3 left. No new sequence/dependent task.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
@@ -8,13 +8,13 @@ Status: BLOCKED (third unresolved charge outcome; owner decision/reset required)
   settled as accepted WEAPON source; two rounds remain. Charge
   whole-sheet count stays1/2. Projection is walk-only, fixed band
   [404.16,446.70]; hypothetical walk+charge6.06% OK, NOT recorded.
-- Owner input next: select a trustworthy full-head ruler/focused
-  redraw route, or explicitly accept the disclosed limitation after
-  independent/owner visual judgment; then reset CMR-14A to TODO.
-  Five fixed4x walk/charge pairs cannot reveal the anatomical chin.
-  No head numbers passed. Third consecutive unresolved charge outcome
-  exhausted the consumer retry limit, independent of image funds.
-  See [head diagnosis](HEAD-DIAGNOSIS.md); preserve all source pixels.
+- Owner selected independent-review/reset route; do NOT repeat the
+  obsolete "owner choice absent" prompt. A completed verdict is missing
+  because three read-only reviewer runs failed without closing output.
+  Complete one independent review or explicit owner-reviewed fallback;
+  then apply the authorized TODO reset with the verdict's exact scope.
+  No fabricated head PASS; historical retries and budgets preserved.
+  See [review handoff](INDEPENDENT-REVIEW.md); source pixels unchanged.
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

@@ -1,9 +1,9 @@
 # Xiahou Dun provenance (CMR-14A)
 
-- Task BLOCKED (third consecutive unresolved charge outcome,
-  2026-10-06): owner decision/reset required. Authoring2/12 used,
-  global128/200; 1/7 sheets accepted. Charge head gate UNVERIFIED,
-  weapon repair preserved. Repair round1 spent; 2/3 rounds remain.
+- Task BLOCKED — owner authorized one independent review THEN reset;
+  reviewer executions failed without verdict, so review pending/reset
+  not applied. Authoring2/12/global128/200, 1/7 accepted; head metric
+  UNVERIFIED, weapon source unchanged; repair round1 spent, 2/3 left.
 - Weapon override `b547809c…`: five keep lengths [412.6,434.4,437.2,
   438.4,428.9], spread6.01%, direction19.5°; hypothetical walk+charge
   6.06% OK. Fixed band [404.16,446.70] unchanged; projection is still
@@ -15,6 +15,28 @@
   attack-id names).
 
 ## Attempt log
+
+### Direct owner authorization — independent review then reset, execution failed before verdict
+
+- Owner explicitly selected: `do " use one independent visual review to
+  resolve the head uncertainty, then explicitly reset the task"`.
+  No consumer/image attempt; old owner-decision blocker superseded.
+- Read-only reviewers `41931e03` (flagship/max), `6a5bed32`
+  (flagship/xhigh retry), `7fa6ad09` (configured-default fallback)
+  all ended before closing message. No verdict/observations reported;
+  exact provider failure cause unknown. Parent self-check is NOT an
+  independent review; no acceptance or TODO reset falsely recorded.
+- Head pairs regenerated and all5 hashes match historical record.
+  New source-hash-pinned offline full-body/ordered-transition fixture
+  at ONE provisional0.66 raw->art scale, density2. Exact component
+  pixels, no silhouette normalization; belt/ground composition only,
+  not finalized registration/gameplay-size or native-video evidence.
+- [Review handoff](INDEPENDENT-REVIEW.md) and [state](independent-review.json)
+  persist conditional reset authorization and source hashes. Current
+  blocker is functioning independent reviewer/verdict, not missing
+  owner instruction. No new generation, thresholds, source/budget/
+  projection/runtime/scheduler changes. Historical BLOCKED diagnosis
+  below remains intact. Next: complete review, THEN reset as authorized.
 
 ### Third charge diagnostic — fixed-scale head comparison; BLOCKED 2026-10-06
 
