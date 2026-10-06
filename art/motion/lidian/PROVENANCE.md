@@ -1,10 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 14/14 used (7/7 SHEETS ACCEPTED — getup
-  closed via sheet + fix + 2 retouches + splice, 5.97%
-  PASS; pack assembly + continuity remain). Global
+- Authoring: 14/14 used (7/7 SHEETS ACCEPTED; PACK
+  ASSEMBLED + CONTINUITY REVIEWED — 13A DONE). Global
   126/200. Repair reserve stays 3/3 EXHAUSTED.
   Projection COMPLETE: PASS (final spread 8.69%, N=39).
+  Pack `lidian-1`: 39 frames, 1 page, deterministic,
+  16MB-first holds (13.2MB pages).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +13,42 @@
   attack-id names).
 
 ## Attempt log
+
+### Pack assembly + continuity review → 13A DONE 2026-10-06 (no image calls)
+
+- Driver `scripts/prepare-lidian.mjs` (committed): 7 accepted
+  `*-prepared-source.png` in, keep-maps per this log (walk
+  0–8, charge/combo/heavy/misc 0–4, fall {0,1,2,4,5},
+  getup {0,1,2,3,8}), in-memory culling, page-aware base
+  scale 0.661645 (fit-bound; 0 step-downs), one uniform
+  scale per sheet (factors all 1 UNVERIFIED — no guard
+  measurements yet, honestly reported).
+- Pack `lidian-1` (manifest `1eadbbe0`, DETERMINISTIC on
+  re-run): 39 frames (39 unique, 0 aliases — no old-art
+  leaks, all drawings genuinely distinct), 1 page
+  2011×1646, page pixels 13.2MB ≤ 16MB contract (no
+  exception). Walk guard 217.7px = 90.7% of Guan Yu =
+  hero-sized boss, deliberate (see BOX DECISION in the
+  driver: human officer, no owner direction for bigger;
+  13B may tune). `registration.json` committed (cell map,
+  labels, culls, fit). One pack suspect (combo 3/4 bounds
+  overlap) adjudicated benign: 9 separate components,
+  empty-space straddle (allowed), centroids map correctly.
+- Continuity review (contact strips rendered from the
+  PACKED pages via manifest `1eadbbe0`, viewed this turn):
+  walk:0–8 guard+cycle smooth; charge:0–4 coil→brake
+  escalates; combo:0–4 windup→recover swing reads (147°
+  directed swing flagged for 13B as recorded);
+  heavy:0–4 raise→recover reads; misc:0–4
+  recoil→release reads; fall:0–4 topple→DOWN reads;
+  getup:0–4 DOWN→rise reads. No teleports, no missing
+  limbs, identity consistent. Guard bookend walk:0 ✓.
+  DOWN bookend pair fall:4 vs getup:0: both flat prone,
+  same orientation/placement, STABLE ✓ (distinct drawings
+  as designed, flatness matches).
+- Verdict: CMR-13A COMPLETE (attempt 1). No runtime
+  activation (13B wires catalog + clips + dispatch +
+  emit, per the huangzhong 12A/12B split precedent).
 
 ### Request 13/14 + fix 14/14 — getup 3x3 sheet 1/2: DESIGN PASS, c0 unretouchable → focused fix + splice → 5.97% PASS → ACCEPTED 2026-10-06
 

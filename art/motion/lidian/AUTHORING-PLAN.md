@@ -1,6 +1,6 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: 7/7 SHEETS ACCEPTED (getup closed: sheet + fix + splice + 2 retouches, 5.97%); pack assembly + continuity next; 14/14 spent, 0 left (assembly is free).
+Status: 13A DONE (7/7 sheets + pack `lidian-1` assembled + continuity reviewed); 14/14 spent. Next: CMR-13B (emit + catalog + clips/dispatch).
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 

@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, DONE - pack `lidian-1` assembled + continuity reviewed; 7/7 sheets)
+
+- Status before: CMR-13A IN_PROGRESS (7/7 sheets accepted,
+  14/14; pack assembly pending). Review not due (0
+  src/game commits).
+- Work completed: wrote `scripts/prepare-lidian.mjs`
+  (7 prepared sources, keep-maps per PROVENANCE incl.
+  fall {0,1,2,4,5} + getup {0,1,2,3,8}, hero BOX — boss
+  deliberately hero-sized, documented) and ran it: pack
+  `lidian-1` (manifest `1eadbbe0`, DETERMINISTIC on
+  re-run), 39 frames (39 unique, 0 aliases — no old-art
+  leaks), 1 page 2011×1646, 13.2MB ≤ 16MB contract (no
+  exception), 0 step-downs, walk guard 90.7% of Guan Yu.
+  `registration.json` committed (cell map, labels, culls,
+  fit). One pack suspect (combo 3/4 bounds overlap)
+  adjudicated benign (9 separate components, empty-space
+  straddle, centroids correct). Continuity review: all 7
+  keep-sequences rendered in play order FROM THE PACKED
+  PAGES and viewed — every arc reads, no teleports;
+  guard (walk:0) + DOWN pair (fall:4 vs getup:0, both
+  flat prone, stable) verified. No runtime activation.
+- Verification run: prepare determinism gate green;
+  `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (offline art, no game code).
+- Files changed: `scripts/prepare-lidian.mjs` (new),
+  `art/motion/lidian/registration.json` (new),
+  PROVENANCE.md (pack section), AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md. Pack outputs stay in
+  `artifacts/` (ignored); no src/game changes.
+- Result/status after: CMR-13A DONE (attempt 1). All
+  acceptance criteria pass: identity/actions/registration/
+  provenance/landmarks complete; clip manifest + labels;
+  distinct drawings, no old art; offline continuity with
+  frame IDs; bookends stable; zero runtime activation.
+- Remaining work or blocker: none for 13A. Next: CMR-13B
+  (emit + catalog + clips/dispatch + capture review).
+- Next recommended task: CMR-13B.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - getup ACCEPTED via sheet + fix + splice + retouch, 5.97%; 7/7 SHEETS DONE)
 
 - Status before: CMR-13A IN_PROGRESS (6/7 accepted, 12/14).
