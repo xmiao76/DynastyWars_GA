@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - combo fix-2 REJECTED (bounds obeyed, 360px short); fix-3 next)
+
+- Status before: CMR-13A IN_PROGRESS (2/7 accepted, 5/12).
+  Review not due (0 src/game commits since `6084ab4`).
+- Work completed: reserved BEFORE the call (6/12, global
+  118/200), generated `combo-fix-2.png` sha `b9f7f41e` (one
+  image, first try; ONLY cell 0; endpoint bounds tip x>60 /
+  pommel x<430). Audited 9/9, 0 edge. 3x zone: coiled stance
+  kept, single diagonal glaive + crescent + tassel, no
+  extras; bounds OBEYED (tip 117, pommel 398) — BUT chord
+  (117,71)-(398,296) = 360.0px, −15% under the 415–430
+  brief (provider overcorrected from fix-1's 516; length
+  targets ignored in both directions now). Endpoints read
+  on material (steel topmost; gold cap on 4x zoom); a naive
+  farthest-ink scan hit a boot pixel and was discarded.
+  Salvage PROVEN infeasible: keep-set would spread ~20%,
+  and retouch-EXTEND is fabrication whose path runs into
+  the boot. REJECTED, kept per precedent. Lesson: bounds
+  control position, not length — fix-3 must pin the SPAN.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (6/12), `combo-fix-2.png`
+  + prompt (rejected, kept), PROVENANCE.md, AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 6/12).
+- Remaining work or blocker: fix-3 re-shoot pinning BOTH
+  endpoints as targets (tip near x≈85 AND pommel near x≈425)
+  + free retouch-shorten cell 1 (−38px), then splice +
+  re-verify + record. No blocker, but budget tight: 6 left
+  for 4 sheets after fix-3. No fourth-attempt pressure (attempt 1).
+- Next recommended task: CMR-13A combo fix-3 + retouch.
+
 ### 2026-10-06 - Producer visual-review pass (review due: 4 src/game commits)
 
 - Status before: CMR-13A IN_PROGRESS; last full review 2026-10-03

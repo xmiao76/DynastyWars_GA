@@ -1,10 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 5/12 used (2/7 ACCEPTED; combo fix-1 REJECTED —
-  overshot 516px; fix-2 + retouch prescribed). Global 117/200;
-  combo 1/2 left. Repair reserve 3/3 untouched (shared with
-  CMR-13B, acceptance-4 only). Projection: walk+charge recorded,
-  WARN (8.14%); combo HELD (not recorded).
+- Authoring: 6/12 used (2/7 ACCEPTED; combo fix-2 REJECTED —
+  bounds obeyed but 360px, short of brief; fix-3 with pinned
+  span prescribed). Global 118/200; combo 1/2 left. Repair
+  reserve 3/3 untouched (shared with CMR-13B, acceptance-4
+  only). Projection: walk+charge recorded, WARN (8.14%); combo
+  HELD (not recorded).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +13,41 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 6/12 — combo single-cell fix-2: bounds obeyed, LENGTH FAILS (360px, short) → REJECTED 2026-10-06
+
+- Reserve-before-call: `reserve(..., focused/combo)` → used 6,
+  remaining 6, total 118 (guard: expected 5/12, held).
+- Exact prompt: `combo-fix2-prompt.txt` (ONLY cell 0; HARD
+  endpoint bounds tip x>60 / pommel x<430 + compact 415–430px
+  brief + example chord, to counter fix-1's max-diagonal bias).
+  Ordered refs: combo orig (vehicle, FIRST), body, portrait.
+  One image, first try (default image route).
+- Output: `combo-fix-2.png` sha `b9f7f41e…` (1536×1024). 9/9, 0
+  edge. 3x zone: coiled stance kept, single diagonal glaive +
+  crescent + tassel, no extras. Bounds OBEYED (tip x=117,
+  pommel x=398) — endpoint bounds control POSITION — but chord
+  (117,71)-(398,296) = 360.0px, SHORT of the 415–430 brief by
+  −15% (provider overcorrected from fix-1's 516; pixel/length
+  targets ignored again, both directions now proven).
+- Endpoints overlay-verified on material: steel topmost
+  (117,71); gold pommel extreme read on the 4x zoom (cap rim
+  ≈(398,296)); naive farthest-ink scan hit a boot pixel
+  (444,329) and was discarded — endpoints must be read on
+  wood/steel/gold, never blind extremes. Siblings differ from
+  orig (0.14–0.18 frac) — irrelevant, splice takes cell 0 only.
+- Salvage assessed + rejected: keep-set with 360 would spread
+  ~20% FAIL (min 360 vs max 443.6); retouch-EXTEND (+65px) is
+  fill fabrication (shorten-only precedent) and the extension
+  path runs into the boot. REJECTED, kept per precedent.
+- Prescription (next turn): (1) fix-3 re-shoot (1 request):
+  pin the SPAN, not just limits — blade tip NEAR x≈85 AND
+  pommel cap NEAR x≈425 (both endpoints as targets; bounds
+  alone under-constrain length); (2) FREE retouch-shorten
+  cell 1 (463.1→~425, −38px pommel-end, proven pattern).
+  Then splice + re-verify + record. Budget warning: fix-3
+  leaves 5/12 for 4 sheets — subsequent sheets must land
+  near-first-try.
 
 ### Request 5/12 — combo single-cell fix-1: pose/orientation PASS, LENGTH FAILS (516px overshoot) → REJECTED 2026-10-05
 

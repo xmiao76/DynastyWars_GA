@@ -137,7 +137,7 @@
     "lidian": {
       "role": "boss",
       "cap": 12,
-      "used": 5,
+      "used": 6,
       "sheetCandidates": {
         "walk": 1,
         "charge": 1,
