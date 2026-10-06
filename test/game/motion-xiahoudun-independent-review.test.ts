@@ -47,13 +47,14 @@ describe('CMR-14A completed review preserves scoped owner reset and honest limit
     expect(review.projectionRecordAdded).toBe(false)
     const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as {
       band: { lo: number; hi: number }
-      sheets: Array<{ name: string; min: number; max: number; mean: number; history: unknown[] }>
+      sheets: Array<{ name: string; min: number; max: number; mean: number; history: Array<{ min: number; max: number; mean: number }> }>
     }
     expect(projection.sheets.map(s => s.name)).toEqual(['walk'])
     expect(projection.band).toEqual({ lo: 404.1605167916991, hi: 446.70372908556226 })
     const walk = projection.sheets[0]!
-    expect((walk.max - walk.min) / walk.mean).toBeGreaterThan(0.10)
-    expect(walk.history.length).toBeGreaterThan(0) // old underestimated numbers remain audit history
+    expect((walk.max - walk.min) / walk.mean).toBeLessThanOrEqual(0.10)
+    expect(walk.history.length).toBeGreaterThanOrEqual(2) // underestimated and corrected failing values remain audit history
+    expect(walk.history.some(s => (s.max - s.min) / s.mean > 0.10)).toBe(true)
   })
 
   it('labels a single-scale offline ordered-still fixture as provisional, not gameplay/native-video proof', () => {

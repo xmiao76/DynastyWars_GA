@@ -4,9 +4,10 @@
   independent NEEDS_NAMED_REPAIR verdict. Guard finger layering restored
   in new override `fba82023`; source not unconditionally accepted.
   Authoring2/12/global128/200, repair1spent/2left; no new image request.
-- Walk acceptance REOPENED: whole-material endpoints give11.36% spread
-  STOP; prior0.25% inside-cap markers invalidated. Fixed band unchanged
-  [404.16,446.70], projection corrected with prior values in history.
+- Walk weapon corrections `0aff5a39` close full-material gate3.38%/2.74°;
+  projection OK at unchanged band[404.16,446.70], prior11.36% STOP and
+  invalid0.25% kept in history. Whole walk acceptance still HELD for
+  registered continuity; corrected walk+charge6.89% diagnostic only.
 - Charge `b547809c` weapon6.01%/19.5° preserved; head metric UNVERIFIED.
   No mandatory head shrink demonstrated by final reviewer. Registered
   paint/scale continuity review remains; charge not recorded accepted.
@@ -17,6 +18,36 @@
   attack-id names).
 
 ## Attempt log
+
+### Attempt2 continuation — five foreground-safe cap slides; true weapon gate closed
+
+- Starting from immutable guard-hand-restored `fba82023`, new override
+  `0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685`.
+  Isolated rear cap ops2/3/5/7/8 shift[13,-5]/[15,-6]/[14,-6]/[9,-3]/
+  [39,-15], t0[44,44,46,42,60], band10; moved525/565/568/523/681.
+  No fill/redraw/image request or source/budget overwrite. Guard0,
+  cells1/4/6 and all off-corridor pixels exact; protected grip/cloth/leg
+  witnesses match. Nine figures,0 edge,2 unchanged pre-existing specks.
+- Initial cell3 cloth witness included spear at138,559: builder refused
+  before output. Opened annotated crop: failed pixel is bronze/wood,
+  actual lower cloth150..190,574..586; corrected witness material,
+  not gate waiver. Revised driver passes all exact checks; negative
+  control changes guard finger while numeric weapon gate still passes,
+  body witness rejects. Input immutable/copy-on-write/deterministic.
+- Opened all5 before/final4x pairs:2 cap clear of skirt/boot;3 continuous
+  wood join above unchanged scarf and fist;5 sleeve/raised leg retained;
+  7 tiny cap slide leaves robe diagonal/fingers unchanged;8 largest slide
+  stays clear of hand/robe, single continuous cap/shaft, no floating bit.
+  Opened fresh18 tip/butt crosshairs on full overlay, all on material:
+  [427.7,430.8,437.3,438.3,431.1,437.5,442.4,438.1,436.6],3.38% PASS;
+  max consecutive undirected step2.74°. Projection OK, band unchanged,
+  history retained. Hypothetical walk+charge6.89% OK, NOT charge record.
+  [Repair audit](walk-projection-repair-audit.json) / review script.
+- Weapon repair accepted, whole-sheet remains HELD: source parent
+  self-checks do not independently verify corrected guard or actual
+  registered transitions. Next: guard/charge/recovery same-scale
+  registered continuity/paint-size review with actual exposure/root
+  map; head metric stays UNVERIFIED/null. No new combo/runtime here.
 
 ### Owner reset fulfilled — ONE independent verdict; original guard hand restored; true walk projection corrected
 

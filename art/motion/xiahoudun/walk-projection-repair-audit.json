@@ -1,0 +1,259 @@
+{
+  "fighter": "xiahoudun",
+  "sequence": "walk",
+  "status": "WEAPON_REPAIR_ACCEPTED_SOURCE_STILL_HELD",
+  "source": {
+    "file": "walk-guard-grip-restored-source.png",
+    "sha256": "fba82023db508438b4d7dc676b779387e80cc678674dbee92619c1ccbe6b7653"
+  },
+  "override": {
+    "file": "walk-projection-corrected-source.png",
+    "sha256": "0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685"
+  },
+  "targetCells": [
+    2,
+    3,
+    5,
+    7,
+    8
+  ],
+  "untouchedCells": [
+    0,
+    1,
+    4,
+    6
+  ],
+  "imageRequests": 0,
+  "protectedBodyWitnessesUnchanged": true,
+  "offCorridorPixelsUnchanged": true,
+  "composition": 9,
+  "outerEdgeContact": 0,
+  "detachedSpeckInventoryUnchanged": true,
+  "existingSpecks": [
+    [
+      7,
+      1425,
+      137,
+      1427,
+      140
+    ],
+    [
+      4,
+      415,
+      472,
+      416,
+      475
+    ]
+  ],
+  "weaponEndpoints": [
+    {
+      "cell": 0,
+      "tip": [
+        521,
+        41
+      ],
+      "butt": [
+        126,
+        205
+      ],
+      "length": 427.6926466517749
+    },
+    {
+      "cell": 1,
+      "tip": [
+        1034,
+        64
+      ],
+      "butt": [
+        632,
+        219
+      ],
+      "length": 430.84684053617013
+    },
+    {
+      "cell": 2,
+      "tip": [
+        1524,
+        73
+      ],
+      "butt": [
+        1119,
+        238
+      ],
+      "length": 437.3213921133975
+    },
+    {
+      "cell": 3,
+      "tip": [
+        519,
+        409
+      ],
+      "butt": [
+        111,
+        569
+      ],
+      "length": 438.25106959367474
+    },
+    {
+      "cell": 4,
+      "tip": [
+        1034,
+        407
+      ],
+      "butt": [
+        631,
+        560
+      ],
+      "length": 431.0661202182329
+    },
+    {
+      "cell": 5,
+      "tip": [
+        1522,
+        415
+      ],
+      "butt": [
+        1116,
+        578
+      ],
+      "length": 437.49857142623904
+    },
+    {
+      "cell": 6,
+      "tip": [
+        520,
+        760
+      ],
+      "butt": [
+        102,
+        905
+      ],
+      "length": 442.4353060052961
+    },
+    {
+      "cell": 7,
+      "tip": [
+        1035,
+        765
+      ],
+      "butt": [
+        623,
+        914
+      ],
+      "length": 438.1152816325859
+    },
+    {
+      "cell": 8,
+      "tip": [
+        1524,
+        763
+      ],
+      "butt": [
+        1117,
+        921
+      ],
+      "length": 436.592487338021
+    }
+  ],
+  "weaponMethod": "Whole-material alpha>=96 endpoints in verified cap/tip crops, all18 crosshairs opened on new fixed-source overlay; no highlights or bbox proxies.",
+  "weaponSpread": 0.03384949916357192,
+  "maxDirectionStep": 2.743220389951844,
+  "projectionStatus": "OK",
+  "fixedBand": {
+    "lo": 404.1605167916991,
+    "hi": 446.70372908556226
+  },
+  "hypotheticalWalkCharge": {
+    "status": "OK",
+    "observedSpread": 0.06886041486067658,
+    "n": 14,
+    "min": 412.5724178856362,
+    "max": 442.4353060052961,
+    "mean": 433.6727883513441,
+    "window": {
+      "lo": 404.1605167916991,
+      "hi": 446.70372908556226
+    },
+    "reasons": [
+      "observed spread 6.89% over n=14; steering window [404.2, 446.7]"
+    ],
+    "recorded": false
+  },
+  "pairReview": [
+    {
+      "cell": 2,
+      "shift": [
+        13,
+        -5
+      ],
+      "t0": 44,
+      "band": 10,
+      "moved": 525,
+      "finding": "Bronze cap shifts within isolated shaft corridor, diagonal wood joins continuously; cloth/boot outlines and remote hand unchanged.",
+      "path": "artifacts/motion/xiahoudun/walk-projection-review/pair-2.png",
+      "sha256": "595a69afc198284330f89a930651f2cdd01d1404f1b622c6a7217ffab221f52d"
+    },
+    {
+      "cell": 3,
+      "shift": [
+        15,
+        -6
+      ],
+      "t0": 44,
+      "band": 10,
+      "moved": 565,
+      "finding": "Butt and metal ring advance without cutting flared lower scarf; rear gripping fingers remain intact; straight wood overlap no notch.",
+      "path": "artifacts/motion/xiahoudun/walk-projection-review/pair-3.png",
+      "sha256": "e2d331a69ef01813fd6e0dcc303e7cb3d622a5efbb4d4d6bb2346c8d86870e49"
+    },
+    {
+      "cell": 5,
+      "shift": [
+        14,
+        -6
+      ],
+      "t0": 46,
+      "band": 10,
+      "moved": 568,
+      "finding": "Short cap displacement in clear space retains cuff, layered skirt and raised leg; no detached cap or sleeve paint.",
+      "path": "artifacts/motion/xiahoudun/walk-projection-review/pair-5.png",
+      "sha256": "3fdb3e93f481bae904eb437b2446983ea66c8403082aa30db5bff8f6981adfee"
+    },
+    {
+      "cell": 7,
+      "shift": [
+        9,
+        -3
+      ],
+      "t0": 42,
+      "band": 10,
+      "moved": 523,
+      "finding": "Small cap advance leaves diagonal robe strands, fist and knee contours unchanged; cap remains connected to haft.",
+      "path": "artifacts/motion/xiahoudun/walk-projection-review/pair-7.png",
+      "sha256": "3cc66dc66489f4295f58adc73f1022f3ccc483a561ad39e4b543a87f969bdf92"
+    },
+    {
+      "cell": 8,
+      "shift": [
+        39,
+        -15
+      ],
+      "t0": 60,
+      "band": 10,
+      "moved": 681,
+      "finding": "Largest slide remains left of cloth/hand; shortened bronze cap meets straight shaft without floating fragment; upper robe tails/knee unchanged.",
+      "path": "artifacts/motion/xiahoudun/walk-projection-review/pair-8.png",
+      "sha256": "87b95434a5f178e7ee580384fe64a0489e13767dca5466fc54d1081321f92f06"
+    }
+  ],
+  "endpointOverlay": {
+    "path": "artifacts/motion/xiahoudun/walk-projection-review/true-endpoints.png",
+    "sha256": "9b9a5bb45a33855e67437ed0f977069557f698072f836784d29d218664da8281"
+  },
+  "rejectedWitnessTrial": "Initial cell3 lower-cloth rectangle included spear material at138,559, preventing write. Fresh annotated crop proved red point bronze/wood vs actual lower cloth150..190,574..586. Corrected material witness, not a body gate waiver; full corridor and witness checks pass.",
+  "headGate": "UNVERIFIED",
+  "numericalHeadSpread": null,
+  "wholeSheetAccepted": false,
+  "independentAfterReview": false,
+  "next": "Registered final guard/charge/recovery continuity with corrected walk guard, same scale and actual exposure/root map. Head uncertainty must stay disclosed, palette shifts checked. No combo/charge acceptance/runtime publication this iteration."
+}

@@ -1,6 +1,6 @@
 # Xiahou Dun authoring plan (CMR-14A, attempt 2 after explicit owner reset)
 
-Status: IN_PROGRESS — completed independent verdict NEEDS_NAMED_REPAIR; authorized TODO reset applied and guard grip restored. Walk acceptance reopened (true weapon spread11.36% STOP, old0.25% invalid); charge held, head UNVERIFIED. Authoring2/12, repair2/3 remain; no new sequence/dependent task.
+Status: IN_PROGRESS attempt2 — guard grip restored, walk weapon corrections3.38%/2.74° close fixed-band projection (OK). Whole-sheet acceptance remains held on registered consistency review; charge head UNVERIFIED/null. Authoring2/12, repair2/3 remain; no new sequence/dependent task.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
@@ -9,15 +9,16 @@ Status: IN_PROGRESS — completed independent verdict NEEDS_NAMED_REPAIR; author
 - ONE completed independent review now exists: NEEDS_NAMED_REPAIR walk0
   finger layering; no justified mandatory charge-head rescale. Owner
   reset applied; attempt1 blocked history preserved, attempt2 underway.
-- Grip restored from original into new override `fba82023`; parent pair
-  self-check only. True-material walk length spread11.36% STOP; correct
-  cap endpoints show old0.25% claim was undermeasurement. Fixed band
-  [404.16,446.70] unchanged; walk projection corrected with history.
-- Next: foreground-safe walk retouch to fixed band (walk8 largest,
-  cells2/3/5/7 overshoot), protected hand/cloth pixels + enlarged pairs,
-  full projection. Then registered guard/charge/recovery paint/scale
-  review with head null disclosure; charge record/new combo waits.
-  [Completed review](INDEPENDENT-REVIEW.md) / [audit](walk-guard-grip-audit.json).
+- Grip restored `fba82023`; further weapon override `0aff5a39` preserves
+  guard/untouched cells and protected body witnesses. Five isolated
+  cap slides, all enlarged pairs checked:3.38% walk weapon/2.74° PASS,
+  fixed band[404.16,446.70] projection OK; earlier11.36% STOP and old
+  underestimated0.25% kept in history, no re-centering.
+- Hypothetical corrected-walk+charge6.89% OK, not charge acceptance.
+  Next: registered guard/charge/recovery paint/scale continuity using
+  corrected walk guard and real exposure/root map. Head null disclosure
+  stays; whole-sheet acceptance/new combo awaits this source review.
+  [Completed review](INDEPENDENT-REVIEW.md) / [weapon audit](walk-projection-repair-audit.json).
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

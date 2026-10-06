@@ -116,8 +116,25 @@ configured-default all failed before closing verdict; cause unknown. They remain
 recorded as failures, not reviewers with invented observations. The completed
 fork review supersedes pending-review infrastructure state.
 
-**Current next action:** CMR-14A IN_PROGRESS after explicit owner reset, attempt2
-bounded target: close corrected walk weapon spread without body damage, then
-registered guard/charge/recovery consistency review. Original retry history,
-2/12 authoring and2 remaining repair rounds retained; no scheduler/loop-policy,
+## Attempt2 continuation — walk weapon gate closed, not whole-sheet acceptance
+
+New [corrected walk override](walk-projection-corrected-source.png) SHA
+`0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685`
+shortens only isolated rear weapon pieces in walk:2/3/5/7/8. Exact hand/robe/leg
+witnesses and all off-corridor pixels unchanged; restored guard0 and cells1/4/6
+byte-identical. No source originals replaced or image requests spent.
+
+[Repair audit](walk-projection-repair-audit.json) records fixed4x pair self-checks,
+verified complete endpoints [427.7,430.8,437.3,438.3,431.1,437.5,442.4,438.1,436.6],
+**3.38% weapon PASS**, 2.74° maximum consecutive direction, fixed-band projection
+**OK**. [Fresh endpoint overlay](../../../artifacts/motion/xiahoudun/walk-projection-review/true-endpoints.png)
+and all5 pairs opened. Hypothetical corrected-walk+charge spread6.89% OK,
+NOT a charge acceptance record. Head UNVERIFIED/null and whole-sheet visual/
+registration/motion acceptance still pending; parent self-check is not a second
+independent after-verdict. The earlier11.36% result remains history above.
+
+**Current next action:** registered guard/charge/recovery consistency review,
+with corrected walk guard and actual exposure/root map, then scoped source
+acceptance if justified. Check warmer/brighter charge0/3/4 vs1/2. Original retry
+history, authoring2/12 and2 repair rounds retained; no scheduler/loop-policy,
 threshold, gameplay or runtime publication changes.

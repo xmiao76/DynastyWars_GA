@@ -58,5 +58,13 @@
   "globalAuthoringUsed": 128,
   "repairRoundsSpent": 1,
   "repairRoundsRemaining": 2,
-  "next": "Continue attempt2: foreground-safe walk shaft corrections (especially walk8), full true-endpoint projection and enlarged pairs, then registered guard/charge consistency review. Preserve head metric null and all source/budget history; no combo/new pack/runtime activation until criteria pass."
+  "walkWeaponFollowup": {
+    "file": "walk-projection-corrected-source.png", "sha256": "0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685",
+    "audit": "walk-projection-repair-audit.json", "targetCells": [2,3,5,7,8],
+    "weaponSpread": 0.03384949916357192, "directionMaxStepDeg": 2.743220389951844,
+    "projectionStatus": "OK", "fixedBandChanged": false, "protectedBodyPixelsUnchanged": true,
+    "wholeSheetAccepted": false, "independentAfterReview": false,
+    "hypotheticalWalkChargeSpread": 0.06886041486067658, "chargeRecordAdded": false
+  },
+  "next": "Registered guard/charge/recovery consistency review with final corrected walk and source-hash-pinned real exposure/root map; head metric stays null, warmer charge0/3/4 style checked. Weapon gate now closed, but source/charge/whole-pack acceptance and runtime activation remain pending."
 }
