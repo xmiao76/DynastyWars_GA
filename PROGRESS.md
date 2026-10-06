@@ -1,7 +1,6 @@
 # Progress Log
 Add one entry at the TOP after every manual or scheduled iteration - newest
 first, so the most recent state is the first thing an iteration reads.
-
 Keep this file short. Once it passes about 500 lines, move the oldest entries to
 `PROGRESS-ARCHIVE.md`: every iteration reads this file in full, so an unbounded
 history slowly crowds out the work it is supposed to support.
@@ -9,6 +8,8 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-06 15:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
+- Clean HEAD `2032522`; required loop/PROJECT/queue/progress read; review1<4 and no pending/current DUE NOW. No IN_PROGRESS or owner reset; first TODO14B requires blocked14A DONE+complete pack. No repair/dependent work/producer bypass, generation, task/art/budget/runtime/control changes. Progress-only record; whitespace/scope/<=500-line checks, no behavior/UI/shipping tests applicable. Await explicit owner head-gate decision+14A reset; recheck does not count as a repair attempt. Removed two blank separators without deleting evidence.
 ### 2026-10-06 14:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
 - Clean HEAD `c447efe`; required loop/PROJECT/queue/progress read; review count1<4, no pending/current DUE NOW, no IN_PROGRESS or owner reset. First TODO14B still requires blocked14A DONE+complete pack. No fourth repair/dependent work/producer bypass or image call; task states/art/budgets/runtime unchanged. Progress-only checkpoint: whitespace/scope/<=500-line checks, no unit/vision/prodbuild applicable. Await explicit owner head-gate route+14A reset; this check is not a repair attempt. Removed two blank separators only; all evidence preserved.
 ### 2026-10-06 14:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
@@ -83,7 +84,6 @@ history slowly crowds out the work it is supposed to support.
   Next: repair charge:0/3/4 only (foreground-safe geometry or one
   reserve-first focused redraw), retain clean cells1/2, then remeasure
   endpoints/heads/anatomy/projection. No blocker; no second sequence.
-
 ### 2026-10-06 - CMR-14A (attempt 1, IN_PROGRESS - walk ACCEPTED via sheet + 9 retouches, 0.25%; band fixed; 1/7 done)
 - Status before: CMR-14A IN_PROGRESS (setup done, 0/12).
   Review not due (1 src/game commit < 4).
