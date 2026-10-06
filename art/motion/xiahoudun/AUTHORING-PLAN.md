@@ -1,16 +1,15 @@
 # Xiahou Dun authoring plan (CMR-14A, attempt 1)
 
-Status: 0/7 ACCEPTED; setup complete; walk anchor sheet next; 0/12 spent.
+Status: 1/7 ACCEPTED (walk closed: sheet + 9 retouches, 0.25%; band [404.2,446.7] fixed); charge sheet next; 1/12 spent, 11 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- xiahoudun cap 12 (role: boss), used 0 (slot auto-creates
-  on first reserve). Global 126/200. Two whole-sheet
-  candidates per sequence. Repair reserve 3/3 (fresh
-  per-fighter reserve; lidian's exhaustion does not
-  apply). Target: 7 sheets in 7-9 requests, reserve +
-  retouch for the rest — 13A needed a grant; this plan
-  Briefs defensively from sheet one (see procedure).
+- xiahoudun cap 12 (role: boss), used 1 (+walk ACCEPTED
+  via retouch). Global 127/200. Two whole-sheet
+  candidates per sequence, unchanged (walk 1/2 left,
+  unspent). Repair reserve 3/3 untouched. Projection:
+  band fixed [404.16,446.70], walk recorded OK (N=9);
+  steer charge inside [404.2,446.7].
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

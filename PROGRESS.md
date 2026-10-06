@@ -22,6 +22,42 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-14A (attempt 1, IN_PROGRESS - walk ACCEPTED via sheet + 9 retouches, 0.25%; band fixed; 1/7 done)
+
+- Status before: CMR-14A IN_PROGRESS (setup done, 0/12).
+  Review not due (1 src/game commit < 4).
+- Work completed: reserved BEFORE the call (1/12, global
+  127/200 — slot auto-created), generated `walk-candidate-
+  1.png` sha `68a7de2b` (guard + genuine 8-cycle;
+  defensive brief). Audited 9/9, 0 edge; design PASS
+  (distinct gaits, identity clean incl. headbands/beards/
+  blind eyes, single spears + leaf + tassels). Overlay-
+  verified lengths [528.2..444.1], spread 17.17% FAIL —
+  uniform overshoot. Closed with 9 free gated pommel
+  shortens (−103..−19, ±0.1px gates, all 9 pairs clean,
+  speck scan matches candidate's 2 pre-existing exactly).
+  Final `walk-prepared-source.png` (`b395c867`): keep-set
+  [425.5..424.4], spread 0.25% PASS; direction max step
+  2.3° PASS; heads [65,70×8] (band-top to beard-bottom),
+  7.2% PASS. Fixed the global band from the median
+  (424.9) → [404.16,446.70]; recorded walk: OK (0.26%,
+  N=9).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `generation-budget.json` (1/12),
+  `walk-candidate-1.png` + prompt, `walk-prepared-source.png`,
+  retouch driver, `pack-projection.json` (new, band fixed),
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+  Retouch free; repair untouched (3/3).
+- Result/status after: CMR-14A IN_PROGRESS (attempt 1, 1/12).
+  1/7 sequences done; anchor established.
+- Remaining work or blocker: charge sheet 1/2 (reserve
+  first; brief inside [404.2,446.7]). No blocker.
+- Next recommended task: CMR-14A charge sheet.
+
 ### 2026-10-06 - CMR-14A (attempt 1, IN_PROGRESS - setup done: identity locked, plan + provenance skeleton, budget verified)
 
 - Status before: CMR-13B DONE; CMR-14A TODO (dependency

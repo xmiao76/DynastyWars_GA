@@ -582,9 +582,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; setup done: identity
-  locked, 7-sheet plan + 13A procedure recorded, budget
-  verified 0/12. Next: walk anchor sheet 1/2.)
+- Status: IN_PROGRESS (attempt 1; walk ACCEPTED +
+  band fixed [404.2,446.7]). Walk closed via sheet 1/2
+  (`68a7de2b`: design pass, uniform overshoot) + 9 gated
+  pommel retouches (`b395c867`): keep-set 0.25% PASS,
+  direction 2.3° PASS, heads 7.2% PASS. Next: charge
+  sheet 1/2 (reserve first; brief inside [404.2,446.7]).
+  Ledger 1/12, global 127/200; repair 3/3 untouched.
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

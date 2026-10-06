@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "fighter": "xiahoudun",
+  "totalSheets": 7,
+  "band": {
+    "lo": 404.1605167916991,
+    "hi": 446.70372908556226
+  },
+  "bandAnchor": "walk",
+  "sheets": [
+    {
+      "name": "walk",
+      "scale": 1,
+      "n": 9,
+      "min": 424.4,
+      "max": 425.5,
+      "mean": 424.9222222222222,
+      "band": {
+        "lo": 404.1605167916991,
+        "hi": 446.70372908556226
+      },
+      "history": []
+    }
+  ]
+}
