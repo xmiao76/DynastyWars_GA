@@ -8,6 +8,8 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-06 16:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
+- Clean HEAD `8fe024b`; read required loop/PROJECT/queue/progress. Review1<4, no pending/current DUE NOW; no IN_PROGRESS or owner decision/reset. First TODO14B still requires owner-blocked14A DONE+complete pack. No fourth repair, dependent work, producer bypass or image request; task statuses/art/budgets/runtime unchanged. Progress-only checkpoint verified by `git diff --check`, scope and <=500-line checks; unit/vision/prodbuild not applicable. Await explicit owner head-gate decision+14A reset; readiness checks are not repair attempts. Removed two blank separators only, preserving evidence.
 ### 2026-10-06 15:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
 - Clean HEAD `30ffb48`; required loop/PROJECT/queue/progress read; review1<4, no pending/current DUE NOW, no IN_PROGRESS or owner reset. First TODO14B still requires blocked14A DONE+complete pack. No repair/dependent implementation/producer bypass, image call, status/art/budget/runtime/control changes. Only progress checkpoint; whitespace/scope/<=500-line checks, no unit/vision/prodbuild applicable. Await explicit owner head-gate decision+14A reset; this recheck does not count as repair. Removed two blank separators, preserving evidence.
 ### 2026-10-06 15:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
@@ -249,14 +251,12 @@ history slowly crowds out the work it is supposed to support.
 - Boundedimplementation/reviewpassdelivered;sessiongoalcanclosewithoutclaimingallmotionperfect. GYM-1remainsIN_PROGRESSforownernormal-speedacceptanceanddetail/pairedgrabcaveats. Nextactionownerfeedback,noblindcontinuationornewscope. No push/deploy.
 
 ### 2026-09-30 22:40 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
-
 - Addednormal-inputmixedchoreography480ticks~8.04sCanvas,bothfacings/CanvasWebGL2/2;allattackIDs,newtexturesonly,landingwhilemoving. Fullboot/headcropscamera-scrollcorrectedandreviewed. Realdamage-drivenhurt/heavyfall/airhit/getupandwalkinggrab->throwcase1/1;viewedinteractionframes,confirmsopponentpronegrabbedposecannotaligncollarreachwithinotherfighters-unchangedscope.
 - Defensiveboundarycontrolsfailedfirstonthrowimpactandgetupdefeatstandingrecoil;fixedhistorytokeep lowposeandsettle/reverseexistinggetupdrawings. Noart/core/otherfighterchanges. CanvasWebGLboundary2/2;viewedthrowimpact/getupdefeatstrips. No nativevideoviewclaim;ownermotionacceptanceopen.
 - Verification:lint0;motion33/33;full711passed/1baselineG6failure/6skipped;typecheck6baselineUIR19errors;vision5/5;prodbuild6/6. Updatedreport/evidenceunderartifacts/wholeframe/actions/{mixed,interactions,transitions}.
 - Remainartlength/detailconsistencyandpairedgrabscopedecision,ownernormal-speedreview. Goalactive;no more imagegenerationinbudget; nofalseall-smoothcompletion. No push/deploy/scheduler.
 
 ### 2026-09-30 21:55 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
-
 - Locatedspecial1/mounted3backward-bladewindups;2focusedimageeditsfixedshaftdirectionbutbody/headscale drift,REJECTEDafterregisteredcontactreview. Currentfollow-up12requestbudgetexhausted;acceptedsolutionusesexistingforwardguard/recoverykeysandaddedforward-diagonalrecoverystep,samehitwindows.
 - Pixel-supportedlogicalhaftdirectionlandmarks:peak~79->53degspecial,~134->48mounted;new60degdirectioncontrolrejectsoldorders. Thisisnot10%lengthcertification. Viewedexactexposureordersandactualspecial/mountedgameplaystripsaftercapture;bothatlases/core/approvedregularpixelsunchanged.
 - Checks:3newunitcontrols;full709passed/1baselineG6failure/6skipped;lint0;typecheck6baselineUIR19errors;Canvas/WebGLaction+missingpack3/3;vision5/5;prodbuild6/6. Source/rejectionsinart/motion/WEAPON_ARC_REVIEW.md;reportupdated.
