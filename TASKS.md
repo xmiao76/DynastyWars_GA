@@ -553,14 +553,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; walk + charge + combo
-  ACCEPTED (band [399.7,441.8] fixed; projection WARN 8.30%,
-  N=19; drift flag noted, band untouched). Combo closed via
-  fix-4 horizontal recompose (`eb22ef71`, 494px) + 2 free
-  pommel retouches (cell 0 −69px, cell 1 −38px, all gates +
-  clean pairs) + gated splice (`654fd3a7`): keep-set 4.25%
-  PASS, direction 33.2° PASS, heads 7.7% PASS. Next: heavy
-  sheet 1/2 (reserve first; brief mid-low ~415–425 inside
-  [400.8,441.8]). Ledger 8/12, global 120/200; 4 left.)
+  ACCEPTED; projection WARN 8.30%, N=19). Heavy 1/2
+  (`031e72d5`): DESIGN PASS (arc reads, identity clean,
+  9/9 0-edge) but LENGTH FAIL — c0 292.5 / c1 293.7 /
+  c2 ~302 short, c3/c4 pommels occluded (boot-buckle
+  false hits excluded by zone overlays); spares no
+  substitute. HELD (not recorded). Next: REPAIR round 1
+  (repair ledger, reserve BEFORE call) naming heavy cells
+  0–4, poses kept, full-length visible glaives — pure
+  Acceptance-4 failure per loop.md 4a (retouch: c0 sheet
+  edge + c3/c4 unknown proven; c1/c2 batched for
+  coherence, ≤9 cells allowed). Ledger 9/12, global
+  121/200; authoring 3 left for misc/fall/getup.
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

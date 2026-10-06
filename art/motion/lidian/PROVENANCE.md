@@ -1,12 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 8/12 used (3/7 ACCEPTED — combo closed via
-  fix-4 recompose + 2 free retouches + splice, 4.25% PASS).
-  Global 120/200; combo 1/2 left. Repair reserve 3/3
-  untouched (shared with CMR-13B, acceptance-4 only).
-  Projection: walk+charge+combo recorded, WARN (8.30%,
-  N=19); drift flag noted (means rising, band untouched);
-  steer heavy into [400.8,441.8], aim mid-low.
+- Authoring: 9/12 used (3/7 ACCEPTED; heavy 1/2 DESIGN
+  PASS but LENGTH FAIL — overhead cells short/occluded;
+  HELD for repair round 1). Global 121/200; heavy 1/2
+  left. Repair reserve 3/3 untouched (round 1 prescribed:
+  5 named cells). Projection: walk+charge+combo recorded,
+  WARN (8.30%, N=19); heavy NOT recorded (held).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -14,6 +13,46 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 9/12 — heavy 3x3 sheet candidate 1/2: DESIGN PASS, LENGTH FAILS (overheads short/occluded) → HELD for repair round 2026-10-06
+
+- Reserve-before-call: `reserve(..., sheet/heavy)` → used 9,
+  remaining 3, total 121 (guard: expected 8/12, held).
+- Exact prompt: `heavy-prompt.txt` (raise/hold/chop/follow/
+  recover + spares; steep-diagonal family ≤30°, NO vertical
+  with the 341px-height reason stated; 415–425px mid-low
+  brief inside [400.8,441.8]; single glaive + crescent +
+  tassel; 35px+ margins). Ordered refs: body, portrait,
+  combo-prepared `654fd3a7` (read_image'd first).
+- Output: `heavy-candidate-1.png` sha `031e72d5…` (1536×1024).
+  Mechanical: 9/9, 0 edge, 0 specks. Design: arc reads
+  (raise→hold→chop→follow→recover), identity clean, single
+  glaives + crescents + tassels, no extras. Poses ACCEPTED.
+- Length (overlay-verified endpoints on material): c0 292.5
+  (tip (360,10), pommel (101,146)); c1 293.7 (tip (858,7),
+  pommel (589,125)); c2 ~302 (tip (1524,323), pommel
+  (1280,145)); c3/c4 pommels OCCLUDED (hafts disappear
+  behind the torso; zone reads show no cap — farthest-gold
+  hits were boot buckles, proven by zone overlays, not
+  assumed). The provider drew every overhead glaive short
+  (~260–330) and hid two butts. Spares c6/c7 also short
+  (~297/~360) — no substitution.
+- Retouch pre-assessment (loop.md 4a: retouch before reserve
+  rounds): c0 extend +130 hits the SHEET EDGE (target x≈−14,
+  proven by coordinates); c3/c4 have no endpoints (unknown,
+  cannot run); c1/c2 unproven either way but batching all
+  five named cells in ONE reserve round is coherent (same
+  defect class, poses kept) and explicitly allowed (≤9
+  cells/round) — a 130px median fill over 45% synthetic
+  shaft would likely fail pair review anyway.
+- Prescription (next turn): REPAIR round 1 (repair ledger,
+  NOT authoring — Acceptance-4 failure per loop.md 4a +
+  recovery doc): reserveRepairRound BEFORE the call naming
+  cells 0–4 (poses kept, full-length ~415–425px glaives,
+  VISIBLE pommel caps in empty margins); refs heavy orig +
+  body + portrait; then splice/verify/project. Authoring
+  stays 9/12 (3 left for misc/fall/getup — each must land
+  first-try-or-retouch).
 
 ### Request 8/12 — combo fix-4 HORIZONTAL RECOMPOSE (494px) + 2 free retouches + splice → 4.25% PASS → ACCEPTED 2026-10-06
 

@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy 1/2 DESIGN PASS, LENGTH FAIL (overheads short/occluded); repair round 1 next)
+
+- Status before: CMR-13A IN_PROGRESS (3/7 accepted, 8/12).
+  Review not due (0 src/game commits since `6084ab4`).
+- Work completed: reserved BEFORE the call (9/12, global
+  121/200), generated `heavy-candidate-1.png` sha `031e72d5`
+  (mid-low 415–425 brief inside [400.8,441.8]; refs body,
+  portrait, combo-prepared). Audited 9/9, 0 edge. Design
+  PASS: arc reads, identity clean, single glaives +
+  crescents + tassels, no defects. Length FAIL, endpoints
+  on material: c0 292.5 / c1 293.7 / c2 ~302 (overheads
+  drawn short); c3/c4 pommels OCCLUDED behind the torso
+  (farthest-gold hits proven to be boot buckles via zone
+  overlays); spares c6/c7 also short (~297/~360), no
+  substitution. Retouch adjudicated per loop.md 4a: c0
+  extend hits the sheet edge (proven by coords), c3/c4
+  have no endpoints (unknown, cannot run); c1/c2 batched
+  with them — ONE repair round naming all 5 cells (poses
+  kept, full-length visible glaives), explicitly allowed
+  (≤9 cells/round). Heavy HELD, not recorded.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (9/12), `heavy-candidate-1.png`
+  + prompt (held), PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md,
+  PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 9/12).
+- Remaining work or blocker: REPAIR round 1 (repair ledger —
+  reserveRepairRound BEFORE the call, cells heavy:0–4) +
+  splice/verify/project. Authoring 3 left for misc/fall/
+  getup — each must land first-try-or-retouch. No blocker.
+- Next recommended task: CMR-13A heavy repair round 1.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - combo ACCEPTED via fix-4 + retouch + splice, 4.25%; 3/7 done)
 
 - Status before: CMR-13A IN_PROGRESS (2/7 accepted, 7/12).
