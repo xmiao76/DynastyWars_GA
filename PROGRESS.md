@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - fall ACCEPTED via sheet + 5 retouches, 0.70%; 6/7 done)
+
+- Status before: CMR-13A IN_PROGRESS (5/7 accepted, 11/14).
+  Review not due (0 src/game commits).
+- Work completed: reserved BEFORE the call (12/14, global
+  124/200), generated `fall-candidate-1.png` sha `4df1f23b`
+  (arc incl. genuinely flat DOWN bookend; anti-foreshorten
+  + no-vertical brief). Audited 9/9, 0 edge; design PASS.
+  Keep-set {0,1,2,4,5} (c3 culled): overlay-verified
+  [481.5,483.3,479.7,465.5,515.1] — uniform overshoot
+  (c4's pommel needed a zone re-read: first probe hit the
+  raised boot). Closed with 5 free gated pommel shortens
+  (−57/−58/−55/−40/−90, ±0.1px gates; one 4px rim sliver
+  caught → band widened → speck scan matches candidate's
+  6 pre-existing exactly; all 5 pairs clean). Final
+  `fall-prepared-source.png` (`eec04082`): keep-set
+  [422.6,423.4,422.4,425.4,425.0], spread 0.70% PASS;
+  undirected direction max step 11.9° PASS; heads 0% on
+  3 readable (c4/c5 faces buried/down, disclosed).
+  Projection recorded: WARN 8.68% (N=34, no new extremes).
+  NOTE: mid-turn context confusion replayed misc-close-out
+  content; caught by grounding in disk state (a spurious
+  projection history append was reverted unverified) and
+  every number above re-derived fresh. Recorded honestly
+  in PROVENANCE.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `generation-budget.json` (12/14),
+  `fall-candidate-1.png` + prompt, `fall-prepared-source.png`,
+  retouch driver, `pack-projection.json`, PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md. Retouch free.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 12/14).
+  6/7 sequences done.
+- Remaining work or blocker: getup sheet 1/2 LAST (reserve
+  first; brief inside [401.0,441.8]; shares DOWN bookend).
+  No blocker. 2 left for 1 sheet.
+- Next recommended task: CMR-13A getup sheet.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - misc ACCEPTED via sheet + 5 retouches + top-up, 2.74%; 5/7 done)
 
 - Status before: CMR-13A IN_PROGRESS (4/7 accepted, 10/14).

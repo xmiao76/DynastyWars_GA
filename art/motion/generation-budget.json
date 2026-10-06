@@ -137,13 +137,14 @@
     "lidian": {
       "role": "boss",
       "cap": 14,
-      "used": 11,
+      "used": 12,
       "sheetCandidates": {
         "walk": 1,
         "charge": 1,
         "combo": 1,
         "heavy": 1,
-        "misc": 1
+        "misc": 1,
+        "fall": 1
       },
       "note": "Owner extension 2026-10-06 (option A): cap 12 -> 14 (+2) for heavy keep cells c1+c2 redraws (overhead foreshortening defeated 1 authoring sheet + 3 repair rounds; see art/motion/lidian/PROVENANCE.md). Usage is NOT reset (used was 9 at the time of the extension). The 200 global cap and the two-whole-sheet-candidates-per-sequence rule are unchanged; the +2 covers redraws only, misc/fall/getup still need their own first-try-or-retouch discipline."
     }

@@ -553,13 +553,14 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; walk + charge + combo +
-  heavy + misc ACCEPTED; projection WARN 8.67%, N=29).
-  Misc closed via sheet 1/2 (`a0651ebd`: design pass,
-  uniform overshoot) + 5 gated pommel retouches + top-up
-  (`a21da347`): keep-set 2.74% PASS, direction 17.4°
-  PASS, heads 0% on 3 upright (2 pose-unverified,
-  disclosed). Next: fall sheet 1/2 (reserve first; brief
-  inside [400.9,441.8]). Ledger 11/14, global 123/200;
+  heavy + misc + fall ACCEPTED; projection WARN 8.68%,
+  N=34). Fall closed via sheet 1/2 (`4df1f23b`: design
+  pass incl. flat DOWN, uniform overshoot) + 5 gated
+  pommel retouches (`eec04082`): keep-set 0.70% PASS,
+  direction 11.9° PASS, heads 0% on 3 readable (2
+  pose-unverified, disclosed). Next: getup sheet 1/2
+  LAST (reserve first; brief inside [401.0,441.8];
+  shares DOWN bookend). Ledger 12/14, global 124/200;
   repair 3/3 exhausted.
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).

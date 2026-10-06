@@ -1,10 +1,10 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 11/14 used (5/7 ACCEPTED — misc closed via
-  sheet + 5 free retouches + top-up, 2.74% PASS). Global
-  123/200; misc 1/2 left. Repair reserve stays 3/3
-  EXHAUSTED. Projection: +misc recorded, WARN (8.67%,
-  N=29); steer fall into [400.9,441.8].
+- Authoring: 12/14 used (6/7 ACCEPTED — fall closed via
+  sheet + 5 free retouches, 0.70% PASS). Global 124/200;
+  fall 1/2 left. Repair reserve stays 3/3 EXHAUSTED.
+  Projection: +fall recorded, WARN (8.68%, N=34); steer
+  getup into [401.0,441.8].
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +12,55 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 12/14 — fall 3x3 sheet candidate 1/2: DESIGN PASS, uniform overshoot → 5 free retouches → 0.70% PASS → ACCEPTED 2026-10-06
+
+- Reserve-before-call: `reserve(..., sheet/fall)` → used 12,
+  remaining 2, total 124 (guard: expected 11/14, held).
+- Exact prompt: `fall-prompt.txt` (topple/airborne/tumble/
+  impact/DOWN + spares; flat DOWN bookend shared with
+  getup; anti-foreshorten + no-vertical + 415–425px brief
+  + 35px+ margins). Ordered refs: body, portrait,
+  misc-prepared `a21da347` (read_image'd first).
+- Output: `fall-candidate-1.png` sha `4df1f23b…` (1536×1024).
+  Mechanical: 9/9, 0 edge, 0 specks. Design: arc reads
+  (topple→airborne→tuck→tumble→impact→DOWN), identity
+  clean, single glaives + crescents + tassels, no extras;
+  DOWN (cell 5) genuinely flat prone. Poses ACCEPTED.
+  Keep-set {0,1,2,4,5} (topple/airborne/tumble/impact/
+  DOWN); cull {3,6,7,8}.
+- Length (overlay-verified, markers on material):
+  [481.5,483.3,479.7,465.5,515.1] — uniform overshoot.
+  (c4's pommel needed a zone re-read: the first probe hit
+  the raised boot — fifth strike for naive scans.)
+- Retouch (`scripts/retouch-lidian-fall.mjs`, committed, 5
+  pommel shortens −57/−58/−55/−40/−90): achieved gates
+  ±0.1px all; first run left a 4px rim sliver on c4 (band
+  16 vs flare) → band 20 → re-run clean (speck scan
+  matches candidate's 6 pre-existing exactly); all 5
+  before/after pairs clean. Final `fall-prepared-source.png`
+  sha `eec04082`.
+- Verify (final overlay, all 10 on material): keep-set
+  [422.6,423.4,422.4,425.4,425.0], spread **0.70% PASS**;
+  undirected axes max step 11.9° PASS; heads: c0/c1/c2
+  [~70,~70,~70] ≈ 0% PASS, c4 (face buried, 26px flesh)
+  + c5 (face fully down, 0px) UNVERIFIED-by-pose with
+  visual consistency recorded (same-scale helmets —
+  inherent to impact/DOWN beats, disclosed).
+- Projection: fall recorded (scale 1): WARN (global 8.68%
+  over N=34, min 406.6, max 443.6 — no new extremes);
+  steering window [401.0,441.8]; drift false.
+- Verdict: fall source ACCEPTED (1 request + free retouch).
+  6/7 sequences done. Culls 3,6,7,8.
+- Process note: this turn's transcript contains a large
+  spurious block re-processing the misc close-out (an
+  apparent context replay). It touched nothing on disk
+  except one redundant projection history append, which
+  was reverted unverified; every number above was
+  re-derived from disk state (fresh probes + overlays)
+  before recording. Lesson reinforced: disk state is
+  truth; re-verify after any confusion, never trust
+  recalled numbers.
 
 ### Request 11/14 — misc 3x3 sheet candidate 1/2: DESIGN PASS, uniform overshoot → 5 free retouches + top-up → 2.74% PASS → ACCEPTED 2026-10-06
 
