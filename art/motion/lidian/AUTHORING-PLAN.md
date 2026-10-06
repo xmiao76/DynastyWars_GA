@@ -1,11 +1,11 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: 2/7 ACCEPTED; combo fix-2 REJECTED (bounds obeyed, 360px short); fix-3 (pinned span) + retouch prescribed; 6/12 spent, 6 left.
+Status: 2/7 ACCEPTED; combo fix-3 REJECTED (518px again; retouch infeasible: finger/boot); fix-4 horizontal recompose prescribed (LAST attempt); 7/12 spent, 5 left.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- lidian cap 12 (role: boss), used 6 (+combo fix-2, REJECTED).
-  Global 118/200. Two whole-sheet candidates per sequence,
+- lidian cap 12 (role: boss), used 7 (+combo fix-3, REJECTED).
+  Global 119/200. Two whole-sheet candidates per sequence,
   unchanged (combo 1/2 left).
 - Repair reserve 3/3 untouched (shared with CMR-13B,
   acceptance-4 only). Deterministic shaft retouch is attempted

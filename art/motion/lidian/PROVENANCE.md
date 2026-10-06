@@ -1,11 +1,11 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 6/12 used (2/7 ACCEPTED; combo fix-2 REJECTED —
-  bounds obeyed but 360px, short of brief; fix-3 with pinned
-  span prescribed). Global 118/200; combo 1/2 left. Repair
-  reserve 3/3 untouched (shared with CMR-13B, acceptance-4
-  only). Projection: walk+charge recorded, WARN (8.14%); combo
-  HELD (not recorded).
+- Authoring: 7/12 used (2/7 ACCEPTED; combo fix-3 REJECTED —
+  518px max-diagonal again AND retouch proven infeasible;
+  fix-4 horizontal recomposition prescribed, last attempt).
+  Global 119/200; combo 1/2 left. Repair reserve 3/3 untouched
+  (shared with CMR-13B, acceptance-4 only). Projection:
+  walk+charge recorded, WARN (8.14%); combo HELD (not recorded).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +13,47 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 7/12 — combo single-cell fix-3: pinned span IGNORED (518px) + retouch PROVEN infeasible → REJECTED 2026-10-06
+
+- Reserve-before-call: `reserve(..., focused/combo)` → used 7,
+  remaining 5, total 119 (guard: expected 6/12, held).
+- Exact prompt: `combo-fix3-prompt.txt` (ONLY cell 0; BOTH
+  endpoints pinned as targets tip≈(75,68) AND pommel≈(425,300);
+  history of all three prior lengths cited). Ordered refs:
+  combo orig (vehicle, FIRST), body, portrait. One image.
+- Output: `combo-fix-3.png` sha `c7d014f6…` (1536×1024). 9/9, 0
+  edge, stance kept, single glaive + crescent + tassel — but
+  chord (36,55)-(483,317) = 518.1px (tip x=36 violates even
+  the x>60 bound). Pinned targets AND the cited history were
+  both ignored: three consecutive provider failures on this
+  diagonal cell (516/360/518) — diagonal length control here
+  is beyond reliable prompting.
+- Retouch-salvage workup (free, deterministic): pommel-end
+  shorten needs s≥77px to reach the band, with piece t0 > cap
+  end (31.2) and t0+s clear of obstacles. Finger flesh PROVEN
+  at t≈106 ((388,269) = (155,111,96), r−b=59 vs haft ≤29 and
+  steel ≤22 — a finger wrapping under the haft): t0 ≤ 29 <
+  31.2, infeasible by ≥2px before margins. Secondary: cap
+  needs ±15 band, boot intrudes at ±13. Trial driver REFUSED
+  by its own achieved gate (483.4 vs 443.5 — the hook exposed
+  unmoved haft, confirming the geometry); driver deleted, no
+  output written. No run wasted beyond measurement.
+- Verdict: fix-3 REJECTED, kept per precedent. Cell-0 score:
+  orig 298 (pose-forced) / fix-1 516 (unsalvageable: fist in
+  piece) / fix-2 360 (extension = fabrication + boot in path)
+  / fix-3 518 (shorten blocked by finger + boot).
+- Prescription (next turn, LAST image attempt on this cell):
+  fix-4 (1 request) RECOMPOSES cell 0: low windup coil kept
+  but glaive NEAR-HORIZONTAL at chest height spanning the
+  full cell width (tip near x≈45, pommel near x≈470) — every
+  passing cell on every sheet is horizontal-ish; the diagonal
+  is the common factor in all three failures. Then the usual
+  cell-1 retouch + splice + verify. If fix-4 also fails, STOP
+  image attempts on cell 0 (would leave 4/12 for 4 sheets)
+  and escalate: owner decision (waive / re-scope cell 0 /
+  band exception) — recorded here in advance so no fourth
+  same-shaped attempt happens.
 
 ### Request 6/12 — combo single-cell fix-2: bounds obeyed, LENGTH FAILS (360px, short) → REJECTED 2026-10-06
 

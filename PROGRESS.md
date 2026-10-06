@@ -22,6 +22,40 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - combo fix-3 REJECTED (518px again; retouch infeasible); fix-4 recompose next, last attempt)
+
+- Status before: CMR-13A IN_PROGRESS (2/7 accepted, 6/12).
+  Review not due (0 src/game commits since `6084ab4`).
+- Work completed: reserved BEFORE the call (7/12, global
+  119/200), generated `combo-fix-3.png` sha `c7d014f6` (one
+  image; ONLY cell 0; BOTH endpoints pinned as targets +
+  full failure history cited). Audited 9/9, 0 edge, stance
+  kept — but chord (36,55)-(483,317) = 518.1px: pins AND
+  history ignored, third consecutive diagonal-length failure
+  (516/360/518). Full retouch-salvage workup (free): finger
+  flesh proven at slide t≈106 by color elimination
+  (r−b=59 vs haft ≤29/steel ≤22); cap end t=31.2 needs
+  t0>31 while s≥77 needs t0≤29 — infeasible before
+  margins; secondary cap±15 vs boot±13 band conflict.
+  Trial driver built + run: its own achieved gate refused
+  (483.4 vs 443.5), confirming the geometry; driver
+  deleted, nothing written. REJECTED, kept per precedent.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts` 37/37; `npm run lint`, `npm
+  run typecheck` green. No vision/prodbuild/e2e (unwired art only).
+- Files changed: `generation-budget.json` (7/12), `combo-fix-3.png`
+  + prompt (rejected, kept), PROVENANCE.md, AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 7/12).
+- Remaining work or blocker: fix-4 LAST image attempt on
+  cell 0: RECOMPOSE near-horizontal at chest height (the
+  orientation of every passing cell; the diagonal is the
+  common failure factor) + cell-1 retouch + splice +
+  verify. If fix-4 fails: STOP image attempts, escalate to
+  owner (waive/re-scope/band exception) — no 4th
+  same-shaped attempt. 5 left for 4 sheets after fix-4.
+- Next recommended task: CMR-13A combo fix-4 recompose.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - combo fix-2 REJECTED (bounds obeyed, 360px short); fix-3 next)
 
 - Status before: CMR-13A IN_PROGRESS (2/7 accepted, 5/12).

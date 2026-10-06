@@ -553,13 +553,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
 - Status: IN_PROGRESS (attempt 1; walk + charge ACCEPTED (band
-  [399.7,441.8], projection WARN 8.14%). Combo fix-2 (`b9f7f41e`,
-  cell 0 only): bounds obeyed (tip 117, pommel 398) but 360px
-  chord, −15% under brief → REJECTED (keep-set would spread
-  ~20%; extension is fabrication + runs into the boot). Next:
-  fix-3 re-shoot pinning the SPAN (tip near x≈85 AND pommel
-  near x≈425) + free retouch-shorten cell 1, then splice +
-  verify. Ledger 6/12, global 118/200; 6 left, budget tight.)
+  [399.7,441.8], projection WARN 8.14%). Combo fix-3 (`c7d014f6`,
+  cell 0 only): pinned span ignored, 518.1px max-diagonal again
+  → REJECTED; pommel retouch PROVEN infeasible (finger flesh
+  at t≈106 blocks the slide; cap needs ±15 band, boot at ±13;
+  trial gate refused). Next: fix-4 LAST attempt recomposing
+  cell 0 NEAR-HORIZONTAL (the passing orientation on all
+  sheets) + cell-1 retouch + splice + verify; if it fails,
+  escalate to owner rather than a 4th same-shaped attempt.
+  Ledger 7/12, global 119/200; 5 left.)
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
