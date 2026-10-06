@@ -1,0 +1,6 @@
+FOCUSED REPAIR of the FIRST reference (Li Dian heavy sheet 1536x1024, 9 cells row-major). Redraw ONLY cells 1 and 2 (top-middle, top-right); keep BOTH POSES essentially (same stances, same figure positions, same blade-tip placements) and fix ONLY the glaives' LENGTH. Copy cells 0,3,4,5,6,7,8 pixel-identical; same dimensions, transparent background, no shifts.
+
+Defect: cells 1/2 glaives measure ~323/~291px tip-to-pommel vs the ~425px sibling mean (too short). For EACH named cell: keep the blade tip EXACTLY where it is and re-aim the haft slightly STEEPER so the full ~425px span fits inside the cell with the pommel butt cap in EMPTY transparent space, never touching body, robe, legs, boots, or cell borders:
+- cell 1: tip stays near (854,7); pommel butt goes near (560,300) — down the empty left margin (span ~415px).
+- cell 2: tip stays near (1524,323); pommel butt goes near (1150,150) — up the empty upper margin (span ~412px).
+Arms may adjust their grip along the new haft lines but the stances stay. Same straight dark-wood hafts, same single crescent blades, same red tassels below the blades; exactly ONE glaive per cell; no second shafts, detached blades, missing tassels, or pose changes. If a named target would touch the body, shift ALONG the haft line until clear — never across it.

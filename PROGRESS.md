@@ -22,6 +22,43 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, BLOCKED on image funds - heavy repair round 3 REJECTED, reserve exhausted)
+
+- Status before: CMR-13A IN_PROGRESS (3/7 accepted, 9/12;
+  repair 1/3 left). Review not due (0 src/game commits).
+- Work completed: reserved repair round 3 (LAST) BEFORE
+  the call (cells heavy:1+2), generated `heavy-repair-3.png`
+  sha `3681209a` (poses kept, re-aimed pommel targets).
+  Audited 9 components BUT 5 edge pixels: cell-2 blade tip
+  TOUCHES sheet edge x=1535 (pixel-profiled: blade exits
+  the frame, apex snipped ~5px — composition gate fails).
+  Overlay-verified chords [395,323,291,459,510]: NEITHER
+  named cell closed (c1 still 323, c2 291 + snipped).
+  Settled REJECTED with evidence; file kept per precedent.
+  Heavy needs c1+c2 redrawn; repair 3/3 exhausted;
+  authoring 9/12 with misc+fall+getup still needing ≥3;
+  retouch cannot fabricate 100px+ shafts or snipped tips.
+  No valid next step in-cap → BLOCKED (cap exhaustion,
+  NOT rule-5 retry exhaustion: attempt 1 throughout).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `acceptance4-repair-budget.json` (round 3),
+  `heavy-repair-3.png` + prompt, PROVENANCE.md (exact
+  blocked input + owner options), AUTHORING-PLAN.md,
+  TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A BLOCKED (attempt 1).
+- Remaining work or blocker: OWNER DECISION REQUIRED —
+  (A) +2 image requests for heavy c1/c2 redraws (then the
+  standing close plan runs); (B) waive as documented
+  limitation; (C) re-scope; (D) alternative. Only the
+  owner may reset/refund per rule 5. Next ready task is
+  CMR-13B but it depends on CMR-13A DONE — queue stalls
+  here until the owner decides.
+- Next recommended task: owner decision on CMR-13A funds.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy repair round 2 ACCEPTED ([395,323,291,459,510] overlay-verified; round-1 numbers corrected))
 
 - Status before: CMR-13A IN_PROGRESS (3/7 accepted, 9/12;

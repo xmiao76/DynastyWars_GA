@@ -1,12 +1,12 @@
 # Li Dian provenance (CMR-13A)
 
 - Authoring: 9/12 used (3/7 ACCEPTED; heavy repair round
-  2 ACCEPTED with residuals — overlay-verified [395, 323,
-  291, 459, 510]; round-1 scan numbers corrected).
-  Global 121/200; heavy 1/2 left. Repair reserve 1/3 left
-  (round 3 prescribed: c1+c2 redraws + c0/c3/c4 free
-  retouches + splice + verify). Projection: walk+charge+
-  combo recorded, WARN (8.30%, N=19); heavy NOT recorded.
+  3 REJECTED — c1 still 323, c2 291 + snipped tip).
+  Global 121/200; heavy 1/2 left. Repair reserve 3/3
+  EXHAUSTED. Task BLOCKED on image budget (exact input
+  below — NOT retry exhaustion: attempt 1 throughout).
+  Projection: walk+charge+combo recorded, WARN (8.30%,
+  N=19); heavy NOT recorded.
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -14,6 +14,42 @@
   attack-id names).
 
 ## Attempt log
+
+### Repair round 3/3 — heavy cells 1–2 redraw: c1 323 (no gain), c2 291 + SNIPPED tip → REJECTED 2026-10-06. TASK BLOCKED (funds)
+
+- Reserve-before-call: repair round 3 (`heavy:1,heavy:2`,
+  verified shortfall, source `7357501b`) → pending,
+  persisted. Exact prompt: `heavy-repair3-prompt.txt`
+  (poses kept, re-aimed pommel targets). Ordered refs:
+  heavy-repair-2 (vehicle, FIRST), body, portrait. One image.
+- Output: `heavy-repair-3.png` sha `3681209a…` (1536×1024).
+  9 components BUT 5 edge pixels: cell-2 blade tip TOUCHES
+  sheet edge x=1535 (pixel-profiled: blade exits the frame,
+  apex snipped ~5px — composition gate fails, acceptance
+  item 3 "no clipped blade" fails). Overlay-verified
+  chords: c0 395 / c1 323 / c2 291 / c3 459 / c4 510 —
+  NEITHER named cell closed (c1 unchanged-short, c2 short
+  AND snipped). Settled REJECTED with evidence; file kept.
+- BLOCKED input (exact): heavy keep-set needs c1+c2
+  redrawn (short by ~100/135px; extend infeasible —
+  fabrication scale + edges; retouch-shorten only fixes
+  overshoot). Repair reserve EXHAUSTED 3/3 (R1 visibility,
+  R2 partial, R3 no-gain). Authoring 9/12: the 3 remaining
+  are the minimum for misc+fall+getup (1 each); spending
+  any on heavy strands a later sheet. No valid next step
+  within current caps. This is CAP exhaustion, not AGENTS.md
+  rule-5 retry exhaustion (attempt 1, 3/7 accepted, every
+  round procedurally complete) — only the owner can reset
+  or refund per rule 5.
+- Owner options (decision needed): (A) grant +2 image
+  requests (authoring or repair) for heavy c1+c2 redraws,
+  then the standing close plan runs (c0 +8 extend, c3 −34,
+  c4 −85 retouches + splice + verify + project); (B) waive
+  heavy length on c1/c2 as documented limitation (like the
+  CMR-07A item-4 precedent); (C) re-scope heavy keep-set;
+  (D) owner alternative. Required first step under (A):
+  re-verify c0/c3/c4 + new c1/c2 on the new output (all
+  endpoints zone-read; no scan-only numbers).
 
 ### Repair round 2/3 — heavy cells 0–1 redraw: c0 395 (+48), c1 323 (regressed) → ACCEPTED with residuals 2026-10-06
 

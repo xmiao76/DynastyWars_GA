@@ -161,6 +161,18 @@
           "sourceSha256": "badb586fd4bde2f433d410e73b2045f1089ea509b021daaaed4cb20fac70be42",
           "evidence": "Round redrew heavy:0-1, poses kept, overlay-verified chords c0 395 (+48) and c1 323 (regressed -41); c2 291 short, c3 459 / c4 510 long (all endpoints zone-read on material; scan-only hits rejected after boot-buckle false positives). No cell closed, but c0 is retouch range (+8 extend) and c3/c4 are shorten candidates; round 3 names c1+c2 redraws + free retouches to close.",
           "outputSha256": "7357501b40b16fdc980feeb7bc82ce6ee0475e9f68533ed9200373b9fdc1fc8e"
+        },
+        {
+          "number": 3,
+          "status": "rejected",
+          "cells": [
+            "heavy:1",
+            "heavy:2"
+          ],
+          "failure": "Overlay-verified keep chords c1 323 / c2 291 vs ~425 brief (poses kept, pommels visible); c0/c3/c4 close via free retouch. Lengthen c1+c2 along re-aimed axes to full span.",
+          "sourceSha256": "7357501b40b16fdc980feeb7bc82ce6ee0475e9f68533ed9200373b9fdc1fc8e",
+          "evidence": "Round redrew heavy:1-2, poses kept: c1 323 (still ~100 short, no gain), c2 291 with blade tip snipped at sheet edge x=1535 (5 edge px, composition gate fails). No named cell closed; c0/c3/c4 unchanged-usable. Repair reserve now exhausted 3/3 with heavy still needing 2 redraws; authoring 9/12 cannot cover them plus misc/fall/getup.",
+          "outputSha256": "3681209a724b460e7c2f5142c97333d264a9ada7a673afe3cda5e70fd138099a"
         }
       ]
     }
