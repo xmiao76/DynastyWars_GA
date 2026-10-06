@@ -7,15 +7,10 @@ Keep this file short. Once it passes about 500 lines, move the oldest entries to
 history slowly crowds out the work it is supposed to support.
 ## Template
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
-- Status before:
-- Work completed:
-- Files changed:
-- Verification run:
-- Result:
-- Status after:
-- Remaining work or blocker:
-- Next recommended task:
+- Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-06 12:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
+- Clean HEAD `a3fc2bf`; read required loop/PROJECT/queue/progress; review1<4, no pending/current DUE NOW. No IN_PROGRESS or owner reset; first TODO14B depends on blocked14A DONE+complete pack. No fourth repair/dependent implementation/producer bypass; only progress changed, whitespace/scope/line-count verified, no unit/vision/prodbuild applicable. Await explicit owner head-gate decision+14A reset; art/budgets/status/runtime/retry count unchanged. Template compacted without deleting evidence to keep history bounded; this check is not a repair attempt.
 ### 2026-10-06 11:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
 - Clean HEAD `6b7b748`; required loop/PROJECT/queue/progress read. Review1<4, no pending/current DUE NOW; no IN_PROGRESS or owner decision/reset. First TODO14B requires blocked14A DONE+complete pack, so no implementation/repair/producer bypass. Only progress changed; whitespace/scope/<=500-line checks, no unit/vision/prodbuild applicable. Art/budgets/task states/runtime/retry count unchanged; owner head-gate route+explicit14A reset still required. Removed two blank separators only, retaining evidence; readiness check is not a repair attempt.
 ### 2026-10-06 11:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
