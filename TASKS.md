@@ -582,19 +582,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt1; 1/7 sheets accepted).
-  Charge weapon repair round1 + isolated c0 extension closed
-  lengths [412.6,434.4,437.2,438.4,428.9]: spread6.01%,
-  direction19.5°; override `b547809c`, cells1/2 preserved.
-  Charge SHEET HELD on head-scale consistency against walk:
-  chin occluded, silhouette/off-ink/robe head probes invalidated.
-  Hypothetical projection OK6.06% NOT recorded; band unchanged.
-  Next: trustworthy comparable head landmarks before any new
-  sequence/redraw. Second consecutive incomplete charge outcome;
-  third unresolved consumer iteration must BLOCK.
-  Authoring2/12, global128/200; repair2/3 remain (round1 settled).
-  Evidence: [round1 audit](art/motion/xiahoudun/charge-repair-1-audit.json)
-  and [provenance](art/motion/xiahoudun/PROVENANCE.md).
+- Status: BLOCKED (2026-10-06; third consecutive unresolved
+  charge consumer outcome, AGENTS rule5). Five same-scale4x head
+  pairs reviewed; anatomical chin is obscured by beard. Apparent
+  scale/pose/beard drift cannot establish <=10% full-head compliance;
+  no head PASS/quantified FAIL, no further automatic retry.
+  Weapon override `b547809c` preserved: spread6.01%, direction19.5°;
+  charge NOT recorded in projection or runtime, fixed band unchanged.
+  Authoring2/12/global128/200; repair2/3 left, not an iteration reset.
+  NEEDS OWNER: choose a trustworthy landmark/focused-head-redraw route
+  or explicit independent/owner visual acceptance with limitation
+  disclosed, then explicitly reset CMR-14A to TODO. Do not start14B.
+  Evidence: [head diagnosis](art/motion/xiahoudun/HEAD-DIAGNOSIS.md),
+  [machine record](art/motion/xiahoudun/head-diagnosis.json),
+  [round1 audit](art/motion/xiahoudun/charge-repair-1-audit.json).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

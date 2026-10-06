@@ -1,6 +1,6 @@
 # Xiahou Dun authoring plan (CMR-14A, attempt 1)
 
-Status: 1/7 ACCEPTED; charge HELD head gate (weapon repair round1 + splice now6.01%, direction19.5°); 2/12 authoring spent, 10 left; repair2/3 remain. No new sequence until head consistency is established.
+Status: BLOCKED (third unresolved charge outcome; owner decision/reset required). 1/7 sheets accepted; charge head gate UNVERIFIED, weapon6.01%/19.5° preserved; authoring2/12 and repair2/3 left. No automatic retry or dependent task.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
@@ -8,12 +8,13 @@ Status: 1/7 ACCEPTED; charge HELD head gate (weapon repair round1 + splice now6.
   settled as accepted WEAPON source; two rounds remain. Charge
   whole-sheet count stays1/2. Projection is walk-only, fixed band
   [404.16,446.70]; hypothetical walk+charge6.06% OK, NOT recorded.
-- Next: diagnose anatomical head landmarks on charge vs walk.
-  Beard-silhouette and off-ink/robe probes are INVALID, not passes.
-  Preserve weapon override `b547809c` and clean cell1/2 source pixels;
-  no combo sheet until charge head/scale consistency is established.
-  This was the second consecutive incomplete charge consumer outcome;
-  a third unresolved iteration must block, independent of image budget.
+- Owner input next: select a trustworthy full-head ruler/focused
+  redraw route, or explicitly accept the disclosed limitation after
+  independent/owner visual judgment; then reset CMR-14A to TODO.
+  Five fixed4x walk/charge pairs cannot reveal the anatomical chin.
+  No head numbers passed. Third consecutive unresolved charge outcome
+  exhausted the consumer retry limit, independent of image funds.
+  See [head diagnosis](HEAD-DIAGNOSIS.md); preserve all source pixels.
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

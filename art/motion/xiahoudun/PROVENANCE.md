@@ -1,8 +1,9 @@
 # Xiahou Dun provenance (CMR-14A)
 
-- Authoring: 2/12 used (1/7 sheets accepted; charge HELD on head
-  gate, not weapon length). Global authoring 128/200. Repair round1
-  spent/settled as accepted weapon source; 2/3 rounds remain.
+- Task BLOCKED (third consecutive unresolved charge outcome,
+  2026-10-06): owner decision/reset required. Authoring2/12 used,
+  global128/200; 1/7 sheets accepted. Charge head gate UNVERIFIED,
+  weapon repair preserved. Repair round1 spent; 2/3 rounds remain.
 - Weapon override `b547809c…`: five keep lengths [412.6,434.4,437.2,
   438.4,428.9], spread6.01%, direction19.5°; hypothetical walk+charge
   6.06% OK. Fixed band [404.16,446.70] unchanged; projection is still
@@ -14,6 +15,28 @@
   attack-id names).
 
 ## Attempt log
+
+### Third charge diagnostic — fixed-scale head comparison; BLOCKED 2026-10-06
+
+- Zero image requests/source edits. New diagnostic script hash-pins
+  walk `b395c867` and charge override `b547809c`; crops112×144 at4x,
+  no normalization, source-coordinate grids, eye anchors for view
+  positioning ONLY. Viewed pairs0..4 (all ten drawings) fresh.
+- Beard hides anatomical chin in both sequences. Neck, headband,
+  tied hair and beard contour vary with posing; apparent head drift
+  remains unquantified. No opaque/color/face-feature/headband/beard
+  proxy substituted for full-head crown/chin. Unknown stays unknown.
+- Detailed image observations and independent/owner-review choices:
+  [HEAD-DIAGNOSIS.md](HEAD-DIAGNOSIS.md); pinned crop/source hashes:
+  [head-diagnosis.json](head-diagnosis.json). Earlier7.2% walk-only
+  silhouette claim is not evidence for charge cross-sheet compliance.
+- Third consecutive unresolved charge outcome after `57f3d4d` and
+  `b28d591`: CMR-14A BLOCKED under rule5. Image funds unchanged but
+  do not authorize a fourth consumer retry. Owner must choose a
+  trustworthy landmark/redraw route or explicitly judge/accept the
+  disclosed head-size limitation, then reset task to TODO.
+- Sources, budgets, fixed projection and runtime unchanged; no new
+  sequence, no independent verification/native-video acceptance claim.
 
 ### Repair reserve round1 — charge:0/3/4 weapon repair salvaged; sheet HELD on head gate (2026-10-06)
 

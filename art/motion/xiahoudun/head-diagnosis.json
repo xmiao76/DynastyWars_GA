@@ -1,0 +1,33 @@
+{
+  "fighter": "xiahoudun",
+  "task": "CMR-14A",
+  "status": "BLOCKED",
+  "reason": "Third consecutive unresolved charge consumer outcome: fixed-scale head-size consistency cannot be established from trustworthy anatomical crown/chin landmarks; no quantified head PASS or FAIL.",
+  "headGate": "UNVERIFIED",
+  "numericalHeadSpread": null,
+  "anatomicalChin": null,
+  "sourceScale": 1,
+  "zoom": 4,
+  "cropSize": [112,144],
+  "sources": {
+    "walk": { "file": "walk-prepared-source.png", "sha256": "b395c867c027f837988c5f0fdb676154082d07a43ce9fcc5df8c73786f1bef6c" },
+    "charge": { "file": "charge-repair-1-spliced-source.png", "sha256": "b547809c352dd7b8828d20452c0e7f216caede83b1c143374a704a5d301014e4" }
+  },
+  "reviewedPairs": [
+    { "id": 0, "frames": ["walk:0","charge:0"], "path": "artifacts/motion/xiahoudun/head-diagnosis/pair-0-fixed4x.png", "sha256": "ac7060e378896c1cff47bc683266eba781c6d5d9e2ab753f9848d4b2dddff08d" },
+    { "id": 1, "frames": ["walk:1","charge:1"], "path": "artifacts/motion/xiahoudun/head-diagnosis/pair-1-fixed4x.png", "sha256": "f25eb8c82fe95b8e3939daa8edc6d41a18851c23c47752d2aef541aae474ff41" },
+    { "id": 2, "frames": ["walk:2","charge:2"], "path": "artifacts/motion/xiahoudun/head-diagnosis/pair-2-fixed4x.png", "sha256": "b37c821dd9415058f17f329446350a26866c3da937444ec23727fee737bcdb6e" },
+    { "id": 3, "frames": ["walk:3","charge:3"], "path": "artifacts/motion/xiahoudun/head-diagnosis/pair-3-fixed4x.png", "sha256": "54bc0a088973278a7a909438694e80128b6196be92dd19f25559ddfbd1adc53f" },
+    { "id": 4, "frames": ["walk:4","charge:4"], "path": "artifacts/motion/xiahoudun/head-diagnosis/pair-4-fixed4x.png", "sha256": "d2deb7656455c9f60baf2c889c075a3bc4f7a8e167bca54f6edf1a39e432d64b" }
+  ],
+  "invalidMethods": ["beard-to-hair silhouette height", "headband-to-beard-bottom chord", "off-ink landmarks", "robe pixels as chin", "face-only feature distance substituted for full-head size"],
+  "weaponRepairPreserved": { "spread": 0.06006571929305696, "maxDirectionStepDeg": 19.526799894464737, "acceptedSheetProjectionRecorded": false },
+  "requestsThisIteration": 0,
+  "authoringUsed": 2,
+  "authoringCap": 12,
+  "globalAuthoringUsed": 128,
+  "repairRoundsSpent": 1,
+  "repairRoundsRemaining": 2,
+  "consecutiveUnresolvedConsumerOutcomes": 3,
+  "ownerInput": "Choose a bounded trustworthy landmark/redraw route or explicit independent/owner visual acceptance with the head-size limitation disclosed, and explicitly reset CMR-14A to TODO. No automatic continuation on this blocked task."
+}
