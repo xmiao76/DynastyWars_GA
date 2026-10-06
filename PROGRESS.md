@@ -16,6 +16,8 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker:
 - Next recommended task:
 ## Entries
+### 2026-10-06 11:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
+- Clean HEAD `7c2a863`; required loop/PROJECT/queue/progress read; review count1<4, no pending/current DUE NOW, no IN_PROGRESS or owner reset. First TODO14B still requires owner-blocked14A DONE+complete pack; no fourth repair or downstream/producer bypass. Only progress changed; checked diff whitespace/scope/<=500 lines, no implementation/UI/shipping tests applicable. Art/budgets/status/runtime and retry count unchanged. Await owner head-gate route plus explicit14A reset; removed two blank separators, retaining all evidence.
 ### 2026-10-06 10:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
 - Clean HEAD `b3451a2`; loop/PROJECT/queue/progress read; review1<4, no pending/current DUE NOW, no IN_PROGRESS or owner reset. First TODO14B cannot start until blocked14A is DONE. No fourth repair, dependent task, producer bypass, generation, budget/status/runtime changes. Progress-only record; whitespace/scope/line-count checks, no behavior/UI/shipping tests applicable. Await explicit owner head-gate decision+14A reset; checkpoint is not a repair attempt. Removed two blank separators only to preserve <=500 lines without dropping evidence.
 ### 2026-10-06 10:09 UTC - CMR-14B readiness recheck — BLOCKED, not attempted
@@ -77,7 +79,6 @@ history slowly crowds out the work it is supposed to support.
   endpoints/heads/anatomy/projection. No blocker; no second sequence.
 
 ### 2026-10-06 - CMR-14A (attempt 1, IN_PROGRESS - walk ACCEPTED via sheet + 9 retouches, 0.25%; band fixed; 1/7 done)
-
 - Status before: CMR-14A IN_PROGRESS (setup done, 0/12).
   Review not due (1 src/game commit < 4).
 - Work completed: reserved BEFORE the call (1/12, global
@@ -113,7 +114,6 @@ history slowly crowds out the work it is supposed to support.
 - Next recommended task: CMR-14A charge sheet.
 
 ### 2026-10-06 - CMR-14A (attempt 1, IN_PROGRESS - setup done: identity locked, plan + provenance skeleton, budget verified)
-
 - Status before: CMR-13B DONE; CMR-14A TODO (dependency
   satisfied). Review not due (1 src/game commit < 4, no
   DUE NOW).
