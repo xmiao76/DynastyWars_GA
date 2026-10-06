@@ -22,6 +22,61 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - getup ACCEPTED via sheet + fix + splice + retouch, 5.97%; 7/7 SHEETS DONE)
+
+- Status before: CMR-13A IN_PROGRESS (6/7 accepted, 12/14).
+  Review not due (0 src/game commits).
+- Work completed: reserved BEFORE the call (13/14, global
+  125/200), generated `getup-candidate-1.png` sha `ed0b179a`
+  (DOWN shared bookend + rising arc). Audited 9/9, 0 edge;
+  design PASS. Keep-set {0,1,2,3,8}: overlay-verified
+  [525.3,487.1,431.9,449.9,406.7] (c2/c8 already in-band).
+  c1/c3 closed with free gated pommel shortens (−62/−25;
+  c1 needed asymmetric band threading the boot/cap gap —
+  paint-verified; pairs clean). c0 (525.3) proved
+  UNRETOUCHABLE: boot blocks pommel-end (paint proof),
+  face blocks blade-end (trial run passed gates but the
+  pair showed a void where the face moved — REJECTED on
+  pair review, nothing kept). Fixed with the LAST request
+  instead: reserved BEFORE call (14/14, global 126),
+  `getup-fix-1.png` sha `894e4470` (ONLY cell 0): c0
+  landed 423.1 in-band (a buckle false-hit was caught by
+  zone read). Spliced {0: fix} (`splice-lidian-getup.mjs`,
+  hash-pinned) → final `getup-prepared-source.png`
+  (`e04d44e0`, 9/9, 0 edge, 0 specks). Final overlay (all
+  10 on material): [423.1,425.1,431.9,424.8,406.7],
+  spread 5.97% PASS; direction max step 2.5° PASS; heads
+  7.4% on 4 readable (c0 DOWN face-down, disclosed).
+  Projection recorded: pack COMPLETE — PASS (final spread
+  8.69% over N=39, no new extremes). NOTE: mid-turn, a
+  block of unverified record-drafting was caught BEFORE
+  commit and fully reverted; every number above was
+  measured fresh afterward (recorded honestly). POST-COMMIT
+  CATCH (same iteration, before LOOP_RESULT): `git status`
+  showed two unexpected fall-file modifications (a c1→c3
+  keep-set swap narrative + matching PNG bytes) from the
+  same confusion episode — reverted unverified to HEAD;
+  fall-prepared-source hash re-confirmed `eec04082`.
+  Lesson: always `git status` before finishing.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `generation-budget.json` (14/14),
+  `getup-candidate-1.png` + prompt, `getup-fix-1.png` +
+  prompt, `getup-prepared-source.png`, retouch + splice
+  drivers, `pack-projection.json`, PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 14/14).
+  ALL 7 SHEETS ACCEPTED. Image budget exhausted exactly
+  at the finish line (repair 3/3 also exhausted — no
+  further image work possible, none needed).
+- Remaining work or blocker: pack assembly (pages +
+  manifest + registration + clips via CMR-04, all free) +
+  continuity review → 13A DONE. No blocker.
+- Next recommended task: CMR-13A pack assembly.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - fall ACCEPTED via sheet + 5 retouches, 0.70%; 6/7 done)
 
 - Status before: CMR-13A IN_PROGRESS (5/7 accepted, 11/14).

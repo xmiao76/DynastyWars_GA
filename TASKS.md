@@ -552,16 +552,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; walk + charge + combo +
-  heavy + misc + fall ACCEPTED; projection WARN 8.68%,
-  N=34). Fall closed via sheet 1/2 (`4df1f23b`: design
-  pass incl. flat DOWN, uniform overshoot) + 5 gated
-  pommel retouches (`eec04082`): keep-set 0.70% PASS,
-  direction 11.9° PASS, heads 0% on 3 readable (2
-  pose-unverified, disclosed). Next: getup sheet 1/2
-  LAST (reserve first; brief inside [401.0,441.8];
-  shares DOWN bookend). Ledger 12/14, global 124/200;
-  repair 3/3 exhausted.
+- Status: IN_PROGRESS (attempt 1; ALL 7 SHEETS ACCEPTED;
+  projection COMPLETE: PASS 8.69%, N=39). Getup closed
+  via sheet 1/2 (`ed0b179a`: design pass) + c0 focused
+  fix (`894e4470`: c0 unretouchable — boot+face both
+  ends, pair-proof) + splice + 2 gated retouches
+  (`e04d44e0`): keep-set 5.97% PASS, direction 2.5°
+  PASS, heads 7.4% on 4 readable (1 pose-unverified,
+  disclosed). Next: pack assembly (pages + manifest +
+  registration + clips, free) + continuity review →
+  DONE. Ledger 14/14, global 126/200.
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

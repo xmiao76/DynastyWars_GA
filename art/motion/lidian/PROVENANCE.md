@@ -1,10 +1,10 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 12/14 used (6/7 ACCEPTED — fall closed via
-  sheet + 5 free retouches, 0.70% PASS). Global 124/200;
-  fall 1/2 left. Repair reserve stays 3/3 EXHAUSTED.
-  Projection: +fall recorded, WARN (8.68%, N=34); steer
-  getup into [401.0,441.8].
+- Authoring: 14/14 used (7/7 SHEETS ACCEPTED — getup
+  closed via sheet + fix + 2 retouches + splice, 5.97%
+  PASS; pack assembly + continuity remain). Global
+  126/200. Repair reserve stays 3/3 EXHAUSTED.
+  Projection COMPLETE: PASS (final spread 8.69%, N=39).
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +12,60 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 13/14 + fix 14/14 — getup 3x3 sheet 1/2: DESIGN PASS, c0 unretouchable → focused fix + splice → 5.97% PASS → ACCEPTED 2026-10-06
+
+- Reserve-before-call: `reserve(..., sheet/getup)` → used 13,
+  total 125 (guard: expected 12/14, held).
+- Exact prompt: `getup-prompt.txt` (DOWN shared bookend +
+  elbow/kneel/crouch/rise + spares; anti-foreshorten +
+  no-vertical + 415–425px brief + 35px+ margins). Ordered
+  refs: body, portrait, fall-prepared `eec04082`
+  (read_image'd first).
+- Output: `getup-candidate-1.png` sha `ed0b179a…` (1536×1024).
+  Mechanical: 9/9, 0 edge, 11 pre-existing specks.
+  Design: arc reads (DOWN→prop→kneel→crouch→rise),
+  identity clean, single glaives + crescents + tassels,
+  no extras; cell 0 reproduces the flat DOWN bookend.
+  Poses ACCEPTED. Keep-set {0,1,2,3,8} (c4 culled: spare
+  crouch duplicates c3's beat; c8 is the true rise-stand).
+- Length (overlay-verified, all markers on material):
+  [525.3,487.1,431.9,449.9,406.7] — c2/c8 already in-band.
+- Retouch (`scripts/retouch-lidian-getup.mjs`, committed):
+  c1/c3 pommel shortens −62/−25 (achieved ±0.1px, pairs
+  clean; c1 needed asymmetric band [-6,+24] threading the
+  boot/cap gap — paint-verified). c0 (525.3) proved
+  UNRETOUCHABLE: boot blocks pommel-end (paint proof),
+  face blocks blade-end (trial run passed gates but the
+  pair showed a void where the face moved — REJECTED on
+  pair review, nothing committed from that run).
+- Fix (LAST request): reserved BEFORE call (14/14, global
+  126), `getup-fix-1.png` sha `894e4470` (ONLY cell 0,
+  pose kept, ~425px brief with pommel target): c0 landed
+  423.1 in-band (a buckle false-hit 457.3 was caught by
+  zone read — seventh strike for naive scans). Spliced
+  {0: fix} into the retouched sheet (`splice-lidian-
+  getup.mjs`, hash-pinned) → final `getup-prepared-
+  source.png` sha `e04d44e0` (9/9, 0 edge, 0 specks).
+- Verify (final overlay, all 10 on material): keep-set
+  [423.1,425.1,431.9,424.8,406.7], spread **5.97% PASS**;
+  undirected axes max step 2.5° PASS; heads: c1/c2/c3/c8
+  [65,70,65,70] = 7.4% PASS, c0 UNVERIFIED-by-pose (DOWN
+  beat, face down — inherent, disclosed).
+- Projection: getup recorded (scale 1): pack COMPLETE —
+  **PASS** (final spread 8.69% over N=39, min 406.6, max
+  443.6, no new extremes; drift flag informational).
+- Verdict: getup source ACCEPTED (2 requests + free
+  retouch/splice). **7/7 SHEETS DONE.** Remaining: pack
+  assembly (pages + manifest + registration + clips via
+  CMR-04, free) + continuity review → 13A DONE.
+- Process note: this turn's transcript contains a block
+  that drafted this entry from recalled numbers BEFORE
+  verification ran; it was caught immediately, fully
+  reverted before commit, and every number above was
+  measured fresh afterward. Lesson reinforced again:
+  disk state is truth; verify, then record — never
+  record from memory.
 
 ### Request 12/14 — fall 3x3 sheet candidate 1/2: DESIGN PASS, uniform overshoot → 5 free retouches → 0.70% PASS → ACCEPTED 2026-10-06
 
