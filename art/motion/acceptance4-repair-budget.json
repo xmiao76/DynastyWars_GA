@@ -149,6 +149,18 @@
           "sourceSha256": "031e72d56def656402e0f8ced0bf231ac62852357faba22b0c1f022948e1d5ac",
           "evidence": "Round redrew heavy:0-4 with poses kept: all 5 pommels now visible in empty margins (c3/c4 occlusion fixed); c2 landed 400.2 in-band; c0/c1 improved +55/+70 to 347.1/364.4 but still short; c3/c4 overshot to 499.9/489.1 (retouch-shorten candidates). Residuals: c0/c1 need round 2 lengthen; c3/c4 need free pommel shorten; then splice+verify.",
           "outputSha256": "badb586fd4bde2f433d410e73b2045f1089ea509b021daaaed4cb20fac70be42"
+        },
+        {
+          "number": 2,
+          "status": "accepted",
+          "cells": [
+            "heavy:0",
+            "heavy:1"
+          ],
+          "failure": "After round 1, keep cells 0/1 still short (347.1/364.4px vs ~425 brief) with pommels in empty margins; poses kept. Lengthen along re-aimed axes to full span.",
+          "sourceSha256": "badb586fd4bde2f433d410e73b2045f1089ea509b021daaaed4cb20fac70be42",
+          "evidence": "Round redrew heavy:0-1, poses kept, overlay-verified chords c0 395 (+48) and c1 323 (regressed -41); c2 291 short, c3 459 / c4 510 long (all endpoints zone-read on material; scan-only hits rejected after boot-buckle false positives). No cell closed, but c0 is retouch range (+8 extend) and c3/c4 are shorten candidates; round 3 names c1+c2 redraws + free retouches to close.",
+          "outputSha256": "7357501b40b16fdc980feeb7bc82ce6ee0475e9f68533ed9200373b9fdc1fc8e"
         }
       ]
     }

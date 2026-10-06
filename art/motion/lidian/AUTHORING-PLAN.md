@@ -1,14 +1,16 @@
 # Li Dian authoring plan (CMR-13A, attempt 1)
 
-Status: 3/7 ACCEPTED; heavy repair round 1 ACCEPTED (all pommels visible, c2 in-band; c0/c1 short, c3/c4 long residuals); round 2 + retouches + splice next; authoring 9/12, repair 1/3 spent.
+Status: 3/7 ACCEPTED; heavy repair round 2 ACCEPTED ([395,323,291,459,510] overlay-verified; round-1 numbers corrected); round 3 + retouches + splice next; authoring 9/12, repair 2/3 spent.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- lidian cap 12 (role: boss), used 9 (unchanged this turn —
-  repair ledger funded the round). Global 121/200 authoring.
-  Repair reserve 2/3 left (round 1 accepted, output
-  `badb586f`). Projection WARN 8.30%, window [400.8,441.8];
-  heavy NOT recorded (held for round 2 close).
+- lidian cap 12 (role: boss), used 9 (unchanged — repair
+  ledger funds heavy repairs). Global 121/200 authoring.
+  Repair reserve 1/3 left (round 2 accepted, output
+  `7357501b`). Projection WARN 8.30%, window [400.8,441.8];
+  heavy NOT recorded (held for round-3 close). Procedure:
+  endpoints enter verdicts only after zone/overlay reads
+  (scan hits fooled us twice: specks, edges, buckles).
 - Repair reserve 3/3 untouched (shared with CMR-13B,
   acceptance-4 only). Deterministic shaft retouch is attempted
   BEFORE any reserve image round (spec item 4).

@@ -1,12 +1,12 @@
 # Li Dian provenance (CMR-13A)
 
 - Authoring: 9/12 used (3/7 ACCEPTED; heavy repair round
-  1 ACCEPTED with residuals — all pommels visible, c2
-  in-band, c0/c1 still short, c3/c4 long). Global 121/200;
-  heavy 1/2 left. Repair reserve 2/3 left (round 2
-  prescribed: cells 0+1 lengthen; c3/c4 free shorten).
-  Projection: walk+charge+combo recorded, WARN (8.30%,
-  N=19); heavy NOT recorded (held).
+  2 ACCEPTED with residuals — overlay-verified [395, 323,
+  291, 459, 510]; round-1 scan numbers corrected).
+  Global 121/200; heavy 1/2 left. Repair reserve 1/3 left
+  (round 3 prescribed: c1+c2 redraws + c0/c3/c4 free
+  retouches + splice + verify). Projection: walk+charge+
+  combo recorded, WARN (8.30%, N=19); heavy NOT recorded.
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -14,6 +14,42 @@
   attack-id names).
 
 ## Attempt log
+
+### Repair round 2/3 — heavy cells 0–1 redraw: c0 395 (+48), c1 323 (regressed) → ACCEPTED with residuals 2026-10-06
+
+- Reserve-before-call: repair round 2 (`heavy:0,heavy:1`,
+  located shortfall, source `badb586f`) → pending,
+  persisted. Exact prompt: `heavy-repair2-prompt.txt`
+  (poses kept, re-aimed steeper axes, pommel targets).
+  Ordered refs: heavy-repair-1 (vehicle, FIRST), body,
+  portrait. One image.
+- Output: `heavy-repair-2.png` sha `7357501b…` (1536×1024).
+  9/9, 0 edge, poses kept. OVERLAY-VERIFIED chords (all 10
+  markers read on steel/gold, full-sheet overlay): c0 395,
+  c1 323, c2 291, c3 459, c4 510. c0 improved +48 (8px
+  under band — micro-extend range); c1 REGRESSED −41;
+  c2 short; c3/c4 long but VISIBLE (shorten candidates).
+- CORRECTION (method failure, recorded honestly): this
+  turn proved unaudited color-scan endpoints unreliable —
+  box-edge hits, 1px specks and boot buckles produced
+  false pommels. Round-1's logged c2 "400.2 in-band" is
+  INVALIDATED (false hit; true value unknown, moot —
+  round-2 supersedes), as are its c3/c4 chords (same
+  disease; round-2 overlay values rule). PROCEDURE from
+  now on: no endpoint enters a verdict without zone-read
+  or overlay confirmation. Nothing false was committed
+  (round-1's qualitative verdict — visibility fixed —
+  still holds; only its numbers are superseded).
+- Settled ACCEPTED (poses kept, c0 in micro-retouch range,
+  all endpoints now verified). Residuals: (1) round 3
+  (LAST) names c1+c2 (lengthen, poses kept); (2) FREE
+  retouch c0 (+8 extend), c3 (−34 shorten), c4 (−85
+  shorten) with gates+pairs; (3) splice + full verify
+  (spread/direction/heads) + projection record. All in
+  the next turn (combo-close shape).
+- Prescription (next turn): round 3 image + 3 retouches +
+  splice + verify + project + settle. Then heavy closes
+  (4/7); authoring 3 left for misc/fall/getup.
 
 ### Repair round 1/3 — heavy cells 0–4 redraw (poses kept): visibility FIXED, lengths scattered → ACCEPTED with residuals 2026-10-06
 

@@ -22,6 +22,39 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy repair round 2 ACCEPTED ([395,323,291,459,510] overlay-verified; round-1 numbers corrected))
+
+- Status before: CMR-13A IN_PROGRESS (3/7 accepted, 9/12;
+  repair 1/3). Review not due (0 src/game commits).
+- Work completed: reserved repair round 2 BEFORE the call
+  (cells heavy:0+1), generated `heavy-repair-2.png` sha
+  `7357501b` (poses kept, re-aimed pommel targets). Audited
+  9/9, 0 edge. Full-sheet overlay with all 10 endpoints
+  read on steel/gold: [395,323,291,459,510] — c0 +48
+  (8px under band: micro-extend range), c1 REGRESSED −41,
+  c2 short, c3/c4 long-but-visible. This exposed a method
+  failure: unaudited color scans returned box-edge hits,
+  1px specks and boot buckles as pommels — round-1's c2
+  "400.2 in-band" is INVALIDATED (false hit) along with
+  its c3/c4 chords; only overlay/zone-read numbers stand
+  from now on (procedure updated). Settled ACCEPTED with
+  residuals (poses kept, c0 in range, verified close plan).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `acceptance4-repair-budget.json` (round 2),
+  `heavy-repair-2.png` + prompt, PROVENANCE.md (incl.
+  correction), AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1).
+- Remaining work or blocker: round 3 LAST (c1+c2 redraws)
+  + FREE retouch c0 (+8 extend), c3 (−34), c4 (−85) with
+  gates+pairs + splice + full verify (spread/direction/
+  heads) + projection record — combo-close shape. No
+  blocker. Repair 1/3 left; authoring 3 for 3 sheets.
+- Next recommended task: CMR-13A heavy round 3 + close.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy repair round 1 ACCEPTED with residuals (visibility fixed, c0/c1 short, c3/c4 long))
 
 - Status before: CMR-13A IN_PROGRESS (3/7 accepted, 9/12;

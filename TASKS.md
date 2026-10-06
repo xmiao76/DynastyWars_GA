@@ -554,12 +554,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 - Status: IN_PROGRESS (attempt 1; walk + charge + combo
   ACCEPTED; projection WARN 8.30%, N=19). Heavy repair
-  round 1 (`badb586f`) ACCEPTED with residuals: poses
-  kept, all 5 pommels visible (occlusion fixed), c2 400.2
-  in-band; c0/c1 still short (347.1/364.4), c3/c4 long
-  (499.9/489.1). Next: round 2 (cells 0+1 lengthen) + FREE
-  pommel-shorten c3/c4 + splice + verify + projection.
-  Authoring 9/12 (3 left for misc/fall/getup); repair 1/3.
+  round 2 (`7357501b`) ACCEPTED with residuals, all chords
+  overlay-verified: [395,323,291,459,510] (c0 +48, c1
+  regressed; round-1 scan numbers corrected as buckle/
+  speck false hits — procedure now requires zone reads).
+  Next: round 3 LAST (c1+c2 redraws) + FREE retouch c0
+  (+8), c3 (−34), c4 (−85) + splice + verify + projection.
+  Authoring 9/12 (3 left for misc/fall/getup); repair 2/3.
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
