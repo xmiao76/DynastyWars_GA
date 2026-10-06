@@ -22,6 +22,53 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13B (attempt 1, IN_PROGRESS - registration wired: emit + clips/dispatch/validator + catalog + 19 tests)
+
+- Status before: CMR-13A DONE; CMR-13B TODO (dependency
+  satisfied). Review not due (0 src/game commits).
+- Work completed: first 13B slice mirroring 12B tick 1.
+  Read core data at implementation time (charge.dash
+  10/18/20, sword.combo 9/4/12, sword.heavy 16/6/24,
+  lidian hitstun 10/enrage 0.3) + inspected both identity
+  masters. Wrote `scripts/emit-lidian-runtime.mjs`, ran
+  it: `lidian-prepared.json` + `lidian-motion-sheet.png`
+  (39 frames, 2011×1646, 2.1MB, single page, no decoded
+  exception). Wrote `src/game/art/motion-clips-lidian.ts`
+  (10 clips incl. charge/combo/heavy with exact windows —
+  combo shows BOTH strikes across its 4-tick active;
+  enemy-shaped dispatch; grabbed→misc:2 clamp per generic
+  convention; validator; collapse tail fall:3/4). Wired
+  `motion-art.ts` (record fn, page constants with pinned
+  sha, catalog entry, 4 dispatch-chain extensions).
+  Wrote `test/game/motion-lidian.test.ts` (19 tests:
+  registration, negative controls, bookends, timing,
+  strike windows incl. dual-strike combo, full dispatch,
+  reachability with zero unreached drawings, clamp,
+  routing, collapse incl. getup:0 elbow edge). Updated
+  `motion-runtime.test.ts` for the catalogued stage-1
+  boss (router bytes, requested/published sets, budgets,
+  timeout legacy list; one clone-bytes assertion narrowed
+  to its original apples-to-apples meaning).
+- Verification run: new suite 19/19; full unit suite
+  886 passed, 6 skipped, 1 failed = arm-chain G6 V-15b —
+  PROVEN pre-existing (fails identically on clean HEAD
+  via stash check), unrelated. `npm run lint`, `npm run
+  typecheck` green. No vision/prodbuild/e2e yet (capture
+  review next).
+- Files changed: `scripts/emit-lidian-runtime.mjs` (new),
+  `src/game/assets/motion/lidian-*` (new),
+  `src/game/art/motion-clips-lidian.ts` (new),
+  `src/game/adapters/motion-art.ts`,
+  `test/game/motion-lidian.test.ts` (new),
+  `test/game/motion-runtime.test.ts`, TASKS.md, PROGRESS.md.
+- Result/status after: CMR-13B IN_PROGRESS (attempt 1).
+- Remaining work or blocker: capture review (isolated
+  actions + mixed/interaction, both facings/renderers,
+  before/after evidence per action) + `npm run vision` +
+  `npm run prodbuild` + e2e motion suites; then DONE. No
+  blocker.
+- Next recommended task: CMR-13B capture review.
+
 ### 2026-10-06 - CMR-13A (attempt 1, DONE - pack `lidian-1` assembled + continuity reviewed; 7/7 sheets)
 
 - Status before: CMR-13A IN_PROGRESS (7/7 sheets accepted,
