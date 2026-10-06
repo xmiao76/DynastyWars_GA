@@ -9,6 +9,8 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-06 13:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
+- Clean HEAD `4d4e40a`; required loop/PROJECT/queue/progress and ledger read; review1<4, no pending/current DUE NOW, no IN_PROGRESS or owner reset. First TODO14B still requires blocked14A DONE+complete pack. No fourth repair/dependent work/producer bypass or generation; only progress changed. Whitespace/scope/<=500-line checks passed; no unit/vision/prodbuild applicable. Task states/art/budgets/runtime/retry count unchanged; await explicit owner head-gate route+14A reset. This checkpoint is not a repair attempt; removed one blank separator, no evidence deleted.
 ### 2026-10-06 13:09 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
 - Clean HEAD `9154008`; read required loop/PROJECT/queue/progress. Review count1<4, no pending/current DUE NOW; no IN_PROGRESS or owner decision/reset. First TODO14B still requires blocked14A DONE+complete pack. No fourth repair, dependent implementation, producer bypass or image call; statuses/art/budgets/runtime/retry count unchanged. Progress-only checkpoint: whitespace/scope/<=500-line verification; no unit/vision/prodbuild applicable. Await explicit owner head-gate route+14A reset; this recheck is not a repair attempt.
 ### 2026-10-06 12:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
@@ -41,7 +43,6 @@ history slowly crowds out the work it is supposed to support.
 - Files: repair ledger/prompt/raw/source override/audit, scoped source builder+typings+tests, authoring plan/provenance, TASKS/PROGRESS. Authoring ledger and fixed projection unchanged; no unrelated fighter/source edits. Source repeats deterministically.
 - Result: IN_PROGRESS, charge weapon repair salvaged, sheet head acceptance unresolved; second consecutive incomplete charge outcome. Repair round1 settled accepted WEAPON source only (not sheet PASS); authoring2/12/global128/200, repair2/3 left.
 - Next: validate comparable anatomical head landmarks before deciding targeted redraw or accepting charge; no next sequence yet. A third unresolved consumer outcome must BLOCK; remaining image funds do not reset that limit.
-
 ### 2026-10-06 - CMR-14A (attempt 1 continuation, IN_PROGRESS — charge HELD; unsafe five-op trial rejected, two safe cell repairs preserved)
 - Continued the interrupted charge-sheet iteration, not a second task.
   Review not due: 1 src/game commit since `6084ab4`; no pending filing
