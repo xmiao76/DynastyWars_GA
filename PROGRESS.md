@@ -22,6 +22,37 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-14A (attempt 1, IN_PROGRESS - setup done: identity locked, plan + provenance skeleton, budget verified)
+
+- Status before: CMR-13B DONE; CMR-14A TODO (dependency
+  satisfied). Review not due (1 src/game commit < 4, no
+  DUE NOW).
+- Work completed: first 14A slice (setup, zero image
+  calls). Read core data at implementation time
+  (xiahoudun hp 210/speed 1.2/hitstun 12/think 22/
+  enrage 0.35; charge.dash.long 8/26/18; combo 9/4/12;
+  heavy 16/6/24; figures.ts plan magenta/band/spear/
+  BOSS/full-beard/fierce/one-eyed) + inspected both
+  masters (body `a57630a2`, portrait `01bb7271`) +
+  verified budgets (xiahoudun 0/12, slot auto-creates
+  on first reserve; repair 3/3 fresh; global 126/200).
+  Wrote `art/motion/xiahoudun/IDENTITY.md` (lock incl.
+  spear 72u rig truth), `AUTHORING-PLAN.md` (7-sheet
+  plan + full 13A procedure: defensive briefs, zone-
+  verified endpoints, retouch-before-reserve, per-sheet
+  projection), `PROVENANCE.md` (masters + setup log).
+- Verification run: `npx vitest run
+  test/game/motion-budget.test.ts` green (ledger valid,
+  no-op change). No lint/typecheck (docs only, no code).
+  No vision/prodbuild/e2e (no game changes).
+- Files changed: `art/motion/xiahoudun/` ×3 new docs,
+  TASKS.md, PROGRESS.md.
+- Result/status after: CMR-14A IN_PROGRESS (attempt 1, 0/12).
+- Remaining work or blocker: walk anchor sheet 1/2
+  (reserve first; brief 410–430px; fix band from median).
+  No blocker.
+- Next recommended task: CMR-14A walk sheet.
+
 ### 2026-10-06 - CMR-13B (attempt 1, DONE - capture review + vision + prodbuild green; lidian fully integrated)
 
 - Status before: CMR-13B IN_PROGRESS (registration wired).
