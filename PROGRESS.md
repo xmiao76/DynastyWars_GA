@@ -22,6 +22,47 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13B (attempt 1, DONE - capture review + vision + prodbuild green; lidian fully integrated)
+
+- Status before: CMR-13B IN_PROGRESS (registration wired).
+  Review not due (1 src/game commit < 4).
+- Work completed: extended the CMR-05 harness for the
+  boss (`enemyAttack` entry + dedicated 11-action
+  interleaved isolated list with mid-active sample ticks
+  + runner provenance/bindings/coverage/resources
+  branches) and captured lidian canvas + webgl: 46 rows
+  each, 0 trace errors, 0 hard integrity, 2 standing
+  OPENs (contactU/weaponTipU, same as every fighter);
+  all 92 rows motion keys, all 3 boss attacks + all
+  states both facings. Reviewed contact sheets (24 crops
+  each) + 5 enlarged crops: every action PASS at game
+  size and 4x (feet plant, trajectories clean, facings
+  mirror, identity locked); DOWN pair stable; dead-crop
+  empty stage = known harness artifact (corpse cleanup);
+  55% alpha on enemy crops = mercy i-frame blink
+  (GameScene.ts:755, harness holds target invulnerable),
+  not an art defect. Wrote `docs/LIDIAN_ACTION_REVIEW.md`
+  (per-action verdicts, DOWN re-confirmation, artifacts
+  index). A-landmarks preserved post-registration by the
+  uniform pack scale (no per-frame normalization, no
+  pops observed). No repair triggered (none needed).
+- Verification run: capture self-checks green both
+  renderers; `npm run vision` 5/5 (sprite gate 172/172);
+  `npm run prodbuild` 8/8 (pilot off by default, opt-in
+  works); `npm run lint`, `npm run typecheck` green;
+  unit suites green last tick (V-15b baseline-only).
+  No timing/AI changes → no signal run.
+- Files changed: `e2e/motion-capture.spec.ts`,
+  `scripts/motion-capture.mjs`, `docs/LIDIAN_ACTION_REVIEW.md`
+  (new), TASKS.md, PROGRESS.md. Captures stay in
+  `artifacts/` (ignored).
+- Result/status after: CMR-13B DONE (attempt 1). All
+  acceptance boxes pass; Li Dian fully integrated behind
+  `?motion=1`, legacy default untouched.
+- Remaining work or blocker: none. Independent producer
+  verification follows cadence on fresh captures.
+- Next recommended task: CMR-14A (Xiahou Dun authoring).
+
 ### 2026-10-06 - CMR-13B (attempt 1, IN_PROGRESS - registration wired: emit + clips/dispatch/validator + catalog + 19 tests)
 
 - Status before: CMR-13A DONE; CMR-13B TODO (dependency

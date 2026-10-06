@@ -269,6 +269,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   const enemyAttack: Record<string, [string, string]> = {
     soldier: ['swing', 'soldier.swing'],
     spearman: ['thrust', 'spear.thrust'],
+    lidian: ['charge', 'charge.dash'],
   }
   const [attackAction, attackId] = ENEMY_KIND
     ? (FIGHTER === 'archer'
@@ -401,6 +402,23 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
+  // Li Dian (boss) mirrors the interleaved hero shape with his own three
+  // attacks: sample ticks sit mid-active-window (charge 10-27 -> 18,
+  // combo 9-12 -> 10, heavy 16-21 -> 18). Adjacent actions never share a
+  // sim state (trace clock check), and attack states carry real ids.
+  const lidianIsolated: Array<[string, Record<string, unknown>]> = [
+    ['idle', { state: 'idle', stateTick: 0 }],
+    ['charge', { state: 'attack', attackId: 'charge.dash', stateTick: 18 }],
+    ['hurt', { state: 'hitstun', stateTick: 5 }],
+    ['combo', { state: 'attack', attackId: 'sword.combo', stateTick: 10 }],
+    ['knockdown', { state: 'knockdown', stateTick: 21 }],
+    ['heavy', { state: 'attack', attackId: 'sword.heavy', stateTick: 18 }],
+    ['getup', { state: 'getup', stateTick: 10 }],
+    ['grabbed', { state: 'grabbed', stateTick: 0 }],
+    ['thrown', { state: 'thrown', stateTick: 6, z: 10 }],
+    ['dying', { state: 'dying', stateTick: 25, hp: 0 }],
+    ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
+  ]
   const guanyuIsolated: Array<[string, Record<string, unknown>]> = [
     ['idle', { state: 'idle', stateTick: 0 }],
     ['jab1', { state: 'attack', attackId: heroIds.jab1, stateTick: 0 }],
@@ -411,7 +429,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
   const isolated: Array<[string, Record<string, unknown>]> = ENEMY_KIND
-    ? (FIGHTER === 'archer' ? archerIsolated : [
+    ? (FIGHTER === 'archer' ? archerIsolated : FIGHTER === 'lidian' ? lidianIsolated : [
         ['idle', { state: 'idle', stateTick: 0 }],
         [attackAction, { state: 'attack', attackId, stateTick: 0 }],
         ['hurt', { state: 'hitstun', stateTick: 0 }],

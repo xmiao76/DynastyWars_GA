@@ -568,10 +568,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-13B - Li Dian: integrate/review in motion
 
-- Status: IN_PROGRESS (attempt 1; registration wired:
-  emit + 39-frame rev lidian-1 single-page assets +
-  clips/dispatch/validator + catalog + 19 unit tests
-  green; capture review + vision/prodbuild next)
+- Status: DONE (attempt 1; capture review + vision +
+  prodbuild green 2026-10-06). Captures: 46 rows × 2
+  renderers, 0 errors, all motion keys, all 3 boss
+  attacks both facings; review `LIDIAN_ACTION_REVIEW.md`
+  (all actions PASS, DOWN stable, blink/dead-crop notes).
+  Landmarks preserved by uniform scale; feet plant, no
+  pops. Costs in contract; opt-in preserved.
 - Dependency: CMR-13A DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13B](docs/motion-tasks/CMR-13B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Verified atomic lidian pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
