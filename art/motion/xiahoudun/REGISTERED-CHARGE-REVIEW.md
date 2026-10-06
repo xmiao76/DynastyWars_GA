@@ -128,6 +128,28 @@ supply an authored bridge without image spend; inspect them before requesting ar
    acceptance still requires all remaining scale/style/continuity evidence. The
    independent completed verdict does not automatically verify after-corrections.
 
+## Next bounded iteration completed — paint-only improvement and spare inspection
+
+[Paint audit](charge-paint-audit.json) now records new source98e2531f from
+immutableb547809c, localized RGB only0/3/4, exact alpha/weapon/nontargets.
+Opened all3 [material pairs](../../../artifacts/motion/xiahoudun/charge-paint-review/paint-pair-0-4x.png),
+[3](../../../artifacts/motion/xiahoudun/charge-paint-review/paint-pair-3-4x.png),
+[4](../../../artifacts/motion/xiahoudun/charge-paint-review/paint-pair-4-4x.png), and
+[logical before/after](../../../artifacts/motion/xiahoudun/charge-paint-review/logical-before-after.png):
+copper/pink armor and warm skin more restrained, fine shading retained. Style
+mismatch reduced, not full continuity/independent after-acceptance. Candidate
+spec now points at new paint source, priorb547 retained for before evidence.
+
+[All4 spares](../../../artifacts/motion/xiahoudun/charge-paint-review/spare-contact.png)
+opened:5/7 open airborne stride similar to dash phase;8 rising spear/brake-like;
+6 darker original bent-front-knee/rear-supported run is a plausible alternate
+dash2 candidate, NOT accepted (spear overlong, registration/head/whole-body
+acceptance still needed). [Spare6 source grid](../../../artifacts/motion/xiahoudun/charge-paint-review/spare6-source-grid.png)
+opened; no new art requested. Next: safe isolated cap shorten6 with exact body
+witnesses, true endpoints +registered comparison, then actual normal-speed
+playback inside26active ticks. No pose normalization or mandatory skull resize.
+
 Weapon gates remain walk3.38%/2.74°, charge6.01%/19.5°, hypothetical combined6.89%
-OK at unchanged fixed band; charge still NOT entered as an accepted sheet. No
-combo/heavy/misc/fall/getup generated yet; full CMR-14A/14B acceptance not implied.
+OK at unchanged fixed band (weapon RGBA exact); charge still NOT entered as an
+accepted sheet. No combo/heavy/misc/fall/getup generated yet; full CMR-14A/14B
+acceptance not implied.

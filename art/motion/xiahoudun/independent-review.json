@@ -75,5 +75,12 @@
     "findings": ["charge0/3/4 copper-magenta and skin warmth visibly brighter than dark charge1/2/walk", "tick20->21 candidate pelvis height rises12.54u while sim root advances3.2u; investigate authored bridge/playback, not pose normalization"],
     "normalSpeedPlaybackReviewed": false, "independentAfterReview": false, "sourceAccepted": false
   },
-  "next": "Deterministic paint-only harmonization charge0/3/4 with immutable alpha/geometry/weapon protections; inspect unused spares for dash2 bridge within exact26 active ticks; normal-speed offline review. No blanket head resizing, numerical head PASS, charge acceptance or runtime publication inferred from candidate contacts/timing."
+  "paintFollowup": {
+    "file": "charge-paint-harmonized-source.png", "sha256": "98e2531f1763bdb5a6b4ad045518e159987a51f8c264d7f4fb64f657a323c5fe",
+    "audit": "charge-paint-audit.json", "targetCells": [0,3,4], "changedRgbPixels": {"0":22097,"3":23178,"4":24331},
+    "alphaAndGeometryExact": true, "protectedWeaponRgbaExact": true, "nontargetCellsExact": true,
+    "registeredCandidateUpdated": true, "wholeSheetAccepted": false, "independentAfterReview": false,
+    "normalSpeedPlaybackReviewed": false, "sparesReviewed": [5,6,7,8], "alternateDash2Candidate": 6
+  },
+  "next": "Trial immutable spare6 as alternate dash2 after safe isolated rear-weapon shorten, body/hand protections, true endpoints and registered pair review; keep26 active ticks and core timing. Paint difference reduced not independently verified; normal-speed offline review/source acceptance still pending. No blind head resize or runtime activation."
 }

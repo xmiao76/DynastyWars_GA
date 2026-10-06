@@ -597,15 +597,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Registered candidate now built .66scale/density2, drawn sole anchors
   <=1.32u (airborne dash ground UNVERIFIED);53 ticks/52duration/83.2u
   trace checked against real AI both facings. Still not source acceptance.
-  Next: paint-only harmonize charge0/3/4 warmer copper-magenta/skin;
-  inspect spares for tick20->21 dash2 bridge (candidate pelvis rise12.54u),
-  then normal-speed offline review. No pose normalization/head PASS.
+  Paint override98e2531f reduces localized copper-magenta/skin warmth
+  in0/3/4; all alpha/geometry/weapon RGBA and cells1/2/5..8 exact.
+  Opened3 material4x pairs/logical before-after; reduced mismatch is
+  a consumer self-check, not source/normal-speed acceptance.
+  Spares5..8 inspected:6 is candidate alternate dash2, still overlong
+  weapon/unaccepted. Next: isolated safe cap shorten6, true endpoints,
+  registered comparison then normal-speed review; no head rescale.
   Authoring2/12/global128/200/repair2left, no new image cost or policy change.
   Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
   [grip audit](art/motion/xiahoudun/walk-guard-grip-audit.json),
   [weapon closure audit](art/motion/xiahoudun/walk-projection-repair-audit.json),
-  [registered candidate review](art/motion/xiahoudun/REGISTERED-CHARGE-REVIEW.md).
+  [registered candidate review](art/motion/xiahoudun/REGISTERED-CHARGE-REVIEW.md),
+  [paint correction audit](art/motion/xiahoudun/charge-paint-audit.json).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

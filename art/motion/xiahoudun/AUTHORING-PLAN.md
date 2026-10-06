@@ -18,12 +18,16 @@ Status: IN_PROGRESS attempt2 — guard grip restored, walk weapon corrections3.3
   Registered candidate fixed .66/density2, source pelvis/sole points;
   contacts <=1.32u, airborne dash unverified. Exact52ticks/26active/
   83.2u root trace matches core AI both facings; no runtime capture.
-- Next: paint-only harmonize charge0/3/4 copper-magenta/skin warmth,
-  preserve alpha/geometry/weapon and compare pairs; inspect unused
-  spares for dash2 bridge at tick20->21 (candidate pelvis rise12.54u)
-  without changing26 active ticks. Normal-speed offline review still
-  not performed. Head null disclosure/source acceptance/new combo wait.
-  [Registered review](REGISTERED-CHARGE-REVIEW.md) / [weapon audit](walk-projection-repair-audit.json).
+- Paint override98e2531f mildly reduces named0/3/4 copper-magenta/skin
+  with feathered material polygons; alpha/geometry/rigid weapon RGBA
+  and nontargets exact. Opened3 material4x pairs + logical before-after,
+  mismatch reduced, not complete style/normal-speed source acceptance.
+- Spares5..8 inspected;6 darker original bent-front-knee run worth
+  alternate-dash2 trial. Needs isolated rear-cap shorten/body witnesses
+  and true-endpoint/registration review before use. Do not insert
+  overlong/unaccepted spare or change26active/core timing. Normal-speed
+  offline review/head-null disclosure/source acceptance/new combo wait.
+  [Paint audit](charge-paint-audit.json) / [registered review](REGISTERED-CHARGE-REVIEW.md).
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

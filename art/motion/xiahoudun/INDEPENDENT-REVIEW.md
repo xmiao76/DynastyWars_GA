@@ -136,8 +136,11 @@ independent after-verdict. The earlier11.36% result remains history above.
 **Follow-up:** [registered candidate review](REGISTERED-CHARGE-REVIEW.md) now
 records source-ground/hip translations at one scale, exact52tick/core83.2u trace
 (tests both facings), and logical/4x boundary still review. Corrected guard grip
-retained. Source acceptance remains HELD: named paint warmth difference0/3/4
-and dash2 candidate pelvis jump12.54u need paint-only/bridge-playback work.
+retained. Source acceptance remains HELD. [Paint follow-up audit](charge-paint-audit.json)
+now records localized RGB correction0/3/4 (98e2531f), exact alpha/weapon/nontargets,
+logical/4x parent pair checks: difference reduced, not independent after-pass.
+Spares5..8 reviewed;6 dark original run worth alternate dash2 trial after safe
+weapon retouch; no spare accepted merely to eliminate12.54u candidate jump.
 No mandatory head shrink inferred; anatomical metric still null. Normal-speed
 playback/independent after-verification not claimed. Original retry history,
 authoring2/12 and2 repair rounds unchanged; no runtime/control changes.

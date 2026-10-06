@@ -1,0 +1,533 @@
+{
+  "fighter": "xiahoudun",
+  "status": "LOCALIZED_PAINT_CORRECTION_REVIEWED_SOURCE_HELD",
+  "source": {
+    "file": "charge-repair-1-spliced-source.png",
+    "sha256": "b547809c352dd7b8828d20452c0e7f216caede83b1c143374a704a5d301014e4"
+  },
+  "override": {
+    "file": "charge-paint-harmonized-source.png",
+    "sha256": "98e2531f1763bdb5a6b4ad045518e159987a51f8c264d7f4fb64f657a323c5fe"
+  },
+  "targetCells": [
+    0,
+    3,
+    4
+  ],
+  "untouchedCells": [
+    1,
+    2,
+    5,
+    6,
+    7,
+    8
+  ],
+  "changedRgbPixels": {
+    "0": 22097,
+    "3": 23178,
+    "4": 24331
+  },
+  "geometry": "Every alpha byte unchanged; same coordinates, no filtering/warp/rescale. Conserved PNG-decoded alpha and every nontarget/protected pixel checked separately.",
+  "weaponRgbaUnchanged": true,
+  "alphaUnchanged": true,
+  "composition": 9,
+  "outerEdgeContact": 0,
+  "shadingRule": {
+    "skin": {
+      "gain": 0.9,
+      "chroma": 0.95,
+      "rgbMultipliers": [
+        0.985,
+        1,
+        1.015
+      ]
+    },
+    "armour": {
+      "gain": 0.88,
+      "chroma": 0.91,
+      "rgbMultipliers": [
+        0.99,
+        1,
+        1.01
+      ]
+    },
+    "featherRawPx": 6,
+    "regions": [
+      {
+        "cell": 0,
+        "kind": "armour",
+        "polygon": [
+          [
+            88,
+            108
+          ],
+          [
+            179,
+            91
+          ],
+          [
+            217,
+            115
+          ],
+          [
+            245,
+            152
+          ],
+          [
+            277,
+            214
+          ],
+          [
+            255,
+            247
+          ],
+          [
+            219,
+            267
+          ],
+          [
+            161,
+            281
+          ],
+          [
+            92,
+            257
+          ],
+          [
+            67,
+            226
+          ],
+          [
+            111,
+            198
+          ],
+          [
+            111,
+            158
+          ]
+        ]
+      },
+      {
+        "cell": 0,
+        "kind": "skin",
+        "polygon": [
+          [
+            94,
+            135
+          ],
+          [
+            115,
+            131
+          ],
+          [
+            134,
+            148
+          ],
+          [
+            137,
+            170
+          ],
+          [
+            112,
+            171
+          ],
+          [
+            98,
+            157
+          ]
+        ]
+      },
+      {
+        "cell": 0,
+        "kind": "skin",
+        "polygon": [
+          [
+            243,
+            113
+          ],
+          [
+            272,
+            105
+          ],
+          [
+            284,
+            123
+          ],
+          [
+            279,
+            149
+          ],
+          [
+            255,
+            160
+          ],
+          [
+            232,
+            173
+          ],
+          [
+            222,
+            148
+          ]
+        ]
+      },
+      {
+        "cell": 3,
+        "kind": "armour",
+        "polygon": [
+          [
+            119,
+            455
+          ],
+          [
+            159,
+            437
+          ],
+          [
+            220,
+            427
+          ],
+          [
+            281,
+            439
+          ],
+          [
+            329,
+            473
+          ],
+          [
+            343,
+            516
+          ],
+          [
+            323,
+            551
+          ],
+          [
+            328,
+            593
+          ],
+          [
+            271,
+            616
+          ],
+          [
+            224,
+            627
+          ],
+          [
+            153,
+            601
+          ],
+          [
+            116,
+            562
+          ],
+          [
+            164,
+            531
+          ],
+          [
+            147,
+            490
+          ]
+        ]
+      },
+      {
+        "cell": 3,
+        "kind": "skin",
+        "polygon": [
+          [
+            161,
+            472
+          ],
+          [
+            180,
+            468
+          ],
+          [
+            201,
+            484
+          ],
+          [
+            198,
+            500
+          ],
+          [
+            172,
+            506
+          ],
+          [
+            161,
+            494
+          ]
+        ]
+      },
+      {
+        "cell": 3,
+        "kind": "skin",
+        "polygon": [
+          [
+            301,
+            448
+          ],
+          [
+            328,
+            433
+          ],
+          [
+            349,
+            443
+          ],
+          [
+            352,
+            465
+          ],
+          [
+            337,
+            484
+          ],
+          [
+            315,
+            486
+          ],
+          [
+            292,
+            501
+          ],
+          [
+            279,
+            483
+          ]
+        ]
+      },
+      {
+        "cell": 4,
+        "kind": "armour",
+        "polygon": [
+          [
+            648,
+            481
+          ],
+          [
+            676,
+            461
+          ],
+          [
+            729,
+            449
+          ],
+          [
+            778,
+            451
+          ],
+          [
+            818,
+            469
+          ],
+          [
+            836,
+            511
+          ],
+          [
+            820,
+            537
+          ],
+          [
+            869,
+            562
+          ],
+          [
+            865,
+            591
+          ],
+          [
+            813,
+            621
+          ],
+          [
+            756,
+            634
+          ],
+          [
+            709,
+            604
+          ],
+          [
+            651,
+            594
+          ],
+          [
+            621,
+            560
+          ],
+          [
+            651,
+            532
+          ]
+        ]
+      },
+      {
+        "cell": 4,
+        "kind": "skin",
+        "polygon": [
+          [
+            714,
+            430
+          ],
+          [
+            739,
+            421
+          ],
+          [
+            772,
+            429
+          ],
+          [
+            785,
+            446
+          ],
+          [
+            778,
+            468
+          ],
+          [
+            749,
+            480
+          ],
+          [
+            717,
+            488
+          ],
+          [
+            701,
+            474
+          ]
+        ]
+      },
+      {
+        "cell": 4,
+        "kind": "skin",
+        "polygon": [
+          [
+            636,
+            494
+          ],
+          [
+            656,
+            487
+          ],
+          [
+            681,
+            499
+          ],
+          [
+            689,
+            518
+          ],
+          [
+            674,
+            532
+          ],
+          [
+            651,
+            528
+          ],
+          [
+            632,
+            514
+          ]
+        ]
+      },
+      {
+        "cell": 4,
+        "kind": "skin",
+        "polygon": [
+          [
+            832,
+            437
+          ],
+          [
+            850,
+            421
+          ],
+          [
+            867,
+            425
+          ],
+          [
+            872,
+            441
+          ],
+          [
+            863,
+            459
+          ],
+          [
+            843,
+            469
+          ],
+          [
+            825,
+            457
+          ]
+        ]
+      }
+    ]
+  },
+  "reviews": [
+    {
+      "cell": 0,
+      "finding": "Copper/pink shoulder rims and skirt lamellae less bright; collar/chest transitions retain painted shading. Bare upper arm/face warmed highlights reduced mildly, no flat gray cast. Foreground fingers, dark wood, blade/tassel unchanged. Some warmer modeling persists; not full style acceptance.",
+      "path": "artifacts/motion/xiahoudun/charge-paint-review/paint-pair-0-4x.png",
+      "sha256": "3669f37d12ae06c0e9d8beccf3137a423794febbec7bdc3fe90ed2eebd0d790a"
+    },
+    {
+      "cell": 3,
+      "finding": "Shoulder ribbons/rims and magenta armored skirt move toward muted charge1/2 palette while rivets/folds remain visible. Forearm/face contrast less orange, grips/wrists retain exact outlines and protected shaft RGBA. Raised-pelvis pose discontinuity untouched.",
+      "path": "artifacts/motion/xiahoudun/charge-paint-review/paint-pair-3-4x.png",
+      "sha256": "1896c516cd5c716fea7e3371137a3ba659d3b5096fbf12e914ffde6972567bd1"
+    },
+    {
+      "cell": 4,
+      "finding": "Chest lamellae/skirt copper fringe reduced, exposed arm/neck shading more restrained; opened chest/crouch pose and both hands unchanged. No alpha fringe added or filtered skin silhouette. Still wider/flatter frontal torso plane than guard; no claimed skull/body rescale.",
+      "path": "artifacts/motion/xiahoudun/charge-paint-review/paint-pair-4-4x.png",
+      "sha256": "67baa9b2ea12f3714564c06bd823404fbed2c2d9da61eca71209d8ca8907159e"
+    }
+  ],
+  "logicalPair": {
+    "path": "artifacts/motion/xiahoudun/charge-paint-review/logical-before-after.png",
+    "sha256": "c8d1c7b0e68f315f9734088b7ccc2df2952c1fca575cb2ebea49dcd456477697",
+    "finding": "Localized contrast reduction visible without palette-popping full-frame darkening; untouched guard/charge1/2 exact. Head pose/paint differences and dash2 boundary require actual playback; contact sheet not motion review."
+  },
+  "spares": {
+    "reviewed": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "path": "artifacts/motion/xiahoudun/charge-paint-review/spare-contact.png",
+    "sha256": "b9eeb38173a48fc551c8d7b3a3bbbc44f94287bb77463710a88b197d3fd9d908",
+    "findings": {
+      "5": "Airborne long stride, close duplicate of dash2 gait phase; darker treatment, unmeasured overlong spear; no guaranteed bridge.",
+      "6": "Darker original bent-front-knee/rear-supported run differs from full-stride dash; candidate alternate dash2 is worth registered trial. Hip/sole relationship appears between held dash and repaired3, but no numerical body PASS. Full original spear still over fixed band; must foreground-safe shorten and remeasure before use.",
+      "7": "Another long airborne stride much like5/current2, modest hand/leg differences, no clearly better vertical bridge.",
+      "8": "Rising spear/brake-like stance, not horizontal active dash bridge. Do not insert merely to smooth palette."
+    },
+    "spare6Grid": "artifacts/motion/xiahoudun/charge-paint-review/spare6-source-grid.png",
+    "accepted": false
+  },
+  "numericGatesPreserved": {
+    "chargeWeaponSpread": 0.06006571929305696,
+    "directionMaxStepDeg": 19.526799894464737,
+    "walkChargeDiagnosticSpread": 0.06886041486067658,
+    "why": "Rigid weapon RGBA/alpha exact, existing endpoint coordinates remain drawn pixels; no new sheet accepted or projection entry added."
+  },
+  "headGate": "UNVERIFIED",
+  "numericalHeadSpread": null,
+  "independentAfterReview": false,
+  "normalSpeedPlaybackReviewed": false,
+  "imageRequests": 0,
+  "next": "Trial immutable spare6 as alternate dash2 after isolated rear cap shorten, protected grips/robe, true endpoints and registered pair review. If candidate useful, update exposure within exact26 active ticks; normal-speed offline playback still required. No blind head resize/source acceptance/runtime activation."
+}

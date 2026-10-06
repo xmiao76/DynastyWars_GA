@@ -8,11 +8,12 @@
   projection OK at unchanged band[404.16,446.70], prior11.36% STOP and
   invalid0.25% kept in history. Whole walk acceptance still HELD for
   registered continuity; corrected walk+charge6.89% diagnostic only.
-- Charge `b547809c` weapon6.01%/19.5° preserved; head metric UNVERIFIED.
-  Registered candidate has explicit fixed-scale anchors and core52tick/
-  83.2u trace; no final/native-video/source acceptance. Review located
-  warmer charge0/3/4 paint and tick20->21 pelvis rise12.54u. Named paint
-  repair/unused-spare bridge review next, not blind head shrink.
+- Charge paint override98e2531f from immutableb547809c: localized RGB
+  treatment0/3/4, alpha/geometry/weapon RGBA and six nontargets exact;
+  weapon6.01%/19.5° preserved, head UNVERIFIED/null. Logical/4x pairs
+  reduce warmer treatment; candidate record points to new source,
+  source/normal-speed/native-video acceptance still pending. Inspected
+  spares5..8;6 alternate dash2 trial next after safe weapon correction.
 - Masters (inspected 2026-10-06, before any request): body
   `a57630a2…`, portrait `01bb7271…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -20,6 +21,38 @@
   attack-id names).
 
 ## Attempt log
+
+### Attempt2 continuation — named material paint correction; immutable spare review
+
+- New charge-paint-harmonized-source.png SHA
+  98e2531f1763bdb5a6b4ad045518e159987a51f8c264d7f4fb64f657a323c5fe
+  from pinnedb547809c, RGB only in named armour/skin polygons0/3/4.
+  6px feather; armour gain.88/chroma.91, skin gain.90/chroma.95, mild
+  per-channel warmth weights. No geometry filtering/pose rescale or
+  generic full-frame darken. Changed RGB pixels22097/23178/24331;
+  ALL alpha bytes and protected shaft/blade/tassel RGBA exact, cells
+  1/2/5/6/7/8 untouched,9 figures/0 edge. Decoded PNG conservation
+  separately checked; originals and authoring/repair ledgers unchanged.
+- Opened all3 material pairs4x and fixed registration/logical comparison:
+  0 copper/pink shoulder+skirt less bright, skin less orange, fine shading
+  retained;3 darker muted shoulder/lamellae but rivets/folds stay visible;
+  4 chest/arm warmth more restrained, no flat gray skin or silhouette
+  fringe. Protected grips/wood/blade/tassel unchanged. Still not whole
+  style/source/normal-speed acceptance; source candidate promoted for
+  following review only. Before tooling explicitly pinsb547 after
+  promotion so both sides cannot silently become the same after source.
+- Inspected all4 immutable spares5..8 on equal-scale contact +spare6 grid:
+  5/7 long open airborne strides repeat current dash-like phase;8 brake/
+  rising-spear not active bridge;6 dark bent-front-knee/rear-supported run
+  worth alternate dash2 trial, original spear still overlong/unaccepted.
+  No spare inserted. Next:6 isolated cap shorten with body witnesses,
+  whole-material endpoints and registration review, then actual offline
+  playback inside exact26active. No blind head resize/image spend.
+- Checks:10 focused suites48/48; lint initially rejects script global
+  structuredClone, replaced with JSON clone then lint/typecheck exit0.
+  Negative alpha and protected-shaft recolor controls reject; deterministic
+  copy-on-write. No vision/prodbuild since no runtime/UI/shipping change.
+  [Paint audit](charge-paint-audit.json) records exact masks/evidence.
 
 ### Attempt2 continuation — registered candidate/exact core trace; named paint/transition targets
 
