@@ -1,11 +1,12 @@
 # Xiahou Dun provenance (CMR-14A)
 
-- Authoring: 2/12 used (1/7 ACCEPTED; charge candidate 1/2
-  HELD — cells 1/2 safely shortened, cells 0/3/4 unresolved).
-  Global 128/200; repair reserve 3/3 untouched.
-  Projection: walk only, fixed band [404.16,446.70]. Charge
-  is NOT recorded; hypothetical walk+partial-charge = STOP 19.76%.
-  Head/direction gates for charge remain UNVERIFIED.
+- Authoring: 2/12 used (1/7 sheets accepted; charge HELD on head
+  gate, not weapon length). Global authoring 128/200. Repair round1
+  spent/settled as accepted weapon source; 2/3 rounds remain.
+- Weapon override `b547809c…`: five keep lengths [412.6,434.4,437.2,
+  438.4,428.9], spread6.01%, direction19.5°; hypothetical walk+charge
+  6.06% OK. Fixed band [404.16,446.70] unchanged; projection is still
+  walk-only because charge head-size acceptance is UNVERIFIED.
 - Masters (inspected 2026-10-06, before any request): body
   `a57630a2…`, portrait `01bb7271…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -13,6 +14,54 @@
   attack-id names).
 
 ## Attempt log
+
+### Repair reserve round1 — charge:0/3/4 weapon repair salvaged; sheet HELD on head gate (2026-10-06)
+
+- Persisted round1 reservation BEFORE one image call; refs in order:
+  candidate `0afda71c…`, body `a57630a2…`, portrait `01bb7271…`.
+  Exact prompt: [charge-repair-1-prompt.txt](charge-repair-1-prompt.txt).
+  No authoring debit; budgets remain 2/12 and global128/200.
+- Raw output [charge-repair-1.png](charge-repair-1.png), SHA
+  `4c578feefc6045fe3e80e93f349b9ce305aa06c64e1139c50f790aefbb037c82`.
+  Same 1536×1024, 9 figures, no outer-edge contact; source re-renders
+  other cells too, so only NAMED 0/3/4 are selected. Intact hands,
+  connected wrists/forearms, spear/leaf/tassel and original pose family
+  seen in 2x full-cell and 4x hand pairs.
+- Raw named lengths 372.4/438.4/428.9: c0 undershot, others in-band.
+  Free c0 extension uses a now-clear corridor: shift(-40,+4), t0=42,
+  band9, shaft offsets[-5,6], slab[33,49]. A first band13 trial moved
+  14 cloth-fringe pixels and was REJECTED; band9 pair retains cloth,
+  hands, robe and shaft join. Protected RGBA, off-corridor immutability,
+  unchanged specks and ±1px achieved gates enforce the fix. Final
+  predicted412.5596 / achieved412.5592 (620 moved,442 filled).
+- Deterministic source builder `prepare-xiahoudun-charge-repair.mjs`
+  selects repaired0/3/4, all other components from `dedac2b1` safe
+  partial. Six retained drawings (including cells1/2) preserve exact
+  component RGBA after alpha-only cleanup; no scaling or gridbox crop.
+  [charge-repair-1-spliced-source.png](charge-repair-1-spliced-source.png)
+  SHA `b547809c352dd7b8828d20452c0e7f216caede83b1c143374a704a5d301014e4`.
+  9 separated figures, 0 edge, 0 detached specks.
+- Final whole-material endpoint overlay: [412.5724,434.4422,437.2196,
+  438.4199,428.9452], weapon spread6.01%, direction max19.53°. Diagnostic
+  walk+charge projection OK6.06%, N14. NOT recorded in projection:
+  sheet acceptance still fails to establish comparable head size.
+- Head review: charge0..4 and walk0..2 opened at fixed4x. Possible
+  visible scale drift against walk. Crown-to-beard silhouette probes
+  are NOT crown/chin: beard occludes chin; several trial points were
+  off ink or on robe. ALL trial head numbers invalidated, no PASS.
+  No head rescale or second image request made. Next iteration must
+  diagnose real anatomical landmarks before deciding redraw.
+- Repair ledger settled accepted with scope explicitly WEAPON source
+  salvage, not complete sheet acceptance. Audit coordinates/evidence:
+  [charge-repair-1-audit.json](charge-repair-1-audit.json).
+- Checks: 76/76 across seven scoped suites; lint/typecheck exit0.
+  New five real-source tests include wide-band numeric-pass/cloth-
+  damage negative control. Offline only; no vision/prodbuild/browser
+  or native-video claims, no runtime activation. Small sequence was
+  a downsample overview, not a calibrated gameplay capture.
+- Outcome: CMR-14A IN_PROGRESS; charge HELD head gate, 1/7 accepted.
+  This is the second consecutive incomplete charge consumer outcome;
+  only one more unsuccessful iteration is allowed before BLOCKED.
 
 ### Request 2/12 — charge candidate + partial deterministic repair → HELD, not accepted (2026-10-06)
 

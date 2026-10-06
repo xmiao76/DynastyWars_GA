@@ -1,0 +1,53 @@
+{
+  "fighter": "xiahoudun",
+  "sequence": "charge",
+  "sheetStatus": "HELD",
+  "repairOutcome": "accepted as reusable weapon source, NOT complete sheet acceptance",
+  "repairRound": 1,
+  "repairRoundsRemaining": 2,
+  "authoringUsed": 2,
+  "authoringCap": 12,
+  "globalAuthoringUsed": 128,
+  "orderedReferences": [
+    "0afda71c6406eb103465f7f859bcdd8bf6ba9b85f26e341524f06efde29c5257",
+    "a57630a2e29eb45616143bd6b8887988b4c66102893e88616e35cabf93ea651a",
+    "01bb7271ed5f849a84f7329b778ef4bf9cb2fca9316639fe5d67f5e54224363b"
+  ],
+  "rawRepair": { "file": "charge-repair-1.png", "sha256": "4c578feefc6045fe3e80e93f349b9ce305aa06c64e1139c50f790aefbb037c82", "width": 1536, "height": 1024, "targetCells": [0,3,4], "rawWeaponLengthsPx": [372.3761539089204,438.4198900597462,428.94521794746703] },
+  "override": { "file": "charge-repair-1-spliced-source.png", "sha256": "b547809c352dd7b8828d20452c0e7f216caede83b1c143374a704a5d301014e4", "sourceCells": { "0": "repair1 + isolated cap extension", "1": "safe partial", "2": "safe partial", "3": "repair1", "4": "repair1", "5": "safe partial spare", "6": "safe partial spare", "7": "safe partial spare", "8": "safe partial spare" }, "composition": 9, "outerEdgeContact": 0, "remainingSpeckComponents": 0 },
+  "coilExtension": { "shift": [-40,4], "band": 9, "t0": 42, "cap": [56,202], "axisToward": [421,164], "shaftOffsets": [-5,6], "profileSlab": [33,49], "movedPixels": 620, "filledPixels": 442, "predicted": 412.55957449452114, "achieved": 412.55924199885595, "protectedBodyPixelsUnchanged": true, "rejectedBand13": "14 additional pixels were cloth fringe; enlarged pair rejected; regression control proves protected-cloth check rejects despite passing numeric length gate" },
+  "weaponEndpoints": [
+    { "cell": 0, "tip": [423,164], "butt": [13,210], "lengthPx": 412.5724178856362 },
+    { "cell": 1, "tip": [1046,148], "butt": [614,194], "lengthPx": 434.44217106537894 },
+    { "cell": 2, "tip": [1532,138], "butt": [1097,182], "lengthPx": 437.219624445198 },
+    { "cell": 3, "tip": [490,481], "butt": [54,527], "lengthPx": 438.4198900597462 },
+    { "cell": 4, "tip": [992,372], "butt": [605,557], "lengthPx": 428.94521794746703 }
+  ],
+  "weaponMethod": "Component-constrained whole-material alpha>=96 endpoints; all ten crosshairs visually inspected on final overlay, not gold/steel highlight-only chords.",
+  "weaponSpread": 0.06006571929305696,
+  "directionMaxStepDeg": 19.526799894464737,
+  "hypotheticalProjection": { "status": "OK", "observedSpread": 0.060554000490181795, "n": 14, "recorded": false, "fixedBand": { "lo": 404.1605167916991, "hi": 446.70372908556226 } },
+  "headGate": { "status": "UNVERIFIED", "evidence": "4x fixed-scale head crops charge0..4 and walk0..2 show possible size drift. Main-crown-to-beard silhouette attempts are not anatomical crown/chin measurements; some marks landed off ink or on robe, so their numerical spread is INVALIDATED and not acceptance evidence. No head repair or rescale attempted.", "next": "Validate anatomical crown/chin or an independently justified comparable landmark ruler against the walk anchor. Determine whether posing/beard contour explains the difference before authorizing further redraw. Never infer PASS from weapon compliance." },
+  "reviewedEvidence": [
+    "artifacts/tmpcheck/xiahou-charge-r1-endpoint-overlay.png",
+    "artifacts/tmpcheck/xiahou-charge-r1-cell0.png",
+    "artifacts/tmpcheck/xiahou-charge-r1-cell3.png",
+    "artifacts/tmpcheck/xiahou-charge-r1-cell4.png",
+    "artifacts/tmpcheck/xiahou-charge-r1-extension-pair.png",
+    "artifacts/tmpcheck/xiahou-charge-final-weapon-overlay.png",
+    "artifacts/tmpcheck/xiahou-charge-repair-final-hands-pair0.png",
+    "artifacts/tmpcheck/xiahou-charge-repair-final-hands-pair3.png",
+    "artifacts/tmpcheck/xiahou-charge-repair-final-hands-pair4.png",
+    "artifacts/tmpcheck/xiahou-charge0-head-detail.png",
+    "artifacts/tmpcheck/xiahou-charge1-head-detail.png",
+    "artifacts/tmpcheck/xiahou-charge2-head-detail.png",
+    "artifacts/tmpcheck/xiahou-charge3-head-detail.png",
+    "artifacts/tmpcheck/xiahou-charge4-head-detail.png",
+    "artifacts/tmpcheck/xiahou-walk0-head-detail.png",
+    "artifacts/tmpcheck/xiahou-walk1-head-detail.png",
+    "artifacts/tmpcheck/xiahou-walk2-head-detail.png",
+    "artifacts/tmpcheck/xiahou-charge-final-small-sequence.png"
+  ],
+  "limits": "Offline unaccepted source only; no registration/atlas or runtime activation. Small sequence is a fixed downsample overview, not a validated gameplay-size capture; no native-video or independent review claim.",
+  "next": "Finish head-scale diagnosis on charge before generating combo; second consecutive unsuccessful complete-sheet outcome, one more allowed consumer iteration before owner-blocked status if still unresolved."
+}

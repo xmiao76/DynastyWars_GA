@@ -175,6 +175,23 @@
           "outputSha256": "3681209a724b460e7c2f5142c97333d264a9ada7a673afe3cda5e70fd138099a"
         }
       ]
+    },
+    "xiahoudun": {
+      "rounds": [
+        {
+          "number": 1,
+          "status": "accepted",
+          "cells": [
+            "charge:0",
+            "charge:3",
+            "charge:4"
+          ],
+          "failure": "Whole-material spear lengths charge:0 494.9 / charge:3 511.8 / charge:4 488.4px exceed fixed walk band 404.16-446.70; free pommel shortens numerically pass but visually cut hand/cloth/forearm. Only these three poses need 420-430px foreground-safe spear/grip redraw; cells1/2 clean partial retained.",
+          "sourceSha256": "0afda71c6406eb103465f7f859bcdd8bf6ba9b85f26e341524f06efde29c5257",
+          "evidence": "Focused charge0/3/4 source has intact grips/body and no outer-edge contact. Raw full spear lengths 372.4/438.4/428.9px; free isolated c0 cap extension (-40,+4, band9, protected cloth/hand unchanged) lands 412.6. Component splice preserves cells1/2 + all four spares after alpha cleanup: keep lengths 412.6/434.4/437.2/438.4/428.9, weapon spread6.01%, direction19.5deg; hypothetical walk+charge6.06% OK. Accept repair as reusable WEAPON source only: charge SHEET still HELD on unverified head-scale consistency against walk; no projection acceptance or runtime use. Prepared override SHA b547809c352dd7b8828d20452c0e7f216caede83b1c143374a704a5d301014e4. No additional request this iteration.",
+          "outputSha256": "4c578feefc6045fe3e80e93f349b9ce305aa06c64e1139c50f790aefbb037c82"
+        }
+      ]
     }
   }
 }

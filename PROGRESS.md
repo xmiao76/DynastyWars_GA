@@ -22,6 +22,18 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-14A (attempt1 continuation — repair round1 weapon closure; charge HELD on head gate)
+
+- Status before: charge HELD, 1/7 accepted; one unsuccessful charge outcome. Due check:1 src/game commit since6084ab4, no pending filing/current DUE NOW; clean tree.
+- Reserved repair round1 BEFORE one focused call for charge:0/3/4; ordered refs candidate/body/portrait. Output `4c578fee`, named raw lengths372.4/438.4/428.9; other provider-redrawn cells ignored.
+- Free c0 extension(-40,+4): band13 trial moved14 cloth pixels and was rejected; band9 retains grips/cloth/robe with RGBA/off-corridor/speck gates, achieved412.5592 vs predicted412.5596. Viewed4x extension pair and repaired-hand pairs0/3/4; no cutouts in final.
+- Hash-pinned component splice `b547809c`: repaired0/3/4 only, six other drawings from safe partial byte-preserved after alpha cleanup; 9 figures/0 edge/0 specks. Full endpoints[412.6,434.4,437.2,438.4,428.9], weapon6.01%, direction19.5°; hypothetical walk+charge6.06% OK, NOT recorded.
+- Head detail review: fixed4x charge0..4 and walk0..2 suggest scale drift; beard hides anatomical chin. Trial crown/beard points include off-ink/robe hits: all head numbers INVALIDATED, head gate UNVERIFIED. No rescale/second image call; source remains unaccepted sheet.
+- Checks:7 scoped Vitest suites76/76 (new repair5, prior charge5, retouch11, budget9, pipeline28, repair-budget7, projection11); lint/typecheck exit0. Wide-band negative control passes numeric gate but new cloth witness rejects. No vision/prodbuild/e2e: offline HELD source only, no UI/runtime/shipping changes.
+- Files: repair ledger/prompt/raw/source override/audit, scoped source builder+typings+tests, authoring plan/provenance, TASKS/PROGRESS. Authoring ledger and fixed projection unchanged; no unrelated fighter/source edits. Source repeats deterministically.
+- Result: IN_PROGRESS, charge weapon repair salvaged, sheet head acceptance unresolved; second consecutive incomplete charge outcome. Repair round1 settled accepted WEAPON source only (not sheet PASS); authoring2/12/global128/200, repair2/3 left.
+- Next: validate comparable anatomical head landmarks before deciding targeted redraw or accepting charge; no next sequence yet. A third unresolved consumer outcome must BLOCK; remaining image funds do not reset that limit.
+
 ### 2026-10-06 - CMR-14A (attempt 1 continuation, IN_PROGRESS — charge HELD; unsafe five-op trial rejected, two safe cell repairs preserved)
 
 - Continued the interrupted charge-sheet iteration, not a second task.

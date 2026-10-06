@@ -1,19 +1,19 @@
 # Xiahou Dun authoring plan (CMR-14A, attempt 1)
 
-Status: 1/7 ACCEPTED; charge 1/2 HELD (cells 1/2 safely repaired, 0/3/4 unresolved; heads pending); 2/12 spent, 10 left. No new sequence until charge passes.
+Status: 1/7 ACCEPTED; charge HELD head gate (weapon repair round1 + splice now6.01%, direction19.5°); 2/12 authoring spent, 10 left; repair2/3 remain. No new sequence until head consistency is established.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- xiahoudun cap 12 (role: boss), used 2 (+charge candidate
-  HELD). Global 128/200. Charge 1/2 whole-sheet allowance
-  remains; repair reserve 3/3 untouched. Projection is walk
-  only (N=9), band fixed [404.16,446.70]. Hypothetical
-  partial charge gives STOP 19.76%; never record it as accepted.
-- Next: repair charge cells 0/3/4 with safe foreground-preserving
-  geometry or reserve-first focused redraw; preserve the clean
-  cell1/2 partial repairs. Enlarged pairs overrule numeric gates:
-  the five-op trial moved hand, cloth and forearm pixels.
-  Full true endpoint and head-landmark review still required.
+- xiahoudun cap12 used2; global authoring128/200. Repair round1
+  settled as accepted WEAPON source; two rounds remain. Charge
+  whole-sheet count stays1/2. Projection is walk-only, fixed band
+  [404.16,446.70]; hypothetical walk+charge6.06% OK, NOT recorded.
+- Next: diagnose anatomical head landmarks on charge vs walk.
+  Beard-silhouette and off-ink/robe probes are INVALID, not passes.
+  Preserve weapon override `b547809c` and clean cell1/2 source pixels;
+  no combo sheet until charge head/scale consistency is established.
+  This was the second consecutive incomplete charge consumer outcome;
+  a third unresolved iteration must block, independent of image budget.
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

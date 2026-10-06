@@ -582,17 +582,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; 1/7 sheets accepted).
-  Charge candidate 1/2 (`0afda71c`) HELD: five-op trial
-  damaged hand/cloth/forearm in cells 0/3/4 despite numeric
-  gates. Safe partial (`dedac2b1`) repairs cells 1/2 only;
-  true lengths [494.9,434.4,437.2,511.8,488.4], 16.34% FAIL.
-  Walk+partial diagnostic STOP 19.76% (not recorded);
-  fixed band [404.16,446.70] unchanged; heads UNVERIFIED.
-  Next: repair charge:0/3/4 before more sheets, preserving
-  clean partials; reserve BEFORE any focused repair call.
-  Ledger 2/12, global 128/200; repair 3/3 untouched.
-  Evidence: [charge audit](art/motion/xiahoudun/charge-audit.json)
+- Status: IN_PROGRESS (attempt1; 1/7 sheets accepted).
+  Charge weapon repair round1 + isolated c0 extension closed
+  lengths [412.6,434.4,437.2,438.4,428.9]: spread6.01%,
+  direction19.5°; override `b547809c`, cells1/2 preserved.
+  Charge SHEET HELD on head-scale consistency against walk:
+  chin occluded, silhouette/off-ink/robe head probes invalidated.
+  Hypothetical projection OK6.06% NOT recorded; band unchanged.
+  Next: trustworthy comparable head landmarks before any new
+  sequence/redraw. Second consecutive incomplete charge outcome;
+  third unresolved consumer iteration must BLOCK.
+  Authoring2/12, global128/200; repair2/3 remain (round1 settled).
+  Evidence: [round1 audit](art/motion/xiahoudun/charge-repair-1-audit.json)
   and [provenance](art/motion/xiahoudun/PROVENANCE.md).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
