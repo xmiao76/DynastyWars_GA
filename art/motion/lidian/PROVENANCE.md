@@ -1,12 +1,12 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 9/12 used (3/7 ACCEPTED; heavy repair round
-  3 REJECTED — c1 still 323, c2 291 + snipped tip).
-  Global 121/200; heavy 1/2 left. Repair reserve 3/3
-  EXHAUSTED. Task BLOCKED on image budget (exact input
-  below — NOT retry exhaustion: attempt 1 throughout).
-  Projection: walk+charge+combo recorded, WARN (8.30%,
-  N=19); heavy NOT recorded.
+- Authoring: 10/14 used (4/7 ACCEPTED — heavy closed via
+  grant fix (c1+c2) + r1-c2 splice + 4 retouches + top-up,
+  6.89% PASS). Global 122/200; heavy 1/2 left. Repair
+  reserve stays 3/3 EXHAUSTED (grant funded this turn).
+  Projection: walk+charge+combo+heavy recorded, WARN
+  (8.67%, N=24); drift flag CLEARED (heavy mean bends
+  back); steer misc into [400.9,441.8].
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -14,6 +14,55 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 10/14 (grant A1) — heavy c1+c2 redraw: anti-foreshorten brief WORKS (c1 442, c2 clipped→r1 splice) + retouch/splice close → 6.89% PASS → ACCEPTED 2026-10-06
+
+- Context: owner granted option A (+2 authoring, cap 12→14,
+  BLOCKED lifted). Reserve-before-call: `reserve(...,
+  focused/heavy)` → used 10, remaining 4, total 122
+  (guard: expected 9/14, held).
+- Exact prompt: `heavy-fixA1-prompt.txt` (ONLY cells 1+2;
+  poses kept; explicit NO-foreshortening instruction +
+  ~10° levelling + pinned pommel targets). Ordered refs:
+  heavy-repair-3 (vehicle, FIRST), body, portrait. One image.
+- Output: `heavy-fixA1.png` sha `b6d5e504…` (1536×1024).
+  9 components BUT 6 edge pixels: c2 upper horn touches
+  x=1535 (tangent touch AND steel apex inside at (1527,235)
+  — composition gate still fails on any contact, so c2
+  unusable from this file). Zone-read chords: c0 391.8 /
+  c1 439.9 / c3 507.1 / c4 482.5 (all endpoints on
+  material; c1 pommel leftmost-ink (515,160), apex gold
+  (927,6)). The anti-foreshorten brief worked: c1 drew
+  full-length (first overhead cell to do so).
+- Close-out (all free, all gated): (1) SPLICE r1 c2
+  (406.3, clean, 0-edge) into fixA1 → `heavy-spliced-c2.png`
+  (`43bad820`, 9 components, per-cell hash proof, edge
+  gate passes); (2) RETOUCH (`retouch-lidian-heavy.mjs`):
+  c0 extend +14, c1 micro-shorten −4 (margin), c3 −82,
+  c4 −58 — achieved-vs-predicted ±0.1px all, clean pairs
+  all (c1 piece needed t0 55 to clear minPiecePx);
+  (3) TOP-UP (`retouch-lidian-heavy-topup.mjs`): overlay
+  caught probe boxes clipping the true c3/c4 blade tips
+  (figures cross grid lines — c3 tip (528,626), c4 tip
+  (1046,631)), leaving c1/c3/c4 marginally over band —
+  micro-shortens −6/−8/−14 → all mid-band. Final
+  `heavy-prepared-source.png` sha `9c6fda5c`.
+- Verify (final overlay, all 10 markers read on material):
+  keep-set [407.9,435.8,406.6,433.8,433.6], spread
+  **6.89% PASS**; undirected axes max step 55.1° PASS
+  (≤60); heads overlay-landmark read [75,70,70,75,75],
+  6.8% PASS (≤10).
+- Projection: heavy recorded (scale 1): WARN (global 8.67%
+  over N=24, min 406.6, max 443.6 — no new extremes);
+  steering window [400.9,441.8]; driftSuspected=false
+  (heavy mean 423.5 bends the rising means back — the
+  mid-low brief worked).
+- Verdict: heavy source ACCEPTED (1 grant request + free
+  retouch/splice). 4/7 sequences done. Culls 5–8.
+- Procedure note (third strike on scans): probe boxes must
+  SPAN grid lines — figure components cross cell columns
+  (c3/c4 tips live in the next column). Zone/overlay reads
+  remain mandatory; the top-up caught it before record.
 
 ### Repair round 3/3 — heavy cells 1–2 redraw: c1 323 (no gain), c2 291 + SNIPPED tip → REJECTED 2026-10-06. TASK BLOCKED (funds)
 

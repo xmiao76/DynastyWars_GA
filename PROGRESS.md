@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy ACCEPTED via grant fix + splice + retouch, 6.89%; 4/7 done)
+
+- Status before: CMR-13A BLOCKED lifted by owner option A
+  (+2 authoring, cap 12→14). Review not due (0 src/game).
+- Work completed: reserved BEFORE the call (10/14, global
+  122/200), generated `heavy-fixA1.png` sha `b6d5e504`
+  (ONLY cells 1+2; anti-foreshorten + levelling brief).
+  The brief WORKED: c1 drew full-length (439.9). But c2's
+  horn touches the sheet edge (6px, composition fails),
+  so c2 was SPLICED from round-1 output instead (406.3,
+  clean). Closed with free gated work: 4 retouch ops
+  (c0 +14 extend, c1 −4, c3 −82, c4 −58; ±0.1px gates,
+  clean pairs) + a top-up round (−6/−8/−14) after the
+  overlay caught probe boxes clipping the true c3/c4
+  tips (components cross grid lines — procedure updated).
+  Final `heavy-prepared-source.png` (`9c6fda5c`): keep-set
+  [407.9,435.8,406.6,433.8,433.6], spread 6.89% PASS;
+  undirected direction max step 55.1° PASS; heads
+  [75,70,70,75,75], 6.8% PASS. Projection recorded:
+  WARN 8.67% (N=24, no new extremes); drift cleared.
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `generation-budget.json` (cap 14 + use 10),
+  `heavy-fixA1.png` + prompt, `heavy-spliced-c2.png`,
+  `heavy-prepared-source.png`, retouch + top-up + splice
+  drivers, `pack-projection.json`, PROVENANCE.md,
+  AUTHORING-PLAN.md, TASKS.md, PROGRESS.md. Retouch/splice
+  free; repair untouched (3/3 exhausted).
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 10/14).
+  4/7 sequences done.
+- Remaining work or blocker: misc sheet 1/2 (reserve first;
+  brief inside [400.9,441.8]). No blocker. 4 left (1 grant
+  + 3 base) for 3 sheets — thin but workable with the
+  retouch backstop (9/9 gated ops green so far).
+- Next recommended task: CMR-13A misc sheet.
+
 ### 2026-10-06 - CMR-13A (attempt 1, BLOCKED on image funds - heavy repair round 3 REJECTED, reserve exhausted)
 
 - Status before: CMR-13A IN_PROGRESS (3/7 accepted, 9/12;

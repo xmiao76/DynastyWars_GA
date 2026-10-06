@@ -552,18 +552,15 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-13A - Li Dian: author/prepare full motion pack
 
-- Status: BLOCKED (attempt 1; 3/7 accepted; NOT rule-5 retry
-  exhaustion — image-fund exhaustion with exact input in
-  PROVENANCE.md). Heavy repair round 3 (`3681209a`)
-  REJECTED: c1 still 323 (no gain), c2 291 with blade tip
-  snipped at sheet edge x=1535 (composition gate fails).
-  Heavy needs c1+c2 redrawn; repair 3/3 exhausted;
-  authoring 9/12 with 3 sheets (misc/fall/getup) still
-  needing ≥3. No valid next step in-cap. Owner options:
-  (A) +2 image requests for heavy c1/c2 redraws (then the
-  standing close plan runs); (B) waive heavy length as
-  documented limitation; (C) re-scope; (D) alternative.
-  Only the owner may reset/refund per rule 5.
+- Status: IN_PROGRESS (attempt 1; walk + charge + combo +
+  heavy ACCEPTED; projection WARN 8.67%, N=24; drift
+  cleared). Heavy closed via grant fix-1 (`b6d5e504`:
+  anti-foreshorten brief worked, c1 full-length) + r1-c2
+  splice (fixA1 c2 horn touches edge) + 4 gated retouches
+  + top-up (`9c6fda5c`): keep-set 6.89% PASS, direction
+  55.1° PASS, heads 6.8% PASS. Next: misc sheet 1/2
+  (reserve first; brief inside [400.9,441.8]). Ledger
+  10/14, global 122/200; repair 3/3 exhausted.
 - Dependency: CMR-12B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-13A](docs/motion-tasks/CMR-13A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable lidian identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
