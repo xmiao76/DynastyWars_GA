@@ -1,10 +1,11 @@
 # Xiahou Dun provenance (CMR-14A)
 
-- Authoring: 1/12 used (1/7 ACCEPTED — walk closed via
-  sheet + 9 free retouches, 0.25% PASS). Global 127/200;
-  walk 1/2 left. Repair reserve 3/3 untouched.
-  Projection: band FIXED from walk median (424.9) →
-  [404.2,446.7]; walk recorded, OK (0.26%, N=9).
+- Authoring: 2/12 used (1/7 ACCEPTED; charge candidate 1/2
+  HELD — cells 1/2 safely shortened, cells 0/3/4 unresolved).
+  Global 128/200; repair reserve 3/3 untouched.
+  Projection: walk only, fixed band [404.16,446.70]. Charge
+  is NOT recorded; hypothetical walk+partial-charge = STOP 19.76%.
+  Head/direction gates for charge remain UNVERIFIED.
 - Masters (inspected 2026-10-06, before any request): body
   `a57630a2…`, portrait `01bb7271…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -12,6 +13,53 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 2/12 — charge candidate + partial deterministic repair → HELD, not accepted (2026-10-06)
+
+- Continued the interrupted charge iteration; no duplicate image call.
+  Existing reserve is persisted: used 2/12, global 128/200, charge
+  sheet count 1/2. Ordered references: body `a57630a2…`, portrait
+  `01bb7271…`, walk `b395c867…` (1535×1024). The first attachment
+  attempt failed metadata validation (walk width wrongly 1536); the
+  corrected call returned candidate `0afda71c6406eb103465f7f859bcdd8bf6ba9b85f26e341524f06efde29c5257`.
+  Prompt/reference reconciliation: [charge-prompt-note.md](charge-prompt-note.md).
+- Candidate: 1536×1024, 9 separate figures, no outer-edge contact.
+  Coil/launch/dash/dash2/brake poses read; headband/beard/palette and
+  single leaf spear + red tassel present. This is a design review,
+  NOT an Acceptance-4 pass. Head landmarks have not been measured.
+- Corrected measurement: earlier gold/steel-highlight chords
+  [483.5,487.3,451.9,501.5,477.7] undercounted whole-material tips
+  and caps. Component-constrained alpha>=96 endpoints, visually
+  checked on overlay, give [494.9,496.7,464.3,511.8,488.4]. Exact
+  coordinates/hashes are in [charge-audit.json](charge-audit.json).
+- Rejected five-op intermediate `507797cf…`: numeric gates passed,
+  but enlarged pairs show hand movement/notch in cell0, cloth cut
+  in cell3, forearm notch in cell4. Narrower cap trials still fail
+  visual review. No acceptance based solely on predicted length or
+  unchanged speck count. The rejected file was hash-checked and moved
+  to `artifacts/tmpcheck/xiahoudun-charge-rejected-five-op.png`; no
+  accepted `charge-prepared-source.png` is present.
+- Safe PARTIAL only: `retouch-xiahoudun-charge.mjs` now applies cells
+  1/2 with band 12, shifts (62,-6)/(27,-2). Protected grip/cloth
+  rectangles, non-target RGBA, all seven untouched figures, identical
+  22 pre-existing speck components, and composition/edge gates pass.
+  Source is immutable; output only after all checks. Final partial
+  `dedac2b17b122fccce30700963795876b7a2b681529e46db66e16a781fb0ab57`.
+  Fresh pair review: caps/shaft joins clean, hands and cloth unchanged.
+- Final partial lengths [494.9,434.4,437.2,511.8,488.4]: 16.34%
+  spread FAIL. Hypothetical walk+charge diagnostic STOP 19.76%, N=14;
+  NOT recorded in projection. Fixed walk band remains byte-unchanged.
+- Verification: 71/71 across six focused suites; lint/typecheck green.
+  Five real-source tests include a negative control: the previous
+  wide-band op still passes numeric gates, but the new body witness
+  rejects it. No vision/prodbuild: no runtime/UI/shipping changes.
+- Next bounded iteration: retain cells 1/2; repair charge:0/3/4 only
+  (foreground-safe retouch if provable, otherwise one focused repair
+  round reserved BEFORE the call). Preserve poses and request 420–430px
+  spears with clear endpoint/slide corridors. Recheck full material
+  endpoints, head landmarks, anatomy and projection before acceptance.
+  Repair reserve unspent; this is the first unsuccessful charge-sheet
+  consumer outcome after the accepted walk iteration, not a blocker.
 
 ### Request 1/12 — walk 3x3 sheet candidate 1/2: DESIGN PASS, uniform overshoot → 9 free retouches → 0.25% PASS → ACCEPTED 2026-10-06
 

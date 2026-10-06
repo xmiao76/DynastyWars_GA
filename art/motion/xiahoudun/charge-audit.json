@@ -1,0 +1,32 @@
+{
+  "fighter": "xiahoudun",
+  "sequence": "charge",
+  "status": "HELD",
+  "request": { "authoringUsed": 2, "authoringCap": 12, "globalUsed": 128, "repairRoundsSpent": 0 },
+  "candidate": { "file": "charge-candidate-1.png", "sha256": "0afda71c6406eb103465f7f859bcdd8bf6ba9b85f26e341524f06efde29c5257", "width": 1536, "height": 1024 },
+  "partial": { "file": "charge-partial-retouched-source.png", "sha256": "dedac2b17b122fccce30700963795876b7a2b681529e46db66e16a781fb0ab57", "repairedCells": [1, 2], "heldCells": [0, 3, 4], "composition": 9, "outerEdgeContact": 0, "preExistingSpeckComponents": 22, "newSpeckComponents": 0 },
+  "method": "Whole-material endpoints at alpha>=96, component-constrained crop boxes; each marker visually checked on the full-sheet overlay. Earlier steel/gold-highlight chords underestimated the true lengths. No charge acceptance or projection record.",
+  "candidateEndpoints": [
+    { "cell": 0, "tip": [509, 149], "butt": [18, 211], "lengthPx": 494.8989795907848 },
+    { "cell": 1, "tip": [1046, 148], "butt": [552, 200], "lengthPx": 496.72930253811273 },
+    { "cell": 2, "tip": [1532, 138], "butt": [1070, 184], "lengthPx": 464.2843956025229 },
+    { "cell": 3, "tip": [536, 471], "butt": [28, 533], "lengthPx": 511.76947935569586 },
+    { "cell": 4, "tip": [1050, 353], "butt": [609, 563], "lengthPx": 488.4475406837463 }
+  ],
+  "partialEndpoints": [
+    { "cell": 0, "tip": [509, 149], "butt": [18, 211], "lengthPx": 494.8989795907848 },
+    { "cell": 1, "tip": [1046, 148], "butt": [614, 194], "lengthPx": 434.44217106537894 },
+    { "cell": 2, "tip": [1532, 138], "butt": [1097, 182], "lengthPx": 437.219624445198 },
+    { "cell": 3, "tip": [536, 471], "butt": [28, 533], "lengthPx": 511.76947935569586 },
+    { "cell": 4, "tip": [1050, 353], "butt": [609, 563], "lengthPx": 488.4475406837463 }
+  ],
+  "partialSpread": 0.16335988204950305,
+  "projectionDiagnostic": { "status": "STOP", "observedSpread": 0.19757023759898076, "n": 14, "recorded": false, "band": { "lo": 404.1605167916991, "hi": 446.70372908556226 } },
+  "headLandmarks": "UNVERIFIED; not measured in this bounded diagnostic iteration",
+  "rejectedTrial": {
+    "file": "artifacts/tmpcheck/xiahoudun-charge-rejected-five-op.png",
+    "sha256": "507797cf5a693ce50fd55e19e1717f4d68dad01479a7a27dadbbaed15ccd304a",
+    "reason": "Numeric gates passed, but enlarged pairs showed rear-hand damage in cell0, cloth movement in cell3, and a forearm notch in cell4. Narrower trials still damaged foreground paint; no source-body fabrication authorized. Intermediate moved out of the accepted-source namespace."
+  },
+  "next": "Repair charge:0, charge:3 and charge:4 only: retain the poses, request full 420-430px spears with both endpoint/retouch corridors clear of hand, cloth and forearm; reserve one focused repair round before an image call. Preserve the candidate and two clean partial retouches. Recheck heads, full material endpoints, anatomy and projection before recording acceptance."
+}

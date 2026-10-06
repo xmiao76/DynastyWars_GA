@@ -5254,3 +5254,76 @@ and the three pre-redesign enhancements - all DONE and verified)
 - Acceptance: Variable frame/page counts, stable pivots/trim/dedup, deterministic output and durable candidate/request budgets; no new cast art yet.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
 
+
+
+## Oldest DONE tasks moved 2026-10-06
+
+### UIR-10 - Paint the hill ridges with atmospheric depth
+
+- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
+  day)
+- Source: UI review 2026-09-26, findings V-13 (S2)
+- Evidence: every fresh `stage*-play`: the ridge is a single-colour
+  hill with an ink line (re-confirmed fresh).
+- Root cause: ASSET - `paintRidge` :110 in
+  src/game/art/backdrop.ts (single-colour hills with an ink line).
+- Affected screens: all `stage*-play` screens.
+- Requirement: painted far and near ridges (value falloff with
+  distance, a lit crest and shaded flank, a soft haze join) instead
+  of flat colour plus outline. Shared backdrop constraints apply
+  (see UIR-8).
+- Acceptance criteria:
+  - [x] test/game/uir10-ridge.test.ts: 16x16-block luminance-stddev
+        share (threshold 7) clears 0.75 on day and dusk ridges. Before:
+        day 0.67, dusk 0.48 (fails first). After: 0.83 / 0.92. R5 = 4
+        on stage*-play vs title (far ridge pale and hazy, near ridge
+        with lit crest, shaded flank and soft haze join; silhouettes
+        and stage colours unchanged).
+  - [x] After npm run review:capture: all nine stages show two-ridge
+        depth in their own palettes (stage1 green hills and stage8
+        purple night verified close up); hills.setTileScale(0.5, 0.5)
+        was required - the ridge base, flank shading and haze join sit
+        below tile row 48 and never displayed (same half-texture root
+        cause as V-11/V-19; no other layer touched).
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (ART-19 suite green unedited); ledger V-13 noted
+        ridges-done (ground pending UIR-11, which completes it).
+- Non-goals: new ridge silhouettes per stage, beyond the existing
+  colour table.
+
+### UIR-11 - Paint the ground per stage
+
+- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
+  day)
+- Source: UI review 2026-09-26, findings V-13 (S2)
+- Evidence: every fresh `stage*-play`: the ground is one tint with a
+  dot pattern (re-confirmed fresh).
+- Root cause: ASSET - `paintGround` :155 in
+  src/game/art/backdrop.ts (one tint with a dot pattern).
+- Affected screens: all `stage*-play` screens, plus the phone and
+  WebGL shots.
+- Requirement: a painted walkable ground (varied grass, earth or stone
+  strokes, horizon-lit to foreground falloff) that stays calm enough
+  for the actors' shadows and hit effects to read. Shared backdrop
+  constraints apply (see UIR-8).
+  (Includes the V-19 ground part: set ground.setTileScale(0.5,
+  0.5) so the repainted ground displays fully - required for the
+  acceptance below, same as sky/ridge under UIR-9/10.)
+- Acceptance criteria:
+  - [x] test/game/uir11-ground.test.ts: 16x16-block luminance-stddev
+        share (threshold 7) clears 0.55 on grass and earth. Before:
+        0.19 / 0.19 (fails first). After: 0.83 / 0.72. R5 = 4 on
+        stage*-play vs title (horizon-lit falloff, mottled patches,
+        blade/clod/chip strokes, calm paint tooth); actor ground
+        shadows read clearly in the after-crops (stage1/stage4).
+  - [x] After npm run review:capture: all nine grounds show painted
+        falloff + texture in their stage palettes (stage1 grass and
+        stage4 earth verified close up); ground.setTileScale(0.5, 0.5)
+        maps the repaint 1:1 (V-19 ground part - the bottom half never
+        displayed). Before: one tint with dots.
+  - [x] Contact sheets show no regression; vision 5/5 and relevant
+        specs green (ART-19 suite green unedited); ledger V-13 set to
+        fixed (self-check) - the last of its three parts (sky UIR-9,
+        ridges UIR-10, ground here).
+- Non-goals: collision, or the lane depth.
+

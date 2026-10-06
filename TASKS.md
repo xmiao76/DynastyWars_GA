@@ -582,13 +582,18 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: IN_PROGRESS (attempt 1; walk ACCEPTED +
-  band fixed [404.2,446.7]). Walk closed via sheet 1/2
-  (`68a7de2b`: design pass, uniform overshoot) + 9 gated
-  pommel retouches (`b395c867`): keep-set 0.25% PASS,
-  direction 2.3° PASS, heads 7.2% PASS. Next: charge
-  sheet 1/2 (reserve first; brief inside [404.2,446.7]).
-  Ledger 1/12, global 127/200; repair 3/3 untouched.
+- Status: IN_PROGRESS (attempt 1; 1/7 sheets accepted).
+  Charge candidate 1/2 (`0afda71c`) HELD: five-op trial
+  damaged hand/cloth/forearm in cells 0/3/4 despite numeric
+  gates. Safe partial (`dedac2b1`) repairs cells 1/2 only;
+  true lengths [494.9,434.4,437.2,511.8,488.4], 16.34% FAIL.
+  Walk+partial diagnostic STOP 19.76% (not recorded);
+  fixed band [404.16,446.70] unchanged; heads UNVERIFIED.
+  Next: repair charge:0/3/4 before more sheets, preserving
+  clean partials; reserve BEFORE any focused repair call.
+  Ledger 2/12, global 128/200; repair 3/3 untouched.
+  Evidence: [charge audit](art/motion/xiahoudun/charge-audit.json)
+  and [provenance](art/motion/xiahoudun/PROVENANCE.md).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
@@ -723,75 +728,6 @@ Add future enhancement tasks below this heading.
     legend rewording, no DIFF-1 impact.
 - Evidence:
   - artifacts/loop/proposals-gamepadnaming-enh12.md (this pass's review).
-
-### UIR-10 - Paint the hill ridges with atmospheric depth
-
-- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
-  day)
-- Source: UI review 2026-09-26, findings V-13 (S2)
-- Evidence: every fresh `stage*-play`: the ridge is a single-colour
-  hill with an ink line (re-confirmed fresh).
-- Root cause: ASSET - `paintRidge` :110 in
-  src/game/art/backdrop.ts (single-colour hills with an ink line).
-- Affected screens: all `stage*-play` screens.
-- Requirement: painted far and near ridges (value falloff with
-  distance, a lit crest and shaded flank, a soft haze join) instead
-  of flat colour plus outline. Shared backdrop constraints apply
-  (see UIR-8).
-- Acceptance criteria:
-  - [x] test/game/uir10-ridge.test.ts: 16x16-block luminance-stddev
-        share (threshold 7) clears 0.75 on day and dusk ridges. Before:
-        day 0.67, dusk 0.48 (fails first). After: 0.83 / 0.92. R5 = 4
-        on stage*-play vs title (far ridge pale and hazy, near ridge
-        with lit crest, shaded flank and soft haze join; silhouettes
-        and stage colours unchanged).
-  - [x] After npm run review:capture: all nine stages show two-ridge
-        depth in their own palettes (stage1 green hills and stage8
-        purple night verified close up); hills.setTileScale(0.5, 0.5)
-        was required - the ridge base, flank shading and haze join sit
-        below tile row 48 and never displayed (same half-texture root
-        cause as V-11/V-19; no other layer touched).
-  - [x] Contact sheets show no regression; vision 5/5 and relevant
-        specs green (ART-19 suite green unedited); ledger V-13 noted
-        ridges-done (ground pending UIR-11, which completes it).
-- Non-goals: new ridge silhouettes per stage, beyond the existing
-  colour table.
-
-### UIR-11 - Paint the ground per stage
-
-- Status: DONE (attempt 1, 2026-09-28 UTC, verified full-green same
-  day)
-- Source: UI review 2026-09-26, findings V-13 (S2)
-- Evidence: every fresh `stage*-play`: the ground is one tint with a
-  dot pattern (re-confirmed fresh).
-- Root cause: ASSET - `paintGround` :155 in
-  src/game/art/backdrop.ts (one tint with a dot pattern).
-- Affected screens: all `stage*-play` screens, plus the phone and
-  WebGL shots.
-- Requirement: a painted walkable ground (varied grass, earth or stone
-  strokes, horizon-lit to foreground falloff) that stays calm enough
-  for the actors' shadows and hit effects to read. Shared backdrop
-  constraints apply (see UIR-8).
-  (Includes the V-19 ground part: set ground.setTileScale(0.5,
-  0.5) so the repainted ground displays fully - required for the
-  acceptance below, same as sky/ridge under UIR-9/10.)
-- Acceptance criteria:
-  - [x] test/game/uir11-ground.test.ts: 16x16-block luminance-stddev
-        share (threshold 7) clears 0.55 on grass and earth. Before:
-        0.19 / 0.19 (fails first). After: 0.83 / 0.72. R5 = 4 on
-        stage*-play vs title (horizon-lit falloff, mottled patches,
-        blade/clod/chip strokes, calm paint tooth); actor ground
-        shadows read clearly in the after-crops (stage1/stage4).
-  - [x] After npm run review:capture: all nine grounds show painted
-        falloff + texture in their stage palettes (stage1 grass and
-        stage4 earth verified close up); ground.setTileScale(0.5, 0.5)
-        maps the repaint 1:1 (V-19 ground part - the bottom half never
-        displayed). Before: one tint with dots.
-  - [x] Contact sheets show no regression; vision 5/5 and relevant
-        specs green (ART-19 suite green unedited); ledger V-13 set to
-        fixed (self-check) - the last of its three parts (sky UIR-9,
-        ridges UIR-10, ground here).
-- Non-goals: collision, or the lane depth.
 
 ### UIR-16 - Keep the far fist off the near arm on two-handed strikes
 
