@@ -1,12 +1,10 @@
 # Li Dian provenance (CMR-13A)
 
-- Authoring: 10/14 used (4/7 ACCEPTED — heavy closed via
-  grant fix (c1+c2) + r1-c2 splice + 4 retouches + top-up,
-  6.89% PASS). Global 122/200; heavy 1/2 left. Repair
-  reserve stays 3/3 EXHAUSTED (grant funded this turn).
-  Projection: walk+charge+combo+heavy recorded, WARN
-  (8.67%, N=24); drift flag CLEARED (heavy mean bends
-  back); steer misc into [400.9,441.8].
+- Authoring: 11/14 used (5/7 ACCEPTED — misc closed via
+  sheet + 5 free retouches + top-up, 2.74% PASS). Global
+  123/200; misc 1/2 left. Repair reserve stays 3/3
+  EXHAUSTED. Projection: +misc recorded, WARN (8.67%,
+  N=29); steer fall into [400.9,441.8].
 - Masters (inspected 2026-10-05, before any request): body
   `6e0636d6…`, portrait `c6ef3bfe…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -14,6 +12,47 @@
   attack-id names).
 
 ## Attempt log
+
+### Request 11/14 — misc 3x3 sheet candidate 1/2: DESIGN PASS, uniform overshoot → 5 free retouches + top-up → 2.74% PASS → ACCEPTED 2026-10-06
+
+- Reserve-before-call: `reserve(..., sheet/misc)` → used 11,
+  remaining 3, total 123 (guard: expected 10/14, held).
+- Exact prompt: `misc-prompt.txt` (hurt-recoil/fold,
+  held-clamp/struggle, release + spares; level-to-diagonal
+  family ≤30°, NO vertical with the 341px-height reason,
+  NO-foreshorten instruction, 415–425px brief, 35px+
+  margins). Ordered refs: body, portrait, heavy-prepared
+  `9c6fda5c` (read_image'd first).
+- Output: `misc-candidate-1.png` sha `a0651ebd…` (1536×1024).
+  Mechanical: 9/9, 0 edge, 0 specks. Design: beats read
+  (recoil/fold/clamp/struggle/release distinct), identity
+  clean, single glaives + crescents + tassels, no extras.
+  Poses ACCEPTED.
+- Length (overlay-verified, all markers on material):
+  [507.7,474.1,461.5,505.1,498.9] — uniform overshoot
+  (provider drew full cell-width spans). C4's pommel
+  needed component-aware probing (cell-3 overlap in the
+  zone) — fourth strike for naive scans.
+- Retouch (`scripts/retouch-lidian-misc.mjs`, committed, 5
+  pommel shortens −83/−49/−36/−80/−74): achieved gates
+  ±0.1px all — BUT pairs showed gold-rim slivers (bands
+  14–16 missed cap flares up to 19.8) → bands widened to
+  18–22 → re-run clean (speck scan 0, pairs clean all 5).
+  Then the final overlay caught the c4 pommel probe
+  hitting skirt trim: true c4 chord 446.4 → TOP-UP
+  (`retouch-lidian-misc-topup.mjs`) micro-shorten −10 →
+  436.2. Final `misc-prepared-source.png` sha `a21da347`.
+- Verify (final overlay, all 10 on material): keep-set
+  [424.5,425.1,425.4,424.9,436.2], spread **2.74% PASS**;
+  undirected axes max step 17.4° PASS; heads: upright
+  c2/c3/c4 [75,75,75] = 0% PASS, tilted c0 + bowed c1
+  UNVERIFIED-by-pose with visual consistency recorded
+  (same scale appearance — 10A/11A precedent, disclosed).
+- Projection: misc recorded (scale 1): WARN (global 8.67%
+  over N=29, min 406.6, max 443.6 — no new extremes);
+  steering window [400.9,441.8]; drift false.
+- Verdict: misc source ACCEPTED (1 request + free retouch).
+  5/7 sequences done. Culls 5–8.
 
 ### Request 10/14 (grant A1) — heavy c1+c2 redraw: anti-foreshorten brief WORKS (c1 442, c2 clipped→r1 splice) + retouch/splice close → 6.89% PASS → ACCEPTED 2026-10-06
 

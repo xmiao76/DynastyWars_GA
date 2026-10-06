@@ -22,6 +22,45 @@ history slowly crowds out the work it is supposed to support.
 
 ## Entries
 #
+### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - misc ACCEPTED via sheet + 5 retouches + top-up, 2.74%; 5/7 done)
+
+- Status before: CMR-13A IN_PROGRESS (4/7 accepted, 10/14).
+  Review not due (0 src/game commits).
+- Work completed: reserved BEFORE the call (11/14, global
+  123/200), generated `misc-candidate-1.png` sha `a0651ebd`
+  (reaction beats; anti-foreshorten + no-vertical brief).
+  Audited 9/9, 0 edge; design PASS (beats read, identity
+  clean). Overlay-verified lengths [507.7,474.1,461.5,
+  505.1,498.9] — uniform overshoot (c4 needed
+  component-aware probing: cell-3 overlap + boot at minX).
+  Closed with free gated work: 5 pommel shortens
+  (−83/−49/−36/−80/−74, ±0.1px gates; bands widened
+  14–16→18–22 after pairs caught gold-rim slivers, final
+  speck scan 0) + a top-up (−10 on c4 after the overlay
+  caught a skirt-trim false pommel). Final
+  `misc-prepared-source.png` (`a21da347`): keep-set
+  [424.5,425.1,425.4,424.9,436.2], spread 2.74% PASS;
+  undirected direction max step 17.4° PASS; heads 0% on
+  3 upright (tilted c0 + bowed c1 UNVERIFIED-by-pose,
+  disclosed per precedent). Projection recorded: WARN
+  8.67% (N=29, no new extremes).
+- Verification run: `npx vitest run test/game/motion-budget.test.ts
+  test/game/motion-pipeline.test.ts
+  test/game/motion-acceptance4-repair.test.ts` 44/44; `npm run
+  lint`, `npm run typecheck` green. No vision/prodbuild/e2e
+  (unwired art only).
+- Files changed: `generation-budget.json` (11/14),
+  `misc-candidate-1.png` + prompt, `misc-prepared-source.png`,
+  retouch + top-up drivers, `pack-projection.json`,
+  PROVENANCE.md, AUTHORING-PLAN.md, TASKS.md, PROGRESS.md.
+  Retouch free; repair untouched (3/3 exhausted).
+- Result/status after: CMR-13A IN_PROGRESS (attempt 1, 11/14).
+  5/7 sequences done.
+- Remaining work or blocker: fall sheet 1/2 (reserve first;
+  brief inside [400.9,441.8]). No blocker. 3 left for 2
+  sheets (fall, getup).
+- Next recommended task: CMR-13A fall sheet.
+
 ### 2026-10-06 - CMR-13A (attempt 1, IN_PROGRESS - heavy ACCEPTED via grant fix + splice + retouch, 6.89%; 4/7 done)
 
 - Status before: CMR-13A BLOCKED lifted by owner option A
