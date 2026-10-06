@@ -16,6 +16,8 @@ history slowly crowds out the work it is supposed to support.
 - Remaining work or blocker:
 - Next recommended task:
 ## Entries
+### 2026-10-06 10:39 UTC - CMR-14B readiness checkpoint (not attempted; BLOCKED)
+- Clean HEAD `b3451a2`; loop/PROJECT/queue/progress read; review1<4, no pending/current DUE NOW, no IN_PROGRESS or owner reset. First TODO14B cannot start until blocked14A is DONE. No fourth repair, dependent task, producer bypass, generation, budget/status/runtime changes. Progress-only record; whitespace/scope/line-count checks, no behavior/UI/shipping tests applicable. Await explicit owner head-gate decision+14A reset; checkpoint is not a repair attempt. Removed two blank separators only to preserve <=500 lines without dropping evidence.
 ### 2026-10-06 10:09 UTC - CMR-14B readiness recheck — BLOCKED, not attempted
 - Re-read loop/PROJECT/queue/progress; clean HEAD `58d67e8`; review1<4, no pending/current DUE NOW. No owner reset or IN_PROGRESS; first TODO14B still depends on owner-blocked14A DONE+complete pack. No fourth repair/dependent task/producer bypass. Statuses/art/budgets/runtime unchanged; only this progress checkpoint, verified whitespace/scope/line count, no unit/vision/prodbuild applicable. Await explicit owner head-gate route+14A reset. Rechecks are not repair attempts; no scheduler/control changes.
 ### 2026-10-06 09:39 UTC - CMR-14B readiness recheck (not attempted — unchanged owner prerequisite)
@@ -27,7 +29,6 @@ history slowly crowds out the work it is supposed to support.
 - Evidence/files: `art/motion/xiahoudun/HEAD-DIAGNOSIS.md` + `head-diagnosis.json` (source/crop hashes, per-pair observations, owner options), diagnostic script,3 honest-null/source-pin/classifier tests, plan/provenance/TASKS/PROGRESS. Checks:5 focused suites31/31 (head3, charge repair5, partial5, repair-budget7, projection11), lint/typecheck exit0; no vision/prodbuild/e2e (offline diagnostics, no UI/runtime/shipping change). All source PNGs, budgets, fixed projection and src unchanged.
 - After: CMR-14A BLOCKED under rule5 after third unresolved charge outcome; weapon6.01%/19.5° preserved,1/7 sheets accepted,authoring2/12/global128/200,repair2/3 left. Owner must choose a trustworthy landmark/focused-head-redraw route or explicitly judge/accept the disclosed limitation, THEN reset task to TODO. No fourth retry/new sequence/dependent14B; diagnostic uncertainty is not a pass.
 ### 2026-10-06 - CMR-14A (attempt1 continuation — repair round1 weapon closure; charge HELD on head gate)
-
 - Status before: charge HELD, 1/7 accepted; one unsuccessful charge outcome. Due check:1 src/game commit since6084ab4, no pending filing/current DUE NOW; clean tree.
 - Reserved repair round1 BEFORE one focused call for charge:0/3/4; ordered refs candidate/body/portrait. Output `4c578fee`, named raw lengths372.4/438.4/428.9; other provider-redrawn cells ignored.
 - Free c0 extension(-40,+4): band13 trial moved14 cloth pixels and was rejected; band9 retains grips/cloth/robe with RGBA/off-corridor/speck gates, achieved412.5592 vs predicted412.5596. Viewed4x extension pair and repaired-hand pairs0/3/4; no cutouts in final.
@@ -39,7 +40,6 @@ history slowly crowds out the work it is supposed to support.
 - Next: validate comparable anatomical head landmarks before deciding targeted redraw or accepting charge; no next sequence yet. A third unresolved consumer outcome must BLOCK; remaining image funds do not reset that limit.
 
 ### 2026-10-06 - CMR-14A (attempt 1 continuation, IN_PROGRESS — charge HELD; unsafe five-op trial rejected, two safe cell repairs preserved)
-
 - Continued the interrupted charge-sheet iteration, not a second task.
   Review not due: 1 src/game commit since `6084ab4`; no pending filing
   or current DUE NOW. Previous outcomes: setup, then accepted walk;
