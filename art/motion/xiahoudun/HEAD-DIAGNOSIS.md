@@ -1,10 +1,11 @@
 # CMR-14A — charge head gate, third diagnostic outcome
 
 Historical status: **BLOCKED — owner decision/reset required** (2026-10-06).
-Update: owner has now authorized independent review THEN reset; reviewer runs
-failed before a verdict, so conditional reset is pending, not applied. Current
-handoff: [INDEPENDENT-REVIEW.md](INDEPENDENT-REVIEW.md). The diagnostic evidence
-below remains historical and is not relabelled numerical/independent PASS.
+Update: ONE independent review is now completed (NEEDS_NAMED_REPAIR walk0
+foreground grip); explicit owner reset applied, task IN_PROGRESS attempt2.
+Final review does not justify mandatory charge-head rescale; numeric head
+metric stays UNVERIFIED. [Completed review](INDEPENDENT-REVIEW.md) supersedes
+pending infrastructure state. Evidence below remains historical, not a PASS.
 No generation, retouch, rescale or source-sheet replacement in that iteration.
 
 ## Reproducible comparison

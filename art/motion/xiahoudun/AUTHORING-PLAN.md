@@ -1,20 +1,23 @@
-# Xiahou Dun authoring plan (CMR-14A, attempt 1)
+# Xiahou Dun authoring plan (CMR-14A, attempt 2 after explicit owner reset)
 
-Status: BLOCKED — owner authorized independent review THEN task reset, but all reviewer runs failed before verdict. Review pending; conditional reset recorded, not applied. 1/7 sheets accepted; head UNVERIFIED, weapon6.01%/19.5° preserved; authoring2/12, repair2/3 left. No new sequence/dependent task.
+Status: IN_PROGRESS — completed independent verdict NEEDS_NAMED_REPAIR; authorized TODO reset applied and guard grip restored. Walk acceptance reopened (true weapon spread11.36% STOP, old0.25% invalid); charge held, head UNVERIFIED. Authoring2/12, repair2/3 remain; no new sequence/dependent task.
 
 ## Budget (authoritative ledger: `art/motion/generation-budget.json`)
 
-- xiahoudun cap12 used2; global authoring128/200. Repair round1
-  settled as accepted WEAPON source; two rounds remain. Charge
-  whole-sheet count stays1/2. Projection is walk-only, fixed band
-  [404.16,446.70]; hypothetical walk+charge6.06% OK, NOT recorded.
-- Owner selected independent-review/reset route; do NOT repeat the
-  obsolete "owner choice absent" prompt. A completed verdict is missing
-  because three read-only reviewer runs failed without closing output.
-  Complete one independent review or explicit owner-reviewed fallback;
-  then apply the authorized TODO reset with the verdict's exact scope.
-  No fabricated head PASS; historical retries and budgets preserved.
-  See [review handoff](INDEPENDENT-REVIEW.md); source pixels unchanged.
+- xiahoudun cap12 used2/global128; repair round1 weapon source spent,
+  two rounds left. No image cost for review/grip repair. Charge count1/2.
+- ONE completed independent review now exists: NEEDS_NAMED_REPAIR walk0
+  finger layering; no justified mandatory charge-head rescale. Owner
+  reset applied; attempt1 blocked history preserved, attempt2 underway.
+- Grip restored from original into new override `fba82023`; parent pair
+  self-check only. True-material walk length spread11.36% STOP; correct
+  cap endpoints show old0.25% claim was undermeasurement. Fixed band
+  [404.16,446.70] unchanged; walk projection corrected with history.
+- Next: foreground-safe walk retouch to fixed band (walk8 largest,
+  cells2/3/5/7 overshoot), protected hand/cloth pixels + enlarged pairs,
+  full projection. Then registered guard/charge/recovery paint/scale
+  review with head null disclosure; charge record/new combo waits.
+  [Completed review](INDEPENDENT-REVIEW.md) / [audit](walk-guard-grip-audit.json).
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 

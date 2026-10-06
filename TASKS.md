@@ -582,21 +582,23 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: BLOCKED — independent review pending; owner NOW authorized
-  "one independent visual review ... then explicitly reset the task".
-  Three reviewer route runs failed before any closing verdict; no
-  independent acceptance/rejection exists, so conditional reset is
-  recorded but NOT applied. This is reviewer infrastructure failure,
-  not another art/consumer attempt or missing owner decision.
-  Next: complete one same-scale review (or explicit owner-reviewed
-  fallback), record scoped acceptance/named corrections, then reset
-  CMR-14A to TODO under the existing authorization; no14B yet.
-  Head metric remains UNVERIFIED/null; weapon `b547809c`6.01%/19.5°,
-  budgets2/12/global128/200/repair2left and fixed projection unchanged.
-  No new art/runtime use, budget reset or scheduler change authorized.
-  Evidence: [review handoff](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
+- Status: IN_PROGRESS (attempt2; owner reset BLOCKED->TODO applied
+  after completed independent review, then named correction started).
+  Reviewer `6c8414d5` opened27 images: NEEDS_NAMED_REPAIR walk:0
+  rear hand/shaft layering, NOT mandatory all-charge head rescale;
+  anatomical head metric stays UNVERIFIED/null. Source not accepted.
+  New grip override `fba82023` restores immutable original fingers;
+  1704 RGBA channels, all outside pixels unchanged, parent pair self-check.
+  Full-material walk endpoints corrected: spread11.36% STOP; old0.25%
+  inside-cap measurements invalidated, fixed band unchanged/history kept.
+  Walk HELD; no accepted charge record/runtime publication or14B yet.
+  Next: foreground-safe true-length walk retouches (walk8 largest;
+  cells2/3/5/7 over fixed band), then registered guard/charge review for
+  paint/scale consistency. No new sequence until projection passes.
+  Authoring2/12/global128/200/repair2left, no new image cost or policy change.
+  Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
-  [historical diagnosis](art/motion/xiahoudun/HEAD-DIAGNOSIS.md).
+  [grip/endpoint audit](art/motion/xiahoudun/walk-guard-grip-audit.json).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.

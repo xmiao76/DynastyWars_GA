@@ -20,18 +20,19 @@ const review = JSON.parse(readFileSync('art/motion/xiahoudun/independent-review.
   fixture: { rawToArtScale: number; density: number; order: string[]; limitations: string }
 }
 
-describe('CMR-14A independent review records execution failure honestly', () => {
-  it('persists owner authorization without inventing a verdict or applying a review-dependent reset', () => {
+describe('CMR-14A completed review preserves scoped owner reset and honest limits', () => {
+  it('requires the completed independent verdict for reset and preserves all failed-run history', () => {
     expect(review.resetAuthorizedAfterCompletedReview).toBe(true)
-    expect(review.reviewCompleted).toBe(false)
-    expect(review.verdict).toBeNull()
-    expect(review.reviewerObservations).toEqual([])
-    expect(review.resetApplied).toBe(false)
-    expect(review.status).toBe('PENDING_REVIEW')
-    expect(review.taskStatus).toBe('BLOCKED')
-    expect(review.reviewerRuns).toHaveLength(3)
-    expect(new Set(review.reviewerRuns.map(r => r.id)).size).toBe(3)
-    expect(review.reviewerRuns.every(r => r.status === 'failed-before-closing-message')).toBe(true)
+    expect(review.reviewCompleted).toBe(true)
+    expect(review.verdict).toBe('NEEDS_NAMED_REPAIR')
+    expect(review.reviewerObservations.length).toBeGreaterThan(0)
+    expect(review.resetApplied).toBe(true)
+    expect(review.status).toBe('COMPLETED_NEEDS_NAMED_REPAIR')
+    expect(review.taskStatus).toBe('IN_PROGRESS')
+    expect(review.reviewerRuns).toHaveLength(4)
+    expect(new Set(review.reviewerRuns.map(r => r.id)).size).toBe(4)
+    expect(review.reviewerRuns.filter(r => r.status === 'failed-before-closing-message')).toHaveLength(3)
+    expect(review.reviewerRuns.filter(r => r.status === 'completed-verdict')).toHaveLength(1)
   })
 
   it('keeps exact original artwork and occluded-head null measurements instead of numerical acceptance', () => {
@@ -44,8 +45,15 @@ describe('CMR-14A independent review records execution failure honestly', () => 
     expect(review.numericalHeadSpread).toBeNull()
     expect(review.acceptedChargeSheet).toBe(false)
     expect(review.projectionRecordAdded).toBe(false)
-    const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as { sheets: Array<{ name: string }> }
+    const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as {
+      band: { lo: number; hi: number }
+      sheets: Array<{ name: string; min: number; max: number; mean: number; history: unknown[] }>
+    }
     expect(projection.sheets.map(s => s.name)).toEqual(['walk'])
+    expect(projection.band).toEqual({ lo: 404.1605167916991, hi: 446.70372908556226 })
+    const walk = projection.sheets[0]!
+    expect((walk.max - walk.min) / walk.mean).toBeGreaterThan(0.10)
+    expect(walk.history.length).toBeGreaterThan(0) // old underestimated numbers remain audit history
   })
 
   it('labels a single-scale offline ordered-still fixture as provisional, not gameplay/native-video proof', () => {

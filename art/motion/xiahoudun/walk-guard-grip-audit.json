@@ -1,0 +1,32 @@
+{
+  "fighter": "xiahoudun",
+  "sequence": "walk",
+  "status": "HELD_WEAPON_PROJECTION",
+  "finding": "Independent reviewer found moved shaft/butt cap over foreground rear fingers in walk:0. Original foreground restored; consumer self-check only, independent after-verification remains pending.",
+  "original": { "file": "walk-candidate-1.png", "sha256": "68a7de2bb2f5a4b35a93d0ff1610592dbe0d70aacbc20e9f884e08d7200b2223" },
+  "before": { "file": "walk-prepared-source.png", "sha256": "b395c867c027f837988c5f0fdb676154082d07a43ce9fcc5df8c73786f1bef6c" },
+  "override": { "file": "walk-guard-grip-restored-source.png", "sha256": "fba82023db508438b4d7dc676b779387e80cc678674dbee92619c1ccbe6b7653" },
+  "restorationRect": [144,162,184,218],
+  "changedRgbaChannels": 1704,
+  "outsideRectPixelsUnchanged": true,
+  "composition": 9,
+  "outerEdgeContact": 0,
+  "imageRequests": 0,
+  "weaponMethod": "Full-material alpha>=96 endpoints constrained to visible tip/butt cap crops; all18 markers visually opened on fresh overlay. Prior inside-cap markers undercounted length; old0.25% spread invalidated.",
+  "weaponEndpoints": [
+    { "cell": 0, "tip": [521,41], "butt": [126,205], "lengthPx": 427.6926466517749 },
+    { "cell": 1, "tip": [1034,64], "butt": [632,219], "lengthPx": 430.84684053617013 },
+    { "cell": 2, "tip": [1524,73], "butt": [1106,243], "lengthPx": 451.2471606558871 },
+    { "cell": 3, "tip": [519,409], "butt": [96,575], "lengthPx": 454.4062059435368 },
+    { "cell": 4, "tip": [1034,407], "butt": [631,560], "lengthPx": 431.0661202182329 },
+    { "cell": 5, "tip": [1522,415], "butt": [1102,584], "lengthPx": 452.7261865631367 },
+    { "cell": 6, "tip": [520,760], "butt": [102,905], "lengthPx": 442.4353060052961 },
+    { "cell": 7, "tip": [1035,765], "butt": [614,917], "lengthPx": 447.59915102689814 },
+    { "cell": 8, "tip": [1524,763], "butt": [1078,936], "lengthPx": 478.37746602447737 }
+  ],
+  "weaponSpread": 0.11357526779761658,
+  "projectionStatus": "STOP",
+  "fixedBand": { "lo": 404.1605167916991, "hi": 446.70372908556226 },
+  "headMetric": "UNVERIFIED, numerical spread null; independent review did not justify whole-charge head rescale",
+  "next": "Foreground-safe walk shaft corrections (walk8 largest, cells2/3/5/7 also exceed fixed brief band), enlarged pairs/body witnesses, full projection; preserve source originals and head null disclosure. No combo until this gate closes."
+}

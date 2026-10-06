@@ -1,13 +1,15 @@
 # Xiahou Dun provenance (CMR-14A)
 
-- Task BLOCKED — owner authorized one independent review THEN reset;
-  reviewer executions failed without verdict, so review pending/reset
-  not applied. Authoring2/12/global128/200, 1/7 accepted; head metric
-  UNVERIFIED, weapon source unchanged; repair round1 spent, 2/3 left.
-- Weapon override `b547809c…`: five keep lengths [412.6,434.4,437.2,
-  438.4,428.9], spread6.01%, direction19.5°; hypothetical walk+charge
-  6.06% OK. Fixed band [404.16,446.70] unchanged; projection is still
-  walk-only because charge head-size acceptance is UNVERIFIED.
+- Task IN_PROGRESS attempt2: owner reset applied after ONE completed
+  independent NEEDS_NAMED_REPAIR verdict. Guard finger layering restored
+  in new override `fba82023`; source not unconditionally accepted.
+  Authoring2/12/global128/200, repair1spent/2left; no new image request.
+- Walk acceptance REOPENED: whole-material endpoints give11.36% spread
+  STOP; prior0.25% inside-cap markers invalidated. Fixed band unchanged
+  [404.16,446.70], projection corrected with prior values in history.
+- Charge `b547809c` weapon6.01%/19.5° preserved; head metric UNVERIFIED.
+  No mandatory head shrink demonstrated by final reviewer. Registered
+  paint/scale continuity review remains; charge not recorded accepted.
 - Masters (inspected 2026-10-06, before any request): body
   `a57630a2…`, portrait `01bb7271…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -15,6 +17,38 @@
   attack-id names).
 
 ## Attempt log
+
+### Owner reset fulfilled — ONE independent verdict; original guard hand restored; true walk projection corrected
+
+- Owner renewed "ask concrete needed choices then continue"; working
+  current-session-fork reviewer `6c8414d5-d5e4-41ee-9ef6-408c33cb8d19`
+  opened27 actual images, no writes/generation/servers. Final verdict
+  NEEDS_NAMED_REPAIR for walk0 moved shaft/cap over foreground fingers.
+  Preliminary mandatory all-charge head-rescale concern was explicitly
+  withdrawn as unsupported: pose/beard/cap/neck confounds; numerical
+  head metric still UNVERIFIED/null, no <=10% or >10% assertion.
+  Secondary warmer/brighter charge0/3/4 painting requires registered
+  transitions. [Final review](INDEPENDENT-REVIEW.md) / [state](independent-review.json).
+- Applied explicit owner BLOCKED->TODO reset then started attempt2
+  bounded named grip correction, NOT source/pack acceptance or budget
+  reset. Old failure/history/sources retained; no further owner choice
+  needed merely to resume. No change to scheduler/policy/runtime.
+- `restore-xiahoudun-guard-grip.mjs`: original rectangle[144,162,184,218]
+  copied into NEW override (no invented anatomy);1704 channels differ,
+  every pixel outside unchanged,9 components/0 edge. Output
+  `fba82023db508438b4d7dc676b779387e80cc678674dbee92619c1ccbe6b7653`.
+  Parent opened original/damaged/restored triple at4x: full fingers
+  again wrap in front of shaft; self-check, not independent after-pass.
+- Required full-material weapon remeasurement found old walk markers
+  stopped inside cap: final[427.7,430.8,451.2,454.4,431.1,452.7,442.4,
+  447.6,478.4],11.36% STOP, all18 markers opened on fresh overlay.
+  Prior0.25% acceptance is INVALIDATED, walk HELD. Corrected projection
+  via recordSheet with old values/history retained, band never moves.
+  Exact coordinates/hash: [guard audit](walk-guard-grip-audit.json).
+- Next attempt2 target: foreground-safe walk true-length corrections
+  (walk8 largest,2/3/5/7 overshoot fixed band), body RGBA witnesses,
+  enlarged pairs, full projection; then registered guard/charge style
+  review. No new sheet/runtime before gates. No image cost this action.
 
 ### Direct owner authorization — independent review then reset, execution failed before verdict
 
