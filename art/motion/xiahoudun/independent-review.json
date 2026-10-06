@@ -66,5 +66,14 @@
     "wholeSheetAccepted": false, "independentAfterReview": false,
     "hypotheticalWalkChargeSpread": 0.06886041486067658, "chargeRecordAdded": false
   },
-  "next": "Registered guard/charge/recovery consistency review with final corrected walk and source-hash-pinned real exposure/root map; head metric stays null, warmer charge0/3/4 style checked. Weapon gate now closed, but source/charge/whole-pack acceptance and runtime activation remain pending."
+  "registeredChargeFollowup": {
+    "spec": "charge-registration-candidate.json", "review": "REGISTERED-CHARGE-REVIEW.md",
+    "status": "CANDIDATE_TIMING_CONTACT_CHECKED_SOURCE_HELD",
+    "rawToArtScale": 0.66, "density": 2, "duration": 52, "activeTicks": 26, "dashDistanceU": 83.2,
+    "coreAiBothFacingsTested": true, "maxCandidateSoleErrorU": 1.32,
+    "airborneDashGround": "UNVERIFIED virtual plane, no planted contact",
+    "findings": ["charge0/3/4 copper-magenta and skin warmth visibly brighter than dark charge1/2/walk", "tick20->21 candidate pelvis height rises12.54u while sim root advances3.2u; investigate authored bridge/playback, not pose normalization"],
+    "normalSpeedPlaybackReviewed": false, "independentAfterReview": false, "sourceAccepted": false
+  },
+  "next": "Deterministic paint-only harmonization charge0/3/4 with immutable alpha/geometry/weapon protections; inspect unused spares for dash2 bridge within exact26 active ticks; normal-speed offline review. No blanket head resizing, numerical head PASS, charge acceptance or runtime publication inferred from candidate contacts/timing."
 }

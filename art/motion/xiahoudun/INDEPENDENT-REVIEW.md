@@ -133,8 +133,11 @@ NOT a charge acceptance record. Head UNVERIFIED/null and whole-sheet visual/
 registration/motion acceptance still pending; parent self-check is not a second
 independent after-verdict. The earlier11.36% result remains history above.
 
-**Current next action:** registered guard/charge/recovery consistency review,
-with corrected walk guard and actual exposure/root map, then scoped source
-acceptance if justified. Check warmer/brighter charge0/3/4 vs1/2. Original retry
-history, authoring2/12 and2 repair rounds retained; no scheduler/loop-policy,
-threshold, gameplay or runtime publication changes.
+**Follow-up:** [registered candidate review](REGISTERED-CHARGE-REVIEW.md) now
+records source-ground/hip translations at one scale, exact52tick/core83.2u trace
+(tests both facings), and logical/4x boundary still review. Corrected guard grip
+retained. Source acceptance remains HELD: named paint warmth difference0/3/4
+and dash2 candidate pelvis jump12.54u need paint-only/bridge-playback work.
+No mandatory head shrink inferred; anatomical metric still null. Normal-speed
+playback/independent after-verification not claimed. Original retry history,
+authoring2/12 and2 repair rounds unchanged; no runtime/control changes.

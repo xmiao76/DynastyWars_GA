@@ -9,8 +9,10 @@
   invalid0.25% kept in history. Whole walk acceptance still HELD for
   registered continuity; corrected walk+charge6.89% diagnostic only.
 - Charge `b547809c` weapon6.01%/19.5° preserved; head metric UNVERIFIED.
-  No mandatory head shrink demonstrated by final reviewer. Registered
-  paint/scale continuity review remains; charge not recorded accepted.
+  Registered candidate has explicit fixed-scale anchors and core52tick/
+  83.2u trace; no final/native-video/source acceptance. Review located
+  warmer charge0/3/4 paint and tick20->21 pelvis rise12.54u. Named paint
+  repair/unused-spare bridge review next, not blind head shrink.
 - Masters (inspected 2026-10-06, before any request): body
   `a57630a2…`, portrait `01bb7271…`. Identity locked in
   `IDENTITY.md`; weapon from rig files only
@@ -18,6 +20,34 @@
   attack-id names).
 
 ## Attempt log
+
+### Attempt2 continuation — registered candidate/exact core trace; named paint/transition targets
+
+- New charge-registration-candidate.json pins final walk0aff5a39 and
+  chargeb547809c, one scale.66/density2 in260x144/ground136 frame.
+  Drawn belt/hip x and sole y landmarks opened on all6 source overlays;
+  per-frame translation only, never per-pose body/head normalization.
+  All fit canonical frame; drawn sole errors0..1.32u, airborne dash
+  virtual ground remains UNVERIFIED. Initial guessed brake secondary
+  sole932,690 off ink: refused build, pixel/overlay evidence corrected
+  to909,687 at plane691; negative controls retain rejection.
+-53 emitted tick0..52 stills; exposure keys0/3/7/8/21/34/43, core-derived
+  8/26/18 duration52, speed3.2, total83.2u. Unit tests call actual
+  stepEnemy for every tick in both facings; all states/root/ticks match.
+  No core/game clocks altered or partial runtime activation. Offline
+  HTML playback aid emitted but NOT watched/native-video-certified.
+- Opened logical/density2 contacts,4 registered4x boundary pairs,20/21
+  and43 stills. Corrected guard fingers retained, same guard bookends.
+  Named paint target charge0/3/4 brighter copper/pink rims, magenta skirt,
+  arm/face warmth vs dark charge1/2/walk visible at logical size too.
+  Candidate pelvis at dash->dash2 rises92.44->79.90u (12.54u) while root
+  moves3.2u; investigate normal-speed/unused-spare bridge, not skull
+  numerical FAIL or arbitrary pose scaling/ground displacement.
+- No source/image budget/projection edit; source acceptance still HELD.
+  Next bounded work: paint-only harmonization named0/3/4 with immutable
+  geometry/alpha protections and pair review; inspect spares for dash2
+  bridge within26active, then actual offline playback. Head null/no
+  independent after-verification. [Full review](REGISTERED-CHARGE-REVIEW.md).
 
 ### Attempt2 continuation — five foreground-safe cap slides; true weapon gate closed
 

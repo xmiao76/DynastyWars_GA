@@ -15,10 +15,15 @@ Status: IN_PROGRESS attempt2 — guard grip restored, walk weapon corrections3.3
   fixed band[404.16,446.70] projection OK; earlier11.36% STOP and old
   underestimated0.25% kept in history, no re-centering.
 - Hypothetical corrected-walk+charge6.89% OK, not charge acceptance.
-  Next: registered guard/charge/recovery paint/scale continuity using
-  corrected walk guard and real exposure/root map. Head null disclosure
-  stays; whole-sheet acceptance/new combo awaits this source review.
-  [Completed review](INDEPENDENT-REVIEW.md) / [weapon audit](walk-projection-repair-audit.json).
+  Registered candidate fixed .66/density2, source pelvis/sole points;
+  contacts <=1.32u, airborne dash unverified. Exact52ticks/26active/
+  83.2u root trace matches core AI both facings; no runtime capture.
+- Next: paint-only harmonize charge0/3/4 copper-magenta/skin warmth,
+  preserve alpha/geometry/weapon and compare pairs; inspect unused
+  spares for dash2 bridge at tick20->21 (candidate pelvis rise12.54u)
+  without changing26 active ticks. Normal-speed offline review still
+  not performed. Head null disclosure/source acceptance/new combo wait.
+  [Registered review](REGISTERED-CHARGE-REVIEW.md) / [weapon audit](walk-projection-repair-audit.json).
 
 ## Sequence plan (7 sheets; no hero-only jump/mounted/special)
 
