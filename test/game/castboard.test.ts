@@ -8,7 +8,7 @@ import type { HorseArt } from '../../src/game/art/horse-frames'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 
 /**
- * BODY-7 whole-cast review sheet: every fighter (5 heroes + 3 mooks + 9
+ * BODY-7 whole-cast review sheet: every fighter (5 heroes + 3 mooks + 3
  * bosses + the horse), all 14 poses, both facings (left = texture mirror,
  * the same construction the sprite adapter uses). Writes
  * artifacts/look/body7-cast.png. Assertions: each cell has ink.
@@ -16,7 +16,7 @@ import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 const FIGHTERS = [
   'guanyu', 'zhangfei', 'zhaoyun', 'huangzhong', 'weiyan',
   'soldier', 'spearman', 'archer', 'horse',
-  'lubu', 'caocao', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'zhanghe', 'lidian',
+  'xiahoudun', 'xuchu', 'lidian',
 ] as const
 const POSES = Object.keys(POSE_TABLE) as PoseName[]
 const SCALE = 1.5
@@ -26,9 +26,7 @@ async function loadResources(): Promise<ArtResources> {
   for (const [id, dir] of [
     ['guanyu', 'hero-faces'], ['zhangfei', 'hero-faces'], ['zhaoyun', 'hero-faces'],
     ['huangzhong', 'hero-faces'], ['weiyan', 'hero-faces'],
-    ['lubu', 'boss-faces'], ['caocao', 'boss-faces'], ['xiahoudun', 'boss-faces'], ['xuchu', 'boss-faces'],
-    ['zhangliao', 'boss-faces'], ['caoren', 'boss-faces'], ['xuhuang', 'boss-faces'],
-    ['zhanghe', 'boss-faces'], ['lidian', 'boss-faces'],
+    ['xiahoudun', 'boss-faces'], ['xuchu', 'boss-faces'], ['lidian', 'boss-faces'],
     ['soldier', 'mook-faces'], ['spearman', 'mook-faces'], ['archer', 'mook-faces'],
   ] as const) {
     const image = async (part: string) => await loadImage(`src/game/assets/${dir}/${id}-${part}.png`) as unknown as CanvasImageSource
@@ -48,9 +46,7 @@ async function loadResources(): Promise<ArtResources> {
     ['guanyu', 'hero-bodies'], ['zhangfei', 'hero-bodies'], ['zhaoyun', 'hero-bodies'],
     ['huangzhong', 'hero-bodies'], ['weiyan', 'hero-bodies'],
     ['soldier', 'mook-bodies'], ['spearman', 'mook-bodies'], ['archer', 'mook-bodies'],
-    ['lubu', 'boss-bodies'], ['caocao', 'boss-bodies'], ['xiahoudun', 'boss-bodies'], ['xuchu', 'boss-bodies'],
-    ['zhangliao', 'boss-bodies'], ['caoren', 'boss-bodies'], ['xuhuang', 'boss-bodies'],
-    ['zhanghe', 'boss-bodies'], ['lidian', 'boss-bodies'],
+    ['xiahoudun', 'boss-bodies'], ['xuchu', 'boss-bodies'], ['lidian', 'boss-bodies'],
   ] as const) {
     const m = (await import(`../../src/game/assets/${dir}/prepared.json`)).default as Record<string, {
       revision: string; skin: string; density: number; parts: BodyArt['parts']

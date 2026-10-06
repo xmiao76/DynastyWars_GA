@@ -12,7 +12,7 @@ const packs = {
   zhangfei: { sourceBytes: 4_000_000 },
   soldier: { sourceBytes: 2_000_000 },
   spearman: { sourceBytes: 2_000_000 },
-  lubu: { sourceBytes: 4_500_000 },
+  xuchu: { sourceBytes: 4_500_000 },
 }
 const BUDGET = 12 * 1024 * 1024
 
@@ -22,15 +22,15 @@ describe('stage motion scope', () => {
       hero: 'guanyu',
       secondPlayer: 'zhangfei',
       stageKinds: ['soldier', 'spearman', 'archer'], // archer has no pack
-      futureKinds: ['lubu', 'caocao'],
+      futureKinds: ['xuchu', 'lidian'],
       packs,
       budgetBytes: BUDGET,
     })
     expect(s.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'spearman'])
-    // 12.33 MB already planned: the 4.5 MB lubu pack cannot fit the 12 MiB cap.
+    // 12.33 MB already planned: the 4.5 MB xuchu pack cannot fit the 12 MiB cap.
     expect(s.prefetch).toEqual([])
-    expect(s.deferred).toContain('lubu')
-    expect(s.deferred).toContain('caocao') // no pack -> never requested
+    expect(s.deferred).toContain('xuchu')
+    expect(s.deferred).toContain('lidian') // no pack -> never requested
     expect(s.deferred).toContain('archer')
   })
 
@@ -39,14 +39,14 @@ describe('stage motion scope', () => {
       hero: 'zhaoyun', // no pack
       secondPlayer: null,
       stageKinds: ['soldier'],
-      futureKinds: ['lubu', 'caocao', 'xuchu', 'zhangliao'],
+      futureKinds: ['xuchu', 'lidian', 'zhaoyun', 'weiyan'],
       packs,
       budgetBytes: BUDGET,
     })
     expect(s.immediate).toEqual(['soldier'])
     // None of the never-appearing cast gets requested.
-    expect([...s.prefetch, ...s.immediate]).not.toContain('caocao')
-    expect([...s.prefetch, ...s.immediate]).not.toContain('xuchu')
+    expect([...s.prefetch, ...s.immediate]).not.toContain('lidian')
+    expect([...s.prefetch, ...s.immediate]).not.toContain('zhaoyun')
   })
 
   it('prefetch stays inside the stage-entry budget', () => {
@@ -54,7 +54,7 @@ describe('stage motion scope', () => {
       hero: 'guanyu',
       secondPlayer: null,
       stageKinds: ['soldier', 'spearman'],
-      futureKinds: ['zhangfei', 'lubu'],
+      futureKinds: ['zhangfei', 'xuchu'],
       packs,
       budgetBytes: BUDGET, // 4.33 + 2 + 2 = 8.33 immediate; only one more fits
     })
@@ -78,13 +78,13 @@ describe('stage motion scope', () => {
   it('required packs past the cap fall back to legacy in priority order', () => {
     const s = stageMotionScope({
       hero: 'guanyu',
-      secondPlayer: 'lubu',
+      secondPlayer: 'xuchu',
       stageKinds: ['zhangfei', 'soldier'],
       futureKinds: [],
       packs,
-      budgetBytes: BUDGET, // guanyu 4.33 + lubu 4.5 = 8.83; zhangfei 4.0 would reach 12.83
+      budgetBytes: BUDGET, // guanyu 4.33 + xuchu 4.5 = 8.83; zhangfei 4.0 would reach 12.83
     })
-    expect(s.immediate).toEqual(['guanyu', 'lubu', 'soldier'])
+    expect(s.immediate).toEqual(['guanyu', 'xuchu', 'soldier'])
     expect(s.deferred).toContain('zhangfei')
     expect(s.plannedBytes).toBeLessThanOrEqual(BUDGET)
   })
@@ -94,7 +94,7 @@ describe('stage motion scope', () => {
       hero: 'zhaoyun',
       secondPlayer: 'weiyan',
       stageKinds: ['soldier', 'archer'],
-      futureKinds: ['caocao'],
+      futureKinds: ['lidian'],
       packs: {},
       budgetBytes: BUDGET,
     })

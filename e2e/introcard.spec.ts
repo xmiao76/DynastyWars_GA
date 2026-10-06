@@ -226,10 +226,10 @@ test('defeat, complete and pause get the parchment kit too', async ({ page }) =>
   await expect
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
     .toBe('gameover')
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage9'))
+  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage3'))
   await expect
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.stageId))
-    .toBe('stage9')
+    .toBe('stage3')
   await page.evaluate(() => window.__DW__?.forceResult())
   await expect
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))

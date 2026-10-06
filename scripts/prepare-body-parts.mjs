@@ -47,7 +47,7 @@ export const PALM_FRACTION = 0.75
  * elbow->palm length, so a cut at a fixed master fraction lands at a
  * different rig distance per fighter: short-forearm masters (guanyu,
  * huangzhong, zhangfei) left a bare gap between cuff and hand, long ones
- * (lubu, caoren) let painted fingers poke past the fist. The cut now sits
+ * let painted fingers poke past the fist. The cut now sits
  * CUFF_TUCK units before the rig hand joint in RENDERED units, i.e. under
  * the painted hand's back (which reaches 3.3u behind the joint). Mirror of
  * BODY_PART_DEFS naturalLen - test/game/arm-chain.test.ts checks the sync.
@@ -517,32 +517,6 @@ export const HEROES = {
   },
   // BODY-13 bosses: eyeballed like the heroes; skins match the boss-faces
   // packs so necks/heads agree.
-  lubu: {
-    master: 'art/fighter-bodies/lubu-body-master.jpg',
-    out: 'src/game/assets/boss-bodies',
-    skin: '#c1a181',
-    cape: { body: '#a82222', trim: '#e8c828' },
-    joints: {
-      chest: [416, 430], hip: [416, 640],
-      shoulderF: [300, 360], elbowF: [212, 470], handF: [45, 600],
-      shoulderN: [532, 360], elbowN: [620, 470], handN: [790, 600],
-      hipF: [350, 660], kneeF: [340, 900], footF: [320, 1160],
-      hipN: [482, 660], kneeN: [492, 900], footN: [512, 1160],
-    },
-  },
-  caocao: {
-    master: 'art/fighter-bodies/caocao-body-master.jpg',
-    out: 'src/game/assets/boss-bodies',
-    skin: '#6b5945',
-    cape: { body: '#452073', trim: '#c8a828' },
-    joints: {
-      chest: [416, 420], hip: [416, 640],
-      shoulderF: [290, 360], elbowF: [202, 448], handF: [62, 577],
-      shoulderN: [545, 360], elbowN: [633, 448], handN: [772, 577],
-      hipF: [350, 655], kneeF: [345, 890], footF: [330, 1145],
-      hipN: [480, 655], kneeN: [485, 890], footN: [500, 1145],
-    },
-  },
   xiahoudun: {
     master: 'art/fighter-bodies/xiahoudun-body-master.jpg',
     out: 'src/game/assets/boss-bodies',
@@ -565,56 +539,6 @@ export const HEROES = {
       shoulderN: [560, 330], elbowN: [648, 443], handN: [780, 608],
       hipF: [340, 655], kneeF: [330, 880], footF: [310, 1140],
       hipN: [490, 655], kneeN: [500, 880], footN: [520, 1140],
-    },
-  },
-  zhangliao: {
-    master: 'art/fighter-bodies/zhangliao-body-master.jpg',
-    out: 'src/game/assets/boss-bodies',
-    skin: '#a48a6c',
-    cape: { body: '#1f4a33', trim: '#5aa87e' },
-    joints: {
-      chest: [416, 400], hip: [416, 645],
-      shoulderF: [290, 355], elbowF: [202, 457], handF: [55, 600],
-      shoulderN: [545, 355], elbowN: [633, 457], handN: [780, 600],
-      hipF: [350, 660], kneeF: [340, 890], footF: [320, 1150],
-      hipN: [480, 660], kneeN: [490, 890], footN: [510, 1150],
-    },
-  },
-  caoren: {
-    master: 'art/fighter-bodies/caoren-body-master.jpg',
-    out: 'src/game/assets/boss-bodies',
-    skin: '#8d7358',
-    joints: {
-      chest: [416, 400], hip: [416, 630],
-      shoulderF: [290, 350], elbowF: [202, 449], handF: [55, 592],
-      shoulderN: [545, 350], elbowN: [633, 449], handN: [780, 592],
-      hipF: [350, 645], kneeF: [340, 880], footF: [320, 1140],
-      hipN: [480, 645], kneeN: [490, 880], footN: [510, 1140],
-    },
-  },
-  xuhuang: {
-    master: 'art/fighter-bodies/xuhuang-body-master.jpg',
-    out: 'src/game/assets/boss-bodies',
-    skin: '#82684d',
-    joints: {
-      chest: [416, 400], hip: [416, 640],
-      shoulderF: [290, 350], elbowF: [202, 449], handF: [58, 592],
-      shoulderN: [545, 350], elbowN: [633, 449], handN: [777, 592],
-      hipF: [350, 655], kneeF: [340, 885], footF: [320, 1150],
-      hipN: [480, 655], kneeN: [490, 885], footN: [510, 1150],
-    },
-  },
-  zhanghe: {
-    master: 'art/fighter-bodies/zhanghe-body-master.jpg',
-    out: 'src/game/assets/boss-bodies',
-    skin: '#9f866e',
-    cape: { body: '#2d5a49', trim: '#6ec0a0' },
-    joints: {
-      chest: [416, 410], hip: [416, 650],
-      shoulderF: [290, 360], elbowF: [205, 451], handF: [62, 582],
-      shoulderN: [545, 360], elbowN: [630, 451], handN: [773, 582],
-      hipF: [350, 665], kneeF: [340, 890], footF: [320, 1150],
-      hipN: [480, 665], kneeN: [490, 890], footN: [510, 1150],
     },
   },
   lidian: {
@@ -875,8 +799,8 @@ export async function prepareHero(id) {
       // cell by dist/naturalLen, so a row at fraction f renders at
       // f*cellLen*dist/NL from the elbow. f = (NL - tuck)/cellLen puts the
       // cut CUFF_TUCK*(dist/NL) before the hand joint for every master:
-      // long masters (lubu, caoren) are cut on the sleeve before their
-      // painted fingers, short ones (guanyu, huangzhong) keep their bare
+      // long masters are cut on the sleeve before their painted fingers,
+      // short ones (guanyu, huangzhong) keep their bare
       // wrist instead of leaving a gap to the hand. Capped at the palm (1).
       const cellLen = lenPx / pxPerUnit
       const f = Math.min(1, (ARM_NATURAL_LEN[p.name] - CUFF_TUCK) / cellLen)

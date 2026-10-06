@@ -43,7 +43,7 @@ describe('fixture profiles validate and sample their actual capabilities', () =>
     expect(validateMotionProfile(meleeProfile('soldier'))).toEqual([])
     expect(validateMotionProfile(meleeProfile('spearman'))).toEqual([])
     expect(validateMotionProfile(bossProfile('lidian'))).toEqual([])
-    expect(validateMotionProfile(bossProfile('lubu'))).toEqual([])
+    expect(validateMotionProfile(bossProfile('xuchu'))).toEqual([])
     expect(validateMotionProfile(shooterProfile('archer'))).toEqual([])
   })
 
@@ -88,7 +88,7 @@ describe('every bound attack tick matches existing startup/active/recovery', () 
     }
   }
   it('heroes, melee and bosses bind exact windows', () => {
-    for (const p of [heroProfile('zhangfei'), heroProfile('zhaoyun'), meleeProfile('soldier'), bossProfile('lidian'), bossProfile('lubu')]) checkBindings(p)
+    for (const p of [heroProfile('zhangfei'), heroProfile('zhaoyun'), meleeProfile('soldier'), bossProfile('lidian'), bossProfile('xuchu')]) checkBindings(p)
   })
 
   it('zero-active special (Huang Zhong) invents no melee active window', () => {

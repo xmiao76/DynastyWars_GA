@@ -37,14 +37,8 @@ export const DEFAULT_FRACS = {
 }
 
 export const BOSSES = {
-  lubu: { heads: 'lubu-heads-master.jpg', portrait: 'lubu-portrait-master.jpg', skin: '#f0c8a0', beard: false, fracs: { eyeX: 0.78, eyeY: 0.42, chinY: 0.68 } },
-  caocao: { heads: 'caocao-heads-master.jpg', portrait: 'caocao-portrait-master.jpg', skin: '#d8b48c', beard: true },
   xiahoudun: { heads: 'xiahoudun-heads-master.jpg', portrait: 'xiahoudun-portrait-master.jpg', skin: '#cfa87e', beard: true },
   xuchu: { heads: 'xuchu-heads-master.jpg', portrait: 'xuchu-portrait-master.jpg', skin: '#c08a68', beard: true, fracs: { eyeX: 0.7, eyeY: 0.36, chinY: 0.64 } },
-  zhangliao: { heads: 'zhangliao-heads-master.jpg', portrait: 'zhangliao-portrait-master.jpg', skin: '#e0bc94', beard: true },
-  caoren: { heads: 'caoren-heads-master.jpg', portrait: 'caoren-portrait-master.jpg', skin: '#d4ac84', beard: true },
-  xuhuang: { heads: 'xuhuang-heads-master.jpg', portrait: 'xuhuang-portrait-master.jpg', skin: '#d2a87c', beard: true },
-  zhanghe: { heads: 'zhanghe-heads-master.jpg', portrait: 'zhanghe-portrait-master.jpg', skin: '#e8c4a0', beard: false },
   lidian: { heads: 'lidian-heads-master.jpg', portrait: 'lidian-portrait-master.jpg', skin: '#e4c09a', beard: false },
 }
 

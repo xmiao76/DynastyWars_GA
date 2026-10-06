@@ -22,10 +22,10 @@ import {
 // colors in its body window (armor, skin/helm, weapon, trim) - not a 1-color
 // flat blob, and not 95% one dominant color.
 export /**
- * Sprites the whole cast comes to: 18 posed characters x 14 poses, plus 4
+ * Sprites the whole cast comes to: 12 posed characters x 14 poses, plus 4
  * pose-less props. Exact on purpose - see the note at the call site.
  */
-const EXPECTED_SPRITES = 18 * 14 + 4
+const EXPECTED_SPRITES = 12 * 14 + 4
 const MIN_CHARACTER_COLORS = 4
 export const MAX_CHARACTER_DOMINANCE = 0.9
 
@@ -305,9 +305,9 @@ test('visual-health gate: every core screen renders acceptably', async ({ page }
   await page.screenshot({ path: join(OUT_DIR, 'game_over.png') })
 
   // 9) Game-complete screen - the ending. Reached by clearing the LAST stage,
-  // so forcing the result from stage 9 and confirming lands on it. It is the
+  // so forcing the result from stage 3 and confirming lands on it. It is the
   // final thing a player who finishes the game sees and nothing watched it.
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage9'))
+  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage3'))
   await waitForPlayer(page)
   await page.evaluate(() => window.__DW__?.forceResult())
   await page.waitForTimeout(500)
@@ -443,8 +443,8 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
     .filter((r) => !r.label.startsWith('horse:'))
   // Exact counts, same reasoning as EXPECTED_SPRITES above: an emptied list
   // would otherwise pass over zero comparisons. Minus the horse in both.
-  expect(reach.length, 'strike reach comparisons').toBe((18 - 1) * 5)
-  expect(retract.length, 'retract comparisons').toBe((18 - 1) * 5 * 2)
+  expect(reach.length, 'strike reach comparisons').toBe((12 - 1) * 5)
+  expect(retract.length, 'retract comparisons').toBe((12 - 1) * 5 * 2)
 
   writeFileSync(
     join(OUT_DIR, 'sprite-report.json'),

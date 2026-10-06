@@ -34,14 +34,8 @@ const FIGHTERS: Array<{ id: string; dir: 'hero-faces' | 'boss-faces' | 'mook-fac
   { id: 'soldier', dir: 'mook-faces', bodyDir: 'mook-bodies' },
   { id: 'spearman', dir: 'mook-faces', bodyDir: 'mook-bodies' },
   { id: 'archer', dir: 'mook-faces', bodyDir: 'mook-bodies' },
-  { id: 'lubu', dir: 'boss-faces', bodyDir: 'boss-bodies' },
-  { id: 'caocao', dir: 'boss-faces', bodyDir: 'boss-bodies' },
   { id: 'xiahoudun', dir: 'boss-faces', bodyDir: 'boss-bodies' },
   { id: 'xuchu', dir: 'boss-faces', bodyDir: 'boss-bodies' },
-  { id: 'zhangliao', dir: 'boss-faces', bodyDir: 'boss-bodies' },
-  { id: 'caoren', dir: 'boss-faces', bodyDir: 'boss-bodies' },
-  { id: 'xuhuang', dir: 'boss-faces', bodyDir: 'boss-bodies' },
-  { id: 'zhanghe', dir: 'boss-faces', bodyDir: 'boss-bodies' },
   { id: 'lidian', dir: 'boss-faces', bodyDir: 'boss-bodies' },
 ]
 

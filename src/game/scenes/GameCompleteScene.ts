@@ -41,7 +41,7 @@ export class GameCompleteScene extends Phaser.Scene {
 
     // The ending was the one screen that never got the framed treatment the
     // rest of the game uses: plain text on a near-black field. It is the last
-    // thing a player who finishes all nine stages sees, so it now gets the
+    // thing a player who finishes all three stages sees, so it now gets the
     // victory panel and the five heroes lined up beneath it.
     this.add.rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x241a0a)
     this.add.rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 52, SCREEN_WIDTH, 104, 0x3a2a12)
@@ -71,7 +71,7 @@ export class GameCompleteScene extends Phaser.Scene {
       })
       .setOrigin(0.5)
     this.add
-      .text(SCREEN_WIDTH / 2, 84, 'Lu Bu has fallen - the land is at peace', {
+      .text(SCREEN_WIDTH / 2, 84, 'Xu Chu has fallen - the land is at peace', {
         ...liveStyle(11, { color: '#4a3820', bold: true }),
       })
       .setOrigin(0.5)

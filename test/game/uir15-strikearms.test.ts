@@ -12,7 +12,7 @@ import { weaponPose } from '../../src/game/art/weapons'
  * ~13-22 deg, delta ~2-9 deg (the rails). After: far flexion and the
  * delta must both clear their floors on every polearm strike.
  */
-const POLEARMS = ['guanyu', 'zhangfei', 'zhaoyun', 'spearman', 'lubu', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'lidian']
+const POLEARMS = ['guanyu', 'zhangfei', 'zhaoyun', 'spearman', 'xiahoudun', 'xuchu', 'lidian']
 const MOVES: PoseName[] = ['attack', 'thrust', 'chop']
 const deg = (r: number): number => (r * 180) / Math.PI
 

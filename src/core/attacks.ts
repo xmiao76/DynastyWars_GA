@@ -158,18 +158,6 @@ export const ATTACKS: Record<string, AttackDef> = {
   'charge.dash.long': { id: 'charge.dash.long', damage: 12, reach: 32, arc: 12, startup: 8, active: 26, recover: 18, knockback: 5, knockdown: true, aerial: false, aoe: false },
   // Xu Chu's crushing charge: the hardest-hitting dash.
   'charge.crush': { id: 'charge.crush', damage: 14, reach: 32, arc: 14, startup: 12, active: 22, recover: 22, knockback: 6, knockdown: true, aerial: false, aoe: false },
-  // Cao Ren's shield bash: short reach, heavy knockdown.
-  'shield.bash': { id: 'shield.bash', damage: 11, reach: 26, arc: 14, startup: 12, active: 6, recover: 22, knockback: 6, knockdown: true, aerial: false, aoe: false },
-  // Zhang Liao's blade flurry: fast, light, rapid-fire.
-  'blade.flurry': { id: 'blade.flurry', damage: 7, reach: 30, arc: 10, startup: 6, active: 4, recover: 8, knockback: 1, knockdown: false, aerial: false, aoe: false },
-  // Zhang He's dagger dance: a two-step flourish, between flurry and combo.
-  'dagger.dance': { id: 'dagger.dance', damage: 8, reach: 28, arc: 12, startup: 7, active: 5, recover: 10, knockback: 2, knockdown: false, aerial: false, aoe: false },
-  // Xu Huang's axe cleave: slow, heavy, wide.
-  'axe.cleave': { id: 'axe.cleave', damage: 16, reach: 34, arc: 12, startup: 18, active: 6, recover: 26, knockback: 5, knockdown: true, aerial: false, aoe: false },
-  // Cao Cao's imperial sword: regal reach and damage.
-  'imperial.sword': { id: 'imperial.sword', damage: 18, reach: 36, arc: 14, startup: 14, active: 8, recover: 20, knockback: 5, knockdown: true, aerial: false, aoe: false },
-  // Lu Bu's halberd storm: the widest, hardest boss swing in the game.
-  'halberd.storm': { id: 'halberd.storm', damage: 20, reach: 40, arc: 16, startup: 10, active: 10, recover: 16, knockback: 6, knockdown: true, aerial: false, aoe: false },
   // Projectile impact data. Arrows move as projectile entities, not states.
   'arrow.hit': { id: 'arrow.hit', damage: 5, reach: 0, arc: 0, startup: 0, active: 0, recover: 0, knockback: 1, knockdown: false, aerial: false, aoe: false },
   'heroarrow.hit': { id: 'heroarrow.hit', damage: 12, reach: 0, arc: 0, startup: 0, active: 0, recover: 0, knockback: 1, knockdown: false, aerial: false, aoe: false },

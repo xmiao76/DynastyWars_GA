@@ -259,7 +259,7 @@ describe('stage-scoped motion runtime', () => {
     // Kinds without packs are unsupported, never half-loaded.
     const unsupported = await rt.loadKind(scene, 'lidian')
     expect(unsupported).toEqual({ ok: false, failure: 'unsupported' })
-    const unknown = await rt.loadKind(scene, 'caocao')
+    const unknown = await rt.loadKind(scene, 'xiahoudun')
     expect(unknown).toEqual({ ok: false, failure: 'unsupported' })
     expect(io.calls).toHaveLength(4)
   }, 60_000)

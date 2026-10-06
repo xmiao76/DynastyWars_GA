@@ -129,7 +129,7 @@ describe('weapon placement across the shared cast', () => {
         checked++
       }
     }
-    expect(checked).toBe(17 * 14 * 2)
+    expect(checked).toBe(11 * 14 * 2)
     expect(failures).toEqual([])
   })
 })

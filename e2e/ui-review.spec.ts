@@ -216,11 +216,11 @@ test('flow: menus, stage 1 beats, end screens, co-op and horse', async ({ page }
   await settle(page, 1200)
   await snap(page, 'stage1-result', { group: 'flow', focus: 'result panel, score count, typography' })
 
-  await start(page, 'zhaoyun', 'stage9')
+  await start(page, 'zhaoyun', 'stage3')
   await page.evaluate(() => window.__DW__?.forceResult())
   await expect.poll(() => scene(page)).toBe('result')
   await settle(page, 1200)
-  await snap(page, 'stage9-result', { group: 'flow', focus: 'final-stage result panel' })
+  await snap(page, 'stage3-result', { group: 'flow', focus: 'final-stage result panel' })
   await page.keyboard.press('Enter')
   await expect.poll(() => scene(page)).toBe('gamecomplete')
   await settle(page, 1200)

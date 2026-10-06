@@ -11,7 +11,7 @@ import type { WeaponArt } from '../../src/game/art/weapon-parts'
 export const CAST = {
   heroes: ['guanyu', 'zhangfei', 'zhaoyun', 'huangzhong', 'weiyan'],
   mooks: ['soldier', 'spearman', 'archer'],
-  bosses: ['lubu', 'caocao', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'zhanghe', 'lidian'],
+  bosses: ['xiahoudun', 'xuchu', 'lidian'],
 } as const
 export const ALL_FIGHTERS: string[] = [...CAST.heroes, ...CAST.mooks, ...CAST.bosses]
 

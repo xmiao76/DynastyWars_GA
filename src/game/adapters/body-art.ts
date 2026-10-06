@@ -14,14 +14,8 @@ import zhaoyunSheet from '../assets/hero-bodies/zhaoyun-sheet.png'
 import soldierSheet from '../assets/mook-bodies/soldier-sheet.png'
 import spearmanSheet from '../assets/mook-bodies/spearman-sheet.png'
 import archerSheet from '../assets/mook-bodies/archer-sheet.png'
-import lubuSheet from '../assets/boss-bodies/lubu-sheet.png'
-import caocaoSheet from '../assets/boss-bodies/caocao-sheet.png'
 import xiahoudunSheet from '../assets/boss-bodies/xiahoudun-sheet.png'
 import xuchuSheet from '../assets/boss-bodies/xuchu-sheet.png'
-import zhangliaoSheet from '../assets/boss-bodies/zhangliao-sheet.png'
-import caorenSheet from '../assets/boss-bodies/caoren-sheet.png'
-import xuhuangSheet from '../assets/boss-bodies/xuhuang-sheet.png'
-import zhangheSheet from '../assets/boss-bodies/zhanghe-sheet.png'
 import lidianSheet from '../assets/boss-bodies/lidian-sheet.png'
 
 /**
@@ -52,7 +46,7 @@ export interface BodyPreparedEntry {
 }
 
 /** Production catalog: BODY-3's five hero sheets + BODY-4's three mooks
- * + BODY-13's nine boss sheets. */
+ * + BODY-13's three boss sheets. */
 export const BODY_ART_CATALOG: BodyCatalog = {
   guanyu: { sheet: guanyuSheet },
   huangzhong: { sheet: huangzhongSheet },
@@ -62,14 +56,8 @@ export const BODY_ART_CATALOG: BodyCatalog = {
   soldier: { sheet: soldierSheet },
   spearman: { sheet: spearmanSheet },
   archer: { sheet: archerSheet },
-  lubu: { sheet: lubuSheet },
-  caocao: { sheet: caocaoSheet },
   xiahoudun: { sheet: xiahoudunSheet },
   xuchu: { sheet: xuchuSheet },
-  zhangliao: { sheet: zhangliaoSheet },
-  caoren: { sheet: caorenSheet },
-  xuhuang: { sheet: xuhuangSheet },
-  zhanghe: { sheet: zhangheSheet },
   lidian: { sheet: lidianSheet },
 }
 

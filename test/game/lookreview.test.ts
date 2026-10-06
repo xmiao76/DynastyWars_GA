@@ -13,10 +13,8 @@ import type { PoseName } from '../../src/game/art/poses'
 const GROUPS = [
   ['zhangfei', 'zhaoyun', 'guanyu'],
   ['huangzhong', 'weiyan', 'soldier'],
-  ['spearman', 'archer', 'lubu'],
-  ['caocao', 'xiahoudun', 'xuchu'],
-  ['zhangliao', 'caoren', 'xuhuang'],
-  ['zhanghe', 'lidian', 'horse'],
+  ['spearman', 'archer', 'xiahoudun'],
+  ['xuchu', 'lidian', 'horse'],
 ] as const
 
 async function loadResources(): Promise<ArtResources> {
@@ -24,9 +22,7 @@ async function loadResources(): Promise<ArtResources> {
   for (const [id, dir] of [
     ['guanyu', 'hero-faces'], ['zhangfei', 'hero-faces'], ['zhaoyun', 'hero-faces'],
     ['huangzhong', 'hero-faces'], ['weiyan', 'hero-faces'],
-    ['lubu', 'boss-faces'], ['caocao', 'boss-faces'], ['xiahoudun', 'boss-faces'], ['xuchu', 'boss-faces'],
-    ['zhangliao', 'boss-faces'], ['caoren', 'boss-faces'], ['xuhuang', 'boss-faces'],
-    ['zhanghe', 'boss-faces'], ['lidian', 'boss-faces'],
+    ['xiahoudun', 'boss-faces'], ['xuchu', 'boss-faces'], ['lidian', 'boss-faces'],
     ['soldier', 'mook-faces'], ['spearman', 'mook-faces'], ['archer', 'mook-faces'],
   ] as const) {
     const image = async (part: string) => await loadImage(`src/game/assets/${dir}/${id}-${part}.png`) as unknown as CanvasImageSource
@@ -46,9 +42,7 @@ async function loadResources(): Promise<ArtResources> {
     ['guanyu', 'hero-bodies'], ['zhangfei', 'hero-bodies'], ['zhaoyun', 'hero-bodies'],
     ['huangzhong', 'hero-bodies'], ['weiyan', 'hero-bodies'],
     ['soldier', 'mook-bodies'], ['spearman', 'mook-bodies'], ['archer', 'mook-bodies'],
-    ['lubu', 'boss-bodies'], ['caocao', 'boss-bodies'], ['xiahoudun', 'boss-bodies'], ['xuchu', 'boss-bodies'],
-    ['zhangliao', 'boss-bodies'], ['caoren', 'boss-bodies'], ['xuhuang', 'boss-bodies'],
-    ['zhanghe', 'boss-bodies'], ['lidian', 'boss-bodies'],
+    ['xiahoudun', 'boss-bodies'], ['xuchu', 'boss-bodies'], ['lidian', 'boss-bodies'],
   ] as const) {
     const m = (await import(`../../src/game/assets/${dir}/prepared.json`)).default as Record<string, {
       revision: string; skin: string; density: number; parts: BodyArt['parts']

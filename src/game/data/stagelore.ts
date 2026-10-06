@@ -2,7 +2,7 @@
  * Stage-intro lore (UI-5): one parchment-card entry per stage, in the game
  * layer rather than core because it is PRESENTATION copy - the sim never
  * reads it. Each beat follows the Romance of the Three Kingdoms arc the
- * stage list already encodes (the two fires, the flood, Changban, Red Cliff),
+ * stage list already encodes (the first fire, the second fire, the flood),
  * written as the arcade original's scene-setting captions: two short lines,
  * readable in the ~3s the card holds.
  */
@@ -30,38 +30,8 @@ const LORE: Record<string, StageLore> = {
   },
   stage3: {
     number: 3,
-    lines: ['Cao Ren camps smugly along the dry riverbed.', 'Upstream, someone has been busy all night.'],
+    lines: ['The Wei camp sprawls along the dry riverbed.', 'Upstream, someone has been busy all night.'],
     captionZh: '白河用水·水淹七军',
-  },
-  stage4: {
-    number: 4,
-    lines: ['One bridge. One shout. The pursuit halts.', 'Behind the thunder, the young lord sleeps.'],
-    captionZh: '长坂桥头·一声断喝',
-  },
-  stage5: {
-    number: 5,
-    lines: ['The allied fleet drops anchor off Red Cliff.', "Cao Cao's patrols row out to greet the wind."],
-    captionZh: '赤壁前哨·大军压境',
-  },
-  stage6: {
-    number: 6,
-    lines: ['Fire ships slip between the anchored fleets.', 'The north learns to fear the current tonight.'],
-    captionZh: '江上急袭·铁索连舟',
-  },
-  stage7: {
-    number: 7,
-    lines: ['The east wind arrives, exactly as promised.', 'A single torch sets the whole river alight.'],
-    captionZh: '借得东风·赤壁大火',
-  },
-  stage8: {
-    number: 8,
-    lines: ['Through the burning hulks, one banner stands.', 'Board it - the warlord himself is aboard.'],
-    captionZh: '直捣黄龙·曹操旗舰',
-  },
-  stage9: {
-    number: 9,
-    lines: ['The fire dies. A shadow descends on the field.', 'The war god has come to collect the dead.'],
-    captionZh: '战神再临·吕布降世',
   },
 }
 

@@ -24,14 +24,6 @@ import wyPortrait from '../assets/hero-faces/weiyan-portrait.png'
 import wyHead from '../assets/hero-faces/weiyan-head.png'
 import wyFront from '../assets/hero-faces/weiyan-front.png'
 import wyRear from '../assets/hero-faces/weiyan-rear.png'
-import lbPortrait from '../assets/boss-faces/lubu-portrait.png'
-import lbHead from '../assets/boss-faces/lubu-head.png'
-import lbFront from '../assets/boss-faces/lubu-front.png'
-import lbRear from '../assets/boss-faces/lubu-rear.png'
-import ccPortrait from '../assets/boss-faces/caocao-portrait.png'
-import ccHead from '../assets/boss-faces/caocao-head.png'
-import ccFront from '../assets/boss-faces/caocao-front.png'
-import ccRear from '../assets/boss-faces/caocao-rear.png'
 import xhPortrait from '../assets/boss-faces/xiahoudun-portrait.png'
 import xhHead from '../assets/boss-faces/xiahoudun-head.png'
 import xhFront from '../assets/boss-faces/xiahoudun-front.png'
@@ -40,22 +32,6 @@ import xcPortrait from '../assets/boss-faces/xuchu-portrait.png'
 import xcHead from '../assets/boss-faces/xuchu-head.png'
 import xcFront from '../assets/boss-faces/xuchu-front.png'
 import xcRear from '../assets/boss-faces/xuchu-rear.png'
-import zlPortrait from '../assets/boss-faces/zhangliao-portrait.png'
-import zlHead from '../assets/boss-faces/zhangliao-head.png'
-import zlFront from '../assets/boss-faces/zhangliao-front.png'
-import zlRear from '../assets/boss-faces/zhangliao-rear.png'
-import crPortrait from '../assets/boss-faces/caoren-portrait.png'
-import crHead from '../assets/boss-faces/caoren-head.png'
-import crFront from '../assets/boss-faces/caoren-front.png'
-import crRear from '../assets/boss-faces/caoren-rear.png'
-import xgPortrait from '../assets/boss-faces/xuhuang-portrait.png'
-import xgHead from '../assets/boss-faces/xuhuang-head.png'
-import xgFront from '../assets/boss-faces/xuhuang-front.png'
-import xgRear from '../assets/boss-faces/xuhuang-rear.png'
-import zhPortrait from '../assets/boss-faces/zhanghe-portrait.png'
-import zhHead from '../assets/boss-faces/zhanghe-head.png'
-import zhFront from '../assets/boss-faces/zhanghe-front.png'
-import zhRear from '../assets/boss-faces/zhanghe-rear.png'
 import ldPortrait from '../assets/boss-faces/lidian-portrait.png'
 import ldHead from '../assets/boss-faces/lidian-head.png'
 import ldFront from '../assets/boss-faces/lidian-front.png'
@@ -86,12 +62,6 @@ export const HERO_ART_CATALOG = {
   lidian: { portrait: ldPortrait, head: ldHead, front: ldFront, rear: ldRear },
   xiahoudun: { portrait: xhPortrait, head: xhHead, front: xhFront, rear: xhRear },
   xuchu: { portrait: xcPortrait, head: xcHead, front: xcFront, rear: xcRear },
-  caoren: { portrait: crPortrait, head: crHead, front: crFront, rear: crRear },
-  zhangliao: { portrait: zlPortrait, head: zlHead, front: zlFront, rear: zlRear },
-  xuhuang: { portrait: xgPortrait, head: xgHead, front: xgFront, rear: xgRear },
-  zhanghe: { portrait: zhPortrait, head: zhHead, front: zhFront, rear: zhRear },
-  caocao: { portrait: ccPortrait, head: ccHead, front: ccFront, rear: ccRear },
-  lubu: { portrait: lbPortrait, head: lbHead, front: lbFront, rear: lbRear },
   soldier: { portrait: soPortrait, head: soHead, front: soFront, rear: soRear },
   spearman: { portrait: spPortrait, head: spHead, front: spFront, rear: spRear },
   archer: { portrait: arPortrait, head: arHead, front: arFront, rear: arRear },

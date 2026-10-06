@@ -1,7 +1,7 @@
 {
   "version": 1,
   "perFighterCap": 3,
-  "combinedCap": 251,
+  "combinedCap": 233,
   "fighters": {
     "spearman": {
       "rounds": [

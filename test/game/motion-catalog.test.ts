@@ -77,7 +77,7 @@ describe('atomic publication and negative controls', () => {
     const corrupt = await cache.request(manifest('archer', [page('regular')]), async () => { throw new Error('decode blew up') })
     expect(corrupt.failure).toBe('corrupt')
 
-    const timeout = await cache.request(manifest('lubu', [page('regular')]), async () => { throw new Error('load timeout after 10s') })
+    const timeout = await cache.request(manifest('xuchu', [page('regular')]), async () => { throw new Error('load timeout after 10s') })
     expect(timeout.failure).toBe('timeout')
 
     const unsupported = await cache.request(manifest('big', [page('regular', { width: 4096, height: 4096 })]), okLoader)
@@ -153,8 +153,8 @@ describe('scope cancellation and stale-callback rejection', () => {
       await gate
       return { bytes: new Uint8Array([1]), sha256: p.sha256 }
     }
-    const pending = cache.request(manifest('soldier', [page('regular')]), loader, 'stage7')
-    cache.cancelScope('stage7')
+    const pending = cache.request(manifest('soldier', [page('regular')]), loader, 'stage2')
+    cache.cancelScope('stage2')
     release()
     const result = await pending
     expect(result.ok).toBe(false)
@@ -187,7 +187,7 @@ describe('reference counting, eviction and budgets', () => {
     }
     await mk('soldier')
     await mk('archer')
-    await mk('lubu')
+    await mk('xuchu')
     cache.acquire('soldier') // in use
     const evicted = cache.evict()
     expect(evicted, 'LRU released first (archer), in-use soldier kept').toEqual(['archer'])
@@ -196,8 +196,8 @@ describe('reference counting, eviction and budgets', () => {
     cache.release('soldier')
     await mk('zhangfei') // 3 packs retained again -> evict the LRU released
     const evicted2 = cache.evict()
-    // acquire() bumped soldier's recency earlier, so lubu is the true LRU.
-    expect(evicted2, 'LRU semantics: lubu evicted, recently-used soldier kept').toEqual(['lubu'])
+    // acquire() bumped soldier's recency earlier, so xuchu is the true LRU.
+    expect(evicted2, 'LRU semantics: xuchu evicted, recently-used soldier kept').toEqual(['xuchu'])
     expect(cache.state('soldier'), 'recently-used released pack survives').toBe('ready')
     expect(cache.state('zhangfei')).toBe('ready')
   })

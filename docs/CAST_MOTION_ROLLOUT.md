@@ -25,13 +25,13 @@ Planning baseline: `540501c`, following Guan Yu implementation/review commits `d
 
 ## Scope and non-goals
 
-**Roster:** 17 humanoid fighters: Guan Yu plus four remaining heroes, three regular enemies, nine bosses. The shared horse gets a locomotion task because it is an animated character and must compose with all riders.
+**Roster:** 11 humanoid fighters: Guan Yu plus four remaining heroes, three regular enemies, three bosses. The shared horse gets a locomotion task because it is an animated character and must compose with all riders.
 
 Guan Yu remains the locked accepted reference. Do not regenerate his displayed walk/combo art or change its exposure timing. Infrastructure repacking may move pixels into pages but must prove each displayed RGBA frame is unchanged.
 
 No new gameplay states, weapons, shields, attacks, damage, timing, range, speed, AI/enrage rules, core grab pinning, physics or projectile behavior. Current figure definitions remain authoritative even when an attack ID uses a different weapon name. Portraits, menus, backgrounds, props, pickups and projectile artwork are outside scope. No 3D pipeline or new provider/plugin setup is authorized.
 
-## Approved task order (40 tasks)
+## Approved task order (28 tasks)
 
 | ID | Task | Dependencies |
 |---|---|---|
@@ -50,13 +50,7 @@ No new gameplay states, weapons, shields, attacks, damage, timing, range, speed,
 | [CMR-13A](motion-tasks/CMR-13A.md) / [13B](motion-tasks/CMR-13B.md) | Li Dian | 12B → 13A → 13B |
 | [CMR-14A](motion-tasks/CMR-14A.md) / [14B](motion-tasks/CMR-14B.md) | Xiahou Dun | 13B → 14A → 14B |
 | [CMR-15A](motion-tasks/CMR-15A.md) / [15B](motion-tasks/CMR-15B.md) | Xu Chu | 14B → 15A → 15B |
-| [CMR-16A](motion-tasks/CMR-16A.md) / [16B](motion-tasks/CMR-16B.md) | Cao Ren | 15B → 16A → 16B |
-| [CMR-17A](motion-tasks/CMR-17A.md) / [17B](motion-tasks/CMR-17B.md) | Zhang Liao | 16B → 17A → 17B |
-| [CMR-18A](motion-tasks/CMR-18A.md) / [18B](motion-tasks/CMR-18B.md) | Xu Huang | 17B → 18A → 18B |
-| [CMR-19A](motion-tasks/CMR-19A.md) / [19B](motion-tasks/CMR-19B.md) | Zhang He | 18B → 19A → 19B |
-| [CMR-20A](motion-tasks/CMR-20A.md) / [20B](motion-tasks/CMR-20B.md) | Cao Cao | 19B → 20A → 20B |
-| [CMR-21A](motion-tasks/CMR-21A.md) / [21B](motion-tasks/CMR-21B.md) | Lu Bu | 20B → 21A → 21B |
-| [CMR-22](motion-tasks/CMR-22.md) | Horse locomotion/rider composition | CMR-21B |
+| [CMR-22](motion-tasks/CMR-22.md) | Horse locomotion/rider composition | CMR-15B |
 | [CMR-23](motion-tasks/CMR-23.md) | Paired grab/throw and saddle integration | CMR-22 |
 | [CMR-24](motion-tasks/CMR-24.md) | Full-cast verification/owner presentation | CMR-23 |
 
@@ -115,7 +109,7 @@ Enemy states may reset `stateTick` differently and thrown AI clocks can stop. De
 
 ### Horse and paired actions
 
-Horse idle/trot/run/fleeing and saddle contact across phases. Correct rider association in co-op. Paired review: 5 heroes×12 enemies×2 facings, contact/depth/ground plus release/throw/impact. Presentation-only contact offsets and semantic poses, no core range/position/physics changes.
+Horse idle/trot/run/fleeing and saddle contact across phases. Correct rider association in co-op. Paired review: 5 heroes×6 enemies×2 facings, contact/depth/ground plus release/throw/impact. Presentation-only contact offsets and semantic poses, no core range/position/physics changes.
 
 ## Quality and evidence requirements
 
@@ -127,7 +121,7 @@ Horse idle/trot/run/fleeing and saddle contact across phases. Correct rider asso
 - Weapon direction steps >60° need a coherent intervening drawing. No crossfade ghosts, double limbs, forked shafts, floating hands or standing recoil inserted into a low fall. Direction is not a substitute for length/identity consistency.
 - Review gameplay-size and enlarged frame sheets plus real input/AI clips at normal pace, both facings, Canvas/WebGL and mobile landscape; inspect transition sequences, not selected stills alone.
 - Capture pace and source commit/dirty state/hashes. Record inspection limits: slow headless WebGL is not normal-speed evidence; still-only tools do not constitute native video viewing. Supply owner-playable clips.
-- Consumers self-check; producers independently verify. Preserve before-images rather than rotating them away. Extend actual motion capture/review, not merely rerun the legacy 17×14 rig grid and call new art verified.
+- Consumers self-check; producers independently verify. Preserve before-images rather than rotating them away. Extend actual motion capture/review, not merely rerun the legacy 11×14 rig grid and call new art verified.
 
 ## Checks and known baseline findings
 
@@ -139,7 +133,7 @@ Existing `review:capture`, ledger and producer cadence remain authoritative. Fou
 
 ## Generation budget and durable provenance
 
-Initial authoring caps: 16 requests/remaining hero (4×16), 12/boss (9×12), 8/mook (3×8), 4/horse: **200 authoring requests maximum**. Owner exception (2026-10-04, `Do A`): Wei Yan alone gets +10 requests to re-brief his incorrectly drawn weapon; his durable ledger cap is 26, original ten requests remain spent, and the **200 global cap remains unchanged**. No new Guan Yu generation authorized. At most two whole-sheet candidates per sequence. Standard focused edits count against the character's authoring cap across A/B tasks and rounds. The owner additionally authorizes an **Acceptance-4-only reserve of three focused one-request repair rounds per remaining fighter/horse**: 17×3=51 additional requests, **251 combined maximum**, tracked independently by [the repair ledger](../art/motion/acceptance4-repair-budget.json) and [the recovery protocol](MOTION_ACCEPTANCE4_RECOVERY.md). This is not a general generation-cap increase or a task retry reset. Historical soldier repairs stay counted in authoring only; the reserve starts unspent. No whole-sheet retries use this reserve.
+Initial authoring caps: 16 requests/remaining hero (4×16), 12/boss (3×12), 8/mook (3×8), 4/horse: **200 authoring requests maximum**. Owner exception (2026-10-04, `Do A`): Wei Yan alone gets +10 requests to re-brief his incorrectly drawn weapon; his durable ledger cap is 26, original ten requests remain spent, and the **200 global cap remains unchanged**. No new Guan Yu generation authorized. At most two whole-sheet candidates per sequence. Standard focused edits count against the character's authoring cap across A/B tasks and rounds. The owner additionally authorizes an **Acceptance-4-only reserve of three focused one-request repair rounds per remaining fighter/horse**: 11×3=33 additional requests, **233 combined maximum**, tracked independently by [the repair ledger](../art/motion/acceptance4-repair-budget.json) and [the recovery protocol](MOTION_ACCEPTANCE4_RECOVERY.md). This is not a general generation-cap increase or a task retry reset. Historical soldier repairs stay counted in authoring only; the reserve starts unspent. No whole-sheet retries use this reserve.
 
 Per fighter keep attempted images, exact prompts, ordered reference hashes, original outputs, provider preference versus actual known provider, scale/pivot overrides, exposure decisions and remaining allowance. Preserve existing original portrait/body sources. Reject a technically convenient but inconsistent image; targeted repair beats blind full-sheet retries. Quota recovery follows existing policy; unavailable image tools/authentication/access are explicit blockers, not silent substitutions, new plugins, credential access or unsafe permission changes.
 
@@ -149,4 +143,4 @@ No monetary cost or wall-time estimate is asserted: request cap is a ceiling, no
 
 CMR-24 delivers an indexed whole-cast review page, actual action videos, applicable coverage matrix, performance/download/decode report, latest gate results and explicit unresolved issues. It remains opt-in; owner must explicitly approve default activation later. Do not retire legacy fallback, delete old tests or deploy during this rollout.
 
-The main thread completes by publishing this contract, 40 specifications, ordered queue/progress changes and a local planning commit. The next consumer task is CMR-01 **after any due producer review**. Implementation starts only in later loop threads.
+The main thread completes by publishing this contract, 28 specifications, ordered queue/progress changes and a local planning commit. The next consumer task is CMR-01 **after any due producer review**. Implementation starts only in later loop threads.

@@ -7,7 +7,7 @@ import { neutralInput, type InputState } from '../src/core/types'
 /**
  * THE CO-OP LOGIC SIGNAL.
  *
- * The existing signal drives one player through nine stages and asserts the
+ * The existing signal drives one player through three stages and asserts the
  * invariants hold. Co-op changed the sim underneath it - a second player
  * entity, nearest-target enemies, a lead-player camera, shared continues - and
  * none of that had any long-run coverage: only unit tests and short e2e.

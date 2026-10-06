@@ -261,7 +261,7 @@ describe('BODY-21 painted weapons', () => {
     // The procedural haft carries exact-INK edge pixels; the painted one
     // carries none. Sampled on bare haft 15-25u ahead of the grip (no hand).
     const resources = await loadCastArt()
-    for (const [id, poseName] of [['guanyu', 'attack'], ['caocao', 'attack']] as const) {
+    for (const [id, poseName] of [['guanyu', 'attack'], ['xuchu', 'attack']] as const) {
       const plan = (HERO_FIGURES[id] ?? ENEMY_FIGURES[id])!
       const { weaponPose } = await import('../../src/game/art/weapons')
       const pose = weaponPose(plan, applyBuild(POSE_TABLE[poseName], plan.build))

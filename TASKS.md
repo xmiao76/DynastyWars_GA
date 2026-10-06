@@ -605,106 +605,10 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 - Acceptance: Verified atomic xuchu pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
 
-### CMR-16A - Cao Ren: author/prepare full motion pack
-
-- Status: TODO
-- Dependency: CMR-15B DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-16A](docs/motion-tasks/CMR-16A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Complete applicable caoren identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-16B - Cao Ren: integrate/review in motion
-
-- Status: TODO
-- Dependency: CMR-16A DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-16B](docs/motion-tasks/CMR-16B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Verified atomic caoren pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-17A - Zhang Liao: author/prepare full motion pack
-
-- Status: TODO
-- Dependency: CMR-16B DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-17A](docs/motion-tasks/CMR-17A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Complete applicable zhangliao identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-17B - Zhang Liao: integrate/review in motion
-
-- Status: TODO
-- Dependency: CMR-17A DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-17B](docs/motion-tasks/CMR-17B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Verified atomic zhangliao pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-18A - Xu Huang: author/prepare full motion pack
-
-- Status: TODO
-- Dependency: CMR-17B DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-18A](docs/motion-tasks/CMR-18A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Complete applicable xuhuang identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-18B - Xu Huang: integrate/review in motion
-
-- Status: TODO
-- Dependency: CMR-18A DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-18B](docs/motion-tasks/CMR-18B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Verified atomic xuhuang pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-19A - Zhang He: author/prepare full motion pack
-
-- Status: TODO
-- Dependency: CMR-18B DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-19A](docs/motion-tasks/CMR-19A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Complete applicable zhanghe identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-19B - Zhang He: integrate/review in motion
-
-- Status: TODO
-- Dependency: CMR-19A DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-19B](docs/motion-tasks/CMR-19B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Verified atomic zhanghe pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-20A - Cao Cao: author/prepare full motion pack
-
-- Status: TODO
-- Dependency: CMR-19B DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-20A](docs/motion-tasks/CMR-20A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Complete applicable caocao identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-20B - Cao Cao: integrate/review in motion
-
-- Status: TODO
-- Dependency: CMR-20A DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-20B](docs/motion-tasks/CMR-20B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Verified atomic caocao pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-21A - Lu Bu: author/prepare full motion pack
-
-- Status: TODO
-- Dependency: CMR-20B DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-21A](docs/motion-tasks/CMR-21A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Complete applicable lubu identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
-### CMR-21B - Lu Bu: integrate/review in motion
-
-- Status: TODO
-- Dependency: CMR-21A DONE (earlier foundation dependencies apply transitively)
-- Specification: [CMR-21B](docs/motion-tasks/CMR-21B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: Verified atomic lubu pack, exact windows, no old-art leaks, actual isolated/mixed/interaction captures both facings/renderers; no gameplay changes.
-- Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
-
 ### CMR-22 - Shared horse locomotion/rider composition
 
 - Status: TODO
-- Dependency: CMR-21B DONE (earlier foundation dependencies apply transitively)
+- Dependency: CMR-15B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-22](docs/motion-tasks/CMR-22.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete trot/run/fleeing, hoof/saddle registration, correct co-op rider association; preserve hero pixels and mount gameplay.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
@@ -714,7 +618,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 - Status: TODO
 - Dependency: CMR-22 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-23](docs/motion-tasks/CMR-23.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: 5 heroes x12enemykinds x2facings; upright held/contact/depth/release/impact alignment; presentation-only correction, core physics unchanged.
+- Acceptance: 5 heroes x6enemykinds x2facings; upright held/contact/depth/release/impact alignment; presentation-only correction, core physics unchanged.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
 
 ### CMR-24 - Full-cast verification and owner presentation
@@ -722,7 +626,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 - Status: TODO
 - Dependency: CMR-23 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-24](docs/motion-tasks/CMR-24.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Acceptance: All17humanoids+horse action coverage, full serial gates/independent review/resource report; indexed videos; opt-in until owner activation.
+- Acceptance: All11humanoids+horse action coverage, full serial gates/independent review/resource report; indexed videos; opt-in until owner activation.
 - Non-goals: unrelated tasks/characters, core rebalance, default activation, push/deploy or loop infrastructure changes.
 
 ## Owner-directed motion experiment

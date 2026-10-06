@@ -4,17 +4,16 @@ import { neutralInput } from '../src/core/types'
 import { STAGE_ORDER } from '../src/core/stage'
 
 /**
- * ART-19 look spec: all nine stages captured with their landmark mid-layer,
+ * ART-19 look spec: all three stages captured with their landmark mid-layer,
  * plus the scene-side contract - the marks layer exists with the right
- * texture, the ember strip appears only on the burning stages, and both ride
- * the parallax (tilePositionX advances with the camera). The intro card is
- * dismissed through its tick rule first (40 neutral ticks) so the captures
- * show the backdrop, not the card.
+ * texture and rides the parallax (tilePositionX advances with the camera).
+ * The intro card is dismissed through its tick rule first (40 neutral ticks)
+ * so the captures show the backdrop, not the card.
  */
 
 const LOOK = 'artifacts/look'
 
-test('all nine stages carry their landmark layer', async ({ page }) => {
+test('all three stages carry their landmark layer', async ({ page }) => {
   test.setTimeout(120_000)
   const pageErrors: string[] = []
   page.on('pageerror', (err) => pageErrors.push(String(err)))
@@ -24,7 +23,6 @@ test('all nine stages carry their landmark layer', async ({ page }) => {
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
     .toBe('title')
 
-  const burning = new Set(['stage7', 'stage8'])
   for (const stageId of STAGE_ORDER) {
     await page.evaluate((id) => window.__DW__?.startGame('zhaoyun', 42, id), stageId)
     await expect
@@ -45,23 +43,15 @@ test('all nine stages carry their landmark layer', async ({ page }) => {
       // at the right depth, and the manager holds the baked key it was built
       // from - not `texture.key` equality.
       const marks = scene?.children.getByName('bgMarks') as Phaser.GameObjects.TileSprite | null
-      const embers = scene?.children.getByName('bgEmbers') as Phaser.GameObjects.TileSprite | null
       return {
         marksBaked: game?.textures.exists(`bg-marks-${id}`) ?? false,
         marksDepth: marks?.depth ?? 0,
         marksTileX: marks?.tilePositionX ?? -1,
-        // getByName returns null (not undefined) when nothing matches.
-        embersPresent: embers != null,
       }
     }, stageId)
     expect(report.marksBaked, `${stageId} landmark texture was not baked`).toBe(true)
     expect(report.marksDepth, `${stageId} has no landmark layer`).toBeGreaterThan(-15)
     expect(report.marksDepth).toBeLessThan(-8)
-    if (burning.has(stageId)) {
-      expect(report.embersPresent, `${stageId} should burn`).toBe(true)
-    } else {
-      expect(report.embersPresent, `${stageId} should not burn`).toBe(false)
-    }
     await page.screenshot({ path: `${LOOK}/ui19-${stageId}.png` })
   }
 

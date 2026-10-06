@@ -14,10 +14,10 @@ import prepared from '../../src/game/assets/boss-faces/prepared.json'
 
 /**
  * BODY-6 boss heads shipping suite - mirrors hero-faces.test.ts over the
- * nine boss ids (the acceptance criterion), same negative controls.
+ * three boss ids (the acceptance criterion), same negative controls.
  */
 const resources: ArtResources = { heroes: {} }
-const IDS = ['lubu', 'caocao', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'zhanghe', 'lidian'] as const
+const IDS = ['xiahoudun', 'xuchu', 'lidian'] as const
 const root = 'src/game/assets/boss-faces'
 
 beforeAll(async () => {
@@ -86,19 +86,19 @@ describe('painted boss shipping resources', () => {
   }, 30_000)
 
   it('signatures reject blank, swapped and erased art', async () => {
-    const meta = prepared.caocao
+    const meta = prepared.xuchu
     const blank = createCanvas(meta.cell.width * 3, meta.cell.height)
     const blankSig = imageSignature(blank.getContext('2d').getImageData(0, 0, blank.width, blank.height))
     expect(signatureMatches(blankSig, meta.signatures.head), 'blank head accepted').toBe(false)
 
-    const other = await loadImage(`${root}/lubu-head.png`)
+    const other = await loadImage(`${root}/lidian-head.png`)
     const cv = createCanvas(other.width, other.height)
     const c = cv.getContext('2d')
     c.drawImage(other, 0, 0)
     const swapped = imageSignature(c.getImageData(0, 0, cv.width, cv.height))
     expect(signatureMatches(swapped, meta.signatures.head), 'swapped boss head accepted').toBe(false)
 
-    const cc = await loadImage(`${root}/caocao-head.png`)
+    const cc = await loadImage(`${root}/xuchu-head.png`)
     const erased = createCanvas(cc.width, cc.height)
     const ec = erased.getContext('2d')
     ec.drawImage(cc, 0, 0)
@@ -133,9 +133,9 @@ describe('painted boss shipping resources', () => {
   )
 
   it('clipping guard rejects a displaced head pivot', () => {
-    const art = resources.heroes.lubu!
-    const broken: ArtResources = { heroes: { lubu: { ...art, bounds: { ...art.bounds, y: -100 } } } }
-    expect(escaped('lubu', 'idle', broken)).toBeGreaterThan(100)
+    const art = resources.heroes.xuchu!
+    const broken: ArtResources = { heroes: { xuchu: { ...art, bounds: { ...art.bounds, y: -100 } } } }
+    expect(escaped('xuchu', 'idle', broken)).toBeGreaterThan(100)
   })
 
   it('painted gameplay really differs from the procedural fallback', () => {

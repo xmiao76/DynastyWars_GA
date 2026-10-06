@@ -28,9 +28,9 @@ const FIGHTERS: Array<{ id: string; bodyDir: 'hero-bodies' | 'mook-bodies' | 'bo
   { id: 'zhangfei', bodyDir: 'hero-bodies', faceDir: 'hero-faces' },
   { id: 'zhaoyun', bodyDir: 'hero-bodies', faceDir: 'hero-faces' },
   { id: 'soldier', bodyDir: 'mook-bodies', faceDir: 'mook-faces' },
-  { id: 'lubu', bodyDir: 'boss-bodies', faceDir: 'boss-faces' },
-  { id: 'caocao', bodyDir: 'boss-bodies', faceDir: 'boss-faces' },
-  { id: 'zhangliao', bodyDir: 'boss-bodies', faceDir: 'boss-faces' },
+  { id: 'lidian', bodyDir: 'boss-bodies', faceDir: 'boss-faces' },
+  { id: 'xiahoudun', bodyDir: 'boss-bodies', faceDir: 'boss-faces' },
+  { id: 'xuchu', bodyDir: 'boss-bodies', faceDir: 'boss-faces' },
 ]
 const MOVES: PoseName[] = ['attack', 'thrust', 'chop']
 

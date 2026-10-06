@@ -27,19 +27,17 @@ const SCALE = 1.5
 const GROUND = 76
 const GROUPS = [
   ['guanyu', 'zhangfei', 'zhaoyun', 'huangzhong', 'weiyan', 'soldier', 'spearman', 'archer'],
-  ['lubu', 'caocao', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'zhanghe', 'lidian'],
+  ['xiahoudun', 'xuchu', 'lidian'],
 ] as const
 const FACE_DIR: Record<string, string> = {
   guanyu: 'hero-faces', zhangfei: 'hero-faces', zhaoyun: 'hero-faces', huangzhong: 'hero-faces', weiyan: 'hero-faces',
   soldier: 'mook-faces', spearman: 'mook-faces', archer: 'mook-faces',
-  lubu: 'boss-faces', caocao: 'boss-faces', xiahoudun: 'boss-faces', xuchu: 'boss-faces', zhangliao: 'boss-faces',
-  caoren: 'boss-faces', xuhuang: 'boss-faces', zhanghe: 'boss-faces', lidian: 'boss-faces',
+  xiahoudun: 'boss-faces', xuchu: 'boss-faces', lidian: 'boss-faces',
 }
 const BODY_DIR: Record<string, string> = {
   guanyu: 'hero-bodies', zhangfei: 'hero-bodies', zhaoyun: 'hero-bodies', huangzhong: 'hero-bodies', weiyan: 'hero-bodies',
   soldier: 'mook-bodies', spearman: 'mook-bodies', archer: 'mook-bodies',
-  lubu: 'boss-bodies', caocao: 'boss-bodies', xiahoudun: 'boss-bodies', xuchu: 'boss-bodies', zhangliao: 'boss-bodies',
-  caoren: 'boss-bodies', xuhuang: 'boss-bodies', zhanghe: 'boss-bodies', lidian: 'boss-bodies',
+  xiahoudun: 'boss-bodies', xuchu: 'boss-bodies', lidian: 'boss-bodies',
 }
 
 function rgb(n: number): [number, number, number] {

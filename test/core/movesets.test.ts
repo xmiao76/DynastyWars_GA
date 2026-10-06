@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { ATTACKS, attackById, totalFrames } from '../../src/core/attacks'
 import { CHARACTER_ORDER, characterById } from '../../src/core/characters'
 
@@ -186,10 +186,6 @@ describe('weapon-true hero movesets', () => {
     expect(ATTACKS['soldier.swing']).toEqual({
       id: 'soldier.swing', damage: 6, reach: 24, arc: 10, startup: 14, active: 4,
       recover: 20, knockback: 2, knockdown: false, aerial: false, aoe: false,
-    })
-    expect(ATTACKS['halberd.storm']).toEqual({
-      id: 'halberd.storm', damage: 20, reach: 40, arc: 16, startup: 10, active: 10,
-      recover: 16, knockback: 6, knockdown: true, aerial: false, aoe: false,
     })
   })
 })

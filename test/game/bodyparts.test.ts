@@ -491,8 +491,8 @@ describe('BODY-2 mask IoU', () => {
         }
       }
     }
-    expect(covered, 'production packs must cover heroes + mooks + bosses').toBe(17)
-    // 17 fighters x 14 poses x 2 renders: ~3.3 s alone, and the 5 s default
+    expect(covered, 'production packs must cover heroes + mooks + bosses').toBe(11)
+    // 11 fighters x 14 poses x 2 renders: ~3.3 s alone, and the 5 s default
     // was exceeded under full-suite contention (BODY-17 added the per-movement
     // sheet generator). A budget, not a relaxed assertion.
   }, 60_000)
@@ -558,7 +558,7 @@ describe('BODY-2 mask IoU', () => {
             // (the procedural polygon did too), so its centroid legitimately
             // sits off the segment. UIR-15: wrapF/wrapN are the same class -
             // weapon-anchored fingertip pads rotated to the haft axis, not
-            // forearm segments (lubu:attack:wrapF sits 7.4u off its def
+            // forearm segments (a strike pose's wrapF sits ~7u off its def
             // axis by design after the strike elbow flip).
             if (part === 'cloth' || part === 'wrapF' || part === 'wrapN') continue
             const cx = sx / n / SCALE

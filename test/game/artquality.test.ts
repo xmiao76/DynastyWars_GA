@@ -102,7 +102,7 @@ const ARMED_KINDS = CHARACTER_KINDS.filter((k) => k !== 'horse')
  */
 describe('the art gate has art to judge', () => {
   it('covers the whole cast', () => {
-    expect(CHARACTER_KINDS.length, 'characters including the horse').toBe(18)
+    expect(CHARACTER_KINDS.length, 'characters including the horse').toBe(12)
     expect(PROP_KINDS.length, 'props').toBe(4)
     expect(POSES.length, 'poses per character').toBe(14)
     // Every kind the game can spawn must be drawable, or it renders nothing.
@@ -119,7 +119,7 @@ describe('the art gate has art to judge', () => {
     // costs nothing.
     const declared = new Set<string>()
     const stages = Object.values(STAGES)
-    expect(stages.length, 'no stages found').toBeGreaterThan(8)
+    expect(stages.length, 'no stages found').toBe(3)
     for (const stage of stages) {
       for (const wave of stage.waves) for (const sp of wave.spawns) declared.add(sp.kind)
       for (const sp of stage.props) declared.add(sp.kind)
@@ -242,8 +242,6 @@ describe('character art reads as characters', () => {
     expect(HERO_FIGURES.zhaoyun?.weapon, '赵云 亮银枪').toBe('spear')
     expect(HERO_FIGURES.huangzhong?.weapon, '黄忠 the archer').toBe('bow')
     expect(HERO_FIGURES.weiyan?.weapon, '魏延 folk 大刀').toBe('dao')
-    expect(ENEMY_FIGURES.lubu?.weapon, '呂布 方天画戟').toBe('ji')
-    expect(ENEMY_FIGURES.caocao?.weapon, '曹操 倚天剑 stays a jian').toBe('sword')
     // The length ladder, longest first: 丈八蛇矛 is the longest weapon in the
     // novel - a zhang eight - and the spear sits a clear 10 units under it.
     // The old table had the spear (78) LONGER than the pike (74), backwards.
@@ -310,9 +308,9 @@ describe('character art reads as characters', () => {
       // the 24 tolerance - so this cannot be satisfied by his sash instead.
       if (hits < 30) failures.push(`${kind}: only ${hits} tassel pixels at the socket`)
     }
-    // Non-vacuity: twelve kinds carry a tassel (three heroes + nine enemies,
+    // Non-vacuity: eight kinds carry a tassel (four heroes + four enemies,
     // Wei Yan's 大刀 joined at ART-13).
-    expect(counted.length, 'no tasseled kinds found').toBe(12)
+    expect(counted.length, 'no tasseled kinds found').toBe(8)
     expect(failures).toEqual([])
   })
 
@@ -710,7 +708,7 @@ describe('character art reads as characters', () => {
 
 
   /**
-   * The nine bosses get the same treatment as the heroes, and the rank and
+   * The three bosses get the same treatment as the heroes, and the rank and
    * file deliberately does not.
    *
    * The bosses are as famous as the playable five and the player fights one at
@@ -718,12 +716,12 @@ describe('character art reads as characters', () => {
    * they are uniformed troops, and a shared complexion is what makes the
    * player read as an individual against them.
    */
-  it('the nine bosses have their own faces, and the rank and file does not', () => {
+  it('the three bosses have their own faces, and the rank and file does not', () => {
     const bosses = Object.keys(ENEMIES).filter((k) => ENEMIES[k]?.boss !== undefined)
     expect(
       bosses.length,
-      'nine bosses are expected - a new one should be given a face deliberately',
-    ).toBe(9)
+      'three bosses are expected - a new one should be given a face deliberately',
+    ).toBe(3)
     const skins = bosses.map((k) => ENEMY_FIGURES[k]?.skin)
     const faces = bosses.map((k) => ENEMY_FIGURES[k]?.face)
     for (const [i, kind] of bosses.entries()) {
@@ -862,7 +860,7 @@ describe('character art reads as characters', () => {
         checked += 1
       }
     }
-    expect(checked, 'too few probes to mean anything').toBeGreaterThan(15)
+    expect(checked, 'too few probes to mean anything').toBeGreaterThan(8)
   })
 
 })

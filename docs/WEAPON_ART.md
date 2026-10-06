@@ -22,7 +22,7 @@ paths were transferred unchanged.
 
 The art-only grip correction moves the bow-holding arm forward, and lifts
 weapons clear of prone faces. It applies to enemies using the same renderer too.
-All 17 humanoids and 11 poses are checked in both facings: 374 combinations.
+All 11 humanoids and 11 poses are checked in both facings: 242 combinations.
 No combat data, hitboxes, attack timing, character dimensions or weapon
 assignments changed. Huang Zhong still uses melee attacks and an arrow special.
 

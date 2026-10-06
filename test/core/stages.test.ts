@@ -45,8 +45,8 @@ describe('stage definitions', () => {
     expect(createSim(1, { stageId: 'stage2', lives: 2 }).lives).toBe(2)
   })
 
-  it('all nine stages exist with deterministic wave-1 spawns within bounds', () => {
-    expect(STAGE_ORDER).toHaveLength(9)
+  it('all three stages exist with deterministic wave-1 spawns within bounds', () => {
+    expect(STAGE_ORDER).toHaveLength(3)
     for (const stageId of STAGE_ORDER) {
       const stage = STAGES[stageId]
       if (!stage) throw new Error(`missing stage ${stageId}`)
@@ -76,16 +76,14 @@ describe('stage definitions', () => {
     expect(new Set(signatures).size).toBe(ratios.length)
   })
 
-  it('Lu Bu outclasses every other boss in HP and heavy damage', () => {
-    const lubu = enemyByKind('lubu')
+  it('Xu Chu, the final boss, outclasses every other boss in HP', () => {
+    // All three heavies share sword.heavy, so toughness supremacy is HP-only.
+    const xuchu = enemyByKind('xuchu')
     for (const stageId of STAGE_ORDER) {
       const stage = STAGES[stageId]
-      if (!stage || stage.bossKind === 'lubu') continue
+      if (!stage || stage.bossKind === 'xuchu') continue
       const boss = enemyByKind(stage.bossKind)
-      expect(lubu.maxHp).toBeGreaterThan(boss.maxHp)
-      expect(attackById(lubu.boss?.heavy ?? '').damage).toBeGreaterThan(
-        attackById(boss.boss?.heavy ?? '').damage,
-      )
+      expect(xuchu.maxHp).toBeGreaterThan(boss.maxHp)
     }
   })
 })

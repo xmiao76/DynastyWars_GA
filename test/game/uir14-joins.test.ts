@@ -20,9 +20,9 @@ import type { HeroArt } from '../../src/game/art/hero-resources'
 type Ctx = CanvasRenderingContext2D
 const SCALE = 2
 const CASES: Array<{ id: string; bodyDir: string; faceDir: string; moves: PoseName[] }> = [
-  { id: 'lubu', bodyDir: 'boss-bodies', faceDir: 'boss-faces', moves: ['idle', 'attack'] },
-  { id: 'caocao', bodyDir: 'boss-bodies', faceDir: 'boss-faces', moves: ['idle', 'attack'] },
-  { id: 'zhangliao', bodyDir: 'boss-bodies', faceDir: 'boss-faces', moves: ['idle', 'attack'] },
+  { id: 'lidian', bodyDir: 'boss-bodies', faceDir: 'boss-faces', moves: ['idle', 'attack'] },
+  { id: 'xiahoudun', bodyDir: 'boss-bodies', faceDir: 'boss-faces', moves: ['idle', 'attack'] },
+  { id: 'xuchu', bodyDir: 'boss-bodies', faceDir: 'boss-faces', moves: ['idle', 'attack'] },
   { id: 'zhaoyun', bodyDir: 'hero-bodies', faceDir: 'hero-faces', moves: ['idle', 'walk0', 'hurt'] },
 ]
 

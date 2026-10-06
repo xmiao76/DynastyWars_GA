@@ -2,12 +2,12 @@ import { expect, test } from '@playwright/test'
 import { CHARACTER_ORDER } from '../src/core/characters'
 import { driveMarathon } from './harness'
 
-// Marathon: zhaoyun runs all nine stages; every other hero clears
+// Marathon: zhaoyun runs all three stages; every other hero clears
 // stages 1-2 back to back. Sequentially: parallel headless browsers starve
 // each other's rAF and flake the tick-drain polls.
 test.describe('marathon', () => {
   for (const hero of CHARACTER_ORDER) {
-    const stageCount = hero === 'zhaoyun' ? 9 : 2
+    const stageCount = hero === 'zhaoyun' ? 3 : 2
     test(`${hero} clears ${stageCount} stage(s)`, async ({ page }, testInfo) => {
       test.setTimeout(900_000)
       const result = await driveMarathon(page, hero, 42, stageCount)

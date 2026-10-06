@@ -14,7 +14,7 @@ import { expect, test } from '@playwright/test'
  * never throws and nothing looks wrong - the game just gets slower the longer
  * it is played, and the only thing that went red was the visual suite running
  * out of time, which reads like flake. A player would have felt it as a run
- * that degrades over nine stages.
+ * that degrades over three stages.
  *
  * `addedtoscene` is the specific listener that bit us; the assertion is written
  * against the general property, so any future subscribe-without-unsubscribe in

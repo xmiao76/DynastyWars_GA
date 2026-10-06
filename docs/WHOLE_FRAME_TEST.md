@@ -126,9 +126,9 @@ Differences to note:
 ## Cost estimate for the full cast
 
 - **Observed cost:** 5 attempts for 3 accepted frames, about 1.7 per frame.
-  At 1.5-2 attempts per frame, 238 frames (17 fighters x 14 poses) come to
-  about 360-480 generations. Adding the extra frames this genre normally has
-  (walk x4, one more frame per strike) brings it to about 400-600
+  At 1.5-2 attempts per frame, 154 frames (11 fighters x 14 poses) come to
+  about 230-310 generations. Adding the extra frames this genre normally has
+  (walk x4, one more frame per strike) brings it to about 260-390
   generations.
 - **Per fighter:**
   - one identity reference (the accepted idle), generated first;
@@ -136,7 +136,7 @@ Differences to note:
     comparison sheet before continuing;
   - roughly 25-30 generations per fighter.
 - **Runtime size:** the 3-frame sheet is 1960x476 px and 428 KB as PNG at
-  density 4, about 140 KB per frame. 238 frames would be about 33 MB, too
+  density 4, about 140 KB per frame. 154 frames would be about 21 MB, too
   heavy for the web build as is. The rollout plan must pick a lighter format
   (for example density 3 and WebP, each checked on the comparison sheet) and
   load frames per stage.
@@ -147,7 +147,7 @@ Differences to note:
 1. Owner review of this pilot (`?frames=1`).
 2. The 5 heroes and 3 mooks first (8 fighters x 14 poses). Add walk0-3 and
    extra strike frames only where the motion needs them.
-3. Then the 9 bosses.
+3. Then the 3 bosses.
 4. Decide the texture format, density and per-stage loading against the
    size budget before step 2 ships.
 5. Once every fighter has whole frames, retire the paper-doll parts and

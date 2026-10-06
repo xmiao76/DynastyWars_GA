@@ -10,8 +10,7 @@ import { totalUsed } from './motion-budget.mjs'
 export const REPAIR_ROUNDS = 3
 export const ELIGIBLE_FIGHTERS = [
   'soldier', 'spearman', 'archer', 'zhangfei', 'zhaoyun', 'weiyan',
-  'huangzhong', 'lidian', 'xiahoudun', 'xuchu', 'caoren', 'zhangliao',
-  'xuhuang', 'zhanghe', 'caocao', 'lubu', 'horse',
+  'huangzhong', 'lidian', 'xiahoudun', 'xuchu', 'horse',
 ]
 export const REPAIR_RESERVE = ELIGIBLE_FIGHTERS.length * REPAIR_ROUNDS
 export const COMBINED_CAP = 200 + REPAIR_RESERVE
@@ -81,7 +80,7 @@ export function reserveRepairRound(ledger, authoringLedger, fighter, { cells, fa
   if (existing.length >= REPAIR_ROUNDS) throw new Error(`repair: ${fighter} exhausted ${REPAIR_ROUNDS} targeted rounds`)
   const authoringCount = totalUsed(authoringLedger)
   if (!Number.isSafeInteger(authoringCount) || authoringCount < 0 || authoringCount > 200) throw new Error('repair: corrupt authoring ledger; cannot reserve')
-  if (authoringCount + repairUsed(ledger) + 1 > COMBINED_CAP) throw new Error('repair: combined 251-request ceiling reached')
+  if (authoringCount + repairUsed(ledger) + 1 > COMBINED_CAP) throw new Error('repair: combined 233-request ceiling reached')
   // Copy-on-write: caller persists this BEFORE making the image request.
   const next = JSON.parse(JSON.stringify(ledger))
   const entry = next.fighters[fighter] ?? { rounds: [] }

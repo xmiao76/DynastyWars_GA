@@ -11,11 +11,9 @@ import {
   PORTRAIT_HEAD_Y,
   PORTRAIT_SCALE,
   PORTRAIT_ZOOM,
-  artBoxFor,
   drawKindPortrait,
-  drawKindPose,
 } from '../../src/game/art/registry'
-import { BODY_X, FIG_H, FIG_W, applyBuild } from '../../src/game/art/rig'
+import { BODY_X, applyBuild } from '../../src/game/art/rig'
 
 /**
  * ART-17: the cast looks as the histories describe it.
@@ -26,7 +24,6 @@ import { BODY_X, FIG_H, FIG_W, applyBuild } from '../../src/game/art/rig'
  * single a character out for, and nothing else about how it is drawn.
  */
 
-const SCALE = 2
 const plans: Record<string, FigurePlan> = { ...HERO_FIGURES, ...ENEMY_FIGURES }
 
 function planOf(kind: string): FigurePlan {
@@ -35,49 +32,7 @@ function planOf(kind: string): FigurePlan {
   return p
 }
 
-/**
- * How far above the head centre the figure's outline reaches, in headR, over
- * the column BEHIND the face (-3R..+0.3R). The weapon is held forward of the
- * head in `idle`, so it stays out of the column; headgear and plumes do not.
- */
-function headgearReach(kind: string): number {
-  const plan = planOf(kind)
-  const box = artBoxFor(kind, 'idle')
-  if (!box) throw new Error(`no art box for ${kind}`)
-  const canvas = createCanvas(box.width * SCALE, box.height * SCALE)
-  const ctx = canvas.getContext('2d')
-  drawKindPose(ctx as unknown as CanvasRenderingContext2D, kind, 'idle', SCALE)
-  const img = ctx.getImageData(0, 0, canvas.width, canvas.height)
-  const built = applyBuild(POSE_TABLE.idle, plan.build)
-  const r = headRadius(plan) * SCALE
-  const hx = ((box.width - FIG_W) / 2 + built.head.x) * SCALE
-  const hy = (box.height - FIG_H + built.head.y) * SCALE
-  const x0 = Math.max(0, Math.round(hx - 3 * r))
-  const x1 = Math.min(img.width - 1, Math.round(hx + 0.3 * r))
-  for (let y = 0; y < hy; y += 1) {
-    for (let x = x0; x <= x1; x += 1) {
-      if ((img.data[(y * img.width + x) * 4 + 3] ?? 0) >= 128) return (hy - y) / r
-    }
-  }
-  return 0
-}
-
 describe('the cast looks as the histories describe it', () => {
-  it("Lu Bu wears his own plumed crown, not Cao Cao's", () => {
-    // 头戴三叉束发紫金冠 ... 雉尾 - the three-pronged purple-gold crown with
-    // pheasant-tail plumes. Before ART-17 both villains wore `crown`, and the
-    // two outlines topped out within a few hundredths of a head of each other.
-    const lubu = headgearReach('lubu')
-    const caocao = headgearReach('caocao')
-    expect(
-      lubu - caocao,
-      `Lu Bu's plumes should rise well clear of Cao Cao's crown (${lubu.toFixed(2)}R vs ${caocao.toFixed(2)}R)`,
-    ).toBeGreaterThan(1)
-    expect(planOf('lubu').headgear, 'Lu Bu and Cao Cao share a headgear kind').not.toBe(
-      planOf('caocao').headgear,
-    )
-  })
-
   it("Zhang Fei's beard bristles instead of hanging as a smooth wedge", () => {
     // 燕颔虎须 - tiger whiskers, standing out from the jaw in spikes. Measured on
     // the PORTRAIT, the one view of him that shows the whole beard: on the
@@ -148,76 +103,7 @@ describe('the cast looks as the histories describe it', () => {
     expect(reversals, `Zhang Fei's beard edge reverses ${reversals} times - a smooth wedge, not 虎须`).toBeGreaterThanOrEqual(4)
   })
 
-  it("Cao Cao has the narrowest eyes in the cast", () => {
-    // 细眼长髯 - narrow eyes and a long beard. He shared `sharp` with Wei Yan and
-    // Xu Huang, whose aperture is ROUNDER than Guan Yu's phoenix eye, so the one
-    // man the sources name for narrow eyes had some of the widest in the cast.
-    const cao = FACES[planOf('caocao').face ?? 'plain']
-    for (const [kind, plan] of Object.entries(plans)) {
-      if (kind === 'caocao') continue
-      const f = FACES[plan.face ?? 'plain']
-      if ((plan.face ?? 'plain') === (planOf('caocao').face ?? 'plain')) {
-        throw new Error(`${kind} shares Cao Cao's eye shape`)
-      }
-      // Both passes: the portrait's aperture ratio and the in-play eye height.
-      expect(cao.eyeAspect, `${kind}'s portrait eye is as narrow as Cao Cao's`).toBeGreaterThan(f.eyeAspect)
-      expect(cao.eyeH, `${kind}'s in-play eye is as narrow as Cao Cao's`).toBeLessThan(f.eyeH)
-    }
-    expect(planOf('caocao').beard, 'Cao Cao is 长髯, long-bearded').toBe('long')
-  })
-
-  it('the four generic bosses have distinct in-play faces, not just hats', () => {
-    // Li Dian, Cao Ren, Zhang Liao and Zhang He: three wore `calm`, three the
-    // same helmet on the same build, so under the hat colour they were one
-    // face. Bosses have no portrait in play - this is the only face they have.
-    // Every COLOUR is set to one value and the weapon and cape to one kind, so
-    // only shape can differ; the head is aligned and cropped from the brow to
-    // below the chin, over the whole face width.
-    const S = 6
-    const SIZE = 40 * S
-    const face = (kind: string): Uint8ClampedArray => {
-      const plan = planOf(kind)
-      const shapeOnly: FigurePlan = {
-        ...plan,
-        body: 0x506070, trim: 0x807050, gear: 0x404850, skin: 0xd8b48c,
-        beardColor: 0x2a2018, weapon: 'sword', cape: false,
-      }
-      const built = applyBuild(POSE_TABLE.idle, plan.build)
-      const R = headRadius(plan)
-      const canvas = createCanvas(SIZE, SIZE)
-      const ctx = canvas.getContext('2d')
-      ctx.scale(S, S)
-      ctx.translate(20 - built.head.x, 12 - built.head.y)
-      drawFigure(ctx as unknown as CanvasRenderingContext2D, shapeOnly, POSE_TABLE.idle)
-      // Brow (-0.2R) to below the chin (+1.6R), 1.2R either side.
-      const x0 = Math.round((20 - 1.2 * R) * S)
-      const x1 = Math.round((20 + 1.2 * R) * S)
-      const y0 = Math.round((12 - 0.2 * R) * S)
-      const y1 = Math.round((12 + 1.6 * R) * S)
-      const img = ctx.getImageData(x0, y0, x1 - x0, y1 - y0).data
-      return new Uint8ClampedArray(img)
-    }
-    const kinds = ['lidian', 'caoren', 'zhangliao', 'zhanghe']
-    const faces = kinds.map(face)
-    for (let a = 0; a < kinds.length; a += 1) {
-      for (let b = a + 1; b < kinds.length; b += 1) {
-        const fa = faces[a] ?? new Uint8ClampedArray()
-        const fb = faces[b] ?? new Uint8ClampedArray()
-        let diff = 0
-        for (let i = 0; i < fa.length; i += 4) {
-          const d =
-            Math.abs((fa[i] ?? 0) - (fb[i] ?? 0)) +
-            Math.abs((fa[i + 1] ?? 0) - (fb[i + 1] ?? 0)) +
-            Math.abs((fa[i + 2] ?? 0) - (fb[i + 2] ?? 0))
-          if (d > 60) diff += 1
-        }
-        const frac = diff / (fa.length / 4)
-        expect(
-          frac,
-          `${kinds[a]} and ${kinds[b]} differ on ${(frac * 100).toFixed(1)}% of the face region by shape`,
-        ).toBeGreaterThan(0.025)
-      }
-    }
+  it('rank and file carry no likeness fields, only measured complexions', () => {
     // 'plain' face and no likeness fields for the rank and file - but since
     // BODY-4 each mook carries a measured skin matching its painted pack
     // (see artquality), never the old shared tone and never a boss's face.

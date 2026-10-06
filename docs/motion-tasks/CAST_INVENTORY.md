@@ -9,7 +9,7 @@ source (`src/core/characters.ts`, `src/core/enemies.ts`, `src/core/attacks.ts`,
 attack-ID columns are kept SEPARATE on purpose: attack ID words do not dictate
 weapon appearance (contract); figure `weapon` is authoritative.
 
-Roster: 17 humanoids (5 heroes + 3 regular enemies + 9 bosses) + the shared
+Roster: 11 humanoids (5 heroes + 3 regular enemies + 3 bosses) + the shared
 horse. Screen scale: every fighter renders in figure space FIG_W 96 × FIG_H 92
 logical units (body packs at 4x), composed in-world at gameplay scale
 (`RENDER_SCALE 2`); the horse strip is 128×64 (8 frames).
@@ -45,18 +45,12 @@ dying, dead; mounted variants when riding.
 | lidian | Li Dian 李典 | glaive | BOSS_LEAN | `sword.heavy`, `sword.combo` | `charge.dash` | 18-30 → 8-16 | 0.3 |
 | xiahoudun | Xiahou Dun 夏侯惇 | spear | BOSS | `sword.heavy`, `sword.combo` | `charge.dash.long` | 16-26 → 8-14 | 0.3 |
 | xuchu | Xu Chu 許褚 | glaive | BOSS_HUGE | `sword.heavy`, `sword.combo` | `charge.crush` | 12-20 → 5-10 | 0.4 |
-| caoren | Cao Ren 曹仁 | glaive | BOSS | `shield.bash`, `sword.combo` | `charge.dash` | 20-32 → 10-18 | 0.25 |
-| zhangliao | Zhang Liao 張遼 | spear | BOSS_LEAN | `sword.heavy`, `blade.flurry` | `charge.dash` | 10-16 → 4-8 | 0.45 |
-| xuhuang | Xu Huang 徐晃 | glaive | BOSS | `axe.cleave`, `sword.combo` | `charge.dash.long` | 14-22 → 7-12 | 0.32 |
-| zhanghe | Zhang He 張郃 | sword | BOSS_LEAN | `sword.heavy`, `dagger.dance` | `charge.dash` | 10-16 → 5-9 | 0.38 |
-| caocao | Cao Cao 曹操 | sword | BOSS | `imperial.sword`, `sword.combo` | `charge.crush` | 14-22 → 6-12 | 0.42 |
-| lubu | Lu Bu 呂布 | ji | BOSS_HUGE | `halberd.storm`, `blade.flurry` | `charge.crush` | 8-14 → 4-7 | 0.5 |
 
 Boss states: approach → charge at range / combo+heavy up close
 (`src/core/ai.ts` stepBoss), enrage below `maxHp * enrageRatio`
 (`ENRAGE_HP_RATIO 0.3` is the fallback; the per-boss `enrageRatio` above is
 what the defs use). All attack windows (startup/active/recover, damage, reach,
-arc, knockback, knockdown, aerial, aoe) live in `src/core/attacks.ts` (43
+arc, knockback, knockdown, aerial, aoe) live in `src/core/attacks.ts` (37
 entries); do not restate them here.
 
 ## Horse (SHARED ANIMATED CHARACTER)
@@ -90,14 +84,14 @@ entries); do not restate them here.
 - NOT APPLICABLE (do not invent): hero abilities for enemies (no enemy has
   `specialAttack`, `specialCost`, `jumpAttack` combos or `specialFiresProjectile`);
   ranged/melee swaps (archer is the only regular ranged; bosses are melee with
-  charges); shields beyond caoren's `shield.bash` attack; new states, weapons,
+  charges); shields; new states, weapons,
   damage, timing, AI or projectile behavior of any kind (contract non-goals).
 - DEFENSIVE/STRESS states that DO exist and must render: hitstun, knockdown
   (36t), getup (24t), grabbed (held 90t), thrown (THROWN_Z 10 launch →
   `fall:*`), dying, dead (held `fall:6`), low-collapse recovery
   (`getup:*` reversed), airborne fall (jump/jumpattack at hit → `fall:*`),
   mount/dismount edge states, co-op join mid-stage.
-- Vulnerable moments pinned by source: zhangliao `blade.flurry` recover 24,
+- Vulnerable moments pinned by source:
   xiahoudun `charge.dash.long` recover 26, huangzhong special recover 14
   (zero-active special). Thrown is NOT tick-fixed: the body flies at
   `THROWN_Z 10` until `traveled >= THROW_TRAVEL` or a stage edge

@@ -9,20 +9,13 @@ import { MARKS_H, TILE_W, paintMarks, type MarksKind } from '../../src/game/art/
  * blocks clearing the threshold must clear the floor on every kind.
  *
  * Before (flat painter, threshold 10): gorge 1.00, village 0.44, riverbank
- * 0.25, bridge 1.00, outskirts 1.00, warships 0.67, inferno 0.31, flagship
- * 0.25, arena 0.44 - five kinds below the 0.55 floor, so this test fails
- * on the old paint. After: every kind clears 0.55 (see run output).
+ * 0.25 - two kinds below the 0.55 floor, so this test fails on the old
+ * paint. After: every kind clears 0.55 (see run output).
  */
 const KINDS: MarksKind[] = [
   'gorge',
   'village',
   'riverbank',
-  'bridge',
-  'outskirts',
-  'warships',
-  'inferno',
-  'flagship',
-  'arena',
 ]
 
 export function texturedShare(kind: MarksKind, thresh: number): { share: number; opaque: number } {

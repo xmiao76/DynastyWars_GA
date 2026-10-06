@@ -14,7 +14,7 @@
  * - when the hand out-reaches the arm (broad-shouldered thrusts), the
  *   SHOULDER protracts toward the hand - the lunge a real thrust makes -
  *   instead of the arm stretching. The shoulder stays inside the torso
- *   silhouette (measured worst case ~6u on lubu/xuchu thrusts);
+ *   silhouette (measured worst case ~6u on xuchu thrusts);
  * - the elbow branch follows the authored pose-table elbow, so the
  *   animator's bend intent survives and only the lengths are corrected.
  *

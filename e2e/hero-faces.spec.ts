@@ -14,9 +14,9 @@ for (const renderer of ['canvas', 'webgl']) {
       return Object.keys(r.heroes).sort()
     })
     // BODY-6/12: the catalog generalizes to boss and mook ids - the exact
-    // set is the five heroes plus the nine bosses plus the three mooks,
+    // set is the five heroes plus the three bosses plus the three mooks,
     // so nothing may silently drop.
-    expect(ready).toEqual(['archer', 'caocao', 'caoren', 'guanyu', 'huangzhong', 'lidian', 'lubu', 'soldier', 'spearman', 'weiyan', 'xiahoudun', 'xuchu', 'xuhuang', 'zhangfei', 'zhanghe', 'zhangliao', 'zhaoyun'])
+    expect(ready).toEqual(['archer', 'guanyu', 'huangzhong', 'lidian', 'soldier', 'spearman', 'weiyan', 'xiahoudun', 'xuchu', 'zhangfei', 'zhaoyun'])
     await page.keyboard.press('Enter')
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('select')
     const portraits = await page.evaluate(() => ['guanyu', 'zhaoyun'].map(id => {

@@ -173,7 +173,7 @@ describe('V-15 gate negative controls (each gate can fail)', () => {
   it('G6 trips when far-fist pixels sit on the near-arm footprint', () => {
     // Predicate check + the empirical control: before the UIR-16
     // re-choreography G6 failed on 87/221 standing cells (worst
-    // lubu:attack 398+627, xuchu:attack 310+628).
+    // xuchu:attack 310+628).
     const flagged = (g: number, w: number): boolean => g + w > 0
     expect(flagged(100, 0)).toBe(true)
     expect(flagged(0, 50)).toBe(true)
@@ -183,7 +183,7 @@ describe('V-15 gate negative controls (each gate can fail)', () => {
   it('G7 trips when a visible relaxed hand lacks forearm (V-17)', () => {
     // Predicate check + the empirical control: before the UIR-18 wrist
     // bridge, G7 failed on 18 relaxed rows (e.g. huangzhong:sweep 17%,
-    // weiyan:special 14%, zhangliao:hurt 19%).
+    // weiyan:special 14%).
     const flagged = (relaxPx: number, pct: number): boolean => relaxPx > 0 && pct < 25
     expect(flagged(400, 17)).toBe(true)
     expect(flagged(400, 25)).toBe(false)

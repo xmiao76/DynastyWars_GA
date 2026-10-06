@@ -16,11 +16,11 @@ afterAll(() => { for (const dir of temps) rmSync(dir, { recursive: true, force: 
 function path(): string { const dir = mkdtempSync(join(tmpdir(), 'a4-repair-')); temps.push(dir); return join(dir, 'ledger.json') }
 
 describe('owner-approved Acceptance-4 repair reserve', () => {
-  it('caps 17 remaining characters at three focused rounds = 51 extra requests; Guan Yu stays locked', () => {
-    expect(ELIGIBLE_FIGHTERS).toHaveLength(17)
-    expect(new Set(ELIGIBLE_FIGHTERS).size).toBe(17)
-    expect(REPAIR_RESERVE).toBe(51)
-    expect(COMBINED_CAP).toBe(251)
+  it('caps 11 remaining characters at three focused rounds = 33 extra requests; Guan Yu stays locked', () => {
+    expect(ELIGIBLE_FIGHTERS).toHaveLength(11)
+    expect(new Set(ELIGIBLE_FIGHTERS).size).toBe(11)
+    expect(REPAIR_RESERVE).toBe(33)
+    expect(COMBINED_CAP).toBe(233)
     expect(remainingRepairRounds(emptyRepairLedger(), 'guanyu')).toBe(0)
     expect(() => reserveRepairRound(emptyRepairLedger(), emptyLedger(), 'guanyu', issue)).toThrow(/not in/)
   })
@@ -77,7 +77,7 @@ describe('owner-approved Acceptance-4 repair reserve', () => {
     expect(repairUsed(ledger)).toBe(0)
   })
 
-  it('keeps the 200-request authoring ceiling independent and enforces the 251 combined ceiling', () => {
+  it('keeps the 200-request authoring ceiling independent and enforces the 233 combined ceiling', () => {
     const authoring = emptyLedger(), repairs = emptyRepairLedger()
     authoring.fighters['filled'] = { role: 'hero', cap: 200, used: 200, sheetCandidates: {} }
     expect(() => reserve(authoring, 'filled', { role: 'hero' })).toThrow(/over its cap/)
@@ -87,7 +87,7 @@ describe('owner-approved Acceptance-4 repair reserve', () => {
     for (const fighter of ELIGIBLE_FIGHTERS) {
       tooMany.fighters[fighter] = { rounds: Array.from({ length: 3 }, (_, i) => ({ number: i + 1, status: 'rejected' as const, cells: ['walk:0'], failure: 'Measured bad geometry', sourceSha256: digest })) }
     }
-    expect(repairUsed(tooMany)).toBe(51)
+    expect(repairUsed(tooMany)).toBe(33)
     expect(() => reserveRepairRound(tooMany, authoring, id, issue)).toThrow(/exhausted/)
     expect(COMBINED_CAP - totalUsed(authoring) - repairUsed(tooMany)).toBe(0)
   })

@@ -270,7 +270,7 @@ Automated gates prove the game renders; they cannot say whether it looks good.
 The visual review closes that gap with a lead-artist cycle:
 
 1. `npm run review:capture` takes 59 screens covering the menus, HUD beats,
-   overlays, the nine stages, the end screens, co-op, the horse, the phone and
+   overlays, the three stages, the end screens, co-op, the horse, the phone and
    WebGL.
 2. The reviewer does a blind first look at the contact sheets, then a rubric
    pass (R1–R9) over screens and crops.

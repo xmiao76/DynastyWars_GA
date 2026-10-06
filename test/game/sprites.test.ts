@@ -185,7 +185,7 @@ describe('sprite key conventions', () => {
     // Counted rather than merely iterated: an emptied registry would otherwise
     // make this loop over nothing and pass.
     const kinds = vectorKinds()
-    expect(kinds.length).toBeGreaterThanOrEqual(18)
+    expect(kinds.length).toBeGreaterThanOrEqual(16)
     for (const kind of kinds) {
       expect(artBoxFor(kind), `${kind} has no art box`).toBeDefined()
       expect(isPropKind(kind)).toBe(isVectorProp(kind))

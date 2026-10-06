@@ -11,7 +11,7 @@
 ## Bounded work
 
 - Final serial verification at the exact cast commit: lint, typecheck, units, e2e, signal, vision, build, prodbuild and fresh full motion-aware visual review.
-- Review all 17 humanoids plus horse in actual game: applicable actions/attacks/states/transitions, both facings, nine stages, co-op/mounted, desktop/mobile landscape, Canvas/WebGL and important before/after pairs.
+- Review all 11 humanoids plus horse in actual game: applicable actions/attacks/states/transitions, both facings, three stages, co-op/mounted, desktop/mobile landscape, Canvas/WebGL and important before/after pairs.
 - No old parts/rig in-betweens in any successfully published pack; no unmigrated cast. Missing/corrupt pack still falls back wholly for that fighter/stage without removing other packs.
 - Check resource budgets, prefetch/cache/lazy join/restart/eviction, clocks, projectile/charge/enrage/KO/revive, pause and frozen simulation. Use normal-paced real-input/AI clips, not only injected pose grids.
 - Publish `docs/CAST_MOTION_REVIEW.md` and an indexed owner review page with videos/crops, coverage, provenance, exact commits, independent review status, quality measures and download/decode/frame-time costs. Label all unchecked/unaccepted areas.

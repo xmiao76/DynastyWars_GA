@@ -16,9 +16,9 @@ import {
  * standard deviation measures tonal life; the share clearing the threshold
  * must clear the floor.
  *
- * Before (flat painters, threshold 7): sky-day 0.04, sky-ember 0.25,
- * cloud 0.80 - all three below their floors (0.55 / 0.55 / 0.9), so this
- * test fails on the old paint. After: all clear (see run output).
+ * Before (flat painters, threshold 7): sky-day 0.04, cloud 0.80 -
+ * both below their floors (0.55 / 0.9), so this test fails on the old
+ * paint. After: all clear (see run output).
  */
 type Ctx = CanvasRenderingContext2D
 
@@ -55,10 +55,9 @@ function texturedShare(
 }
 
 describe('UIR-9 sky and clouds are painted (V-13)', () => {
-  it('day sky, ember sky and cloud keep most opaque blocks tonally alive', () => {
+  it('day sky and cloud keep most opaque blocks tonally alive', () => {
     const cases: Array<[string, (ctx: Ctx) => void, number, number, number]> = [
       ['sky-day', (c) => paintSky(c, 0x3a6fd8, 0x8a9ab0), TILE_W, SKY_H, 0.55],
-      ['sky-ember', (c) => paintSky(c, 0xa06430, 0x5a3318, 'ember'), TILE_W, SKY_H, 0.55],
       ['cloud', (c) => paintCloud(c), CLOUD_W, CLOUD_H, 0.9],
     ]
     for (const [label, paint, w, h, floor] of cases) {

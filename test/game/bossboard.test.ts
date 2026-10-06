@@ -12,7 +12,7 @@ import bodiesPrepared from '../../src/game/assets/boss-bodies/prepared.json'
  * attack + down. BODY-13 extends the NEW side to painted bodies.
  * Writes artifacts/look/boss-beforeafter.png; the assertions are the
  * painted-vs-fallback liveness per cell. */
-const IDS = ['lubu', 'caocao', 'xiahoudun', 'xuchu', 'zhangliao', 'caoren', 'xuhuang', 'zhanghe', 'lidian'] as const
+const IDS = ['xiahoudun', 'xuchu', 'lidian'] as const
 const SCALE = 2
 
 describe('BODY-6 review board (permanent generator)', () => {

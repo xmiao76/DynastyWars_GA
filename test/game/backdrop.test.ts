@@ -2,13 +2,11 @@ import { createCanvas } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { STAGE_ORDER } from '../../src/core/stage'
 import {
-  EMBERS_H,
   GROUND_H,
   MARKS_H,
   RIDGE_H,
   SKY_H,
   TILE_W,
-  paintEmbers,
   paintGround,
   paintMarks,
   paintRidge,
@@ -73,7 +71,6 @@ describe('ART-19 backdrop geometry is frozen', () => {
     expect(RIDGE_H).toBe(96)
     expect(GROUND_H).toBe(116)
     expect(MARKS_H).toBe(64)
-    expect(EMBERS_H).toBe(64)
   })
 })
 
@@ -89,12 +86,6 @@ describe('ART-19 periodic tile seams', () => {
     expectSeamless(render((c) => paintSky(c, 0x3a6fd8, 0x8a9ab0), TILE_W, SKY_H), TILE_W, SKY_H, 'sky')
     expectSeamless(render((c) => paintRidge(c, 0x5a7a4a, 0x8a9ab0), TILE_W, RIDGE_H), TILE_W, RIDGE_H, 'ridge')
     expectSeamless(render((c) => paintGround(c, 0x7a9a5a), TILE_W, GROUND_H), TILE_W, GROUND_H, 'ground')
-    expectSeamless(
-      render((c) => paintSky(c, 0xa06430, 0x5a3318, 'ember'), TILE_W, SKY_H),
-      TILE_W,
-      SKY_H,
-      'ember sky',
-    )
   })
 
   it('joins every landmark kind seamlessly', () => {
@@ -102,12 +93,6 @@ describe('ART-19 periodic tile seams', () => {
       'gorge',
       'village',
       'riverbank',
-      'bridge',
-      'outskirts',
-      'warships',
-      'inferno',
-      'flagship',
-      'arena',
     ]
     for (const kind of kinds) {
       const pixels = render((c) => paintMarks(c, kind), TILE_W, MARKS_H)
@@ -115,13 +100,8 @@ describe('ART-19 periodic tile seams', () => {
     }
   })
 
-  it('keeps the ember strip seamless', () => {
-    const pixels = render((c) => paintEmbers(c), TILE_W, EMBERS_H)
-    expectSeamless(pixels, TILE_W, EMBERS_H, 'embers')
-  })
-
-  it('wraps the gorge and inferno walls exactly across the seam', () => {
-    for (const kind of ['gorge', 'inferno'] as const) {
+  it('wraps the gorge walls exactly across the seam', () => {
+    for (const kind of ['gorge'] as const) {
       const pixels = render((c) => paintMarks(c, kind), TILE_W, MARKS_H)
       for (let y = 0; y < MARKS_H; y += 1) {
         expect(stepAt(pixels, TILE_W - 1, y, TILE_W, 1), `${kind} row ${y}`).toBe(0)
@@ -133,8 +113,6 @@ describe('ART-19 periodic tile seams', () => {
     const margins = [0, 1, 2, 3, 4, 5, 6, 7, TILE_W - 8, TILE_W - 7, TILE_W - 6, TILE_W - 5, TILE_W - 4, TILE_W - 3, TILE_W - 2, TILE_W - 1]
     for (const [kind, y1] of [
       ['village', MARKS_H],
-      ['warships', MARKS_H - 13],
-      ['flagship', MARKS_H - 13],
     ] as const) {
       const pixels = render((c) => paintMarks(c, kind), TILE_W, MARKS_H)
       for (let y = 0; y < y1; y += 1) {
@@ -157,20 +135,13 @@ describe('ART-19 periodic tile seams', () => {
         }
       }
     }
-    // Reeds every 32 (reed rows are reeds-only); palisade every 16, checked
-    // left of the first tent; arena every 64 (peaks + braziers).
+    // Reeds every 32 (reed rows are reeds-only).
     bandEqual('riverbank', 32, MARKS_H - 40, MARKS_H - 26)
-    bandEqual('outskirts', 16, MARKS_H - 26, MARKS_H, 40)
-    bandEqual('arena', 64, 0, MARKS_H)
   })
 
   it('continues the full-width bands across the seam', () => {
     for (const [kind, y0, y1] of [
       ['riverbank', MARKS_H - 22, MARKS_H],
-      ['bridge', MARKS_H - 12, MARKS_H - 2],
-      ['warships', MARKS_H - 12, MARKS_H],
-      ['flagship', MARKS_H - 12, MARKS_H],
-      ['inferno', MARKS_H - 12, MARKS_H],
     ] as const) {
       const pixels = render((c) => paintMarks(c, kind), TILE_W, MARKS_H)
       for (let y = y0; y < y1; y += 1) {
@@ -186,29 +157,19 @@ describe('ART-19 per-stage distinctness', () => {
   it('covers every stage, one unique kind each', () => {
     expect(backdropStageIds()).toEqual(STAGE_ORDER)
     const kinds = STAGE_ORDER.map((id) => stageBackdrop(id).marks)
-    expect(new Set(kinds).size).toBe(9)
+    expect(new Set(kinds).size).toBe(3)
   })
 
-  it('paints nine visually different landmark strips', () => {
+  it('paints three visually different landmark strips', () => {
     const sigs = STAGE_ORDER.map((id) =>
       signature(render((c) => paintMarks(c, stageBackdrop(id).marks), TILE_W, MARKS_H)),
     )
-    expect(new Set(sigs).size).toBe(9)
+    expect(new Set(sigs).size).toBe(3)
   })
 
-  it('keeps the day sky byte-identical and makes ember different', () => {
+  it('keeps the day sky byte-identical across renders', () => {
     const a = render((c) => paintSky(c, 0x3a6fd8, 0x8a9ab0), TILE_W, SKY_H)
-    const b = render((c) => paintSky(c, 0x3a6fd8, 0x8a9ab0, 'day'), TILE_W, SKY_H)
+    const b = render((c) => paintSky(c, 0x3a6fd8, 0x8a9ab0), TILE_W, SKY_H)
     expect(signature(a)).toBe(signature(b))
-    const e = render((c) => paintSky(c, 0x3a6fd8, 0x8a9ab0, 'ember'), TILE_W, SKY_H)
-    expect(signature(e)).not.toBe(signature(a))
-  })
-
-  it('lights the fire only on the burning stages', () => {
-    for (const id of STAGE_ORDER) {
-      expect(stageBackdrop(id).embers).toBe(id === 'stage7' || id === 'stage8')
-    }
-    expect(stageBackdrop('stage7').sky).toBe('ember')
-    expect(stageBackdrop('stage9').marks).toBe('arena')
   })
 })

@@ -1,4 +1,4 @@
-﻿import { createCanvas, loadImage } from '@napi-rs/canvas'
+import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { drawFigure } from '../../src/game/art/draw'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
@@ -28,14 +28,8 @@ const PAINTED: Array<{ id: string; bodyDir: 'hero-bodies' | 'mook-bodies' | 'bos
   { id: 'soldier', bodyDir: 'mook-bodies' },
   { id: 'spearman', bodyDir: 'mook-bodies' },
   { id: 'archer', bodyDir: 'mook-bodies' },
-  { id: 'lubu', bodyDir: 'boss-bodies' },
-  { id: 'caocao', bodyDir: 'boss-bodies' },
   { id: 'xiahoudun', bodyDir: 'boss-bodies' },
   { id: 'xuchu', bodyDir: 'boss-bodies' },
-  { id: 'zhangliao', bodyDir: 'boss-bodies' },
-  { id: 'caoren', bodyDir: 'boss-bodies' },
-  { id: 'xuhuang', bodyDir: 'boss-bodies' },
-  { id: 'zhanghe', bodyDir: 'boss-bodies' },
   { id: 'lidian', bodyDir: 'boss-bodies' },
 ]
 
@@ -116,8 +110,8 @@ describe('BODY-11 no procedural bars over painted waists', () => {
 
   it('procedural-body fighters keep their waist details (control)', () => {
     // Boss bodies are still cel-painted; their belt/sash bars belong there.
-    const plan: FigurePlan = ENEMY_FIGURES['caocao']!
-    const data = renderFighter('caocao', plan)
+    const plan: FigurePlan = ENEMY_FIGURES['xuchu']!
+    const data = renderFighter('xuchu', plan)
     expect(waistBarCount(plan, data, 120 * SCALE), 'control lost its waist details').toBeGreaterThan(0)
   })
 })

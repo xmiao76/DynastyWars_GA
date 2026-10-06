@@ -137,7 +137,7 @@ describe('UIR-19 hands carry painted form (V-18)', () => {
       }
     }
     console.log('UIR19 ' + rows.join(' '))
-    expect(n).toBeGreaterThan(50)
+    expect(n).toBeGreaterThan(32)
     expect(failures).toEqual([])
   })
 })

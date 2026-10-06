@@ -137,7 +137,7 @@ The screens are listed by id in the manifest. Coverage is:
   - CONTINUE? overlay, stage-clear beat, result.
 - **End screens:** game over; the final result and game complete.
 - **Co-op:** two plates; mounted horse play on stage 2.
-- **All nine stages:** each stage's banner crop, intro-card crop and play frame.
+- **All three stages:** each stage's banner crop, intro-card crop and play frame.
 - **Phone, touch device:** portrait title, select and game, plus landscape game.
 - **WebGL, the shipped renderer:** title, select, combat, boss and result.
 
@@ -437,7 +437,7 @@ this rubric only. A finding reopened twice becomes an owner question.
   an owner flag or a miss analysis. The review that handles that flag removes
   the line.
 - **Characters every time:** the section 2a anatomy pass runs in EVERY full
-  review for all 17 fighters and all 14 moves (the 238-cell grid). It is not
+  review for all 11 fighters and all 14 moves (the 154-cell grid). It is not
   part of the deep-dive rotation, and it cannot be skipped. A cell that was
   not looked at stays `?`, never `N`.
 - **Deep-dive rotation:** every full review covers all contact sheets. In
@@ -446,7 +446,7 @@ this rubric only. A finding reopened twice becomes an owner question.
   - menus;
   - HUD & overlays;
   - stage flow screens;
-  - all nine stages;
+  - all three stages;
   - characters (movesheets and motion);
   - phone;
   - WebGL.

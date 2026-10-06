@@ -41,7 +41,6 @@ import { heroArtResources } from '../adapters/hero-art'
 import { rotateBlocked } from '../ui/orientation'
 import { artDisplayHeight } from '../art/registry'
 import {
-  EMBERS_H,
   GROUND_H,
   MARKS_H,
   RIDGE_H,
@@ -50,7 +49,6 @@ import {
   CLOUD_H,
   CLOUD_W,
   paintCloud,
-  paintEmbers,
   paintGround,
   paintMarks,
   paintRidge,
@@ -287,10 +285,10 @@ export class GameScene extends Phaser.Scene {
     // identically (a raw Graphics fill at negative depth does not paint).
     const backdrop = stageBackdrop(this.sim.stage.id)
     const skyKey = this.bakeLayer(
-      `bg-sky-${stage.bgSkyTop.toString(16)}-${stage.bgSkyBottom.toString(16)}-${backdrop.sky}`,
+      `bg-sky-${stage.bgSkyTop.toString(16)}-${stage.bgSkyBottom.toString(16)}`,
       TILE_W,
       SKY_H,
-      (ctx) => paintSky(ctx, stage.bgSkyTop, stage.bgSkyBottom, backdrop.sky),
+      (ctx) => paintSky(ctx, stage.bgSkyTop, stage.bgSkyBottom),
     )
     const sky = this.add.tileSprite(0, 0, stage.length + 64, SCREEN_HEIGHT, skyKey)
     sky.setOrigin(0, 0).setDepth(-20)
@@ -355,27 +353,6 @@ export class GameScene extends Phaser.Scene {
     // 256px either way, so scrolling is unchanged.
     marks.setTileScale(0.5, 0.5)
     marks.setName('bgMarks')
-
-    // Fire strip: embers and smoke for the burning stages, additive so the
-    // sparks read as light. Drifted by sim tick in update, which keeps it
-    // deterministic across renderers.
-    if (backdrop.embers) {
-      const emberKey = this.bakeLayer('bg-embers', TILE_W, EMBERS_H, paintEmbers)
-      const embers = this.add.tileSprite(
-        0,
-        groundTop - EMBERS_H + MARKS_ROOT_DEPTH,
-        stage.length + 64,
-        EMBERS_H,
-        emberKey,
-      )
-      // UIR-20 (V-19 remainder): same half-texture display the marks, sky
-      // and hills had - without this only the sheet's top half displayed and
-      // half the sparks never appeared. tileScale 0.5 maps it 1:1; the
-      // tick-driven drift and additive blend are untouched.
-      embers.setTileScale(0.5, 0.5)
-      embers.setOrigin(0, 0).setDepth(-11).setBlendMode('ADD')
-      embers.setName('bgEmbers')
-    }
 
     // Bright ground strip under the walkable band.
     const groundKey = this.bakeLayer(`bg-ground-${stage.bgGround.toString(16)}`, TILE_W, GROUND_H, (ctx) =>
@@ -646,16 +623,10 @@ export class GameScene extends Phaser.Scene {
     // Parallax the background hills at 0.4x camera speed; move the sun/clouds.
     const hills = this.children.getByName?.('bgHills') as Phaser.GameObjects.TileSprite | undefined
     if (hills) hills.tilePositionX = this.sim.scrollX * 0.4
-    // Landmarks ride between hills and ground at 0.6x; embers ride with them
-    // and rise by tick - both deterministic functions of the sim, so the two
-    // renderers agree pixel for pixel.
+    // Landmarks ride between hills and ground at 0.6x - a deterministic
+    // function of the sim, so the two renderers agree pixel for pixel.
     const marks = this.children.getByName?.('bgMarks') as Phaser.GameObjects.TileSprite | undefined
     if (marks) marks.tilePositionX = this.sim.scrollX * 0.6
-    const embers = this.children.getByName?.('bgEmbers') as Phaser.GameObjects.TileSprite | undefined
-    if (embers) {
-      embers.tilePositionX = this.sim.scrollX * 0.6
-      embers.tilePositionY = -((this.sim.tick * 0.25) % EMBERS_H)
-    }
     if (this.cloudLayer) this.cloudLayer.setX(-this.sim.scrollX * 0.18)
   }
 

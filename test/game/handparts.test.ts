@@ -98,7 +98,7 @@ async function packFighters(): Promise<Array<{ pack: string; id: string; skin: n
       out.push({ pack, id, skin: parseInt(m.skin.slice(1), 16) })
     }
   }
-  expect(out.length).toBe(17)
+  expect(out.length).toBe(11)
   return out
 }
 

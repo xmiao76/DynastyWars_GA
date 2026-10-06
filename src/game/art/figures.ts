@@ -212,46 +212,18 @@ export const ENEMY_FIGURES: Record<string, FigurePlan> = {
   archer: plan(0x3a6b3a, 0x6a9a5a, 0x2a4a2a, 'hood', 'bow', GRUNT, 'none', undefined, false, SKIN_ARCHER),
 
   /*
-   * The nine bosses, given the same treatment as the heroes. Their complexions
-   * are DELIBERATELY modest variations around the cast base rather than the
-   * heroes' saturated choices: only Xiahou Dun has an iconic complexion cue
-   * (the scar), so inventing strong tones for the rest would be colouring for
-   * its own sake. What carries them is the face kind and the gear they already
-   * had.
+   * The three bosses, given the same treatment as the heroes. Their
+   * complexions are DELIBERATELY modest variations around the cast base
+   * rather than the heroes' saturated choices: only Xiahou Dun has an
+   * iconic complexion cue (the scar), so inventing strong tones for the
+   * rest would be colouring for its own sake. What carries them is the
+   * face kind and the gear they already had.
    *
    *   李典 Li Dian      the literate, reserved one        calm
    *   夏侯惇 Xiahou Dun hot-tempered, lost an eye         fierce, scarred
    *   許褚 Xu Chu       the "tiger fool", a blunt mass    fierce
-   *   曹仁 Cao Ren      the defender of Fan               calm
-   *   張遼 Zhang Liao   the dashing awe-inspiring one     phoenix
-   *   徐晃 Xu Huang     the disciplined veteran           sharp
-   *   張郃 Zhang He     the refined one                   calm
-   *   曹操 Cao Cao      the cold, suspicious villain      narrow (细眼)
-   *   呂布 Lu Bu        the mightiest, and the baseline   fierce
-   *
-   * ART-17 gave the two most famous of them what the novel names them by:
-   * Cao Cao is 身长七尺, 细眼长髯 - narrow eyes and a long beard - and Lu Bu
-   * wears the 三叉束发紫金冠 with 雉尾 plumes, where he used to wear Cao Cao's
-   * own crown.
    */
   lidian: plan(0x27275e, 0x6a6ab0, 0x14143a, 'helmet', 'glaive', BOSS_LEAN, 'none', undefined, false, 0xbb9d7e, 'calm'),
   xiahoudun: plan(0x5e2247, 0xb05a8a, 0x2a0a1a, 'band', 'spear', BOSS, 'full', 0x201018, false, 0x80684e, 'fierce', true),
   xuchu: plan(0x6e5a1e, 0xd8bc50, 0x3a2a0a, 'helmet', 'glaive', BOSS_HUGE, 'full', 0x3a2a12, false, 0x4c3629, 'fierce'),
-  // Cao Ren, Cao Cao's elder cousin and the veteran who held Fan: bearded, as
-  // every depiction gives him. He had Li Dian's clean-shaven `calm` face, so
-  // under the hat the two were the same man.
-  caoren: plan(0x2f4459, 0x7aa0c0, 0x1a2a3a, 'turban', 'glaive', BOSS, 'full', 0x2a2018, false, 0x8d7358, 'calm'),
-  // Zhang Liao, the mature commander of Hefei, bearded in the stage and
-  // painted tradition; Zhang He beside him stays the clean-shaven refined one.
-  // Both wore the same helmet on the same build, so without it their faces
-  // differed by 1.4% of the face region - two brow angles.
-  zhangliao: plan(0x1f4a33, 0x5aa87e, 0x0a2a1a, 'helmet', 'spear', BOSS_LEAN, 'full', 0x1e1810, true, 0xa48a6c, 'phoenix'),
-  xuhuang: plan(0x5e3620, 0xb8864a, 0x2a1a0a, 'band', 'glaive', BOSS, 'long', 0x2a1a10, false, 0x82684d, 'sharp'),
-  // 郃识变数 - Zhang He "understood the shifts of battle", the one Wei general
-  // Zhuge Liang is said to have feared: the shrewd tactician's severe face. He
-  // wore Li Dian's `calm` face under the same helmet on the same build, so on
-  // the in-play head the two were one man in two colours.
-  zhanghe: plan(0x2d5a49, 0x6ec0a0, 0x1a2a2a, 'helmet', 'sword', BOSS_LEAN, 'none', undefined, true, 0x9f866e, 'sharp'),
-  caocao: plan(0x452073, 0xc8a828, 0xb8860b, 'crown', 'sword', BOSS, 'long', 0x241a18, true, 0x6b5945, 'narrow'),
-  lubu: plan(0xa82222, 0xe8c828, 0xd0b01a, 'plumed', 'ji', BOSS_HUGE, 'none', undefined, true, 0xc1a181, 'fierce'),
 }
