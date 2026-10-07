@@ -160,7 +160,82 @@ export async function spliceComboRound2() {
   return { image: out, placements, cuts: { A: cutA, B: cutB }, composition, measured }
 }
 
+export const CELL0_OUT = 'art/motion/xiahoudun/combo-cell0-spliced-source.png'
+
+// Single-cell salvage: fig1 (fully isolated round-2 windup) into candidate
+// cell 0 by component extraction - no cut column needed. Cells 1-8 stay exact.
+export async function spliceComboCell0() {
+  const cand = await loadPixels(CAND_PATH, CAND_SHA, C_W, C_H)
+  const r2 = await loadPixels(R2_PATH, R2_SHA, R2_W, R2_H)
+  const cellOf = gridCellOf(3, 3)
+  const candComps = alphaComponents(cand, 96).filter(c => c.area > 64)
+  const old = candComps.filter(c => cellOf(c, C_W, C_H) === 0)
+  if (!old.length) throw Error('splice cell0: candidate cell 0 drawing missing')
+  let ox0 = 1e9, ox1 = 0, oy0 = 1e9, oy1 = 0
+  for (const c of old) for (const p of c.pixels) {
+    const x = p % C_W, y = (p / C_W) | 0
+    if (x < ox0) ox0 = x; if (x > ox1) ox1 = x; if (y < oy0) oy0 = y; if (y > oy1) oy1 = y
+  }
+  const r2big = alphaComponents(r2, 96).filter(c => c.area > 64)
+  const figs = r2big.filter(c => c.x1 <= 410)
+  if (figs.length !== 1) throw Error(`splice cell0: expected 1 isolated fig, found ${figs.length}`)
+  const fig = figs[0]
+  const fw = fig.x1 - fig.x0 + 1, fh = fig.y1 - fig.y0 + 1
+  const out = { width: C_W, height: C_H, data: new Uint8ClampedArray(cand.data) }
+  for (const c of old) for (const p of c.pixels) {
+    const k = p * 4
+    out.data[k] = 0; out.data[k + 1] = 0; out.data[k + 2] = 0; out.data[k + 3] = 0
+  }
+  const r2img = await loadImage(readFileSync(R2_PATH))
+  const src = createCanvas(R2_W, R2_H), sg = src.getContext('2d')
+  sg.drawImage(r2img, 0, 0)
+  const piece = createCanvas(fw, fh), pg = piece.getContext('2d')
+  pg.drawImage(src, fig.x0, fig.y0, fw, fh, 0, 0, fw, fh)
+  const dw = Math.max(1, Math.round(fw * K)), dh = Math.max(1, Math.round(fh * K))
+  const scaled = createCanvas(dw, dh), gg = scaled.getContext('2d')
+  // Nearest-neighbor: bilinear pinches the thin shaft below the alpha gate
+  // and severs the head (proven by the 718+1134px fragments on the first try).
+  gg.imageSmoothingEnabled = false
+  gg.drawImage(piece, 0, 0, dw, dh)
+  const sd = gg.getImageData(0, 0, dw, dh)
+  const dx = Math.round((ox0 + ox1) / 2 - dw / 2), dy = Math.round((oy0 + oy1) / 2 - dh / 2)
+  for (let y = 0; y < dh; y++) for (let x = 0; x < dw; x++) {
+    const ox = dx + x, oy = dy + y
+    if (ox < 0 || oy < 0 || ox >= C_W || oy >= C_H) throw Error('splice cell0: paste out of bounds')
+    const sk = (y * dw + x) * 4
+    if (sd.data[sk + 3] === 0) continue
+    const dk = (oy * C_W + ox) * 4
+    for (let ch = 0; ch < 4; ch++) out.data[dk + ch] = sd.data[sk + ch]
+  }
+  for (const c of candComps) {
+    if (cellOf(c, C_W, C_H) === 0) continue
+    for (const p of c.pixels) for (let ch = 0; ch < 4; ch++) {
+      if (cand.data[p * 4 + ch] !== out.data[p * 4 + ch]) throw Error('splice cell0: non-target cell changed')
+    }
+  }
+  const composition = verifySheetComposition(out, { expectCells: [0, 1, 2, 3, 4, 5, 6, 7, 8], cellOf })
+  const post = alphaComponents(out, 96).filter(c => c.area > 64)
+  for (const c of post) {
+    if (c.x0 <= 0 || c.y0 <= 0 || c.x1 >= C_W - 1 || c.y1 >= C_H - 1) throw Error('splice cell0: edge contact')
+  }
+  const pts = []
+  for (const c of post) {
+    if (cellOf(c, C_W, C_H) !== 0) continue
+    for (const p of c.pixels) pts.push([p % C_W, (p / C_W) | 0])
+  }
+  return { image: out, placement: { srcBox: [fig.x0, fig.y0, fw, fh], dst: [dx, dy, dw, dh] }, composition, measured: { cell: 0, n: pts.length, ...pcaLength(pts) } }
+}
+
 async function main() {
+  if (process.argv.includes('cell0')) {
+    const r = await spliceComboCell0()
+    const cv = createCanvas(C_W, C_H), g = cv.getContext('2d')
+    const d = g.createImageData(C_W, C_H); d.data.set(r.image.data); g.putImageData(d, 0, 0)
+    const png = cv.toBuffer('image/png')
+    writeFileSync(CELL0_OUT, png)
+    console.log(JSON.stringify({ file: CELL0_OUT, sha256: createHash('sha256').update(png).digest('hex'), k: K, placement: r.placement, composition: r.composition, measured: { cell: 0, n: r.measured.n, length: +r.measured.length.toFixed(1), angle: +r.measured.angleDeg.toFixed(1) } }, null, 2))
+    return
+  }
   const r = await spliceComboRound2()
   const cv = createCanvas(C_W, C_H), g = cv.getContext('2d')
   const d = g.createImageData(C_W, C_H); d.data.set(r.image.data); g.putImageData(d, 0, 0)

@@ -3,7 +3,7 @@ import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { readFileSync } from 'node:fs'
 import { alphaComponents } from '../../scripts/motion-pipeline.mjs'
 import { gridCellOf } from '../../scripts/motion-retouch.mjs'
-import { K, KEEP, MAP, spliceComboRound2 } from '../../scripts/splice-xiahoudun-combo-round2.mjs'
+import { K, KEEP, MAP, spliceComboCell0, spliceComboRound2 } from '../../scripts/splice-xiahoudun-combo-round2.mjs'
 
 const med = (a: number[]) => [...a].sort((x, y) => x - y)[a.length >> 1]!
 
@@ -38,5 +38,9 @@ describe('CMR-14A combo round-2 splice gate', () => {
 
   it('refuses a blind cut through steel spearhead and tassel mass', async () => {
     await expect(spliceComboRound2()).rejects.toThrow(/not empty/)
+  })
+
+  it('refuses the k-scaled cell0 paste that severs the spearhead (smooth and nearest agree)', async () => {
+    await expect(spliceComboCell0()).rejects.toThrow(/vs expected/)
   })
 })
