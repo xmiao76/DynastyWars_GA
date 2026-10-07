@@ -582,7 +582,20 @@ Selection: due producer review first, then the earliest ready CMR task; continue
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: BLOCKED (rule 5, attempt2; owner reset BLOCKED->TODO applied
+- Owner authorization (owner-2026-10-07-cmr14a-one-clean-redraw, 2026-10-07): ONE extra focused
+  clean-redraw request (round 4) for combo:0/2/3/6/7 ONLY. Repair extension is
+  fighter-local; previous 3 rounds stay spent. Reserve through the normal repair
+  API BEFORE image_generate; preserve original/hash-pinned references and output.
+  Request at-scale separated figures with clear rear grips/butts, no guide lines
+  or dotted construction artifacts; keep poses/identity/band/timing unchanged.
+  No additional request, refund, waiver or new iteration budget is implicit.
+  If provider/output/gate/splice fails, return BLOCKED and let the runner pause.
+  If the source succeeds, only bounded downstream preparation/verification of
+  that source is allowed; do not let green refusal tests justify more attempts.
+  This does NOT mark CMR-14A DONE or authorize 14B/runtime activation. Other open
+  acceptance items still need truthful closure under existing authorization.
+
+- Status: IN_PROGRESS (owner-authorized one-round recovery in progress, 2026-10-07; round 4 ACCEPTED 2026-10-07 (5 separated clean, k~0.875, splice + remeasure next); prior BLOCKED rule 5, attempt2; owner reset BLOCKED->TODO applied
   after completed independent review, then named correction started).
   Reviewer `6c8414d5` opened27 images: NEEDS_NAMED_REPAIR walk:0
   rear hand/shaft layering, NOT mandatory all-charge head rescale;

@@ -220,8 +220,35 @@
           "sourceSha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b",
           "evidence": "Reviewed at native size: 5 fully separated components (x-overlaps are y-separated, zero shared pixels), 0 edge contact, 4 specks <=3px dust; all grips show haft + butt clear, tassels/heads intact, muted palette; figure heights 351-368 vs walk 319-324 (~1.12x) so only a gentle k~0.89 fit is needed - the 0.757 neck-severing regime does not apply. Splice + remeasure pending next.",
           "outputSha256": "7f52f1afe55e7911fe88be00d3e8dd4fa3bc2c0bd79103e6fdf4d92984a1f509"
+        },
+        {
+          "number": 4,
+          "status": "accepted",
+          "cells": [
+            "combo:0",
+            "combo:2",
+            "combo:3",
+            "combo:6",
+            "combo:7"
+          ],
+          "failure": "Round-3 redraws correct scale but unusable for splicing: resampling to walk scale severs 1px necks under all three filters (identical debris); centered lunges fuse across cells (new:3+new:6 proven) and the sheet carries dotted guide-line construction artifacts. One clean redraw at EXACT walk scale (figures 315-325px boot-to-headgear, spears 404-447px) with >=40px gutters, no guide lines, same five poses.",
+          "sourceSha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b",
+          "evidence": "Reviewed at native size: 5 fully separated components (zero shared pixels), 0 edge contact, 7 specks <=6px dust; all grips show haft + butt clear, tassels/heads intact, muted palette, no guide lines or dotted artifacts visible; fig5 guard spear diagonal per brief; figure heights 359-375 vs walk 319-324 (~1.14x) so only a gentle k~0.875 fit. Splice + remeasure pending next.",
+          "outputSha256": "d695e78534477726d0c3d2a3ba3aa3c5c5143f8dce4c89c93cd9c74f2582685b"
         }
-      ]
+      ],
+      "ownerExtension": {
+        "additionalRounds": 1,
+        "authorizationId": "owner-2026-10-07-cmr14a-one-clean-redraw",
+        "reason": "Owner approved exactly one additional clean redraw request for the five named combo cells, no waiver or retry rollover; preserve originals, all acceptance gates and prior round history.",
+        "cells": [
+          "combo:0",
+          "combo:2",
+          "combo:3",
+          "combo:6",
+          "combo:7"
+        ]
+      }
     }
   }
 }
