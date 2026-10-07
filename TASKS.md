@@ -616,8 +616,11 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   palette muted (charge warm-paint did not recur). Weapon FAILS: measured
   [470.1,340.3,472.8,467.7,487.7,475.7]32.6% vs fixed band -> STOP; thrust
   cells2/6/7 rear shaft occluded=UNKNOWN. Not accepted/not recorded.
-  Next: cap-shorten cells0/3/4/5/8; cell1 short + occluded2/6/7 need a
-  reserve-first repair or 2nd combo candidate. Audit combo-candidate-1-audit.json.
+  Retouch feasibility measured first: cap-slide room fits only cells4/5/8
+  (5 marginal); cells0/3 (fist too close to butt) and occluded2/6/7 cannot
+  be closed by retouch. Next: ONE reserve-first repair round for 0/2/3/6/7
+  (+1 if needed), then cap-slide 4/5/8 + cell1 extend; or 2nd combo
+  candidate. Audit combo-candidate-1-audit.json.
   Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
   [grip audit](art/motion/xiahoudun/walk-guard-grip-audit.json),

@@ -54,5 +54,17 @@
   "numericalHeadSpread": null,
   "poseFindings": "Cells0-5,8 read as a coherent lunge/thrust family. Thrust cells2/6/7 hide the rear shaft behind the extended forearm, so the spear cannot be fully measured; cells 6 and 7 look like extreme forward reaches. Sheet not yet reviewed against the sword.combo exposure windows (9/4/12).",
   "projectionRecordAdded": false,
-  "next": "Deterministic cap shorten for over-band cells0/3/4/5/8 (protected hands/cloth, enlarged pairs, true endpoints). Cell1 is too short and cells2/6/7 are occluded, so retouch alone cannot close the gate: those need a reserve-first focused repair (repair rounds 2 left) or the second combo whole-sheet candidate (1 left). Keep 10% fixed band; no recentering."
+  "retouchFeasibility": {
+    "method": "Per measured cell, march from the rear point toward the tip along the shaft axis until a skin-coloured fist spans the shaft corridor (colour heuristic, to be confirmed on enlarged pairs). Cap-slide room = free shaft to the fist minus the ~44px moved cap piece (walk ops used t0 42-60). Required removal = length minus fixed band hi 446.70.",
+    "cells": [
+      { "cell": 0, "lengthPx": 470.1, "minRemovalPx": 23.4, "freeShaftPx": 61, "slideRoomPx": 17, "capSlideFeasible": false },
+      { "cell": 3, "lengthPx": 472.8, "minRemovalPx": 26.1, "freeShaftPx": 30, "slideRoomPx": 0, "capSlideFeasible": false },
+      { "cell": 4, "lengthPx": 467.7, "minRemovalPx": 21.0, "freeShaftPx": 96, "slideRoomPx": 52, "capSlideFeasible": true },
+      { "cell": 5, "lengthPx": 487.7, "minRemovalPx": 41.0, "freeShaftPx": 89, "slideRoomPx": 45, "capSlideFeasible": true, "note": "marginal: 4px of room beyond the minimum" },
+      { "cell": 8, "lengthPx": 475.7, "minRemovalPx": 29.0, "freeShaftPx": 79, "slideRoomPx": 35, "capSlideFeasible": true },
+      { "cell": 1, "lengthPx": 340.3, "minExtensionPx": 63.9, "freeShaftPx": 137, "note": "under band; an extend op might fit but is untested" }
+    ],
+    "conclusion": "Deterministic cap-slide can plausibly reach cells4/5/8 only. Cells0/3 (over band, fist too close to the butt) and the occluded thrust cells2/6/7 cannot be closed by retouch. Even a perfect retouch of 4/5/8 leaves cells0/2/3/6/7 failing or unknown, so the gate cannot close without a redraw."
+  },
+  "next": "ONE reserve-first focused repair round (repair rounds 2 left; 5 cells fit under the 9-cell cap) for cells 0,2,3,6,7 (+1 if its extend op fails): ask for a visible grip with the rear shaft and butt cap in clear space, spear 420-430px. Then deterministic cap-slide/extend for 4/5/8/1 with protected hands and enlarged pairs. Alternative: the second combo whole-sheet candidate (1 left, 9 budget). Keep the 10% fixed band; no recentering; no projection record until every kept cell is measured."
 }
