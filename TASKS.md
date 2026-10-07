@@ -595,7 +595,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   This does NOT mark CMR-14A DONE or authorize 14B/runtime activation. Other open
   acceptance items still need truthful closure under existing authorization.
 
-- Status: IN_PROGRESS (owner-authorized one-round recovery in progress, 2026-10-07; round 4 ACCEPTED 2026-10-07 (5 separated clean; splice v2 gates pass BUT overlay review rejects it - hull endpoints off-wood, sub-gate dotted ghosts persist (erase misses alpha<96); ghost-clear + shaft-fitted remeasure next); prior BLOCKED rule 5, attempt2; owner reset BLOCKED->TODO applied
+- Status: IN_PROGRESS (owner-authorized one-round recovery in progress, 2026-10-07; round 4 ACCEPTED 2026-10-07 (5 separated clean; splice v3 (ghost-clear) gates pass, driver tested 23/23; hull endpoints overlay-REJECTED (body diagonal) - hand-axis measurement next); prior BLOCKED rule 5, attempt2; owner reset BLOCKED->TODO applied
   after completed independent review, then named correction started).
   Reviewer `6c8414d5` opened27 images: NEEDS_NAMED_REPAIR walk:0
   rear hand/shaft layering, NOT mandatory all-charge head rescale;
