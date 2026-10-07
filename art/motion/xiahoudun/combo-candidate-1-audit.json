@@ -1,0 +1,58 @@
+{
+  "fighter": "xiahoudun",
+  "sequence": "combo",
+  "status": "CANDIDATE_1_WEAPON_FAIL_NOT_ACCEPTED",
+  "candidate": { "file": "combo-candidate-1.png", "sha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b", "width": 1536, "height": 1024, "immutable": true },
+  "prompt": { "file": "combo-prompt.txt", "sha256": "bfe1c6b666fe3b90154a56bb3509c0171378f5517ef68394d14c46e48659523c" },
+  "request": {
+    "reservedBeforeCall": true,
+    "kind": "whole-sheet",
+    "ledger": "art/motion/generation-budget.json",
+    "xiahoudunUsedAfter": 3,
+    "xiahoudunCap": 12,
+    "comboSheetCandidates": 1,
+    "globalUsedAfter": 129,
+    "globalCap": 200,
+    "references": [
+      { "order": 1, "role": "body master", "sha256": "a57630a2e29eb45616143bd6b8887988b4c66102893e88616e35cabf93ea651a" },
+      { "order": 2, "role": "portrait master", "sha256": "01bb7271ed5f849a84f7329b778ef4bf9cb2fca9316639fe5d67f5e54224363b" },
+      { "order": 3, "role": "accepted corrected walk (spear design, figure scale, palette)", "sha256": "0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685" }
+    ],
+    "provider": "image_generate default (gpt route); size 1536x1024; quality high",
+    "promptChangesVsCharge": "Added explicit instructions to keep head/figure scale equal to the walk reference and to keep the muted dark palette (no bright copper/pink rims or orange-pink skin); tilt family widened to 35 degrees, no downward spears."
+  },
+  "composition": { "figures": 9, "cells": [0,1,2,3,4,5,6,7,8], "outerEdgeContact": 0, "detachedSpecks": 15, "nearWhiteOpaque": 0 },
+  "weaponMethod": "Whole-material alpha>=96 endpoints from component-constrained tip and rear boxes read on 1x coordinate-grid strips; cell1 butt cap verified at 8x. Rear ends hidden behind the forearm are NOT measured: recorded as visible lower bounds only.",
+  "weapon": {
+    "measured": [
+      { "cell": 0, "tip": [520,165], "rear": [55,234], "lengthPx": 470.1 },
+      { "cell": 1, "tip": [1028,40], "rear": [722,189], "lengthPx": 340.3 },
+      { "cell": 3, "tip": [552,452], "rear": [80,480], "lengthPx": 472.8 },
+      { "cell": 4, "tip": [1012,410], "rear": [569,560], "lengthPx": 467.7 },
+      { "cell": 5, "tip": [1505,469], "rear": [1032,588], "lengthPx": 487.7 },
+      { "cell": 8, "tip": [1524,706], "rear": [1087,894], "lengthPx": 475.7 }
+    ],
+    "occludedLowerBounds": [
+      { "cell": 2, "visibleLengthPx": 305.7, "note": "butt hidden behind forearm; true length unknown" },
+      { "cell": 6, "visibleLengthPx": 228.8, "note": "butt hidden behind forearm; true length unknown" },
+      { "cell": 7, "visibleLengthPx": 231.8, "note": "butt hidden behind forearm; true length unknown" }
+    ],
+    "spreadMeasured": 0.3258298640533471,
+    "fixedBand": { "lo": 404.1605167916991, "hi": 446.70372908556226 },
+    "projectionStatus": "STOP",
+    "overBand": [0,3,4,5,8],
+    "underBand": [1],
+    "unknown": [2,6,7],
+    "recorded": false
+  },
+  "evidence": [
+    { "path": "artifacts/motion/xiahoudun/combo-review/candidate-1-endpoints-overlay.png", "sha256": "f9cfbdfaf3b14976519212ff1d5b2723cebef8f8c7d4074c095015738bf7e630" },
+    { "path": "artifacts/motion/xiahoudun/combo-review/candidate-1-cell1-butt-8x.png", "sha256": "e1a13e9ec174603f4c648543a84d66188b43687c53f801b4ff3a5b0e19f2c892" }
+  ],
+  "paletteObservation": "Dark brown-grey lamellar, muted plum sash; no bright copper/pink rims or orange-pink skin like the charge sheet. Parent visual read only, not an independent verdict.",
+  "headGate": "UNVERIFIED",
+  "numericalHeadSpread": null,
+  "poseFindings": "Cells0-5,8 read as a coherent lunge/thrust family. Thrust cells2/6/7 hide the rear shaft behind the extended forearm, so the spear cannot be fully measured; cells 6 and 7 look like extreme forward reaches. Sheet not yet reviewed against the sword.combo exposure windows (9/4/12).",
+  "projectionRecordAdded": false,
+  "next": "Deterministic cap shorten for over-band cells0/3/4/5/8 (protected hands/cloth, enlarged pairs, true endpoints). Cell1 is too short and cells2/6/7 are occluded, so retouch alone cannot close the gate: those need a reserve-first focused repair (repair rounds 2 left) or the second combo whole-sheet candidate (1 left). Keep 10% fixed band; no recentering."
+}

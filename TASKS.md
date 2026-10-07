@@ -611,7 +611,13 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Next: normal-speed review by a working reviewer/owner judgement of the
   dash->dash2 boundary; only if confirmed a defect, one reserve-first
   focused charge:3 repair or no-art exposure re-timing; no head rescale.
-  Authoring2/12/global128/200/repair2left, no new image cost or policy change.
+  COMBO candidate1 generated (reserve-first; authoring now3/12, global
+  129/200, repair2left): `combo-candidate-1.png` c2c5fefc, 9 figures/0 edge,
+  palette muted (charge warm-paint did not recur). Weapon FAILS: measured
+  [470.1,340.3,472.8,467.7,487.7,475.7]32.6% vs fixed band -> STOP; thrust
+  cells2/6/7 rear shaft occluded=UNKNOWN. Not accepted/not recorded.
+  Next: cap-shorten cells0/3/4/5/8; cell1 short + occluded2/6/7 need a
+  reserve-first repair or 2nd combo candidate. Audit combo-candidate-1-audit.json.
   Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
   [grip audit](art/motion/xiahoudun/walk-guard-grip-audit.json),
