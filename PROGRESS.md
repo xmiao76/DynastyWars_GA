@@ -8,6 +8,11 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-07 08:00 UTC - CMR-14A attempt2 (continue): round 3 (LAST) generated + ACCEPTED - separated, near-scale, splice next
+- Reserved round 3 (0 left) with the at-scale separated brief, then read walk-corrected 0aff5a39 (scale anchor) + round-2 raw (pose ref) with read_image, fixed a stray-word typo in the prompt file, one image_generate call. Output 7f52f1af 2073x758 preserved byte-identical: 5 poses with visible rear grips/butts clear, identity/palette clean (self-check).
+- Audit: 5 fully separated components (x-overlaps y-separated, zero shared pixels - component extraction, no cuts), 0 edge, 4 specks <=3px; figure heights 351-368 vs walk 319-324 (~1.12x) so only a gentle k~0.89 fit is needed. Settled ACCEPTED with evidence. Watch item recorded: fig5 guard spear near-vertical (526px tall) vs 341px cell height - placement must respect it at splice.
+- Verification: repair 7/7 + budget 9/9 green after settle. No vision/prodbuild/signal (offline); authoring 3/12; projection walk-only; no runtime change.
+- Result IN_PROGRESS. Next: k~0.89 component splice into cells 0/2/3/6/7 + full remeasure + pair review; then cap-slide 5/8 + cell1 extend.
 ### 2026-10-07 07:45 UTC - CMR-14A attempt2 (half-hourly tick): k-splice path CLOSED - downscale severs spearhead, round 3 must be drawn at scale
 - Single-cell salvage attempted (spliceComboCell0: component-extracted fig1, K=0.7571, centered on old cell0): gate refused with 11 comps - the pasted fig sheds identical 718+1134px fragments at x406-438 under BOTH bilinear and nearest-neighbor, so it is a structural thin neck in the source that cannot survive 0.757x, not a filter artifact. Old-cell3x view confirms the tight cell (spear spans full width). Combined with the uncuttable overlaps, NO k-splice of round-2 art is viable. Round 2 stays accepted-source (pose/grip reference only).
 - Pinned the closure in tests (splice suite 4/4: K derivation, MAP/KEEP, full-splice refusal, cell0 refusal). lint + typecheck clean (added the .d.mts entry first).

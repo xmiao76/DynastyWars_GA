@@ -205,6 +205,21 @@
           "sourceSha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b",
           "evidence": "Reviewed provider output at native size + 4x touch-zone crops: all 5 redrawn grips show haft + butt cap in clear space with intact fingers/tassels/heads, muted palette, no edge contact; two fringe touches (fig2-tip near fig3 tassel/head zone x926-979; fig4 tassel/head zone near fig5 butt x~1730) with all parts visually intact - separable at splice; 7 specks all <=4px (tassel fringe/dust). Splice + full remeasure pending next.",
           "outputSha256": "26427f3000e9f12fd63417da6ca24adf5cf14deff21354cec6e8d1ae965fd788"
+        },
+        {
+          "number": 3,
+          "status": "accepted",
+          "cells": [
+            "combo:0",
+            "combo:2",
+            "combo:3",
+            "combo:6",
+            "combo:7"
+          ],
+          "failure": "Round-2 redraws are unusable for splicing: provider drew ~1.39x over scale AND overlapped figures (fig2 steel head inside fig3 zone to x979; fig4 tassel mass to x1790); uniform 0.757x downscale severs the spearhead neck under both resampling filters (identical 718+1134px fragments). Redraw these 5 at EXACT walk scale (figure 315-325px tall boot-to-headgear, spears 404-447px tip-to-butt) with >=40px empty gutters between neighbors, same five poses.",
+          "sourceSha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b",
+          "evidence": "Reviewed at native size: 5 fully separated components (x-overlaps are y-separated, zero shared pixels), 0 edge contact, 4 specks <=3px dust; all grips show haft + butt clear, tassels/heads intact, muted palette; figure heights 351-368 vs walk 319-324 (~1.12x) so only a gentle k~0.89 fit is needed - the 0.757 neck-severing regime does not apply. Splice + remeasure pending next.",
+          "outputSha256": "7f52f1afe55e7911fe88be00d3e8dd4fa3bc2c0bd79103e6fdf4d92984a1f509"
         }
       ]
     }
