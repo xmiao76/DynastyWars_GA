@@ -601,9 +601,16 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   in0/3/4; all alpha/geometry/weapon RGBA and cells1/2/5..8 exact.
   Opened3 material4x pairs/logical before-after; reduced mismatch is
   a consumer self-check, not source/normal-speed acceptance.
-  Spares5..8 inspected:6 is candidate alternate dash2, still overlong
-  weapon/unaccepted. Next: isolated safe cap shorten6, true endpoints,
-  registered comparison then normal-speed review; no head rescale.
+  Spares5..8 inspected; spare6 alternate-dash2 TRIAL REJECTED (three
+  isolated cap-slide masks: stub, detached robe/overpainted fist, or
+  detached fragments; length-number passes not accepted). Not inserted.
+  Li Dian precedent comparison (coarse silhouette-top envelope incl.
+  weapon): Xiahou candidate max adjacent top change20.13u<Li Dian36.50u;
+  dash->dash2 +5.94u vs Li +3.5u - NOT evidence of a defect; the earlier
+  12.54u was a pelvis-landmark figure, a different metric. Not a pass.
+  Next: normal-speed review by a working reviewer/owner judgement of the
+  dash->dash2 boundary; only if confirmed a defect, one reserve-first
+  focused charge:3 repair or no-art exposure re-timing; no head rescale.
   Authoring2/12/global128/200/repair2left, no new image cost or policy change.
   Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
