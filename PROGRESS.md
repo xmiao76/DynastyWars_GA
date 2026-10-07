@@ -8,6 +8,12 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-06 (user "continue") - CMR-14A attempt2: independent stills review of the charge candidate -> paint pass 2; pose cut still unresolved
+- Context found on resume (not by me): since my last commit `9f19e97`, three commits by another writer landed (`6675b96` boundary filmstrips, `487f31d` combo candidate 1 = authoring 3/12 / global 129, `cdadf37` combo retouch-feasibility). I verified rather than assumed: `generation-budget.json` is the only ledger changed (xiahoudun used=3, matches that commit), acceptance4 repair ledger/src/projection untouched, and the merged tree passes 14 suites/65 tests + lint + typecheck. My work is committed separately and scoped; I did not touch the combo files. Note the other session logged "00:09 UTC" for a 17:46 -0700 commit - timestamps in that entry are not wall-clock-reliable.
+- Review: ran ONE read-only fork reviewer from the top-level session on the paint-corrected candidate stills (ticks 7/8/19-22/33/34/42/43, contacts, 4x pair). Stated first that stills cannot show smoothness. Verdict NEEDS_NAMED_REPAIR minor: charge:4 still visibly warmer/brighter than walk and charge1-3 (felt at 42->43), charge:3 mildly warmer than charge:2, 20->21 pose cut BORDERLINE (largest cut, not condemned), 7->8 and 33->34 acceptable, hands/grips/spear/neck clean. This CORRECTS the other session's filmstrip line "Palette now reads consistent across cuts" - it did not; corrected in REGISTERED-CHARGE-REVIEW.md and TASKS.md.
+- Fix: paint pass 2 `charge-paint-harmonized-2-source.png` SHA `320e235a5d489f2c080187bd211d458c9dccf6d2164a8e36e4b69130fc4428d7` from immutable pass-1 `98e2531f`; RGB only, named charge:3/4 polygons (stronger on :4), alpha/protected spear+tassel/every other cell byte-exact; candidate spec repointed; fixture rebuilt (53 stills, 52 ticks, 83.2u unchanged). Measured whole-figure Rec709 luma charge:3 56.2->54.8, charge:4 57.0->54.7 (refs charge1/2 ~50.5, walk 44.0): gap REDUCED NOT CLOSED, deliberately not driven to the reference (would flatten shading; part is genuine pose/lighting). Opened 6-tile logical comparison + charge:4 4x pass1/pass2 pair and regenerated filmstrip 2: slightly more muted, shading/grips intact, no gray flattening - self-check only.
+- Checks: 4 new tests (conservation incl. weapon/other-cell exactness, a luma check a no-op source fails, alpha and wrong-cell recolor negative controls, determinism); all 14 Xiahou/budget/projection suites 65/65, lint, typecheck exit 0. Pass 1 output hash re-verified unchanged (98e2531f) after exporting its region helper. No vision/prodbuild (offline art), no image request, no budget/projection/runtime change.
+- Result IN_PROGRESS. UNRESOLVED: the tick20->21 pose cut - no video encoder and no in-game ?motion=1 playback (CMR-14B not started), so nobody can judge smoothness from stills; needs the owner's eye on the two filmstrips or a playback-capable review. If a hitch: no-art re-timing inside the exact 26 active ticks or one reserve-first charge:3 repair (repair 2/3 left). Otherwise propose scoped source acceptance with the residual palette gap and UNVERIFIED head disclosed. Combo (other session's candidate 1, weapon 32.6% STOP) is a separate pending item; I am not advancing it this turn.
 ### 2026-10-07 00:09 UTC - CMR-14A attempt2: combo whole-sheet candidate 1 generated (3/12), weapon gate FAILS, not accepted
 - Clean HEAD `6675b96`; review1<4/no pending/current DUE NOW. Charge decision needed no new input, so I advanced the next sequence (combo) within the existing authoring budget. Reserved ONE whole-sheet request BEFORE the call (xiahoudun used 2->3/12, combo sheet candidates 1, global 128->129/200; ledger persisted, guard clause held), then ONE `image_generate` call (1536x1024, quality high) with ordered refs body `a57630a2`, portrait `01bb7271`, corrected walk `0aff5a39`. Prompt `combo-prompt.txt` adds what the charge sheet taught: keep head/figure scale equal to the walk reference, keep the muted dark palette (no bright copper/pink rims or orange-pink skin), no downward spears. Output saved UNTOUCHED as `art/motion/xiahoudun/combo-candidate-1.png` SHA `c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b` (immutable). 9 separate figures, 0 edge contact, 15 detached specks, nothing near-white.
 - Weapon (whole-material alpha>=96 endpoints read on 1x grid strips; cell1 butt verified at 8x; hidden rears NOT measured): measured [0:470.1, 1:340.3, 3:472.8, 4:467.7, 5:487.7, 8:475.7] spread 32.58% vs fixed band [404.16,446.70] -> projection STOP. Over band 0/3/4/5/8; under band 1; cells 2/6/7 are thrust poses whose rear shaft is hidden behind the extended forearm (visible lower bounds 305.7/228.8/231.8) so their true length is UNKNOWN, recorded as unknown, not passes. Nothing recorded in pack-projection.json; combo NOT accepted. Palette read: dark/muted, the charge-sheet warm-paint problem did not recur (parent read only, not independent). Head UNVERIFIED/null.
@@ -175,31 +181,6 @@ history slowly crowds out the work it is supposed to support.
   for a future touch (not filed): `docs/VISUAL_REVIEW.md`
   section 2 step 3 still says "nine intro cards"; producer pass
   may not edit outside the ledger.
-- Next recommended task: resume CMR-13A (combo fix-2) per queue.
-### 2026-10-06 - Owner direct request: cut game from nine stages to three
-- Status before: 9 stages, 9 bosses; CMR-13A IN_PROGRESS (unrelated motion work).
-- Work completed: removed stages 4-9 and their exclusive bosses
-  (caoren/zhangliao/xuhuang/zhanghe/caocao/lubu), 6 exclusive attacks,
-  stage lore/backdrop rows, boss face/body art + masters + prepared
-  entries, ember sky/strip machinery, emberscale e2e, CMR-16..21 specs;
-  retargeted finale to stage 3 (Xu Chu) incl. GameComplete copy; updated
-  unit/e2e/selfplay/vision counts and live docs (rollout, inventory,
-  boss/ weapon/whole-frame/visual-review references).
-- Files changed: ~119 files (core stage/enemy/attack defs, game
-  data/art/adapters/scenes, shipped + source boss art, scripts, tests,
-  e2e, selfplay, vision, live docs). Historical ledgers/archives kept
-  intact. Unrelated `.gitignore` change reverted.
-- Verification run: `npm run lint`, `npm run typecheck` green;
-  `npm run test` 867 passed / 1 failed (known baseline arm-chain G6,
-  pre-existing) / 6 skipped; `npm run build` green; targeted e2e
-  (finalstage/introcard/backdrop/body/hero-faces/stageclear/stage3)
-  green; `npm run vision` green after fixing whole-cast sprite counts
-  (12x14+4); zhaoyun 3-stage marathon + coop signal green;
-  `npm run prodbuild` 8/8 green. Grep gates: no removed
-  stage/boss/attack ids in src/test/e2e/selfplay/vision/scripts.
-- Result: direct request implemented; commit pending.
-- Status after: game is three stages ending on Xu Chu.
-- Remaining work or blocker: local commit of this change set.
 - Next recommended task: resume CMR-13A (combo fix-2) per queue.
 ### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
 - Status before: UIR-19 IN_PROGRESS attempt 2 (face-matched skins

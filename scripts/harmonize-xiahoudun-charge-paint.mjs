@@ -28,6 +28,7 @@ const WEAPONS={0:{a:[13,210],b:[423,164],tassel:[[326,164],[385,158],[384,218],[
 export function pointInPolygon(x,y,points){let inside=false;for(let i=0,j=points.length-1;i<points.length;j=i++){const a=points[i],b=points[j];if(((a[1]>y)!==(b[1]>y))&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside}return inside}
 function edgeDistance(x,y,points){let best=Infinity;for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length],dx=b[0]-a[0],dy=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(y-a[1])*dy)/(dx*dx+dy*dy)));best=Math.min(best,Math.hypot(x-a[0]-t*dx,y-a[1]-t*dy))}return best}
 export function isProtectedChargeWeapon(cell,x,y){const w=WEAPONS[cell];if(!w)return false;const dx=w.b[0]-w.a[0],dy=w.b[1]-w.a[1],L=Math.hypot(dx,dy),t=((x-w.a[0])*dx+(y-w.a[1])*dy)/L,o=Math.abs(-(x-w.a[0])*dy+(y-w.a[1])*dx)/L;return(t>=-8&&t<=L+8&&o<=15)||pointInPolygon(x,y,w.tassel)||pointInPolygon(x,y,w.blade)}
+export{adjustment as chargePaintAdjustment}
 function adjustment(cell,x,y){if(isProtectedChargeWeapon(cell,x,y))return null;let strongest=null;for(const r of CHARGE_PAINT_REGIONS){if(r.cell!==cell||!pointInPolygon(x,y,r.polygon))continue;const weight=Math.min(1,edgeDistance(x,y,r.polygon)/6);if(!strongest||weight>strongest.weight)strongest={kind:r.kind,weight}}return strongest}
 export function assertChargePaintConservation(before,after){
  if(before.width!==after.width||before.height!==after.height)throw Error('charge paint: dimensions changed')

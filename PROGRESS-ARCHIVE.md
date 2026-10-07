@@ -15781,3 +15781,29 @@ lines. Never read during an iteration; consult only for deep history.
 - **2026-10-06 10:09 UTC - CMR-14B readiness recheck — BLOCKED, not attempted** — Re-read loop/PROJECT/queue/progress; clean HEAD `58d67e8`; review1<4, no pending/current DUE NOW. No owner reset or IN_PROGRESS; first TODO14B still depends on owner-blocked14A DONE+complete pack. No fourth repair/dependent task/producer bypass. Statuses/art/budgets/runtime unchanged; only this progress checkpoint, verified whitespace/scope/line count, no unit/vision/prodbuild applicable. Await explicit owner head-gate route+14A reset. Rechecks are not repair attempts; no scheduler/control changes.
 - **2026-10-06 09:39 UTC - CMR-14B readiness recheck (not attempted — unchanged owner prerequisite)** — Clean tree at `c11f20b`; read AGENTS/continue/consumer/PROJECT/queue/progress. Review count1<4, no pending/current DUE NOW; no IN_PROGRESS. First TODO14B still requires BLOCKED14A DONE+complete pack; no owner decision/reset. No fourth repair, dependent implementation, producer bypass, image calls or status/art/budget/runtime changes. Progress-only checkpoint: whitespace/scope/<=500-line checks, no unit/vision/prodbuild rerun needed. Result BLOCKED; await explicit owner route+14A reset per HEAD-DIAGNOSIS.md. This readiness check is not another consumer repair attempt.
 - **2026-10-06 - CMR-14B readiness checkpoint (not attempted — upstream CMR-14A remains BLOCKED)** — Read queue/progress/contracts; clean tree at `b76b4fb`, review count1<4 and no pending/current DUE NOW. No IN_PROGRESS; first TODO14B requires14A DONE + complete pack, but14A is owner-blocked and no decision/reset arrived. Per sequential contract, no downstream work/producer bypass/fourth repair attempt. Task statuses, art, budgets/runtime unchanged; progress-only local checkpoint, `git diff --check` and scope/line-count checks only, no unit/vision/prodbuild needed. Result BLOCKED; owner chooses landmark/redraw or disclosed visual-acceptance route in HEAD-DIAGNOSIS.md and explicitly resets14A. Preserved all unfinished evidence; template whitespace tightened to keep current progress <=500 lines.
+
+### 2026-10-06 - Owner direct request: cut game from nine stages to three
+- Status before: 9 stages, 9 bosses; CMR-13A IN_PROGRESS (unrelated motion work).
+- Work completed: removed stages 4-9 and their exclusive bosses
+  (caoren/zhangliao/xuhuang/zhanghe/caocao/lubu), 6 exclusive attacks,
+  stage lore/backdrop rows, boss face/body art + masters + prepared
+  entries, ember sky/strip machinery, emberscale e2e, CMR-16..21 specs;
+  retargeted finale to stage 3 (Xu Chu) incl. GameComplete copy; updated
+  unit/e2e/selfplay/vision counts and live docs (rollout, inventory,
+  boss/ weapon/whole-frame/visual-review references).
+- Files changed: ~119 files (core stage/enemy/attack defs, game
+  data/art/adapters/scenes, shipped + source boss art, scripts, tests,
+  e2e, selfplay, vision, live docs). Historical ledgers/archives kept
+  intact. Unrelated `.gitignore` change reverted.
+- Verification run: `npm run lint`, `npm run typecheck` green;
+  `npm run test` 867 passed / 1 failed (known baseline arm-chain G6,
+  pre-existing) / 6 skipped; `npm run build` green; targeted e2e
+  (finalstage/introcard/backdrop/body/hero-faces/stageclear/stage3)
+  green; `npm run vision` green after fixing whole-cast sprite counts
+  (12x14+4); zhaoyun 3-stage marathon + coop signal green;
+  `npm run prodbuild` 8/8 green. Grep gates: no removed
+  stage/boss/attack ids in src/test/e2e/selfplay/vision/scripts.
+- Result: direct request implemented; commit pending.
+- Status after: game is three stages ending on Xu Chu.
+- Remaining work or blocker: local commit of this change set.
+- Next recommended task: resume CMR-13A (combo fix-2) per queue.

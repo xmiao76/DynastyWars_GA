@@ -165,6 +165,39 @@ was itself a delegated subagent and the nesting limit (depth 2 > max 1) rejected
 the spawn - an infrastructure limit, not an art result. Next: run the reviewer
 from the top-level session, or take your own judgement on the two filmstrips.
 
+## Independent stills review + paint pass 2 (supersedes the filmstrip palette line)
+
+A working read-only fork reviewer (top-level session, so no nesting limit) opened
+the paint-corrected logical/exposure contacts and ticks 7/8/19-22/33/34/42/43.
+It could not judge motion from stills (stated first). Verdict **NEEDS_NAMED_REPAIR,
+minor/scoped**: (1) charge:4 (ticks34-42) still visibly warmer/brighter than walk:0
+and charge:1-3, felt at the 42->43 cut; (2) charge:3 mildly warmer than charge:2 at
+the 20->21 cut; (3) the 20->21 pose cut is the largest ("BORDERLINE", flagged not
+condemned), 42->43 borderline mainly on palette, 7->8 and 33->34 acceptable; hands,
+grips, spear, necks clean in every opened frame. This **corrects** the filmstrip
+self-check sentence "Palette now reads consistent across cuts": it did not.
+
+Pass 2 (`charge-paint-harmonized-2-source.png`, `320e235a...`, 4 tests): RGB-only on
+the same named polygons for charge:3 and charge:4 (stronger on :4), input the
+immutable pass-1 output; alpha, protected spear/tassel and every other drawing
+exact. Whole-figure means (alpha>=96, Rec709 luma): charge:3 56.2->54.8, charge:4
+57.0->54.7; references charge:1/2 ~50.5, walk:0 44.0; bright-warm pixel fraction
+charge:4 0.0525->0.0466 vs ~0.029 refs. The gap is **reduced, not closed** - it is
+deliberately not driven to the reference (that flattens painted shading and part of
+it is genuine pose/lighting). Parent opened the 6-tile logical comparison and the
+charge:4 4x pass1/pass2 pair: slightly more muted copper/plum, rivets/folds/grips
+intact, no gray flattening/fringe - self-check, not an independent after-verdict.
+[Logical comparison](../../../artifacts/motion/xiahoudun/charge-paint-review/pass2-logical-compare.png),
+[charge:4 pair](../../../artifacts/motion/xiahoudun/charge-paint-review/pass2-paint-pair-4-4x.png),
+regenerated [filmstrip 2](../../../artifacts/motion/xiahoudun/registered-charge/boundary-filmstrip-2.png).
+
+Still unresolved: the 20->21 pose cut. There is no video encoder and no in-game
+`?motion=1` playback (CMR-14B not started), so smoothness cannot be judged by anyone
+from stills. It needs the owner's eye on the two filmstrips or a playback-capable
+review. If it reads as a hitch: no-art exposure re-timing inside the exact 26 active
+ticks, or one reserve-first charge:3 repair (repair 2/3 left). Otherwise propose
+scoped source acceptance with the residual palette gap and UNVERIFIED head disclosed.
+
 Weapon gates remain walk3.38%/2.74°, charge6.01%/19.5°, hypothetical combined6.89%
 OK at unchanged fixed band (weapon RGBA exact); charge still NOT entered as an
 accepted sheet. No combo/heavy/misc/fall/getup generated yet; full CMR-14A/14B

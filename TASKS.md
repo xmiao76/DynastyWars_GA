@@ -611,6 +611,19 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Next: normal-speed review by a working reviewer/owner judgement of the
   dash->dash2 boundary; only if confirmed a defect, one reserve-first
   focused charge:3 repair or no-art exposure re-timing; no head rescale.
+  CHARGE REVIEW UPDATE (top-level independent fork reviewer, stills only):
+  NEEDS_NAMED_REPAIR minor - charge:4 still warmer/brighter than walk and
+  charge1-3, charge:3 mildly warmer than charge:2 (this CORRECTS the
+  filmstrip self-check line "palette reads consistent"); tick20->21 pose
+  cut BORDERLINE, 42->43 borderline mainly on palette; neither resolvable
+  from stills. Paint pass2 `320e235a` (RGB only, charge3/4; alpha, weapons
+  and all other cells exact; 4 tests) lowers whole-figure luma 56.2/57.0 ->
+  54.8/54.7 (ref charge1/2 ~50.5, walk 44.0): gap REDUCED NOT CLOSED, kept
+  disclosed; self-check only. No video encoder / in-game playback exists
+  (14B not done) so the pose cut stays UNRESOLVED: needs owner judgement of
+  the filmstrips or a playback-capable review; hitch => re-time or one
+  reserve-first charge:3 repair. Head UNVERIFIED/null. Audit
+  charge-paint-2-audit.json.
   COMBO candidate1 generated (reserve-first; authoring now3/12, global
   129/200, repair2left): `combo-candidate-1.png` c2c5fefc, 9 figures/0 edge,
   palette muted (charge warm-paint did not recur). Weapon FAILS: measured
@@ -626,7 +639,8 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   [grip audit](art/motion/xiahoudun/walk-guard-grip-audit.json),
   [weapon closure audit](art/motion/xiahoudun/walk-projection-repair-audit.json),
   [registered candidate review](art/motion/xiahoudun/REGISTERED-CHARGE-REVIEW.md),
-  [paint correction audit](art/motion/xiahoudun/charge-paint-audit.json).
+  [paint correction audit](art/motion/xiahoudun/charge-paint-audit.json),
+  [paint pass2 audit](art/motion/xiahoudun/charge-paint-2-audit.json).
 - Dependency: CMR-13B DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-14A](docs/motion-tasks/CMR-14A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: Complete applicable xiahoudun identity/actions/registration/provenance/landmark budgets; offline review; no partial runtime activation.
