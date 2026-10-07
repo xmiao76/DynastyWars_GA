@@ -8,6 +8,11 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-07 08:15 UTC - CMR-14A attempt2 (continue): round-3 splice built, gate refuses severed fragments - reconnect plan recorded
+- Built scripts/splice-xiahoudun-combo-round3.mjs (+.d.mts): K3=321/364.5 component extraction, 4 fittable cells (fig4 vertical guard held for owner decision), keep exactness + 9-cell + edge gates, PCA-corridor spear measurement. First run: keeps exact, but 19 comps - pasted figs shed small fragments (notably cell2 tip zone x1463-1500). Old-cell2 3x view confirms the occluded follow diagnosis. Even 0.88 severs 1px necks; no gate weakened.
+- New test pins K3 live (it caught my 365.5 median slip - unfiltered bands read dust; corrected to 364.5), MAP/KEEP, and the fragment refusal. Suites 23/23 (round3 3 + round2 4 + ledgers 16), lint + tsc clean.
+- Reconnect plan (deterministic retouch, next): rejoin each fragment neck with documented median-profile ops (motion-retouch machinery), re-run gates, then endpoint overlay + pair review. Fig4 guard placement stays an owner-visible decision (bounds-proven overflow).
+- Result IN_PROGRESS. Next: fragment reconnect + re-measure; cap-slide 5/8 + cell1 extend; charge 20->21 judgement.
 ### 2026-10-07 08:00 UTC - CMR-14A attempt2 (continue): round 3 (LAST) generated + ACCEPTED - separated, near-scale, splice next
 - Reserved round 3 (0 left) with the at-scale separated brief, then read walk-corrected 0aff5a39 (scale anchor) + round-2 raw (pose ref) with read_image, fixed a stray-word typo in the prompt file, one image_generate call. Output 7f52f1af 2073x758 preserved byte-identical: 5 poses with visible rear grips/butts clear, identity/palette clean (self-check).
 - Audit: 5 fully separated components (x-overlaps y-separated, zero shared pixels - component extraction, no cuts), 0 edge, 4 specks <=3px; figure heights 351-368 vs walk 319-324 (~1.12x) so only a gentle k~0.89 fit is needed. Settled ACCEPTED with evidence. Watch item recorded: fig5 guard spear near-vertical (526px tall) vs 341px cell height - placement must respect it at splice.
