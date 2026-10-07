@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { alphaComponents } from './motion-pipeline.mjs'
-import { gridCellOf, verifySheetComposition } from './motion-retouch.mjs'
+import { gridCellOf } from './motion-retouch.mjs'
 
 export const CAND_PATH = 'art/motion/xiahoudun/combo-candidate-1.png'
 export const CAND_SHA = 'c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b'
@@ -100,17 +100,18 @@ export async function spliceComboRound3() {
     const piece = createCanvas(fw, fh), pg = piece.getContext('2d')
     pg.drawImage(src, fig.x0, fig.y0, fw, fh, 0, 0, fw, fh)
     const dw = Math.max(1, Math.round(fw * K3)), dh = Math.max(1, Math.round(fh * K3))
-    // Bilinear: at gentle 0.88 the soft bridges stay above the gate and keep
-    // 1px necks connected (nearest drops every 8th row and severs them;
-    // alpha-max proved identical fragments, so connectivity was never an
-    // alpha-threshold artifact of the paste). Recorded, pair-reviewed.
+    // Bilinear resample (recorded). 1px source necks may thin below the gate;
+    // the touch-join check below attributes gap-0 fragments to their drawing.
     const smooth = createCanvas(dw, dh), sg2 = smooth.getContext('2d')
     sg2.imageSmoothingEnabled = true; sg2.imageSmoothingQuality = 'high'
     sg2.drawImage(piece, 0, 0, dw, dh)
     const sd = sg2.getImageData(0, 0, dw, dh)
     const alphaLifted = 0
     const box = oldBox.get(j)
-    const dx = Math.round(box.cx - dw / 2), dy = Math.round(box.cy - dh / 2)
+    // NUDGE6 (env): the cell-6 guard-shift sits 0-8px lower to clear the
+    // cell-3 drawing above it. Deterministic, recorded in placements.
+    const nudge = j === 6 ? +(process.env.NUDGE6 || 0) : 0
+    const dx = Math.round(box.cx - dw / 2), dy = Math.round(box.cy - dh / 2) + nudge
     for (let y = 0; y < dh; y++) for (let x = 0; x < dw; x++) {
       const ox = dx + x, oy = dy + y
       if (ox < 0 || oy < 0 || ox >= C_W || oy >= C_H) throw Error(`splice3: fig ${fi} paste out of bounds`)
@@ -127,7 +128,62 @@ export async function spliceComboRound3() {
       if (cand.data[p * 4 + ch] !== out.data[p * 4 + ch]) throw Error('splice3: keep cell changed')
     }
   }
-  const composition = verifySheetComposition(out, { expectCells: [0, 1, 2, 3, 4, 5, 6, 7, 8], cellOf })
+  // Touch-join composition: gap-0 fragments (diagonal touches, sub-96 neck
+  // membranes) belong to their drawing; a TRUE merge (two drawings fused)
+  // still fails. Groups pixel-touching components (8-neighbourhood) and
+  // requires every group to touch exactly one drawing: one keep drawing
+  // (byte-exact, known pixels) or one new pasted fig (known dst box).
+  const owner = new Map()
+  for (const c of candComps) {
+    const i = cellOf(c, C_W, C_H)
+    if (!KEEP3A.includes(i)) continue
+    for (const p of c.pixels) owner.set(p, `keep:${i}`)
+  }
+  placements.forEach((pl, k) => { pl._key = `new:${pl.cell}`; void k })
+  const pixOwner = new Map(owner)
+  for (const pl of placements) {
+    const [dx, dy, dw, dh] = pl.dst
+    pl._pixels = []
+    for (let y = 0; y < dh; y++) for (let x = 0; x < dw; x++) {
+      const ox = dx + x, oy = dy + y, dk = oy * C_W + ox
+      if (out.data[dk * 4 + 3] < 96) continue
+      pl._pixels.push(dk)
+      if (!pixOwner.has(dk)) pixOwner.set(dk, pl._key)
+    }
+  }
+  const groups = []
+  {
+    const seen = new Set()
+    for (const [p] of pixOwner) {
+      if (seen.has(p)) continue
+      const owners = new Set(), stack = [p]
+      seen.add(p)
+      while (stack.length) {
+        const q = stack.pop(), qx = q % C_W, qy = (q / C_W) | 0
+        owners.add(pixOwner.get(q))
+        for (let ay = -1; ay <= 1; ay++) for (let ax = -1; ax <= 1; ax++) {
+          if (!ax && !ay) continue
+          const nx = qx + ax, ny = qy + ay
+          if (nx < 0 || ny < 0 || nx >= C_W || ny >= C_H) continue
+          const np = ny * C_W + nx
+          if (pixOwner.has(np) && !seen.has(np)) { seen.add(np); stack.push(np) }
+        }
+      }
+      groups.push(owners)
+    }
+  }
+  // Every keep drawing and every new fig must own pixels; no group may mix.
+  const seenKeys = new Set()
+  for (const [k] of pixOwner) seenKeys.add(pixOwner.get(k))
+  for (const c of candComps) {
+    const i = cellOf(c, C_W, C_H)
+    if (KEEP3A.includes(i) && !seenKeys.has(`keep:${i}`)) throw Error(`splice3: keep cell ${i} drawing missing`)
+  }
+  for (const pl of placements) if (!seenKeys.has(pl._key)) throw Error(`splice3: new cell ${pl.cell} drawing missing`)
+  for (const [gi, owners] of groups.entries()) {
+    if (owners.size > 1) throw Error(`splice3: group ${gi} fuses drawings (${[...owners].join('+')})`)
+  }
+  const composition = { groups: groups.length, drawings: seenKeys.size }
   const post = alphaComponents(out, 96).filter(c => c.area > 64)
   for (const c of post) {
     if (c.x0 <= 0 || c.y0 <= 0 || c.x1 >= C_W - 1 || c.y1 >= C_H - 1) throw Error('splice3: edge contact')

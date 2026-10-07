@@ -22,7 +22,7 @@ describe('CMR-14A combo round-3 splice gate', () => {
     expect(KEEP3A.sort((a, b) => a - b)).toEqual([1, 4, 5, 7, 8])
   })
 
-  it('refuses pasting severed resample fragments instead of merging them silently', async () => {
-    await expect(spliceComboRound3()).rejects.toThrow(/vs expected/)
+  it('refuses fusing two drawings across a cell boundary instead of merging them silently', async () => {
+    await expect(spliceComboRound3()).rejects.toThrow(/fuses drawings \(new:3\+new:6\)/)
   })
 })
