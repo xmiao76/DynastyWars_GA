@@ -149,6 +149,22 @@ opened; no new art requested. Next: safe isolated cap shorten6 with exact body
 witnesses, true endpoints +registered comparison, then actual normal-speed
 playback inside26active ticks. No pose normalization or mandatory skull resize.
 
+## Boundary filmstrips (consumer self-check; independent review NOT obtained)
+
+`node scripts/render-xiahoudun-boundary-filmstrips.mjs` writes a before/after pair
+for every one of the six exposure changes (the tick before and the tick after; a
+one-tick hard cut at 60Hz is exactly that pair): [filmstrip 1](../../../artifacts/motion/xiahoudun/registered-charge/boundary-filmstrip-1.png)
+(2→3, 6→7, 7→8) and [filmstrip 2](../../../artifacts/motion/xiahoudun/registered-charge/boundary-filmstrip-2.png)
+(20→21, 33→34, 42→43). Both opened. My own reading, NOT a verdict: the 20→21 cut
+(open stride → low crouched stride) changes leg configuration and torso height,
+but it is not visibly larger than the inherent guard→coil (2→3) or brake→guard
+(42→43) cuts, and 7→8 / 6→7 are small. Palette now reads consistent across cuts.
+This is offline stills, not normal-speed playback; I cannot watch motion and will
+not grade it. An independent reviewer could NOT be started this turn: the session
+was itself a delegated subagent and the nesting limit (depth 2 > max 1) rejected
+the spawn - an infrastructure limit, not an art result. Next: run the reviewer
+from the top-level session, or take your own judgement on the two filmstrips.
+
 Weapon gates remain walk3.38%/2.74°, charge6.01%/19.5°, hypothetical combined6.89%
 OK at unchanged fixed band (weapon RGBA exact); charge still NOT entered as an
 accepted sheet. No combo/heavy/misc/fall/getup generated yet; full CMR-14A/14B
