@@ -8,6 +8,11 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-07 08:25 UTC - CMR-14A attempt2 (half-hourly tick): reconnect via resampling FAILED three ways - neck-bridge retouch plan (11A precedent)
+- Tried fragment reconnect inside the paste: alpha-max composite first, then pure bilinear. Both produce IDENTICAL debris at identical boxes (374/695/176/1505/1150px) as nearest - so the necks are structurally unviable through any resample, not a filter artifact. Four of five frag boxes are empty in the old candidate (paste debris, proven); the fifth overlaps old cell1's intact tip zone (keeps gate passed, so no damage there). No gate weakened, no art written.
+- Way forward recorded: per-neck median-profile bridge fills with the motion-retouch machinery + seam review - CMR-11A accepted exactly this (105px fill + dirt zone, seams reviewed clean). Small, documented, reviewable; alternative is abandoning round-3 cells.
+- Verification: round3 suite 3/3 (refusal still holds), lint clean. No tsc surface change (no signatures touched). No image request (authoring 3/12, repair 0/3); no ledger/projection/runtime change.
+- Result IN_PROGRESS. Next: neck-bridge fills + gates + overlay/pair review; fig4 decision; cap-slide 5/8 + cell1 extend.
 ### 2026-10-07 08:15 UTC - CMR-14A attempt2 (continue): round-3 splice built, gate refuses severed fragments - reconnect plan recorded
 - Built scripts/splice-xiahoudun-combo-round3.mjs (+.d.mts): K3=321/364.5 component extraction, 4 fittable cells (fig4 vertical guard held for owner decision), keep exactness + 9-cell + edge gates, PCA-corridor spear measurement. First run: keeps exact, but 19 comps - pasted figs shed small fragments (notably cell2 tip zone x1463-1500). Old-cell2 3x view confirms the occluded follow diagnosis. Even 0.88 severs 1px necks; no gate weakened.
 - New test pins K3 live (it caught my 365.5 median slip - unfiltered bands read dust; corrected to 364.5), MAP/KEEP, and the fragment refusal. Suites 23/23 (round3 3 + round2 4 + ledgers 16), lint + tsc clean.

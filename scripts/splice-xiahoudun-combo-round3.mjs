@@ -100,10 +100,15 @@ export async function spliceComboRound3() {
     const piece = createCanvas(fw, fh), pg = piece.getContext('2d')
     pg.drawImage(src, fig.x0, fig.y0, fw, fh, 0, 0, fw, fh)
     const dw = Math.max(1, Math.round(fw * K3)), dh = Math.max(1, Math.round(fh * K3))
-    const scaled = createCanvas(dw, dh), gg = scaled.getContext('2d')
-    gg.imageSmoothingEnabled = false
-    gg.drawImage(piece, 0, 0, dw, dh)
-    const sd = gg.getImageData(0, 0, dw, dh)
+    // Bilinear: at gentle 0.88 the soft bridges stay above the gate and keep
+    // 1px necks connected (nearest drops every 8th row and severs them;
+    // alpha-max proved identical fragments, so connectivity was never an
+    // alpha-threshold artifact of the paste). Recorded, pair-reviewed.
+    const smooth = createCanvas(dw, dh), sg2 = smooth.getContext('2d')
+    sg2.imageSmoothingEnabled = true; sg2.imageSmoothingQuality = 'high'
+    sg2.drawImage(piece, 0, 0, dw, dh)
+    const sd = sg2.getImageData(0, 0, dw, dh)
+    const alphaLifted = 0
     const box = oldBox.get(j)
     const dx = Math.round(box.cx - dw / 2), dy = Math.round(box.cy - dh / 2)
     for (let y = 0; y < dh; y++) for (let x = 0; x < dw; x++) {
@@ -114,7 +119,7 @@ export async function spliceComboRound3() {
       const dk = (oy * C_W + ox) * 4
       for (let ch = 0; ch < 4; ch++) out.data[dk + ch] = sd.data[sk + ch]
     }
-    placements.push({ fig: fi, cell: j, srcBox: [fig.x0, fig.y0, fw, fh], dst: [dx, dy, dw, dh] })
+    placements.push({ fig: fi, cell: j, srcBox: [fig.x0, fig.y0, fw, fh], dst: [dx, dy, dw, dh], alphaLifted })
   }
   for (const c of candComps) {
     if (!KEEP3A.includes(cellOf(c, C_W, C_H))) continue

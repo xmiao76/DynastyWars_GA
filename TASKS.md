@@ -632,7 +632,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Retouch feasibility measured first: cap-slide room fits only cells4/5/8
   (5 marginal); cells0/3 (fist too close to butt) and occluded2/6/7 cannot
   be closed by retouch. Next: ONE reserve-first repair round for 0/2/3/6/7
-  (+1 if needed; round 2 ACCEPTED 2026-10-07 after touch adjudication (k=0.7571 walk-height fit, NOT the 0.72 mass estimate which was spear-mass-biased; full splice refused (uncuttable overlaps) + cell0 k-splice refused (0.757x severs spearhead, both filters) 2026-10-07 - k-splice path CLOSED, round 3 (LAST) ACCEPTED 2026-10-07 (5 separated, k=0.8807; splice built but refuses severed fragments - deterministic reconnect next)), then cap-slide 5/8 + cell1 extend (cell4 slide script+tests verified 5/5 on 2026-10-07, output ignored not spliced, enlarged-pair self-check PASS 2026-10-07); or 2nd combo
+  (+1 if needed; round 2 ACCEPTED 2026-10-07 after touch adjudication (k=0.7571 walk-height fit, NOT the 0.72 mass estimate which was spear-mass-biased; full splice refused (uncuttable overlaps) + cell0 k-splice refused (0.757x severs spearhead, both filters) 2026-10-07 - k-splice path CLOSED, round 3 (LAST) ACCEPTED 2026-10-07 (5 separated, k=0.8807; splice built but refuses severed fragments (3 resamples identical - neck-bridge retouch next, 11A precedent)), then cap-slide 5/8 + cell1 extend (cell4 slide script+tests verified 5/5 on 2026-10-07, output ignored not spliced, enlarged-pair self-check PASS 2026-10-07); or 2nd combo
   candidate. Audit combo-candidate-1-audit.json.
   Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
