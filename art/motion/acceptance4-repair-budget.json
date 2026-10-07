@@ -193,7 +193,7 @@
         },
         {
           "number": 2,
-          "status": "pending",
+          "status": "accepted",
           "cells": [
             "combo:0",
             "combo:2",
@@ -202,7 +202,9 @@
             "combo:7"
           ],
           "failure": "combo:0 (470.1px) and combo:3 (472.8px) exceed fixed walk band 404.16-446.70 with the rear fist too close to the butt for a cap-slide (proven: 17px and 0px room); combo:2/6/7 are thrust poses whose rear shaft hides behind the extended forearm so true length is UNKNOWN (visible lower bounds 305.7/228.8/231.8px). Redraw these 5 with the same poses but visible grips with rear shaft and butt cap in clear space, spear 420-430px raw.",
-          "sourceSha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b"
+          "sourceSha256": "c2c5fefc1ac36a8ab428dca8cc966927df1103f5bda98d8dcbbf0304bccd6e0b",
+          "evidence": "Reviewed provider output at native size + 4x touch-zone crops: all 5 redrawn grips show haft + butt cap in clear space with intact fingers/tassels/heads, muted palette, no edge contact; two fringe touches (fig2-tip near fig3 tassel/head zone x926-979; fig4 tassel/head zone near fig5 butt x~1730) with all parts visually intact - separable at splice; 7 specks all <=4px (tassel fringe/dust). Splice + full remeasure pending next.",
+          "outputSha256": "26427f3000e9f12fd63417da6ca24adf5cf14deff21354cec6e8d1ae965fd788"
         }
       ]
     }

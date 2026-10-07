@@ -632,7 +632,7 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   Retouch feasibility measured first: cap-slide room fits only cells4/5/8
   (5 marginal); cells0/3 (fist too close to butt) and occluded2/6/7 cannot
   be closed by retouch. Next: ONE reserve-first repair round for 0/2/3/6/7
-  (+1 if needed; round 2 raw PENDING adjudication), then cap-slide 5/8 + cell1 extend (cell4 slide script+tests verified 5/5 on 2026-10-07, output ignored not spliced, enlarged-pair self-check PASS 2026-10-07); or 2nd combo
+  (+1 if needed; round 2 ACCEPTED 2026-10-07 after touch adjudication, splice + remeasure next), then cap-slide 5/8 + cell1 extend (cell4 slide script+tests verified 5/5 on 2026-10-07, output ignored not spliced, enlarged-pair self-check PASS 2026-10-07); or 2nd combo
   candidate. Audit combo-candidate-1-audit.json.
   Evidence: [completed review](art/motion/xiahoudun/INDEPENDENT-REVIEW.md),
   [review state](art/motion/xiahoudun/independent-review.json),
