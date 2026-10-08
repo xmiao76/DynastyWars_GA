@@ -88,7 +88,15 @@ describe('CMR-14A heavy fig1 deterministic rear-cap slide', () => {
     const before = hash(raw.data), repeat = slideHeavyFig1(raw)
     expect(hash(raw.data)).toBe(before)
     expect(hash(repeat.image.data)).toBe(hash(out.image.data))
-    const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as { sheets: Array<{ name: string }> }
-    expect(projection.sheets.map(s => s.name)).toEqual(['walk', 'heavy'])
+    const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as { band: { lo: number; hi: number }; sheets: Array<{ name: string; scale: number; min: number; max: number; mean: number; band: { lo: number; hi: number }; approvedDeviation?: string }> }
+    expect(projection.sheets.map(s => s.name)).toEqual(['walk', 'heavy', 'charge'])
+    expect(projection.band).toEqual({ lo: 404.1605167916991, hi: 446.70372908556226 })
+    const charge = projection.sheets[2]!
+    expect(charge.scale).toBe(1)
+    expect(charge.band).toEqual(projection.band)
+    expect(charge.approvedDeviation).toBeUndefined()
+    expect(charge.min).toBeCloseTo(412.5724178856362, 10)
+    expect(charge.max).toBeCloseTo(438.4198900597462, 10)
+    expect(charge.mean).toBeCloseTo(430.3198642806853, 10)
   })
 })

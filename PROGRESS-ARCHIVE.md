@@ -16017,3 +16017,47 @@ lines. Never read during an iteration; consult only for deep history.
   gripN modal hex first; ask each verdict to state the hand's
   dominant colour so stale views are detectable).
 - Next recommended task: UIR-19 attempt 3 (same task).
+
+### Archived 2026-10-08 (Rule-8 hygiene, charge-record package): six oldest GYM-1 headings, verbatim from PROGRESS.md ex-lines 462-503; compacted in place, evidence preserved
+### 2026-09-30 - GYM-1 review-first handoff (IN_PROGRESS acceptance)
+- OwnerselectedcurrentGuanYubuildreviewfirst,nopairedgrabexpansion. Stopimplementationatverifieda6c6057;noadditionalart/core/otherfighterchangesinthishandoff.
+- Recheckedcleantree,coreunchangedsincef37b70b,approvedregularatlas/metaunchanged,allaction/mixedvideos+traces+reviewpageexist. Prior33motiontests,3/3mixedinteraction,2/2boundary,5/5vision,6/6prodbuildverified;711unitswithsolebaselineG6and6baselineUIR19typeerrorsremainhonest.
+- Boundedimplementation/reviewpassdelivered;sessiongoalcanclosewithoutclaimingallmotionperfect. GYM-1remainsIN_PROGRESSforownernormal-speedacceptanceanddetail/pairedgrabcaveats. Nextactionownerfeedback,noblindcontinuationornewscope. No push/deploy.
+
+### 2026-09-30 22:40 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
+- Addednormal-inputmixedchoreography480ticks~8.04sCanvas,bothfacings/CanvasWebGL2/2;allattackIDs,newtexturesonly,landingwhilemoving. Fullboot/headcropscamera-scrollcorrectedandreviewed. Realdamage-drivenhurt/heavyfall/airhit/getupandwalkinggrab->throwcase1/1;viewedinteractionframes,confirmsopponentpronegrabbedposecannotaligncollarreachwithinotherfighters-unchangedscope.
+- Defensiveboundarycontrolsfailedfirstonthrowimpactandgetupdefeatstandingrecoil;fixedhistorytokeep lowposeandsettle/reverseexistinggetupdrawings. Noart/core/otherfighterchanges. CanvasWebGLboundary2/2;viewedthrowimpact/getupdefeatstrips. No nativevideoviewclaim;ownermotionacceptanceopen.
+- Verification:lint0;motion33/33;full711passed/1baselineG6failure/6skipped;typecheck6baselineUIR19errors;vision5/5;prodbuild6/6. Updatedreport/evidenceunderartifacts/wholeframe/actions/{mixed,interactions,transitions}.
+- Remainartlength/detailconsistencyandpairedgrabscopedecision,ownernormal-speedreview. Goalactive;no more imagegenerationinbudget; nofalseall-smoothcompletion. No push/deploy/scheduler.
+
+### 2026-09-30 21:55 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
+- Locatedspecial1/mounted3backward-bladewindups;2focusedimageeditsfixedshaftdirectionbutbody/headscale drift,REJECTEDafterregisteredcontactreview. Currentfollow-up12requestbudgetexhausted;acceptedsolutionusesexistingforwardguard/recoverykeysandaddedforward-diagonalrecoverystep,samehitwindows.
+- Pixel-supportedlogicalhaftdirectionlandmarks:peak~79->53degspecial,~134->48mounted;new60degdirectioncontrolrejectsoldorders. Thisisnot10%lengthcertification. Viewedexactexposureordersandactualspecial/mountedgameplaystripsaftercapture;bothatlases/core/approvedregularpixelsunchanged.
+- Checks:3newunitcontrols;full709passed/1baselineG6failure/6skipped;lint0;typecheck6baselineUIR19errors;Canvas/WebGLaction+missingpack3/3;vision5/5;prodbuild6/6. Source/rejectionsinart/motion/WEAPON_ARC_REVIEW.md;reportupdated.
+- Remainweapon/clothdetailandopponentgrabmatching,ownernormal-speedacceptance;goalactive,noall-smoothclaim. No furtherimagecallsallowedinthisboundedpass,nootherfighters/infrastructure/push/deploy.
+
+### 2026-09-30 21:20 UTC - GYM-1 (attempt 2 continuation - IN_PROGRESS)
+
+- Code-only boundaryaudit,13newcontrolswithobservedfailuresbeforefix:idle/walkhitstoplanding,mountinterruptgroundtransitions,freeze-safedismountclock,lateairinputstartup,allactivekickticks/retractatcontact,midairfallkeepsairpose,brokensweepwindow,late-first-renderfallnotrestart. Noartgeneration;approvedregularpixels/core/otherfightersunchanged.
+- ActualCanvas/WebGLadversarialcaptures2/2plusnormalallactioncases4/4;reviewedair-hit,late-kick,landing-walk,landing-mountstrips. Restartchecksnewidle. Productiongatecaughtlate-renderfallregression,addedcontrolandfixedsamplerinsteadofweakeningexpecteddownframe.
+- Checks:lint0;motion/action/boundary28/28;full706passed/1failed/6skipped(onlybaselineG6);typecheck6baselineUIR19errors;combinedbrowser6/6andfinalrepeat2/2;vision5/5;prodbuild6/6. Evidenceartifacts/wholeframe/actions/transitions;reportupdated.
+- Remain:weapon/clothdetailvariation/opponentgrabmatchingandownernormal-speedacceptance;goalstillactive,noall-smoothclaim. Thisiscontinuationofattempt2,notadditionalwhole-sheetretry. No push/deploy/infrastructurechanges.
+
+### 2026-09-30 20:05 UTC - GYM-1 (attempt 2 - IN_PROGRESS)
+
+- Owner approvesregularmovement,requests allactionsespeciallyjump/fall. Preservedoriginalatlas/meta byte-identical; nootherfighters/core/schedulerchanges.
+- Added6actionguides/sheets,54cells and3targetedfallrepairs(10imagecalls total;rejectedforkedwholefallcandidate retained). Jump/kick/landing,hurt,fall/getup,special,grab/release,mounted/dismount,KO plusall15statescovered;bothatlasesatomic. Sharedprone/idlebookends,airTicks,interruptiblelanding,hitstop-safefalllift;soloCONTINUEpresentationclockfinishesfallwhilecorefrozen,pausefreezesit;deadfade/shadowcannotreappear.
+- ActualCanvas/WebGLallactionvideos bothfacings,10actions+stressstates. Viewedjump/kick/fall/getup/hurt/special/grab/rider/dismount/airfall/KOstrips andrenderer/screens;focusedfallweaponrepairsreviewedinupdatedgamefallstrip. TechnicalcoveragePASS,perfecttemporalqualityNOTclaimed:weapon/clothvariation,opponentgrabposeandnormal-speedownerplaybackremain. Report docs/GUANYU_ACTION_REVIEW.md,provenance art/motion/ACTION_PROVENANCE.md.
+- Checks:lint0;motionunits15/15;full693passed/1failed/6skipped(onlybaselineG6);typecheckonly6baselineuir19-handserrors. Allactionsbrowser4/4,regularmotion4/4,defaultanim/scale/pause/continue/horsepass,vision5/5,prodbuild6/6. Increaseddual-atlasscan-testbudget40safter20stimeoutunderfull-suitecontention;pixel/coveragethresholdsunchanged.
+- Statusafter:GYM-1IN_PROGRESSattempt2;primaryjump/fallmodelleakfixed,opt-in?motion=1stillrequired. Ownerdev5176untouched,no push/deploy. Remainingownerplaybackandlocalizedweapon/detailpolish;notDONEallmotionacceptance.
+
+### 2026-09-30 10:40 UTC - GYM-1 (attempt 1 - IN_PROGRESS)
+
+- Status before: owner approved Guan Yu-only motion test after static whole-frame pilot; no queue/loop infrastructure changes.
+- Work: authored8-frame gait and full combo guides;7original sequence-sheet requests (walk3, sweep2, jab2/chop1 each). Fixed sheet-level scale/recorded translation registration,36cell diagnostic atlas; opt-in `?motion=1` simulation-tick playback with shared idle bookends, atomic technical integrity fallback. No old-art textures in210samples of supported idle/walk/combo per renderer, both facings; unsupported actions explicitly retain old art.
+- Evidence: actual in-game Canvas/WebGL videos and tick traces under artifacts/wholeframe/motion; prepared drawing sheet/full-res crops/recording contact strips inspected. Canvas420ticks in~7.0s; software WebGL~23.8s (not normal-speed proof). Video playback itself left for owner: tool reviews stills only.
+- Visual result: ITERATE / NO-GO for these candidate drawings, not an accepted animation set. Walk opposite-leg alternation fails after3requests. Approximate visible endpoint landmarks show116.5u idle vs74.5u sweep (~36%shorter) and84.0u chop. Other landmarks null/unverified; quality evaluator rejects incomplete evidence. Cloth/stance/weapon jumps and direct stop-to-idle remain; no criteria weakened.
+- Verification: lint0; motion units8/8; full units686passed/1failed/4skipped (only documented baseline arm-chainG6). Typecheck six pre-existing uir19-hands possibly-undefined errors, no new errors; untouched. Motion browser4/4; default regression subset passed; vision5/5; prodbuild6/6 including2new flag/default cases.
+- Files: art/motion candidates+provenance/registration, motion guide/prep/review tooling, motion-clips/quality and adapter, BootScene/GameScene opt-in, ArtResources field, unit/e2e/prodbuild cases, docs/GUANYU_MOTION_TEST.md, TASKS/PROGRESS. No old body/hand code changed, no push/deploy/scheduler.
+- Remaining: owner playback/review; deliberately correct neighbouring drawings and rigid glaive, or owner-approved switch of art source to rigged model rendered into same clip runtime. Do not keep retrying whole sheets blindly or expand cast.
+- Status after: GYM-1 IN_PROGRESS (attempt1), UIR-19/20 untouched. Diagnostic test packaged; not DONE.
