@@ -49,7 +49,7 @@ describe('CMR-14A completed review preserves scoped owner reset and honest limit
       band: { lo: number; hi: number }
       sheets: Array<{ name: string; min: number; max: number; mean: number; history: Array<{ min: number; max: number; mean: number }> }>
     }
-    expect(projection.sheets.map(s => s.name)).toEqual(['walk'])
+    expect(projection.sheets.map(s => s.name)).toEqual(['walk', 'heavy'])
     expect(projection.band).toEqual({ lo: 404.1605167916991, hi: 446.70372908556226 })
     const walk = projection.sheets[0]!
     expect((walk.max - walk.min) / walk.mean).toBeLessThanOrEqual(0.10)

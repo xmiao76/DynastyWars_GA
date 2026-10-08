@@ -75,7 +75,7 @@ describe('CMR-14A combo cell 4 deterministic rear-cap slide', () => {
     expect(hash(raw.data)).toBe(before)
     expect(hash(repeat.image.data)).toBe(hash(out.image.data))
     const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as { sheets: Array<{ name: string }> }
-    expect(projection.sheets.map(s => s.name)).toEqual(['walk'])
+    expect(projection.sheets.map(s => s.name)).toEqual(['walk', 'heavy'])
     // only cell 4 is in band; the remaining measured cells keep the sheet failing
     expect(spreadOf([470.1, 340.3, 472.8, out.post.length, 487.7, 475.7])).toBeGreaterThan(0.1)
   })

@@ -8,6 +8,15 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-08 07:30 UTC - CMR-14A (a′) Package 5: projection record at scale=1 + continuity + heavy sheet acceptance
+- Status before: IN_PROGRESS (owner-authorized (a′)); HEAD 4ecfb34 verified + the same 6 never-touch files uncommitted, left alone (diff-checked, unstaged).
+- Measurement (PROVEN corridor method ONLY, ON the override file; NO new methods): override sha 96e9629766be5c87206ce3ebc2535707a6bf370380a53df85b65455a6d637bd3 + source 041add3022773ff905b62cb7b5ba648d9423ec8d494b0a2976388ec2ef926129 both re-verified. Fig1 via retouch-script exports (corridor 14): butt [763,147] tip [1195,51] = 442.5381 (tip UNMOVED, matches Package 2/3 after-value). Figs 0/2/3/4 via recorded 04:09 axes (corridor 14): fig0 [121,247]->[476,25] = 417.80; fig2 [1456,329]->[1855,506] = 436.25; fig3 [158,944]->[557,1139] = 444.01; fig4 [747,1022]->[1173,890] = 445.80. Honest note: corridor-14 fig0 (417.8) vs the 04:09 corridor-16 number (425.6, tip [481,20]) — the [481,20] tip pixel sits at |o| in (14,16]; bbox- vs component-scoped runs agree to the pixel at both corridors, so cell 0 holds only fig0. The mandated corridor-14 value governs; both recorded in the audit. Gates: all 5 inside fixed band [404.1605167916991,446.70372908556226]; sheet spread 6.40% <= 10% PASS; direction steps [19.5,36.5,2.6,43.3]deg max 43.3 <= 60 PASS. No gate failed, no fallback needed.
+- Continuity: ONE labeled 5-fig strip (play order figs 0-4 + cell labels) rendered from the override + OPENED: verdict CLEAN (consumer self-check, disclosed as such) — one overhead-chop arc (raise -> hold -> chop -> follow -> recover), fig1 slide zone continuous with rear fist/cuff/bracer intact, no fringe/seam/floaters; 5 separated drawings, identity/palette stable; the faint mark near fig4's boot matches the inventoried pre-existing specks (proven numerically unchanged). Strip: artifacts/motion/xiahoudun/heavy-combo-review/heavy-continuity-strip.png.
+- Projection: recordSheet heavy {rawValues [417.7970,442.5381,436.2538,444.0095,445.8031], scale:1, band exactly equal, NO approvedDeviation} via scripts/pack-projection.mjs (never hand-edited). Evaluation verbatim: status OK, observedSpread 6.42% over n=14, window = full fixed band, sheetMeans [435.536,437.280], driftSuspected false. totalSheets read from file = 7 as expected; bandAnchor walk, band/median untouched. Updated all 3 projection-pinning tests to walk+heavy premises only (heavy-fig1, independent-review, combo-cell4 — band/scale/values/evaluation assertions, no weakened gates).
+- Audit: art/motion/xiahoudun/heavy-fig1-retouch-audit.json written (numbers, gates, fig0 corridor note, pair/strip paths, waiver refs, head UNVERIFIED/null). Override PNG + audit force-added ONLY after check-ignore (gitignore /art/motion) + ls-files proof (-f limited to those two paths).
+- Checks ALL green: affected suites 39/39 (heavy-fig1 7 + heavy-prepare 4 + independent-review 3 + combo-cell4 5 + pack-projection 11 + budget 9); npm run lint clean; npm run typecheck clean; diff --check clean.
+- Files/commit: commit contains ONLY pack-projection.json, override PNG, new audit JSON, 3 updated tests, TASKS.md, PROGRESS.md (+ PROGRESS-ARCHIVE.md iff hygiene triggers); the 6 pre-existing files untouched/unstaged; never pushed.
+- Result IN_PROGRESS. Heavy ACCEPTED as source at k=1 (BIG-boss intent per (a′); head-cast-coherence WAIVED). Remaining: misc/fall/getup sheets; pack-prep honoring recorded scale=1; charge judgement still needs owner eye.
 ### 2026-10-08 07:01 UTC - CMR-14A (a′) Package 3: verify + log + commit aborted Package 2 leftovers (fig1 retouch)
 - Status before: IN_PROGRESS (owner-authorized (a′)); HEAD 3ce6002; exactly 3 NEW untracked leftovers from the deadline-aborted Package 2 (scripts/retouch-xiahoudun-heavy-fig1.mjs + .d.mts, test/game/motion-xiahoudun-heavy-fig1.test.ts), NO PROGRESS.md change, plus the same 6 never-touch uncommitted files left alone.
 - Work completed (verify-only, zero new spend): read all 3 leftover files fully; re-ran the script (cheap measure); re-ran the new test + heavy-prepare + budget suites + lint + typecheck; confirmed the ignored override PNG exists (sha below) and the enlarged pair + 10x seam views exist and OPENED them for a clean/dirty verdict. No ledger/image/projection/runtime changes; projection NOT recorded (still walk-only).
@@ -454,45 +463,3 @@ history slowly crowds out the work it is supposed to support.
   reviewer-A/B cells + rim tolerance elsewhere) - do NOT weaken the
   gate unilaterally.
 - Next recommended task: UIR-16 attempt 3 (same task).
-
-### 2026-09-28 21:40 UTC - UIR-16 (attempt 1 - IN_PROGRESS)
-
-- Status before: UIR-16 TODO (V-15b: far fist paints over the near
-  elbow on strikes, up to 398+627px).
-- Work completed: (1) G6 gate added to test/game/arm-chain.test.ts
-  (gripF+wrapF over near-arm footprint = 0 on all standing moves)
-  with a negative control - FAILS first on 87 cells as the pin.
-  (2) Close-stack mechanism in fitFarHand (armik.ts): keeps the
-  UIR-15 wide-back grip when it clears the solved near-arm segments
-  by 5.5u, else stacks close (back-close then forward-close,
-  reachable + clearing), else keeps the wide grip (grip-hold
-  preserved). Threaded through weapons.ts (solved near chain).
-  Behavior-preserving today: all 87 values identical, strikearms +
-  handgrip + uir13 + bodyparts + handparts + likeness green (47/47),
-  tsc/lint clean.
-- PROOF (placement alone cannot satisfy G6): s-sweep probes over the
-  live poses show (i) forward grips are UNREACHABLE on strikes (far
-  shoulder cannot reach past the near hand - option (a) dead);
-  (ii) the near arm rails the haft across the whole valid back range
-  (segment clearance 0-4u everywhere, e.g. zhaoyun:attack; elbow ON
-  the haft, near arm nearly straight with h~1.2u); (iii) the few
-  high-clearance far-back spots fail the strikearms side/turn floors
-  or sit past the butt fitting. E.g. lubu:attack: fist (62.9,35.0)
-  sits 3.7u from the upper-arm segment with all alternatives worse.
-- Files changed: test/game/arm-chain.test.ts (G6 + control),
-  src/game/art/armik.ts (CLOSE_GRIP_SEP/ELBOW_CLEARANCE/fitCloseStack),
-  src/game/art/weapons.ts (avoid threading), TASKS.md, PROGRESS.md.
-- Verification run: G6 fails on 87 cells (pin, pre-existing values);
-  strikearms/handgrip/uir13/bodyparts/handparts/likeness 47/47;
-  tsc 0; lint 0. Full unit + browser gates deferred to the completing
-  attempt (no behavior change yet).
-- Result: partial - mechanism + pin landed, clearance unsolved.
-- Status after: UIR-16 IN_PROGRESS (attempt 1).
-- Remaining work: bend the near elbow OFF the haft on conflicting
-  two-handed strikes (forced shoulder protraction ~4u toward the hand
-  + branch selection away from the haft/fist), then re-run G6 +
-  strikearms (side rule!) + eye-review J1 (socket) + J2 + full gates
-  + capture re-review. ALTERNATIVE if that fails: renegotiate G6
-  scope with the owner (e.g. exclude sub-perceptual wrap rims) -
-  do NOT weaken the gate unilaterally.
-- Next recommended task: UIR-16 attempt 2 (same task).

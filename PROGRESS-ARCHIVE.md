@@ -15807,3 +15807,45 @@ lines. Never read during an iteration; consult only for deep history.
 - Status after: game is three stages ending on Xu Chu.
 - Remaining work or blocker: local commit of this change set.
 - Next recommended task: resume CMR-13A (combo fix-2) per queue.
+
+### 2026-09-28 21:40 UTC - UIR-16 (attempt 1 - IN_PROGRESS)
+
+- Status before: UIR-16 TODO (V-15b: far fist paints over the near
+  elbow on strikes, up to 398+627px).
+- Work completed: (1) G6 gate added to test/game/arm-chain.test.ts
+  (gripF+wrapF over near-arm footprint = 0 on all standing moves)
+  with a negative control - FAILS first on 87 cells as the pin.
+  (2) Close-stack mechanism in fitFarHand (armik.ts): keeps the
+  UIR-15 wide-back grip when it clears the solved near-arm segments
+  by 5.5u, else stacks close (back-close then forward-close,
+  reachable + clearing), else keeps the wide grip (grip-hold
+  preserved). Threaded through weapons.ts (solved near chain).
+  Behavior-preserving today: all 87 values identical, strikearms +
+  handgrip + uir13 + bodyparts + handparts + likeness green (47/47),
+  tsc/lint clean.
+- PROOF (placement alone cannot satisfy G6): s-sweep probes over the
+  live poses show (i) forward grips are UNREACHABLE on strikes (far
+  shoulder cannot reach past the near hand - option (a) dead);
+  (ii) the near arm rails the haft across the whole valid back range
+  (segment clearance 0-4u everywhere, e.g. zhaoyun:attack; elbow ON
+  the haft, near arm nearly straight with h~1.2u); (iii) the few
+  high-clearance far-back spots fail the strikearms side/turn floors
+  or sit past the butt fitting. E.g. lubu:attack: fist (62.9,35.0)
+  sits 3.7u from the upper-arm segment with all alternatives worse.
+- Files changed: test/game/arm-chain.test.ts (G6 + control),
+  src/game/art/armik.ts (CLOSE_GRIP_SEP/ELBOW_CLEARANCE/fitCloseStack),
+  src/game/art/weapons.ts (avoid threading), TASKS.md, PROGRESS.md.
+- Verification run: G6 fails on 87 cells (pin, pre-existing values);
+  strikearms/handgrip/uir13/bodyparts/handparts/likeness 47/47;
+  tsc 0; lint 0. Full unit + browser gates deferred to the completing
+  attempt (no behavior change yet).
+- Result: partial - mechanism + pin landed, clearance unsolved.
+- Status after: UIR-16 IN_PROGRESS (attempt 1).
+- Remaining work: bend the near elbow OFF the haft on conflicting
+  two-handed strikes (forced shoulder protraction ~4u toward the hand
+  + branch selection away from the haft/fist), then re-run G6 +
+  strikearms (side rule!) + eye-review J1 (socket) + J2 + full gates
+  + capture re-review. ALTERNATIVE if that fails: renegotiate G6
+  scope with the owner (e.g. exclude sub-perceptual wrap rims) -
+  do NOT weaken the gate unilaterally.
+- Next recommended task: UIR-16 attempt 2 (same task).

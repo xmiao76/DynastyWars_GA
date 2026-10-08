@@ -84,11 +84,11 @@ describe('CMR-14A heavy fig1 deterministic rear-cap slide', () => {
     expect(out.alphaRestored).toBeGreaterThan(10) // the fix did real work; without it the seam appears
   })
 
-  it('is deterministic and copy-on-write; it does not record the sheet as accepted', () => {
+  it('is deterministic and copy-on-write; the retouch itself writes no projection (heavy recorded separately at scale=1)', () => {
     const before = hash(raw.data), repeat = slideHeavyFig1(raw)
     expect(hash(raw.data)).toBe(before)
     expect(hash(repeat.image.data)).toBe(hash(out.image.data))
     const projection = JSON.parse(readFileSync('art/motion/xiahoudun/pack-projection.json', 'utf8')) as { sheets: Array<{ name: string }> }
-    expect(projection.sheets.map(s => s.name)).toEqual(['walk'])
+    expect(projection.sheets.map(s => s.name)).toEqual(['walk', 'heavy'])
   })
 })
