@@ -15893,3 +15893,38 @@ lines. Never read during an iteration; consult only for deep history.
   reviewer-A/B cells + rim tolerance elsewhere) - do NOT weaken the
   gate unilaterally.
 - Next recommended task: UIR-16 attempt 3 (same task).
+
+### 2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)
+
+- Status before: UIR-16 IN_PROGRESS attempt 2 (combo-search bend:
+  G6 87->86, strikearms+guards green, eye-review pending).
+- Work completed: (1) fresh capture WITH bends + V-15b baseline pin
+  (71 files, pre-bend preserved). (2) Eye-review sanity gate on the
+  bends: lubu-attack improved 398+627->187+623 but still overlaps
+  (wrap unchanged); guanyu-sweep BACKFIRED 11+41->142+269 (bent
+  elbow cocks down, forearm covers haft+fist - worse metrically AND
+  visually, J6 awkward); zhaoyun-attack improved 159+173->74+162.
+  (3) Reverted the bend mechanism (weapons.ts combo search +
+  armik.ts bendElbowOffHaft) - restored exact attempt-1 behavior:
+  G6 back to 87 pre-change values, strikearms/handgrip/uir13/
+  bodyparts/handparts/likeness 47/47, tsc 0, lint 0, full unit
+  671/673 (only the G6 pin fails, as intended). No browser gates
+  (no behavior change left to verify; capture already reviewed).
+- Three-attempt record (rule 5): attempt 1 proved grip placement
+  alone cannot satisfy G6 (forward unreachable on strikes; arm
+  rails the valid back range; landed G6 pin + safe close-stack).
+  Attempt 2 proved elbow bends cannot either (combo search:
+  87->86, big cuts in ~15, 3-4 backfires, wrap extent needs ~8u
+  clearance the geometry lacks). Attempt 3 proved the bends harm
+  looks (guanyu-sweep) and reverted them. Remaining options all
+  need owner authority: rescope G6, masking (breaks handgrip),
+  hand-art changes (UIR-19 scope), or pose-table surgery.
+- Files changed: src/game/art/armik.ts, src/game/art/weapons.ts
+  (bend reverted; G6 + close-stack kept), TASKS.md, PROGRESS.md.
+- Verification run: G6 fails on 87 cells (pin, pre-bend values);
+  guards 47/47; tsc 0; lint 0; unit 671/673 (G6 only).
+- Result: BLOCKED - acceptance unsatisfiable as specified.
+- Status after: UIR-16 BLOCKED (owner decision required).
+- Remaining work or blocker: owner picks (a)/(b)/(c)/(d) above.
+- Next recommended task: UIR-17 (prone far arm) - first unblocked
+  TODO; UIR-16 waits on the owner, not the queue.

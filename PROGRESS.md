@@ -467,39 +467,6 @@ history slowly crowds out the work it is supposed to support.
   included) with a more reliable image path.
 - Next recommended task: UIR-19 attempt 2 (same task).
 
-### 2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)
-
-- Status before: UIR-16 IN_PROGRESS attempt 2 (combo-search bend:
-  G6 87->86, strikearms+guards green, eye-review pending).
-- Work completed: (1) fresh capture WITH bends + V-15b baseline pin
-  (71 files, pre-bend preserved). (2) Eye-review sanity gate on the
-  bends: lubu-attack improved 398+627->187+623 but still overlaps
-  (wrap unchanged); guanyu-sweep BACKFIRED 11+41->142+269 (bent
-  elbow cocks down, forearm covers haft+fist - worse metrically AND
-  visually, J6 awkward); zhaoyun-attack improved 159+173->74+162.
-  (3) Reverted the bend mechanism (weapons.ts combo search +
-  armik.ts bendElbowOffHaft) - restored exact attempt-1 behavior:
-  G6 back to 87 pre-change values, strikearms/handgrip/uir13/
-  bodyparts/handparts/likeness 47/47, tsc 0, lint 0, full unit
-  671/673 (only the G6 pin fails, as intended). No browser gates
-  (no behavior change left to verify; capture already reviewed).
-- Three-attempt record (rule 5): attempt 1 proved grip placement
-  alone cannot satisfy G6 (forward unreachable on strikes; arm
-  rails the valid back range; landed G6 pin + safe close-stack).
-  Attempt 2 proved elbow bends cannot either (combo search:
-  87->86, big cuts in ~15, 3-4 backfires, wrap extent needs ~8u
-  clearance the geometry lacks). Attempt 3 proved the bends harm
-  looks (guanyu-sweep) and reverted them. Remaining options all
-  need owner authority: rescope G6, masking (breaks handgrip),
-  hand-art changes (UIR-19 scope), or pose-table surgery.
-- Files changed: src/game/art/armik.ts, src/game/art/weapons.ts
-  (bend reverted; G6 + close-stack kept), TASKS.md, PROGRESS.md.
-- Verification run: G6 fails on 87 cells (pin, pre-bend values);
-  guards 47/47; tsc 0; lint 0; unit 671/673 (G6 only).
-- Result: BLOCKED - acceptance unsatisfiable as specified.
-- Status after: UIR-16 BLOCKED (owner decision required).
-- Remaining work or blocker: owner picks (a)/(b)/(c)/(d) above.
-- Next recommended task: UIR-17 (prone far arm) - first unblocked
-  TODO; UIR-16 waits on the owner, not the queue.
+- **2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)** [Rule-8 hygiene 2026-10-08: zero DONE headings in PROGRESS (all 50 headings are CMR-14A IN_PROGRESS/BLOCKED, producer IDLE, UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED — grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction + verbatim archive of this oldest full entry; entire CMR-14A chain, all IN_PROGRESS/BLOCKED/TODO evidence, and the 2026-10-06 producer snapshot stay byte-intact in PROGRESS] — Status before: UIR-16 IN_PROGRESS attempt 2 (combo-search bend: G6 87->86, strikearms+guards green, eye-review pending). | Work completed: (1) fresh capture WITH bends + V-15b baseline pin (71 files, pre-bend preserved). (2) Eye-review sanity gate on the bends: lubu-attack improved 398+627->187+623 but still overlaps (wrap unchanged); guanyu-sweep BACKFIRED 11+41->142+269 (bent elbow cocks down, forearm covers haft+fist - worse metrically AND visually, J6 awkward); zhaoyun-attack improved 159+173->74+162. (3) Reverted the bend mechanism (weapons.ts combo search + armik.ts bendElbowOffHaft) - restored exact attempt-1 behavior: G6 back to 87 pre-change values, strikearms/handgrip/uir13/bodyparts/handparts/likeness 47/47, tsc 0, lint 0, full unit 671/673 (only the G6 pin fails, as intended). No browser gates (no behavior change left to verify; capture already reviewed). | Three-attempt record (rule 5): attempt 1 proved grip placement alone cannot satisfy G6 (forward unreachable on strikes; arm rails the valid back range; landed G6 pin + safe close-stack). Attempt 2 proved elbow bends cannot either (combo search: 87->86, big cuts in ~15, 3-4 backfires, wrap extent needs ~8u clearance the geometry lacks). Attempt 3 proved the bends harm looks (guanyu-sweep) and reverted them. Remaining options all need owner authority: rescope G6, masking (breaks handgrip), hand-art changes (UIR-19 scope), or pose-table surgery. | Files changed: src/game/art/armik.ts, src/game/art/weapons.ts (bend reverted; G6 + close-stack kept), TASKS.md, PROGRESS.md. | Verification run: G6 fails on 87 cells (pin, pre-bend values); guards 47/47; tsc 0; lint 0; unit 671/673 (G6 only). | Result: BLOCKED - acceptance unsatisfiable as specified. | Status after: UIR-16 BLOCKED (owner decision required). | Remaining work or blocker: owner picks (a)/(b)/(c)/(d) above. | Next recommended task: UIR-17 (prone far arm) - first unblocked TODO; UIR-16 waits on the owner, not the queue.
 
 - **2026-09-28 22:40 UTC - UIR-16 (attempt 2 - IN_PROGRESS)** — Status before: UIR-16 IN_PROGRESS attempt 1 (G6 pin failing on 87 cells; close-stack mechanism behavior-preserving; proof that grip placement alone cannot satisfy G6). | Work completed: (1) fixed 2 compile breaks left mid-edit (missing clearsArm/bendElbowOffHaft imports, const->let near). (2) Reworked the bend: side-aware branch choice + (protraction 2..6) x (near side) x (far hint) combo search in weapons.ts, grip fixed (turn floors + grip-hold untouched by construction), far-flip allowed for the side rule; armClearance() exported. (3) First cut broke strikearms (near landed same-side as far); side-opposite search fixed it - strikearms GREEN. (4) G6: 87->86 cells, with big drops in ~15 (lubu:attack 398+627->187+623, xuchu:attack 310+628->128+623, zhaoyun:attack 159+173->74+162, walk0s to near-zero, xuchu:walk0 zeroed); 3-4 backfires on tiny-overlap non-strikes (guanyu:sweep 11+41->142+269). (5) Calibration proof: 21 adopts; model clearance >=9 paint-zeroes, 5.5-7 partially improves or backfires (wrap fingertips extend ~3-4u past the fist center, arm bulk ~2.5u - model 5.5 underpredicts paint by ~2u); combo table shows -side never clears, +side needs far-flip, p=6 bows swing the upper arm back INTO the fist (non-monotonic); 24 cells are model-pass/paint-fail (unreachable by any model trigger). Guards handgrip/uir13/bodyparts/handparts/likeness 47/47 green. | Files changed: src/game/art/armik.ts (bendElbowOffHaft sideSign + protracted return + armClearance), src/game/art/weapons.ts (combo search + farHintOverride), TASKS.md, PROGRESS.md. | Verification run: tsc 0; lint 0 (touched files); strikearms 1/1; guards 47/47; G6 still failing on 86 cells (pin working). Capture/eye-review/vision + full unit/browser gates deferred to the completing attempt (geometry still churning; no DONE claim). | Result: partial - mechanism + big reductions; literal-0 blocked on wrap extent (needs UIR-19-adjacent art or owner masking call) or G6 scope renegotiation. | Status after: UIR-16 IN_PROGRESS (attempt 2). | Remaining work: attempt 3 (LAST before rule 5 forces BLOCKED): (a) FIRST capture + eye-review the 21 adopted cells (J1 socket / J2 / J6 sanity gate on the bends); (b) if review passes, one final push (bulk-aware threshold? wrap-extent analysis?); (c) else record BLOCKED with the renegotiation proposal (G6 = 0 on the 9 reviewer-A/B cells + rim tolerance elsewhere) - do NOT weaken the gate unilaterally. | Next recommended task: UIR-16 attempt 3 (same task). | Full verbatim text archived to PROGRESS-ARCHIVE.md tail this hygiene tick (Rule-8 fallback: zero DONE entries; evidence preserved here + verbatim in archive).
