@@ -8,6 +8,11 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-08 02:15 UTC - CMR-14A (continue): heavy prepare retargeted to candidate 2, REFUSES on broad fig3|fig4 interleave
+- Retargeted prepare-xiahoudun-heavy.mjs to candidate 2 (SHA/dims/constants; improved error lists comp boxes). Split hunt: x1339 empty but outside the merged comp (side-effect lesson: verify inside); x1340 carries the 5px bridge; 3x zone view shows spearhead-tip vs boot with real gap yet one comp. X-histogram proves broad interleave (mass continuous 1300-2161, waist 7k px at x1600) - no clean vertical cut exists; cut attempts sever (split-empty, then 6-comps with severed tip frag). Test file updated to pin the refusal + new source (round-3 refusal-test precedent, not weakening).
+- Next option recorded (not attempted): COMBINED prepare - candidate-2 figs 0-2 (clean, separated) + candidate-1 clean cells (C1/C2 verified clean, C4 suspect needs crop) + scale-compatibility check; OR owner call if mixing sheets is unacceptable. Heavy cap 2/2 spent either way.
+- Verification: 11/11 (heavy 2 + budget 9); lint + tsc clean. No image (authoring 5/12); no ledger change; no runtime change; owner infra untouched/unstaged.
+- Result IN_PROGRESS. Next: combined-candidate verification + prepare, or owner direction.
 ### 2026-10-08 02:00 UTC - CMR-14A (continue): heavy candidate 2/2 generated + ACCEPTED (both named defects fixed)
 - Reserved BEFORE generating (xiahoudun 5/12, heavy 2/2 reached, global 131/200). Prompt carried the two named candidate-1 defects as explicit fixes (count five heads; every spear complete). Body re-read (a57630a2); portrait/walk refs verified.
 - Output 21d44dcd 2172x724 preserved byte-identical: 5 distinct chop poses, EXACTLY one head per drawing, EVERY spear complete butt-to-tip, identity/palette clean, no guides (self-check). Audit: 4 big comps (fig3|fig4 merge + fig1|fig2 fringe touch, both separable at prepare) + 3 trivial specks, 0 edge. Scale-watch stands (k-fit at prepare). ACCEPTED as source, supersedes candidate 1; sheet acceptance (prepare/projection/continuity/lengths/heads) deferred.

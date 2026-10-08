@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// CMR-14A heavy prepare step 1: arrange heavy-candidate-1's 5 figures into a
+// CMR-14A heavy prepare step 1: arrange heavy-candidate-2's 5 figures into a
 // 3x3 heavy-prepared-source.png (cells 0-4 in play order, 5-8 empty) at NATIVE
-// scale. Scale is solved later by the pack prepare (per-sheet uniform scale,
+// scale. Candidate 1 was REJECTED (double-head, missing spear) and is never
+// prepared from; candidate 2 supersedes it (history preserved in git). Scale is solved later by the pack prepare (per-sheet uniform scale,
 // prepare-lidian.mjs pattern) - no k-fit here, so no resampling damage.
 // Masked component extraction (fig pixels dilated 2px); fig4|fig5 split at
 // the emptiest column (x1479, fringe touch, parts intact per 3x review).
@@ -13,11 +14,11 @@ import { fileURLToPath } from 'node:url'
 import { alphaComponents } from './motion-pipeline.mjs'
 import { gridCellOf } from './motion-retouch.mjs'
 
-export const SRC_PATH = 'art/motion/xiahoudun/heavy-candidate-1.png'
-export const SRC_SHA = '7c5de005ae47c239bdeeb0ece6d0c7d5dd4fdf742b74c41d54c3d1a182c0ffb2'
+export const SRC_PATH = 'art/motion/xiahoudun/heavy-candidate-2.png'
+export const SRC_SHA = '21d44dcd4d4caae76d2a92467a25e396d051cca6b39420fac690dd52587bd4bf'
 export const OUT_PATH = 'art/motion/xiahoudun/heavy-prepared-source.png'
-export const SPLIT_X = 1479
-const SRC_W = 1933, SRC_H = 814
+export const SPLIT_X = 1360
+const SRC_W = 2172, SRC_H = 724
 // Container sheet only: per-sheet uniform scale is solved later by the pack
 // prepare (prepare-lidian.mjs pattern), so native mutual scale is preserved
 // here and cells just need to HOLD the tallest drawing (fig0 raise, 640px).
@@ -96,7 +97,7 @@ export async function prepareHeavySource() {
   const od = og.getImageData(0, 0, OUT_W, OUT_H)
   const cellOf = gridCellOf(3, 3)
   const post = alphaComponents({ width: OUT_W, height: OUT_H, data: od.data }, 96).filter(c => c.area > 64)
-  if (post.length !== 5) throw Error(`heavy-prepare: expected 5 drawings, found ${post.length}`)
+  if (post.length !== 5) throw Error(`heavy-prepare: expected 5 drawings, found ${post.length} :: ${JSON.stringify(post.map(c => [c.area, c.x0, c.y0, c.x1, c.y1]))}`)
   const got = post.map(c => cellOf(c, OUT_W, OUT_H)).sort((a, b) => a - b)
   if (JSON.stringify(got) !== JSON.stringify([0, 1, 2, 3, 4])) throw Error(`heavy-prepare: drawings in cells [${got}] vs [0,1,2,3,4]`)
   for (const c of post) {
