@@ -8,6 +8,11 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-08 03:00 UTC - CMR-14A (continue): fig3 verified CLEAN, but merge is SOLID overlap - seam adjudication next
+- Cand-1 fig3 (follow) band view: bent-over figure, right hand gripping shaft exiting right - body/grip clean, single spear (no second head). All candidate figs now individually verified clean EXCEPT the C0/C3 suspects already withdrawn to UNREVIEWED (not re-proven; only fig0/f2/f4 re-verified + fig3 now).
+- Threshold ladder (128/160/192) on the fig3|fig4 merge: STAYS one 130k comp - connection is SOLID paint (>=192), not faint bridge. So no column cut or threshold trick separates them; the seam must be eye-placed (tassel strands vs boot, 4x zone view) with judged paint damage to one side. Next: zone view + seam + combined prepare (cand-2 figs 0-2 + cand-1 figs 3,4 + scale check) + projection.
+- Verification: band image + threshold numbers (self-check); no suites re-run (no repo code changed). No image (authoring 5/12); no ledger change; no runtime change; owner infra untouched.
+- Result IN_PROGRESS. Next: seam adjudication + combined prepare.
 ### 2026-10-08 02:45 UTC - CMR-14A (tick): targeted view OVERTURNS C0 double-head, confirms f4 single-head + separable tip-bridge
 - One image, two zones (3x, labeled coords): cand-1 fig0 full = ONE complete spear (butt bottom-left, head top-right), single head - C0 double-head verdict OVERTURNED (grid-strip artifact, as suspected). f4-head-zone = fig4 torso/grip/horizontal shaft, NO second head - earlier sighting retracted as misread; the fig3|fig4 merge is fig3's spearhead TIP touching fig4's zone (tip pixels stay with fig3, clean separable point-touch, not interleave).
 - Combined-prepare inputs now: cand-2 figs 0-2 (clean, separated) + cand-1 fig4 (clean, separable) + cand-1 fig2 (clean); NEEDED: cand-1 fig3 (follow) correct-band review - the last unverified cell. Scale compatibility (±15% family) stands.
