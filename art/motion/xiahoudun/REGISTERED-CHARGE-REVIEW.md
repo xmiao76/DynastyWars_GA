@@ -202,3 +202,25 @@ Weapon gates remain walk3.38%/2.74°, charge6.01%/19.5°, hypothetical combined6
 OK at unchanged fixed band (weapon RGBA exact); charge still NOT entered as an
 accepted sheet. No combo/heavy/misc/fall/getup generated yet; full CMR-14A/14B
 acceptance not implied.
+
+## Owner charge ruling — 2026-10-08 (record-only; CMR-14A stays BLOCKED)
+
+Owner verbatim ruling this turn, answering "tick 20→21 dash→dash2 pose cut —
+hitch or fast action?": "Fast action".
+
+- Tick 20→21 (dash→dash2 pose cut) ACCEPTED as fast action (motion verdict).
+  The stills BORDERLINE on this cut is closed by owner eye on the filmstrips:
+  at normal speed it reads as intentional fast action, not a hitch. No re-time
+  and no reserve-first charge:3 repair is triggered by this cut.
+- Tick 42→43 is dispositioned explicitly as no-motion-allegation + palette
+  aspect covered by the standing paint disclosure — NOT as a separately ruled
+  motion item (stating this distinction plainly: no owner motion verdict was
+  sought or given on 42→43 as motion; its palette side stays under the paint
+  disclosure below).
+- Standing disclosures restated, unchanged: paint pass 2 (`320e235a`, RGB-only
+  on charge:3/charge:4) gap REDUCED NOT CLOSED (charge:3 56.2→54.8, charge:4
+  57.0→54.7 vs refs charge:1/2 ~50.5, walk:0 44.0); head metric UNVERIFIED /
+  null (no anatomical ruler, no mandatory rescale ruled here).
+- Scope: record-only. Registered candidate walk `0aff5a39` + charge `320e235a`
+  remain an offline candidate, not source acceptance; no ledger/image/runtime
+  change; CMR-14A stays BLOCKED (funding still pending).
