@@ -1,4 +1,4 @@
-# Xiahou Dun authoring plan (CMR-14A, attempt 2 after explicit owner reset)
+# Xiahou Dun authoring plan (CMR-14A, post-waiver: combo item-4 waived 2026-10-08, heavy underway)
 
 Status: IN_PROGRESS attempt2 — guard grip restored, walk weapon corrections3.38%/2.74° close fixed-band projection (OK). Whole-sheet acceptance remains held on registered consistency review; charge head UNVERIFIED/null. Authoring2/12, repair2/3 remain; no new sequence/dependent task.
 
