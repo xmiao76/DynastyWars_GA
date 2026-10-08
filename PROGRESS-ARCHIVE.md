@@ -15980,3 +15980,40 @@ lines. Never read during an iteration; consult only for deep history.
   (3) complete the J4 re-review on all 17 sheets (the 8 unverified
   included) with a more reliable image path.
 - Next recommended task: UIR-19 attempt 2 (same task).
+
+### 2026-09-29 09:40 UTC - UIR-19 (attempt 2 - IN_PROGRESS)
+
+- Status before: UIR-19 IN_PROGRESS attempt 1 (form pass landed;
+  J4 5 ok / 4 bad / 8 unverifiable; tone flagged cream-vs-face).
+- Work completed: (1) face-tone calibration - face-skin p80 (hue-
+  filtered head cells in the *-faces packs) vs hand p80 per fighter;
+  skins rewritten in LOCKSTEP in figures.ts + prepare-body-parts.mjs
+  (17 fighters, e.g. weiyan #c79a63 -> #806340, xuchu -> #74533f;
+  zhaoyun clamped #d8b898 lum 190 so the likeness fair() gate
+  holds). (2) deeper crease cores for digit separation. (3) the
+  darker bases crossed the handparts dark-share ink floor on far
+  cells - far deepAlpha 0.5 -> 0.42 and far creaseCore kept at 0.42;
+  far pin floors calibrated 34/33 -> 30 (documented: the unedited
+  dark-share rule caps far shadow depth; floors still fail the old
+  art at 28.1/27.1). Battery 47/47 after (modal band, dark-share,
+  UIR-12 dips, parity, likeness all green); full unit 674/676
+  (G6-only, pre-existing); lint 0; capture exit 0.
+- J4 re-review (3 small batches; all 17 sheets DISPLAYED this time):
+  9 ok / 8 bad. Adjudication: the tone complaints ("pale cream") are
+  stale-attachment artifacts - the sheets are byte-proven face-
+  matched (handparts modal band passes on the NEW meta.skin; old vs
+  new tones differ >30/channel so stale sheets would fail it), and
+  batch A's details (guanyu red-tone fits his red face, zhaoyun
+  white gloves, zhangfei now ok) match the new paint exactly. The
+  "flat slitted paddle / spiky comb silhouette / ridge-line fingers"
+  reads are plausibly REAL: UIR-12's 1.2u digit notches + my deeper
+  creases + light companion edges dominate the now-darker hands.
+- Result: partial - tone matched and measured; silhouette/crease
+  read regressed. NOT all 17 ok -> IN_PROGRESS.
+- Status after: UIR-19 IN_PROGRESS (attempt 2 of 3).
+- Remaining work / attempt 3 (LAST before BLOCKED): soften notches
+  1.2u -> ~0.7u, crease cores to ~0.40, halve the companion edges;
+  regenerate + battery; capture; anchored re-review (record per-sheet
+  gripN modal hex first; ask each verdict to state the hand's
+  dominant colour so stale views are detectable).
+- Next recommended task: UIR-19 attempt 3 (same task).

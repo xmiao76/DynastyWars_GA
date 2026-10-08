@@ -459,42 +459,7 @@ history slowly crowds out the work it is supposed to support.
 - Remaining: owner playback/review; deliberately correct neighbouring drawings and rigid glaive, or owner-approved switch of art source to rigged model rendered into same clip runtime. Do not keep retrying whole sheets blindly or expand cast.
 - Status after: GYM-1 IN_PROGRESS (attempt1), UIR-19/20 untouched. Diagnostic test packaged; not DONE.
 
-### 2026-09-29 09:40 UTC - UIR-19 (attempt 2 - IN_PROGRESS)
-
-- Status before: UIR-19 IN_PROGRESS attempt 1 (form pass landed;
-  J4 5 ok / 4 bad / 8 unverifiable; tone flagged cream-vs-face).
-- Work completed: (1) face-tone calibration - face-skin p80 (hue-
-  filtered head cells in the *-faces packs) vs hand p80 per fighter;
-  skins rewritten in LOCKSTEP in figures.ts + prepare-body-parts.mjs
-  (17 fighters, e.g. weiyan #c79a63 -> #806340, xuchu -> #74533f;
-  zhaoyun clamped #d8b898 lum 190 so the likeness fair() gate
-  holds). (2) deeper crease cores for digit separation. (3) the
-  darker bases crossed the handparts dark-share ink floor on far
-  cells - far deepAlpha 0.5 -> 0.42 and far creaseCore kept at 0.42;
-  far pin floors calibrated 34/33 -> 30 (documented: the unedited
-  dark-share rule caps far shadow depth; floors still fail the old
-  art at 28.1/27.1). Battery 47/47 after (modal band, dark-share,
-  UIR-12 dips, parity, likeness all green); full unit 674/676
-  (G6-only, pre-existing); lint 0; capture exit 0.
-- J4 re-review (3 small batches; all 17 sheets DISPLAYED this time):
-  9 ok / 8 bad. Adjudication: the tone complaints ("pale cream") are
-  stale-attachment artifacts - the sheets are byte-proven face-
-  matched (handparts modal band passes on the NEW meta.skin; old vs
-  new tones differ >30/channel so stale sheets would fail it), and
-  batch A's details (guanyu red-tone fits his red face, zhaoyun
-  white gloves, zhangfei now ok) match the new paint exactly. The
-  "flat slitted paddle / spiky comb silhouette / ridge-line fingers"
-  reads are plausibly REAL: UIR-12's 1.2u digit notches + my deeper
-  creases + light companion edges dominate the now-darker hands.
-- Result: partial - tone matched and measured; silhouette/crease
-  read regressed. NOT all 17 ok -> IN_PROGRESS.
-- Status after: UIR-19 IN_PROGRESS (attempt 2 of 3).
-- Remaining work / attempt 3 (LAST before BLOCKED): soften notches
-  1.2u -> ~0.7u, crease cores to ~0.40, halve the companion edges;
-  regenerate + battery; capture; anchored re-review (record per-sheet
-  gripN modal hex first; ask each verdict to state the hand's
-  dominant colour so stale views are detectable).
-- Next recommended task: UIR-19 attempt 3 (same task).
+- **2026-09-29 09:40 UTC - UIR-19 (attempt 2 - IN_PROGRESS)** [Rule-8 hygiene 2026-10-08 (503→≤495): zero DONE headings in PROGRESS (all 59 content headings CMR-14A IN_PROGRESS/BLOCKED + producer IDLE + UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED — grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction + verbatim archive of this oldest full entry; entire CMR-14A chain, all other IN_PROGRESS/BLOCKED/TODO evidence, and the 2026-10-06 producer snapshot stay byte-intact in PROGRESS] — Status before: UIR-19 IN_PROGRESS attempt 1 (form pass landed; J4 5 ok / 4 bad / 8 unverifiable; tone flagged cream-vs-face). | Work completed: (1) face-tone calibration face-skin p80 vs hand p80; LOCKSTEP rewrite figures.ts + prepare-body-parts.mjs (17 fighters, weiyan #c79a63->#806340, xuchu->#74533f, zhaoyun #d8b898 lum 190 likeness fair() holds); (2) deeper crease cores; (3) far deepAlpha 0.5->0.42, creaseCore 0.42, pin floors 34/33->30 (dark-share floor documented, old art fails 28.1/27.1); battery 47/47, unit 674/676 G6-only, lint 0, capture exit 0. | J4 re-review 9 ok / 8 bad (all 17 DISPLAYED); tone complaints are stale-attachment artifacts (byte-proven face-matched, >30/channel diff); guanyu/zhaoyun/zhangfei details match new paint; silhouette reads plausibly REAL (UIR-12 1.2u notches + deeper creases + companion edges). | Result: partial, NOT all 17 ok -> IN_PROGRESS. | Status after: IN_PROGRESS (attempt 2 of 3). | Remaining/attempt 3 LAST: soften notches 1.2u->~0.7u, crease ~0.40, halve companion edges; regenerate+battery; capture; anchored re-review (gripN modal hex + dominant colour). | Next: UIR-19 attempt 3 (same task).
 
 - **2026-09-29 08:10 UTC - UIR-19 (attempt 1 - IN_PROGRESS)** [Rule-8 hygiene 2026-10-08: zero DONE headings in PROGRESS (all headings CMR-14A IN_PROGRESS/BLOCKED, producer IDLE, UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED, grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction plus verbatim archive of this oldest full entry; entire CMR-14A chain, all other IN_PROGRESS/BLOCKED/TODO evidence, and the 2026-10-06 producer snapshot stay byte-intact in PROGRESS] — Status before: UIR-19 TODO (V-18: flat cream mitten hands beside the photographic sleeves). | Work completed: formPlanes pass in prepare-body-parts.mjs (knuckle caps + valleys along the fist's top knuckle edge and the open hand's vertical finger-root line, planar lit/shade split along the sheet light, finger-group tone steps, warm rim bounce); UIR-12 crease pass re-ordered LAST (formDetail) or the plane washes broke the dip gate. Cell sizes/pivots untouched; all 20 sheets + prepared.json regenerated. TDD: test/game/uir19-hands.test.ts (knuckle lit-caps, plateau counted once, prominence >= 8; UL/LR plane contrast) fails on the stashed old paint with 47 failures (peaks 0-1, contrast 27-35), passes on the new (68/68 cells). Pin-honesty note: the first probe's prominence included k=0 (always 0) - fixed, and the baseline re-measured via git stash, not from the buggy run. | Delegated J4 review (rubric-only, 17 clean sheets): 5 ok / 4 bad / 8 unverifiable. Bad: zhangfei "cream wrap-like fists lighter than tan face", weiyan "cream hands vs tan face", spearman "pale pink hands vs tan face" (TONE mismatch - my white washes widened it), lubu "attack fists smooth pale blobs, weak finger separation". The 8 ? sheets failed on the session's stale-attachment bug (the same defect hit text output in this tick too). | Response landed in this attempt: light washes cut (capLit 0.5 -> 0.32/0.34, planeLit 0.22 -> 0.15, stepLit 0.16 -> 0.11, bounce 0.14 -> 0.10) and the shadow side deepened (planeShade 0.2 -> 0.28) so the plane contrast holds while the average tone darkens toward the skin/face. Full battery green after the change (uir19 pin + handparts + handgrip + uir13 + bodyparts + likeness = 47/47; UIR-12 dips and modal band unaffected). | Files changed: scripts/prepare-body-parts.mjs, src/game/assets/ {hero,mook,boss}-bodies (sheets + prepared.json), test/game/ uir19-hands.test.ts (new), TASKS.md, PROGRESS.md. | Verification run: lint 0; battery 47/47 (unedited gates incl. UIR-12 dips, modal band, byte-stable sheets, bodyparts parity); full unit 674/676 (only the pre-existing UIR-16 G6 pin fails, as intended); review capture exit 0; browser gates e2e 78 + 4 documented load-flakes (3 boot timeouts + 1 pause brightness; 13/13 re-pass in isolation), vision 5/5, selfplay 13/13, build 0, prodbuild 4/4. | Result: partial - form lands and measures; J4 acceptance NOT met (5/17 ok) -> IN_PROGRESS. | Status after: UIR-19 IN_PROGRESS (attempt 1 of 3). | Remaining work / attempt 2: (1) per-fighter face-tone calibration (sample the *-faces head cells for the photographic face mean; adjust the hand base/washes toward it - zhangfei/weiyan/spearman first); (2) stronger finger separation on fist cells (lubu attack); (3) complete the J4 re-review on all 17 sheets (the 8 unverified included) with a more reliable image path. | Next recommended task: UIR-19 attempt 2 (same task).
 
