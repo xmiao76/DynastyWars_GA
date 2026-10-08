@@ -1,1 +1,329 @@
-{"budget":{"fallSheetCandidates":"1/2 (cap untriggered, NO exception)","globalCap":200,"globalUsedAfter":135,"xiahoudunCap":12,"xiahoudunUsedAfter":9},"choreography":"cells 0-4 read distinct on the asserted 1x grid strip: topple (0, tipping back, arm flailing, spear gripped) / airborne (1, feet off ground, twisting sideways) / tumble (2, rotated, knees tucking) / impact (3, crashing/bouncing) / DOWN (4, flat prone face-down, arms folded under chest, legs extended straight back, spear alongside still held - genuinely FLAT, no kneeling/propping); spares 5-8 in-family alternates (5 seated recoil, 6 prone reach, 7 prone push, 8 crouch). Matches AUTHORING-PLAN fall 5 + lidian 5-core order + shared-contract fall/impact/down + thrown/dying-dead reuse semantics (self-check on 1x grid strip)","composition":{"alphaBuckets":{"a0":1043640,"a128_255":395288,"a1_95":129850,"a96_127":4086},"bboxCentersDistinctCells":"all 9 bbox centers fall in distinct row-major cells 0-8 - exactly one drawing per cell","bigAreas":[{"area":53922,"bbox":[20,433,512,678]},{"area":53312,"bbox":[48,20,458,344]},{"area":49192,"bbox":[548,65,1024,339]},{"area":45503,"bbox":[1068,459,1524,676]},{"area":42300,"bbox":[1072,760,1529,969]},{"area":40337,"bbox":[1106,40,1503,324]},{"area":40315,"bbox":[551,786,1052,968]},{"area":39627,"bbox":[16,805,540,976]},{"area":34858,"bbox":[489,535,1053,662]}],"bigComponents":9,"bigPixelsShare":1.0103,"cellOpaqueFrac":[0.3017,0.2785,0.2287,0.3079,0.1932,0.2587,0.2231,0.2289,0.2412],"cellOverhangNote":"cell-6 comp bbox x1=540 overshoots the nominal x=512 gridline by ~28px; components remain fully disjoint (zero shared pixels), so benign - gridlines are nominal, separation is proven (same class as misc notes)","cornersTransparent":true,"edgeContactPx":0,"figAssignment":"9 disjoint alpha components (34k-54k px), zero shared pixels - 9 SEPARATED figures, no merges","note":"numbers from artifacts/tmpcheck/fall-audit-cand1.mjs (alpha>=96, 8-connectivity, in-script grid-matches-sheet asserts); bigPixelsShare 1.01 because big comps counted at th96 include a96_127 pixels while opaque counts >=128 - bookkeeping, not a merge","opaqueFrac":0.2513,"totalComps":16,"trivialSpecks":7,"washNote":"129.9k sub-threshold (a1_95) pixels form a faint mottled wash visible in the provider preview but invisible on the 1x strip (clean black gaps); figures separate cleanly at the working threshold, so recorded as watch item, not a fail - same class as misc a1_95 buckets"},"evidence":[{"note":"1x labeled 3x3 grid strip rendered FROM the sheet bytes at native dims (asserted equal), OPENED for design audit","path":"artifacts/motion/xiahoudun/fall-review/fall-gridstrip.png"}],"fighter":"xiahoudun","headVisibility":{"fig0":"head top-left, profile facing right, crown + beard clear of limbs/spear","fig1":"head upper area, profile facing right, crown + beard clear","fig2":"head right side, profile facing right, unoccluded by tucked knees","fig3":"head left, profile facing right, clear of flailing arm","fig4":"DOWN prone head right, profile facing right, clear of ground plane, crown-to-beard measurable at 1x","fig5":"head upper-middle, profile facing right, clear","fig6":"prone head right-of-center, profile facing right, clear of reaching arm","fig7":"prone head center-right, profile facing right, clear of push arm","fig8":"crouch head right, profile facing right, clear of hand/spear","note":"all 9 heads fully visible in side view at 1x self-check with crown + beard/jaw unoccluded - NO occluded/unmeasurable head at design audit; blind-right-eye + scar detail NOT verifiable at 1x (same 1x limit as misc) - check on scale-gate head crops; a buried/cropped/hidden head at gate measurement is a design defect to record (chin-occluded precedent: UNVERIFIED, never a pass)"},"identity":"headband+topknot/full dark beard/dark lamellar with magenta-purple + magenta scarf/dark robe/boots read clean all nine; leaf head + red tassel + butt cap each spear; no helmet/sword/extra limbs seen; blind-right-eye + scar detail NOT verifiable at 1x - check on scale-gate head crops; no guides/dotted lines visible at 1x (self-check)","next":"SCALE GATE NEXT tick (gate-first before any other work on the candidate): crown-beard landmarks on 3x sheet-coord grids vs walk 64.7; if PASS: separation/prepare/projection + continuity; then getup; charge judgement still needs owner eye.","output":{"bytes":2132759,"height":1024,"immutable":true,"preservedAs":"art/motion/xiahoudun/fall-candidate-1.png (byte-identical copy of provider bytes, never edited)","sha256":"5f6a6cce32968007ddee95820ab5cd0baafe3955d3c1343e9532cba836e7301a","width":1536},"palette":{"meanLuma":0.182,"meanSat":0.32,"nearWhiteOpaque":27,"note":"dark muted, in the walk/misc family (misc-1 0.165/0.292, misc-2 0.178/0.317); sat slightly up on red tassels/scarf = watch, not fail; nearWhite 27 = spearhead steel highlights; no numeric palette gate exists; acceptable"},"prompt":{"anchors":"figs ~315-325px sole-to-headgear (prone: crown-to-heel at same scale); heads ~63-68px crown-beard (walk mean 64.7); spears 404-447px (fixed band 404.16-446.70)","antiMerge":"40px+ empty gaps, no touching/overlaps (PROVEN: 9 disjoint comps, 0 edge; one benign 28px nominal-gridline overshoot, separation intact)","failuresNamed":"ALL THREE: (a) heavy uniform overshoot 0-for-2 (cand-2 106.8 / cand-3 100.0 vs 64.7); (b) misc-1 scatter (heads 44-93, mean 73.56, 5/9 per-fig FAIL, no uniform k); (c) misc-2 scatter worse despite explicit uniformity demand (heads 48-144, mean 88.67 FAIL, 7/9 per-fig FAIL, demanded largest<=1.15x-smallest FAILED 0-for-1)","file":"art/motion/xiahoudun/fall-prompt.txt","headVisibilityDemand":"NEW: every head FULLY VISIBLE in side view incl. prone DOWN/impact - crown+beard unoccluded; unmeasurable head FAILS audit like a missing spear","layoutJustification":"compact 3x3 KEPT - explicitly justified vs 0-for-4 evidence: 5-wide rows drew uniformly huge twice, 3x3 drew nearer to scale twice but scattered twice; 3x3 is the ONLY layout yet to draw near walk scale","uniformityDemand":"RESTATED: all 9 heads SAME size regardless of pose; largest <=1.15x smallest (note: the written demand alone did NOT steer misc-2 - still enforced at audit)"},"request":{"authorization":"none needed - fall 0->1 is well within the standing 2-per-sequence cap; xiahoudun 8->9/12 and global 134->135/200 within caps. NO exception.","fallSheetCandidates":1,"globalUsedAfter":135,"kind":"whole-sheet","ledger":"art/motion/generation-budget.json","provider":"image_generate default route; 1536x1024 3x3 per prompt; quality high; exactly ONE call","references":"NONE ATTACHED - read_image results available before generating carry no attachmentIds in this harness, so no reference objects could be supplied; text-only prompt from IDENTITY.md with re-read+hash-verified masters (body a57630a2, portrait 01bb7271, walk-corrected 0aff5a39, all three opened). Identity-must-pass-audit-or-reject."},"scaleGate":{"meanGate":[55.0,74.4],"method":"overlay-landmark ONLY, SAME ruler as heavy/misc gates: vertical H=beardY-crownY in sheet px on 3x sheet-coord grids; crowns on bun tops, beards on lowest beard-hair pixels. Gate runs NEXT tick, gate-first.","perFigBand":[48.5,80.9],"ref":"walk mean 64.7 (mean gate = walk +/-15%; per-fig = walk +/-25%)","verdict":"PENDING - NO scale verdict this tick BY DESIGN"},"sequence":"fall","spearCompleteness":"all nine spears read complete butt-cap-to-head-tip with leaf head + tassel at 1x INCLUDING prone DOWN (spear alongside body still gripped, both ends in empty margin; 0 edge contact); endpoint measurement + overlay verification deferred to the scale-gate tick (self-check)","spearheads":{"count":9,"note":"exactly one per drawing at 1x, no floaters (self-check); positions to be pinned on enlarged strips at scale gate"},"status":"CANDIDATE_GENERATED_DESIGN_AUDITED_SCALE_GATE_PENDING"}
+{
+ "budget": {
+  "fallSheetCandidates": "1/2 (cap untriggered, NO exception)",
+  "globalCap": 200,
+  "globalUsedAfter": 135,
+  "xiahoudunCap": 12,
+  "xiahoudunUsedAfter": 9
+ },
+ "choreography": "cells 0-4 read distinct on the asserted 1x grid strip: topple (0, tipping back, arm flailing, spear gripped) / airborne (1, feet off ground, twisting sideways) / tumble (2, rotated, knees tucking) / impact (3, crashing/bouncing) / DOWN (4, flat prone face-down, arms folded under chest, legs extended straight back, spear alongside still held - genuinely FLAT, no kneeling/propping); spares 5-8 in-family alternates (5 seated recoil, 6 prone reach, 7 prone push, 8 crouch). Matches AUTHORING-PLAN fall 5 + lidian 5-core order + shared-contract fall/impact/down + thrown/dying-dead reuse semantics (self-check on 1x grid strip)",
+ "composition": {
+  "alphaBuckets": {
+   "a0": 1043640,
+   "a128_255": 395288,
+   "a1_95": 129850,
+   "a96_127": 4086
+  },
+  "bboxCentersDistinctCells": "all 9 bbox centers fall in distinct row-major cells 0-8 - exactly one drawing per cell",
+  "bigAreas": [
+   {
+    "area": 53922,
+    "bbox": [
+     20,
+     433,
+     512,
+     678
+    ]
+   },
+   {
+    "area": 53312,
+    "bbox": [
+     48,
+     20,
+     458,
+     344
+    ]
+   },
+   {
+    "area": 49192,
+    "bbox": [
+     548,
+     65,
+     1024,
+     339
+    ]
+   },
+   {
+    "area": 45503,
+    "bbox": [
+     1068,
+     459,
+     1524,
+     676
+    ]
+   },
+   {
+    "area": 42300,
+    "bbox": [
+     1072,
+     760,
+     1529,
+     969
+    ]
+   },
+   {
+    "area": 40337,
+    "bbox": [
+     1106,
+     40,
+     1503,
+     324
+    ]
+   },
+   {
+    "area": 40315,
+    "bbox": [
+     551,
+     786,
+     1052,
+     968
+    ]
+   },
+   {
+    "area": 39627,
+    "bbox": [
+     16,
+     805,
+     540,
+     976
+    ]
+   },
+   {
+    "area": 34858,
+    "bbox": [
+     489,
+     535,
+     1053,
+     662
+    ]
+   }
+  ],
+  "bigComponents": 9,
+  "bigPixelsShare": 1.0103,
+  "cellOpaqueFrac": [
+   0.3017,
+   0.2785,
+   0.2287,
+   0.3079,
+   0.1932,
+   0.2587,
+   0.2231,
+   0.2289,
+   0.2412
+  ],
+  "cellOverhangNote": "cell-6 comp bbox x1=540 overshoots the nominal x=512 gridline by ~28px; components remain fully disjoint (zero shared pixels), so benign - gridlines are nominal, separation is proven (same class as misc notes)",
+  "cornersTransparent": true,
+  "edgeContactPx": 0,
+  "figAssignment": "9 disjoint alpha components (34k-54k px), zero shared pixels - 9 SEPARATED figures, no merges",
+  "note": "numbers from artifacts/tmpcheck/fall-audit-cand1.mjs (alpha>=96, 8-connectivity, in-script grid-matches-sheet asserts); bigPixelsShare 1.01 because big comps counted at th96 include a96_127 pixels while opaque counts >=128 - bookkeeping, not a merge",
+  "opaqueFrac": 0.2513,
+  "totalComps": 16,
+  "trivialSpecks": 7,
+  "washNote": "129.9k sub-threshold (a1_95) pixels form a faint mottled wash visible in the provider preview but invisible on the 1x strip (clean black gaps); figures separate cleanly at the working threshold, so recorded as watch item, not a fail - same class as misc a1_95 buckets"
+ },
+ "evidence": [
+  {
+   "note": "1x labeled 3x3 grid strip rendered FROM the sheet bytes at native dims (asserted equal), opened for design audit",
+   "path": "artifacts/motion/xiahoudun/fall-review/fall-gridstrip.png"
+  },
+  {
+   "note": "A1 scale overlay figs 0-4 (CORRECT-RENDER) OPENED 2026-10-08: all 10 markers on drawn bun/beard pixels; H=[76,55,81,71,92] re-derived from fall-a1-correct-render.mjs coords",
+   "path": "artifacts/motion/xiahoudun/fall-review/fall-a1-marked2.png"
+  },
+  {
+   "note": "A2-retry scale overlay figs 5-8 OPENED 2026-10-08: fig5 H=47 (f5C off-sky onto knob, f5B on beard); figs 6-8 eyeball positions SUPERSEDED by A3 (do not trust)",
+   "path": "artifacts/motion/xiahoudun/fall-review/fall-a2-marked.png"
+  },
+  {
+   "note": "A3 programmatic overlay figs 6-8 OPENED 2026-10-08: fig6 beard-on-spear, fig7 dubious short pair (H=36 UNVERIFIED-caveated), fig8 crown-only no clean beard; windows f6win/f7win/f8win",
+   "path": "artifacts/motion/xiahoudun/fall-review/fall-a3-marked.png"
+  }
+ ],
+ "fighter": "xiahoudun",
+ "headVisibility": {
+  "fig0": "head top-left, profile facing right, crown + beard clear of limbs/spear",
+  "fig1": "head upper area, profile facing right, crown + beard clear",
+  "fig2": "head right side, profile facing right, unoccluded by tucked knees",
+  "fig3": "head left, profile facing right, clear of flailing arm",
+  "fig4": "DOWN prone head right, profile facing right, clear of ground plane, crown-to-beard measurable at 1x",
+  "fig5": "head upper-middle, profile facing right, clear",
+  "fig6": "prone head right-of-center, profile facing right, clear of reaching arm",
+  "fig7": "prone head center-right, profile facing right, clear of push arm",
+  "fig8": "crouch head right, profile facing right, clear of hand/spear",
+  "note": "all 9 heads fully visible in side view at 1x self-check with crown + beard/jaw unoccluded - NO occluded/unmeasurable head at design audit; blind-right-eye + scar detail NOT verifiable at 1x (same 1x limit as misc) - check on scale-gate head crops; a buried/cropped/hidden head at gate measurement is a design defect to record (chin-occluded precedent: UNVERIFIED, never a pass)"
+ },
+ "identity": "headband+topknot/full dark beard/dark lamellar with magenta-purple + magenta scarf/dark robe/boots read clean all nine; leaf head + red tassel + butt cap each spear; no helmet/sword/extra limbs seen; blind-right-eye + scar detail NOT verifiable at 1x - check on scale-gate head crops; no guides/dotted lines visible at 1x (self-check)",
+ "next": "REJECTED 2026-10-08 (do NOT prepare from this candidate). Next: getup candidate 1 (fall 1/2 spent, getup within caps, no exception). fall-2 + misc-3 need owner funding decisions (flagged, not taken). Pack-prep honors recorded scale=1; charge judgement still needs owner eye. Task stays IN_PROGRESS.",
+ "output": {
+  "bytes": 2132759,
+  "height": 1024,
+  "immutable": true,
+  "preservedAs": "art/motion/xiahoudun/fall-candidate-1.png (byte-identical copy of provider bytes, never edited)",
+  "sha256": "5f6a6cce32968007ddee95820ab5cd0baafe3955d3c1343e9532cba836e7301a",
+  "width": 1536
+ },
+ "palette": {
+  "meanLuma": 0.182,
+  "meanSat": 0.32,
+  "nearWhiteOpaque": 27,
+  "note": "dark muted, in the walk/misc family (misc-1 0.165/0.292, misc-2 0.178/0.317); sat slightly up on red tassels/scarf = watch, not fail; nearWhite 27 = spearhead steel highlights; no numeric palette gate exists; acceptable"
+ },
+ "prompt": {
+  "anchors": "figs ~315-325px sole-to-headgear (prone: crown-to-heel at same scale); heads ~63-68px crown-beard (walk mean 64.7); spears 404-447px (fixed band 404.16-446.70)",
+  "antiMerge": "40px+ empty gaps, no touching/overlaps (PROVEN: 9 disjoint comps, 0 edge; one benign 28px nominal-gridline overshoot, separation intact)",
+  "failuresNamed": "ALL THREE: (a) heavy uniform overshoot 0-for-2 (cand-2 106.8 / cand-3 100.0 vs 64.7); (b) misc-1 scatter (heads 44-93, mean 73.56, 5/9 per-fig FAIL, no uniform k); (c) misc-2 scatter worse despite explicit uniformity demand (heads 48-144, mean 88.67 FAIL, 7/9 per-fig FAIL, demanded largest<=1.15x-smallest FAILED 0-for-1)",
+  "file": "art/motion/xiahoudun/fall-prompt.txt",
+  "headVisibilityDemand": "NEW: every head FULLY VISIBLE in side view incl. prone DOWN/impact - crown+beard unoccluded; unmeasurable head FAILS audit like a missing spear",
+  "layoutJustification": "compact 3x3 KEPT - explicitly justified vs 0-for-4 evidence: 5-wide rows drew uniformly huge twice, 3x3 drew nearer to scale twice but scattered twice; 3x3 is the ONLY layout yet to draw near walk scale",
+  "uniformityDemand": "RESTATED: all 9 heads SAME size regardless of pose; largest <=1.15x smallest (note: the written demand alone did NOT steer misc-2 - still enforced at audit)"
+ },
+ "request": {
+  "authorization": "none needed - fall 0->1 is well within the standing 2-per-sequence cap; xiahoudun 8->9/12 and global 134->135/200 within caps. NO exception.",
+  "fallSheetCandidates": 1,
+  "globalUsedAfter": 135,
+  "kind": "whole-sheet",
+  "ledger": "art/motion/generation-budget.json",
+  "provider": "image_generate default route; 1536x1024 3x3 per prompt; quality high; exactly ONE call",
+  "references": "NONE ATTACHED - read_image results available before generating carry no attachmentIds in this harness, so no reference objects could be supplied; text-only prompt from IDENTITY.md with re-read+hash-verified masters (body a57630a2, portrait 01bb7271, walk-corrected 0aff5a39, all three opened). Identity-must-pass-audit-or-reject."
+ },
+ "scaleGate": {
+  "method": "overlay-landmark ONLY, SAME ruler as heavy/misc gates: vertical H=beardY-crownY in sheet px on 3x sheet-coord grids; crowns on bun tops, beards on lowest beard-hair pixels. Gate run 2026-10-08 on all three overlays (all OPENED). A1 figs 0-4 H re-derived from CORRECT-RENDER SCRIPT coords (fall-a1-correct-render.mjs), not from any relayed table; fig5 H from A2-retry overlay script (fall-a2-corr.mjs); figs 6-8 UNMEASURABLE after 3 honest attempts (eyeball x2 + programmatic x1).",
+  "walkRef": 64.7,
+  "thresholds": "mean crown-beard head height within +/-15% of walk 64.7px (gate band 55.0-74.4) AND no fig outside +/-25% (per-fig band 48.5-80.9)",
+  "meanGate": [
+   55.0,
+   74.4
+  ],
+  "perFigBand": [
+   48.5,
+   80.9
+  ],
+  "landmarks": {
+   "fig0": {
+    "crown": [
+     100,
+     87
+    ],
+    "beard": [
+     160,
+     163
+    ],
+    "H": 76,
+    "src": "fall-a1-correct-render.mjs + fall-a1-marked2.png (markers on ink)"
+   },
+   "fig1": {
+    "crown": [
+     613,
+     125
+    ],
+    "beard": [
+     635,
+     180
+    ],
+    "H": 55,
+    "src": "fall-a1-correct-render.mjs + fall-a1-marked2.png (crown hand-moved onto bun ink)"
+   },
+   "fig2": {
+    "crown": [
+     1360,
+     164
+    ],
+    "beard": [
+     1413,
+     245
+    ],
+    "H": 81,
+    "src": "fall-a1-correct-render.mjs + fall-a1-marked2.png (markers on ink)"
+   },
+   "fig3": {
+    "crown": [
+     124,
+     510
+    ],
+    "beard": [
+     178,
+     581
+    ],
+    "H": 71,
+    "src": "fall-a1-correct-render.mjs + fall-a1-marked2.png (crown hand-moved onto bun ink)"
+   },
+   "fig4": {
+    "crown": [
+     862,
+     537
+    ],
+    "beard": [
+     878,
+     629
+    ],
+    "H": 92,
+    "src": "fall-a1-correct-render.mjs + fall-a1-marked2.png (markers on ink)"
+   },
+   "fig5": {
+    "crown": [
+     1202,
+     492
+    ],
+    "beard": [
+     1212,
+     539
+    ],
+    "H": 47,
+    "src": "fall-a2-corr.mjs RETRY (f5C moved D32 R4 onto knob off sky, f5B kept on beard; alpha-verified) + fall-a2-marked.png (markers on head)"
+   },
+   "fig6": {
+    "H": null,
+    "status": "UNMEASURABLE",
+    "reason": "beard-on-spear per overlay: beard column meets spear shaft, no clean neutral-dark beard-to-gap transition (A2 eyeball superseded per fall-a3-measure.mjs DO-NOT-TRUST-A2; A3 programmatic: no closed neutral-dark beard run in zone)",
+    "src": "fall-a2-marked.png (superseded eyeball) + fall-a3-marked.png f6win (overlay shows B on spear)"
+   },
+   "fig7": {
+    "H": 36,
+    "status": "UNVERIFIED-caveated, EXCLUDED from stats",
+    "reason": "dubious H=36: landmark pair sits in beard/scarf/palm contact zone with no clean transition; recorded but NOT verified, excluded from all stats (unknown is not a pass)",
+    "src": "fall-a3-marked.png f7win (short C-B pair, dubious)"
+   },
+   "fig8": {
+    "H": null,
+    "status": "UNMEASURABLE",
+    "reason": "no clean landmarks: crown without a closable beard run, no clean beard transition in zone (see UNMEASURABLE crop fall-a3-fig8-crop.png)",
+    "src": "fall-a2-marked.png (superseded eyeball) + fall-a3-marked.png f8win (C only, no B) + fall-a3-fig8-crop.png"
+   }
+  },
+  "heights": [
+   76,
+   55,
+   81,
+   71,
+   92,
+   47
+  ],
+  "heightsNote": "6 verified values ONLY (figs 0-5); figs 6-8 excluded (2 UNMEASURABLE + 1 UNVERIFIED-caveated)",
+  "meanSum": 422,
+  "mean": 70.33,
+  "meanVerdict": "PASS (70.33 vs walk 64.7, inside band 55.0-74.4)",
+  "perFigRule": "NO fig outside +/-25% of walk 64.7 (band 48.5-80.9)",
+  "perFigPass": {
+   "fig0": 76,
+   "fig1": 55,
+   "fig3": 71
+  },
+  "perFigFails": {
+   "fig2": 81,
+   "fig4": 92,
+   "fig5": 47
+  },
+  "slopNote": "fig2 81-vs-80.9 (+0.1) flips on -1px slop; fig5 47-vs-48.5 (-1.5) flips on +2px slop; BOTH borderlines explicitly non-driving (verdict carried by fig4 alone)",
+  "robustness": "REJECT is robust without the unknowns: (1) fig4 92 survives +/-10px favorable slop (92-10=82 still >80.9); (2) mean-even-if-6-8-perfect still leaves per-fig fails (existing fig2/4/5 fails cannot be removed by new values; perfect-unknown mean would be 68.46, still beside the point); (3) UNMEASURABLEs can only ADD failures, never rescue (more measurements add more per-fig checks, remove none)",
+  "identity": "CONFIRMED on all three overlays: headband+topknot, single spear per figure, one visible eye in profile; no helmet/sword/second eye",
+  "verdict": "REJECTED",
+  "status": "REJECTED - do NOT prepare from this candidate"
+ },
+ "sequence": "fall",
+ "spearCompleteness": "all nine spears read complete butt-cap-to-head-tip with leaf head + tassel at 1x INCLUDING prone DOWN (spear alongside body still gripped, both ends in empty margin; 0 edge contact); endpoint measurement + overlay verification deferred to the scale-gate tick (self-check)",
+ "spearheads": {
+  "count": 9,
+  "note": "exactly one per drawing at 1x, no floaters (self-check); positions to be pinned on enlarged strips at scale gate"
+ },
+ "status": "REJECTED-do-not-prepare"
+}
