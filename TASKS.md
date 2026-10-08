@@ -595,7 +595,9 @@ Selection: due producer review first, then the earliest ready CMR task; continue
   This does NOT mark CMR-14A DONE or authorize 14B/runtime activation. Other open
   acceptance items still need truthful closure under existing authorization.
 
-- Status: BLOCKED (owner-authorized recovery exhausted 2026-10-07: hand-axis too sloppy, Hough locks onto guide lines like hull; eye-read spread ~45% uncloseable - C0 +125px no-room, C6 alone irrelevant; repair 0/3, no unilateral retry per auth. Owner options: waive combo / fund round 5 / cap-slide partial + waive / redirect. Prior: rule-5 BLOCK, owner reset to TODO, attempt2).
+- Owner waiver (owner-2026-10-08-cmr14a-combo-waiver, 2026-10-08, option (a) chosen by direct owner instruction "do (a)"): combo acceptance item 4 (≤10% fully-observable weapon spread) WAIVED with documented limitation. Limitation: true combo spread never validly measured (PCA/hull lock onto guide lines + body diagonals; hand axes too sloppy); eye-read spread ~45% with C0 ~125px short of band bottom (no retouch room, proven) and C2/C3/C7 borderline-over; round-4 sheet carries faint dotted construction lines. Ghost-cleared splice output 66ffaf39 accepted AS-IS as the combo source (keeps exact, 9 drawings, no fuse/edge per gate; overlay/pair review of it remains open like any source). Precedents: 07A (18.2%), 09A (88.3%), 12A (47.22%). Scope is combo item 4 ONLY: no other criterion waived, no ledger/budget change (repair stays 0/3 spent, authoring 3/12), no refund/rollover, no 14B/runtime activation. Remaining CMR-14A work (charge HELD items, heavy/misc/fall/getup sheets, heads, pack-prep, projection, continuity) still needs truthful closure; combo cap-slides are dropped as moot under this waiver.
+
+- Status: TODO (owner waived combo item 4 on 2026-10-08 and reset BLOCKED->TODO by direct instruction; prior: rule-5 BLOCK, recovery-exhausted BLOCK, attempt2).
   Reviewer `6c8414d5` opened27 images: NEEDS_NAMED_REPAIR walk:0
   rear hand/shaft layering, NOT mandatory all-charge head rescale;
   anatomical head metric stays UNVERIFIED/null. Source not accepted.
