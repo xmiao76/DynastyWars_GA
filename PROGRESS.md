@@ -445,57 +445,7 @@ history slowly crowds out the work it is supposed to support.
   dominant colour so stale views are detectable).
 - Next recommended task: UIR-19 attempt 3 (same task).
 
-### 2026-09-29 08:10 UTC - UIR-19 (attempt 1 - IN_PROGRESS)
-
-- Status before: UIR-19 TODO (V-18: flat cream mitten hands beside
-  the photographic sleeves).
-- Work completed: formPlanes pass in prepare-body-parts.mjs (knuckle
-  caps + valleys along the fist's top knuckle edge and the open
-  hand's vertical finger-root line, planar lit/shade split along the
-  sheet light, finger-group tone steps, warm rim bounce); UIR-12
-  crease pass re-ordered LAST (formDetail) or the plane washes broke
-  the dip gate. Cell sizes/pivots untouched; all 20 sheets +
-  prepared.json regenerated. TDD: test/game/uir19-hands.test.ts
-  (knuckle lit-caps, plateau counted once, prominence >= 8; UL/LR
-  plane contrast) fails on the stashed old paint with 47 failures
-  (peaks 0-1, contrast 27-35), passes on the new (68/68 cells).
-  Pin-honesty note: the first probe's prominence included k=0 (always
-  0) - fixed, and the baseline re-measured via git stash, not from
-  the buggy run.
-- Delegated J4 review (rubric-only, 17 clean sheets): 5 ok / 4 bad /
-  8 unverifiable. Bad: zhangfei "cream wrap-like fists lighter than
-  tan face", weiyan "cream hands vs tan face", spearman "pale pink
-  hands vs tan face" (TONE mismatch - my white washes widened it),
-  lubu "attack fists smooth pale blobs, weak finger separation".
-  The 8 ? sheets failed on the session's stale-attachment bug (the
-  same defect hit text output in this tick too).
-- Response landed in this attempt: light washes cut (capLit 0.5 ->
-  0.32/0.34, planeLit 0.22 -> 0.15, stepLit 0.16 -> 0.11, bounce
-  0.14 -> 0.10) and the shadow side deepened (planeShade 0.2 ->
-  0.28) so the plane contrast holds while the average tone darkens
-  toward the skin/face. Full battery green after the change
-  (uir19 pin + handparts + handgrip + uir13 + bodyparts + likeness
-  = 47/47; UIR-12 dips and modal band unaffected).
-- Files changed: scripts/prepare-body-parts.mjs, src/game/assets/
-  {hero,mook,boss}-bodies (sheets + prepared.json), test/game/
-  uir19-hands.test.ts (new), TASKS.md, PROGRESS.md.
-- Verification run: lint 0; battery 47/47 (unedited gates incl.
-  UIR-12 dips, modal band, byte-stable sheets, bodyparts parity);
-  full unit 674/676 (only the pre-existing UIR-16 G6 pin fails, as
-  intended); review capture exit 0; browser gates e2e 78 + 4
-  documented load-flakes (3 boot timeouts + 1 pause brightness;
-  13/13 re-pass in isolation), vision 5/5, selfplay 13/13, build 0,
-  prodbuild 4/4.
-- Result: partial - form lands and measures; J4 acceptance NOT met
-  (5/17 ok) -> IN_PROGRESS.
-- Status after: UIR-19 IN_PROGRESS (attempt 1 of 3).
-- Remaining work / attempt 2: (1) per-fighter face-tone calibration
-  (sample the *-faces head cells for the photographic face mean;
-  adjust the hand base/washes toward it - zhangfei/weiyan/spearman
-  first); (2) stronger finger separation on fist cells (lubu attack);
-  (3) complete the J4 re-review on all 17 sheets (the 8 unverified
-  included) with a more reliable image path.
-- Next recommended task: UIR-19 attempt 2 (same task).
+- **2026-09-29 08:10 UTC - UIR-19 (attempt 1 - IN_PROGRESS)** [Rule-8 hygiene 2026-10-08: zero DONE headings in PROGRESS (all headings CMR-14A IN_PROGRESS/BLOCKED, producer IDLE, UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED, grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction plus verbatim archive of this oldest full entry; entire CMR-14A chain, all other IN_PROGRESS/BLOCKED/TODO evidence, and the 2026-10-06 producer snapshot stay byte-intact in PROGRESS] — Status before: UIR-19 TODO (V-18: flat cream mitten hands beside the photographic sleeves). | Work completed: formPlanes pass in prepare-body-parts.mjs (knuckle caps + valleys along the fist's top knuckle edge and the open hand's vertical finger-root line, planar lit/shade split along the sheet light, finger-group tone steps, warm rim bounce); UIR-12 crease pass re-ordered LAST (formDetail) or the plane washes broke the dip gate. Cell sizes/pivots untouched; all 20 sheets + prepared.json regenerated. TDD: test/game/uir19-hands.test.ts (knuckle lit-caps, plateau counted once, prominence >= 8; UL/LR plane contrast) fails on the stashed old paint with 47 failures (peaks 0-1, contrast 27-35), passes on the new (68/68 cells). Pin-honesty note: the first probe's prominence included k=0 (always 0) - fixed, and the baseline re-measured via git stash, not from the buggy run. | Delegated J4 review (rubric-only, 17 clean sheets): 5 ok / 4 bad / 8 unverifiable. Bad: zhangfei "cream wrap-like fists lighter than tan face", weiyan "cream hands vs tan face", spearman "pale pink hands vs tan face" (TONE mismatch - my white washes widened it), lubu "attack fists smooth pale blobs, weak finger separation". The 8 ? sheets failed on the session's stale-attachment bug (the same defect hit text output in this tick too). | Response landed in this attempt: light washes cut (capLit 0.5 -> 0.32/0.34, planeLit 0.22 -> 0.15, stepLit 0.16 -> 0.11, bounce 0.14 -> 0.10) and the shadow side deepened (planeShade 0.2 -> 0.28) so the plane contrast holds while the average tone darkens toward the skin/face. Full battery green after the change (uir19 pin + handparts + handgrip + uir13 + bodyparts + likeness = 47/47; UIR-12 dips and modal band unaffected). | Files changed: scripts/prepare-body-parts.mjs, src/game/assets/ {hero,mook,boss}-bodies (sheets + prepared.json), test/game/ uir19-hands.test.ts (new), TASKS.md, PROGRESS.md. | Verification run: lint 0; battery 47/47 (unedited gates incl. UIR-12 dips, modal band, byte-stable sheets, bodyparts parity); full unit 674/676 (only the pre-existing UIR-16 G6 pin fails, as intended); review capture exit 0; browser gates e2e 78 + 4 documented load-flakes (3 boot timeouts + 1 pause brightness; 13/13 re-pass in isolation), vision 5/5, selfplay 13/13, build 0, prodbuild 4/4. | Result: partial - form lands and measures; J4 acceptance NOT met (5/17 ok) -> IN_PROGRESS. | Status after: UIR-19 IN_PROGRESS (attempt 1 of 3). | Remaining work / attempt 2: (1) per-fighter face-tone calibration (sample the *-faces head cells for the photographic face mean; adjust the hand base/washes toward it - zhangfei/weiyan/spearman first); (2) stronger finger separation on fist cells (lubu attack); (3) complete the J4 re-review on all 17 sheets (the 8 unverified included) with a more reliable image path. | Next recommended task: UIR-19 attempt 2 (same task).
 
 - **2026-09-28 23:10 UTC - UIR-16 (attempt 3 - BLOCKED, rule 5)** [Rule-8 hygiene 2026-10-08: zero DONE headings in PROGRESS (all 50 headings are CMR-14A IN_PROGRESS/BLOCKED, producer IDLE, UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED — grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction + verbatim archive of this oldest full entry; entire CMR-14A chain, all IN_PROGRESS/BLOCKED/TODO evidence, and the 2026-10-06 producer snapshot stay byte-intact in PROGRESS] — Status before: UIR-16 IN_PROGRESS attempt 2 (combo-search bend: G6 87->86, strikearms+guards green, eye-review pending). | Work completed: (1) fresh capture WITH bends + V-15b baseline pin (71 files, pre-bend preserved). (2) Eye-review sanity gate on the bends: lubu-attack improved 398+627->187+623 but still overlaps (wrap unchanged); guanyu-sweep BACKFIRED 11+41->142+269 (bent elbow cocks down, forearm covers haft+fist - worse metrically AND visually, J6 awkward); zhaoyun-attack improved 159+173->74+162. (3) Reverted the bend mechanism (weapons.ts combo search + armik.ts bendElbowOffHaft) - restored exact attempt-1 behavior: G6 back to 87 pre-change values, strikearms/handgrip/uir13/bodyparts/handparts/likeness 47/47, tsc 0, lint 0, full unit 671/673 (only the G6 pin fails, as intended). No browser gates (no behavior change left to verify; capture already reviewed). | Three-attempt record (rule 5): attempt 1 proved grip placement alone cannot satisfy G6 (forward unreachable on strikes; arm rails the valid back range; landed G6 pin + safe close-stack). Attempt 2 proved elbow bends cannot either (combo search: 87->86, big cuts in ~15, 3-4 backfires, wrap extent needs ~8u clearance the geometry lacks). Attempt 3 proved the bends harm looks (guanyu-sweep) and reverted them. Remaining options all need owner authority: rescope G6, masking (breaks handgrip), hand-art changes (UIR-19 scope), or pose-table surgery. | Files changed: src/game/art/armik.ts, src/game/art/weapons.ts (bend reverted; G6 + close-stack kept), TASKS.md, PROGRESS.md. | Verification run: G6 fails on 87 cells (pin, pre-bend values); guards 47/47; tsc 0; lint 0; unit 671/673 (G6 only). | Result: BLOCKED - acceptance unsatisfiable as specified. | Status after: UIR-16 BLOCKED (owner decision required). | Remaining work or blocker: owner picks (a)/(b)/(c)/(d) above. | Next recommended task: UIR-17 (prone far arm) - first unblocked TODO; UIR-16 waits on the owner, not the queue.
 

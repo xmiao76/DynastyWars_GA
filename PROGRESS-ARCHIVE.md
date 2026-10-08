@@ -15928,3 +15928,55 @@ lines. Never read during an iteration; consult only for deep history.
 - Remaining work or blocker: owner picks (a)/(b)/(c)/(d) above.
 - Next recommended task: UIR-17 (prone far arm) - first unblocked
   TODO; UIR-16 waits on the owner, not the queue.
+
+### 2026-09-29 08:10 UTC - UIR-19 (attempt 1 - IN_PROGRESS)
+
+- Status before: UIR-19 TODO (V-18: flat cream mitten hands beside
+  the photographic sleeves).
+- Work completed: formPlanes pass in prepare-body-parts.mjs (knuckle
+  caps + valleys along the fist's top knuckle edge and the open
+  hand's vertical finger-root line, planar lit/shade split along the
+  sheet light, finger-group tone steps, warm rim bounce); UIR-12
+  crease pass re-ordered LAST (formDetail) or the plane washes broke
+  the dip gate. Cell sizes/pivots untouched; all 20 sheets +
+  prepared.json regenerated. TDD: test/game/uir19-hands.test.ts
+  (knuckle lit-caps, plateau counted once, prominence >= 8; UL/LR
+  plane contrast) fails on the stashed old paint with 47 failures
+  (peaks 0-1, contrast 27-35), passes on the new (68/68 cells).
+  Pin-honesty note: the first probe's prominence included k=0 (always
+  0) - fixed, and the baseline re-measured via git stash, not from
+  the buggy run.
+- Delegated J4 review (rubric-only, 17 clean sheets): 5 ok / 4 bad /
+  8 unverifiable. Bad: zhangfei "cream wrap-like fists lighter than
+  tan face", weiyan "cream hands vs tan face", spearman "pale pink
+  hands vs tan face" (TONE mismatch - my white washes widened it),
+  lubu "attack fists smooth pale blobs, weak finger separation".
+  The 8 ? sheets failed on the session's stale-attachment bug (the
+  same defect hit text output in this tick too).
+- Response landed in this attempt: light washes cut (capLit 0.5 ->
+  0.32/0.34, planeLit 0.22 -> 0.15, stepLit 0.16 -> 0.11, bounce
+  0.14 -> 0.10) and the shadow side deepened (planeShade 0.2 ->
+  0.28) so the plane contrast holds while the average tone darkens
+  toward the skin/face. Full battery green after the change
+  (uir19 pin + handparts + handgrip + uir13 + bodyparts + likeness
+  = 47/47; UIR-12 dips and modal band unaffected).
+- Files changed: scripts/prepare-body-parts.mjs, src/game/assets/
+  {hero,mook,boss}-bodies (sheets + prepared.json), test/game/
+  uir19-hands.test.ts (new), TASKS.md, PROGRESS.md.
+- Verification run: lint 0; battery 47/47 (unedited gates incl.
+  UIR-12 dips, modal band, byte-stable sheets, bodyparts parity);
+  full unit 674/676 (only the pre-existing UIR-16 G6 pin fails, as
+  intended); review capture exit 0; browser gates e2e 78 + 4
+  documented load-flakes (3 boot timeouts + 1 pause brightness;
+  13/13 re-pass in isolation), vision 5/5, selfplay 13/13, build 0,
+  prodbuild 4/4.
+- Result: partial - form lands and measures; J4 acceptance NOT met
+  (5/17 ok) -> IN_PROGRESS.
+- Status after: UIR-19 IN_PROGRESS (attempt 1 of 3).
+- Remaining work / attempt 2: (1) per-fighter face-tone calibration
+  (sample the *-faces head cells for the photographic face mean;
+  adjust the hand base/washes toward it - zhangfei/weiyan/spearman
+  first); (2) stronger finger separation on fist cells (lubu attack);
+  (3) complete the J4 re-review on all 17 sheets (the 8 unverified
+  included) with a more reliable image path.
+- Next recommended task: UIR-19 attempt 2 (same task).
