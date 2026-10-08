@@ -1,7 +1,7 @@
 {
   "fighter": "xiahoudun",
   "sequence": "heavy",
-  "status": "CANDIDATE_GENERATED_DESIGN_AUDITED_SCALE_GATE_PENDING",
+  "status": "REJECTED on scale gate 2026-10-08 (design was otherwise acceptable; scale anchors failed to steer provider - see scaleGate)",
   "candidate": { "file": "heavy-candidate-3.png", "sha256": "c50fb26f91a85cd7cdc66d2c8199a90f6572b095f591da43cf6a6e5288b38800", "width": 2176, "height": 723, "immutable": true },
   "prompt": { "file": "heavy-prompt-3.txt" },
   "request": {
@@ -27,8 +27,8 @@
   "palette": { "meanLuma": 40.6, "meanSat": 0.267, "cand2": { "meanLuma": 36.0, "meanSat": 0.31 }, "note": "brighter (+13% luma) and less saturated than cand-2; magenta scarf reads vivid at 1x. No numeric palette gate exists; recorded as watch item, reviewed as acceptable-with-watch (armor reads dark, no bright rims). Revisit at head crops." },
   "headGate": "UNVERIFIED",
   "numericalHeadSpread": null,
-  "scaleGate": "PENDING - FIRST verification next tick, before any other work on this candidate: mean crown-beard head height within ±15% of walk 64.7px (55-74px) AND no fig outside ±25% (48-81px), marker-verified on 3x grids; else REJECT immediately.",
+  "scaleGate": "REJECTED 2026-10-08 - marker-verified crown-beard heights [95,80,112,109,104] mean 100.0 vs walk 64.7 (gate 55-74); 4/5 figs outside per-fig 48-81 (only fig1 passes at 80). All 10 landmarks verified on 3x overlay. Text scale anchors (heads ~63-68px) FAILED to steer the provider: cand-3 mean 100.0 is statistically identical to cand-2's 106.8, and the provider returned the identical canvas (2176x723 vs 2172x724) - per-fig canvas area, not prompt px numbers, drives drawn scale. No separation/prepare/projection attempted per gate-first ordering.",
   "projectionRecordAdded": false,
-  "evidence": [{ "path": "artifacts/motion/xiahoudun/heavy-combo-review/cand3-gridstrip.png", "note": "1x labeled grid strip, opened for this audit" }],
-  "next": "Scale gate FIRST (head landmarks + verdict). If PASS: separation check on the figs 2+3+4 merge + splice/prepare + projection + continuity. If FAIL: REJECT, task BLOCKED again (no further art path without owner). No 14B/runtime."
+  "evidence": [{ "path": "artifacts/motion/xiahoudun/heavy-combo-review/cand3-gridstrip.png", "note": "1x labeled grid strip, opened for design audit" }, { "path": "artifacts/motion/xiahoudun/heavy-combo-review/cand3-scale-marked.png", "note": "marker-verified head landmarks (all 10 on drawn pixels), opened for scale verdict" }],
+  "next": "REJECTED - do not prepare from this sheet. Task BLOCKED again (funding exhausted on this attempt; heavy cap exception spent). Owner options recorded in TASKS.md. No 14B/runtime."
 }
