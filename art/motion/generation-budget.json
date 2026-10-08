@@ -152,7 +152,7 @@
     "xiahoudun": {
       "role": "boss",
       "cap": 12,
-      "used": 10,
+      "used": 11,
       "sheetCandidates": {
         "walk": 1,
         "charge": 1,
@@ -160,7 +160,7 @@
         "heavy": 3,
         "misc": 2,
         "fall": 1,
-        "getup": 1
+        "getup": 2
       }
     }
   }
