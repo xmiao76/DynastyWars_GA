@@ -8,6 +8,11 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-08 01:30 UTC - CMR-14A (tick): heavy-prepared 3x3 source built + tested (native scale, container sheet)
+- Key decision (recorded in driver): NO k-fit at this stage - per-sheet uniform scale is solved by the pack prepare (prepare-lidian pattern), so the sheet is a native-scale container; head-fitting question dissolved. 3x3 row-major kept for pipeline cell tooling; cells sized to hold the tallest drawing (fig0 raise 640px -> 1920x1980 sheet, cells 0-4 play order, 5-8 empty).
+- First build overflowed 512x341 cells honestly (fig0 336x640); resized container instead of rescaling art (no detail loss, proportions exact). Masked component extraction + fig4|fig5 split; gates: 5 drawings in cells 0-4, no edge, no fuse, deterministic (hash-pinned inputs). Output 323e5760 (ignored working material).
+- Verification: new suite 2/2 (layout pins + determinism) + budget 9/9 = 11/11; lint + tsc clean (one unused-var caught and fixed). No image (authoring still 4/12); no ledger change; no runtime change; owner infra untouched/unstaged.
+- Result IN_PROGRESS. Next: heavy projection/continuity review (lengths/heads vs band), then misc/fall/getup; charge judgement needs owner eye.
 ### 2026-10-08 01:15 UTC - CMR-14A (continue): heavy scale analysis - split measured, mass-k biased, head-fitting next
 - Split merged fig4|fig5 at emptiest column x1479 (12px fringe, parts intact): per-fig masses [72136,76754,70952,57367,76288], heights spear-inflated [639,573,474,375,407]. Mass-k = 0.7309, but BIASED (long heavy spears inflate mass, same bias as combo's 0.72 error) - recorded with do-not-use-blindly caveat in the audit. Heights unusable (diagonal spears). k needs head/body-based fitting (walk heads 65-70px reference) before any sheet build.
 - Also caught and fixed my own scratch bug (double `.data` indexing) by reading motion-pipeline.mjs instead of guessing. Verification: audit numbers only; budget suite untouched (no ledger change). No image (authoring still 4/12); no runtime change; owner infra untouched.
