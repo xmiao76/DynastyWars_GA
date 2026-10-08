@@ -16061,3 +16061,43 @@ lines. Never read during an iteration; consult only for deep history.
 - Files: art/motion candidates+provenance/registration, motion guide/prep/review tooling, motion-clips/quality and adapter, BootScene/GameScene opt-in, ArtResources field, unit/e2e/prodbuild cases, docs/GUANYU_MOTION_TEST.md, TASKS/PROGRESS. No old body/hand code changed, no push/deploy/scheduler.
 - Remaining: owner playback/review; deliberately correct neighbouring drawings and rigid glaive, or owner-approved switch of art source to rigged model rendered into same clip runtime. Do not keep retrying whole sheets blindly or expand cast.
 - Status after: GYM-1 IN_PROGRESS (attempt1), UIR-19/20 untouched. Diagnostic test packaged; not DONE.
+
+### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
+- Status before: UIR-19 IN_PROGRESS attempt 2 (face-matched skins
+  p80-calibrated; J4 9 ok / 8 bad with stale-view adjudication).
+- Work completed: (1) anchored re-review design (per-sheet gripN
+  modal hex recorded; each verdict states the dominant colour).
+  Round-3 verdicts (all fresh, small batches): 12 ok / 5 bad
+  (huangzhong, weiyan, caocao, xiahoudun, zhangliao). (2) final
+  tone calibration: max(gripN/relaxN/wrapN modal) -> faceP80 + 5 on
+  the 8 flagged (e.g. weiyan #806340->#5e492f, xuchu->#4c3629).
+  (3) dark-share conflicts resolved honestly: far washes softened
+  to keep minima above the unedited ink floor (xuchu far base lum
+  47 cannot carry deep shadows), far wrap underside shadow cut,
+  valleys restored for peak prominence (far caps 0.42), and the
+  far pin floors reduced to the sanity level 20 (documented: peaks
+  are the far discriminator, old 0-1 -> new >= 2; near floors 38/40
+  keep the plane discrimination). Notches 1.2u -> ~0.75u, creases
+  moderate (0.40/0.26), companion edges halved. Battery 47/47;
+  unit 711 passed (G6-only failure); lint 0; capture 0; gates all
+  green (e2e 82/0, vision 5/5, selfplay 13/13, build 0, prodbuild
+  6/6).
+- Final adjudication (anchors vs verdicts): caocao modal
+  rgb(145,130,110) and xiahoudun rgb(161,141,117) are byte-tan -
+  their "pale-cream" reads are the small-scale effect (lit caps +
+  bloom dominate the ~5px hand at figure scale); zhangliao modal
+  170 = faceP80+5 exactly, yet reads lighter than the "tan-olive"
+  face IMPRESSION (the p80 reference overshoots perceived tone);
+  huangzhong sits at the +15 perception margin (was ok in earlier
+  rounds); weiyan reads "grey-olive vs tan-brown" (hue, not
+  luminance). 12/17 is the honest measured result.
+- Result: acceptance ("J4 ok on all 17") NOT met after 3 attempts
+  -> rule 5 BLOCKED. Full trail preserved: faces-vs-hands tables
+  (artifacts/tone-gaps.txt, j4-anchors.txt), per-attempt PROGRESS
+  entries, gates on every state.
+- Status after: UIR-19 BLOCKED (owner decision required; options
+  a-d in TASKS).
+- Remaining work or blocker: owner scope call on UIR-19 AND
+  UIR-16 (still pending); UIR-20 TODO (unblocked, S-size).
+- Next recommended task: UIR-20 (embers tileScale) - the last
+  unblocked TODO.

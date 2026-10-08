@@ -8,6 +8,13 @@ history slowly crowds out the work it is supposed to support.
 ### YYYY-MM-DD HH:MM - TASK-ID (attempt N)
 - Status before; work completed; files changed; verification run; result; status after; remaining work/blocker; next recommended task:
 ## Entries
+### 2026-10-08 22:21 UTC - Blocked-queue checkpoint: still BLOCKED, no new input (branch b)
+- Verification (all fresh from files): HEAD `191bf35` via rev-parse (matches expected; `git log ee592b9..HEAD -- TASKS.md` empty + `git diff ee592b9 -- TASKS.md` empty — no owner decision/waiver/reset/funding text newer than ee592b9). CMR-14A status `BLOCKED (2026-10-08 post-charge-closeout awaiting-funding...)` (TASKS.md:610). TODO readiness: ZERO actionable — CMR-14B TODO dep CMR-14A DONE (14A BLOCKED), 15A<-14B, 15B<-15A, 22<-15B, 23<-22, 24<-23; GYM-1/BODY-7/ENH-12 BLOCKED owner-deferred; UIR-16/UIR-19 BLOCKED exhausted; UIR-17/18/20 DONE; zero IN_PROGRESS. Cadence `git rev-list --count 6084ab4..HEAD -- src/game` = 1 (<4, review NOT due). Ledger: zero `PENDING FILING` lines in docs/UI_REVIEW_LEDGER.md; `DUE NOW` only historical ledger:200 + policy VISUAL_REVIEW.md:436. PROGRESS.md 500 lines pre-entry by BOTH methods (array split-length 500; newline-char count 500, ends-newline True, LF-only, 209815 B). git status: only the 6 never-touch files modified (pre-existing, left alone); PROGRESS.md clean pre-edit; nothing staged; diff --check clean.
+- Branch (b) taken: no owner decision or newly actionable work found — no branch-(a) report-and-stop triggered. No queue/status/code/ledger changes made by this tick.
+- Still awaiting owner: funding decision for misc-4 / fall-3 / getup-3 ONLY with new control strategy (plain re-shoot advised against after 0-for-9; charge CLOSED — dropped from missing inputs). Options: (a) fund; (b) re-scope-with-partial-pack-honestly-labeled; (c) descope-pause (runner pauses per AGENTS.md); (d) overrule with documented limitation. Only the owner resets BLOCKED.
+- Rule-8 hygiene in this commit: PROGRESS 500 + 7 = 507 after the entry above, so the oldest full entry (UIR-19 attempt-3, ex-lines 450-488) is compacted to an evidence-preserving bullet + archived verbatim at PROGRESS-ARCHIVE.md tail (zero DONE headings, grep-verified — same fallback as the 3 prior hygienes); entire CMR-14A chain + all other unfinished evidence + the 2026-10-06 producer snapshot stay byte-intact (verified by counts below).
+- Checks: diff --check clean; commit holds ONLY PROGRESS.md + PROGRESS-ARCHIVE.md; 6 pre-existing files untouched/unstaged; never pushed.
+- Result BLOCKED. Next: owner decision; runner pauses per AGENTS.md.
 ### 2026-10-08 21:51 UTC - Blocked-queue checkpoint: still BLOCKED, no new input (branch b)
 - Verification (all fresh from files): HEAD `aa2c8b5` via rev-parse (matches expected; last TASKS-touching commit is `ee592b9` itself per log). CMR-14A status `BLOCKED (2026-10-08 post-charge-closeout awaiting-funding...)` (TASKS.md:610). `git log ee592b9..HEAD -- TASKS.md` empty + `git diff ee592b9 -- TASKS.md` empty — no owner decision/waiver/reset/funding text newer than ee592b9. TODO readiness: ZERO actionable — CMR-14B TODO dep CMR-14A DONE (14A BLOCKED), 15A<-14B, 15B<-15A, 22<-15B, 23<-22, 24<-23; GYM-1/BODY-7/ENH-12 BLOCKED owner-deferred; UIR-16/UIR-19 BLOCKED exhausted; UIR-17/18/20 DONE; zero IN_PROGRESS. Cadence `git rev-list --count 6084ab4..HEAD -- src/game` = 1 (<4, review NOT due). Ledger: zero `PENDING FILING` lines in docs/UI_REVIEW_LEDGER.md; `DUE NOW` only historical ledger:200 + policy VISUAL_REVIEW.md:436. PROGRESS.md 494 lines pre-entry by BOTH methods (array split-length 494; newline-char count 494, ends-newline True, LF-only, 207861 B). git status: only the 6 never-touch files modified (pre-existing, left alone); PROGRESS.md clean pre-edit; nothing staged; diff --check clean.
 - Branch (b) taken: no owner decision or newly actionable work found — no branch-(a) report-and-stop triggered. No queue/status/code/ledger changes made by this tick.
@@ -447,45 +454,8 @@ history slowly crowds out the work it is supposed to support.
   section 2 step 3 still says "nine intro cards"; producer pass
   may not edit outside the ledger.
 - Next recommended task: resume CMR-13A (combo fix-2) per queue.
-### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5)
-- Status before: UIR-19 IN_PROGRESS attempt 2 (face-matched skins
-  p80-calibrated; J4 9 ok / 8 bad with stale-view adjudication).
-- Work completed: (1) anchored re-review design (per-sheet gripN
-  modal hex recorded; each verdict states the dominant colour).
-  Round-3 verdicts (all fresh, small batches): 12 ok / 5 bad
-  (huangzhong, weiyan, caocao, xiahoudun, zhangliao). (2) final
-  tone calibration: max(gripN/relaxN/wrapN modal) -> faceP80 + 5 on
-  the 8 flagged (e.g. weiyan #806340->#5e492f, xuchu->#4c3629).
-  (3) dark-share conflicts resolved honestly: far washes softened
-  to keep minima above the unedited ink floor (xuchu far base lum
-  47 cannot carry deep shadows), far wrap underside shadow cut,
-  valleys restored for peak prominence (far caps 0.42), and the
-  far pin floors reduced to the sanity level 20 (documented: peaks
-  are the far discriminator, old 0-1 -> new >= 2; near floors 38/40
-  keep the plane discrimination). Notches 1.2u -> ~0.75u, creases
-  moderate (0.40/0.26), companion edges halved. Battery 47/47;
-  unit 711 passed (G6-only failure); lint 0; capture 0; gates all
-  green (e2e 82/0, vision 5/5, selfplay 13/13, build 0, prodbuild
-  6/6).
-- Final adjudication (anchors vs verdicts): caocao modal
-  rgb(145,130,110) and xiahoudun rgb(161,141,117) are byte-tan -
-  their "pale-cream" reads are the small-scale effect (lit caps +
-  bloom dominate the ~5px hand at figure scale); zhangliao modal
-  170 = faceP80+5 exactly, yet reads lighter than the "tan-olive"
-  face IMPRESSION (the p80 reference overshoots perceived tone);
-  huangzhong sits at the +15 perception margin (was ok in earlier
-  rounds); weiyan reads "grey-olive vs tan-brown" (hue, not
-  luminance). 12/17 is the honest measured result.
-- Result: acceptance ("J4 ok on all 17") NOT met after 3 attempts
-  -> rule 5 BLOCKED. Full trail preserved: faces-vs-hands tables
-  (artifacts/tone-gaps.txt, j4-anchors.txt), per-attempt PROGRESS
-  entries, gates on every state.
-- Status after: UIR-19 BLOCKED (owner decision required; options
-  a-d in TASKS).
-- Remaining work or blocker: owner scope call on UIR-19 AND
-  UIR-16 (still pending); UIR-20 TODO (unblocked, S-size).
-- Next recommended task: UIR-20 (embers tileScale) - the last
-  unblocked TODO.
+### 2026-10-01 01:40 UTC - UIR-19 (attempt 3 - BLOCKED, rule 5) (compacted 2026-10-08 rule-8 hygiene; verbatim in PROGRESS-ARCHIVE.md)
+- [Rule-8 hygiene 2026-10-08 (checkpoint package; PROGRESS 507 post-entry): zero DONE headings in PROGRESS (all headings CMR-14A IN_PROGRESS/BLOCKED, checkpoints, producer IDLE, UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED — grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction + verbatim archive of this oldest full entry; entire CMR-14A chain, all other IN_PROGRESS/BLOCKED/TODO evidence, and the 2026-10-06 producer snapshot stay byte-intact in PROGRESS] — UIR-19 attempt 3: anchored re-review (per-sheet gripN modal hex + dominant colour) 12 ok / 5 bad (huangzhong, weiyan, caocao, xiahoudun, zhangliao); final tone calibration max(gripN/relaxN/wrapN modal) -> faceP80+5; dark-share conflicts resolved (far washes softened, valleys restored, pin floors to sanity 20, notches ~0.75u, creases 0.40/0.26, companion edges halved); battery 47/47, unit 711 (G6-only), e2e 82/0, vision 5/5, selfplay 13/13, build 0, prodbuild 6/6. Final adjudication: caocao rgb(145,130,110) + xiahoudun rgb(161,141,117) byte-tan but read pale at 5px scale; zhangliao 170 = faceP80+5 yet reads lighter than face IMPRESSION; huangzhong at +15 margin; weiyan hue mismatch — honest 12/17, acceptance NOT met -> rule-5 BLOCKED (owner options a-d in TASKS); trail in artifacts/tone-gaps.txt + j4-anchors.txt. Next was UIR-20 (embers tileScale).
 
 ### 2026-09-30 - GYM-1 handoff + attempt-2 continuations (compacted 2026-10-08 rule-8 hygiene; verbatim in PROGRESS-ARCHIVE.md)
 - [Rule-8 hygiene 2026-10-08 (charge-record package; PROGRESS 511→~471 pre-entry): zero DONE headings in PROGRESS (all headings CMR-14A IN_PROGRESS/BLOCKED, producer IDLE, UIR-19/GYM-1/UIR-16 IN_PROGRESS/BLOCKED — grep-verified), so no verbatim finished-entry move is safe; evidence-preserving compaction + verbatim archive of the six oldest GYM-1 headings (09-30 review-first handoff + 22:40/21:55/21:20/20:05/attempt-1 continuations); entire CMR-14A chain, all other IN_PROGRESS/BLOCKED/TODO evidence, and snapshots stay byte-intact in PROGRESS] — Handoff (owner-selected Guan Yu review-first, stop at a6c6057): clean tree, 33 motion tests, 3/3 mixed, 2/2 boundary, 5/5 vision, 6/6 prodbuild, 711 units (sole baseline G6 + 6 baseline UIR-19 typeerrors honest). Continuations: normal-input mixed choreography + throw/getup boundary controls (history-kept low pose); special1/mounted3 backward-blade audit (2 focused edits fixed direction but drifted scale, REJECTED); 13-control code-only boundary audit; attempt-1 8-frame gait + 36-cell atlas (ITERATE/NO-GO, walk alternation fails after 3 requests). No push/deploy. Next (unchanged): owner normal-speed playback/acceptance.
