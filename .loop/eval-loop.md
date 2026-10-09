@@ -112,6 +112,8 @@ Do not implement proposals or edit game source, detectors, verification threshol
 runner controls, adapters, or schedules in this pass. Do not access credentials,
 start another agent/runner, push, deploy, or run deploy.bat.
 
+Bounded-autonomy policy: read docs/LOOP_AUTONOMY.md. Routine diagnosis/review/record closure within this producer scope does not require per-command approval. Existing authorized foreground exceptions may deliver a complete end-to-end package with critical manager review; no background writer, new spend, task reset or proposal implementation. Unchanged waits create no repo edits, repeated choices or checkpoint commits; classified task-local parking is distinct from GLOBAL safety pauses.
+
 If there is no justified new work and no regression, return IDLE - NO NEW FINDINGS.
 IDLE is a useful outcome, not a reason to invent enhancements. If nothing changed,
 make no files/commit just to report an identical result. Accepted proposals use

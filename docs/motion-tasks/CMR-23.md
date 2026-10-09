@@ -10,7 +10,7 @@
 
 ## Bounded work
 
-1. Capture/test **5 heroes × 12 enemy kinds × 2 facings** holding, release, throw, impact and getup. Use real walking grab/input throw for representative normal cases; label injection for remaining combinations.
+1. Capture/test **5 heroes × 6 current enemy kinds × 2 facings** holding, release, throw, impact and getup. Use real walking grab/input throw for representative normal cases; label injection for remaining combinations.
 2. Use proper upright held animation, never a prone opponent underneath a standing collar reach. Compare differing heights, weapons and capes against contact neighborhoods.
 3. Per-pack contact landmarks/pivots and presentation-only paired offsets/depth are allowed. Core grab pin stays 16 px; range/hitboxes/damage/physics unchanged. Do not distort/scale bodies or move core entities to fake alignment.
 4. Cover co-op/multiple grabbers, timeout, grab broken by hit, target death, throw flight/low impact, scene exit and load fallback.

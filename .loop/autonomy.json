@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "enabled": true,
+  "watchInputs": [
+    "TASKS.md",
+    ".loop/autonomy.json",
+    ".loop/continue.md",
+    ".loop/loop.md",
+    ".loop/eval-loop.md",
+    "AGENTS.md",
+    "PROJECT.md",
+    ".loop/tick.md",
+    "docs/LOOP_AUTONOMY.md",
+    "docs/UI_REVIEW_LEDGER.md",
+    "art/motion/generation-budget.json",
+    "art/motion/acceptance4-repair-budget.json"
+  ],
+  "maxFailedRecoveries": 3,
+  "taskTimeboxMinutes": 25,
+  "runbook": ".loop/tick.md"
+}

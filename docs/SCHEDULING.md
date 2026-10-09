@@ -12,7 +12,28 @@ An OS schedule can outlive the terminal that installed it. It still requires
 hibernation, or shutdown can skip occurrences. This is deliberately not a
 24/7 service, wake alarm, catch-up queue, or guaranteed exact-time execution.
 
-## Recommended driver: dsh-schedule (Claude-Code-/loop-style)
+## Current half-hourly driver: versioned bounded-autonomy runbook
+
+Owner-approved 2026-10-09: existing reminders should reference `.loop/tick.md`
+and `docs/LOOP_AUTONOMY.md`, not the historical embedded hourly runbook below.
+Keep the existing half-hourly cadence and exactly one driver; no new schedule
+is created by framework installation. In the owning thread, update the EXISTING
+reminder prompt to:
+
+```text
+Read C:\GitHub\DynastyWars_GA\.loop\tick.md and execute exactly one scheduled tick using the current repository runbook. Do not create a duplicate reminder or change its cadence. Preflight first; unchanged waits are quiet; classified task-local parking does not globally pause independent work. Preserve safety pauses, writer locks, spending caps and owner-only waivers/deployment.
+```
+
+Read-only `--preflight` checks readiness. On wait, `--checkpoint-wait` remembers
+only a changed fingerprint under the lock; no PROGRESS/commit/options chatter.
+For ready work begin once, complete a ≤25-minute package, write its strict
+report/disposition, finish once and locally commit only verified scoped changes.
+No auto resume of existing GLOBAL pause. Classified local owner/provider waits
+park the selected task, not independent ready work. Invalid report/regression/
+safety/unknown-write outcomes still pause globally. A separately stored old
+reminder's instructions cannot be silently superseded just by editing this file.
+
+## Historical hourly driver setup (retained reference; not current tick prompt)
 
 Instead of OS tasks or background jobs, the loop can run as a DSH repeating
 reminder: every hour the schedule package posts a follow-up turn into one
@@ -292,8 +313,10 @@ ticks cannot collide.
 
 The executor owns `artifacts/loop/state.json`, run records, and the repository
 writer lock (`artifacts/loop/run.lock`). Technical failures, invalid reports,
-BLOCKED, REGRESSION, and interrupted/unknown work preserve evidence and pause
-according to the executor's policy. IDLE ends that occurrence; it does not
+unclassified BLOCKED, SAFETY_STOP, REGRESSION and interrupted/unknown work
+preserve evidence and GLOBAL pause. Validated task-local WAITING_FOR_OWNER /
+WAITING_FOR_PROVIDER park only that task under docs/LOOP_AUTONOMY.md; actual
+prerequisites remain enforced. IDLE ends that occurrence; it does not
 promise that a later scheduled occurrence has new work. Schedule enablement
 and executor pause are **independent**. Future ticks while paused must not
 start new model work.

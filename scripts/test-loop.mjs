@@ -14,6 +14,7 @@ import { parseArgs, validateConfig, DEFAULTS, loadConfig, waitMilliseconds } fro
 import { parseReport, acquireLock, pathsFor } from './loop/storage.mjs';
 import { prepareAdapter, resolveCodex, transientPatternsFor, CODEX_TRANSIENT_PATTERNS } from './loop/adapters.mjs';
 import { matchTransient } from './loop/transient.mjs';
+import { registerAutonomyTests } from './loop/test-autonomy.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const testRoot = path.join(repoRoot, 'artifacts/loop-tests', `${Date.now()}-${randomUUID()}`);
@@ -34,6 +35,19 @@ console.error('Fake stderr only — 中文');
 if(outcome==='EXIT') process.exit(7);
 if(outcome==='QUOTA'){console.error('ERROR: exceeded retry limit, last status: 429 Too Many Requests, request id: fixture');process.exit(7);}
 if(outcome==='MISSING') process.exit(0);
+if(outcome==='LOCAL_PROVIDER') {
+  const d={version:1,kind:'WAITING_FOR_PROVIDER',taskId:request.plan.taskId,reason:'Fixture provider window cooling down',retryAt:new Date(Date.now()+3600000).toISOString()};
+  fs.writeFileSync(resultFile,'Evidence\\nLOOP_DISPOSITION: '+JSON.stringify(d)+'\\nLOOP_RESULT: IDLE\\n');process.exit(0);
+}
+if(outcome==='LOCAL_BLOCK' || outcome==='SAFETY') {
+  if(outcome==='LOCAL_BLOCK') {
+    const queue=path.join(request.repoRoot,'TASKS.md');
+    fs.writeFileSync(queue,fs.readFileSync(queue,'utf8').replace('- Status: IN_PROGRESS','- Status: BLOCKED'));
+  }
+  const d={version:1,kind:outcome==='LOCAL_BLOCK'?'WAITING_FOR_OWNER':'SAFETY_STOP',taskId:request.plan.taskId,reason:'Fixture blocked condition with inspected evidence'};
+  fs.writeFileSync(resultFile,'Evidence\\nLOOP_DISPOSITION: '+JSON.stringify(d)+'\\nLOOP_RESULT: BLOCKED\\n');
+  process.exit(0);
+}
 if(outcome==='HANG' || outcome==='TREE') {
   if(outcome==='TREE') {
     const child=spawn(process.execPath,['-e','setTimeout(()=>{},4000)'],{stdio:'ignore',shell:false});
@@ -567,6 +581,8 @@ test('manual protocol ignores adapter configuration and binds lock to run', asyn
   assert.equal(state(root).activeRun.runId, begun.runId);
   assert.equal(state(root).paused, false);
 });
+
+registerAutonomyTests({ fixture, run, calls, state, snapshot });
 
 test('manual flags reject ambiguous combinations', () => {
   for (const argv of [['--begin-manual', '--finish-manual'], ['--begin-manual', '--status'], ['--begin-manual', '--iterations', '2'], ['--begin-manual', '--adapter', 'x'], ['--begin-manual', '--scheduled'], ['--finish-manual', '--mode', 'Auto'], ['--finish-manual', '--config', 'x']]) assert.throws(() => parseArgs(argv));

@@ -1,21 +1,11 @@
-Read `AGENTS.md`, `PROJECT.md`, `TASKS.md`, and `PROGRESS.md` from this repository.
+Read `AGENTS.md`, `PROJECT.md`, compact `TASKS.md`, current `PROGRESS.md` and `docs/LOOP_AUTONOMY.md`.
 
-Execute exactly ONE bounded iteration:
-- If `docs/UI_REVIEW_LEDGER.md` has a batch marked PENDING FILING, or a UI
-  review is due by `docs/VISUAL_REVIEW.md` section 7, follow `.loop/eval-loop.md`
-  first, even when tasks are ready. The visual review is how the queue gets
-  its UI work.
-- If any task is IN_PROGRESS, follow `.loop/loop.md` for that task.
-- Otherwise, if any task is TODO, follow `.loop/loop.md` for the first TODO.
-- Otherwise, if PROJECT.md configures producer signals, follow `.loop/eval-loop.md`.
-- Otherwise, report IDLE - NO READY WORK, list blocked tasks and their blockers,
-  and finish with the IDLE result marker required by AGENTS.md.
+Execute exactly ONE bounded iteration under the existing sole writer lock:
+- Use the authoritative plan from runner begin, or read-only `node scripts/run-loop.mjs --preflight`. A due fresh visual review/PENDING FILING still selects `.loop/eval-loop.md` first.
+- Otherwise select `.loop/loop.md` for the earliest ready IN_PROGRESS or TODO whose explicit Requires are DONE. Skip task-local parked/unready branches, not real prerequisites. Read only the selected spec and linked detail record; don't reload every historical authorization.
+- If no ready work/review exists: wait quietly. `--checkpoint-wait` remembers the changed fingerprint under lock; no task edit, repeated choices, checkpoint/archive entry or no-op commit. A changed empty queue can get one producer opportunity review; don't invent busywork.
+- Global paused/unknown-active/busy state is never bypassed; no auto resume, lock theft or BLOCKED reset. Classified task owner/provider waits remain distinct from global safety stops.
 
-Read and follow the selected prompt. Do not run both modes in one iteration.
-The producer may propose at most one bounded proactive improvement when signals
-are green and the queue has no ready work, as authorized in PROJECT.md. A later
-consumer implements it; do not invent a defect or force a proposal to keep busy.
+Read and follow only the selected mode prompt. Producer proposals are implemented by a later consumer. Existing foreground READ-ONLY consultation and one economical-worker handoff from AGENTS.md are permitted, no background/async/nested runner/writer. Main yields repository writes during the foreground worker call; complete packages and final manager evidence review, not per-command owner approval.
 
-Never reopen a blocked task, start another agent/runner, schedule future work,
-modify runner controls, push, deploy, or run deploy.bat. End with exactly one
-standalone result marker on the final nonempty line as required by AGENTS.md.
+No new spending, budget resets, acceptance waivers, schedules, default activation, permissions, push/deploy or other repository scope. Existing narrower owner exclusions still apply. Read `.loop/tick.md` for scheduled execution and report classification; exactly one final standalone result marker in a completed report.

@@ -15,17 +15,21 @@ These instructions describe behavior, not a particular model, API, or agent host
 
 ## Working rules
 
-1. Work on only one task per consumer iteration. Continue `IN_PROGRESS` before
-   choosing the first `TODO`. Never restart completed scaffolding.
+1. Work on only one READY task per consumer iteration. Use runner `--preflight`
+   and `docs/LOOP_AUTONOMY.md`: continue earliest ready IN_PROGRESS, otherwise
+   earliest ready TODO whose explicit Requires are DONE. Park task-local waits,
+   not independent work. Never reset BLOCKED status or restart completed work.
 2. Inspect existing code. Make the smallest coherent change within acceptance criteria.
 3. Run the relevant `PROJECT.md` checks. Behavior changes need meaningful tests;
    UI changes also require `npm run vision`; shipping changes require `npm run prodbuild`.
 4. Mark a task `DONE` only when acceptance criteria and relevant checks pass.
    Otherwise retain `IN_PROGRESS`, or record an exact blocker as `BLOCKED`.
-5. Do not attempt the same task a fourth consecutive unsuccessful CONSUMER
-   iteration. Count iteration outcomes from the newest `PROGRESS.md` entries;
-   block after three unsuccessful iterations. A measurement method that fails
-   within one diagnostic iteration is not itself a new consumer iteration.
+5. At most three total failed recovery CONSUMER iterations per task; count
+   current `PROGRESS.md` and runtime recovery history, preserving prior attempts.
+   Two failed repeats of one strategy require another evidence-backed strategy;
+   a success, new substep name or model switch never resets the total. After
+   three, park the task WAITING_FOR_OWNER. A failed measurement formula within
+   one diagnostic iteration is not itself another consumer iteration.
    CMR authoring Acceptance 4 uses `docs/MOTION_ACCEPTANCE4_RECOVERY.md` to
    locate/repair named source drawings within a separate, tracked three-round
    image-request reserve; this does NOT reset the iteration limit, authorize
@@ -34,6 +38,10 @@ These instructions describe behavior, not a particular model, API, or agent host
 6. For attempted work or new findings, prepend evidence, attempt number, remaining
    work and next action at the TOP of the Entries section in `PROGRESS.md`.
    Never claim an unrun check passed or an unseen screenshot was reviewed.
+   An unchanged wait is not new work: no checkpoint entry, repeated options,
+   archive/hygiene commit or fresh model task. Record changed blocker once,
+   using runtime fingerprints; keep the live queue compact with exact history
+   in linked docs/loop-task-records files.
 7. After successful verification, make a local Git commit containing only this
    iteration's changes. Inspect existing changes first; do not stage unrelated
    work, credentials, generated artifacts, or logs. If a local commit is denied,
@@ -41,7 +49,10 @@ These instructions describe behavior, not a particular model, API, or agent host
 8. Move the oldest finished tasks to `TASKS-ARCHIVE.md` above 20 DONE tasks, and
    old finished progress entries to `PROGRESS-ARCHIVE.md` above 500 lines. Preserve
    unfinished-task evidence and the latest signal snapshot. Do not read archives
-   during ordinary iterations.
+   during ordinary iterations. Keep compact DONE milestone stubs required by
+   live Requires links; move their detailed history, not prerequisite identity.
+   Exact pre-autonomy records are retrieval-only for selected evidence, not a
+   reason to reload the entire prior queue/progress on every tick.
 8a. Text files are UTF-8 (they hold 中文). Edit with UTF-8-aware tools only. In
     Windows PowerShell 5.1, always pass `-Encoding UTF8` to `Get-Content` and
     `Set-Content`, and never round-trip a file through a default-encoded read
@@ -92,8 +103,13 @@ COMPLETED means a verified finished task or accepted producer proposals;
 IN_PROGRESS means an unfinished attempted task; IDLE means no actionable work
 or justified new finding; BLOCKED means missing inputs/access/tools or an
 exhausted retry budget; REGRESSION means a previously passing signal now fails.
-Explain evidence before the marker. The runner ends the batch on IDLE and pauses
-on BLOCKED, REGRESSION, or technical/invalid outcomes until the owner reviews it.
+Explain evidence before the marker. Under enabled `.loop/autonomy.json`, a
+valid LOOP_DISPOSITION JSON line from the selected consumer can classify
+RECOVERABLE, WAITING_FOR_OWNER, WAITING_FOR_PROVIDER or SAFETY_STOP (see
+docs/LOOP_AUTONOMY.md). Owner/provider waits park ONLY that task; unmet
+prerequisites still cannot run. Legacy unclassified BLOCKED, REGRESSION,
+SAFETY_STOP and technical/invalid outcomes globally pause. Never disguise
+unsafe work as a local wait or auto-resume an existing global pause.
 Narrow exception: if the SOLE blocker is a provider quota/rate-limit error
 likely to recover, end IDLE (not BLOCKED) with first line
 `QUOTA-WAIT: <evidence>` — hourly drivers retry; anything else still BLOCKEDs.

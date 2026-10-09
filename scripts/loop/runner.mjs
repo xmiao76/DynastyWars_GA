@@ -6,9 +6,10 @@ import { adapterDescription, prepareAdapter, transientPatternsFor } from './adap
 import { pathsFor, readState, saveState, inspectLock, acquireLock, releaseManualLock, recoverLock, LockBusy, atomicJson, parseReport, pidMayBeAlive } from './storage.mjs';
 import { delay, execute } from './process.mjs';
 import { matchTransient, readTailSafe } from './transient.mjs';
+import { planIteration, rememberWait, applyOutcome } from './autonomy.mjs';
 
 const PROMPTS = { Auto: 'continue.md', Consumer: 'loop.md', Producer: 'eval-loop.md' };
-function readInputs(repoRoot, mode) {
+function readInputs(repoRoot, mode, plan) {
   const names = ['AGENTS.md', 'PROJECT.md', 'TASKS.md', 'PROGRESS.md', `.loop/${PROMPTS[mode]}`];
   for (const name of names) {
     if (!fs.statSync(path.join(repoRoot, name)).isFile()) throw new Error(`Required input is not a file: ${name}`);
@@ -16,7 +17,8 @@ function readInputs(repoRoot, mode) {
   const promptFile = path.join(repoRoot, names.at(-1));
   const instructionsFile = path.join(repoRoot, 'AGENTS.md');
   const input = `Repository: ${repoRoot}\nMode: ${mode}\nRead AGENTS.md, PROJECT.md, TASKS.md and PROGRESS.md before any work. Follow these repository instructions and selected loop prompt. Do not run nested loops or modify runner controls to bypass a pause.\n\n--- AGENTS.md ---\n${fs.readFileSync(instructionsFile, 'utf8')}\n\n--- ${names.at(-1)} ---\n${fs.readFileSync(promptFile, 'utf8')}\n`;
-  return { promptFile, instructionsFile, input };
+  const selection = plan && plan.kind !== 'legacy' ? `\n\n--- AUTHORITATIVE READY SELECTION ---\n${JSON.stringify(plan)}\nRead docs/LOOP_AUTONOMY.md. Do not reset parked tasks, exceed their envelopes or select an unmet prerequisite.\n` : '';
+  return { promptFile, instructionsFile, input: input + selection };
 }
 function runSummary(metadata) {
   return { runId: metadata.runId, mode: metadata.mode, startedAt: metadata.startedAt, endedAt: metadata.endedAt ?? null, result: metadata.result ?? null, reportPath: metadata.reportPath, metadataPath: metadata.metadataPath, pid: metadata.pid ?? null, worker: metadata.worker ?? 'adapter' };
@@ -32,6 +34,32 @@ export async function main(argv, repoRoot, io = console) {
       io.log(JSON.stringify({ version: 1, repoRoot, state, lock: inspectLock(paths), recoveryGuard: fs.existsSync(paths.recovery) }, null, 2));
       return state.paused ? 2 : 0;
     } catch (error) { io.error(`Cannot read status: ${error.message}`); return 1; }
+  }
+  if (options.preflight) {
+    try {
+      const state = readState(paths), lock = inspectLock(paths);
+      const plan = state.paused || state.activeRun ? { kind: 'safety-paused', reason: state.pauseReason ?? 'unknown active run', notify: true }
+        : lock || fs.existsSync(paths.recovery) ? { kind: 'busy', reason: 'writer/recovery lock present', notify: false }
+        : planIteration(repoRoot, 'Auto', state);
+      io.log(JSON.stringify({ ...plan, readOnly: true, runbook: '.loop/tick.md' }, null, 2));
+      return plan.kind === 'safety-paused' ? 2 : plan.kind === 'busy' ? 3 : 0;
+    } catch (error) { io.error(error.message); return 1; }
+  }
+  if (options.checkpointWait) {
+    let waitLock;
+    try {
+      waitLock = acquireLock(paths, repoRoot);
+      const state = readState(paths);
+      if (state.paused || state.activeRun) { io.log(JSON.stringify({ kind: 'safety-paused', notify: true, reason: state.pauseReason ?? 'unknown active run' })); return 2; }
+      const plan = planIteration(repoRoot, 'Auto', state);
+      if (plan.kind === 'wait') {
+        const remembered = rememberWait(state, plan);
+        if (remembered !== state) saveState(paths, remembered);
+      }
+      io.log(JSON.stringify(plan, null, 2));
+      return 0;
+    } catch (error) { io.error(error.message); return error instanceof LockBusy ? 3 : 1; }
+    finally { if (waitLock) waitLock.release(); }
   }
   if (options.recoverLock) {
     try { io.log(JSON.stringify(recoverLock(paths), null, 2)); return 0; } catch (error) { io.error(error.message); return error instanceof LockBusy ? 3 : 1; }
@@ -64,20 +92,13 @@ export async function main(argv, repoRoot, io = console) {
     let metadata;
     try {
       const { config, configFile } = loadConfig(repoRoot, options);
-      const inputs = readInputs(repoRoot, config.mode);
+      // Readiness is checked under the writer lock, before creating a run.
+      // Nothing reopens an owner-blocked task or clears a global pause.
       const runId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${randomUUID()}`;
       const base = path.join(paths.directory, runId);
       const requestFile = `${base}.request.json`;
       const reportPath = `${base}.report.md`;
       const inputFile = `${base}.input.md`;
-      const request = {
-        version: 1, repoRoot, mode: config.mode, model: config.model,
-        promptFile: inputs.promptFile, instructionsFile: inputs.instructionsFile,
-        inputFile, reportPath, runId, iteration: 1, scheduled: false,
-        createdAt: new Date().toISOString(),
-        workspaceFiles: ['AGENTS.md', 'PROJECT.md', 'TASKS.md', 'PROGRESS.md'],
-        policy: { sandbox: 'workspace-write', approvalPolicy: 'never', networkAccess: false },
-      };
       lock = acquireLock(paths, repoRoot, { runId });
       state = readState(paths);
       if (state.activeRun) {
@@ -93,8 +114,25 @@ export async function main(argv, repoRoot, io = console) {
         io.error(`Runner paused: ${state.pauseReason}. Review evidence, then use --resume (does not reset tasks).`);
         return 2;
       }
+      const plan = planIteration(repoRoot, config.mode, state);
+      if (plan.kind === 'wait') {
+        const remembered = rememberWait(state, plan);
+        if (remembered !== state) saveState(paths, remembered);
+        lock.release(); lock = undefined;
+        io.log(JSON.stringify({ begun: false, ...plan }, null, 2));
+        return 0;
+      }
+      const mode = plan.mode, inputs = readInputs(repoRoot, mode, plan);
+      const request = {
+        version: 1, repoRoot, mode, model: config.model, plan,
+        promptFile: inputs.promptFile, instructionsFile: inputs.instructionsFile,
+        inputFile, reportPath, runId, iteration: 1, scheduled: false,
+        createdAt: new Date().toISOString(),
+        workspaceFiles: ['AGENTS.md', 'PROJECT.md', 'TASKS.md', 'PROGRESS.md'],
+        policy: { sandbox: 'workspace-write', approvalPolicy: 'never', networkAccess: false },
+      };
       metadata = {
-        version: 1, runId, mode: config.mode, iteration: 1, scheduled: false,
+        version: 1, runId, mode, plan, iteration: 1, scheduled: false,
         adapter: 'manual', worker: 'manual', model: config.model, configFile, startedAt: request.createdAt,
         status: 'manual-begun', reportPath, requestFile, inputFile, metadataPath: `${base}.metadata.json`,
         stdoutPath: `${base}.stdout.log`, stderrPath: `${base}.stderr.log`,
@@ -107,7 +145,7 @@ export async function main(argv, repoRoot, io = console) {
       fs.writeFileSync(metadata.stdoutPath, '', { encoding: 'utf8', flag: 'wx' });
       fs.writeFileSync(metadata.stderrPath, '', { encoding: 'utf8', flag: 'wx' });
       atomicJson(metadata.metadataPath, metadata);
-      io.log(JSON.stringify({ runId, mode: config.mode, reportPath, inputFile, requestFile, metadataPath: metadata.metadataPath }, null, 2));
+      io.log(JSON.stringify({ begun: true, runId, mode, plan, reportPath, inputFile, requestFile, metadataPath: metadata.metadataPath }, null, 2));
       return 0;
     } catch (error) {
       io.error(error.message);
@@ -146,19 +184,21 @@ export async function main(argv, repoRoot, io = console) {
         let info = null;
         try { info = fs.statSync(metadata.reportPath); } catch { info = null; }
         if (!info || !info.isFile() || info.size > 16 * 1024 * 1024) throw new Error(`Manual report missing or oversized at ${metadata.reportPath}; the worker must write the final report before --finish-manual`);
-        const result = parseReport(fs.readFileSync(metadata.reportPath, 'utf8'));
+        const report = fs.readFileSync(metadata.reportPath, 'utf8');
+        const result = parseReport(report);
+        const outcome = applyOutcome(repoRoot, state, metadata, report, result);
+        metadata.disposition = outcome.disposition;
         metadata.status = 'finished';
         metadata.result = result;
         metadata.endedAt = new Date().toISOString();
         atomicJson(metadata.metadataPath, metadata);
-        state.lastRun = runSummary(metadata);
-        state.activeRun = null;
-        state.transientSkips = 0;
-        state.paused = ['BLOCKED', 'REGRESSION'].includes(result);
-        state.pauseReason = state.paused ? result : null;
-        saveState(paths, state);
+        const resolvedState = outcome.state;
+        resolvedState.lastRun = runSummary(metadata);
+        if (metadata.plan?.kind === 'producer' && result === 'IDLE') resolvedState.quietFingerprint = metadata.plan.fingerprint;
+        saveState(paths, resolvedState);
+        Object.assign(state, resolvedState);
         releaseManualLock(paths, runId);
-        io.log(`Result: ${result}`);
+        io.log(`Result: ${result}${outcome.disposition ? ` (${outcome.disposition.kind}; task=${outcome.disposition.taskId ?? 'global'})` : ''}`);
         return state.paused ? 2 : 0;
       } catch (reportError) {
         metadata.status = 'error'; metadata.result = 'UNKNOWN'; metadata.error = reportError.message;
@@ -195,7 +235,7 @@ export async function main(argv, repoRoot, io = console) {
     if (!options.resume) {
       try {
         const loaded = loadConfig(repoRoot, options);
-        prepared = { ...loaded, inputs: readInputs(repoRoot, loaded.config.mode), makeCommand: prepareAdapter(loaded.config, repoRoot), initialDelay: waitMilliseconds(loaded.config) };
+        prepared = { ...loaded, initialDelay: waitMilliseconds(loaded.config) };
       } catch (error) { preflightError = error; }
       if (prepared?.initialDelay) {
         const beforeWait = readState(paths);
@@ -224,16 +264,26 @@ export async function main(argv, repoRoot, io = console) {
       if (state.paused) { io.error(`Runner paused: ${state.pauseReason}. Review evidence, then use --resume (does not reset tasks).`); exitCode = 2; }
       else {
         if (preflightError) throw preflightError;
-        const { config, configFile, inputs, makeCommand } = prepared;
+        const { config, configFile } = prepared;
+        let makeCommand;
         for (let iteration = 1; iteration <= config.iterations; iteration++) {
           if (controller.signal.aborted) throw new Error('Runner cancelled');
+          const plan = planIteration(repoRoot, config.mode, state);
+          if (plan.kind === 'wait') {
+            const remembered = rememberWait(state, plan);
+            if (remembered !== state) { saveState(paths, remembered); state = remembered; }
+            io.log(JSON.stringify({ begun: false, ...plan }, null, 2));
+            break;
+          }
+          makeCommand ??= prepareAdapter(config, repoRoot);
+          const mode = plan.mode, inputs = readInputs(repoRoot, mode, plan);
           const runId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${randomUUID()}`;
           const base = path.join(paths.directory, runId);
           const requestFile = `${base}.request.json`;
           const reportPath = `${base}.report.md`;
           const inputFile = `${base}.input.md`;
           const request = {
-            version: 1, repoRoot, mode: config.mode, model: config.model,
+            version: 1, repoRoot, mode, model: config.model, plan,
             promptFile: inputs.promptFile, instructionsFile: inputs.instructionsFile,
             inputFile, reportPath, runId, iteration, scheduled: Boolean(options.scheduled),
             createdAt: new Date().toISOString(),
@@ -243,7 +293,7 @@ export async function main(argv, repoRoot, io = console) {
           // These policy fields are a request to the trusted wrapper, NOT enforcement.
           const command = makeCommand(request, requestFile, inputFile);
           metadata = {
-            version: 1, runId, mode: config.mode, iteration, scheduled: Boolean(options.scheduled),
+            version: 1, runId, mode, plan, iteration, scheduled: Boolean(options.scheduled),
             adapter: config.adapter, model: config.model, configFile, startedAt: request.createdAt,
             status: 'starting', reportPath, requestFile, inputFile, metadataPath: `${base}.metadata.json`,
             stdoutPath: `${base}.stdout.log`, stderrPath: `${base}.stderr.log`,
@@ -254,7 +304,7 @@ export async function main(argv, repoRoot, io = console) {
           atomicJson(requestFile, request);
           fs.writeFileSync(inputFile, inputs.input, { encoding: 'utf8', flag: 'wx', mode: 0o600 });
           atomicJson(metadata.metadataPath, metadata);
-          io.log(`Iteration ${iteration}/${config.iterations} (${config.mode}); report: ${reportPath}`);
+          io.log(`Iteration ${iteration}/${config.iterations} (${mode}); report: ${reportPath}`);
           const execution = await execute(command, {
             cwd: repoRoot, stdoutPath: metadata.stdoutPath, stderrPath: metadata.stderrPath,
             timeoutSeconds: config.timeoutSeconds, signal: controller.signal,
@@ -305,21 +355,22 @@ export async function main(argv, repoRoot, io = console) {
           // Never parse stdout, transport events, or arbitrary adapter transcripts
           // for results. The sole exception is above: stderr is scanned for
           // provider-outage signatures only after a failed call with no report.
-          const result = parseReport(fs.readFileSync(reportPath, 'utf8'));
+          const report = fs.readFileSync(reportPath, 'utf8');
+          const result = parseReport(report);
+          const outcome = applyOutcome(repoRoot, state, metadata, report, result);
+          metadata.disposition = outcome.disposition;
           metadata.status = 'finished';
           metadata.result = result;
           metadata.endedAt = new Date().toISOString();
           atomicJson(metadata.metadataPath, metadata);
+          state = outcome.state;
           state.lastRun = runSummary(metadata);
-          state.activeRun = null;
-          state.transientSkips = 0;
-          state.paused = ['BLOCKED', 'REGRESSION'].includes(result);
-          state.pauseReason = state.paused ? result : null;
+          if (plan.kind === 'producer' && result === 'IDLE') state.quietFingerprint = plan.fingerprint;
           saveState(paths, state);
-          io.log(`Result: ${result}`);
+          io.log(`Result: ${result}${outcome.disposition ? ` (${outcome.disposition.kind}; task=${outcome.disposition.taskId ?? 'global'})` : ''}`);
           metadata = undefined;
           if (state.paused) { exitCode = 2; break; }
-          if (result === 'IDLE') break;
+          if (result === 'IDLE' && outcome.disposition?.kind !== 'WAITING_FOR_PROVIDER') break;
           if (iteration < config.iterations && config.intervalSeconds) await delay(config.intervalSeconds * 1000, controller.signal);
         }
       }

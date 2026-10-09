@@ -8,9 +8,9 @@ const valueFlags = new Map([
   ['--delay-seconds', 'delaySeconds'], ['--start-at', 'startAt'], ['--timeout-seconds', 'timeoutSeconds'],
 ]);
 const boolFlags = new Map([
-  ['--dry-run', 'dryRun'], ['--scheduled', 'scheduled'], ['--status', 'status'],
+  ['--dry-run', 'dryRun'], ['--scheduled', 'scheduled'], ['--status', 'status'], ['--preflight', 'preflight'],
   ['--resume', 'resume'], ['--recover-lock', 'recoverLock'], ['--confirm-no-live-writers', 'confirmNoLiveWriters'],
-  ['--begin-manual', 'beginManual'], ['--finish-manual', 'finishManual'],
+  ['--begin-manual', 'beginManual'], ['--finish-manual', 'finishManual'], ['--checkpoint-wait', 'checkpointWait'],
   ['--help', 'help'],
 ]);
 const configKeys = new Set([...Object.keys(DEFAULTS), 'delaySeconds', 'startAt']);
@@ -38,7 +38,7 @@ export function parseArgs(argv) {
         ? (/^(?:\d+\.?\d*|\.\d+)$/.test(value) ? Number(value) : NaN) : value;
     }
   }
-  const admin = ['status', 'resume', 'recoverLock', 'beginManual', 'finishManual'].filter((key) => options[key]);
+  const admin = ['status', 'preflight', 'checkpointWait', 'resume', 'recoverLock', 'beginManual', 'finishManual'].filter((key) => options[key]);
   if (admin.length > 1) throw new Error('Choose only one of --status, --resume, --recover-lock, --begin-manual, --finish-manual');
   if (options.beginManual && Object.keys(options).some((key) => !['beginManual', 'config', 'mode'].includes(key))) {
     throw new Error('--begin-manual only combines with --config and --mode');
@@ -153,6 +153,8 @@ export const HELP = `Usage: node scripts/run-loop.mjs [options]
   --scheduled                   one occurrence (schedulers should use --iterations 1)
   --dry-run                     inspect only; no writes or adapter launch
   --status                      read state/lock, no adapter or configuration needed
+  --preflight                   read-only readiness/wait/safety check; no model or write
+  --checkpoint-wait             remember changed wait once under lock; no model or repo edit
   --resume                      clear pause only; never edit/reset tasks or run a model
   --recover-lock --confirm-no-live-writers
                                 explicit recovery only; verify ALL writers stopped

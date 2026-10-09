@@ -211,7 +211,9 @@ longer auto-blocks a consistent set. Spread stays canonically
 | --- | --- | --- |
 | COMPLETED / IN_PROGRESS | May continue within requested finite budget | 0 |
 | IDLE | End current batch; a separately configured future occurrence may run | 0 |
-| BLOCKED / REGRESSION | Persist pause; owner review required | 2 |
+| BLOCKED + validated WAITING_FOR_OWNER (selected consumer, task status BLOCKED) | Park task only; independent ready work can continue | 0 |
+| IDLE + validated WAITING_FOR_PROVIDER | Park selected task until retryAt/input change; no extra spend | 0 |
+| Unclassified BLOCKED / SAFETY_STOP / REGRESSION | Persist GLOBAL pause; owner review required | 2 |
 | Invalid/missing report, CLI failure, timeout, cancellation | No automatic retry; persist pause after attempted execution | 1 |
 | Existing writer/recovery lock | Do not start a model or queue a backlog | 3 |
 | Transient provider outage (quota/rate-limit signature, no report) | Skip tick unpaused; hourly drivers retry; consecutive skips counted in state | 4 |
@@ -220,6 +222,27 @@ longer auto-blocks a consistent set. Spread stays canonically
 The final nonempty line must contain exactly ONE standalone known LOOP_RESULT
 marker; duplicates, unknown values, code-fenced markers and trailing prose fail.
 A nonzero transport exit cannot be overridden by a report claiming COMPLETED.
+
+### Bounded autonomy v1
+
+Read [standing envelope/outcome contract](LOOP_AUTONOMY.md). `--preflight` is a
+read-only pause/lock/cadence/dependency/wait check. Enabled `.loop/autonomy.json`
+uses explicit Requires; after due review select earliest ready IN_PROGRESS/TODO,
+not blocked ordering-only branches. Current CMR-15A authoring and horse work are
+independent of CMR-14A; final pair/cast still need all prerequisite packs DONE.
+
+`--checkpoint-wait` persists only a changed input fingerprint in ignored runtime
+state under the writer lock. Same wait means no model task, source/queue/history
+edit, repeated dialog or no-op commit. Inputs are task/policy/ledger/content,
+not PROGRESS noise or elapsed time. Structured dispositions are validated against
+the actual selected task/status; invalid ones globally pause. Recovery failures
+have three-total cap with per-strategy signatures; successes never reset it.
+This changes no spending cap, waiver, permission or old owner BLOCKED decision.
+
+The existing reminder should read `.loop/tick.md` at every firing (versioned
+runbook, 25-minute end-to-end packages). A reminder's separately stored obsolete
+instructions must be updated in its own thread; do not create a duplicate or
+claim synchronization from repository edits alone.
 
 ### Manual protocol — the DSH session is the worker
 
@@ -235,10 +258,11 @@ invalid report pauses like any invalid auto result, because the worker ran;
 a finish with no begun run (or a non-manual lock) changes nothing.
 
 Preserved from auto mode: exclusive lock, active-run bookkeeping, the
-BLOCKED/REGRESSION pause policy, exit codes, and crash posture (a dead turn
+classified local waits versus GLOBAL safety/legacy-BLOCKED/REGRESSION pause,
+exit codes and crash posture (a dead turn
 leaves lock plus active run; ticks skip; the owner verifies no live turn in
 chat before explicit recovery). Not preserved: the runner cannot time-box an
-agent turn, so the tick runbook carries a ~50-minute timebox instead, and a
+agent turn, so the half-hourly tick runbook carries a ≤25-minute package timebox instead, and a
 worker that cannot finish records IN_PROGRESS honestly for the next tick.
 `npm run loop:test` covers begin/finish paths without any provider.
 

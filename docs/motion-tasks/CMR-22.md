@@ -1,7 +1,8 @@
 # CMR-22 — Shared horse locomotion and rider composition
 
 - Initial queue status: TODO; attempts start at zero. Live status is authoritative in [TASKS.md](../../TASKS.md).
-- Dependencies: CMR-21B DONE, all humanoid packs and foundations transitively.
+- Dependencies: CMR-05, CMR-09B, CMR-10B, CMR-11B, CMR-12B DONE (foundation + all new hero rider packs; Guan Yu locked accepted reference). Unfinished boss artwork is not a prerequisite for horse locomotion. Live Requires in TASKS.md is authoritative.
+- Envelope: [Standing bounded authority](../LOOP_AUTONOMY.md), inside four-request horse cap; no new spend, waiver or gameplay change.
 - Request cap: four total horse image requests; at most two whole-sheet candidates per sequence. Counters survive continuation.
 
 ## Read first

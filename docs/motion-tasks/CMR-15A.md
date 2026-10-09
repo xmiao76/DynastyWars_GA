@@ -1,7 +1,8 @@
 # CMR-15A — Xu Chu: author and prepare complete whole-character pack
 
 - Queue status: TODO; task attempts start at zero.
-- Dependencies: CMR-14B DONE; CMR-01..05 DONE transitively.
+- Dependencies: CMR-05 DONE (foundation milestone); original CMR-14B edge was ordering-only and removed by owner-approved bounded autonomy. Xu Chu source authoring uses no incomplete Xiahou Dun art. No partial runtime activation.
+- Envelope: [Standing bounded authority](../LOOP_AUTONOMY.md): one complete package, routine diagnosis/measurement/repair/prepare/test/close-out allowed inside existing request/quality caps; no new spend or waiver.
 - Pair: [CMR-15B](CMR-15B.md) is the separate runtime/capture task.
 
 ## Read first

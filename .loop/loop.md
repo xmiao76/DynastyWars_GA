@@ -2,17 +2,28 @@ Read `AGENTS.md`, `PROJECT.md`, `TASKS.md`, and `PROGRESS.md`.
 
 Execute exactly one bounded CONSUMER iteration:
 
-1. Continue the first `IN_PROGRESS` task, otherwise choose the first `TODO`.
-   If neither exists, report IDLE - NO READY WORK without code changes. List
-   blocked tasks and what the owner must decide. Do not reopen them. A later
-   producer pass may find new work; do not run it in this iteration.
-2. Confirm testable acceptance criteria. If information is missing, mark the
-   task `BLOCKED` and state exactly what is needed.
-3. Count consecutive unsuccessful attempts at this task from current progress.
-   If this would be a fourth, mark it `BLOCKED`; record prior approaches and
-   why they failed rather than repeating them.
-4. Inspect existing code and working changes. Implement the smallest coherent
-   change that advances the selected task. Do not overwrite unrelated work.
+1. Follow runner-selected earliest READY IN_PROGRESS, otherwise first READY
+   TODO whose Requires are DONE. Read `docs/LOOP_AUTONOMY.md`, selected spec
+   and detail record; skip parked/unready branches without reopening them.
+   No ready work: quiet wait, no repo edit/no-op commit/repeated owner question.
+2. Confirm testable acceptance and the standing task envelope. Routine local
+   diagnosis, proved measurement correction, scoped repair, preparation,
+   testing and record close-out are authorized; no artificial per-command/
+   render cap. Narrower existing owner exclusions remain binding. New spend,
+   waiver, scope or permissions require one consolidated owner notice.
+3. Count historical and runtime failed recovery iterations. Three TOTAL
+   failures park this task WAITING_FOR_OWNER, not a fourth retry. Two repeated
+   failures of one strategy require another viable evidence-backed strategy;
+   success/new substep/model doesn't reset attempts. A bad measurement formula
+   inside one diagnostic iteration is not itself a failed consumer iteration.
+   Park locally using the disposition contract; a safety/regression/unknown
+   active writer still globally pauses. Never waive an unknown result.
+4. Inspect existing code and working changes. Implement one complete bounded
+   work package (≤25min plus finish time): inspect→measure→correct proved
+   errors→evaluate→persist evidence→applicable tests→report. No request for
+   routine intermediate operations inside the envelope. Do not overwrite
+   unrelated work. For one foreground worker, main yields all writes until
+   the call settles, then verifies critical diff/evidence; no async continuation.
 4a. For a CMR character AUTHORING task, run the Acceptance-4 projection
     gate after EACH sheet acceptance (`scripts/pack-projection.mjs`):
     fix ONE global brief band from the anchor sheet and never silently
@@ -50,10 +61,13 @@ Execute exactly one bounded CONSUMER iteration:
    `npm run prodbuild`. A playable but broken or unattractive render is not a
    completed game task, and a task whose own after-review still shows its
    defect is not DONE. Do not weaken gates.
-7. Mark `DONE` only when all acceptance criteria and applicable checks pass.
-   Otherwise retain `IN_PROGRESS`, or mark a concrete unresolved prerequisite
-   `BLOCKED`. If a previously passing signal regresses, prioritize it and report
-   REGRESSION rather than claiming completion.
+7. Mark DONE only when all acceptance/checks pass. Valid remaining recovery:
+   IN_PROGRESS + RECOVERABLE disposition, with truthful recoveryFailed and
+   failureSignature. New authority needed/exhausted: task BLOCKED +
+   WAITING_FOR_OWNER disposition, independent queue can continue. Disclosed
+   future provider recovery: IDLE + WAITING_FOR_PROVIDER with retryAt.
+   Regression/safety/unknown: SAFETY_STOP and global pause. Exactly follow
+   `docs/LOOP_AUTONOMY.md`; no marker manipulation to disguise a safety issue.
 8. Prepend a concise entry at the TOP of PROGRESS.md's Entries section: task,
    attempt number, changes, exact commands/results, reviewed evidence, remaining
    work/blocker, and next action. Never claim an unrun check passed.
