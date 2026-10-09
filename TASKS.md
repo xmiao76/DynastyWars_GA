@@ -179,8 +179,9 @@ This compact live index preserves original status/attempt evidence in linked exa
 
 ### CMR-15A - Xu Chu: author/prepare full motion pack
 
-- Status: TODO
+- Status: IN_PROGRESS
 - Requires: CMR-05
+- Requires-confirmed (2026-10-09 first-touch orientation, plan only, no art): CMR-05 Status DONE verified in this queue; read-only preflight selects consumer CMR-15A; record read fully (no owner exclusion, 0 attempts); masters present; budgets allow (xuchu 0/12, global 141/200). Plan: PROGRESS.md 2026-10-09 CMR-15A orientation entry.
 - Acceptance: Complete isolated Xu Chu source pack, identity/registration/quality/budgets; no partial catalog activation. Offline authoring is independent of Xiahou Dun integration.
 - Record: [CMR-15A exact prior evidence](docs/loop-task-records/CMR-15A.md) (original SHA-256 fbc5973c70c82611a9641758f72f123d869e89ba9e96f02d2c44e9b44eadb28f).
 - Specification: [CMR-15A](docs/motion-tasks/CMR-15A.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
