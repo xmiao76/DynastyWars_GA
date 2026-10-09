@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-09 — CMR-14A fall-3 gate tick close-out (A1 unverified + A1R aborted, A2/C deferred, stays IN_PROGRESS)
+
+- Attempted fall-3 scale gate this tick, measurement did NOT complete: A1 figs 0–4 honest FAILED criterion (spear-latch failure mode, UNVERIFIED best-effort, must not be consumed) + A1R redo aborted on deadline with misplaced crop windows (markers floating in background, numbers unusable, confirmed on opened overlay by manager) + A2/C never ran (timebox, deferred to next tick).
+- Evidence (ignored, uncommitted, not consumed): artifacts/motion/xiahoudun/fall-review/fall-cand3-a1-marked2.png + artifacts/motion/xiahoudun/fall-review/fall-cand3-a1r-marked.png. Audit art/motion/xiahoudun/fall-candidate-3-audit.json stays CANDIDATE_GENERATED_DESIGN_AUDITED_SCALE_GATE_PENDING (scaleGate.status PENDING, verified, untouched).
+- Next: re-measure 0–4 head-centered + A2 + C verdict, gate-FIRST on arrival else REJECT before any other work on it. No verdict this tick.
+
 ### 2026-10-09 — CMR-14A fall-3 finish (verify + log + commit, SCALE GATE PENDING, stays IN_PROGRESS)
 
 - Finish package for the fall-3 stacked generation (owner-2026-10-09-cmr14a-fall3-stacked, FUND-FALL-STACKED dual exception, 14A first). Gen worker COMPLETED, no abort: reservation RECORDED, all 3 fall-3 files present, TASKS auth+reset edits verified accurate, PROGRESS written this tick. ZERO image_generate calls, ZERO re-reservation, ledger values untouched.
