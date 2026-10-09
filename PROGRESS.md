@@ -4,6 +4,13 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-09 — CMR-14A fall-3 gate tick close-out: MEASURE-NEEDS-REDO, no verdict (stays IN_PROGRESS)
+
+- This tick: B1 (figs 0–4) + B2 (figs 5–8) overlays produced but all labels UNUSABLE (SUPERSEDED per adjudication — no H table recorded as consumable); C aborted, never ran. NO VERDICT this tick.
+- Manager zoom adjudication (on artifacts/motion/xiahoudun/fall-review/fall-cand3-fragile-zoom.png, recorded text-only): 3 PROVEN beard misplacements — fig2 beard in empty background, fig5 + fig6 beards on shaft wood — exceeds the ≤2 correction budget, so MEASURE-NEEDS-REDO per protocol. Fig2 crown marginal; fig7/8 beards suspect by same shaft pattern, unscutinized (not proven). Overlays listed only, never opened: artifacts/motion/xiahoudun/fall-review/fall-cand3-b1-marked2.png + fall-cand3-b2-marked2.png + fall-cand3-fragile-zoom.png.
+- Verification (text-only; preconditions deviated): HEAD is 530485f, not 932e470 (one REJECTED-verdict commit ahead); audit art/motion/xiahoudun/fall-candidate-3-audit.json reads REJECTED-do-not-prepare, not PENDING (left untouched); 5 never-touch files (.loop/eval-loop.md, AGENTS.md, scripts/motion-acceptance4-repair.d.mts/.mjs, test/game/motion-acceptance4-repair.test.ts) unchanged/unstaged; zero image opens, zero measurement.
+- Next: targeted beard re-measure for figs 2/5/6/7/8 + fig2-crown verify, then fresh C. Task stays IN_PROGRESS.
+
 ### 2026-10-09 — CMR-14A fall-3 scale gate VERDICT: REJECTED-do-not-prepare (stays IN_PROGRESS)
 
 - Verdict: REJECT — do NOT prepare from fall candidate 3. Reported H (re-derived from both opened marked overlays + b1-mark2/b2-mark2 scripts) [67,61,54,75,62,80,89,68,66], mean 69.11 (IN 55.0–74.4). Verified: 8 measurable mean 71.00 (IN) BUT fig6 H=89 zoom-CONFIRMED out-of-band HIGH (+8.1 over 80.9 ceiling, +37.6% vs walk 64.7) AND fig2 UNMEASURABLE (reported H=54 VOID — crown (1018,75) + beard (1088,129) both RGB 0/9 background-proven floating on opened zoom; correction attempted via finder views but true beard-tip merges into torso/scarf with no gap boundary, dark continuous to box bottom y181–190 — placing a tip would be guessing; fall-1/2 UNMEASURABLE precedent; 0/≤2 correction allowance consumed). Fragile sheet (f2/f3/f5/f6) rendered + OPENED: f3=75 + f5=80 confirmed (2px tip-above-gap signatures; f5 0.9px below ceiling, fragile disclosed). Uniformity 89/61 = 1.46x verified (reported 1.65x incl voided f2).
