@@ -161,7 +161,8 @@ This compact live index preserves original status/attempt evidence in linked exa
 
 ### CMR-14A - Xiahou Dun: author/prepare full motion pack
 
-- Status: BLOCKED
+- Owner authorization (owner-2026-10-09-cmr14a-fall3-stacked, 2026-10-09, quoting FUND-FALL-STACKED: "ONE grok fall-3 testing the 4-layer stack — grok (scale) + spear-fixed (uniformity, validated 7.33%) + full-span 97%+ (anchor fix for uniform-short 0/5) + pose-moderation (measurable-head fix for misc-5 42/88 extremes + fall-1/2 prone UNMEASURABLEs)"; stacked strategy grok + spear-fixed + full-span + pose-moderation): ONE fall whole-sheet candidate 3 as a one-time exception to BOTH the 2-per-sequence cap (fall 2->3) AND the xiahoudun 12-cap (15->16 used); global 200 cap still enforced (141->142). Scale-gate FIRST on arrival else REJECT before any other work on it. No further requests, refunds, waivers, or budget is implicit. This does NOT mark CMR-14A DONE and does NOT authorize 14B/runtime activation. CMR-14B stays TODO.
+- Status: IN_PROGRESS (2026-10-09 cmr14a-fall3-stacked; was BLOCKED awaiting-decisions post-misc-5-REJECT — full prior BLOCKED line preserved in docs/loop-task-records/CMR-14A.md)
 - Requires: CMR-13B
 - Acceptance: Owner-wait: incomplete Xiahou Dun pack; misc-5 rejected on verified scale, misc/fall/getup funding or scope decision remains; existing combo/heavy waivers retained. No automatic reset, new spend or runtime activation.
 - Record: [CMR-14A exact prior evidence](docs/loop-task-records/CMR-14A.md) (original SHA-256 69ec90d3a90c4760ce1d39241be19e389a1083eab77e3397aa5e4fe5979097d6).
