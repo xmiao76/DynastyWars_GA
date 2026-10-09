@@ -15,6 +15,7 @@ import { parseReport, acquireLock, pathsFor } from './loop/storage.mjs';
 import { prepareAdapter, resolveCodex, transientPatternsFor, CODEX_TRANSIENT_PATTERNS } from './loop/adapters.mjs';
 import { matchTransient } from './loop/transient.mjs';
 import { registerAutonomyTests } from './loop/test-autonomy.mjs';
+import './loop/test-work-package.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const testRoot = path.join(repoRoot, 'artifacts/loop-tests', `${Date.now()}-${randomUUID()}`);

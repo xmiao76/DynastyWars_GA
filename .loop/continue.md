@@ -8,4 +8,6 @@ Execute exactly ONE bounded iteration under the existing sole writer lock:
 
 Read and follow only the selected mode prompt. Producer proposals are implemented by a later consumer. Existing foreground READ-ONLY consultation and one economical-worker handoff from AGENTS.md are permitted, no background/async/nested runner/writer. Main yields repository writes during the foreground worker call; complete packages and final manager evidence review, not per-command owner approval.
 
+In standard-econ-subagents, also read docs/ECONOMIC_TAKEOVER.md: two reviewed same-package quality failures (original+linked correction) permit bounded current main-agent takeover, then next package returns economic-first. Advisory runner workPackage hints never authorize execution or reset failed consumer iterations/owner blocks. Use actual Host review/lease receipts and one LOOP_WORK report line when executing this mode.
+
 No new spending, budget resets, acceptance waivers, schedules, default activation, permissions, push/deploy or other repository scope. Existing narrower owner exclusions still apply. Read `.loop/tick.md` for scheduled execution and report classification; exactly one final standalone result marker in a completed report.

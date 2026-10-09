@@ -1,0 +1,40 @@
+# Economic-first, bounded main takeover — owner approved 2026-10-09
+
+Purpose: reliability without repeating expensive investigations. Two roles, not three: current smart MAIN manages/reviews; Contributor does the default detailed work. A new bounded package always starts economic. No prediction of measured savings: compare model input/output/reasoning/cached costs per **accepted** package, including corrections and later manager context.
+
+## Work package lifecycle
+
+1. Preflight, begin one runner iteration and keep its sole-writer lock; select only its task. Read current spec/envelope/caps and relevant evidence. In the custom mode use manager_check configured-control loop-preflight/loop-begin/loop-finish/loop-wait; never manufacture a worker for unchanged waits.
+2. Give economic_worker a stable `work_id`, exact acceptance, `access`, and bounded `write_scope`. One foreground call `run_in_background:false`; main yields all writes until result **and disposal**. Keep return evidence compact: patch/artifact hashes, actual check results, failed criterion, authorized remaining action. Reuse diagnosis; do not paste whole historical logs.
+3. Main verifies critical diff/images/checks, then manager_review records the exact worker call id and pass/fail/blocked, criterion/evidence, quality/infrastructure/authority. Completion isn't acceptance; evidence is attestation, not automatic visual certification. First QUALITY fail: one targeted correction, same work_id and unchanged acceptance/access/scope, correction_of exact latest receipt. Ask for a different evidence-backed strategy where repeated strategy has failed; a model switch alone isn't a strategy.
+4. Second consecutive linked QUALITY fail: no third economic retry. If scope/resources/time still authorize progress, manager_work begin yields exact lease id. Current main does detailed work itself using manager_work perform (read/glob/grep/read_image/skill/write/edit/pwsh/bash). No expensive third subagent, silent model/account switch, background agent/shell or nested runner. Read-only failure never permits edits/tests/shell. Native mutations reject symlink/junction ancestors. Shell scope remains instruction, not OS path confinement; inherited native guard/sandbox/approval can still deny any operation.
+5. Main lease: 15min,25min TOTAL detailed-main time/48 native call intents/3 leases per work_id, within this tick's **remaining**25min envelope. Interrupted/denied native attempts still consume operation allowance. Timeout isn't permission to orphan a process: runtime stops/drains only its exact promoted shell jobs; foreign jobs aren't killed. Dispose-unknown/persisted interrupted worker means safety reconciliation, not a replacement writer.
+6. Close manager_work end accepted/incomplete/parked with criterion and actual evidence. Accepted closes package; NEXT package defaults economic. Incomplete keeps same work_id/contract and all remaining limits; lease isn't silently renewed on next tick. Park when caps/resources/authority missing. Package acceptance is not task DONE; PROJECT checks and independent producer visual verification remain unchanged. Main fixing work must not mark its own anatomy/visual ledger verified.
+
+## Two counters, no reset
+
+- **Package escalation:** two disposed, manager-reviewed same-contract economic QUALITY failures (original + linked correction). Can occur inside one iteration or across turns/ticks. Never rename it to buy extra cheap/main attempts.
+- **Task recovery:** existing three TOTAL failed recovery CONSUMER iterations, plus preserved historical evidence. Neither economic subattempt nor failed diagnostic formula automatically equals a separate consumer iteration. A main rescue doesn't erase real prior failures. If a candidate/image/strategy failed, preserve that evidence and budget charge even if another substep succeeded.
+- Quota/auth/routing/permissions/tool absence/funding/owner hard stop don't qualify as quality failure. Follow WAITING_FOR_PROVIDER/WAITING_FOR_OWNER/SAFETY_STOP and strict final LOOP_RESULT. Previously BLOCKED tasks (including CMR-14A's explicit post-fall-4 hard stop) remain BLOCKED. No fall-5/new funding/waiver/partial activation is authorized by this mode.
+- Generation NOT in automatic main allowlist. Existing economic-worker requests require actual project ledger reservation/owner authorization. Two reasoning failures aren't authorization for a new image/video request; if only generation remains, park the precise resource need. No refunds or automatic expensive account fallback.
+
+## Durable report and next-tick hint
+
+DSH Host tool receipts/reviews/leases are execution authority, retained in the parent session. Runner `LOOP_WORK` below is **advisory bookkeeping only**. It is not a credential, native capability, owner decision, spending reservation or task acceptance proof. Do not hand-edit ignored state. Use one JSON line before LOOP_DISPOSITION/final LOOP_RESULT. Optional for other modes and legacy reports, required by instructions when this two-role consumer actually executes a package.
+
+```text
+LOOP_WORK: {"version":1,"taskId":"CMR-15A","workId":"CMR-15A-diagnostic-01","contractHash":"<64 lowercase hex hash from runtime receipt>","phase":"main-incomplete","attempts":[{"callId":"<first exact receipt>","outcome":"fail","failureKind":"quality","disposed":true,"criterion":"<failed criterion>","evidence":"<actual check/artifact>"},{"callId":"<correction receipt>","correctionOf":"<first exact receipt>","outcome":"fail","failureKind":"quality","disposed":true,"criterion":"<failed criterion>","evidence":"<actual check/artifact>"}],"mainLeaseId":"<actual runtime lease>","criterion":"<remaining criterion>","evidence":"<main work/test evidence>"}
+LOOP_RESULT: IN_PROGRESS
+```
+
+Phases: economic, main-incomplete, accepted, parked. At most two attempts; repeated same receipt must be identical, not a second failure. Contract/task/work id immutable. Main phase requires two actual linked quality failures plus real runtime lease. Reports persist across ticks in runner-owned ignored state; preflight/selection supplies economic-first/economic-correction/main-takeover-required hint. The hint never overrides the actual Host lifecycle or unavailable budget/blocked task. Accepted package with unfinished task uses IN_PROGRESS; COMPLETED requires task DONE and normal acceptance. A new package needs genuinely distinct bounded acceptance, not relabeling unfinished work.
+
+## Manager close-out without fake failures
+
+After the worker is disposed and any main lease ended, `manager_report` writes ONLY the active locked manual runner report. Pass exact run_id and concise content, never a model-supplied path. It derives and checks current state/lock/reportPath, refuses foreign/old/paused run or symlink/junction target, and dispatches the real native write so sandbox/approval can deny it. Use manager_check loop-finish afterward. No failed worker is needed merely to write a report. This is narrow report bookkeeping, not source/task/budget/state mutation authority.
+
+## Deployment/verification
+
+Custom profile overlay v2.0.0 installed live before project framework edits; final hardened fresh generation v2.1.0 also applied live with event-time/route-bound replay and manager_report closeout; selected Muse subscription3 Contributor/xhigh preserved. Existing roots adopt manager_review/manager_work; no game work on install. Offline real Cordis/AgentLoop/native child lifecycle demonstrates two intentionally failing fixture acceptances, main read through native pipeline, lease end, next cheap package, no main model mutation. Physical junction escape rejected; native independent guard still denies. No live game/art acceptance or actual token-savings measurement implied. Exact preflight/wait controls reduce fake-delegation overhead.
+
+No new/duplicate schedule or cadence change. Existing owning reminder must reference .loop/tick.md; this repo cannot override stale separately stored human instructions. Other standard/strong-specialist modes keep their behavior and independent verifier scope.

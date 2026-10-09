@@ -5,6 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
+import { applyWorkReport, packageHint } from './work-package.mjs';
 
 const TASK_ID = /^[A-Z][A-Z0-9]*-\d+[A-Z]?$/;
 const KINDS = ['RECOVERABLE', 'WAITING_FOR_OWNER', 'WAITING_FOR_PROVIDER', 'SAFETY_STOP'];
@@ -111,6 +112,7 @@ export function reviewDue(repoRoot) {
 }
 
 export function planIteration(repoRoot, mode, state, options = {}) {
+  if (state.paused) return { kind: 'safety-paused', mode, reason: state.pauseReason ?? 'existing global pause', notify: true };
   const config = loadAutonomy(repoRoot);
   if (!config) return { kind: 'legacy', mode, taskId: null, notify: true };
   const tasks = parseQueue(fs.readFileSync(path.join(repoRoot, 'TASKS.md'), 'utf8'));
@@ -138,7 +140,7 @@ export function planIteration(repoRoot, mode, state, options = {}) {
     throw new Error('autonomy: invalid parked task kind');
   });
   const task = eligible.find(t => t.status === 'IN_PROGRESS') ?? eligible.find(t => t.status === 'TODO');
-  if (task) return { kind: 'consumer', mode: 'Consumer', taskId: task.id, title: task.title, fingerprint, notify: true, taskTimeboxMinutes: config.taskTimeboxMinutes };
+  if (task) return { kind: 'consumer', mode: 'Consumer', taskId: task.id, title: task.title, fingerprint, notify: true, taskTimeboxMinutes: config.taskTimeboxMinutes, workPackage: packageHint(state, task.id) };
   const waiting = tasks.filter(t => t.status === 'BLOCKED' || ['TODO', 'IN_PROGRESS'].includes(t.status)).map(t => ({ id: t.id, status: t.status, dependencies: t.dependencies }));
   if (!waiting.length && mode === 'Auto' && state.quietFingerprint !== fingerprint) return { kind: 'producer', mode: 'Producer', taskId: null, fingerprint, notify: true, reason: 'one opportunity review for changed empty queue' };
   return { kind: 'wait', mode, taskId: null, fingerprint, waiting, notify: state.waitFingerprint !== fingerprint, reason: 'no authorized ready task; no status reset or new work invented' };
@@ -179,9 +181,14 @@ export function parseDisposition(report, result) {
 
 /** Returns detached state; never edits the queue, caps, locks or owner decisions. */
 export function applyOutcome(repoRoot, state, metadata, report, result, options = {}) {
+  if (state.paused) throw new Error('autonomy: existing global pause requires explicit owner resume before any outcome');
   const config = loadAutonomy(repoRoot);
   const d = parseDisposition(report, result);
-  const next = JSON.parse(JSON.stringify(state));
+  let next = JSON.parse(JSON.stringify(state));
+  if (config) {
+    const tasks = parseQueue(fs.readFileSync(path.join(repoRoot, 'TASKS.md'), 'utf8'));
+    next = applyWorkReport(next, metadata, report, result, tasks);
+  }
   next.activeRun = null; next.transientSkips = 0;
   next.paused = ['BLOCKED', 'REGRESSION'].includes(result);
   next.pauseReason = next.paused ? result : null;

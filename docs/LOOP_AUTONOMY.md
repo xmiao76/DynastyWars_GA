@@ -10,6 +10,12 @@ An approved art request may be generated only after the existing authoring/repai
 
 Timebox: one complete task package up to **25 minutes** (for half-hourly cadence, reserve time to finish/release). No artificial cap on inexpensive commands/overlay opens beyond actual capability/risk/time. For foreground economical delegation, give exactly one worker the selected task's bounded end-to-end package: inspect → measure → correct proved errors → evaluate → persist evidence → applicable tests → return. Main yields repository writes until the foreground call settles; no async continuation, nested runners or extra writer. Specialist read-only orders stay read-only. Main reviews critical evidence, actual diff and acceptance; neither delegated work nor a new strategy resets attempts or spending. Do not relay numeric tables from memory—use hashed source/artifact paths and re-derive.
 
+## Economic-first, main rescue (owner approved 2026-10-09)
+
+Read `docs/ECONOMIC_TAKEOVER.md` when using standard-econ-subagents. Default economic attempt, recorded manager acceptance, ONE targeted linked correction; two consecutive same-package QUALITY failures unlock bounded CURRENT main-agent work, not a third smart subagent. Close accepted/incomplete/parked honestly and return next package to economic-first. Runtime reviews/lease authorize only original scope/access and do not weaken resource/recovery/producer checks. Quota/permission/funding/owner blocks do not qualify. Main generation is not implicitly authorized. Package escalation failures and three TOTAL failed consumer iterations are separate counters; neither model switch nor lease resets either.
+
+A single optional `LOOP_WORK` JSON report persists advisory package phase/contract/receipts for next-tick hints. Native Host reviews/leases remain execution authority; runner JSON never grants permissions. Existing other modes and legacy reports remain supported. See the schema/example in `docs/ECONOMIC_TAKEOVER.md`.
+
 ## Planner and state ownership
 
 - `.loop/autonomy.json` enables the policy, a 25-minute package and **three total failed recovery iterations**. Older profiles without this file retain old strict behavior.

@@ -33,6 +33,8 @@ park the selected task, not independent ready work. Invalid report/regression/
 safety/unknown-write outcomes still pause globally. A separately stored old
 reminder's instructions cannot be silently superseded just by editing this file.
 
+Economic-first V2: owning thread uses `docs/ECONOMIC_TAKEOVER.md` through the live runbook. Two same-package quality failures permit bounded current-main rescue, not a new schedule/agent tier; next package defaults cheap. Package hints never reset task recovery/image budgets or owner blocks. Runtime exact controls include loop-preflight/loop-wait/loop-begin/loop-finish, so quiet ticks need no fake worker. Installation preserves the actual reminder and cadence; no separately stored prompt was changed here.
+
 ## Historical hourly driver setup (retained reference; not current tick prompt)
 
 Instead of OS tasks or background jobs, the loop can run as a DSH repeating

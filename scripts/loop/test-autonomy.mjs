@@ -14,6 +14,32 @@ export function registerAutonomyTests({ fixture, run, calls, state, snapshot }) 
   }
   const report = (kind, result, taskId = 'A-1', extra = {}) => `Evidence\nLOOP_DISPOSITION: ${JSON.stringify({ version: 1, kind, taskId, reason: 'Exact fixture condition with evidence', ...extra })}\nLOOP_RESULT: ${result}\n`;
 
+  test('manual reports persist work package across ticks without resetting recovery and invalid escalation safety-pauses', async () => {
+    const root=fixture(); enable(root,[['A-1','IN_PROGRESS']]);
+    const attempt=(callId,correctionOf)=>({callId,...(correctionOf?{correctionOf}:{}),outcome:'fail',failureKind:'quality',disposed:true,criterion:'fixture',evidence:'observed failure'});
+    const work=(attempts)=>({version:1,taskId:'A-1',workId:'A-1-package',contractHash:'a'.repeat(64),phase:'economic',attempts,criterion:'fixture',evidence:'actual evidence'});
+    for(const attempts of [[attempt('w1')],[attempt('w2','w1')]]) {
+      const begun=JSON.parse((await run(root,['--begin-manual'])).output);
+      fs.writeFileSync(begun.reportPath,'Evidence\nLOOP_WORK: '+JSON.stringify(work(attempts))+'\nLOOP_RESULT: IN_PROGRESS\n');
+      await run(root,['--finish-manual']);
+    }
+    const p=JSON.parse((await run(root,['--preflight'])).output);
+    assert.equal(p.workPackage.role,'main-takeover-required'); assert.equal(p.workPackage.advisoryOnly,true);
+    assert.equal(state(root).workPackages['A-1-package'].attempts.length,2);
+    assert.equal(state(root).recoveryFailures?.['A-1']?.total??0,0);
+    const begun=JSON.parse((await run(root,['--begin-manual'])).output);
+    fs.writeFileSync(begun.reportPath,'Evidence\nLOOP_WORK: '+JSON.stringify(work([attempt('w3','w2')]))+'\nLOOP_RESULT: IN_PROGRESS\n');
+    await run(root,['--finish-manual'],1);assert.equal(state(root).paused,true);
+  });
+
+  test('exported planning/outcome policy never clears an existing global pause',()=>{
+    const root=fixture();enable(root,[['A-1','IN_PROGRESS']]);
+    const paused={paused:true,pauseReason:'owner-only safety stop'};
+    assert.equal(planIteration(root,'Auto',paused,{reviewDue:false}).kind,'safety-paused');
+    assert.throws(()=>applyOutcome(root,paused,{plan:{kind:'consumer',taskId:'A-1'}},report('RECOVERABLE','IN_PROGRESS','A-1',{recoveryFailed:false}),'IN_PROGRESS'),/existing global pause/);
+    assert.equal(paused.paused,true);
+  });
+
   test('queue planner skips blocked ordering branches, preserves hard prerequisites and catches cycles/malformed IDs', () => {
     const root = fixture(); enable(root, [['A-1', 'BLOCKED'], ['A-2', 'TODO', ['A-1']], ['B-1', 'TODO']]);
     assert.equal(planIteration(root, 'Auto', {}, { reviewDue: false }).taskId, 'B-1');

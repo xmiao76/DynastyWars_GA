@@ -24,6 +24,16 @@ Execute exactly one bounded CONSUMER iteration:
    routine intermediate operations inside the envelope. Do not overwrite
    unrelated work. For one foreground worker, main yields all writes until
    the call settles, then verifies critical diff/evidence; no async continuation.
+4-economic. In standard-econ-subagents follow docs/ECONOMIC_TAKEOVER.md:
+    default economic_worker; record manager_review against actual acceptance;
+    first QUALITY fail gets ONE targeted linked same-contract correction; second
+    consecutive QUALITY fail requires bounded current main manager_work lease,
+    not third cheap retry or expensive-worker subagent. Same work_id/scope/access,
+    disposed worker and no live jobs; close lease accepted/incomplete/parked.
+    Next package defaults economic. Main uses remaining tick time and existing
+    task/recovery/resource caps; quota/funding/permission/owner waits don't unlock.
+    Add one advisory LOOP_WORK line before disposition/final marker, exact Host
+    receipts/hash, never hand-edit runner state or claim independent verification.
 4a. For a CMR character AUTHORING task, run the Acceptance-4 projection
     gate after EACH sheet acceptance (`scripts/pack-projection.mjs`):
     fix ONE global brief band from the anchor sheet and never silently

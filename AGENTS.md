@@ -60,6 +60,20 @@ These instructions describe behavior, not a particular model, API, or agent host
 9. Run only one development writer in this repository at a time. During ordinary
    iterations do not start nested runners, background agents, timers, or scheduled
    tasks. Scheduling is an explicit owner action outside the model iteration.
+   Owner-approved two-role enhancement (2026-10-09): default each bounded work
+   package to economic_worker. Record a manager acceptance review; first quality
+   failure gets ONE targeted same-contract foreground correction. Two consecutive
+   linked quality failures of that exact package permit the current smart MAIN
+   agent to take over via manager_work begin/perform/end, never a third expensive
+   worker. Wait for child disposal and all same-project jobs to settle first.
+   Preserve work_id, acceptance, access, file scope and evidence across turns;
+   quota/auth/permission/owner/funding failures do NOT unlock takeover. Main
+   takeover has a 15-minute lease, 25-minute total/48 native operations/3 leases
+   per package, also bounded by this iteration's remaining time/resources. Finish
+   accepted/incomplete/parked honestly; accepted closes the package and the NEXT
+   package defaults economic again. Main self-review never replaces independent
+   producer verification. Follow docs/ECONOMIC_TAKEOVER.md; model/role switch
+   does not grant generation, budget, lock, pause or task-reset authority.
 10. Visual-review findings rated S1-S3, with screenshot evidence and a located
     root cause, are defects, not proactive work. A producer files them in
     batches of at most six `UIR-n` tasks (`docs/VISUAL_REVIEW.md` section 4).

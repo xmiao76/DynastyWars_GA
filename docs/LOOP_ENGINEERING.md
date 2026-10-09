@@ -176,6 +176,10 @@ under ignored `artifacts/loop/`. `--status` reads state and lock without requiri
 adapter configuration. The runner does not independently certify an agent's
 claimed acceptance results; inspect its evidence and retain the project gates.
 
+### Economic-first two-role rescue (owner-approved 2026-10-09)
+
+See [ECONOMIC_TAKEOVER.md](ECONOMIC_TAKEOVER.md): economic attempt + one targeted linked correction, two genuine acceptance failures unlock scoped CURRENT main-agent work, then the next package returns economic. Host review/lease receipts enforce execution; runner `LOOP_WORK` persists advisory cross-tick phase/contracts/attempts and preflight hints only. No new smart-worker third role, account switch, budget/consumer-recovery reset, blocked reopen or weaker independent checks. Generation remains outside automatic main-native authority. Legacy reports/other modes stay compatible; malformed package metadata fails closed.
+
 ### CMR Acceptance-4 recovery (owner-approved)
 
 When the selected cast-motion A task fails its head/weapon consistency check,
