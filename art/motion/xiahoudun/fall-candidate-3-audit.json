@@ -1,1 +1,374 @@
-{"budget":{"fallSheetCandidates":"3/3 (ONE-TIME owner-authorized dual exception owner-2026-10-09-cmr14a-fall3-stacked: fall 2->3 AND xiahoudun 15->16; cap stays 12, exception visible)","globalCap":200,"globalUsedAfter":142,"repairReserve":"0/3 (untouched this tick)","xiahoudunCap":12,"xiahoudunUsedAfter":16},"choreography":"cells 0-4 read distinct on the opened 1x grid strip: stagger-back topple (0, tipping back, arm flailing up, spear gripped LEVEL) / airborne (1, feet off ground, twisting lean, spear clear) / kneel-turn tumble (2, grounded knee, reaching, spear alongside) / kneel impact (3, low kneel bounce, spear gripped) / DOWN grounded-extended (4, prone-extended legs back, head in strict side profile clear of ground, spear alongside still gripped - MEASURABLE-looking, never buried); spares 5-8 in-family stagger-back/seated alternates, NO additional flat-prone cells. Matches AUTHORING-PLAN fall 5 beats + lidian 5-core order + shared-contract fall/impact/down + thrown/dying-dead reuse semantics with pose-moderation applied (self-check on opened 1x grid strip). WATCH ITEM: cells 2/3/6 read as same-family kneel variants with minor arm/torso shifts, not 5 strongly distinct beats; recorded honestly, NOT a design reject (design audit is pose-identity-separation-guides, not a variety gate)","composition":{"alphaNote":"JPEG provider bytes: fully opaque, no alpha channel; separation is a VISUAL self-check only (9 figures visually separated with clear checker gaps, no touching/overlaps/merges at 1x on the opened strip)","cellH":277.3333333333333,"cellW":416,"cols":3,"cornerSamples":{"bl":[255,254,255,255],"br":[219,218,223,255],"tl":[206,206,206,255],"tr":[254,254,254,255]},"cornerSamplesNote":"provider-painted checkerboard backdrop (same class as misc-3/4/5 JPEG sheets); corners are checker ink, not transparency","dims":[1248,832],"edgeContactPx":4160,"edgeNote":"4160 = full perimeter 2*(1248+832); trivially all-opaque on JPEG, NOT a bleed defect","grid":{"cellH":277.3333333333333,"cellW":416,"cols":3,"rows":3,"stripMatchesSheet":true},"note":"numbers from artifacts/tmpcheck/fall-audit-cand3.mjs (grid-matches-sheet asserts green: decoded dims 1248x832 read from bytes never assumed, 3x3 divides exactly, strip dims equal sheet dims)"},"evidence":[{"note":"1x labeled 3x3 grid strip rendered FROM the sheet bytes at native dims (asserted equal), OPENED for design audit with verdict CLEAN self-check","path":"artifacts/motion/xiahoudun/fall-review/fall-gridstrip-cand3.png","sha256":"19e1afa9d8090249a4016a93ec716d0d3eeede44077b6b3883bd5bdbc65e96976"}],"fighter":"xiahoudun","headVisibility":{"fig0":"head upper-left, profile facing right, crown + beard clear of flailing arm","fig1":"head upper area, profile facing right, crown + beard clear","fig2":"head right side, profile facing right, clear of reaching arm","fig3":"head center, profile facing right, clear of kneel arms","fig4":"DOWN grounded head right, profile facing right, clear of ground plane, crown-to-beard measurable-looking at 1x","fig5":"head upper area, profile facing right, clear of raised arm","fig6":"kneel head left, profile facing right, clear","fig7":"seated head left-center, profile facing right, clear","fig8":"seated head left-center, profile facing right, clear","note":"all 9 heads fully visible in side view at 1x self-check with crown + beard/jaw unoccluded - NO occluded/unmeasurable head at design audit; beards hang free of shafts at 1x (shafts routed LOW clear of chins); blind-right-eye + scar detail NOT verifiable at 1x (same 1x limit as misc/fall priors) - check on scale-gate head crops; a buried/cropped/hidden head at gate measurement is a design defect to record (UNMEASURABLE precedent: never a pass)"},"identity":"headband+topknot/full dark beard/dark lamellar with magenta-purple + magenta scarf/dark robe/boots read clean all nine; leaf head + red tassel + butt cap each spear; no helmet/sword/extra limbs seen; blind-right-eye + scar detail NOT verifiable at 1x - check on scale-gate head crops; no guides/dotted lines visible at 1x (self-check; magenta grid is strip overlay only, checker is provider-painted JPEG backdrop disclosed)","next":"SCALE GATE runs NEXT tick, gate-FIRST on arrival else REJECT before any other work on it (thresholds below). Do NOT prepare from this candidate until the gate passes. Pack-prep honors recorded scale=1; charge judgement still needs owner eye. Task stays IN_PROGRESS.","output":{"bytes":442315,"height":832,"immutable":true,"preservedAs":"art/motion/xiahoudun/fall-candidate-3.png (byte-identical copy of provider bytes, never edited)","sha256":"b2ea48772587530efbd7ed4b9e0d47fae4b95f958a1cec238b927bcb1fb5aceb","width":1248},"palette":{"meanLuma":0.774,"meanLumaNote":"whole-image including provider-painted checkerboard backdrop (same class as misc JPEG sheets); FIGURE palette reads dark-muted in-family at 1x eyeball - no numeric figure-only gate computed this tick","meanSat":0.05,"nearWhite":423113,"nearWhiteNote":"checker white squares + spearhead steel highlights; no numeric palette gate exists; acceptable with backdrop disclosure","note":"dark-muted figures in the walk/misc family (red tassels/scarf accents); no bright rims at 1x"},"prompt":{"anchors":"figs ~315-325px sole-to-headgear (grounded: crown-to-heel at same scale); heads ~63-68px crown-beard (walk mean 64.7); spears 404-447px (fixed band 404.16-446.70) with FULL-SPAN 97%+ usable-cell-width edge-to-edge forcing band-top ~425-442px","antiMerge":"40px+ empty gaps, no touching/overlaps (VISUAL self-check on opened strip: 9 separated figures with clear checker gaps; magenta gridlines are strip overlay only)","failuresNamed":"ALL ELEVEN: (a) heavy cand-2 106.8 / cand-3 [95,80,112,109,104] mean 100.0 uniform overshoot; (b) misc-1 [44,77,77,86,85,53,93,90,57] mean 73.56 scatter 5/9 out; (c) misc-2 [48,122,86,98,91,53,90,144,66] mean 88.67 7/9 out, 3.0x spread, <=1.15x demand FAILED; (d) fall-1 [76,55,81,71,92,47] + figs 6-8 UNMEASURABLE (beard-on-spear / UNVERIFIED-caveated short pair / crown-only); (e) getup-1 [79,99,84] mean 87.33 + 6/9 UNMEASURABLE merges; (f) getup-2 [91,94,90] mean 91.67 + 6 UNMEASURABLE incl fig3 H=86 voided scarf-latch; (g) fall-2 sole fig2 H=87 Tier V robust fail + mean 87.0 fail + 8 UNMEASURABLE; (h) misc-3 weapon [378.1,310.4,289.5,335.3,362.1] spread 26.44% 0/5 despite scale PASS 59.22; (i) misc-4 weapon [375.49,370.36,337.32,350.56,429.69] spread 24.79% 1/5 despite scale PASS 66.11; (j) misc-5 scale [42,88,73,64,64,76,71,72,70] mean 68.89 PASS mean but fig0 42 OUT-LOW + fig1 88 OUT-HIGH (TRUE pose variance, zero corrections); (k) MEASURE-SPEARS [345.28,371.59,364.50,355.88,358.62] spread 7.33% PASS but band 0/5 UNIFORM-SHORT (spear-fixed validated, anchor missed - full-span is the fix)","file":"art/motion/xiahoudun/fall-prompt-3.txt","fileSha256":"73feef90e913826666d03944df57153d2d31aeaf88a6033b8cde50f6bb70f7c3","headVisibilityDemand":"every head FULLY VISIBLE in strict side view incl. grounded DOWN/impact/kneel-turn - crown+beard unoccluded; unmeasurable head FAILS audit like a missing spear; pose-moderation (stagger-back/kneel/seated, single measurable DOWN) is the structural fix","layoutJustification":"compact 3x3 KEPT - explicitly justified vs 0-for-11 evidence: 5-wide rows drew uniformly huge twice, 3x3 is the ONLY layout yet to draw near walk scale (three passing means), but it scattered thrice, hid heads four times, merged beards four times, overshot twice, drew short once; uniformity + measurability + beard-separation + full-span directly target each failure","stackedCore":"(1) SPEAR-FIXED: all 5 core spears LEVEL same-grip, body varies around fixed spear (validated 7.33%); (2) FULL-SPAN 97%+ edge-to-edge forcing band-top ~425-442px (anchor fix for uniform-short 0/5); (3) POSE-MODERATION: stagger-back/kneel/seated beats, measurable heads, single measurable DOWN, no flat-prone unmeasurables, spec semantics preserved; (4) GROK SCALE: walk-matched scale (misc-3 59.22 PASS precedent)","uniformityDemand":"all 9 heads SAME size regardless of pose; largest <=1.15x smallest (note: written demand alone did NOT steer misc-2/fall-1 - still enforced at audit)"},"request":{"authorization":"ONE-TIME dual exception owner-2026-10-09-cmr14a-fall3-stacked: fall 2->3 AND xiahoudun 15->16; cap stays 12; global 141->142/200 enforced; scale-gate FIRST else REJECT; no further requests/refunds/waivers/budget implicit; NOT DONE/14B","fallSheetCandidates":3,"globalUsedAfter":142,"kind":"whole-sheet","ledger":"art/motion/generation-budget.json","providerRequested":"image_generate provider grok EXPLICIT, exactly ONE call","providerServed":"grok (requested grok EXPLICIT; no fallback notice in the tool result - recorded per pattern)","references":"NONE ATTACHED - text-only by harness limitation, disclosed. ONE genuine referenceImages attempt: all 3 masters re-read via read_image + hash-verified + OPENED (body a57630a2e29eb45616143bd6b8887988b4c66102893e88616e35cabf93ea651a 832x1248; portrait 01bb7271ed5f849a84f7329b778ef4bf9cb2fca9316639fe5d67f5e54224363b 1280x720; walk-corrected 0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685 1535x1024). Verbatim result shape: read_image returns the image plus text Image \"<name>\" (sha256:<hex>); request preview <W>x<H>px. Normalized copy (read-only; may be resized or re-encoded): \"<path>\" (<W>x<H>px, image/<type>). Source dimensions, format, and byte size may differ. Copy to a writable path ending in .<ext> before editing. - carrying NO attachmentId field, so no referenceImages objects could be supplied to image_generate. Identity-must-pass-audit-or-reject."},"scaleGate":{"method":"overlay-landmark ONLY, SAME ruler as heavy/misc/fall-1/fall-2/getup gates: vertical H=beardY-crownY in sheet px on 3x sheet-coord grids; crowns on bun tops, beards on lowest beard-hair pixels. Runs NEXT tick, gate-FIRST.","next":"gate-FIRST on arrival else REJECT before any other work on it","perFigBand":[48.5,80.9],"perFigRule":"NO fig outside +/-25% of walk 64.7 (band 48.5-80.9)","status":"PENDING - NO verdict this tick BY DESIGN (this package ends at design audit)","thresholds":"mean crown-beard head height within +/-15% of walk 64.7px (gate band 55.0-74.4) AND no fig outside +/-25% (per-fig band 48.5-80.9)","verdict":"NONE - scale gate runs next tick","walkRef":64.7},"sequence":"fall","spearCompleteness":"all nine spears read complete butt-cap-to-head-tip with leaf head + tassel at 1x INCLUDING grounded DOWN (spear alongside body still gripped, both ends in empty margin); spear-level + full-span eyeball: all 9 LEVEL near-horizontal same-grip carry, edge-to-edge spans, eyeball-similar lengths (numbers-over-squints - endpoint measurement + overlay verification deferred to the scale-gate tick)","spearheads":{"count":9,"note":"exactly one per drawing at 1x, no floaters (self-check); positions to be pinned on enlarged strips at scale gate"},"status":"CANDIDATE_GENERATED_DESIGN_AUDITED_SCALE_GATE_PENDING"}
+{
+  "budget": {
+    "fallSheetCandidates": "3/3 (ONE-TIME owner-authorized dual exception owner-2026-10-09-cmr14a-fall3-stacked: fall 2->3 AND xiahoudun 15->16; cap stays 12, exception visible)",
+    "globalCap": 200,
+    "globalUsedAfter": 142,
+    "repairReserve": "0/3 (untouched this tick)",
+    "xiahoudunCap": 12,
+    "xiahoudunUsedAfter": 16
+  },
+  "choreography": "cells 0-4 read distinct on the opened 1x grid strip: stagger-back topple (0, tipping back, arm flailing up, spear gripped LEVEL) / airborne (1, feet off ground, twisting lean, spear clear) / kneel-turn tumble (2, grounded knee, reaching, spear alongside) / kneel impact (3, low kneel bounce, spear gripped) / DOWN grounded-extended (4, prone-extended legs back, head in strict side profile clear of ground, spear alongside still gripped - MEASURABLE-looking, never buried); spares 5-8 in-family stagger-back/seated alternates, NO additional flat-prone cells. Matches AUTHORING-PLAN fall 5 beats + lidian 5-core order + shared-contract fall/impact/down + thrown/dying-dead reuse semantics with pose-moderation applied (self-check on opened 1x grid strip). WATCH ITEM: cells 2/3/6 read as same-family kneel variants with minor arm/torso shifts, not 5 strongly distinct beats; recorded honestly, NOT a design reject (design audit is pose-identity-separation-guides, not a variety gate)",
+  "composition": {
+    "alphaNote": "JPEG provider bytes: fully opaque, no alpha channel; separation is a VISUAL self-check only (9 figures visually separated with clear checker gaps, no touching/overlaps/merges at 1x on the opened strip)",
+    "cellH": 277.3333333333333,
+    "cellW": 416,
+    "cols": 3,
+    "cornerSamples": {
+      "bl": [
+        255,
+        254,
+        255,
+        255
+      ],
+      "br": [
+        219,
+        218,
+        223,
+        255
+      ],
+      "tl": [
+        206,
+        206,
+        206,
+        255
+      ],
+      "tr": [
+        254,
+        254,
+        254,
+        255
+      ]
+    },
+    "cornerSamplesNote": "provider-painted checkerboard backdrop (same class as misc-3/4/5 JPEG sheets); corners are checker ink, not transparency",
+    "dims": [
+      1248,
+      832
+    ],
+    "edgeContactPx": 4160,
+    "edgeNote": "4160 = full perimeter 2*(1248+832); trivially all-opaque on JPEG, NOT a bleed defect",
+    "grid": {
+      "cellH": 277.3333333333333,
+      "cellW": 416,
+      "cols": 3,
+      "rows": 3,
+      "stripMatchesSheet": true
+    },
+    "note": "numbers from artifacts/tmpcheck/fall-audit-cand3.mjs (grid-matches-sheet asserts green: decoded dims 1248x832 read from bytes never assumed, 3x3 divides exactly, strip dims equal sheet dims)"
+  },
+  "evidence": [
+    {
+      "note": "1x labeled 3x3 grid strip rendered FROM the sheet bytes at native dims (asserted equal), OPENED for design audit with verdict CLEAN self-check",
+      "path": "artifacts/motion/xiahoudun/fall-review/fall-gridstrip-cand3.png",
+      "sha256": "19e1afa9d8090249a4016a93ec716d0d3eeede44077b6b3883bd5bdbc65e96976"
+    },
+    {
+      "note": "B1 marked overlay figs 0-4 (final measurement), OPENED for gate verdict; all 5 labels readable",
+      "path": "artifacts/motion/xiahoudun/fall-review/fall-cand3-b1-marked2.png",
+      "sha256": "88f8150e3a81c7cfa1b7640c74e434d89692003500d2d4ea6940f095d7518b58"
+    },
+    {
+      "note": "B2 marked overlay figs 5-8 (final measurement), OPENED for gate verdict; all 4 labels readable",
+      "path": "artifacts/motion/xiahoudun/fall-review/fall-cand3-b2-marked2.png",
+      "sha256": "a64dad3863d182b1731537f52671e43574dbba863b38d5c29b29453c75095498"
+    },
+    {
+      "note": "ONE mandatory fragile-zoom sheet (every member within +/-10 of a band edge + every out-of-band member: f2/f3/f5/f6), rendered + OPENED; confirm-or-correct record",
+      "path": "artifacts/motion/xiahoudun/fall-review/fall-cand3-fragile-zoom.png",
+      "sha256": "6f9cd83303ac9e1226ae4d8d078c8d537bb7d78c041db3b089fd8be6052f08d7",
+      "dims": "440x3018"
+    },
+    {
+      "note": "fig2 correction-attempt finder (inside existing B1 box): bun apex + hanging curtain; support for VOID",
+      "path": "artifacts/motion/xiahoudun/fall-review/fall-cand3-f2-find.png",
+      "sha256": "1f769248d82f5c68b99569d2f63467dd486444c41c69caa38ebd7a8687b93974",
+      "dims": "570x700"
+    },
+    {
+      "note": "fig2 beard-merge proof (curtain continuous to box bottom y181-190, no gap boundary); support for UNMEASURABLE",
+      "path": "artifacts/motion/xiahoudun/fall-review/fall-cand3-f2-find2.png",
+      "sha256": "b339ff10f8393921d7e16477bce57495b76d19193a13080b8cde64a50f1a62c4",
+      "dims": "390x580"
+    }
+  ],
+  "fighter": "xiahoudun",
+  "headVisibility": {
+    "fig0": "head upper-left, profile facing right, crown + beard clear of flailing arm",
+    "fig1": "head upper area, profile facing right, crown + beard clear",
+    "fig2": "head right side, profile facing right, clear of reaching arm",
+    "fig3": "head center, profile facing right, clear of kneel arms",
+    "fig4": "DOWN grounded head right, profile facing right, clear of ground plane, crown-to-beard measurable-looking at 1x",
+    "fig5": "head upper area, profile facing right, clear of raised arm",
+    "fig6": "kneel head left, profile facing right, clear",
+    "fig7": "seated head left-center, profile facing right, clear",
+    "fig8": "seated head left-center, profile facing right, clear",
+    "note": "all 9 heads fully visible in side view at 1x self-check with crown + beard/jaw unoccluded - NO occluded/unmeasurable head at design audit; beards hang free of shafts at 1x (shafts routed LOW clear of chins); blind-right-eye + scar detail NOT verifiable at 1x (same 1x limit as misc/fall priors) - check on scale-gate head crops; a buried/cropped/hidden head at gate measurement is a design defect to record (UNMEASURABLE precedent: never a pass)"
+  },
+  "identity": "headband+topknot/full dark beard/dark lamellar with magenta-purple + magenta scarf/dark robe/boots read clean all nine; leaf head + red tassel + butt cap each spear; no helmet/sword/extra limbs seen; blind-right-eye + scar detail NOT verifiable at 1x - check on scale-gate head crops; no guides/dotted lines visible at 1x (self-check; magenta grid is strip overlay only, checker is provider-painted JPEG backdrop disclosed)",
+  "next": "SCALE GATE COMPLETE 2026-10-09: REJECTED-do-not-prepare (fig6 H=89 out-of-band HIGH + fig2 UNMEASURABLE with reported H=54 void). Do NOT prepare from this candidate. Next: misc/fall/getup funding conversation. Task stays IN_PROGRESS.",
+  "output": {
+    "bytes": 442315,
+    "height": 832,
+    "immutable": true,
+    "preservedAs": "art/motion/xiahoudun/fall-candidate-3.png (byte-identical copy of provider bytes, never edited)",
+    "sha256": "b2ea48772587530efbd7ed4b9e0d47fae4b95f958a1cec238b927bcb1fb5aceb",
+    "width": 1248
+  },
+  "palette": {
+    "meanLuma": 0.774,
+    "meanLumaNote": "whole-image including provider-painted checkerboard backdrop (same class as misc JPEG sheets); FIGURE palette reads dark-muted in-family at 1x eyeball - no numeric figure-only gate computed this tick",
+    "meanSat": 0.05,
+    "nearWhite": 423113,
+    "nearWhiteNote": "checker white squares + spearhead steel highlights; no numeric palette gate exists; acceptable with backdrop disclosure",
+    "note": "dark-muted figures in the walk/misc family (red tassels/scarf accents); no bright rims at 1x"
+  },
+  "prompt": {
+    "anchors": "figs ~315-325px sole-to-headgear (grounded: crown-to-heel at same scale); heads ~63-68px crown-beard (walk mean 64.7); spears 404-447px (fixed band 404.16-446.70) with FULL-SPAN 97%+ usable-cell-width edge-to-edge forcing band-top ~425-442px",
+    "antiMerge": "40px+ empty gaps, no touching/overlaps (VISUAL self-check on opened strip: 9 separated figures with clear checker gaps; magenta gridlines are strip overlay only)",
+    "failuresNamed": "ALL ELEVEN: (a) heavy cand-2 106.8 / cand-3 [95,80,112,109,104] mean 100.0 uniform overshoot; (b) misc-1 [44,77,77,86,85,53,93,90,57] mean 73.56 scatter 5/9 out; (c) misc-2 [48,122,86,98,91,53,90,144,66] mean 88.67 7/9 out, 3.0x spread, <=1.15x demand FAILED; (d) fall-1 [76,55,81,71,92,47] + figs 6-8 UNMEASURABLE (beard-on-spear / UNVERIFIED-caveated short pair / crown-only); (e) getup-1 [79,99,84] mean 87.33 + 6/9 UNMEASURABLE merges; (f) getup-2 [91,94,90] mean 91.67 + 6 UNMEASURABLE incl fig3 H=86 voided scarf-latch; (g) fall-2 sole fig2 H=87 Tier V robust fail + mean 87.0 fail + 8 UNMEASURABLE; (h) misc-3 weapon [378.1,310.4,289.5,335.3,362.1] spread 26.44% 0/5 despite scale PASS 59.22; (i) misc-4 weapon [375.49,370.36,337.32,350.56,429.69] spread 24.79% 1/5 despite scale PASS 66.11; (j) misc-5 scale [42,88,73,64,64,76,71,72,70] mean 68.89 PASS mean but fig0 42 OUT-LOW + fig1 88 OUT-HIGH (TRUE pose variance, zero corrections); (k) MEASURE-SPEARS [345.28,371.59,364.50,355.88,358.62] spread 7.33% PASS but band 0/5 UNIFORM-SHORT (spear-fixed validated, anchor missed - full-span is the fix)",
+    "file": "art/motion/xiahoudun/fall-prompt-3.txt",
+    "fileSha256": "73feef90e913826666d03944df57153d2d31aeaf88a6033b8cde50f6bb70f7c3",
+    "headVisibilityDemand": "every head FULLY VISIBLE in strict side view incl. grounded DOWN/impact/kneel-turn - crown+beard unoccluded; unmeasurable head FAILS audit like a missing spear; pose-moderation (stagger-back/kneel/seated, single measurable DOWN) is the structural fix",
+    "layoutJustification": "compact 3x3 KEPT - explicitly justified vs 0-for-11 evidence: 5-wide rows drew uniformly huge twice, 3x3 is the ONLY layout yet to draw near walk scale (three passing means), but it scattered thrice, hid heads four times, merged beards four times, overshot twice, drew short once; uniformity + measurability + beard-separation + full-span directly target each failure",
+    "stackedCore": "(1) SPEAR-FIXED: all 5 core spears LEVEL same-grip, body varies around fixed spear (validated 7.33%); (2) FULL-SPAN 97%+ edge-to-edge forcing band-top ~425-442px (anchor fix for uniform-short 0/5); (3) POSE-MODERATION: stagger-back/kneel/seated beats, measurable heads, single measurable DOWN, no flat-prone unmeasurables, spec semantics preserved; (4) GROK SCALE: walk-matched scale (misc-3 59.22 PASS precedent)",
+    "uniformityDemand": "all 9 heads SAME size regardless of pose; largest <=1.15x smallest (note: written demand alone did NOT steer misc-2/fall-1 - still enforced at audit)"
+  },
+  "request": {
+    "authorization": "ONE-TIME dual exception owner-2026-10-09-cmr14a-fall3-stacked: fall 2->3 AND xiahoudun 15->16; cap stays 12; global 141->142/200 enforced; scale-gate FIRST else REJECT; no further requests/refunds/waivers/budget implicit; NOT DONE/14B",
+    "fallSheetCandidates": 3,
+    "globalUsedAfter": 142,
+    "kind": "whole-sheet",
+    "ledger": "art/motion/generation-budget.json",
+    "providerRequested": "image_generate provider grok EXPLICIT, exactly ONE call",
+    "providerServed": "grok (requested grok EXPLICIT; no fallback notice in the tool result - recorded per pattern)",
+    "references": "NONE ATTACHED - text-only by harness limitation, disclosed. ONE genuine referenceImages attempt: all 3 masters re-read via read_image + hash-verified + OPENED (body a57630a2e29eb45616143bd6b8887988b4c66102893e88616e35cabf93ea651a 832x1248; portrait 01bb7271ed5f849a84f7329b778ef4bf9cb2fca9316639fe5d67f5e54224363b 1280x720; walk-corrected 0aff5a39f190b88fad17acf54cf0874635eff9445c99a37025852910874b5685 1535x1024). Verbatim result shape: read_image returns the image plus text Image \"<name>\" (sha256:<hex>); request preview <W>x<H>px. Normalized copy (read-only; may be resized or re-encoded): \"<path>\" (<W>x<H>px, image/<type>). Source dimensions, format, and byte size may differ. Copy to a writable path ending in .<ext> before editing. - carrying NO attachmentId field, so no referenceImages objects could be supplied to image_generate. Identity-must-pass-audit-or-reject."
+  },
+  "scaleGate": {
+    "method": "overlay-landmark ONLY, SAME ruler as heavy/misc/fall-1/fall-2/getup gates: vertical H=beardY-crownY in sheet px on head-centered 4x boxes; crowns on bun-apex ink, beards on lowest beard-hair pixels above a gap. Verified this tick: BOTH marked overlays OPENED (b1-marked2 figs 0-4, b2-marked2 figs 5-8, all 9 labels readable), all 9 H re-derived from overlay labels + b1-mark2/b2-mark2 scripts, ONE fragile-zoom sheet rendered + OPENED (f2,f3,f5,f6), f2 correction-attempt finder views opened.",
+    "walkRef": 64.7,
+    "thresholds": "mean crown-beard head height within +/-15% of walk 64.7px (gate band 55.0-74.4) AND no fig outside +/-25% (per-fig band 48.5-80.9)",
+    "perFigBand": [
+      48.5,
+      80.9
+    ],
+    "perFigRule": "NO fig outside +/-25% of walk 64.7 (band 48.5-80.9); UNMEASURABLE/unknown is not a pass",
+    "reportedH": {
+      "fig0": 67,
+      "fig1": 61,
+      "fig2": 54,
+      "fig3": 75,
+      "fig4": 62,
+      "fig5": 80,
+      "fig6": 89,
+      "fig7": 68,
+      "fig8": 66,
+      "note": "re-derived by verifier from overlay labels + b1-mark2.mjs/b2-mark2.mjs MARKS (H=beard.y-crown.y); sum 622, mean 69.11"
+    },
+    "verifiedH": {
+      "fig0": 67,
+      "fig1": 61,
+      "fig2": "UNMEASURABLE (reported 54 VOID)",
+      "fig3": 75,
+      "fig4": 62,
+      "fig5": 80,
+      "fig6": 89,
+      "fig7": 68,
+      "fig8": 66
+    },
+    "verifiedMean": "71.00 over 8 measurable figs (sum 568; IN mean band 55.0-74.4, margin -3.4 to ceiling)",
+    "uniformityVerified": "max/min over 8 verified = 89/61 = 1.46x (reported 9 incl voided f2: 89/54 = 1.65x)",
+    "zoomFindings": {
+      "fig3": "CONFIRMED H=75 (crown rgb dark 9/9 on bun; beard dark 9/9, last-dark y381 above 2px gap 382-383 to spear; mark y380 within 1px eyeball)",
+      "fig5": "CONFIRMED H=80 (crown 5/9 on bun apex; beard 6/9 at dark-to-spear boundary, dark through 385 above 2px gap 386-387; 0.9px below ceiling - fragile, disclosed)",
+      "fig6": "CONFIRMED H=89 HARDEST scrutiny (crown 6/9 on bun; beard 6/9 at last-dark y648 above 2px gap 649-650, same tip-above-gap signature as f3/f5; chin-to-tip geometry consistent; NO latch-low evidence; +8.1 over ceiling)",
+      "fig2": "VOID - reported H=54 FABRICATED: crown (1018,75) rgb 152/152/150 dark3x3 0/9 + beard (1088,129) rgb 253/253/253 dark3x3 0/9, both floating in checker background on opened zoom (beard column x[1082,1094] y[104,154] all-gap); correction attempted via finder views - NO true beard-tip exists (curtain merges into torso, dark continuous to box bottom y181-190, no gap), placing one would be guessing; recorded UNMEASURABLE (beard-merge class, fall-1/2 precedent). 0 of the <=2 correction allowance consumed."
+    },
+    "slopRobustness": "Tier E +/-10 stress: verdict REJECT is robust - fig6 89-10=79 would enter band but fig2 UNMEASURABLE persists alone to sustain REJECT; mean 71+/-10 = 61-81 straddles ceiling (fragility disclosed). Eyeball +/-2: fig6 87-91 robustly out (needs -9, 4.5x eyeball); fig5 78-82 straddles ceiling (not load-bearing either way); fig3 73-77 robustly in. Verdict follows verified measurements.",
+    "identity": "CONFIRMED on opened overlays: all 9 show topknot+bun+headband, full dark beard, dark lamellar armor + magenta-purple scarf, spear with leaf head + tassel; no helmets/swords/extra limbs (fig2 head confirmed on finder views).",
+    "status": "REJECTED",
+    "verdict": "REJECT - do-not-prepare: fig6 H=89 out-of-band HIGH (+8.1 over 80.9 ceiling, +37.6% vs walk) AND fig2 UNMEASURABLE (reported H=54 void). Mean 71.00 passes but per-fig rule fails and unknown is not a pass.",
+    "next": "funding conversation for misc/fall/getup scope; do NOT prepare from this candidate; task stays IN_PROGRESS"
+  },
+  "sequence": "fall",
+  "spearCompleteness": "all nine spears read complete butt-cap-to-head-tip with leaf head + tassel at 1x INCLUDING grounded DOWN (spear alongside body still gripped, both ends in empty margin); spear-level + full-span eyeball: all 9 LEVEL near-horizontal same-grip carry, edge-to-edge spans, eyeball-similar lengths (numbers-over-squints - endpoint measurement + overlay verification deferred to the scale-gate tick)",
+  "spearheads": {
+    "count": 9,
+    "note": "exactly one per drawing at 1x, no floaters (self-check); positions to be pinned on enlarged strips at scale gate"
+  },
+  "status": "REJECTED-do-not-prepare",
+  "landmarks": {
+    "ruler": "H = beard.y - crown.y in fall-candidate-3.png sheet px (1248x832, sha256 b2ea48772587530efbd7ed4b9e0d47fae4b95f958a1cec238b927bcb1fb5aceb)",
+    "boxes": {
+      "fig0": [
+        86,
+        0,
+        286,
+        130
+      ],
+      "fig1": [
+        507,
+        0,
+        707,
+        160
+      ],
+      "fig2": [
+        938,
+        0,
+        1138,
+        190
+      ],
+      "fig3": [
+        106,
+        234,
+        306,
+        424
+      ],
+      "fig4": [
+        613,
+        314,
+        813,
+        504
+      ],
+      "fig5": [
+        830,
+        250,
+        1030,
+        420
+      ],
+      "fig6": [
+        55,
+        535,
+        255,
+        695
+      ],
+      "fig7": [
+        435,
+        535,
+        635,
+        705
+      ],
+      "fig8": [
+        835,
+        535,
+        1035,
+        705
+      ]
+    },
+    "marks": {
+      "fig0": {
+        "crown": [
+          189,
+          12
+        ],
+        "beard": [
+          202,
+          79
+        ],
+        "H": 67,
+        "status": "accepted-from-label (non-fragile, in-band)"
+      },
+      "fig1": {
+        "crown": [
+          583,
+          24
+        ],
+        "beard": [
+          608,
+          85
+        ],
+        "H": 61,
+        "status": "accepted-from-label (non-fragile, in-band)"
+      },
+      "fig2": {
+        "crown": [
+          1018,
+          75
+        ],
+        "beard": [
+          1088,
+          129
+        ],
+        "H": 54,
+        "status": "VOID - both marks background-proven off-anatomy; fig UNMEASURABLE (beard merged into torso, no gap)"
+      },
+      "fig3": {
+        "crown": [
+          199,
+          305
+        ],
+        "beard": [
+          230,
+          380
+        ],
+        "H": 75,
+        "status": "zoom-confirmed on fragile sheet"
+      },
+      "fig4": {
+        "crown": [
+          675,
+          409
+        ],
+        "beard": [
+          705,
+          471
+        ],
+        "H": 62,
+        "status": "accepted-from-label (non-fragile, in-band)"
+      },
+      "fig5": {
+        "crown": [
+          929,
+          305
+        ],
+        "beard": [
+          958,
+          385
+        ],
+        "H": 80,
+        "status": "zoom-confirmed on fragile sheet (0.9px below ceiling, fragile disclosed)"
+      },
+      "fig6": {
+        "crown": [
+          148,
+          559
+        ],
+        "beard": [
+          212,
+          648
+        ],
+        "H": 89,
+        "status": "zoom-confirmed on fragile sheet (hardest scrutiny; out-of-band HIGH)"
+      },
+      "fig7": {
+        "crown": [
+          530,
+          586
+        ],
+        "beard": [
+          576,
+          654
+        ],
+        "H": 68,
+        "status": "accepted-from-label (non-fragile, in-band)"
+      },
+      "fig8": {
+        "crown": [
+          942,
+          592
+        ],
+        "beard": [
+          976,
+          658
+        ],
+        "H": 66,
+        "status": "accepted-from-label (non-fragile, in-band)"
+      }
+    },
+    "scripts": [
+      "artifacts/tmpcheck/b1-mark2.mjs",
+      "artifacts/tmpcheck/b2-mark2.mjs",
+      "artifacts/tmpcheck/fall-cand3-fragile-zoom.mjs",
+      "artifacts/tmpcheck/fall-cand3-f2-find.mjs",
+      "artifacts/tmpcheck/fall-cand3-f2-find2.mjs"
+    ]
+  }
+}

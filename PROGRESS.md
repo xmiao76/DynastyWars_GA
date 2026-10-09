@@ -4,6 +4,13 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-09 — CMR-14A fall-3 scale gate VERDICT: REJECTED-do-not-prepare (stays IN_PROGRESS)
+
+- Verdict: REJECT — do NOT prepare from fall candidate 3. Reported H (re-derived from both opened marked overlays + b1-mark2/b2-mark2 scripts) [67,61,54,75,62,80,89,68,66], mean 69.11 (IN 55.0–74.4). Verified: 8 measurable mean 71.00 (IN) BUT fig6 H=89 zoom-CONFIRMED out-of-band HIGH (+8.1 over 80.9 ceiling, +37.6% vs walk 64.7) AND fig2 UNMEASURABLE (reported H=54 VOID — crown (1018,75) + beard (1088,129) both RGB 0/9 background-proven floating on opened zoom; correction attempted via finder views but true beard-tip merges into torso/scarf with no gap boundary, dark continuous to box bottom y181–190 — placing a tip would be guessing; fall-1/2 UNMEASURABLE precedent; 0/≤2 correction allowance consumed). Fragile sheet (f2/f3/f5/f6) rendered + OPENED: f3=75 + f5=80 confirmed (2px tip-above-gap signatures; f5 0.9px below ceiling, fragile disclosed). Uniformity 89/61 = 1.46x verified (reported 1.65x incl voided f2).
+- Robustness: Tier E ±10 stress — REJECT robust (f2 UNMEASURABLE alone sustains REJECT under every shift; mean 71±10 = 61–81 straddles ceiling, fragility disclosed). Eyeball ±2 — fig6 87–91 robustly out (needs −9, 4.5× eyeball); fig5 78–82 straddles (not load-bearing); fig3 73–77 in. Verdict follows verified measurements. Identity CONFIRMED on opened overlays (topknot+headband/dark beard/lamellar+magenta scarf/spears, all 9).
+- Evidence: audit art/motion/xiahoudun/fall-candidate-3-audit.json (status REJECTED-do-not-prepare, scaleGate REJECTED, landmarks + 6 evidence paths incl zoom sheet, valid JSON single top-level status) + overlays fall-cand3-b1-marked2.png (88f8150e…) + fall-cand3-b2-marked2.png (a64dad38…) + fragile zoom fall-cand3-fragile-zoom.png (6f9cd833…, 440×3018, OPENED) + f2 find/find2 support. Commit holds ONLY audit JSON + TASKS.md + PROGRESS.md (diff --check clean; 5 pre-existing modified files untouched/unstaged; never push).
+- Next: misc/fall/getup funding conversation; do NOT prepare from candidate 3. Task stays IN_PROGRESS.
+
 ### 2026-10-09 — CMR-14A fall-3 gate tick close-out (A1 unverified + A1R aborted, A2/C deferred, stays IN_PROGRESS)
 
 - Attempted fall-3 scale gate this tick, measurement did NOT complete: A1 figs 0–4 honest FAILED criterion (spear-latch failure mode, UNVERIFIED best-effort, must not be consumed) + A1R redo aborted on deadline with misplaced crop windows (markers floating in background, numbers unusable, confirmed on opened overlay by manager) + A2/C never ran (timebox, deferred to next tick).
