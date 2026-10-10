@@ -1,0 +1,44 @@
+# CMR-22 zero-request contact diagnosis and original control hypothesis
+
+Parent sole lock `2026-10-10T07-59-36-819Z-ea9f8876-1370-45c9-b7b9-9a48a6188101`. **IN_PROGRESS, successful diagnostic adds 0 failures; historical failed consumers remain 2, only 1 further failure permitted.** No request, reservation, source/ledger mutation, runtime activation or independent acceptance.
+
+## Inspected evidence / what is and is not known
+
+Opened [master](../../fighter-bodies/horse-master.jpg), [immutable candidate1](locomotion-candidate-1.png), [fixed-scale gameplay](locomotion-candidate-1-gameplay.png), [fixed-scale 4x](locomotion-candidate-1-4x.png) and [feet crops](locomotion-candidate-1-feet.png). Master is original identity authority (bay coat, dark mane/tail/muzzle/lower legs, gold-edged brown saddle, red-gold blanket, gold stirrup), not a certified gait reference: middle/right are similar reaching poses.
+
+[Exact text+JSON trace record](CONTACT_DIAGNOSIS.json) supplies all nine cells' approximate local seat/barrel/ear/muzzle coordinates and four visible limb polylines, with tentative NF/FF/NH/FH assignments from surface/overlap continuity. **Hidden opposite roots are null; contacts/support remain null.** A foreground shoulder-connected chain is A, other fore is B, foreground haunch-connected chain C, other hind D. Labels are hypotheses, not anatomical truth inferred from horizontal position. Points are visual probes ±6px, not certified pixel endpoints or measured head-size spread. Seat means saddle concavity, not rider pelvis; barrel is visible mass reference, not center of mass.
+
+Cells1/5 retain reaching A;3/6 retain folded-ahead A;7 returns to extended A instead of clearly opposite folded passing.1 has three near-ground ends.2 exchanges low vs lifted fore configurations without established same-diagonal load.4/8 have no independently drawn ground, so flight is unknown, not pass. Consequently **no demonstrated complete alternate diagonal exists to recover by reorder**. This does not prove concealed anatomy impossible; it proves correspondence absent in current evidence. Wider isolation could correct nominal-grid clipping/alpha fringes but cannot supply missing visible alternate keys. Candidate1 HOLD, null fixedBand and original audit remain unchanged.
+
+## Material control difference: local original diagram rather than another prose phase list
+
+[Authoring script](author-contact-guide.mjs) constructs [nine-key original locomotion guide](locomotion-control-guide.png), [six-key run guide](run-control-guide.png), and [numeric plan](POSE_CONTROL_PLAN.json). No copied third-party art, generation, tracing/splicing of accepted source, or source repaint. Each leg is an independently assigned five-joint chain: fore shoulder→elbow→carpus→fetlock→hoof; hind hip→stifle→hock→fetlock→hoof. Near solid/far dashed and distinct colors identify connected roots through overlap. This is an intentionally schematic 2D drawing, not a biomechanically certified rig. Visible reference guides do not expose a native pose-lock/region-mask API.
+
+| Phase | Authored support | Other legs / seat |
+|---|---|---|
+| idle | NF FF NH FH | stable barrel/seat |
+| trot0/1/2 | NF + FH | FF/NH lifted, forward recovery; loading bob0/+3/0px |
+| trot3 | none | all clear ≥20px, bob−8px |
+| trot4/5/6 | FF + NH | NF/FH lifted; opposite connected chains, bob0/+3/0px |
+| trot7 | none | all clear ≥20px, bob−8px, return to0 |
+| run0/1/2/3 | FH / NH / FF / NF | original four-beat transverse support hypothesis |
+| run4/5 | none | recovery/flight; not an extra fleeing family |
+
+Fixed source cell512×341, ground300; drawable area x40–472/y36–305. Guide barrel center235/170, radii91/47; seat238/119; ear389/60, muzzle430/118, translated only by common bob. Numeric limb lengths include fixed IK lower links58/62px and hoof extension15px; reachability checked. Tail/tack are NOT diagrammed identity pixels: future artwork must fit them inside this same envelope. Idle ear-ground240px ×0.28 =67.2u (legacy target70u is approximate, not a silent accepted-scale replacement). Full content window432×269px ×0.28 =120.96×75.32u; do not clip to legacy103u width. Actual source margins and registration must be remeasured on arrival, not inferred from guide.
+
+**Checks prove internal diagram geometry only:** 15 phases/60 chains, reachable lower joints, exact contact sets, every joint inside margins, projected diagonal support spans barrel, seat/barrel/head translate coherently. At mounted speed2.2u/tick and3 ticks/key, stance hoof centers move−23.5714px/key ×0.28 =−6.6u, canceling phase-center displacement. **Within an exposure a held drawing still moves up to4.4u**: no-sliding is NOT passed. Later local presentation-only stance translation/exposure revision must be measured against actual motion, seat transforms, y movement and interruption. Single-support run is dynamic, not static equilibrium; no claim of force simulation, 3D anatomy, normal-speed continuity or successful future model obedience.
+
+## Explicit candidate2 work order — future bounded hypothesis, ZERO spend now
+
+1. Re-open master and locomotion diagram as two separately intended references in that order. Master controls only identity/camera/tack; diagram controls limb roots/joints/hoof heights/support and nine-cell arrangement. Do not attach candidate1 as a positive gait reference or any hero source. Future preferred existing image tool accepts image references; this demonstrates an available reference channel, **not guaranteed model compliance**, mask enforcement, or provider-native skeleton control.
+2. Before any call, exact prompt/reference hashes and existing budget reservation are required by the usual contract. Submit at most ONE locomotion candidate2 under existing allowance, asking for clean original complete horse paintings at fixed scale, colored/dashed construction/labels removed from output, same support chains and 40px+ source margins (36px vertical), no perspective flip/hoof-ID swap. This is a materially changed visual constraint, not same text-only re-roll. No request is authorized/executed by this diagnostic.
+3. On arrival inspect all nine at source, fixed gameplay scale and enlarged: trace visible root→joints→hoof before naming NF/FF/NH/FH; explicitly demonstrate opposite contact and compression, both recovery halves and all-four-clear flight relative to one ground. Unreadable correspondence stays HOLD. Measure saddle/ground/head/barrel/hoof size, alpha/isolation, fixed scale, trim and source gutters. Do not accept merely because silhouette resembles diagram; no per-pose normalization. Candidate1 remains immutable rejected evidence. A failed recovery package becomes failure3 and parks WAITING_FOR_OWNER, regardless of spare requests.
+4. Only an accepted anchor permits a complete run/flee authoring request; use locally authored run diagram with same scale/body/seat contract and accepted horse identity, re-open intended references. Preserve second run slot only for a genuinely targeted evidence-backed correction, never an automatic re-roll. No partial runtime pack or hero repaint.
+
+## Complete-path resource feasibility / honest limits
+
+Actual horse1/4, global146/200, locomotion1/2; remaining **1 locomotion + 2 run =3** horse requests. Repair0/3 untouched and not a gait-redesign allowance. This path uses one whole-sheet anchor and one complete six-key run sheet plus at most one run correction; it fits caps conditionally, **not a promised success count**. No isolated-many-key strategy requiring >3 requests, third locomotion sheet, refunds or task-failure reset. Only one further *failed consumer*, so two remaining run slots do not guarantee two failed-run recovery rounds.
+
+Density2 envelope estimation: 15 keys at ceil(120.96×2)×ceil(75.32×2)=242×151, untrimmed decoded2,192,520B (~2.09MiB); one1024×1024 page4,194,304B (~4MiB) fits ≤2048². Download bytes, packing overhead, tack/tail envelope, horse+two heroes+enemies stage≤12MiB and cache≤128MiB remain unmeasured: this is allocation, not passed loading acceptance. Legacy fallback1,634,304B plus pose textures must be separately accounted. Preserve all15 accepted hero payloads/exposures; actual rider seat-contact transforms and five heroes×two facings×states Canvas/WebGL/mobile, no-sliding videos, atomic fallback/cache/timing and independent producer review remain pending.
+
+**Disposition:** a viable bounded *hypothesized* complete path remains because explicit locally authored four-chain image guidance is materially different, geometrically checked, and fits1+2 requests. Keep CMR22 IN_PROGRESS, no spend now. No blanket prerequisite for proving future generation success, and no claim that making this guide proves compliance. If candidate2 fails, park with exact missing readable opposite-diagonal/contact keys or owner scope decision—not reset counters. Safe local guide refinement remains inside the envelope.
