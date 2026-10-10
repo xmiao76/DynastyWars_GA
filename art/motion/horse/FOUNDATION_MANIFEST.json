@@ -1,0 +1,350 @@
+{
+  "version": 1,
+  "taskId": "CMR-22",
+  "status": "FOUNDATION_ONLY_NOT_ARTWORK_ACCEPTANCE",
+  "parentRunId": "2026-10-10T06-39-22-819Z-83426a3c-a16c-47fc-889c-89d02fde8f3b",
+  "readiness": {
+    "required": [
+      "CMR-05",
+      "CMR-09B",
+      "CMR-10B",
+      "CMR-11B",
+      "CMR-12B"
+    ],
+    "allDone": true,
+    "historicalFailedConsumers": 0,
+    "runtimeFailedConsumers": 0,
+    "historicalRecordOrderingDependency": "CMR-15B (superseded by live Requires)",
+    "ownerExclusions": "no narrower exclusion in selected record; opt-in/pixel/gameplay boundaries retained"
+  },
+  "observations": {
+    "evidenceClass": "offline execution of actual current core and extracted legacy pose helper; NOT browser capture",
+    "master": {
+      "width": 1280,
+      "height": 720
+    },
+    "legacyPack": {
+      "density": 4,
+      "width": 1344,
+      "height": 304,
+      "frames": [
+        "idle",
+        "walk0",
+        "walk1"
+      ],
+      "sourceBytes": 301383,
+      "decodedRgbaBytes": 1634304,
+      "gpuPageEstimateBytes": 1634304,
+      "includesLegacyGeneratedPoseTextures": false
+    },
+    "fleeing": {
+      "ticksObserved": 12,
+      "deltaX": 48,
+      "stateTick": 0,
+      "selectedPoses": [
+        "walk0"
+      ],
+      "unitsPerUnfrozenStep": 4
+    },
+    "hitStop": {
+      "frozenSteps": 2,
+      "frozenDeltaX": 0,
+      "firstUnfrozenDeltaX": 4
+    },
+    "coop": {
+      "actualRiderId": 8,
+      "p1Id": 1,
+      "currentP1Selection": "idle",
+      "actualRiderSelection": "walk1"
+    },
+    "mountedSweep": {
+      "id": "mounted.sweep",
+      "damage": 14,
+      "reach": 38,
+      "arc": 12,
+      "startup": 8,
+      "active": 6,
+      "recover": 14,
+      "knockback": 3,
+      "knockdown": true,
+      "aerial": false,
+      "aoe": false
+    },
+    "budgets": {
+      "horseAuthoringUsed": 0,
+      "horseCap": 4,
+      "horseRepairUsed": 0,
+      "horseRepairCap": 3,
+      "globalAuthoringUsed": 145,
+      "globalAuthoringCap": 200,
+      "wholeSheetCandidatesPerSequence": 2,
+      "reservedOrSpentThisPackage": 0
+    }
+  },
+  "inputs": [
+    {
+      "path": "art/fighter-bodies/horse-master.jpg",
+      "bytes": 159326,
+      "sha256": "79e823b0565aef42d9ef7bf780477fcbab26a0c701d7c9c94479f03a2156f3c2"
+    },
+    {
+      "path": "src/game/assets/horse/horse-sheet.png",
+      "bytes": 301383,
+      "sha256": "826cb9e64a11bc881faf5a173cfc708269a9b6c53af564aac6293de36901b85e"
+    },
+    {
+      "path": "src/game/assets/horse/prepared.json",
+      "bytes": 12869,
+      "sha256": "03c9370c9af7c2eb01a5d6dd8a279856f3b28b471b2a58001cec80de4a60100f"
+    },
+    {
+      "path": "src/game/art/horse-frames.ts",
+      "bytes": 1810,
+      "sha256": "43dacaf505a5e9a14381318a1e577b406a128150d6a089b494ceb73a6341cf94"
+    },
+    {
+      "path": "src/game/art/registry.ts",
+      "bytes": 15351,
+      "sha256": "5d8824fd5fe90b67a4800fe707048483c2fdbf69568b4eb333db5be8345c8089"
+    },
+    {
+      "path": "src/game/adapters/horse-art.ts",
+      "bytes": 3724,
+      "sha256": "5f5013556501181bbd3e814ee9a2ffc5c5b5e255fe7ada47c736c1b31db43c0e"
+    },
+    {
+      "path": "scripts/prepare-horse.mjs",
+      "bytes": 5296,
+      "sha256": "e976b513d8347c050f128d0b811393697c91db73ad4d0dd97c57c3512602074c"
+    },
+    {
+      "path": "src/game/scenes/GameScene.ts",
+      "bytes": 41419,
+      "sha256": "0baf05535b7564d09b4e29a5bbdc5207b7abe45aaecbb25fb467b4a6c7facdfd"
+    },
+    {
+      "path": "src/core/sim.ts",
+      "bytes": 29327,
+      "sha256": "cb175acd1a9a168f9c7c9ea501cab8ea754cd0569429bced2f297e0a5e65e421"
+    },
+    {
+      "path": "src/core/combat.ts",
+      "bytes": 5604,
+      "sha256": "b466b741e42c464b231b025eee3d6c3530373237c064ce4296db600b2b424d6d"
+    },
+    {
+      "path": "src/core/attacks.ts",
+      "bytes": 8765,
+      "sha256": "158ca051d1399035ffc304432d1d60248dfa9634654e0a618d90171b4252367a"
+    },
+    {
+      "path": "src/core/constants.ts",
+      "bytes": 3607,
+      "sha256": "43e4b7f75fa8b5faf7919efb3a26e8503adc77e9846b052c2ed6ef9b1194afc9"
+    },
+    {
+      "path": "src/game/adapters/motion-art.ts",
+      "bytes": 34293,
+      "sha256": "b7fe1af179f86a930afe329e69aa61a71a57b50adebc046f5be9c5b4e9300ee0"
+    },
+    {
+      "path": "src/game/adapters/motion-catalog.ts",
+      "bytes": 14385,
+      "sha256": "95cd01045cd7d211cc5502fbab2545b14ecbeee3619a3eb98306ec04328b550a"
+    },
+    {
+      "path": "src/game/adapters/motion-scope.ts",
+      "bytes": 2774,
+      "sha256": "4ec8b03a11b76adfaa7a1167f7e4792cbaccf4d44eee8a67a59d1ada2df32312"
+    },
+    {
+      "path": "src/game/art/motion-profiles.ts",
+      "bytes": 14643,
+      "sha256": "12442e27ee2d1e3784ad6bc8bb0dae94d31d1ac15f6d8fc3bbd54a72a335515c"
+    },
+    {
+      "path": "src/game/art/motion-clips.ts",
+      "bytes": 9842,
+      "sha256": "ba4ddbaf0fd80fa90af96d11c0f981914b6f337cd86799fff6dec6026a28305c"
+    },
+    {
+      "path": "src/game/art/motion-clips-zhangfei.ts",
+      "bytes": 9234,
+      "sha256": "8b94dc9dc0aa69d4a05acbf7415aa14cd02081fbde17438235247f516a3d4156"
+    },
+    {
+      "path": "src/game/art/motion-clips-zhaoyun.ts",
+      "bytes": 9483,
+      "sha256": "a870042ce896a1ec33d0c30a8c590e87dd7f7f63bedbc396a35f96bec9e67b66"
+    },
+    {
+      "path": "src/game/art/motion-clips-weiyan.ts",
+      "bytes": 9312,
+      "sha256": "f40342dc4db62021b16b0f65475c04a7b459d23827f7a76f45081e50e8a3c089"
+    },
+    {
+      "path": "src/game/art/motion-clips-huangzhong.ts",
+      "bytes": 10020,
+      "sha256": "ed642968532067c14513d917aad284eb1d98455d9d889f67e164ec2c3e388f72"
+    },
+    {
+      "path": "test/game/horse.test.ts",
+      "bytes": 11808,
+      "sha256": "c1dc139743ff5341640a493234e29f2cab3dca52afe9f3c45f1e35641baf586e"
+    },
+    {
+      "path": "test/core/horse.test.ts",
+      "bytes": 4098,
+      "sha256": "58949407fa564a3dc9619c11c6bfcc172deba562e9ec25e8318190ed7785c65e"
+    },
+    {
+      "path": "test/core/coop.test.ts",
+      "bytes": 8983,
+      "sha256": "76e25e5e49ef1e223ad5de01458598bf88f728e1f8e5033e5b2672c41eb1ac93"
+    },
+    {
+      "path": "test/game/motion-catalog.test.ts",
+      "bytes": 12142,
+      "sha256": "48e4086f49d12a0f717dfa84d56e53e3e4640aff87738009c6d06f388577e111"
+    },
+    {
+      "path": "test/game/motion-scope.test.ts",
+      "bytes": 3623,
+      "sha256": "9a3e791aa27ee1a0c31298bddba8d067dfefb9869489ca5990c1684931dedbad"
+    },
+    {
+      "path": "e2e/horse.spec.ts",
+      "bytes": 2136,
+      "sha256": "d9abcdffe8703d9207e041e8692d0cc2249a3ee553805437f42e8021de40486c"
+    },
+    {
+      "path": "docs/motion-tasks/CMR-22.md",
+      "bytes": 2797,
+      "sha256": "3daf78047fd4b8c2a772a4e3ce64500c8d35aad432c49c578bfcb7da4abb2aa6"
+    },
+    {
+      "path": "docs/loop-task-records/CMR-22.md",
+      "bytes": 528,
+      "sha256": "0f7741c38968e3eca7659863bc6dbf4578bfcbe306c92a493d9c633c21591a43"
+    },
+    {
+      "path": "docs/CAST_MOTION_ROLLOUT.md",
+      "bytes": 18742,
+      "sha256": "84fc3cbac6c765afc730a69d9580a943ce2d12c9a824d0f6827c4570ff64d005"
+    },
+    {
+      "path": "art/motion/generation-budget.json",
+      "bytes": 5132,
+      "sha256": "529de493b8d8f6d9c901d057c4c84b2781b0860860bd4ca9e0b25803f765be42"
+    },
+    {
+      "path": "art/motion/acceptance4-repair-budget.json",
+      "bytes": 19113,
+      "sha256": "54cfd3ab51b30956cf769affd3ef3f6029ed19645df1df1196de9245bd785c26"
+    }
+  ],
+  "acceptedHeroPayloads": [
+    {
+      "path": "src/game/assets/motion/actions-prepared.json",
+      "bytes": 22772,
+      "sha256": "2b8e28bd4fcfc847b8e522cf684341a33637874b81df379e3401e1d427ffcebb"
+    },
+    {
+      "path": "src/game/assets/motion/guanyu-actions-sheet.png",
+      "bytes": 2545709,
+      "sha256": "ce7f7ca0c5157715c7c8a75d71ba13837d1cb96e65ebf7da933e8df4fbbe2cbd"
+    },
+    {
+      "path": "src/game/assets/motion/guanyu-motion-sheet.png",
+      "bytes": 1782790,
+      "sha256": "f15e3ac757eaa4ade2b2a0afca1a7e891f5272f58d3c82ee281eb50531bad3b2"
+    },
+    {
+      "path": "src/game/assets/motion/huangzhong-motion-sheet.png",
+      "bytes": 3643905,
+      "sha256": "0087d9689cf80ccca2f2d723f48106b7af8d1b5b7ccff1884b9c7ed1c87c3cfb"
+    },
+    {
+      "path": "src/game/assets/motion/huangzhong-prepared.json",
+      "bytes": 34518,
+      "sha256": "d4812df6646e34863bdd231b46501edf018ec8857fb84727a663e13ec4007463"
+    },
+    {
+      "path": "src/game/assets/motion/prepared.json",
+      "bytes": 34812,
+      "sha256": "c52d2ce3df956dd57156b56b053c061c198c52778acd393a281822cf6a0b3e0e"
+    },
+    {
+      "path": "src/game/assets/motion/weiyan-actions-sheet.png",
+      "bytes": 146166,
+      "sha256": "5c841688f2977468e0d10ae19d57a72ce18db15a008aaa83ac0b3697781b4577"
+    },
+    {
+      "path": "src/game/assets/motion/weiyan-motion-sheet.png",
+      "bytes": 3173250,
+      "sha256": "636c522290ae97d99631fac12fa387a306b7d60643bfb21c82da38dd47792a86"
+    },
+    {
+      "path": "src/game/assets/motion/weiyan-prepared.json",
+      "bytes": 34496,
+      "sha256": "2f61ceef5e4e1746428f6dfc8e85071bf2498cdc3649a6258d314665cc47a4f1"
+    },
+    {
+      "path": "src/game/assets/motion/zhangfei-actions-sheet.png",
+      "bytes": 1028932,
+      "sha256": "ca8104eb1bdf977ace396d309053de2e881d92a12cf5b4faaf04a49de2ad114a"
+    },
+    {
+      "path": "src/game/assets/motion/zhangfei-motion-sheet.png",
+      "bytes": 3007913,
+      "sha256": "e296de06d6ca9f1b7d6615aaf267e3e16adf8b3f8d43625f833c11521bed92e3"
+    },
+    {
+      "path": "src/game/assets/motion/zhangfei-prepared.json",
+      "bytes": 34761,
+      "sha256": "7df01d40f2392d5efd56805c49d0c24f902714cef61aa8a6d7d5c90f2f3b1326"
+    },
+    {
+      "path": "src/game/assets/motion/zhaoyun-actions-sheet.png",
+      "bytes": 1092445,
+      "sha256": "d3569980ad56922f4e76ac18bbecd9f17fa0fbd3c0a105cbcd3e640225077d4e"
+    },
+    {
+      "path": "src/game/assets/motion/zhaoyun-motion-sheet.png",
+      "bytes": 3241974,
+      "sha256": "b4f2f4666b29cae2ea35573a20bbff6c0e4742fbcb8fe457eddb951bae52e651"
+    },
+    {
+      "path": "src/game/assets/motion/zhaoyun-prepared.json",
+      "bytes": 34777,
+      "sha256": "a2091a95b57b926472f31ce4d2df183aa5a4dbc996446c4d12d3e0c4935bf482"
+    }
+  ],
+  "unrelatedWorktreeFingerprints": [
+    {
+      "path": ".loop/eval-loop.md",
+      "bytes": 8943,
+      "sha256": "e7bb65350268b7d769edf013e4eef73fa33ae0bf4646a2d064adf1ea5680ab2b"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 10293,
+      "sha256": "64788da941145d564fd6695f7604f7ee27a9b5da0ad1e9242b893d23d9e86def"
+    },
+    {
+      "path": "scripts/motion-acceptance4-repair.d.mts",
+      "bytes": 1991,
+      "sha256": "2317f8ffda9d4d56ea56a0bdcadb5a735dd32c6ea7daf7a88b9914d3512f8306"
+    },
+    {
+      "path": "scripts/motion-acceptance4-repair.mjs",
+      "bytes": 9499,
+      "sha256": "eaadd1c3dfa472aeef112232cfeefbc920b77ae9588326e6c155371bb0bc1229"
+    },
+    {
+      "path": "test/game/motion-acceptance4-repair.test.ts",
+      "bytes": 15423,
+      "sha256": "372530bed229dc0023482ae9756154d14dc14059295166455f98cc8d51ae4b3e"
+    }
+  ]
+}

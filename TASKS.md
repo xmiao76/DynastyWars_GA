@@ -203,7 +203,8 @@ This compact live index preserves original status/attempt evidence in linked exa
 
 ### CMR-22 - Shared horse locomotion/rider composition
 
-- Status: TODO
+- Status: IN_PROGRESS
+- Foundation (2026-10-10, zero requests): [exact identity/gait/landmark/load plan](art/motion/horse/FOUNDATION_PLAN.md), [source/accepted-hero/budget manifest](art/motion/horse/FOUNDATION_MANIFEST.json), [offline current-code probes](art/motion/horse/check-foundation.mjs). All real Requires DONE; historical/runtime failures0, no narrower selected-record exclusion. Reproduced p1-only horse pose association and fleeing stateTick0 despite +4u/unfrozen step; no runtime fix/new pack activation yet. Four-request cap untouched (horse0/4, global145/200); next scoped selector/history red→green plus required captures/gates, then complete authoring/integration.
 - Requires: CMR-05, CMR-09B, CMR-10B, CMR-11B, CMR-12B
 - Acceptance: Shared horse gait and correct rider ownership, preserving accepted hero pixels/gameplay.
 - Record: [CMR-22 exact prior evidence](docs/loop-task-records/CMR-22.md) (original SHA-256 0f7741c38968e3eca7659863bc6dbf4578bfcbe306c92a493d9c633c21591a43).
