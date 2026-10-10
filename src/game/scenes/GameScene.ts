@@ -18,10 +18,10 @@ import {
 import { enemyByKind, ENEMIES } from '../../core/enemies'
 import { STAGE_ORDER } from '../../core/stage'
 import { secondPlayerCharacter } from '../players'
+import { HorsePresentation } from '../horse-presentation'
 import { audio, sfxForEvent } from '../audio/sfx'
 import { GAME_THEME } from '../audio/music'
 import type { SimEvent } from '../../core/events'
-import type { Entity } from '../../core/types'
 import { KeyboardAdapter, PLAYER_TWO_KEYS } from '../adapters/keyboard'
 import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gamepad'
 import { NO_TOUCH } from '../adapters/touch'
@@ -138,6 +138,7 @@ export interface GameSceneData {
  */
 export class GameScene extends Phaser.Scene {
   private sim!: Sim
+  private horsePresentation = new HorsePresentation()
   private bridge!: BridgeState
   private keyboardAdapter!: KeyboardAdapter
   private keyboard2Adapter!: KeyboardAdapter
@@ -220,10 +221,12 @@ export class GameScene extends Phaser.Scene {
     this.shadows.clear()
     clearMotionPlayback(this)
     this.motionDefeat.clear()
+    this.horsePresentation.clear()
     // Scene exit/restart cancels in-flight pack loads (late callbacks reject
     // as stale) and releases this scene's pack references for eviction.
     this.events.once('shutdown', () => {
       this.runToken += 1
+      this.horsePresentation.clear()
       this.built = false
       this.joinPending = false
       motionRuntime().cancelLoads()
@@ -257,6 +260,7 @@ export class GameScene extends Phaser.Scene {
       lives: data.lives ?? 3,
       score: data.score ?? 0,
     })
+    this.horsePresentation.observe(this.sim)
     this.bridge.sim = this.sim
 
     const stage = this.sim.stage
@@ -561,12 +565,14 @@ export class GameScene extends Phaser.Scene {
           // and an empty queue yields undefined, which stepSim treats exactly
           // as "no second player input" - so solo harness runs are unchanged.
           stepSim(this.sim, queued, this.bridge.pendingInputs2.shift())
+          this.horsePresentation.observe(this.sim)
           steps += 1
           continue
         }
         if (this.bridge.pendingSteps > 0) {
           this.bridge.pendingSteps -= 1
           stepSim(this.sim, this.bridge.currentInput, this.bridge.pendingInputs2.shift())
+          this.horsePresentation.observe(this.sim)
           steps += 1
           continue
         }
@@ -587,6 +593,7 @@ export class GameScene extends Phaser.Scene {
           ),
           mergeInputs(this.keyboard2Adapter.read(first), this.gamepad2Adapter.read(first)),
         )
+        this.horsePresentation.observe(this.sim)
       }
     }
     const events = drainSimEvents(this.sim)
@@ -689,7 +696,7 @@ export class GameScene extends Phaser.Scene {
       if (!isPropKind(entity.kind)) {
         const pose =
           entity.kind === 'horse'
-            ? horsePoseFor(entity, playerOf(this.sim))
+            ? this.horsePresentation.pose(entity, this.sim.entities)
             : poseForEntity(entity)
         const motionFrame = ensureMotionFrame(this, renderEntity)
         if (motionFrame) {
@@ -932,19 +939,4 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
-}
-
-/** Horse animation: driven by the rider while mounted, runs when fleeing. */
-function horsePoseFor(horse: Entity, player: Entity): Pose {
-  if (player.mountedOn === horse.id) {
-    return player.state === 'walk'
-      ? Math.floor(player.stateTick / 10) % 2 === 0
-        ? 'walk0'
-        : 'walk1'
-      : 'idle'
-  }
-  if (horse.state === 'fleeing') {
-    return Math.floor(horse.stateTick / 6) % 2 === 0 ? 'walk0' : 'walk1'
-  }
-  return 'idle'
 }

@@ -29,5 +29,13 @@ export default defineConfig({
   server: {
     port: 5176,
     strictPort: true,
+    // Offline authoring/review output is not served by Vite. On Windows,
+    // subscribing its many files blocks cold requests in native fs.watch.
+    // Keep src/public/config watching (and HMR) intact.
+    watch: {
+      ignored: ['art/', 'artifacts/', 'test-results/', 'playwright-report/'].map(
+        (directory) => `${fileURLToPath(new URL(directory, import.meta.url)).replace(/\\/g, '/')}**`,
+      ),
+    },
   },
 })
