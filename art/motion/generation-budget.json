@@ -170,6 +170,14 @@
       "sheetCandidates": {
         "walk": 2
       }
+    },
+    "horse": {
+      "role": "horse",
+      "cap": 4,
+      "used": 1,
+      "sheetCandidates": {
+        "locomotion": 1
+      }
     }
   }
 }
