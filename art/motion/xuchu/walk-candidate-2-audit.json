@@ -1,0 +1,51 @@
+{
+  "status": "HOLD_NOT_ACCEPTED_DO_NOT_PREPARE",
+  "parentRun": "2026-10-10T06-13-42-940Z-761601c9-85bc-420e-8a17-c0762c95e919",
+  "recoveryFailuresBefore": 1,
+  "diagnosticSuccessNotFailure2": true,
+  "budget": {
+    "beforeSha256": "f2fdee51ad336cc9919701dc31acebaab72217a16e6edb961d0ab86278890f67",
+    "afterSha256": "529de493b8d8f6d9c901d057c4c84b2781b0860860bd4ca9e0b25803f765be42",
+    "fighterId": "xuchu",
+    "used": 2,
+    "cap": 12,
+    "remaining": 10,
+    "totalUsed": 145,
+    "walkCandidates": 2,
+    "repairRequestsThisPackage": 0
+  },
+  "prompt": {
+    "path": "art/motion/xuchu/walk-prompt-2.txt",
+    "sha256": "70fcd0b4a15cba2bead313e4c74cfbf768f09b494ecd0191cd616207d987a49e"
+  },
+  "headContract": {
+    "path": "art/motion/xuchu/walk-candidate-2-head-contract.md",
+    "sha256": "0fd516460baa7c25717c2a6b9dca1c736652dbecd62e93189f5feda2297e14f3"
+  },
+  "references": [
+    {
+      "path": "art/fighter-bodies/xuchu-body-master.jpg",
+      "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd"
+    },
+    {
+      "path": "art/boss-faces/xuchu-portrait-master.jpg",
+      "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d"
+    }
+  ],
+  "providerPreferred": "gpt",
+  "providerActual": "not explicitly returned by tool",
+  "providerQuality": "high",
+  "requestCountThisPackage": 1,
+  "output": {"path":"art/motion/xuchu/walk-candidate-2.png","sha256":"bad2aee559b2835f38433e74e7a696696baa13d9d84d28b13afa740d25ca7e6c","bytes":2227606,"width":1536,"height":1024},
+  "recoveryFailuresAfter": 2,
+  "headGate": "UNVERIFIED: beard bases merge into neck/collar; helmet crown allowed as disclosed visible envelope, not hidden anatomical measurement",
+  "gaitGate": "NOT_ACCEPTED: opposite anatomical contact/passing not established",
+  "weaponDiagnosticSpread": 0.040517756727071266,
+  "weaponDiagnosticDirectionMaxStepDegrees": 1.682715244608012,
+  "weaponDiagnosticLimit": "tip4 alpha21 fringe, no numeric full-pack acceptance; oversized whole hierarchy and column crossover",
+  "review": "art/motion/xuchu/walk-candidate-2-review.md",
+  "hashIndex": "art/motion/xuchu/CANDIDATE2_FILE_HASHES.json",
+  "checks": {"targetedTests":"64/64 PASS","lint":"PASS","typecheck":"PASS","diffCheck":"PASS","vision":"NOT RUN source-only unactivated","prodbuild":"NOT RUN source-only unactivated"},
+  "projectionRecorded": false,
+  "fixedBand": null
+}
