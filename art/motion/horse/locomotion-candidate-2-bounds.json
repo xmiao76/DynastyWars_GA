@@ -1,0 +1,495 @@
+{
+  "alpha": {
+    "min": 0,
+    "max": 254,
+    "opaque": 0
+  },
+  "bounds": [
+    {
+      "cell": 0,
+      "threshold": 1,
+      "count": 66820,
+      "localBounds": [
+        46,
+        13,
+        511,
+        340
+      ],
+      "nominalMargins": [
+        46,
+        0,
+        13,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 1,
+      "threshold": 1,
+      "count": 72761,
+      "localBounds": [
+        0,
+        14,
+        511,
+        340
+      ],
+      "nominalMargins": [
+        0,
+        0,
+        14,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 2,
+      "threshold": 1,
+      "count": 73525,
+      "localBounds": [
+        0,
+        15,
+        478,
+        340
+      ],
+      "nominalMargins": [
+        0,
+        33,
+        15,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 3,
+      "threshold": 1,
+      "count": 69670,
+      "localBounds": [
+        19,
+        0,
+        511,
+        339
+      ],
+      "nominalMargins": [
+        19,
+        0,
+        0,
+        1
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 4,
+      "threshold": 1,
+      "count": 71229,
+      "localBounds": [
+        0,
+        0,
+        511,
+        338
+      ],
+      "nominalMargins": [
+        0,
+        0,
+        0,
+        2
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 5,
+      "threshold": 1,
+      "count": 72862,
+      "localBounds": [
+        0,
+        0,
+        475,
+        340
+      ],
+      "nominalMargins": [
+        0,
+        36,
+        0,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 6,
+      "threshold": 1,
+      "count": 68989,
+      "localBounds": [
+        30,
+        1,
+        511,
+        321
+      ],
+      "nominalMargins": [
+        30,
+        0,
+        1,
+        19
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 7,
+      "threshold": 1,
+      "count": 68988,
+      "localBounds": [
+        1,
+        4,
+        511,
+        325
+      ],
+      "nominalMargins": [
+        1,
+        0,
+        4,
+        15
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 8,
+      "threshold": 1,
+      "count": 69932,
+      "localBounds": [
+        0,
+        0,
+        490,
+        309
+      ],
+      "nominalMargins": [
+        0,
+        21,
+        0,
+        31
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 0,
+      "threshold": 16,
+      "count": 59456,
+      "localBounds": [
+        51,
+        15,
+        468,
+        340
+      ],
+      "nominalMargins": [
+        51,
+        43,
+        15,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 1,
+      "threshold": 16,
+      "count": 63782,
+      "localBounds": [
+        3,
+        16,
+        511,
+        340
+      ],
+      "nominalMargins": [
+        3,
+        0,
+        16,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 2,
+      "threshold": 16,
+      "count": 64890,
+      "localBounds": [
+        0,
+        17,
+        475,
+        340
+      ],
+      "nominalMargins": [
+        0,
+        36,
+        17,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 3,
+      "threshold": 16,
+      "count": 59375,
+      "localBounds": [
+        29,
+        0,
+        467,
+        332
+      ],
+      "nominalMargins": [
+        29,
+        44,
+        0,
+        8
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 4,
+      "threshold": 16,
+      "count": 62135,
+      "localBounds": [
+        1,
+        0,
+        482,
+        310
+      ],
+      "nominalMargins": [
+        1,
+        29,
+        0,
+        30
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 5,
+      "threshold": 16,
+      "count": 63327,
+      "localBounds": [
+        3,
+        0,
+        470,
+        333
+      ],
+      "nominalMargins": [
+        3,
+        41,
+        0,
+        7
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 6,
+      "threshold": 16,
+      "count": 60877,
+      "localBounds": [
+        35,
+        5,
+        482,
+        313
+      ],
+      "nominalMargins": [
+        35,
+        29,
+        5,
+        27
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 7,
+      "threshold": 16,
+      "count": 59806,
+      "localBounds": [
+        9,
+        6,
+        468,
+        314
+      ],
+      "nominalMargins": [
+        9,
+        43,
+        6,
+        26
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 8,
+      "threshold": 16,
+      "count": 61196,
+      "localBounds": [
+        2,
+        1,
+        482,
+        294
+      ],
+      "nominalMargins": [
+        2,
+        29,
+        1,
+        46
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 0,
+      "threshold": 128,
+      "count": 56856,
+      "localBounds": [
+        55,
+        15,
+        467,
+        340
+      ],
+      "nominalMargins": [
+        55,
+        44,
+        15,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 1,
+      "threshold": 128,
+      "count": 60323,
+      "localBounds": [
+        7,
+        17,
+        469,
+        340
+      ],
+      "nominalMargins": [
+        7,
+        42,
+        17,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 2,
+      "threshold": 128,
+      "count": 61518,
+      "localBounds": [
+        1,
+        18,
+        474,
+        340
+      ],
+      "nominalMargins": [
+        1,
+        37,
+        18,
+        0
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 3,
+      "threshold": 128,
+      "count": 56162,
+      "localBounds": [
+        31,
+        0,
+        466,
+        332
+      ],
+      "nominalMargins": [
+        31,
+        45,
+        0,
+        8
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 4,
+      "threshold": 128,
+      "count": 58444,
+      "localBounds": [
+        6,
+        0,
+        481,
+        309
+      ],
+      "nominalMargins": [
+        6,
+        30,
+        0,
+        31
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 5,
+      "threshold": 128,
+      "count": 59805,
+      "localBounds": [
+        5,
+        0,
+        470,
+        332
+      ],
+      "nominalMargins": [
+        5,
+        41,
+        0,
+        8
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 6,
+      "threshold": 128,
+      "count": 57734,
+      "localBounds": [
+        39,
+        5,
+        481,
+        313
+      ],
+      "nominalMargins": [
+        39,
+        30,
+        5,
+        27
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 7,
+      "threshold": 128,
+      "count": 56487,
+      "localBounds": [
+        12,
+        6,
+        467,
+        313
+      ],
+      "nominalMargins": [
+        12,
+        44,
+        6,
+        27
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    },
+    {
+      "cell": 8,
+      "threshold": 128,
+      "count": 57575,
+      "localBounds": [
+        7,
+        2,
+        481,
+        293
+      ],
+      "nominalMargins": [
+        7,
+        30,
+        2,
+        47
+      ],
+      "status": "DIAGNOSTIC_NOMINAL_GRID_NOT_APPROVED_EXTRACTION"
+    }
+  ]
+}

@@ -174,9 +174,9 @@
     "horse": {
       "role": "horse",
       "cap": 4,
-      "used": 1,
+      "used": 2,
       "sheetCandidates": {
-        "locomotion": 1
+        "locomotion": 2
       }
     }
   }
