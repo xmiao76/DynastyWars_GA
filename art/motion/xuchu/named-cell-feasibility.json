@@ -1,0 +1,275 @@
+{
+  "version": 1,
+  "taskId": "CMR-15A",
+  "parentRun": "2026-10-10T06-29-29-503Z-0d57fa3a-6575-4079-a3e2-20c1bb97e7c6",
+  "baselineHead": "273f5952cfd377eed125983f6536faf232813895",
+  "finding": "NO_CREDIBLE_COMPLETE_PATH_WITH_CURRENT_CONTROL",
+  "selectedStatus": "BLOCKED",
+  "disposition": "WAITING_FOR_OWNER",
+  "feasibilityDiagnosticSuccessful": true,
+  "recoveryFailedThisPackage": false,
+  "historicalFailedConsumers": 2,
+  "remainingFailedConsumerMaximum": 1,
+  "imageRequests": 0,
+  "reservations": 0,
+  "ledgerWrites": 0,
+  "sourceEdits": 0,
+  "acceptedFrames": [],
+  "acceptedPixels": 0,
+  "fixedBand": null,
+  "caps": {
+    "fighterUsed": 2,
+    "fighterCap": 12,
+    "fighterRemaining": 10,
+    "globalUsed": 145,
+    "globalCap": 200,
+    "globalRemaining": 55,
+    "walkUsed": 2,
+    "walkCap": 2,
+    "walkClosed": true,
+    "xuchuRepairUsed": 0,
+    "xuchuRepairCap": 3,
+    "combinedCapFromLedger": 233,
+    "repairEligibleForGait": false
+  },
+  "downstreamAbsent": [
+    "charge",
+    "combo",
+    "heavy",
+    "misc",
+    "fall",
+    "getup"
+  ],
+  "planning": {
+    "downstreamFirstTryAllowance": 6,
+    "maximumAnchorRequestsRetainingThatAllowance": 4,
+    "isolatedSixKeyRepairThenSixFamilies": 12,
+    "conditionalShortfall": 2,
+    "guaranteedSuccessCount": null
+  },
+  "necessaryRegions": {
+    "beardBaseCollarLegibility": [
+      "walk:0",
+      "walk:1",
+      "walk:2",
+      "walk:3",
+      "walk:4",
+      "walk:5"
+    ],
+    "indispensableGaitArticulation": [
+      "walk:2",
+      "walk:3",
+      "walk:4"
+    ],
+    "brakeUnresolved": [
+      "walk:5"
+    ],
+    "isolationAlphaRegistration": "all six; proof pending, not mandatory redraw",
+    "globalWeaponHierarchy": "unresolved; uniform scale cannot change ratio; no outlier shaft retouch justified",
+    "exactEditMasksEstablished": false
+  },
+  "retainedRegions": "provisional unaccepted torso/arms/grips/upper-face/weapon only, conditional on natural pose; no accepted pixel bank",
+  "controlAssessment": {
+    "documentedDifferentControl": "isolated single-key output and component splice; Huang Zhong single-cell 2/2 versus multi-cell collapse",
+    "transferLimit": "length/layout precedent not opposite gait or six head boundaries",
+    "explicitMaskOrPoseControlExposed": false,
+    "provenZeroCostHeadOrGaitFix": false,
+    "executableWorkOrder": null
+  },
+  "ownerInput": "Demonstrated original region-preserving pose/head repair workflow or corrected original keys with masks and acceptance evidence; complete-path allocation <=4 anchor requests retaining6 downstream; otherwise explicit revised scope/funding decision. Owner-only BLOCKED reset; no action implied.",
+  "checks": {
+    "diagnostic": "PASS: 29 prior indexed payloads, ledger caps, audit holds/null bands, five protected hashes",
+    "targetedUnits": "64/64 PASS (four focused suites)",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "diffCheck": "PASS (CRLF advisories only)",
+    "browserVisionBuildProdbuild": "NOT RUN: source-evidence/text-only, no UI/runtime/shipping change"
+  },
+  "protectedFiles": [
+    {
+      "path": ".loop/eval-loop.md",
+      "bytes": 8943,
+      "sha256": "e7bb65350268b7d769edf013e4eef73fa33ae0bf4646a2d064adf1ea5680ab2b"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 10293,
+      "sha256": "64788da941145d564fd6695f7604f7ee27a9b5da0ad1e9242b893d23d9e86def"
+    },
+    {
+      "path": "scripts/motion-acceptance4-repair.d.mts",
+      "bytes": 1991,
+      "sha256": "2317f8ffda9d4d56ea56a0bdcadb5a735dd32c6ea7daf7a88b9914d3512f8306"
+    },
+    {
+      "path": "scripts/motion-acceptance4-repair.mjs",
+      "bytes": 9499,
+      "sha256": "eaadd1c3dfa472aeef112232cfeefbc920b77ae9588326e6c155371bb0bc1229"
+    },
+    {
+      "path": "test/game/motion-acceptance4-repair.test.ts",
+      "bytes": 15423,
+      "sha256": "372530bed229dc0023482ae9756154d14dc14059295166455f98cc8d51ae4b3e"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 10293,
+      "sha256": "64788da941145d564fd6695f7604f7ee27a9b5da0ad1e9242b893d23d9e86def"
+    },
+    {
+      "path": ".loop/loop.md",
+      "bytes": 6887,
+      "sha256": "b76a112131afdccfcad6a8ec8b04490c6b4dd4ea0c94015df86971ad2f10438c"
+    },
+    {
+      "path": "PROJECT.md",
+      "bytes": 11186,
+      "sha256": "c4bf8a709fca19d6c3418ba5fd95a607ba39cb750981803284823b69d721a53f"
+    },
+    {
+      "path": "docs/LOOP_AUTONOMY.md",
+      "bytes": 10154,
+      "sha256": "b7c472eca091728dbbb3773b03bef7250ad22115d52d4fb99885a34cc56e6c7c"
+    },
+    {
+      "path": "docs/motion-tasks/CMR-15A.md",
+      "bytes": 5646,
+      "sha256": "822fd3bcc9df3b0fa309bfde9315513d2c92de720b0fd46a141fa7af76453f62"
+    },
+    {
+      "path": "docs/CAST_MOTION_ROLLOUT.md",
+      "bytes": 18742,
+      "sha256": "84fc3cbac6c765afc730a69d9580a943ce2d12c9a824d0f6827c4570ff64d005"
+    },
+    {
+      "path": "docs/MOTION_ACCEPTANCE4_RECOVERY.md",
+      "bytes": 10484,
+      "sha256": "9f75560bf218e13225992cb572129ed0a3d844b51058d007d3c90117d60a0b03"
+    },
+    {
+      "path": "docs/loop-task-records/CMR-15A.md",
+      "bytes": 534,
+      "sha256": "fbc5973c70c82611a9641758f72f123d869e89ba9e96f02d2c44e9b44eadb28f"
+    },
+    {
+      "path": "art/motion/generation-budget.json",
+      "bytes": 5132,
+      "sha256": "529de493b8d8f6d9c901d057c4c84b2781b0860860bd4ca9e0b25803f765be42"
+    },
+    {
+      "path": "art/motion/acceptance4-repair-budget.json",
+      "bytes": 19113,
+      "sha256": "54cfd3ab51b30956cf769affd3ef3f6029ed19645df1df1196de9245bd785c26"
+    },
+    {
+      "path": "art/motion/huangzhong/PROVENANCE.md",
+      "bytes": 49309,
+      "sha256": "3daa64c39dd5561540ff55992eabf5c3427e2c2192284245942282db712372d2"
+    },
+    {
+      "path": "art/motion/xuchu/FILE_HASHES.json",
+      "bytes": 2381,
+      "sha256": "ec7d9a407575c6711dd9d95ce0234fa41f928167f90166b56873ce674a652ad7"
+    },
+    {
+      "path": "art/motion/xuchu/CANDIDATE2_FILE_HASHES.json",
+      "bytes": 2920,
+      "sha256": "47bca19622a4891ab2afaa10f2103c45832451e5616a33a27e96f261b2832e9b"
+    },
+    {
+      "path": "art/motion/xuchu/IDENTITY_ACTION_MANIFEST.md",
+      "bytes": 10602,
+      "sha256": "eeb6b815cd5616abd2d3f1a78984c1a1a5c412f9e9e9cdb2476da25101bb8026"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-local-salvage-diagnostic.md",
+      "bytes": 8079,
+      "sha256": "b35d332391ab0eca062c88e0a3a345a856b8ff89e23b6118cfc5fcde43c5478c"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1.png",
+      "bytes": 2180302,
+      "sha256": "dfd7bd87e424c6a50621908eed5a0c950852ea61c033c932955b50e175eb92f7"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-audit.json",
+      "bytes": 4348,
+      "sha256": "ccffea4b4a419a66d70993ec529ae4d4a41063c2b658a5f3d3afab5b1cf2799e"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2.png",
+      "bytes": 2227606,
+      "sha256": "bad2aee559b2835f38433e74e7a696696baa13d9d84d28b13afa740d25ca7e6c"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-audit.json",
+      "bytes": 2402,
+      "sha256": "99e87c303f4ff8bcb84a622523ba972e915b8689c73ff46afad0595c76790e27"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-marked-row0.png",
+      "bytes": 148703,
+      "sha256": "c3ab14e4a4e5598c7e4a5d50068beddac47868b94816a8d9300d843a0fbc9449"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-marked-row1.png",
+      "bytes": 159274,
+      "sha256": "1e33d194f4390170bc27fb19a1e322c17cdeab86f66214dbaaaf8306346fbb84"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-feet.png",
+      "bytes": 308223,
+      "sha256": "79adbf1f8b42dac2c74ebe55a3a818c3490fdc9dec34a6842e61ddb1ed1098bf"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-review.md",
+      "bytes": 5338,
+      "sha256": "fe3c59fd1f6b6ae875838e6d71db93731f2566b87a4b6d837ab3ddba31e29fc0"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-head-contract.md",
+      "bytes": 4168,
+      "sha256": "0fd516460baa7c25717c2a6b9dca1c736652dbecd62e93189f5feda2297e14f3"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-head-grid.png",
+      "bytes": 344819,
+      "sha256": "de464e54b550b57c683d0e605a716a8e44472141a9b75973802e55e7842401a1"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-weapon-marked.png",
+      "bytes": 50673,
+      "sha256": "19c07ee0932ae9e442c91bf382ddebfab8b19d1245a6c342fdcc847b7415d379"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-gameplay.png",
+      "bytes": 120252,
+      "sha256": "2f7af4ea7aa09f5598e8ad9b9811cb1b9e2bbf525f8db88bf147827f28a3fe5a"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-4x.png",
+      "bytes": 1341056,
+      "sha256": "f3d17c642cc38cf6bdebb4ec8e5c3f5d674267c0cb71ad010cd042f79b7da379"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-2-layout-probes.json",
+      "bytes": 991,
+      "sha256": "7c5b7309df21067e90a97ec8c212a84d679fbf5f54a02a2d6b00a4a5a40a8bb4"
+    },
+    {
+      "path": "art/motion/xuchu/named-cell-feasibility.md",
+      "bytes": 11519,
+      "sha256": "506cfed40e3c396a65bea1a9a1e749cbe3a1c107f3f82348edbf843f5657199f"
+    },
+    {
+      "path": "art/motion/xuchu/check-named-cell-feasibility.mjs",
+      "bytes": 6730,
+      "sha256": "c34a0639db0ab458b728a15e4387d6fe10f5ab8e9340a8ce2c232bd753a6ad7d"
+    }
+  ],
+  "managerRuntimeReceipts": [],
+  "managerToolsAvailable": false,
+  "independentProducerVerification": false
+}
