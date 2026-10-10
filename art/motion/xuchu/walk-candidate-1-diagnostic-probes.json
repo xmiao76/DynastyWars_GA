@@ -1,0 +1,1318 @@
+{
+  "version": 1,
+  "status": "DIAGNOSTIC_ONLY_NOT_ACCEPTANCE",
+  "source": {
+    "path": "art/motion/xuchu/walk-candidate-1.png",
+    "sha256": "dfd7bd87e424c6a50621908eed5a0c950852ea61c033c932955b50e175eb92f7"
+  },
+  "priorPayloadHashesVerified": 13,
+  "coordinateConvention": "Original PNG integer pixel coordinates, zero-based. Rectangles half-open; support bounds inclusive. Alpha thresholds are diagnostic sensitivity probes, NOT approved cleanup.",
+  "frames": [
+    {
+      "id": "walk:0",
+      "ownershipPartitionHalfOpen": [
+        0,
+        0,
+        520,
+        512
+      ],
+      "support": [
+        {
+          "threshold": 1,
+          "n": 89824,
+          "boundsInclusive": [
+            14,
+            12,
+            519,
+            496
+          ],
+          "edgePixels": 1,
+          "lowestRow": {
+            "y": 496,
+            "xMin": 117,
+            "xMax": 145
+          }
+        },
+        {
+          "threshold": 16,
+          "n": 81811,
+          "boundsInclusive": [
+            16,
+            14,
+            514,
+            494
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 494,
+            "xMin": 117,
+            "xMax": 143
+          }
+        },
+        {
+          "threshold": 128,
+          "n": 79907,
+          "boundsInclusive": [
+            16,
+            15,
+            514,
+            493
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 493,
+            "xMin": 112,
+            "xMax": 147
+          }
+        }
+      ],
+      "footRegions": [
+        {
+          "roiHalfOpen": [
+            90,
+            400,
+            215,
+            505
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 4656,
+            "boundsInclusive": [
+              102,
+              400,
+              179,
+              493
+            ],
+            "edgePixels": 62,
+            "lowestRow": {
+              "y": 493,
+              "xMin": 112,
+              "xMax": 147
+            }
+          }
+        },
+        {
+          "roiHalfOpen": [
+            250,
+            400,
+            365,
+            505
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 5410,
+            "boundsInclusive": [
+              254,
+              400,
+              359,
+              485
+            ],
+            "edgePixels": 61,
+            "lowestRow": {
+              "y": 485,
+              "xMin": 311,
+              "xMax": 339
+            }
+          }
+        }
+      ],
+      "gaitObservation": "guard, separated settled boots",
+      "headPrior": {
+        "id": "walk:0",
+        "brow": [
+          274,
+          47
+        ],
+        "beard": [
+          276,
+          95
+        ],
+        "helmet": [
+          249,
+          15
+        ],
+        "butt": [
+          19,
+          293
+        ],
+        "tip": [
+          508,
+          107
+        ],
+        "samples": {
+          "brow": [
+            219,
+            176,
+            145,
+            252
+          ],
+          "beard": [
+            57,
+            42,
+            29,
+            249
+          ],
+          "helmet": [
+            99,
+            91,
+            87,
+            215
+          ],
+          "butt": [
+            97,
+            84,
+            71,
+            251
+          ],
+          "tip": [
+            210,
+            195,
+            186,
+            237
+          ]
+        },
+        "visibleHeadHeight": 48,
+        "helmetToBeardHeight": 80,
+        "weaponLength": 523.1797014411014,
+        "weaponDirectionDegrees": -20.825218042365268
+      },
+      "beardNeighborhood": [
+        {
+          "y": 93,
+          "rgba": [
+            40,
+            30,
+            26,
+            249
+          ]
+        },
+        {
+          "y": 94,
+          "rgba": [
+            45,
+            34,
+            25,
+            249
+          ]
+        },
+        {
+          "y": 95,
+          "rgba": [
+            57,
+            42,
+            29,
+            249
+          ]
+        },
+        {
+          "y": 96,
+          "rgba": [
+            59,
+            43,
+            28,
+            249
+          ]
+        },
+        {
+          "y": 97,
+          "rgba": [
+            56,
+            35,
+            24,
+            251
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk:1",
+      "ownershipPartitionHalfOpen": [
+        520,
+        0,
+        1026,
+        512
+      ],
+      "support": [
+        {
+          "threshold": 1,
+          "n": 88581,
+          "boundsInclusive": [
+            522,
+            12,
+            1023,
+            495
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 495,
+            "xMin": 802,
+            "xMax": 814
+          }
+        },
+        {
+          "threshold": 16,
+          "n": 80285,
+          "boundsInclusive": [
+            525,
+            15,
+            1019,
+            493
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 493,
+            "xMin": 803,
+            "xMax": 813
+          }
+        },
+        {
+          "threshold": 128,
+          "n": 78371,
+          "boundsInclusive": [
+            525,
+            15,
+            1019,
+            492
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 492,
+            "xMin": 803,
+            "xMax": 814
+          }
+        }
+      ],
+      "footRegions": [
+        {
+          "roiHalfOpen": [
+            595,
+            395,
+            725,
+            505
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 5342,
+            "boundsInclusive": [
+              608,
+              395,
+              713,
+              482
+            ],
+            "edgePixels": 78,
+            "lowestRow": {
+              "y": 482,
+              "xMin": 663,
+              "xMax": 689
+            }
+          }
+        },
+        {
+          "roiHalfOpen": [
+            745,
+            395,
+            900,
+            505
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 6918,
+            "boundsInclusive": [
+              745,
+              395,
+              892,
+              492
+            ],
+            "edgePixels": 86,
+            "lowestRow": {
+              "y": 492,
+              "xMin": 803,
+              "xMax": 814
+            }
+          }
+        }
+      ],
+      "gaitObservation": "forward screen-right boot heel-low/toe-up; screen-left trailing boot",
+      "headPrior": {
+        "id": "walk:1",
+        "brow": [
+          800,
+          47
+        ],
+        "beard": [
+          805,
+          96
+        ],
+        "helmet": [
+          778,
+          15
+        ],
+        "butt": [
+          528,
+          289
+        ],
+        "tip": [
+          1014,
+          106
+        ],
+        "samples": {
+          "brow": [
+            165,
+            101,
+            86,
+            252
+          ],
+          "beard": [
+            79,
+            71,
+            60,
+            235
+          ],
+          "helmet": [
+            105,
+            98,
+            93,
+            178
+          ],
+          "butt": [
+            93,
+            78,
+            69,
+            247
+          ],
+          "tip": [
+            132,
+            123,
+            114,
+            206
+          ]
+        },
+        "visibleHeadHeight": 49,
+        "helmetToBeardHeight": 81,
+        "weaponLength": 519.3120449209704,
+        "weaponDirectionDegrees": -20.633524252158228
+      },
+      "beardNeighborhood": [
+        {
+          "y": 94,
+          "rgba": [
+            34,
+            27,
+            25,
+            249
+          ]
+        },
+        {
+          "y": 95,
+          "rgba": [
+            42,
+            34,
+            31,
+            243
+          ]
+        },
+        {
+          "y": 96,
+          "rgba": [
+            79,
+            71,
+            60,
+            235
+          ]
+        },
+        {
+          "y": 97,
+          "rgba": [
+            96,
+            81,
+            68,
+            173
+          ]
+        },
+        {
+          "y": 98,
+          "rgba": [
+            87,
+            67,
+            59,
+            89
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk:2",
+      "ownershipPartitionHalfOpen": [
+        1026,
+        0,
+        1536,
+        512
+      ],
+      "support": [
+        {
+          "threshold": 1,
+          "n": 87967,
+          "boundsInclusive": [
+            1030,
+            12,
+            1535,
+            493
+          ],
+          "edgePixels": 43,
+          "lowestRow": {
+            "y": 493,
+            "xMin": 1198,
+            "xMax": 1291
+          }
+        },
+        {
+          "threshold": 16,
+          "n": 78694,
+          "boundsInclusive": [
+            1035,
+            14,
+            1528,
+            486
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 486,
+            "xMin": 1202,
+            "xMax": 1208
+          }
+        },
+        {
+          "threshold": 128,
+          "n": 76845,
+          "boundsInclusive": [
+            1036,
+            15,
+            1528,
+            485
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 485,
+            "xMin": 1197,
+            "xMax": 1213
+          }
+        }
+      ],
+      "footRegions": [
+        {
+          "roiHalfOpen": [
+            1130,
+            395,
+            1250,
+            505
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 5620,
+            "boundsInclusive": [
+              1139,
+              395,
+              1239,
+              485
+            ],
+            "edgePixels": 80,
+            "lowestRow": {
+              "y": 485,
+              "xMin": 1197,
+              "xMax": 1213
+            }
+          }
+        },
+        {
+          "roiHalfOpen": [
+            1310,
+            395,
+            1435,
+            505
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 5573,
+            "boundsInclusive": [
+              1310,
+              395,
+              1423,
+              481
+            ],
+            "edgePixels": 73,
+            "lowestRow": {
+              "y": 481,
+              "xMin": 1342,
+              "xMax": 1345
+            }
+          }
+        }
+      ],
+      "gaitObservation": "same forward heel-low extension as 1, greater reach; NOT under-hip support/pass",
+      "headPrior": {
+        "id": "walk:2",
+        "brow": [
+          1314,
+          47
+        ],
+        "beard": [
+          1316,
+          96
+        ],
+        "helmet": [
+          1290,
+          15
+        ],
+        "butt": [
+          1038,
+          289
+        ],
+        "tip": [
+          1521,
+          104
+        ],
+        "samples": {
+          "brow": [
+            191,
+            142,
+            118,
+            252
+          ],
+          "beard": [
+            53,
+            47,
+            39,
+            235
+          ],
+          "helmet": [
+            101,
+            94,
+            89,
+            209
+          ],
+          "butt": [
+            84,
+            71,
+            61,
+            246
+          ],
+          "tip": [
+            132,
+            121,
+            117,
+            222
+          ]
+        },
+        "visibleHeadHeight": 49,
+        "helmetToBeardHeight": 81,
+        "weaponLength": 517.2175557731969,
+        "weaponDirectionDegrees": -20.95797779011837
+      },
+      "beardNeighborhood": [
+        {
+          "y": 94,
+          "rgba": [
+            30,
+            24,
+            21,
+            250
+          ]
+        },
+        {
+          "y": 95,
+          "rgba": [
+            40,
+            35,
+            29,
+            245
+          ]
+        },
+        {
+          "y": 96,
+          "rgba": [
+            53,
+            47,
+            39,
+            235
+          ]
+        },
+        {
+          "y": 97,
+          "rgba": [
+            78,
+            68,
+            61,
+            220
+          ]
+        },
+        {
+          "y": 98,
+          "rgba": [
+            89,
+            75,
+            69,
+            124
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk:3",
+      "ownershipPartitionHalfOpen": [
+        0,
+        512,
+        520,
+        1024
+      ],
+      "support": [
+        {
+          "threshold": 1,
+          "n": 91286,
+          "boundsInclusive": [
+            17,
+            513,
+            513,
+            994
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 994,
+            "xMin": 125,
+            "xMax": 146
+          }
+        },
+        {
+          "threshold": 16,
+          "n": 82800,
+          "boundsInclusive": [
+            20,
+            520,
+            510,
+            992
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 992,
+            "xMin": 127,
+            "xMax": 145
+          }
+        },
+        {
+          "threshold": 128,
+          "n": 80879,
+          "boundsInclusive": [
+            20,
+            521,
+            509,
+            991
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 991,
+            "xMin": 123,
+            "xMax": 149
+          }
+        }
+      ],
+      "footRegions": [
+        {
+          "roiHalfOpen": [
+            70,
+            900,
+            195,
+            1005
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 5431,
+            "boundsInclusive": [
+              78,
+              900,
+              178,
+              991
+            ],
+            "edgePixels": 72,
+            "lowestRow": {
+              "y": 991,
+              "xMin": 123,
+              "xMax": 149
+            }
+          }
+        },
+        {
+          "roiHalfOpen": [
+            300,
+            900,
+            425,
+            1005
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 5914,
+            "boundsInclusive": [
+              300,
+              900,
+              413,
+              986
+            ],
+            "edgePixels": 76,
+            "lowestRow": {
+              "y": 986,
+              "xMin": 316,
+              "xMax": 323
+            }
+          }
+        }
+      ],
+      "gaitObservation": "wide stride, screen-right forward boot flatter; opposite anatomical leg identity cannot be proved",
+      "headPrior": {
+        "id": "walk:3",
+        "brow": [
+          298,
+          552
+        ],
+        "beard": [
+          300,
+          602
+        ],
+        "helmet": [
+          271,
+          521
+        ],
+        "butt": [
+          22,
+          793
+        ],
+        "tip": [
+          503,
+          615
+        ],
+        "samples": {
+          "brow": [
+            193,
+            133,
+            106,
+            253
+          ],
+          "beard": [
+            103,
+            92,
+            85,
+            174
+          ],
+          "helmet": [
+            96,
+            90,
+            86,
+            225
+          ],
+          "butt": [
+            103,
+            89,
+            78,
+            240
+          ],
+          "tip": [
+            206,
+            196,
+            187,
+            240
+          ]
+        },
+        "visibleHeadHeight": 50,
+        "helmetToBeardHeight": 81,
+        "weaponLength": 512.8791280604037,
+        "weaponDirectionDegrees": -20.307616878931782
+      },
+      "beardNeighborhood": [
+        {
+          "y": 600,
+          "rgba": [
+            71,
+            65,
+            59,
+            239
+          ]
+        },
+        {
+          "y": 601,
+          "rgba": [
+            78,
+            67,
+            64,
+            234
+          ]
+        },
+        {
+          "y": 602,
+          "rgba": [
+            103,
+            92,
+            85,
+            174
+          ]
+        },
+        {
+          "y": 603,
+          "rgba": [
+            103,
+            87,
+            75,
+            78
+          ]
+        },
+        {
+          "y": 604,
+          "rgba": [
+            92,
+            72,
+            60,
+            31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk:4",
+      "ownershipPartitionHalfOpen": [
+        520,
+        512,
+        1026,
+        1024
+      ],
+      "support": [
+        {
+          "threshold": 1,
+          "n": 87879,
+          "boundsInclusive": [
+            522,
+            513,
+            1025,
+            995
+          ],
+          "edgePixels": 1,
+          "lowestRow": {
+            "y": 995,
+            "xMin": 860,
+            "xMax": 861
+          }
+        },
+        {
+          "threshold": 16,
+          "n": 79989,
+          "boundsInclusive": [
+            524,
+            520,
+            1022,
+            990
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 990,
+            "xMin": 837,
+            "xMax": 863
+          }
+        },
+        {
+          "threshold": 128,
+          "n": 78131,
+          "boundsInclusive": [
+            525,
+            520,
+            1022,
+            990
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 990,
+            "xMin": 848,
+            "xMax": 849
+          }
+        }
+      ],
+      "footRegions": [
+        {
+          "roiHalfOpen": [
+            595,
+            870,
+            720,
+            1005
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 6270,
+            "boundsInclusive": [
+              603,
+              870,
+              719,
+              979
+            ],
+            "edgePixels": 102,
+            "lowestRow": {
+              "y": 979,
+              "xMin": 645,
+              "xMax": 648
+            }
+          }
+        },
+        {
+          "roiHalfOpen": [
+            775,
+            900,
+            900,
+            1005
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 6057,
+            "boundsInclusive": [
+              775,
+              900,
+              888,
+              990
+            ],
+            "edgePixels": 67,
+            "lowestRow": {
+              "y": 990,
+              "xMin": 848,
+              "xMax": 849
+            }
+          }
+        }
+      ],
+      "gaitObservation": "screen-left boot lifts BEHIND hip; screen-right boot supports; NOT forward passing",
+      "headPrior": {
+        "id": "walk:4",
+        "brow": [
+          809,
+          552
+        ],
+        "beard": [
+          808,
+          605
+        ],
+        "helmet": [
+          782,
+          521
+        ],
+        "butt": [
+          528,
+          791
+        ],
+        "tip": [
+          1016,
+          615
+        ],
+        "samples": {
+          "brow": [
+            185,
+            120,
+            94,
+            253
+          ],
+          "beard": [
+            112,
+            87,
+            66,
+            219
+          ],
+          "helmet": [
+            99,
+            94,
+            89,
+            216
+          ],
+          "butt": [
+            101,
+            88,
+            76,
+            249
+          ],
+          "tip": [
+            137,
+            128,
+            120,
+            148
+          ]
+        },
+        "visibleHeadHeight": 53,
+        "helmetToBeardHeight": 84,
+        "weaponLength": 518.7677707799512,
+        "weaponDirectionDegrees": -19.832129850218386
+      },
+      "beardNeighborhood": [
+        {
+          "y": 603,
+          "rgba": [
+            91,
+            73,
+            56,
+            201
+          ]
+        },
+        {
+          "y": 604,
+          "rgba": [
+            98,
+            75,
+            59,
+            202
+          ]
+        },
+        {
+          "y": 605,
+          "rgba": [
+            112,
+            87,
+            66,
+            219
+          ]
+        },
+        {
+          "y": 606,
+          "rgba": [
+            131,
+            105,
+            76,
+            229
+          ]
+        },
+        {
+          "y": 607,
+          "rgba": [
+            130,
+            100,
+            72,
+            232
+          ]
+        }
+      ]
+    },
+    {
+      "id": "walk:5",
+      "ownershipPartitionHalfOpen": [
+        1026,
+        512,
+        1536,
+        1024
+      ],
+      "support": [
+        {
+          "threshold": 1,
+          "n": 88945,
+          "boundsInclusive": [
+            1027,
+            513,
+            1535,
+            993
+          ],
+          "edgePixels": 7,
+          "lowestRow": {
+            "y": 993,
+            "xMin": 1161,
+            "xMax": 1161
+          }
+        },
+        {
+          "threshold": 16,
+          "n": 79858,
+          "boundsInclusive": [
+            1032,
+            520,
+            1526,
+            990
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 990,
+            "xMin": 1141,
+            "xMax": 1163
+          }
+        },
+        {
+          "threshold": 128,
+          "n": 78017,
+          "boundsInclusive": [
+            1033,
+            521,
+            1525,
+            989
+          ],
+          "edgePixels": 0,
+          "lowestRow": {
+            "y": 989,
+            "xMin": 1138,
+            "xMax": 1167
+          }
+        }
+      ],
+      "footRegions": [
+        {
+          "roiHalfOpen": [
+            1120,
+            900,
+            1215,
+            1005
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 4461,
+            "boundsInclusive": [
+              1126,
+              900,
+              1205,
+              989
+            ],
+            "edgePixels": 61,
+            "lowestRow": {
+              "y": 989,
+              "xMin": 1138,
+              "xMax": 1167
+            }
+          }
+        },
+        {
+          "roiHalfOpen": [
+            1310,
+            900,
+            1410,
+            1005
+          ],
+          "support": {
+            "threshold": 128,
+            "n": 4500,
+            "boundsInclusive": [
+              1310,
+              900,
+              1396,
+              983
+            ],
+            "edgePixels": 117,
+            "lowestRow": {
+              "y": 983,
+              "xMin": 1355,
+              "xMax": 1360
+            }
+          }
+        }
+      ],
+      "gaitObservation": "guard-like settled stance; brake dynamics not established",
+      "headPrior": {
+        "id": "walk:5",
+        "brow": [
+          1311,
+          552
+        ],
+        "beard": [
+          1311,
+          605
+        ],
+        "helmet": [
+          1291,
+          521
+        ],
+        "butt": [
+          1036,
+          792
+        ],
+        "tip": [
+          1518,
+          613
+        ],
+        "samples": {
+          "brow": [
+            196,
+            141,
+            110,
+            252
+          ],
+          "beard": [
+            83,
+            68,
+            56,
+            46
+          ],
+          "helmet": [
+            109,
+            103,
+            97,
+            220
+          ],
+          "butt": [
+            84,
+            71,
+            61,
+            249
+          ],
+          "tip": [
+            101,
+            91,
+            86,
+            174
+          ]
+        },
+        "visibleHeadHeight": 53,
+        "helmetToBeardHeight": 84,
+        "weaponLength": 514.1643706053542,
+        "weaponDirectionDegrees": -20.373450592309002
+      },
+      "beardNeighborhood": [
+        {
+          "y": 603,
+          "rgba": [
+            95,
+            82,
+            70,
+            123
+          ]
+        },
+        {
+          "y": 604,
+          "rgba": [
+            86,
+            71,
+            60,
+            58
+          ]
+        },
+        {
+          "y": 605,
+          "rgba": [
+            83,
+            68,
+            56,
+            46
+          ]
+        },
+        {
+          "y": 606,
+          "rgba": [
+            83,
+            66,
+            56,
+            59
+          ]
+        },
+        {
+          "y": 607,
+          "rgba": [
+            88,
+            70,
+            58,
+            96
+          ]
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-head.png",
+      "sha256": "2160cac4f6f9f3cecb834d184ff6a58cb5ba7244a7cf8c4311fd437f804e4794"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-feet.png",
+      "sha256": "79adbf1f8b42dac2c74ebe55a3a818c3490fdc9dec34a6842e61ddb1ed1098bf"
+    }
+  ]
+}

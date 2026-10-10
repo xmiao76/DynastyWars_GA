@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "status": "DIAGNOSIS_COMPLETE_ART_NOT_ACCEPTED",
+  "salvage": false,
+  "fixedBand": null,
+  "imageRequests": 0,
+  "reservations": 0,
+  "recoveryFailuresPrior": 1,
+  "diagnosisAddsFailure": false,
+  "files": [
+    {
+      "path": "art/motion/xuchu/diagnose-walk-1.mjs",
+      "bytes": 5686,
+      "sha256": "418e93a29c7bd2e920f24eb37ec4470a88d1ba1e1b6deff16ea170a4dcd1bf52"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-probes.json",
+      "bytes": 24662,
+      "sha256": "c1d4ac8ad4fac70b699a47d31765e542e9b9a129d85eb9630e12cec90cf7e9f6"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-head.png",
+      "bytes": 166752,
+      "sha256": "2160cac4f6f9f3cecb834d184ff6a58cb5ba7244a7cf8c4311fd437f804e4794"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-feet.png",
+      "bytes": 308223,
+      "sha256": "79adbf1f8b42dac2c74ebe55a3a818c3490fdc9dec34a6842e61ddb1ed1098bf"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-diagnostic-beard-grid.png",
+      "bytes": 109417,
+      "sha256": "725375cab9bf9a99f34f3f018dbcd09a0769683c54c0d914469c6fcf0c5a1a16"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-local-salvage-diagnostic.md",
+      "bytes": 8079,
+      "sha256": "b35d332391ab0eca062c88e0a3a345a856b8ff89e23b6118cfc5fcde43c5478c"
+    },
+    {
+      "path": "art/motion/xuchu/walk-prompt-2-DRAFT.txt",
+      "bytes": 6033,
+      "sha256": "22b18d800bf755f950d50819870d5b7fec3f26e312d6daa8be8c47a090811487"
+    }
+  ]
+}
