@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "task": "CMR-15A",
+  "parentRun": "2026-10-10T05-31-45-494Z-029c7a7f-ad4e-4094-9581-bdfcf4afbeb9",
+  "status": "HOLD_NOT_ACCEPTED_DO_NOT_PREPARE",
+  "reservedAt": "2026-10-10T05:33:48.435Z",
+  "request": {
+    "sequence": "walk",
+    "candidate": 1,
+    "kind": "sheet",
+    "providerPreference": "gpt",
+    "size": "1536x1024",
+    "quality": "high",
+    "calls": 1,
+    "toolSucceeded": true,
+    "actualProvider": "not explicitly reported by tool; preferred gpt, no fallback notice"
+  },
+  "budget": {
+    "globalBefore": 143,
+    "fighterId": "xuchu",
+    "used": 1,
+    "cap": 12,
+    "remaining": 11,
+    "totalUsed": 144,
+    "repairRequestsThisPackage": 0
+  },
+  "prompt": {
+    "path": "art/motion/xuchu/walk-prompt-1.txt",
+    "sha256": "6ae91c1852cbdade4f8fe1c8b1a054b3cfb03d2fa7d54cc5724f78bd37b7f43b"
+  },
+  "orderedReferences": [
+    {
+      "order": 1,
+      "path": "art/fighter-bodies/xuchu-body-master.jpg",
+      "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd",
+      "attached": true
+    },
+    {
+      "order": 2,
+      "path": "art/boss-faces/xuchu-portrait-master.jpg",
+      "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d",
+      "attached": true
+    }
+  ],
+  "output": {
+    "path": "art/motion/xuchu/walk-candidate-1.png",
+    "sha256": "dfd7bd87e424c6a50621908eed5a0c950852ea61c033c932955b50e175eb92f7",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 2180302
+  },
+  "acceptance": "UNVERIFIED",
+  "fixedBand": null,
+  "review": {
+    "identity": "visually consistent masters and figure family",
+    "gait": "ordered alternating contact/pass cycle not established;1/2 repeated leading heel and3 long stride",
+    "layout": "cell0 blade touches/crosses conceptual x512 boundary; fixed-cell crop invalid",
+    "head": "UNVERIFIED",
+    "weaponSpread": 0.019901153078732713,
+    "directionMaxStep": 0.6503609111865885,
+    "registration": "UNVERIFIED",
+    "alpha": "source alpha0-254; no fully opaque255 pixels; preview backdrop not baked"
+  },
+  "projection": "diagnostic only; no accepted anchor or persisted band",
+  "checks": {
+    "targetedUnits": "64/64 passed across budget/pipeline/projection/review",
+    "lint": "initial3no-undef errors in own evidence scripts; fixed imports; final pass",
+    "typecheck": "passed",
+    "diffCheck": "passed",
+    "browserVisionProduction": "not run; no runtime/UI/shipping change"
+  },
+  "evidence": [
+    {
+      "path": "art/motion/xuchu/IDENTITY_ACTION_MANIFEST.md",
+      "sha256": "eeb6b815cd5616abd2d3f1a78984c1a1a5c412f9e9e9cdb2476da25101bb8026"
+    },
+    {
+      "path": "art/motion/xuchu/measure-walk-1.mjs",
+      "sha256": "48db87d6973f494c9f6f1ecb5e5ef49e24b7055eb8a21c2bde7ded5b7b914b22"
+    },
+    {
+      "path": "art/motion/xuchu/review-walk-1.mjs",
+      "sha256": "13575da7700f10bed3e820e4d384596fb3cd4d2d06b9342ebc56fad814543387"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-4x.png",
+      "sha256": "95ef7d1d32cd28d0d3d7f4276b36035c377088575a9c4a53699e86ebaf721fdb"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-gameplay.png",
+      "sha256": "912ff315dc2d9b54326cfa90c27f214d1b47ab22c9cd7460b374ffa9e0b00568"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-landmark-detail.png",
+      "sha256": "c81f79665eb78a82f711696ab62d62763701df4879e9f984f29b7f90e2c0e286"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-marked-row0.png",
+      "sha256": "c3ab14e4a4e5598c7e4a5d50068beddac47868b94816a8d9300d843a0fbc9449"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-marked-row1.png",
+      "sha256": "1e33d194f4390170bc27fb19a1e322c17cdeab86f66214dbaaaf8306346fbb84"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-measurements.json",
+      "sha256": "a282052478f86e1aabb379d7cabdde48725c80a09b9678d70ad93bfefc710aca"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1-pixel-probe.json",
+      "sha256": "ff0eee6c94350cec2810c8cfc2a715409a1e4dd36073c8ce0a08c9263c4757f9"
+    },
+    {
+      "path": "art/motion/xuchu/walk-candidate-1.png",
+      "sha256": "dfd7bd87e424c6a50621908eed5a0c950852ea61c033c932955b50e175eb92f7"
+    },
+    {
+      "path": "art/motion/xuchu/walk-prompt-1.txt",
+      "sha256": "6ae91c1852cbdade4f8fe1c8b1a054b3cfb03d2fa7d54cc5724f78bd37b7f43b"
+    }
+  ]
+}

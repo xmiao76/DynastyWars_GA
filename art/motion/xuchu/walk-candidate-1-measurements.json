@@ -1,0 +1,397 @@
+{
+  "status": "PROVISIONAL_NOT_ACCEPTANCE",
+  "scale": 0.259958071278826,
+  "headDefinition": "VISIBLE forehead at helmet rim to external short-beard tip; anatomical crown occluded by helmet, not substituted by helmet crown",
+  "landmarks": [
+    {
+      "id": "walk:0",
+      "brow": [
+        274,
+        47
+      ],
+      "beard": [
+        276,
+        95
+      ],
+      "helmet": [
+        249,
+        15
+      ],
+      "butt": [
+        19,
+        293
+      ],
+      "tip": [
+        508,
+        107
+      ],
+      "samples": {
+        "brow": [
+          219,
+          176,
+          145,
+          252
+        ],
+        "beard": [
+          57,
+          42,
+          29,
+          249
+        ],
+        "helmet": [
+          99,
+          91,
+          87,
+          215
+        ],
+        "butt": [
+          97,
+          84,
+          71,
+          251
+        ],
+        "tip": [
+          210,
+          195,
+          186,
+          237
+        ]
+      },
+      "visibleHeadHeight": 48,
+      "helmetToBeardHeight": 80,
+      "weaponLength": 523.1797014411014,
+      "weaponDirectionDegrees": -20.825218042365268
+    },
+    {
+      "id": "walk:1",
+      "brow": [
+        800,
+        47
+      ],
+      "beard": [
+        805,
+        96
+      ],
+      "helmet": [
+        778,
+        15
+      ],
+      "butt": [
+        528,
+        289
+      ],
+      "tip": [
+        1014,
+        106
+      ],
+      "samples": {
+        "brow": [
+          165,
+          101,
+          86,
+          252
+        ],
+        "beard": [
+          79,
+          71,
+          60,
+          235
+        ],
+        "helmet": [
+          105,
+          98,
+          93,
+          178
+        ],
+        "butt": [
+          93,
+          78,
+          69,
+          247
+        ],
+        "tip": [
+          132,
+          123,
+          114,
+          206
+        ]
+      },
+      "visibleHeadHeight": 49,
+      "helmetToBeardHeight": 81,
+      "weaponLength": 519.3120449209704,
+      "weaponDirectionDegrees": -20.633524252158228
+    },
+    {
+      "id": "walk:2",
+      "brow": [
+        1314,
+        47
+      ],
+      "beard": [
+        1316,
+        96
+      ],
+      "helmet": [
+        1290,
+        15
+      ],
+      "butt": [
+        1038,
+        289
+      ],
+      "tip": [
+        1521,
+        104
+      ],
+      "samples": {
+        "brow": [
+          191,
+          142,
+          118,
+          252
+        ],
+        "beard": [
+          53,
+          47,
+          39,
+          235
+        ],
+        "helmet": [
+          101,
+          94,
+          89,
+          209
+        ],
+        "butt": [
+          84,
+          71,
+          61,
+          246
+        ],
+        "tip": [
+          132,
+          121,
+          117,
+          222
+        ]
+      },
+      "visibleHeadHeight": 49,
+      "helmetToBeardHeight": 81,
+      "weaponLength": 517.2175557731969,
+      "weaponDirectionDegrees": -20.95797779011837
+    },
+    {
+      "id": "walk:3",
+      "brow": [
+        298,
+        552
+      ],
+      "beard": [
+        300,
+        602
+      ],
+      "helmet": [
+        271,
+        521
+      ],
+      "butt": [
+        22,
+        793
+      ],
+      "tip": [
+        503,
+        615
+      ],
+      "samples": {
+        "brow": [
+          193,
+          133,
+          106,
+          253
+        ],
+        "beard": [
+          103,
+          92,
+          85,
+          174
+        ],
+        "helmet": [
+          96,
+          90,
+          86,
+          225
+        ],
+        "butt": [
+          103,
+          89,
+          78,
+          240
+        ],
+        "tip": [
+          206,
+          196,
+          187,
+          240
+        ]
+      },
+      "visibleHeadHeight": 50,
+      "helmetToBeardHeight": 81,
+      "weaponLength": 512.8791280604037,
+      "weaponDirectionDegrees": -20.307616878931782
+    },
+    {
+      "id": "walk:4",
+      "brow": [
+        809,
+        552
+      ],
+      "beard": [
+        808,
+        605
+      ],
+      "helmet": [
+        782,
+        521
+      ],
+      "butt": [
+        528,
+        791
+      ],
+      "tip": [
+        1016,
+        615
+      ],
+      "samples": {
+        "brow": [
+          185,
+          120,
+          94,
+          253
+        ],
+        "beard": [
+          112,
+          87,
+          66,
+          219
+        ],
+        "helmet": [
+          99,
+          94,
+          89,
+          216
+        ],
+        "butt": [
+          101,
+          88,
+          76,
+          249
+        ],
+        "tip": [
+          137,
+          128,
+          120,
+          148
+        ]
+      },
+      "visibleHeadHeight": 53,
+      "helmetToBeardHeight": 84,
+      "weaponLength": 518.7677707799512,
+      "weaponDirectionDegrees": -19.832129850218386
+    },
+    {
+      "id": "walk:5",
+      "brow": [
+        1311,
+        552
+      ],
+      "beard": [
+        1311,
+        605
+      ],
+      "helmet": [
+        1291,
+        521
+      ],
+      "butt": [
+        1036,
+        792
+      ],
+      "tip": [
+        1518,
+        613
+      ],
+      "samples": {
+        "brow": [
+          196,
+          141,
+          110,
+          252
+        ],
+        "beard": [
+          83,
+          68,
+          56,
+          46
+        ],
+        "helmet": [
+          109,
+          103,
+          97,
+          220
+        ],
+        "butt": [
+          84,
+          71,
+          61,
+          249
+        ],
+        "tip": [
+          101,
+          91,
+          86,
+          174
+        ]
+      },
+      "visibleHeadHeight": 53,
+      "helmetToBeardHeight": 84,
+      "weaponLength": 514.1643706053542,
+      "weaponDirectionDegrees": -20.373450592309002
+    }
+  ],
+  "weaponSpread": 0.019901153078732713,
+  "visibleHeadSpread": 0.09933774834437085,
+  "helmetToBeardSpread": 0.04887983706720978,
+  "directionMaxStep": 0.6503609111865885,
+  "fixedBand": null,
+  "projectionDiagnosticOnly": {
+    "status": "OK",
+    "observedSpread": 0.01990115307873289,
+    "n": 6,
+    "min": 133.32706892974852,
+    "max": 136.00478611886075,
+    "mean": 134.55085635081804,
+    "window": {
+      "lo": 128.08375988843804,
+      "hi": 141.56626092932626
+    },
+    "reasons": [
+      "observed spread 1.99% over n=6; steering window [128.1, 141.6]"
+    ]
+  },
+  "projectionNote": "Diagnostic hypothetical anchor only. No accepted sheet and no fixed-band state persisted; candidate rejected/unknown cannot establish a band.",
+  "endpointReview": {
+    "openedMarkedOverlays": true,
+    "correctedOffPixelEndpoints": [
+      "walk:2 metal tip",
+      "walk:3 beard",
+      "walk:4 beard and helmet",
+      "walk:5 beard and metal tip"
+    ],
+    "remainingUnknown": [
+      "walk:5 beard tip low alpha46 and no confidently isolated chin",
+      "anatomical crown occluded by helmet for all six"
+    ],
+    "headVerdict": "UNVERIFIED; provisional9.9338% is fragile under1px perturbation",
+    "weaponVerdict": "local diagnostic1.9901%; not accepted full-pack geometry"
+  }
+}

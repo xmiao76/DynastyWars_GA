@@ -162,6 +162,14 @@
         "fall": 4,
         "getup": 2
       }
+    },
+    "xuchu": {
+      "role": "boss",
+      "cap": 12,
+      "used": 1,
+      "sheetCandidates": {
+        "walk": 1
+      }
     }
   }
 }
