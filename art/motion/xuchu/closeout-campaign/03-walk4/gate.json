@@ -1,0 +1,297 @@
+{
+  "work": "cmr15a-closeout-03-walk4",
+  "key": "walk:4",
+  "request": "03",
+  "zeroNewGenerationInGate": true,
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "inputs": {
+    "original": {
+      "path": "art/motion/xuchu/closeout-campaign/refs/walk4-original-cell.png",
+      "sha256": "b96d7d5295488b78b042c13507d92a4e194d93c6635fa99606e7924360db4d4a",
+      "pinned": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    "candidate": {
+      "path": "art/motion/xuchu/closeout-campaign/03-walk4/candidate-raw.jpg",
+      "sha256": "990fefd79981394af812a495a98183ed5da972535249976c1417e13f32c5f144",
+      "pinned": true,
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "landmarks": {
+    "candWeapon1024": {
+      "butt": [
+        85,
+        662
+      ],
+      "tip": [
+        1023,
+        268
+      ]
+    },
+    "candBeardTip1024": [
+      635,
+      275
+    ],
+    "candCrown1024": 55,
+    "candSupportSole1024": 945,
+    "candFrontBoot1024": {
+      "x": [
+        537,
+        735
+      ],
+      "soleY": 945
+    },
+    "candRearBoot1024": {
+      "x": [
+        205,
+        350
+      ],
+      "lowestY": 920,
+      "toe": [
+        280,
+        915
+      ]
+    },
+    "origWeapon": {
+      "butt": [
+        28,
+        328
+      ],
+      "tip": [
+        510,
+        125
+      ]
+    },
+    "anchorWeapon": {
+      "butt": [
+        35,
+        318
+      ],
+      "tip": [
+        486,
+        95
+      ]
+    },
+    "origBounds": {
+      "xmin": 0,
+      "ymin": 22,
+      "xmax": 511,
+      "ymax": 466
+    },
+    "origGroundY": 466
+  },
+  "measurements": {
+    "weaponVsFrozenBand": {
+      "candidatePxAt512": 508.6944072820145,
+      "candidateU": 132.23921698735805,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": true,
+      "deltaPctVsAnchor": 1.107914693269494,
+      "spreadAnchorVsCandCanonical": 0.011018111295711952,
+      "candidateAngleDeg": -22.784482642776897,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": 3.525922302028242,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 14.977532291774228,
+        "tip": 46.26229883314857,
+        "corridorLimitPx": 14
+      }
+    },
+    "bodyVsFrozen": {
+      "candidateHeightPxAt512": 445,
+      "frozenHeightPxAt512": 459,
+      "deltaPctVsFrozen": -3.0501089324618738,
+      "originalHeightPx": 445
+    },
+    "groundVsFrozen": {
+      "frozenGroundYAt512": 500,
+      "candidateGroundYAt512": 472.5,
+      "groundedErrorPx": 27.5,
+      "uPerPx": 0.259958071278826,
+      "groundedErrorU": 7.148846960167714,
+      "limitU": 1.5
+    },
+    "headEndpointRAW": {
+      "beardTip1024": [
+        635,
+        275
+      ],
+      "backdropRefRgb": [
+        0,
+        0,
+        0
+      ],
+      "samplesBelowTip": [
+        {
+          "y": 322,
+          "rgb": [
+            47,
+            38,
+            31
+          ]
+        },
+        {
+          "y": 330,
+          "rgb": [
+            60,
+            49,
+            43
+          ]
+        },
+        {
+          "y": 340,
+          "rgb": [
+            24,
+            16,
+            13
+          ]
+        },
+        {
+          "y": 350,
+          "rgb": [
+            18,
+            15,
+            8
+          ]
+        },
+        {
+          "y": 360,
+          "rgb": [
+            31,
+            22,
+            15
+          ]
+        },
+        {
+          "y": 370,
+          "rgb": [
+            133,
+            114,
+            108
+          ]
+        },
+        {
+          "y": 380,
+          "rgb": [
+            45,
+            32,
+            26
+          ]
+        }
+      ],
+      "measuredClearBackgroundGapPxAt1024": 0,
+      "note": "RAW only per CAMPAIGN (c): beard conceals chin/beard-base endpoint; unreadable endpoint does NOT reject here; reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass + independent visual review."
+    },
+    "gait": {
+      "frontBoot": "screen-right boot flat, sole row 945@1024",
+      "rearBoot": "screen-left boot toe-down trailing behind, lowest row 920@1024, 25px@1024 above support sole (lifted but trailing, not forward passing)",
+      "feetSeparation": "support x537-735 vs lifted x205-350 @1024, clearly separated",
+      "note": "No bent forward passing leg with tucked toe beside/in front of support: lifted leg trails behind toe-down (toe-off-like), same screen-left lifted arrangement as accepted walk:2 (support centre x420-625/lifted x178-292). Passing-A and opposite-passing vs walk:2 NOT demonstrated."
+    },
+    "weaponTipClipped": {
+      "candidateXmax": 1023,
+      "tipInsideFrame": false,
+      "measuredLengthIsLowerBoundOnly": true
+    }
+  },
+  "verdicts": {
+    "identity": {
+      "verdict": "PASS",
+      "basis": "read_image candidate-raw.jpg + gate-cand-head-zoom.png: same blunt-faced helmeted dark/full-bearded ochre/dark-armoured massive Xu Chu, right-facing three-quarter, no other-fighter/costume/cape drift vs reference."
+    },
+    "anatomy": {
+      "verdict": "PASS",
+      "basis": "Full + legs/head zooms: connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs or pasted-on legs."
+    },
+    "weaponCorridorLengthDirection": {
+      "verdict": "FAIL",
+      "basis": "Blade tip CLIPPED at right frame edge (xmax 1023@1024; tip zoom shows blade exiting frame, despite prompt CRITICAL tip-inside instruction) so whole butt->tip length is UNMEASURABLE (frame-exit lower bound 132.24u only, recorded raw; numeric in-band lower bound is NOT a pass). Shaft/frame-exit angle vs frozen -26.31deg and corridor tip perp vs anchor line >14px limit (see measured). Deterministic shaft retouch cannot restore missing off-frame blade pixels; no waiver issued in-batch.",
+      "measured": {
+        "candidatePxAt512": 508.6944072820145,
+        "candidateU": 132.23921698735805,
+        "bandU": {
+          "lo": 124.40626991803302,
+          "hi": 137.50166675151021
+        },
+        "inBand": true,
+        "deltaPctVsAnchor": 1.107914693269494,
+        "spreadAnchorVsCandCanonical": 0.011018111295711952,
+        "candidateAngleDeg": -22.784482642776897,
+        "anchorAngleDeg": -26.31040494480514,
+        "angleDeltaDegVsAnchor": 3.525922302028242,
+        "corridorPerpPxVsAnchorLine": {
+          "butt": 14.977532291774228,
+          "tip": 46.26229883314857,
+          "corridorLimitPx": 14
+        }
+      }
+    },
+    "scaleGround": {
+      "verdict": "FAIL",
+      "basis": "At fixed nominal registration: candidate groundY vs frozen 500@512 grounded error >>1.5u limit and body height vs frozen 459px (see measured). No re-registration permitted.",
+      "measured": {
+        "body": {
+          "candidateHeightPxAt512": 445,
+          "frozenHeightPxAt512": 459,
+          "deltaPctVsFrozen": -3.0501089324618738,
+          "originalHeightPx": 445
+        },
+        "ground": {
+          "frozenGroundYAt512": 500,
+          "candidateGroundYAt512": 472.5,
+          "groundedErrorPx": 27.5,
+          "uPerPx": 0.259958071278826,
+          "groundedErrorU": 7.148846960167714,
+          "limitU": 1.5
+        }
+      }
+    },
+    "seams": {
+      "verdict": "FAIL",
+      "basis": "Clipped blade at right frame edge (unintended panel clipping per CAMPAIGN (c)); otherwise no splice (whole candidate), no halo/key residue observed in zooms."
+    },
+    "gaitPhaseMatch": {
+      "verdict": "FAIL",
+      "basis": "Required Passing-A: Leg-B sole support + Leg-A bent forward passing tucked/clear, opposite passing leg to accepted walk:2 Passing-B. Candidate shows screen-right flat support + screen-left toe-down leg trailing behind (toe-off-like), not a forward tucked pass; same screen-left lifted arrangement as walk:2, so opposite passing NOT demonstrated.",
+      "measured": {
+        "frontBoot": "screen-right boot flat, sole row 945@1024",
+        "rearBoot": "screen-left boot toe-down trailing behind, lowest row 920@1024, 25px@1024 above support sole (lifted but trailing, not forward passing)",
+        "feetSeparation": "support x537-735 vs lifted x205-350 @1024, clearly separated",
+        "note": "No bent forward passing leg with tucked toe beside/in front of support: lifted leg trails behind toe-down (toe-off-like), same screen-left lifted arrangement as accepted walk:2 (support centre x420-625/lifted x178-292). Passing-A and opposite-passing vs walk:2 NOT demonstrated."
+      }
+    },
+    "headEndpointRAW": {
+      "verdict": "RECORDED_RAW_NOT_A_REJECT",
+      "measuredClearBackgroundGapPxAt1024": 0,
+      "basis": "Beard tip over collar/chest; clear background gap recorded raw (see measurements). Reserved for batch-end ruling only; not a reject ground here."
+    },
+    "weaponDeviationsRAW": {
+      "verdict": "RECORDED_RAW",
+      "basis": "Tip clipped / length unmeasurable + angle/corridor deviation recorded above with exact candidate hash 990fefd7...; no per-candidate waiver."
+    }
+  },
+  "overall": "REJECT",
+  "disposition": "REJECT — candidate UNACCEPTED, not banked (no accepted.png). Genuinely unusable count 1->2 (campaign total 2/2 = grant STOP on second genuinely unusable source). Campaign STOPPED; no further requests, no reroll/correction. CMR-15A BLOCKED WAITING_FOR_OWNER.",
+  "genuinelyUnusableCountAfterThisRequest": 2
+}

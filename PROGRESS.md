@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A closeout 03 walk:4 REJECT (unaccepted, genuinely unusable 2/2 — CAMPAIGN STOP)
+
+- Finite closeout request 03 (walk:4, Passing-A): reserve-before-call committed `0c51789` (Xu Chu 5→6, walk 5→6, global 172→173; nominal cap 12/totalCap 200 unchanged, campaign ceiling 15/182 in `03-walk4/reservation.json`), then exactly ONE served grok EDIT (serving UNCONFIRMED) with `refs/walk4-original-cell.png` (b96d7d52…) as sole reference — prompt explicitly required entire weapon tip inside frame, ground at original level, Passing-A opposite walk:2; no text-to-image, no reroll (one prior harness malformed-reference rejection, zero output, corrected `sha256:` prefix only). Candidate `990fefd7…` 1024×1024 JPEG committed UNREVIEWED `03bf321`.
+- Gates (`art/motion/xuchu/closeout-campaign/03-walk4/gate.mjs`/`gate.json`, full candidate + head/legs/tip/soles zooms + marked read): identity PASS, anatomy PASS; weapon FAIL (blade tip clipped at right frame edge xmax 1023@1024 — whole length unmeasurable, frame-exit lower bound 132.24u vs frozen band [124.41,137.50]u, angle −22.78° vs frozen −26.31° Δ+3.53°, corridor tip perp 46.26px/14px; shaft retouch cannot restore off-frame blade), scale/ground FAIL (ground 472.5 vs frozen 500@512 = 7.15u >1.5u; body 445 vs 459px −3.05%), seams FAIL (clipped blade), gait FAIL (screen-right flat support + screen-left toe-down trailing leg — not bent forward Passing-A, opposite passing vs accepted walk:2 not proven). Head endpoint RAW gap 0px, recorded raw only (not a reject).
+- Verdict REJECT: candidate UNACCEPTED, not banked (no accepted.png). Genuinely unusable 1→2 (campaign 2/2 = grant STOP on second genuinely unusable source): campaign STOPPED, no further requests (04 walk:5 onward not reserved/called). CMR-15A BLOCKED WAITING_FOR_OWNER. Frozen brief band from walk:2 anchor unchanged. Exactly one served generation in this package; never pushed.
+
 ### 2026-10-12 — CMR-15A closeout 02 walk:3 REJECT (unaccepted, genuinely unusable 1/2)
 
 - Finite closeout request 02 (walk:3, Contact-B): reserve-before-call committed `2f6579a` (Xu Chu 4→5, walk 4→5, global 171→172; nominal cap 12/totalCap 200 unchanged, campaign ceiling 15/182 in `02-walk3/reservation.json`), then exactly ONE grok EDIT (serving UNCONFIRMED) with `refs/walk3-original-cell.png` (947d6b77…) as sole reference — no text-to-image, no reroll. Candidate `ec73c75a…` 1024×1024 JPEG committed UNREVIEWED `d5e928f`.
