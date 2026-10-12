@@ -283,7 +283,7 @@ prepare the offline pack only and return for independent review.
 | Step | Status |
 |---|---|
 | Setup (this package) | DONE — grant recorded, IN_PROGRESS, zero-gen gates, padded refs, salvage record; ledger unchanged 6/173 |
-| walk:3 first attempt | Next (amendment order) |
+| walk:3 second attempt (`02-walk3/attempt2/`) | **REJECTED after salvage — unaccepted, not banked** (candidate `d92a24afe7060fd40201acf74c252676f1fa0c5be670b3450f9b0d9e5fb4424b`, reserve commit `822d907`, Xu Chu 7 / global 174, ceilings 22/189). One gpt-preferred EDIT (serving UNCONFIRMED) with padded walk3 ref + accepted walk:2 anchor, briefed on attempt-1 failure. Gates (`02-walk3/attempt2/gate.json`): identity/anatomy PASS; weapon PASS (125.65u in band [124.41,137.50]u, angle Δ−0.45°, corridor ≤12.03px/14px, tip not clipped, right margin 37px native recorded raw); scale/ground FAIL (body 414.42 vs 459px@512 −9.71%; ground 474.85 vs 500@512 = 6.54u >1.5u; salvage step (1) factor 1.1076 exceeds ±4% cap, not applied; steps (2)–(3) do not cure); seams FAIL (retained painted green ground line, 4065 green px); gait FAIL (front-flat/rear-toe same screen arrangement as walk:1, Contact-B opposite occlusion not proven); head RAW gap 0px (not a reject). **Post-amendment post-correction unusable count 0→1 (consecutive 1/2; STOP at 2 consecutive not reached).** walk:3 second attempt spent, no third attempt. Next amendment key: walk:4 (manager/owner direction). |
 
 ## Setup checks (this package)
 

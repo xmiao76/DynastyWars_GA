@@ -1,0 +1,133 @@
+{
+  "work": "cmr15a-amend-walk3",
+  "attempt": "attempt2",
+  "measurements": {
+    "weaponVsFrozenBand": {
+      "candidatePxAt512": 483.3301352885201,
+      "candidateU": 125.64556976053771,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": true,
+      "deltaPctVsAnchor": -3.9334787489693275,
+      "spreadAnchorVsCandCanonical": 0.04012392043140461,
+      "candidateAngleDeg": -26.75986040583718,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": -0.44945546103204137,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 12.03227746795175,
+        "tip": 8.240843915952139,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxNative": 37,
+      "tipClipped": false
+    },
+    "bodyVsFrozen": {
+      "candidateHeightPxAt512": 414.4178628389155,
+      "frozenHeightPxAt512": 459,
+      "deltaPctVsFrozen": -9.712883913090309
+    },
+    "groundVsFrozen": {
+      "frozenGroundYAt512": 500,
+      "candidateGroundYAt512": 474.8452950558214,
+      "groundedErrorPx": 25.154704944178604,
+      "uPerPx": 0.259958071278826,
+      "groundedErrorU": 6.539168580876618,
+      "limitU": 1.5
+    },
+    "salvageStep1Registration": {
+      "factor": 1.1075777401477833,
+      "withinPlusMinus4Pct": false,
+      "applied": false,
+      "registeredGroundYAt512": null,
+      "registeredBodyHeightPxAt512": null,
+      "note": "factor exceeds +-4% cap: registration NOT authorized/applied; scale/ground failure stands (no larger rescale permitted)"
+    },
+    "salvageStep2ShaftRetouch": {
+      "applied": false,
+      "note": "weapon length is in-frame and in band; no in-frame length outlier to retouch"
+    },
+    "salvageStep3Splice": {
+      "applied": false,
+      "note": "not attempted: would not cure scale/ground or the retained painted ground line; no fabrication"
+    },
+    "greenGroundLineRetained": {
+      "greenPx": 4065,
+      "note": "candidate retained the padded reference painted green ground line (bright green streak across/below both soles, soles + tip zooms): unintended reference-panel pixels in the served art"
+    },
+    "headEndpointRAW": {
+      "beardTipNative": [
+        760,
+        380
+      ],
+      "samplesBelowTip": [
+        {
+          "y": 385,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 395,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 405,
+          "rgb": [
+            81,
+            54,
+            39
+          ]
+        },
+        {
+          "y": 415,
+          "rgb": [
+            81,
+            58,
+            48
+          ]
+        },
+        {
+          "y": 425,
+          "rgb": [
+            75,
+            57,
+            51
+          ]
+        },
+        {
+          "y": 435,
+          "rgb": [
+            86,
+            63,
+            55
+          ]
+        },
+        {
+          "y": 445,
+          "rgb": [
+            96,
+            74,
+            63
+          ]
+        }
+      ],
+      "measuredClearBackgroundGapPxNative": 0,
+      "note": "RAW only: beard tip over collar/chest; reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass."
+    },
+    "gait": {
+      "frontBoot": "screen-right boot flat, sole row 1163@1254",
+      "rearBoot": "screen-left boot toe-down trailing, lowest row 1163@1254 (heel raised, toe-off)",
+      "feetSeparation": "front boot x~750-1010 vs rear x~140-330 native, clearly separated",
+      "note": "Screen arrangement (front flat + rear toe-off) is the SAME as walk:1 original and attempt-1; leg-occlusion order at the skirt is not visibly reversed vs walk:1, so Contact-B opposite-contact (Leg-B front vs walk:1 Leg-A front) is not proven by occlusion/boot order."
+    }
+  }
+}

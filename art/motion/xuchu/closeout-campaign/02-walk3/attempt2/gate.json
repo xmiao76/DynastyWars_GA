@@ -1,0 +1,280 @@
+{
+  "work": "cmr15a-amend-walk3",
+  "key": "walk:3",
+  "attempt": "attempt2 (second attempt, amendment)",
+  "zeroNewGenerationInGate": true,
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "inputs": {
+    "candidate": {
+      "path": "art/motion/xuchu/closeout-campaign/02-walk3/attempt2/candidate-raw.png",
+      "sha256": "d92a24afe7060fd40201acf74c252676f1fa0c5be670b3450f9b0d9e5fb4424b",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    "references": [
+      "padded-refs/walk3-padded-ref.png 8a952923...",
+      "01-walk2/accepted.png 893c90d7..."
+    ]
+  },
+  "landmarks": {
+    "candWeaponNative": {
+      "butt": [
+        160,
+        775
+      ],
+      "tip": [
+        1217,
+        242
+      ]
+    },
+    "candWeaponAt512": {
+      "butt": [
+        65.32695374800637,
+        316.4274322169059
+      ],
+      "tip": [
+        496.89314194577355,
+        98.80701754385964
+      ]
+    },
+    "candBeardTipNative": [
+      760,
+      380
+    ],
+    "candCrownNative": 148,
+    "frontSoleNative": 1163,
+    "rearToeNative": 1163
+  },
+  "measurements": {
+    "weaponVsFrozenBand": {
+      "candidatePxAt512": 483.3301352885201,
+      "candidateU": 125.64556976053771,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": true,
+      "deltaPctVsAnchor": -3.9334787489693275,
+      "spreadAnchorVsCandCanonical": 0.04012392043140461,
+      "candidateAngleDeg": -26.75986040583718,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": -0.44945546103204137,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 12.03227746795175,
+        "tip": 8.240843915952139,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxNative": 37,
+      "tipClipped": false
+    },
+    "bodyVsFrozen": {
+      "candidateHeightPxAt512": 414.4178628389155,
+      "frozenHeightPxAt512": 459,
+      "deltaPctVsFrozen": -9.712883913090309
+    },
+    "groundVsFrozen": {
+      "frozenGroundYAt512": 500,
+      "candidateGroundYAt512": 474.8452950558214,
+      "groundedErrorPx": 25.154704944178604,
+      "uPerPx": 0.259958071278826,
+      "groundedErrorU": 6.539168580876618,
+      "limitU": 1.5
+    },
+    "salvageStep1Registration": {
+      "factor": 1.1075777401477833,
+      "withinPlusMinus4Pct": false,
+      "applied": false,
+      "registeredGroundYAt512": null,
+      "registeredBodyHeightPxAt512": null,
+      "note": "factor exceeds +-4% cap: registration NOT authorized/applied; scale/ground failure stands (no larger rescale permitted)"
+    },
+    "salvageStep2ShaftRetouch": {
+      "applied": false,
+      "note": "weapon length is in-frame and in band; no in-frame length outlier to retouch"
+    },
+    "salvageStep3Splice": {
+      "applied": false,
+      "note": "not attempted: would not cure scale/ground or the retained painted ground line; no fabrication"
+    },
+    "greenGroundLineRetained": {
+      "greenPx": 4065,
+      "note": "candidate retained the padded reference painted green ground line (bright green streak across/below both soles, soles + tip zooms): unintended reference-panel pixels in the served art"
+    },
+    "headEndpointRAW": {
+      "beardTipNative": [
+        760,
+        380
+      ],
+      "samplesBelowTip": [
+        {
+          "y": 385,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 395,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 405,
+          "rgb": [
+            81,
+            54,
+            39
+          ]
+        },
+        {
+          "y": 415,
+          "rgb": [
+            81,
+            58,
+            48
+          ]
+        },
+        {
+          "y": 425,
+          "rgb": [
+            75,
+            57,
+            51
+          ]
+        },
+        {
+          "y": 435,
+          "rgb": [
+            86,
+            63,
+            55
+          ]
+        },
+        {
+          "y": 445,
+          "rgb": [
+            96,
+            74,
+            63
+          ]
+        }
+      ],
+      "measuredClearBackgroundGapPxNative": 0,
+      "note": "RAW only: beard tip over collar/chest; reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass."
+    },
+    "gait": {
+      "frontBoot": "screen-right boot flat, sole row 1163@1254",
+      "rearBoot": "screen-left boot toe-down trailing, lowest row 1163@1254 (heel raised, toe-off)",
+      "feetSeparation": "front boot x~750-1010 vs rear x~140-330 native, clearly separated",
+      "note": "Screen arrangement (front flat + rear toe-off) is the SAME as walk:1 original and attempt-1; leg-occlusion order at the skirt is not visibly reversed vs walk:1, so Contact-B opposite-contact (Leg-B front vs walk:1 Leg-A front) is not proven by occlusion/boot order."
+    }
+  },
+  "verdicts": {
+    "identity": {
+      "verdict": "PASS",
+      "basis": "read_image candidate-raw.png + head zoom: same blunt-faced helmeted dark/full-bearded ochre/dark-armoured massive Xu Chu, right-facing three-quarter, no other-fighter/costume drift."
+    },
+    "anatomy": {
+      "verdict": "PASS",
+      "basis": "Full + legs/head zooms: connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs."
+    },
+    "weaponCorridorLengthDirection": {
+      "verdict": "PASS (measured, tip not clipped)",
+      "basis": "Whole glaive in frame (tip right margin 37px native / ~15px@512, less than the briefed 40px native margin but not clipped); length in frozen band, angle and corridor within limits (see measured). No shaft retouch needed; deviation (tip margin) recorded raw, no waiver in-batch.",
+      "measured": {
+        "candidatePxAt512": 483.3301352885201,
+        "candidateU": 125.64556976053771,
+        "bandU": {
+          "lo": 124.40626991803302,
+          "hi": 137.50166675151021
+        },
+        "inBand": true,
+        "deltaPctVsAnchor": -3.9334787489693275,
+        "spreadAnchorVsCandCanonical": 0.04012392043140461,
+        "candidateAngleDeg": -26.75986040583718,
+        "anchorAngleDeg": -26.31040494480514,
+        "angleDeltaDegVsAnchor": -0.44945546103204137,
+        "corridorPerpPxVsAnchorLine": {
+          "butt": 12.03227746795175,
+          "tip": 8.240843915952139,
+          "corridorLimitPx": 14
+        },
+        "tipInsideFrame": true,
+        "tipRightMarginPxNative": 37,
+        "tipClipped": false
+      }
+    },
+    "scaleGround": {
+      "verdict": "FAIL",
+      "basis": "Body height far below frozen 459px@512 and ground far above frozen 500@512 (see measured); salvage step (1) factor exceeds the authorized +-4% cap, so registration may not cure it. No shrinking/growing beyond cap permitted.",
+      "measured": {
+        "body": {
+          "candidateHeightPxAt512": 414.4178628389155,
+          "frozenHeightPxAt512": 459,
+          "deltaPctVsFrozen": -9.712883913090309
+        },
+        "ground": {
+          "frozenGroundYAt512": 500,
+          "candidateGroundYAt512": 474.8452950558214,
+          "groundedErrorPx": 25.154704944178604,
+          "uPerPx": 0.259958071278826,
+          "groundedErrorU": 6.539168580876618,
+          "limitU": 1.5
+        },
+        "salvage": {
+          "factor": 1.1075777401477833,
+          "withinPlusMinus4Pct": false,
+          "applied": false,
+          "registeredGroundYAt512": null,
+          "registeredBodyHeightPxAt512": null,
+          "note": "factor exceeds +-4% cap: registration NOT authorized/applied; scale/ground failure stands (no larger rescale permitted)"
+        }
+      }
+    },
+    "seams": {
+      "verdict": "FAIL",
+      "basis": "Candidate retained the padded reference painted green ground line as a bright green streak across/below both soles (greenPx counted, soles/tip zooms) - unintended reference-panel pixels; otherwise whole-candidate, blade/headgear/boots not clipped."
+    },
+    "gaitPhaseMatch": {
+      "verdict": "FAIL (not proven opposite)",
+      "basis": "Screen arrangement (front flat + rear toe-off) is the SAME as walk:1 original and attempt-1; leg-occlusion order at the skirt is not visibly reversed vs walk:1, so Contact-B opposite-contact (Leg-B front vs walk:1 Leg-A front) is not proven by occlusion/boot order.",
+      "measured": {
+        "frontBoot": "screen-right boot flat, sole row 1163@1254",
+        "rearBoot": "screen-left boot toe-down trailing, lowest row 1163@1254 (heel raised, toe-off)",
+        "feetSeparation": "front boot x~750-1010 vs rear x~140-330 native, clearly separated",
+        "note": "Screen arrangement (front flat + rear toe-off) is the SAME as walk:1 original and attempt-1; leg-occlusion order at the skirt is not visibly reversed vs walk:1, so Contact-B opposite-contact (Leg-B front vs walk:1 Leg-A front) is not proven by occlusion/boot order."
+      }
+    },
+    "headEndpointRAW": {
+      "verdict": "RECORDED_RAW_NOT_A_REJECT",
+      "measuredClearBackgroundGapPxNative": 0,
+      "basis": "Beard tip over collar/chest; 0px clear gap. Batch-end ruling reserved only; not a reject ground here."
+    },
+    "weaponDeviationsRAW": {
+      "verdict": "RECORDED_RAW",
+      "basis": "Tip margin 37px native (< briefed 40px) recorded with exact candidate hash d92a24af...; length/angle/corridor in band; no per-candidate waiver."
+    }
+  },
+  "overall": "REJECT",
+  "disposition": "REJECT after salvage - candidate UNACCEPTED, not banked (no accepted.png). Salvage step (1) factor exceeds +-4% cap (not applied); steps (2)-(3) do not cure scale/ground, seams (retained green line) or unproven opposite gait. Post-amendment post-correction unusable count 0->1 (consecutive 1/2; STOP at 2 consecutive, not reached). walk:3 second attempt spent - no third attempt. CMR-15A stays IN_PROGRESS; next amendment key walk:4 only under manager/owner direction.",
+  "postAmendmentUnusableCountAfterThis": 1,
+  "consecutiveUnusableAfterThis": 1
+}

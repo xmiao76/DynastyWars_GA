@@ -20,5 +20,5 @@
   ],
   "reserveCommit": "822d907",
   "note": "Two pre-generation harness reference-validation rejections (missing sha256: prefix in attachmentId) served zero generations and consumed no provider request; corrected encoding only, same two references, no substitution. Exactly ONE served generation in this attempt.",
-  "status": "UNREVIEWED — candidate served, gates not yet run at this commit"
+  "status": "REJECTED after salvage — candidate UNACCEPTED, not banked (no accepted.png); gates in gate.json/gate-measurements.json (weapon PASS 125.65u in band, angle delta -0.45deg, corridor <=12.03px/14px, tip not clipped; scale/ground FAIL body 414.42 vs 459px@512 -9.71%, ground 6.54u, salvage factor 1.1076 exceeds +-4% cap not applied; seams FAIL retained painted green ground line 4065 green px; gait FAIL Contact-B opposite not proven vs walk:1); post-amendment unusable count 0->1 (consecutive 1/2, STOP at 2 not reached); walk:3 second attempt spent"
 }
