@@ -4,6 +4,11 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A STAGED PROOF-OF-CONTROL (owner grant): IN_PROGRESS, generation package started
+
+- Owner grant recorded verbatim in TASKS.md CMR-15A (owner, 2026-10-12): "CMR-15A STAGED PROOF-OF-CONTROL: Reset BLOCKED→IN_PROGRESS for exactly ONE isolated single-pose EDIT request for walk:2 (GAIT-EDIT + BEARD-BASE as defined in CMR-15A-FEASIBILITY-PLAN.md §b), reserve-before-call (Xu Chu 2→3/12, global 169→170/200), riskiest-key-first, no whole-sheet, no text-to-image substitution, no other request. Pass requires ALL of: natural opposite passing/support, readable beard-base endpoint (≥8px background), outside-mask RGBA hash equality after deterministic local splice, weapon corridor/identity/scale unchanged, pack-projection gates per §e. On ANY gate failure: STOP, candidate unaccepted, no downstream spend, re-block WAITING_FOR_OWNER. On pass: walk:2 banks as anchor 1 of 6 and I will then decide on cap revision (12→14) for the remaining 5 anchors + 6 downstream. No waiver, cap change, or further funding is implied by this grant."
+- Status: CMR-15A BLOCKED→IN_PROGRESS for exactly this one walk:2 proof request (prior BLOCKED text preserved as Prior: in TASKS.md). Ledger verified before: Xu Chu 2/12, global 169/200. This package is GENERATION only (reserve-before-call, one grok EDIT); no gate verdict, no other request.
+
 ### 2026-10-12 — CMR-15A unblock feasibility (owner grant): verdict NOT DEMONSTRATED, re-blocked WAITING_FOR_OWNER
 
 - Owner grant recorded verbatim in TASKS.md CMR-15A (owner, 2026-10-12): "UNBLOCK CMR-15A: Reset BLOCKED→TODO. First perform a zero-generation feasibility and named-region/mask plan. Proceed only if it demonstrates a complete path with ≤4 anchor requests and 6 retained downstream requests. No waiver, extra funding, or unconstrained generation is implied." Status was reset BLOCKED→TODO for this package (preserved as Prior:), then re-blocked on the verdict below. Attempt accounting unchanged: 2 failed consumers, 1 remaining; no waiver/spend.
