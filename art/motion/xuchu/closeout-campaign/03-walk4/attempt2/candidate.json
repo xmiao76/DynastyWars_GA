@@ -19,5 +19,6 @@
     { "role": "second (accepted walk:2 anchor; read via identical-bytes candidate-raw.jpg 893c90d7 due accepted.png JPEG-bytes extension mismatch)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6" }
   ],
   "reserveCommits": ["176213f", "952a5b9"],
-  "status": "UNREVIEWED — exactly one served gpt generation; no gate verdict yet"
+  "candidateCommit": "d267a38",
+  "status": "REJECTED after salvage — candidate UNACCEPTED, not banked (no accepted.png); gates in gate.json/gate-measurements.json (identity/anatomy/weapon/seams/gait PASS: weapon 132.01u in band, delta -0.09deg, corridor <=3.99px/14px, tip margin 50px native, greenPx=0; scale/ground FAIL body 416.05 vs 459px@512 -9.36%, ground 10.25u, salvage factor 1.1032 exceeds +-4% cap not applied; head RAW 0px); post-amendment consecutive unusable 1->2 = STOP, campaign stopped; walk:4 second attempt spent"
 }

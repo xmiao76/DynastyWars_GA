@@ -1,0 +1,133 @@
+{
+  "work": "cmr15a-amend-walk4",
+  "attempt": "attempt2",
+  "measurements": {
+    "weaponVsFrozenBand": {
+      "candidatePxAt512": 507.7970904012052,
+      "candidateU": 132.00595222169693,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": true,
+      "deltaPctVsAnchor": 0.929564317603975,
+      "spreadAnchorVsCandCanonical": 0.00925263856278151,
+      "candidateAngleDeg": -26.400230978676348,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": -0.08982603387120847,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 3.1975670248514656,
+        "tip": 3.993670688060277,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxNative": 50,
+      "tipClipped": false
+    },
+    "bodyVsFrozen": {
+      "candidateHeightPxAt512": 416.05103668261563,
+      "frozenHeightPxAt512": 459,
+      "deltaPctVsFrozen": -9.357072618166528
+    },
+    "groundVsFrozen": {
+      "frozenGroundYAt512": 500,
+      "candidateGroundYAt512": 460.555023923445,
+      "groundedErrorPx": 39.44497607655501,
+      "uPerPx": 0.259958071278826,
+      "groundedErrorU": 10.254039902500672,
+      "limitU": 1.5
+    },
+    "salvageStep1Registration": {
+      "factor": 1.1032300355740923,
+      "withinPlusMinus4Pct": false,
+      "applied": false,
+      "registeredGroundYAt512": null,
+      "registeredBodyHeightPxAt512": null,
+      "note": "factor exceeds +-4% cap: registration NOT authorized/applied; scale/ground failure stands (no larger rescale permitted)"
+    },
+    "salvageStep2ShaftRetouch": {
+      "applied": false,
+      "note": "weapon length is in-frame and in band; no in-frame length outlier to retouch"
+    },
+    "salvageStep3Splice": {
+      "applied": false,
+      "note": "not attempted: would not cure scale/ground failure; no fabrication"
+    },
+    "greenGroundLineRetained": {
+      "greenPx": 0,
+      "note": "no retained green ground/guide line pixels counted (briefed correction held on this item)"
+    },
+    "headEndpointRAW": {
+      "beardTipNative": [
+        735,
+        335
+      ],
+      "samplesBelowTip": [
+        {
+          "y": 340,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 350,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 360,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 370,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 380,
+          "rgb": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 390,
+          "rgb": [
+            128,
+            0,
+            0
+          ]
+        },
+        {
+          "y": 400,
+          "rgb": [
+            79,
+            60,
+            54
+          ]
+        }
+      ],
+      "measuredClearBackgroundGapPxNative": 0,
+      "note": "RAW only: beard tip over collar/chest; reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass."
+    },
+    "gait": {
+      "supportBoot": "screen-left boot flat, sole row 1128@1254",
+      "passingBoot": "screen-right boot forward passing, lowest row 1060@1254 (68px native clear of support sole)",
+      "feetSeparation": "support boot x~310-530 vs passing boot x~680-960 native, clearly separated",
+      "note": "Support side is screen-left and the bent-knee leg passes FORWARD on screen-right, the opposite screen arrangement to accepted walk:2 (centre/right flat support with screen-left tucked leg); not a trailing toe-down leg."
+    }
+  }
+}
