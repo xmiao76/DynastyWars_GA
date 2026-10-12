@@ -1,0 +1,42 @@
+{
+  "campaign": "CMR-15A CLOSEOUT AMENDMENT",
+  "work": "cmr15a-amend-walk4",
+  "attempt": "walk:4 second attempt (attempt2; briefed on attempt-1 measured failure + walk:3 attempt-2 lessons, no blind reroll)",
+  "key": "walk:4",
+  "phase": "Passing-A (CAMPAIGN (a): Leg-B sole flat support under hip; Leg-A bent forward passing, knee bent, toe tucked/clear of ground, feet clearly separated; passing leg opposite to accepted walk:2 Passing-B)",
+  "grant": "CMR-15A CLOSEOUT AMENDMENT (owner grant, 2026-10-12): ceilings Xu Chu 22 total / global 189/200 (nominal cap 12 unchanged); each key at most ONE second attempt briefed on first failure; references = key original cell on padded canvas + accepted walk:2 for walk:3/4/5; provider gpt-preferred for walk:3/4 second attempts",
+  "briefedOnAttempt1Failure": {
+    "source": "art/motion/xuchu/closeout-campaign/03-walk4/gate.json",
+    "candidateSha256": "990fefd79981394af812a495a98183ed5da972535249976c1417e13f32c5f144",
+    "groundErrorU": 7.148846960167714,
+    "groundNote": "candidate ground 472.5 vs frozen 500@512 (too high/floating); body 445 vs 459px@512 (-3.05%)",
+    "weaponAngleDeltaDeg": 3.525922302028242,
+    "weaponAngleNote": "candidate -22.78deg vs frozen -26.31deg (too shallow); blade tip clipped at right frame edge, length unmeasurable frame-exit lower-bound 132.24u vs band [124.41,137.50]u",
+    "corridorTipPerpPx": 46.26229883314857,
+    "corridorLimitPx": 14,
+    "gaitDefect": "screen-right flat support + screen-left toe-down trailing leg (toe-off-like), not bent forward Passing-A; opposite passing vs walk:2 not proven"
+  },
+  "briefedOnWalk3Attempt2Lessons": {
+    "source": "art/motion/xuchu/closeout-campaign/02-walk3/attempt2/gate.json",
+    "candidateSha256": "d92a24afe7060fd40201acf74c252676f1fa0c5be670b3450f9b0d9e5fb4424b",
+    "lessons": "figure rendered -9.71% too small (body 414.42 vs 459px@512; salvage factor 1.1076 exceeded +-4% cap); retained the green ground-line artifact as unintended pixels. This attempt must: draw NO ground/guide line or any guide marking; body height must match anchor reference scale (459px@512 equivalent); feet on the ground line level without drawing the line."
+  },
+  "postAmendmentConsecutiveUnusableBefore": 1,
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 174, "sha256": "ce9d409ff6879d01d05a6ca922dd6b760d40e5e33150b96e11681a59d935325e", "walk": 7, "xuchuUsed": 7 },
+    "after": { "globalSummed": 175, "sha256": "b1e1f22eba8ee80a59750ecf42a8dc73367549d32c5924dd51d3a6ff7403b305", "walk": 8, "xuchuUsed": 8 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": { "requested": "gpt", "preference": "gpt-preferred per amendment for walk:4 second attempt, no substitution", "serving": "TO_BE_RECORDED_AFTER_CALL" },
+  "references": [
+    { "role": "primary (padded walk:4 original cell, ground line marked in ref only - must NOT be redrawn)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk4-padded-ref.png", "sha256": "5b79aeb05b531205da9314d070d32c402eafc77a7815c16053e6ebf5bf15182b", "size": [1024, 1024] },
+    { "role": "second (accepted walk:2 anchor, gait/identity/weapon/scale)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] }
+  ],
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/prompt.txt" },
+  "status": "RESERVED — reserve-before-call; exactly one generation authorized for this attempt; no refunds"
+}
