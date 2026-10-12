@@ -706,6 +706,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       rows: rows.length,
       facings: ['right', 'left'],
       renderers: [RENDERER],
+      viewport: page.viewportSize(),
       joined,
     },
     pack: {

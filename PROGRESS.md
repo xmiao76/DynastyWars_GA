@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-14B 14B-PRECEDENT DONE
+
+- Accepted 14A pack integrated opt-in as-is; integration criteria 1-8 PASS; independent review ACCEPT (receipt toolu_01WHQQHAaFuqmv4hYPjUmAFy). Rounds: 1 toolu_0111SfMxTABe3MMfLJpQJJS5 DO_NOT_ACCEPT (crit 4/5 gaps), 2 toolu_012CjipExrWX4tEzrpYs3KiS DO_NOT_ACCEPT (mobile provenance only), 3 ACCEPT.
+- Crit4 registration measure scripts/measure-xiahoudun-registration.mjs PASS w/ transferred waivers (ground max −0.5u, weapon 9.31%/41.64°); action review docs/XIAHOUDUN_ACTION_REVIEW.md + contact sheets scripts/build-xiahoudun-contact-sheets.mjs; .webm per run; mobile regenerated single coherent run (viewport recorded via 1-line e2e/motion-capture.spec.ts change).
+- Checks: typecheck/lint PASS (rerun after final changes), vitest 1006 pass / 1 G6 baseline / 6 skip, vision 5/5, prodbuild 14/14 (run before the spec viewport-record line; that spec is the capture-only spec). Zero image generation; ledger Xiahou 39/global 169 unchanged. No archive (21 DONE > 20, deferred per work order).
+
 ### 2026-10-12 — CMR-14B 14B-PRECEDENT checkpoint (cmr14b-precedent-checkpoint): IN_PROGRESS, NOT DONE — independent DO_NOT_ACCEPT (crit 4/5 gaps)
 
 - Checks: typecheck PASS, lint PASS (eslint.config.js node-globals glob extended to art/**/*.mjs), vitest 1006 pass / 1 baseline G6 / 6 skip, vision 5/5, prodbuild 14/14 (logs artifacts/motion/xiahoudun/precedent/).
