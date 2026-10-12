@@ -1,0 +1,10 @@
+Single-pose EDIT of one Xiahou Dun heavy key cell. Preparation file only — no image was generated in this package.
+
+ONLY reference: art/motion/xiahoudun/perframe-heavy/heavy-k0-original-cell.png (heavy:0 RAISE, source rect (0,0,512,550) of heavy-edit-source.png sha256 e5a7c00ff3b7144dc8db2e918f019323e0452f458553594fd20391181fae68af, 1:1 pixel crop 512x550, no resize).
+
+Edit this single pose and nothing else:
+
+1. Keep the body, pose, arms, hands, grip, head, armor, camera, facing, the down-right low CHOP/FOLLOW drive direction, and the painted background IDENTICAL to the reference cell.
+2. Change ONLY the spear shaft length: extend the shaft along its existing butt-to-tip axis (butt cap fixed near (65,201) source-equivalent, extend toward the existing steel-tip direction) until the full butt-cap-to-steel-tip length measures 531.79 cell pixels (acceptable range 505.20 to 558.38 cell pixels, i.e. normalized 404.16-446.70 at body factor 0.80). Current length in this cell is 387.16 cell pixels, so extend by about 144.63 cell pixels to center (≈118.04 minimum to reach the band low edge).
+3. Keep the same blade/steel tip style; do not restyle the weapon, hands, or body. Do not change choreography: the spear must still drive down-right low with the original low hands — never an up-right guard-like arrangement (that was the heavy1 whole-sheet failure mode).
+4. Output the same framing as the reference cell (512x550, same camera and crop); no resize, no reframe, no extra figures, no background repaint beyond the pixels the lengthened shaft covers.

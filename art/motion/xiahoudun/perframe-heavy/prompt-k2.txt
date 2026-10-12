@@ -1,0 +1,13 @@
+Single-pose EDIT of one Xiahou Dun heavy key cell. Preparation file only — no image was generated in this package.
+
+ONLY reference: art/motion/xiahoudun/perframe-heavy/heavy-k2-original-cell.png (heavy:2 CHOP, 512x550, 1:1 pixel crop, no resize). This is the ONLY reference image.
+
+Keep everything identical to the reference cell, including the figure, pose, both hands and their grip positions on the shaft, head, armor, lighting, camera and framing, and the white/transparent background.
+
+Orientation constraint: the spear must keep pointing DOWN-RIGHT, diagonally from upper-left to lower-right, with the steel tip and red tassel unchanged at the lower right (tip fixed at cell pixels (490, 512)).
+
+ONLY change: lengthen the wooden shaft at its BUTT end (upper-left) only, continuing straight along the same diagonal axis, so the butt cap moves further up-left to cell pixels (30.19, 244.83) — option B in art/motion/xiahoudun/perframe-heavy/feasibility.json (current butt (89, 279); current length 463.78 cell px; extend by about 68.01 cell px). Target total butt-cap-to-steel-tip length is 531.79 px (acceptable range 505-558 cell px, i.e. 505.20 to 558.38).
+
+Do not move the tip, do not shorten anything, and add no new weapon, figure or text.
+
+Output the same 512x550 framing as the reference cell (same camera and crop); no resize, no reframe, no padding, no background repaint beyond the pixels the lengthened shaft covers.

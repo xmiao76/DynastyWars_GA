@@ -1,0 +1,558 @@
+{
+  "work_id": "cmr14b-perframe-feasibility",
+  "generated_by": "feasibility.mjs (measurement only, no image generation)",
+  "target_length_cell_px": 531.7901536732883,
+  "band_cell_px": [
+    505.2006459896238,
+    558.3796613569527
+  ],
+  "margin_px": 8,
+  "figure_alpha_threshold_3x3": 25,
+  "keys": [
+    {
+      "key": 0,
+      "name": "RAISE",
+      "cell_file": "heavy-k0-original-cell.png",
+      "cell_size": [
+        512,
+        550
+      ],
+      "crop_rect_source": [
+        0,
+        0,
+        512,
+        550
+      ],
+      "butt_native_source": [
+        65,
+        201
+      ],
+      "tip_native_source": [
+        404,
+        14
+      ],
+      "butt_cell": [
+        65,
+        201
+      ],
+      "tip_cell": [
+        404,
+        14
+      ],
+      "current_length_cell_px": 387.16,
+      "target_length_cell_px": 531.79,
+      "band_cell_px": [
+        505.2006459896238,
+        558.3796613569527
+      ],
+      "extend_by_cell_px": 144.63,
+      "background_all_corners_transparent": true,
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "current_axis_figure_occupancy_frac": 1,
+      "current_axis_samples": 388,
+      "endpoints_on_painted_spear": true,
+      "options": {
+        "A": {
+          "new_butt_cell": [
+            65,
+            201
+          ],
+          "new_tip_cell": [
+            530.64,
+            -55.86
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -55.86,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 21,
+          "symmetric_padding_needed_px": 64
+        },
+        "B": {
+          "new_butt_cell": [
+            -61.64,
+            270.86
+          ],
+          "new_tip_cell": [
+            404,
+            14
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -61.64,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 66,
+          "symmetric_padding_needed_px": 70
+        },
+        "C": {
+          "new_butt_cell": [
+            1.68,
+            235.93
+          ],
+          "new_tip_cell": [
+            467.32,
+            -20.93
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -20.93,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 86,
+          "symmetric_padding_needed_px": 29
+        }
+      },
+      "best_option": "C",
+      "best_option_reason": "no-figure-crossing first, then least symmetric padding, then C>A>B",
+      "minimal_symmetric_padding_px_each_side": 29,
+      "padding_fill": "transparent (cell corners alpha 0; use white or cell bg)",
+      "padded_canvas_size": [
+        570,
+        608
+      ]
+    },
+    {
+      "key": 1,
+      "name": "HOLD",
+      "cell_file": "heavy-k1-original-cell.png",
+      "cell_size": [
+        512,
+        550
+      ],
+      "crop_rect_source": [
+        512,
+        0,
+        512,
+        550
+      ],
+      "butt_native_source": [
+        561,
+        127
+      ],
+      "tip_native_source": [
+        971,
+        28
+      ],
+      "butt_cell": [
+        49,
+        127
+      ],
+      "tip_cell": [
+        459,
+        28
+      ],
+      "current_length_cell_px": 421.78,
+      "target_length_cell_px": 531.79,
+      "band_cell_px": [
+        505.2006459896238,
+        558.3796613569527
+      ],
+      "extend_by_cell_px": 110.01,
+      "background_all_corners_transparent": true,
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "current_axis_figure_occupancy_frac": 1,
+      "current_axis_samples": 422,
+      "endpoints_on_painted_spear": true,
+      "options": {
+        "A": {
+          "new_butt_cell": [
+            49,
+            127
+          ],
+          "new_tip_cell": [
+            565.93,
+            2.18
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -54.93,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 47,
+          "symmetric_padding_needed_px": 63
+        },
+        "B": {
+          "new_butt_cell": [
+            -57.93,
+            152.82
+          ],
+          "new_tip_cell": [
+            459,
+            28
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -57.93,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 43,
+          "symmetric_padding_needed_px": 66
+        },
+        "C": {
+          "new_butt_cell": [
+            -4.47,
+            139.91
+          ],
+          "new_tip_cell": [
+            512.47,
+            15.09
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -4.47,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 90,
+          "symmetric_padding_needed_px": 13
+        }
+      },
+      "best_option": "C",
+      "best_option_reason": "no-figure-crossing first, then least symmetric padding, then C>A>B",
+      "minimal_symmetric_padding_px_each_side": 13,
+      "padding_fill": "transparent (cell corners alpha 0; use white or cell bg)",
+      "padded_canvas_size": [
+        538,
+        576
+      ]
+    },
+    {
+      "key": 2,
+      "name": "CHOP",
+      "cell_file": "heavy-k2-original-cell.png",
+      "cell_size": [
+        512,
+        550
+      ],
+      "crop_rect_source": [
+        1024,
+        0,
+        512,
+        550
+      ],
+      "butt_native_source": [
+        1113,
+        279
+      ],
+      "tip_native_source": [
+        1514,
+        512
+      ],
+      "butt_cell": [
+        89,
+        279
+      ],
+      "tip_cell": [
+        490,
+        512
+      ],
+      "current_length_cell_px": 463.78,
+      "target_length_cell_px": 531.79,
+      "band_cell_px": [
+        505.2006459896238,
+        558.3796613569527
+      ],
+      "extend_by_cell_px": 68.01,
+      "background_all_corners_transparent": true,
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "current_axis_figure_occupancy_frac": 0.99,
+      "current_axis_samples": 464,
+      "endpoints_on_painted_spear": true,
+      "options": {
+        "A": {
+          "new_butt_cell": [
+            89,
+            279
+          ],
+          "new_tip_cell": [
+            548.81,
+            546.17
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -37.81,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 18,
+          "symmetric_padding_needed_px": 46
+        },
+        "B": {
+          "new_butt_cell": [
+            30.19,
+            244.83
+          ],
+          "new_tip_cell": [
+            490,
+            512
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": true,
+          "min_endpoint_margin_px": 21,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 61,
+          "symmetric_padding_needed_px": 0
+        },
+        "C": {
+          "new_butt_cell": [
+            59.6,
+            261.92
+          ],
+          "new_tip_cell": [
+            519.4,
+            529.08
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -8.4,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 45,
+          "symmetric_padding_needed_px": 17
+        }
+      },
+      "best_option": "B",
+      "best_option_reason": "no-figure-crossing first, then least symmetric padding, then C>A>B",
+      "minimal_symmetric_padding_px_each_side": 0,
+      "padding_fill": "transparent (cell corners alpha 0; use white or cell bg)",
+      "padded_canvas_size": [
+        512,
+        550
+      ]
+    },
+    {
+      "key": 3,
+      "name": "FOLLOW",
+      "cell_file": "heavy-k3-original-cell.png",
+      "cell_size": [
+        570,
+        474
+      ],
+      "crop_rect_source": [
+        0,
+        550,
+        570,
+        474
+      ],
+      "butt_native_source": [
+        150,
+        759
+      ],
+      "tip_native_source": [
+        556,
+        947
+      ],
+      "butt_cell": [
+        150,
+        209
+      ],
+      "tip_cell": [
+        556,
+        397
+      ],
+      "current_length_cell_px": 447.41,
+      "target_length_cell_px": 531.79,
+      "band_cell_px": [
+        505.2006459896238,
+        558.3796613569527
+      ],
+      "extend_by_cell_px": 84.38,
+      "background_all_corners_transparent": true,
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "current_axis_figure_occupancy_frac": 0.91,
+      "current_axis_samples": 448,
+      "endpoints_on_painted_spear": true,
+      "options": {
+        "A": {
+          "new_butt_cell": [
+            150,
+            209
+          ],
+          "new_tip_cell": [
+            632.57,
+            432.45
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -63.57,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 8,
+          "symmetric_padding_needed_px": 72
+        },
+        "B": {
+          "new_butt_cell": [
+            73.43,
+            173.55
+          ],
+          "new_tip_cell": [
+            556,
+            397
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": true,
+          "min_endpoint_margin_px": 13,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 77,
+          "symmetric_padding_needed_px": 0
+        },
+        "C": {
+          "new_butt_cell": [
+            111.72,
+            191.27
+          ],
+          "new_tip_cell": [
+            594.28,
+            414.73
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -25.28,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 43,
+          "symmetric_padding_needed_px": 34
+        }
+      },
+      "best_option": "B",
+      "best_option_reason": "no-figure-crossing first, then least symmetric padding, then C>A>B",
+      "minimal_symmetric_padding_px_each_side": 0,
+      "padding_fill": "transparent (cell corners alpha 0; use white or cell bg)",
+      "padded_canvas_size": [
+        570,
+        474
+      ]
+    },
+    {
+      "key": 4,
+      "name": "RECOVER",
+      "cell_file": "heavy-k4-original-cell.png",
+      "cell_size": [
+        550,
+        474
+      ],
+      "crop_rect_source": [
+        570,
+        550,
+        550,
+        474
+      ],
+      "butt_native_source": [
+        600,
+        776
+      ],
+      "tip_native_source": [
+        1067,
+        647
+      ],
+      "butt_cell": [
+        30,
+        226
+      ],
+      "tip_cell": [
+        497,
+        97
+      ],
+      "current_length_cell_px": 484.49,
+      "target_length_cell_px": 531.79,
+      "band_cell_px": [
+        505.2006459896238,
+        558.3796613569527
+      ],
+      "extend_by_cell_px": 47.3,
+      "background_all_corners_transparent": true,
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "current_axis_figure_occupancy_frac": 1,
+      "current_axis_samples": 485,
+      "endpoints_on_painted_spear": true,
+      "options": {
+        "A": {
+          "new_butt_cell": [
+            30,
+            226
+          ],
+          "new_tip_cell": [
+            542.59,
+            84.41
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": 6.41,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 40,
+          "symmetric_padding_needed_px": 2
+        },
+        "B": {
+          "new_butt_cell": [
+            -15.59,
+            238.59
+          ],
+          "new_tip_cell": [
+            497,
+            97
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": -15.59,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 23,
+          "symmetric_padding_needed_px": 24
+        },
+        "C": {
+          "new_butt_cell": [
+            7.2,
+            232.3
+          ],
+          "new_tip_cell": [
+            519.8,
+            90.7
+          ],
+          "length_cell_px": 531.79,
+          "fits_with_8px_margin": false,
+          "min_endpoint_margin_px": 7.2,
+          "extension_crosses_figure": false,
+          "extension_figure_hit_frac": 0,
+          "extension_samples": 32,
+          "symmetric_padding_needed_px": 1
+        }
+      },
+      "best_option": "C",
+      "best_option_reason": "no-figure-crossing first, then least symmetric padding, then C>A>B",
+      "minimal_symmetric_padding_px_each_side": 1,
+      "padding_fill": "transparent (cell corners alpha 0; use white or cell bg)",
+      "padded_canvas_size": [
+        552,
+        476
+      ]
+    }
+  ]
+}

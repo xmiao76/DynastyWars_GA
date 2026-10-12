@@ -1,0 +1,43 @@
+{
+  "origH": 377,
+  "candH": 755,
+  "s1": 0.49933774834437084,
+  "rule": "columns x < tipX-60 (orig tipX=490 -> cut 430; cand tipX=1000 -> cut 940)",
+  "origTipX": 490,
+  "candTipX": 1000,
+  "cutOrig": 430,
+  "cutCand": 940,
+  "origTop": 154,
+  "origBoot": 531,
+  "candTop": 208,
+  "candBoot": 963,
+  "butt": {
+    "x": 150,
+    "y": 438
+  },
+  "tip": {
+    "x": 1000,
+    "y": 924
+  },
+  "candLen": 979.1302262722768,
+  "L": 488.916682522713,
+  "band": [
+    505.2,
+    558.38
+  ],
+  "inBand": false,
+  "origAngleDeg": 30.158617364943186,
+  "candAngleDeg": 29.759397582294937,
+  "angleDeltaDeg": -0.39921978264824887,
+  "origEndpoints": {
+    "butt": {
+      "x": 89,
+      "y": 279
+    },
+    "tip": {
+      "x": 490,
+      "y": 512
+    }
+  },
+  "origLen": 463.77796411645085
+}
