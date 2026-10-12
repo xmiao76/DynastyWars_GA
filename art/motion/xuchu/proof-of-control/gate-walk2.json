@@ -1,0 +1,253 @@
+{
+  "work": "cmr15a-proof-gates",
+  "key": "walk:2",
+  "zeroNewGeneration": true,
+  "inputs": {
+    "original": {
+      "path": "art/motion/xuchu/proof-of-control/walk2-original-cell.png",
+      "sha256": "75c07dc26e3490c8de17377656eb1464066fc3e44bf9616de4d3424c1efcad0f",
+      "pinned": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    "candidate": {
+      "path": "art/motion/xuchu/proof-of-control/candidate-walk2-raw.jpg",
+      "sha256": "165d786b121151384e2d392f04c625b2fda6e9573f1f4fe39a977eebf1c2491a",
+      "pinned": true,
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "regions512": {
+    "GAIT_EDIT": {
+      "x": 30,
+      "y": 260,
+      "w": 452,
+      "h": 242
+    },
+    "HEAD_BEARD": {
+      "x": 191,
+      "y": 35,
+      "w": 105,
+      "h": 135
+    },
+    "BEARD_BASE": {
+      "x": 191,
+      "y": 110,
+      "w": 105,
+      "h": 35
+    }
+  },
+  "gate1_visual": {
+    "verdict": "FAIL",
+    "basis": "read_image of walk2-original-cell.png, candidate-walk2-raw.jpg, gate-cand-legs-zoom.png, gate-orig-legs-zoom.png, gate-cand-head-zoom.png in this package",
+    "candidatePose": "grounded stride stance: screen-right leg near-straight with boot FLAT on the ground (supporting), screen-left leg trailing near-straight with heel raised and toe on the ground. Feet separated horizontally (~135px at 1024 between boot inner edges).",
+    "required": "one leg passing/tucked (off ground, tucked beside/under the supporting leg) with the opposite leg supporting",
+    "finding": "NO passing/tucked leg: both feet contact the ground plane (one flat, one toe). It is a static stride stance, not a passing pose. The forward/leading leg is again the screen-right leg, the same leading-leg arrangement as the original walk:2 (whose screen-right leg was the raised forward leg); no opposite passing exchange is shown.",
+    "identitySubcheck": "PASS in isolation: helmet/head/beard, massive torso/armour, two-hand glaive grip and camera are recognisably preserved in the candidate; the gate still fails on gait."
+  },
+  "gate2_beardBase": {
+    "verdict": "FAIL",
+    "requiredPxAt1024": 8,
+    "beardTip1024": [
+      515,
+      257
+    ],
+    "beardTipInBeardBaseBandScaled": {
+      "x": [
+        382,
+        592
+      ],
+      "y": [
+        220,
+        290
+      ],
+      "inside": true
+    },
+    "backdropRefRgb": [
+      110,
+      102,
+      100
+    ],
+    "samplesBelowTip": [
+      {
+        "y": 258,
+        "rgb": [
+          14,
+          13,
+          8
+        ]
+      },
+      {
+        "y": 262,
+        "rgb": [
+          20,
+          15,
+          11
+        ]
+      },
+      {
+        "y": 266,
+        "rgb": [
+          33,
+          28,
+          24
+        ]
+      },
+      {
+        "y": 270,
+        "rgb": [
+          32,
+          27,
+          23
+        ]
+      },
+      {
+        "y": 275,
+        "rgb": [
+          73,
+          69,
+          66
+        ]
+      },
+      {
+        "y": 280,
+        "rgb": [
+          25,
+          22,
+          15
+        ]
+      },
+      {
+        "y": 285,
+        "rgb": [
+          29,
+          18,
+          16
+        ]
+      },
+      {
+        "y": 290,
+        "rgb": [
+          27,
+          18,
+          11
+        ]
+      }
+    ],
+    "measuredClearBackgroundGapPxAt1024": 0,
+    "finding": "Beard lowest tip lies over the dark collar/chest (see gate-cand-head-zoom.png): 0 contiguous backdrop-coloured px directly below the base before collar/chest pixels; no >=8px clear background beside/below the beard-base endpoint. Endpoint remains merged into neck/collar, as in the original."
+  },
+  "gate3_splice": {
+    "verdict": "PASS (mechanical criterion only)",
+    "method": "nominal x0.5 downscale of the 1024 candidate to the 512 cell (§b registration, zero translation, no landmark fitting); ONLY GAIT-EDIT + BEARD-BASE rects copied; 0px feather (<=8px, inside-mask only)",
+    "splicedPath": "art/motion/xuchu/proof-of-control/proof-walk2-spliced.png",
+    "splicedSha256": "0d2b4c83b4104251cd4cc76c9b685823ffc32d953a45ea77a9be93bc69347b97",
+    "outsideMaskHashOrig": "f41a2ccd82cc92d1b04a26eabf43f263bb7c6f9633218365452f27050af8d2a6",
+    "outsideMaskHashSpliced": "f41a2ccd82cc92d1b04a26eabf43f263bb7c6f9633218365452f27050af8d2a6",
+    "outsideMaskIdentical": true,
+    "outsideDiffPx": 0,
+    "insideDiffPx": 113059,
+    "caveat": "Hash equality is exact, but the pasted candidate regions carry the candidate JPEG painted backdrop and its shifted figure, so the spliced cell is visually incoherent at the seams (see gate-walk2-marked-spliced.png). This gate passing does not make the cell acceptable; gates 1/2 already fail."
+  },
+  "gate4_weaponIdentityScale": {
+    "verdict": "PASS",
+    "original512": {
+      "butt": [
+        35,
+        315
+      ],
+      "tip": [
+        483,
+        95
+      ],
+      "lengthPx": 499.10319574212303,
+      "angleDeg": -26.154335778312912
+    },
+    "candidate512": {
+      "butt": [
+        24.5,
+        321.5
+      ],
+      "tip": [
+        493,
+        88.5
+      ],
+      "lengthPx": 523.2411012143446,
+      "angleDeg": -26.442624484097884
+    },
+    "lengthDeltaPctVsOrig": 4.8362554433919325,
+    "weaponSpreadOrigVsCandCanonical": 0.04722069765357988,
+    "angleDeltaDeg": -0.28828870578497146,
+    "corridorPerpPx": {
+      "buttToOrigLine": 1.2061633849185807,
+      "tipToOrigLine": 1.42655868781068,
+      "corridorLimitPx": 14
+    },
+    "bodyHeight": {
+      "originalPx": 457,
+      "candidatePxAt512": 460.5,
+      "deltaPct": 0.7658643326039387
+    },
+    "bands": "§e: weapon spread <=10% (canonical (max-min)/mean), direction steps <=60deg; §b weapon corridor 14px"
+  },
+  "gate5_packProjection": {
+    "verdict": "PASS (numeric, diagnostic only)",
+    "registration": "fixed §b cell geometry, ground = original supporting-boot sole row; NO band fixed (fixedBand stays null: §e.3 fixes a band only from an ACCEPTED anchor and this anchor is not accepted)",
+    "origGroundY": 501,
+    "splicedGroundY": 503,
+    "groundedErrorPx": 2,
+    "uPerPx": 0.259958071278826,
+    "groundedErrorU": 0.519916142557652,
+    "groundedLimitU": 1.5,
+    "splicedWeapon": {
+      "butt": [
+        24.5,
+        321.5
+      ],
+      "tip": [
+        483,
+        95
+      ],
+      "lengthPx": 511.3946616850825,
+      "angleDeg": -26.289472377519566,
+      "lengthDeltaPctVsOrig": 2.4627103268058868,
+      "angleDeltaDeg": -0.13513659920665333
+    },
+    "splicedBodyHeightPx": 459,
+    "bodyHeightDeltaPctVsOrig": 0.437636761487965,
+    "soleNote": "candidate support sole row 503 (512-scale) sits 1px below the GAIT-EDIT bottom edge (y502), so the spliced boot is truncated at the mask edge; grounded error above uses the projected candidate sole vs the original ground row.",
+    "diagnosticProjection": {
+      "bandFromOriginalMedianU": {
+        "lo": 123.41297167920187,
+        "hi": 136.4038108033284
+      },
+      "evaluateProjection": {
+        "status": "OK",
+        "observedSpread": 0,
+        "n": 1,
+        "min": 132.94116991394176,
+        "max": 132.94116991394176,
+        "mean": 132.94116991394176,
+        "window": {
+          "lo": 123.41297167920187,
+          "hi": 136.4038108033284
+        },
+        "reasons": [
+          "observed spread 0.00% over n=1; steering window [123.4, 136.4]"
+        ]
+      },
+      "status": "DIAGNOSTIC ONLY — not fixed, not recorded (no recordSheet), anchor not accepted"
+    }
+  },
+  "overall": "FAIL",
+  "failedGates": [
+    "gate1_visual",
+    "gate2_beardBase"
+  ],
+  "disposition": "Candidate UNACCEPTED. No banking (no banked-walk2-anchor.png). STOP per grant: no downstream spend, no reroll. CMR-15A re-blocks WAITING_FOR_OWNER; this failure consumes the last recovery consumer (2 prior failed + this = 3). Xu Chu 3/12, global 170/200 unchanged by this gates package (zero generation)."
+}
