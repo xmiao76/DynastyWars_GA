@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A closeout 02 walk:3 REJECT (unaccepted, genuinely unusable 1/2)
+
+- Finite closeout request 02 (walk:3, Contact-B): reserve-before-call committed `2f6579a` (Xu Chu 4→5, walk 4→5, global 171→172; nominal cap 12/totalCap 200 unchanged, campaign ceiling 15/182 in `02-walk3/reservation.json`), then exactly ONE grok EDIT (serving UNCONFIRMED) with `refs/walk3-original-cell.png` (947d6b77…) as sole reference — no text-to-image, no reroll. Candidate `ec73c75a…` 1024×1024 JPEG committed UNREVIEWED `d5e928f`.
+- Gates (`art/motion/xuchu/closeout-campaign/02-walk3/gate.mjs`/`gate.json`, full candidate + head/legs/butt/tip/soles zooms + marked read): identity PASS, anatomy PASS; weapon FAIL (blade tip clipped at right frame edge xmax 1023@1024 — whole length unmeasurable, frame-exit lower bound 123.46u vs frozen band [124.41,137.50]u, angle −21.62° vs frozen −26.31° Δ+4.69°, corridor tip perp 38.19px/14px; shaft retouch cannot restore off-frame blade), scale/ground FAIL (ground 469.5 vs frozen 500@512 = 7.93u >1.5u; body 450.5 vs 459px −1.85%), seams FAIL (clipped blade), gait FAIL (front-flat/rear toe-off is same screen arrangement as walk:1 original — opposite Contact-B support/occlusion not proven). Head endpoint RAW gap 0px, recorded raw only (not a reject).
+- Verdict REJECT: candidate UNACCEPTED, not banked (no accepted.png). Genuinely unusable 0→1 (campaign 1/2; STOP at 2 not reached, so CMR-15A stays IN_PROGRESS — not BLOCKED). Frozen brief band from walk:2 anchor unchanged. Exactly one generation in this package; never pushed.
+
 ### 2026-10-12 — CMR-15A closeout 01 walk:2 ACCEPT (banked anchor 1, brief band fixed)
 
 - Finite closeout request 01 (walk:2, Passing-B, riskiest first): reserve-before-call committed `9ee925b` (Xu Chu 3→4, walk 3→4, global 170→171; nominal cap 12/totalCap 200 unchanged, campaign ceiling 15/182 recorded in `01-walk2/reservation.json` only), then exactly ONE grok EDIT (serving UNCONFIRMED) with `walk2-original-cell.png` (75c07dc2…) as sole reference — no text-to-image. Candidate `893c90d7…` 1024×1024 JPEG served and committed UNREVIEWED `06469a7`.

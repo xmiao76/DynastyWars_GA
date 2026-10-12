@@ -1,0 +1,218 @@
+{
+  "work": "cmr15a-closeout-02-walk3",
+  "key": "walk:3",
+  "request": "02",
+  "zeroNewGenerationInGate": true,
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "inputs": {
+    "original": {
+      "path": "art/motion/xuchu/closeout-campaign/refs/walk3-original-cell.png",
+      "sha256": "947d6b77c73d0db2754cdbd59c13b71b4df2f7876b7823e2f032da4a5845883c",
+      "pinned": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    "candidate": {
+      "path": "art/motion/xuchu/closeout-campaign/02-walk3/candidate-raw.jpg",
+      "sha256": "ec73c75ab600ced5b4935cc29081824617dc3f5ed2c7ce1857f8d802602c48c7",
+      "pinned": true,
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "landmarks": {
+    "candWeapon1024": {
+      "butt": [
+        140,
+        600
+      ],
+      "tip": [
+        1023,
+        250
+      ]
+    },
+    "candBeardTip1024": [
+      650,
+      328
+    ],
+    "candCrown1024": 38,
+    "candSupportSole1024": 939,
+    "candFrontBoot1024": {
+      "x": [
+        560,
+        815
+      ],
+      "soleY": 939
+    },
+    "candRearBoot1024": {
+      "x": [
+        185,
+        320
+      ],
+      "lowestY": 918,
+      "toe": [
+        250,
+        916
+      ]
+    },
+    "origWeapon": {
+      "butt": [
+        60,
+        318
+      ],
+      "tip": [
+        510,
+        108
+      ]
+    },
+    "anchorWeapon": {
+      "butt": [
+        35,
+        318
+      ],
+      "tip": [
+        486,
+        95
+      ]
+    },
+    "origBounds": {
+      "xmin": 65,
+      "ymin": 19,
+      "xmax": 511,
+      "ymax": 464
+    },
+    "origGroundY": 464
+  },
+  "measurements": {
+    "weaponVsFrozenBand": {
+      "candidatePxAt512": 474.9181508428584,
+      "candidateU": 123.458806508416,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": false,
+      "deltaPctVsAnchor": -5.605441706607192,
+      "spreadAnchorVsCandCanonical": 0.05767076769862146,
+      "candidateAngleDeg": -21.622185736159295,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": 4.688219208645844,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 0.6221176573983589,
+        "tip": 38.19464525046506,
+        "corridorLimitPx": 14
+      }
+    },
+    "bodyVsFrozen": {
+      "candidateHeightPxAt512": 450.5,
+      "frozenHeightPxAt512": 459,
+      "deltaPctVsFrozen": -1.8518518518518516,
+      "originalHeightPx": 446
+    },
+    "groundVsFrozen": {
+      "frozenGroundYAt512": 500,
+      "candidateGroundYAt512": 469.5,
+      "groundedErrorPx": 30.5,
+      "uPerPx": 0.259958071278826,
+      "groundedErrorU": 7.928721174004192,
+      "limitU": 1.5
+    },
+    "headEndpointRAW": {
+      "beardTip1024": [
+        650,
+        328
+      ],
+      "backdropRefRgb": [
+        0,
+        0,
+        0
+      ],
+      "samplesBelowTip": [
+        {
+          "y": 322,
+          "rgb": [
+            117,
+            98,
+            91
+          ]
+        },
+        {
+          "y": 330,
+          "rgb": [
+            56,
+            47,
+            40
+          ]
+        },
+        {
+          "y": 340,
+          "rgb": [
+            69,
+            56,
+            50
+          ]
+        },
+        {
+          "y": 350,
+          "rgb": [
+            32,
+            23,
+            18
+          ]
+        },
+        {
+          "y": 360,
+          "rgb": [
+            75,
+            53,
+            40
+          ]
+        },
+        {
+          "y": 370,
+          "rgb": [
+            93,
+            76,
+            66
+          ]
+        },
+        {
+          "y": 380,
+          "rgb": [
+            71,
+            51,
+            44
+          ]
+        }
+      ],
+      "measuredClearBackgroundGapPxAt1024": 0,
+      "note": "RAW only per CAMPAIGN (c): beard conceals chin/beard-base endpoint; unreadable endpoint does NOT reject here; reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass + independent visual review."
+    },
+    "gait": {
+      "frontBoot": "screen-right boot flat, sole row 939@1024 (bbox/boot-region scan ymax 939)",
+      "rearBoot": "screen-left boot toe-down trailing, lowest row 918@1024, 21px@1024 above front sole (toe-off/leaving ground, not flat)",
+      "feetSeparation": "front x560-815 vs rear x185-320 @1024, clearly separated",
+      "note": "Arrangement reads as a front-contact + rear toe-off stride, but screen arrangement is the SAME as walk1-original-cell (front flat / rear toe-off); no visibly reversed support/occlusion vs walk:1 is demonstrated, so Contact-B opposite-contact is not proven."
+    },
+    "weaponTipClipped": {
+      "candidateXmax": 1023,
+      "tipInsideFrame": false,
+      "measuredLengthIsLowerBoundOnly": true
+    }
+  }
+}
