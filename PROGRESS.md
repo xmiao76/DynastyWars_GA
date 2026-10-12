@@ -4,6 +4,11 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A zero-gen local prototype (diagnostic ONLY, status unchanged BLOCKED)
+
+- Zero generation/reservations/ledger writes. Deterministic `art/motion/xuchu/prototype/build-prototype.mjs` spliced candidate-1 walk:4 GAIT-EDIT (30,260,452,242; donor sheet dfd7bd87…, cell crop 8805ec5e…) into walk2-original-cell.png (75c07dc2…): outside GAIT+BEARD-BASE RGBA hash identical (f41a2ccd…, 0 diff px). Beard test inside BEARD-BASE only: measured clear gap 8px (min=median=max), outside-mask hash identical (d7691771…, 0 diff px).
+- Visual verdict (all outputs + donor + original opened): **NOT VIABLE** — leg reads pasted (y260 skirt tone/plate seam, donor sole y478 vs original ground y501 = 23px float, lifted leg is trailing heel-lift not forward passing); beard gap is an invented flat notch/black slot across the collar, not a real endpoint. Full evidence: `art/motion/xuchu/prototype/PROTOTYPE-REPORT.md`. Does not supply the §f demonstrated workflow and does not alter the 14A-style closeout decision. Ledger verified unchanged: Xu Chu 3/12, global 170/200. CMR-15A stays BLOCKED WAITING_FOR_OWNER; no TASKS.md edit.
+
 ### 2026-10-12 — CMR-15A proof-of-control walk:2 GATES: FAIL (gates 1+2), candidate UNACCEPTED, re-blocked WAITING_FOR_OWNER
 
 - Zero new generation (candidate 165d786b… 1024×1024, original cell 75c07dc2… 512×512, both SHA pins re-verified). All five grant gates run; evidence in `art/motion/xuchu/proof-of-control/` (`gate-walk2.mjs`, `gate-walk2.json`, marked candidate/original/spliced + endpoint zooms, `proof-walk2-spliced.png`). Opened original, candidate, head/legs/weapon/sole zooms and marked overlays in this package.
