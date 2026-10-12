@@ -57,7 +57,8 @@ export default tseslint.config(
   },
   {
     // Node-side tooling scripts (bake pipeline etc.) run outside the browser.
-    files: ['scripts/**/*.mjs'],
+    // CMR-14B per-frame measurement scripts under art/ are Node too.
+    files: ['scripts/**/*.mjs', 'art/**/*.mjs'],
     languageOptions: {
       globals: {
         console: 'readonly',

@@ -4,6 +4,20 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-14B 14B-PRECEDENT checkpoint (cmr14b-precedent-checkpoint): IN_PROGRESS, NOT DONE — independent DO_NOT_ACCEPT (crit 4/5 gaps)
+
+- Checks: typecheck PASS, lint PASS (eslint.config.js node-globals glob extended to art/**/*.mjs), vitest 1006 pass / 1 baseline G6 / 6 skip, vision 5/5, prodbuild 14/14 (logs artifacts/motion/xiahoudun/precedent/).
+- Fresh captures canvas / webgl / canvas-mobile (484 motion / 0 legacy rows each, fallback 0, no page errors, both facings, capture commit 44c620a).
+- Self-review docs/motion-tasks/CMR-14B-PRECEDENT-REVIEW.md; zero image generation; no art re-judged.
+- INDEPENDENT review (receipt toolu_0111SfMxTABe3MMfLJpQJJS5) = DO_NOT_ACCEPT on integration criteria only: crit 1,2,3,6,7,8 PASS (2/3 with transferred 14A limitations, 8 with G6 baseline exception); crit 4 FAIL — post-registration ground/contact/weapon-tip not measured (report.json integrity.open); crit 5 PARTIAL — missing per-action fighter review (like HUANGZHONG/LIDIAN_ACTION_REVIEW), before/after contact-crop pairs, disposition of 8 unseen enrage/approach/retreat/stop rows, stale evidence paths in 3 index.json (captures/xiahoudun-canvas|webgl → captures/canvas|webgl|canvas-mobile), unrecorded mobile W×H (MOTION_VIEWPORT used was 844x390 per the work order; mark as "requested 844x390, not recorded in artifact").
+- Next action: fix-up package for those items, then fresh independent review. Task stays IN_PROGRESS, NOT DONE.
+
+### 2026-10-12 — CMR-14B 14B-PRECEDENT integration START (cmr14b-precedent-integrate): ruling recorded, IN_PROGRESS
+
+- Owner ruling 14B-PRECEDENT quoted verbatim in TASKS CMR-14B; Status IN_PROGRESS (prior BLOCKED text kept as Prior:). k2b noted as-is (commit 44c620a, OUT_HIGH +5.65 cell px, not accepted, not used). No image generation in this package.
+- Pack evidence (read, unrun): runtime `src/game/assets/motion/xiahoudun-prepared.json` pins `source.manifestSha256 fe106479…` (= 14A-accepted manifest), box 260x218/groundY 210, sheet 2044x1589, sha `e1fdf7…` matching `motion-art.ts` XIAHOUDUN_PAGES (2220630 B); emit script `scripts/emit-xiahoudun-runtime.mjs` hard-gates on manifest `fe106479…`. Clips/wiring/catalog/fallback + pack-validation tests present (`test/game/motion-xiahoudun.test.ts`).
+- Remaining: typecheck/lint/tests/vision/prodbuild; fresh both-facings Canvas/WebGL + mobile chronological captures; action-review doc. Next: run checks, then captures.
+
 ### 2026-10-12 — CMR-14B per-frame heavy probe RESULT (cmr14b-perframe-record): k2 choreography preserved, length OUT_LOW; strategy STOPPED 1/4, re-blocked
 
 - Request 1/4 (heavy:2 CHOP) reserved before call (Xiahou 37→38, heavy 5→6, global 168/200). First image_generate harness-rejected (malformed reference, zero output); retry served candidate 4e314e21… 1024x1024 JPEG (grok requested, serving UNCONFIRMED). Gate: choreography PRESERVED, angle Δ −0.40°, L 488.92 cell px (norm 391.1) vs band 505.20–558.38 — OUT_LOW by 16.3; NOT accepted, no waiver. Strategy STOPPED per grant; 3 remaining requests unspent, not carried forward. Residuals: walk gait unproven; heavy 0–4 all short; misc 2/4 short. Ledger unchanged at 38/168; no runtime changes. [Record](docs/motion-tasks/CMR-14B-PERFRAME-HEAVY.md), disposition `art/motion/xiahoudun/perframe-heavy/disposition.json`.

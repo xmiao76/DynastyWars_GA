@@ -80,7 +80,9 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   mkdirSync(`${RUN}/frames`, { recursive: true })
   const errors: string[] = []
   page.on('pageerror', (e) => errors.push(String(e)))
-  await page.setViewportSize({ width: 960, height: 540 })
+  // CMR-14B: optional mobile-landscape viewport override (default unchanged).
+  const viewport = process.env.MOTION_VIEWPORT?.match(/^(\d+)x(\d+)$/)
+  await page.setViewportSize(viewport ? { width: Number(viewport[1]), height: Number(viewport[2]) } : { width: 960, height: 540 })
   await page.goto(`/?renderer=${RENDERER}&autopilot=1&motion=1`)
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
   if (XIAHOU) {
