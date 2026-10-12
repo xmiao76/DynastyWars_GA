@@ -1,0 +1,96 @@
+{
+  "work": "cmr15a-amend-setup-padded-refs",
+  "zeroGeneration": true,
+  "canvas": {
+    "size": [
+      1024,
+      1024
+    ],
+    "fill": "transparent (alpha 0)",
+    "cellPlacement": {
+      "offset": [
+        256,
+        256
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "scale": 1,
+      "note": "original cell centred 1:1, pixels unchanged"
+    }
+  },
+  "groundLine": {
+    "yAt1024": 1000,
+    "basis": "frozen groundY 500@512 x2",
+    "inSentReference": "subtle (rgba(0,255,128,0.45), 2px)",
+    "inMarkedPreview": "full strength with label"
+  },
+  "tipMarginBox": {
+    "insetPx": 40,
+    "rect": [
+      40,
+      40,
+      944,
+      944
+    ],
+    "rule": "whole glaive tip must stay inside this box (>=40px from every canvas edge)",
+    "drawnIn": "marked preview only"
+  },
+  "refs": [
+    {
+      "key": "walk3",
+      "source": {
+        "path": "art/motion/xuchu/closeout-campaign/refs/walk3-original-cell.png",
+        "sha256": "947d6b77c73d0db2754cdbd59c13b71b4df2f7876b7823e2f032da4a5845883c",
+        "pinned": true
+      },
+      "paddedReference": {
+        "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk3-padded-ref.png",
+        "sha256": "8a952923ecdbba82f85930f5dddee1a4704da3d0d7082d738f7b37390e8c016c",
+        "bytes": 238787
+      },
+      "markedPreview": {
+        "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk3-padded-marked.png",
+        "sha256": "80b51c20f9879cb4d5b03be8ff693cc5cef4246c363807dca31e2c7be40f9507",
+        "bytes": 260408
+      }
+    },
+    {
+      "key": "walk4",
+      "source": {
+        "path": "art/motion/xuchu/closeout-campaign/refs/walk4-original-cell.png",
+        "sha256": "b96d7d5295488b78b042c13507d92a4e194d93c6635fa99606e7924360db4d4a",
+        "pinned": true
+      },
+      "paddedReference": {
+        "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk4-padded-ref.png",
+        "sha256": "5b79aeb05b531205da9314d070d32c402eafc77a7815c16053e6ebf5bf15182b",
+        "bytes": 229414
+      },
+      "markedPreview": {
+        "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk4-padded-marked.png",
+        "sha256": "2a9fd28140f6b7807d9db2c89ec72ccfc5a528a072324255ceaf9cfc41e0cd7b",
+        "bytes": 249669
+      }
+    },
+    {
+      "key": "walk5",
+      "source": {
+        "path": "art/motion/xuchu/closeout-campaign/refs/walk5-original-cell.png",
+        "sha256": "3baccee1ca374ec693e298b2647d786af7fe578429660218dde8f5124c1e1937",
+        "pinned": true
+      },
+      "paddedReference": {
+        "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk5-padded-ref.png",
+        "sha256": "df0f13a12ef1f2e69cc204bd775734d8169c82f7e1b48c8f969e18a173cb4bf8",
+        "bytes": 237265
+      },
+      "markedPreview": {
+        "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk5-padded-marked.png",
+        "sha256": "c1c7dc438f0515d3550612d3be44da2660296566c541ae8f9c4128e7172dc060",
+        "bytes": 258620
+      }
+    }
+  ]
+}

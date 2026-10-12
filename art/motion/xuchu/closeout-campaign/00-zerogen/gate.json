@@ -1,0 +1,254 @@
+{
+  "work": "cmr15a-amend-setup-00-zerogen",
+  "zeroGeneration": true,
+  "ledgerUnchanged": "Xu Chu 6 / global 173 (verified from art/motion/generation-budget.json; no writes)",
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500
+  },
+  "anchor": "accepted walk:2 893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6",
+  "cells": {
+    "walk0": {
+      "key": "walk:0",
+      "phaseRole": "Guard / bookend (double support)",
+      "input": {
+        "path": "art/motion/xuchu/closeout-campaign/refs/walk0-original-cell.png",
+        "sha256": "6bfff0f6aa45105fd34c758e5900dd321f7c2079369faaf42dafdcad24c53eca",
+        "pinned": true,
+        "size": [
+          512,
+          512
+        ]
+      },
+      "landmarks": {
+        "weapon": {
+          "butt": [
+            58,
+            318
+          ],
+          "frameExit": [
+            511,
+            120
+          ]
+        },
+        "beardTip": [
+          285,
+          128
+        ],
+        "bounds": {
+          "xmin": 53,
+          "ymin": 31,
+          "xmax": 511,
+          "ymax": 498,
+          "leftEdgePx": 0,
+          "rightEdgePx": 51
+        },
+        "crownY": 31,
+        "groundY": 498
+      },
+      "measurements": {
+        "body": {
+          "heightPx": 468,
+          "frozenPx": 459,
+          "deltaPctVsFrozen": 1.9607843137254901
+        },
+        "registration": {
+          "rule": "uniform scale factor=459/bodyHeightPx then translate ground->500@512 (whole cell)",
+          "factor": 0.9807692307692307,
+          "factorPct": -1.9230769230769273,
+          "withinPlusMinus4Pct": true,
+          "groundErrorU_before": 0.519916142557652,
+          "groundErrorU_after": 0,
+          "bodyHeightPxAfter": 459
+        },
+        "weaponFrameExitLowerBound": {
+          "rawPx": 494.3814316901475,
+          "registeredPxAt512": 484.87409646533695,
+          "registeredU": 126.0469349301924,
+          "bandU": {
+            "lo": 124.40626991803302,
+            "hi": 137.50166675151021
+          },
+          "lowerBoundInBand": true,
+          "angleDegFrameExit": -23.60946953843747,
+          "angleDeltaDegVsFrozen": 2.7009354063676696,
+          "corridorPerpPxVsAnchorLine": {
+            "butt": 10.19438167666512,
+            "frameExit": 33.49099848933657,
+            "corridorLimitPx": 14
+          },
+          "tipInsideCell": false,
+          "wholeLengthMeasurable": false
+        },
+        "headEndpointRAW": {
+          "beardTip": [
+            285,
+            128
+          ],
+          "measuredClearBackgroundGapPx": 0
+        }
+      },
+      "verdicts": {
+        "identity": {
+          "verdict": "PASS",
+          "basis": "Full cell + head zoom: same blunt-faced helmeted dark/full-bearded ochre/dark-armoured massive Xu Chu, right-facing three-quarter, no other-fighter/costume drift."
+        },
+        "anatomy": {
+          "verdict": "PASS",
+          "basis": "Full cell + legs/head zooms: connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs."
+        },
+        "weaponCorridorLengthDirection": {
+          "verdict": "FAIL",
+          "basis": "Blade tip CLIPPED at the cell right edge (51 opaque px on x=511; tip zoom shows blade exiting the cell), so whole butt->tip length is UNMEASURABLE from this cell — frame-exit lower bound 126.05u (registered) is recorded raw and is NOT a pass. A clipped tip may not be fabricated (amendment); deterministic shaft retouch cannot restore off-cell pixels. No waiver in-batch."
+        },
+        "scaleGround": {
+          "verdict": "PASS (after authorized registration)",
+          "basis": "Raw ground 498 vs frozen 500 = 0.52u; body 468 vs 459px (1.96%). Authorized uniform registration factor 0.9808 (-1.92%, within ±4%) places ground at 500 (0u ≤1.5u) at frozen body height."
+        },
+        "seams": {
+          "verdict": "FAIL",
+          "basis": "Clipped blade at right edge (51 opaque px on x=511) — unintended panel clipping per CAMPAIGN (c)."
+        },
+        "gaitPhaseMatch": {
+          "verdict": "PASS (phase role)",
+          "basis": "Both boots flat on the same sole row (ymax 498), clearly separated, knees soft, torso upright — matches the walk:0 Guard/bookend double-support role in CAMPAIGN (a)."
+        },
+        "headEndpointRAW": {
+          "verdict": "RECORDED_RAW_NOT_A_REJECT",
+          "measuredClearBackgroundGapPx": 0,
+          "basis": "Beard tip lies over collar/chest; clear background gap recorded raw. Reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass + independent visual review; not a reject ground here, and it cannot rescue the failed gates above."
+        }
+      },
+      "overall": "FAIL — NOT BANKED",
+      "disposition": "Does not pass ALL gates on existing pixels, so it is NOT banked zero-generation and its slot does NOT return to the second-attempt pool. It will be generated later in amendment order, briefed on the failed gates recorded here."
+    },
+    "walk1": {
+      "key": "walk:1",
+      "phaseRole": "Contact-A",
+      "input": {
+        "path": "art/motion/xuchu/closeout-campaign/refs/walk1-original-cell.png",
+        "sha256": "98c283b5283c1f87252a35f1a41c1b4aedf7844bd9fb0c191beb592c684e429d",
+        "pinned": true,
+        "size": [
+          512,
+          512
+        ]
+      },
+      "landmarks": {
+        "weapon": {
+          "butt": [
+            52,
+            325
+          ],
+          "frameExit": [
+            511,
+            140
+          ]
+        },
+        "beardTip": [
+          292,
+          138
+        ],
+        "bounds": {
+          "xmin": 0,
+          "ymin": 40,
+          "xmax": 511,
+          "ymax": 498,
+          "leftEdgePx": 51,
+          "rightEdgePx": 49
+        },
+        "crownY": 40,
+        "groundY": 498
+      },
+      "measurements": {
+        "body": {
+          "heightPx": 459,
+          "frozenPx": 459,
+          "deltaPctVsFrozen": 0
+        },
+        "registration": {
+          "rule": "uniform scale factor=459/bodyHeightPx then translate ground->500@512 (whole cell)",
+          "factor": 1,
+          "factorPct": 0,
+          "withinPlusMinus4Pct": true,
+          "groundErrorU_before": 0.519916142557652,
+          "groundErrorU_after": 0,
+          "bodyHeightPxAfter": 459
+        },
+        "weaponFrameExitLowerBound": {
+          "rawPx": 494.87978338178254,
+          "registeredPxAt512": 494.87978338178254,
+          "registeredU": 128.64799400281137,
+          "bandU": {
+            "lo": 124.40626991803302,
+            "hi": 137.50166675151021
+          },
+          "lowerBoundInBand": true,
+          "angleDegFrameExit": -21.95190462114885,
+          "angleDeltaDegVsFrozen": 4.3585003236562905,
+          "corridorPerpPxVsAnchorLine": {
+            "butt": 13.809819436433857,
+            "frameExit": 51.419117561966594,
+            "corridorLimitPx": 14
+          },
+          "tipInsideCell": false,
+          "wholeLengthMeasurable": false
+        },
+        "headEndpointRAW": {
+          "beardTip": [
+            292,
+            138
+          ],
+          "measuredClearBackgroundGapPx": 0
+        }
+      },
+      "verdicts": {
+        "identity": {
+          "verdict": "PASS",
+          "basis": "Full cell + head zoom: same blunt-faced helmeted dark/full-bearded ochre/dark-armoured massive Xu Chu, right-facing three-quarter, no other-fighter/costume drift."
+        },
+        "anatomy": {
+          "verdict": "PASS",
+          "basis": "Full cell + legs/head zooms: connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs."
+        },
+        "weaponCorridorLengthDirection": {
+          "verdict": "FAIL",
+          "basis": "Blade tip CLIPPED at the cell right edge (49 opaque px on x=511; tip zoom shows blade exiting the cell), so whole butt->tip length is UNMEASURABLE from this cell — frame-exit lower bound 128.65u (registered) is recorded raw and is NOT a pass. A clipped tip may not be fabricated (amendment); deterministic shaft retouch cannot restore off-cell pixels. No waiver in-batch."
+        },
+        "scaleGround": {
+          "verdict": "PASS (after authorized registration)",
+          "basis": "Raw ground 498 vs frozen 500 = 0.52u; body 459 vs 459px (0.00%). Authorized uniform registration factor 1.0000 (0.00%, within ±4%) places ground at 500 (0u ≤1.5u) at frozen body height."
+        },
+        "seams": {
+          "verdict": "FAIL",
+          "basis": "Clipped blade at right edge (49 opaque px on x=511) plus a neighbouring cell's blade fragment intruding at the left edge (51 opaque px on x=0) — unintended panel pixels / clipping per CAMPAIGN (c)."
+        },
+        "gaitPhaseMatch": {
+          "verdict": "PASS (phase role)",
+          "basis": "Screen-right boot flat forward (front contact), screen-left boot extended rear with toe down / heel raised at the same ground row (trailing toe-off) — matches the walk:1 Contact-A role; screen support arrangement differs from accepted walk:2 Passing-B (sole centre support + tucked passing leg), so it does not duplicate walk:2. Full-cycle alternation still requires walk:3/4/5, which are not banked; this cell alone neither proves nor breaks it."
+        },
+        "headEndpointRAW": {
+          "verdict": "RECORDED_RAW_NOT_A_REJECT",
+          "measuredClearBackgroundGapPx": 0,
+          "basis": "Beard tip lies over collar/chest; clear background gap recorded raw. Reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass + independent visual review; not a reject ground here, and it cannot rescue the failed gates above."
+        }
+      },
+      "overall": "FAIL — NOT BANKED",
+      "disposition": "Does not pass ALL gates on existing pixels, so it is NOT banked zero-generation and its slot does NOT return to the second-attempt pool. It will be generated later in amendment order, briefed on the failed gates recorded here."
+    }
+  },
+  "summary": {
+    "walk:0": "FAIL — NOT BANKED (failed: weapon clipped/unmeasurable, seams clipped blade)",
+    "walk:1": "FAIL — NOT BANKED (failed: weapon clipped/unmeasurable, seams clipped blade + neighbouring blade fragment at left edge)",
+    "banked": [],
+    "slotsReturnedToSecondAttemptPool": 0,
+    "nextAction": "walk:0 and walk:1 will be generated later in amendment order (after walk:5), each briefed on the failed gates above. Identity/anatomy/scale-ground(registered)/gait-phase-role pass on existing pixels and are carried into those briefs."
+  }
+}

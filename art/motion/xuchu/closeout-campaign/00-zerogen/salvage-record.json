@@ -1,0 +1,59 @@
+{
+  "work": "cmr15a-amend-setup-salvage-record",
+  "zeroGeneration": true,
+  "note": "Salvage step (1) only, applied for the record to already-rejected candidates. REJECT status unchanged; candidates not banked and not recounted.",
+  "results": [
+    {
+      "key": "walk:3",
+      "candidate": {
+        "path": "art/motion/xuchu/closeout-campaign/02-walk3/candidate-raw.jpg",
+        "sha256": "ec73c75ab600ced5b4935cc29081824617dc3f5ed2c7ce1857f8d802602c48c7",
+        "gateShaRecorded": "ec73c75ab600ced5b4935cc29081824617dc3f5ed2c7ce1857f8d802602c48c7",
+        "hashMatchesGateRecord": true
+      },
+      "salvageStep1Registration": {
+        "rule": "uniform scale factor=459/bodyHeightPxAt512 (whole candidate) then translate ground->500@512",
+        "factor": 1.0188679245283019,
+        "factorPct": 1.8867924528301883,
+        "withinPlusMinus4Pct": true,
+        "groundErrorU_before": 7.928721174004192,
+        "groundErrorU_after": 0,
+        "bodyHeightPxAt512_after": 459,
+        "registeredPreview": "art/motion/xuchu/closeout-campaign/00-zerogen/salvage-02-walk3-registered.png"
+      },
+      "reGateAfterRegistration": {
+        "scaleGround": "PASS after registration (ground 0u, body at frozen 459px) — registration alone would have cured the recorded scale/ground FAIL",
+        "weapon": "STILL FAIL — blade tip clipped at frame edge; whole length remains UNMEASURABLE (frame-exit lower bound only), angle delta 4.69° unchanged by uniform scale, corridor tip perp 38.92px (scaled) vs 14px limit. Steps (2) shaft retouch / (3) splice cannot restore an off-frame tip; per amendment a clipped tip may not be fabricated.",
+        "gait": "STILL FAIL — Front-flat/rear-toe-off is the same screen arrangement as the walk:1 original; Contact-B opposite support/occlusion vs walk:1 not proven (02-walk3/gate.json). Uniform scale+translate does not change leg arrangement.",
+        "seams": "STILL FAIL — clipped blade at frame edge is unchanged by registration."
+      },
+      "verdict": "REJECT status UNCHANGED (salvage-for-the-record only; not banked, not counted again, no new genuinely-unusable count)"
+    },
+    {
+      "key": "walk:4",
+      "candidate": {
+        "path": "art/motion/xuchu/closeout-campaign/03-walk4/candidate-raw.jpg",
+        "sha256": "990fefd79981394af812a495a98183ed5da972535249976c1417e13f32c5f144",
+        "gateShaRecorded": "990fefd79981394af812a495a98183ed5da972535249976c1417e13f32c5f144",
+        "hashMatchesGateRecord": true
+      },
+      "salvageStep1Registration": {
+        "rule": "uniform scale factor=459/bodyHeightPxAt512 (whole candidate) then translate ground->500@512",
+        "factor": 1.0314606741573034,
+        "factorPct": 3.146067415730336,
+        "withinPlusMinus4Pct": true,
+        "groundErrorU_before": 7.148846960167714,
+        "groundErrorU_after": 0,
+        "bodyHeightPxAt512_after": 459,
+        "registeredPreview": "art/motion/xuchu/closeout-campaign/00-zerogen/salvage-03-walk4-registered.png"
+      },
+      "reGateAfterRegistration": {
+        "scaleGround": "PASS after registration (ground 0u, body at frozen 459px) — registration alone would have cured the recorded scale/ground FAIL",
+        "weapon": "STILL FAIL — blade tip clipped at frame edge; whole length remains UNMEASURABLE (frame-exit lower bound only), angle delta 3.53° unchanged by uniform scale, corridor tip perp 47.72px (scaled) vs 14px limit. Steps (2) shaft retouch / (3) splice cannot restore an off-frame tip; per amendment a clipped tip may not be fabricated.",
+        "gait": "STILL FAIL — Screen-right flat support + screen-left toe-down trailing leg — not bent forward Passing-A; opposite passing vs accepted walk:2 not proven (03-walk4/gate.json). Uniform scale+translate does not change leg arrangement.",
+        "seams": "STILL FAIL — clipped blade at frame edge is unchanged by registration."
+      },
+      "verdict": "REJECT status UNCHANGED (salvage-for-the-record only; not banked, not counted again, no new genuinely-unusable count)"
+    }
+  ]
+}

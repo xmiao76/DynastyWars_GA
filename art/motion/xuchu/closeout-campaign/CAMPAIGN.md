@@ -177,6 +177,114 @@ and return for independent review — this grant does not itself mark CMR-15A DO
 | 02 | walk:3 (Contact-B) | **REJECTED — unaccepted, not banked** | `ec73c75ab600ced5b4935cc29081824617dc3f5ed2c7ce1857f8d802602c48c7` (`02-walk3/candidate-raw.jpg`) | 5 / 172 (reserve commit `2f6579a`) | Identity/anatomy PASS; weapon FAIL (blade tip clipped at frame edge, length unmeasurable lower-bound 123.46u vs band [124.41,137.50]u, angle Δ+4.69° vs −26.31°, corridor tip perp 38.19px/14px), scale/ground FAIL (ground 469.5 vs frozen 500@512 = 7.93u >1.5u; body 450.5 vs 459px −1.85%), seams FAIL (clipped blade), gait FAIL (front-flat/rear-toe-off same screen arrangement as walk:1, opposite-contact not proven); head endpoint RAW gap 0px (not a reject). **Genuinely unusable = 1/2** (STOP at 2, not reached). Evidence: `02-walk3/gate.json`, `gate.mjs`. |
 | 01 | walk:2 (Passing-B) | **ACCEPTED — banked anchor 1** (whole-candidate, no splice) | `893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6` (`01-walk2/accepted.png`, byte copy of candidate-raw.jpg) | 4 / 171 (reserve commit `9ee925b`) | Identity/anatomy/weapon/scale-ground/seams/gait PASS (weapon 503.12px@512, +0.80% vs original, Δangle −0.16°, corridor ≤2.69px/14px; ground 0.26u ≤1.5u; body +0.44%); head endpoint RAW gap 0px (not a reject, batch-end ruling reserved); **brief band FIXED from this anchor**: body 459px@512, weapon 503.12px@512 = 130.79u, band [124.41, 137.50]u, angle −26.31°, groundY 500@512. Genuinely unusable = 0. Evidence: `01-walk2/gate.json`, `gate.mjs`. |
 
+## AMENDMENT — CMR-15A CLOSEOUT AMENDMENT (owner grant, 2026-10-12; setup package, zero generation)
+
+The original FINITE CLOSEOUT grant text above is preserved unchanged. This section
+records the amendment that prospectively supersedes its ceilings, stop rule and
+no-second-attempt limit from 2026-10-12. The amendment grant is recorded verbatim
+in TASKS.md CMR-15A as a new authorization bullet (owner, 2026-10-12,
+"CMR-15A CLOSEOUT AMENDMENT (owner grant): …"). All history, the accepted walk:2
+anchor (`893c90d7…`), the frozen brief band (weapon 130.79u, band [124.41,137.50]u,
+angle −26.31°, groundY 500@512, body 459px@512) and ledger counts (Xu Chu 6,
+global 173) are preserved.
+
+### Amended ceilings and order
+
+| Counter | Preserved now | Amended ceiling | Nominal recorded base |
+|---|---|---|---|
+| Xu Chu used | **6** | **22 total** | cap 12 unchanged |
+| Global used | **173 / 200** | **189 / 200 maximum** | 200 |
+
+Reserve-before-call, no refunds. Order (sequential, no parallel):
+walk:3, walk:4, walk:5, walk:0, walk:1, charge, combo, heavy, misc, fall, getup.
+No whole-sheet, no text-to-image substitution, no runtime activation or 15B work.
+This grant does not mark CMR-15A DONE.
+
+### Second-attempt rule
+
+Each key gets at most ONE second attempt, only after a first failure, briefed in
+writing on that failure's measured values (ground error u, angle/corridor deltas,
+gait defect); no blind rerolls. References: the key's original cell on a
+deterministically padded canvas (ground line and tip margin marked; see
+`padded-refs/`), plus accepted walk:2 as second reference for walk:3/4/5.
+Provider: gpt-preferred for walk:3/4 second attempts, grok otherwise; serving
+provider recorded.
+
+Second-attempt pool bookkeeping: the amendment's remaining budget is
+22 − 6 = 16 requests for 11 keys in the order above; a key banked
+zero-generation (below) returns its slot to this pool (i.e. its first-attempt
+slot stays unspent and is available for second attempts). At setup, no slot has
+been returned (see zero-generation result below).
+
+### Salvage before "genuinely unusable" (in order)
+
+1. One deterministic uniform scale+translate registration to groundY 500
+   (whole candidate, factor recorded, ≤±4%), then re-gate. Campaign
+   registration rule used here: factor = 459 / bodyHeightPxAt512, then translate
+   ground to 500@512.
+2. Deterministic shaft retouch for in-frame length outliers.
+3. Weapon-region splice from the original cell only where both grips align and
+   seams pass at gameplay and 4x.
+
+A clipped weapon tip may not be fabricated and goes directly to the second
+attempt (steps 2–3 do not apply to it).
+
+### Gates (unchanged in substance)
+
+Identity, anatomy, weapon corridor/length/direction vs the frozen band,
+scale/ground ≤1.5u after authorized registration, seams, and genuine opposite
+support/passing across walk keys. Head-size gate may still close only as
+UNVERIFIED_OWNER_ACCEPTED at batch end if all other gates pass with independent
+visual review; weapon waivers only for exact immutable hashes at batch end.
+
+### walk:0 / walk:1 zero-generation option — setup result (NOT banked)
+
+walk:0/walk:1 may alternatively be banked zero-generation from the original
+candidate-2 cells if they pass ALL gates on existing pixels, returning their
+slots to the second-attempt pool. Setup result
+(`00-zerogen/gate.json`, script `00-zerogen/gate-zerogen.mjs`): **both FAIL and
+are NOT banked** — weapon blade tip clipped at the cell edge (whole length
+unmeasurable; frame-exit lower bounds 126.05u walk:0 / 128.65u walk:1 after
+registration, recorded raw) and seams FAIL (walk:1 also carries a neighbouring
+cell's blade fragment at its left edge). Identity/anatomy/gait-phase-role pass,
+scale/ground pass only after authorized registration (factors 0.9808 / 1.0000),
+head RAW gap 0px. No `banked-walk0.png` / `banked-walk1.png`; **0 slots
+returned**; walk:0/1 will be generated later in amendment order, briefed on
+these measured failures.
+
+### Salvage-for-the-record on rejected 02/03 candidates
+
+`00-zerogen/salvage-record.json`: salvage step (1) applied to the rejected
+02-walk3 (factor 1.0189) and 03-walk4 (1.0315) raw candidates cures ground/scale
+only (0u after registration); tip-clip (whole length still unmeasurable,
+corridor tip perp 38.91px / 47.71px scaled vs 14px), seams and gait still FAIL.
+Their REJECT status is unchanged; they are not banked and not recounted.
+
+### Padded references built at setup
+
+`padded-refs/` (script `padded-refs/build-padded-refs.mjs`, manifest
+`padded-refs/padded-refs.json`): each original cell centred 1:1 at (256,256) on
+a 1024×1024 **transparent** canvas. The reference to send carries a subtle ground
+line at the scaled groundY (1000@1024 = frozen 500@512 ×2); a separate marked
+preview (never sent) additionally draws the tip-margin box inset 40px from every
+edge and the cell placement box. Sent-reference SHA-256: walk3 `8a952923ecdbba82f85930f5dddee1a4704da3d0d7082d738f7b37390e8c016c`,
+walk4 `5b79aeb05b531205da9314d070d32c402eafc77a7815c16053e6ebf5bf15182b`,
+walk5 `df0f13a12ef1f2e69cc204bd775734d8169c82f7e1b48c8f969e18a173cb4bf8`.
+
+### Revised STOP rule (amendment; supersedes (e) prospectively)
+
+STOP on any authority/safety failure, on two consecutive sources still unusable
+after salvage and second attempt, on walk alternation unproven after walk:5, or
+before exceeding 22/189. If all sources pass or receive the exact rulings above,
+prepare the offline pack only and return for independent review.
+
+### Amendment progress
+
+| Step | Status |
+|---|---|
+| Setup (this package) | DONE — grant recorded, IN_PROGRESS, zero-gen gates, padded refs, salvage record; ledger unchanged 6/173 |
+| walk:3 first attempt | Next (amendment order) |
+
 ## Setup checks (this package)
 
 Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings
