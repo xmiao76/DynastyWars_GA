@@ -32,6 +32,7 @@ const ZHANGFEI_SHEET_BYTES = readFileSync('src/game/assets/motion/zhangfei-motio
 const ZHANGFEI_ACTION_BYTES = readFileSync('src/game/assets/motion/zhangfei-actions-sheet.png')
 const HUANGZHONG_BYTES = readFileSync('src/game/assets/motion/huangzhong-motion-sheet.png')
 const LIDIAN_BYTES = readFileSync('src/game/assets/motion/lidian-motion-sheet.png')
+const XIAHOUDUN_BYTES = readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')
 const meta = motionPreparedRecord()
 const keys = motionTextureKeys('guanyu')
 
@@ -131,7 +132,7 @@ function makeIo(
       if (opts.gate) await opts.gate
       if (behavior.kind === 'missing') return new Uint8Array(0)
       if (behavior.kind === 'garbage') return new Uint8Array([1, 2, 3, 4])
-      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('huangzhong') ? HUANGZHONG_BYTES : url.includes('lidian') ? LIDIAN_BYTES : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
+      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('huangzhong') ? HUANGZHONG_BYTES : url.includes('lidian') ? LIDIAN_BYTES : url.includes('xiahoudun') ? XIAHOUDUN_BYTES : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
     },
     sha256: async (bytes) => {
       if (opts.shaThrows) throw new Error(opts.shaThrows)
@@ -227,27 +228,61 @@ describe('stage-scoped motion runtime', () => {
     expect(rep.perFighterDecoded['zhangfei']).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
     expect(rep.perFighterDecoded['zhangfei']).toBeLessThanOrEqual(22 * 1024 * 1024)
     expect((motions()['zhangfei'] as MotionArt).collapseTail, 'published art carries the per-kind collapse tail').toEqual(['fall:3', 'fall:4'])
-    // Restart/stage progression: shutdown then a new stage entry reuses the
-    // cache with ZERO downloads (textures + registry survive the restart).
+    // Same-stage restart reuses every held page with ZERO downloads.
+    rt.cancelLoads()
+    rt.releaseScene(scene)
+    const restart = await rt.prepareStage(scene, req)
+    expect([...restart.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect(io.calls, 'restart re-downloads nothing').toHaveLength(6)
+    // Stage2 requests its new boss before mooks. Warm stage1 spear stays
+    // published, but is not counted as a newly planned stage2 download.
     rt.cancelLoads()
     rt.releaseScene(scene)
     const again = await rt.prepareStage(scene, motionStageRequest('stage2', 'zhangfei', 'guanyu'))
-    expect([...again.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
-    expect(io.calls, 'restart re-downloads nothing').toHaveLength(6)
+    expect(again.requested).toEqual(['zhangfei', 'guanyu', 'xiahoudun', 'soldier'])
+    expect([...again.published].sort()).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
+    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier', 'spearman', 'xiahoudun', 'zhangfei'])
+    expect(io.calls, 'only the newly needed boss downloads').toHaveLength(7)
+    expect(rt.budget().networkBytes - rep.networkBytes).toBe(2220630)
+    expect(rt.budget().clonedCanvasBytes).toBe(0)
+    rt.cancelLoads()
+    rt.releaseScene(scene)
     // Eviction: a tiny retained cap retires the released pack and uninstalls
     // its textures/registry entry; a later entry reloads it from the network.
     // Same scope as above (hero zhangfei), so this runtime holds every pack
     // the scene has and the release retires all of them.
     const evictIo = makeIo(okPages)
     const evicting = new MotionRuntime(evictIo, { ...CONTRACT_CAPS, retainedCache: 1 } satisfies BudgetCaps)
-    const report2 = await evicting.prepareStage(scene, motionStageRequest('stage1', 'zhangfei', 'guanyu'))
+    // A separate cache owns a separate scene; it must not evict Xiahou held
+    // by the prior runtime simply because that runtime is not under test here.
+    const evictScene = makeScene()
+    const report2 = await evicting.prepareStage(evictScene.scene, motionStageRequest('stage1', 'zhangfei', 'guanyu'))
     expect([...report2.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
-    evicting.releaseScene(scene)
-    expect(motions(), 'evicted pack leaves the registry').toEqual({})
-    expect(textures.has(keys.sheet), 'evicted pack removes its textures').toBe(false)
-    expect(textures.has(keys.actions)).toBe(false)
+    evicting.releaseScene(evictScene.scene)
+    expect(evictScene.motions(), 'evicted pack leaves the registry').toEqual({})
+    expect(evictScene.textures.has(keys.sheet), 'evicted pack removes its textures').toBe(false)
+    expect(evictScene.textures.has(keys.actions)).toBe(false)
+    expect(motions().xiahoudun, 'other runtime retains its valid boss').toBeDefined()
+    expect(textures.has(motionTextureKeys('xiahoudun').sheet)).toBe(true)
     expect(evictIo.calls).toHaveLength(6)
   }, 60_000)
+
+  it('fresh GU/default ZF stage2 prepares its boss before budget-deferred mooks with real catalog PNGs', async () => {
+    const { scene, textures, motions } = makeScene(), io = makeIo(okPages), rt = new MotionRuntime(io)
+    const report = await rt.prepareStage(scene, motionStageRequest('stage2', 'guanyu', 'zhangfei'))
+    expect(report.requested).toEqual(['guanyu', 'zhangfei', 'xiahoudun', 'soldier'])
+    expect(report.published).toEqual(report.requested)
+    expect(report.legacy).toEqual([])
+    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
+    expect(io.calls).toHaveLength(6)
+    expect(io.calls[4]).toContain('xiahoudun-motion-sheet')
+    expect(io.calls[5]).toContain('soldier-motion-sheet')
+    expect(io.calls.some((url) => url.includes('spearman') || url.includes('archer'))).toBe(false)
+    expect(textures.get(motionTextureKeys('xiahoudun').sheet)!.frames.size).toBe(39)
+    expect(rt.budget()).toMatchObject({ networkBytes: 12372346, sourceBytes: 12372346, clonedCanvasBytes: 0, perFighterDecoded: { xiahoudun: 12991664 } })
+    expect(rt.budget().sourceBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
+    rt.cancelLoads(); rt.releaseScene(scene); await rt.settle()
+  }, 60000)
 
   it('only catalogued stage packs are requested - unpacked kinds never download', async () => {
     const { scene, motions } = makeScene()
@@ -266,7 +301,7 @@ describe('stage-scoped motion runtime', () => {
     // never half-loaded. Neither path re-downloads (boss cached, unknown skipped).
     const boss = await rt.loadKind(scene, 'lidian')
     expect(boss).toEqual({ ok: true })
-    const unknown = await rt.loadKind(scene, 'xiahoudun')
+    const unknown = await rt.loadKind(scene, 'xuchu') // Xiahou Dun is catalogued by CMR-14B; Xu Chu remains unsupported.
     expect(unknown).toEqual({ ok: false, failure: 'unsupported' })
     expect(io.calls).toHaveLength(5)
   }, 60_000)

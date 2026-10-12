@@ -16,6 +16,8 @@
 // `--strict` additionally fails on unverified landmarks.
 
 import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { resolve, relative } from 'node:path'
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import {
@@ -36,13 +38,17 @@ const arg = (name, fallback) => {
 const strict = argv.includes('--strict')
 const fighter = arg('--fighter', 'guanyu')
 const role = arg('--role', 'hero')
-const enemy = arg('--enemy', '')
+const enemy = arg('--enemy', fighter === 'xiahoudun' ? 'xiahoudun' : '')
 const renderer = arg('--renderer', 'canvas')
 const out = arg('--out', 'artifacts/motion-review')
 const run = `${out}/${fighter}-${renderer}`
 
 // ---- provenance: commit, dirty state, pack revision and source hashes ----
-const git = (args) => spawnSync('git', args, { encoding: 'utf8' }).stdout.trim()
+const git = (args) => {
+  const result = spawnSync('git', args, { encoding: 'utf8' })
+  if (result.error || result.status !== 0) throw result.error ?? new Error(`git ${args.join(' ')} failed: ${result.stderr}`)
+  return result.stdout.trim()
+}
 const commit = git(['rev-parse', '--short', 'HEAD']) || 'unknown'
 const dirty = git(['status', '--porcelain', 'src', 'scripts', 'art']) !== ''
 const prepared = JSON.parse(readFileSync('src/game/assets/motion/prepared.json', 'utf8'))
@@ -54,7 +60,7 @@ let sourceHashes = {
 let packRevision = 'motion-2'
 let pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
 let singlePrepared = null
-if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer' || fighter === 'huangzhong' || fighter === 'lidian') {
+if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer' || fighter === 'huangzhong' || fighter === 'lidian' || fighter === 'xiahoudun') {
   // Single-page cast packs: provenance comes from their own prepared record
   // (the guanyu literals above stay exactly as they were for guanyu runs).
   singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/${fighter}-prepared.json`, 'utf8'))
@@ -96,11 +102,54 @@ if (fighter === 'weiyan') {
   pivot = { x: singlePrepared.box.width, y: singlePrepared.box.groundY * singlePrepared.density }
 }
 
+// Xiahou provenance is verified against actual dirty working-tree bytes, not
+// metadata assertions or the Guan Yu resource literals. No image processing.
+let xiahouProvenance = null
+if (fighter === 'xiahoudun') {
+  if (enemy !== fighter || role !== 'boss') throw new Error('Xiahou capture requires role boss and enemy xiahoudun')
+  const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
+  const png = readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')
+  const image = await loadImage(png)
+  const manifest = readFileSync(singlePrepared.source.manifestPath)
+  if (hash(png) !== singlePrepared.sha256 || hash(manifest) !== singlePrepared.source.manifestSha256) throw new Error('Xiahou source PNG/manifest mismatch')
+  if (image.width !== singlePrepared.sheet.width || image.height !== singlePrepared.sheet.height) throw new Error('Xiahou decoded dimensions mismatch')
+  xiahouProvenance = {
+    manifestSha256: hash(manifest), pngSha256: hash(png),
+    width: image.width, height: image.height, sourceBytes: png.length,
+    decodedBytes: image.width * image.height * 4,
+    dirtySourceHashes: Object.fromEntries([
+      'scripts/motion-capture.mjs', 'e2e/motion-capture.spec.ts',
+      'src/game/adapters/motion-art.ts', 'src/game/art/motion-clips-xiahoudun.ts',
+      'src/game/assets/motion/xiahoudun-prepared.json',
+    ].map((path) => [path, hash(readFileSync(path))])),
+  }
+  console.log(`Xiahou actual provenance ${JSON.stringify(xiahouProvenance)}`)
+}
+
+// Validate absolute move/delete targets BEFORE touching an existing run.
+const root = resolve('.')
+const assertInsideRepo = (path) => {
+  const absolute = resolve(path), rel = relative(root, absolute)
+  if (!rel || rel.startsWith('..') || /^[A-Za-z]:/.test(rel)) throw new Error(`unsafe capture target: ${absolute}`)
+  console.log(`verified capture target: ${absolute}`)
+  return absolute
+}
+if (fighter === 'xiahoudun') {
+  assertInsideRepo(run)
+  assertInsideRepo(`${out}/previous/${fighter}-${renderer}`)
+}
+
 // ---- rotate the previous capture (before/after pairs across rotations) ----
 if (existsSync(run)) {
   mkdirSync(`${out}/previous`, { recursive: true })
-  rmSync(`${out}/previous/${fighter}-${renderer}`, { recursive: true, force: true })
-  renameSync(run, `${out}/previous/${fighter}-${renderer}`)
+  if (fighter === 'xiahoudun') {
+    // Never delete a failed Xiahou run on correction: retain every version.
+    const destination = `${out}/previous/${fighter}-${renderer}-${Date.now()}`
+    renameSync(assertInsideRepo(run), assertInsideRepo(destination))
+  } else {
+    rmSync(`${out}/previous/${fighter}-${renderer}`, { recursive: true, force: true })
+    renameSync(run, `${out}/previous/${fighter}-${renderer}`)
+  }
 }
 
 // ---- run the capture ----
@@ -149,7 +198,9 @@ const rows = trace.rows
 // The pack frame inventory and attack bindings are per fighter: the review
 // core rejects any captured key that is not in the fighter's own pack.
 const packFrames = singlePrepared ? singlePrepared.frames : { ...prepared.guanyu.frames, ...actions.frames }
-const bindings = fighter === 'soldier'
+const bindings = fighter === 'xiahoudun'
+  ? singlePrepared.attackBindings
+  : fighter === 'soldier'
   ? { 'soldier.swing': 'swing' }
   : fighter === 'spearman'
     ? { 'spear.thrust': 'thrust' }
@@ -191,7 +242,9 @@ const verdict = validateTrace(rows, {
   removedResiduePx: 0,
   residueTolerancePx: 0,
 })
-const injectedActions = fighter === 'soldier'
+const injectedActions = fighter === 'xiahoudun'
+  ? ['idle', 'charge', 'hurt', 'combo', 'knockdown', 'heavy', 'getup', 'grabbed', 'thrown', 'dying', 'dead', 'all-keys']
+  : fighter === 'soldier'
   ? ['idle', 'swing', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
   : fighter === 'spearman'
     ? ['idle', 'thrust', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
@@ -209,7 +262,9 @@ const injectedActions = fighter === 'soldier'
                 ? ['idle', 'charge', 'hurt', 'combo', 'knockdown', 'heavy', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
                 : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
-  actions: actionsForRole(role).filter((a) => a !== 'revive'),
+  actions: fighter === 'xiahoudun'
+    ? ['idle', 'walk', 'charge', 'combo', 'heavy', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead', 'mixed', 'enrage', 'approach', 'retreat', 'stop']
+    : actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
   renderers: [renderer],
   injected: injectedActions,
@@ -222,7 +277,8 @@ const index = buildIndex({
   packRevision,
   sourceHashes,
   landmarks: {
-    groundErrorU: 0,
+    groundErrorU: fighter === 'xiahoudun' ? 'unverified' : 0,
+    ...(fighter === 'xiahoudun' ? { registrationErrorU: 0, groundMethod: 'metadata registration only; actual foot contact unverified' } : {}),
     pivotU: pivot,
     contactU: 'unverified',
     weaponTipU: 'unverified',
@@ -235,6 +291,17 @@ const index = buildIndex({
   videoPath: `${run}/${fighter}-${renderer}.webm`,
   contactSheet: `${run}/contact-sheet.png`,
 })
+if (fighter === 'xiahoudun') {
+  index.pack.actualProvenance = xiahouProvenance
+  index.capture.runtime = trace.runtime
+  index.frameCoverage = Object.fromEntries(['right', 'left'].map((facing) => {
+    const observed = new Set(rows.filter((r) => r.facing === facing).map((r) => r.key.replace('entity:xiahoudun:motion:', '')))
+    return [facing, { expected: Object.keys(packFrames).length, observed: observed.size, missing: Object.keys(packFrames).filter((key) => !observed.has(key)) }]
+  }))
+  if (Object.values(index.frameCoverage).some((c) => c.missing.length)) verdict.errors.push('Xiahou all-frame runtime coverage incomplete')
+  const mismatch = rows.filter((r) => r.snapshotKey && r.snapshotKey !== r.key)
+  if (mismatch.length) verdict.errors.push(`Xiahou snapshot key drift in ${mismatch.length} rows`)
+}
 const integrity = assertIndexIntegrity(index)
 // Unverified landmarks are OPEN items (consumer self-check, producer later);
 // mislabelled poses are hard defects.
@@ -252,7 +319,9 @@ const report = {
   pacing: pacingReport(rows),
   blanks,
   resources: resourceReport({
-    ...(fighter === 'soldier'
+    ...(fighter === 'xiahoudun'
+      ? { networkBytes: xiahouProvenance.sourceBytes, sourceBytes: xiahouProvenance.sourceBytes, decodedBytes: xiahouProvenance.decodedBytes, gpuBytes: xiahouProvenance.decodedBytes }
+      : fighter === 'soldier'
       ? { networkBytes: 1786372, sourceBytes: 1786372, decodedBytes: 1984 * 1142 * 4, gpuBytes: 1984 * 1142 * 4 }
       : fighter === 'spearman'
         ? { networkBytes: 1352663, sourceBytes: 1352663, decodedBytes: 1835 * 866 * 4, gpuBytes: 1835 * 866 * 4 }
@@ -314,6 +383,27 @@ if (frameFiles.length > 0) {
     g.drawImage(img, x + 4, y + 4, cell - 8, cell - 8)
   }
   writeFileSync(`${run}/contact-sheet.png`, sheet.toBuffer('image/png'))
+}
+if (fighter === 'xiahoudun') {
+  // Native logical-size scene crops, not stretched square thumbnails. Every
+  // record in its own cell; labels are outside the actual rendered pixels.
+  for (const facing of ['right', 'left']) {
+    const files = frameFiles.filter((f) => f.startsWith('key-') && f.endsWith(`-${facing}.png`))
+    const cols = 5, width = 260, height = 238
+    const sheet = createCanvas(cols * width, Math.ceil(files.length / cols) * height)
+    const g = sheet.getContext('2d')
+    g.fillStyle = '#181020'
+    g.fillRect(0, 0, sheet.width, sheet.height)
+    for (const [i, file] of files.entries()) {
+      const image = await loadImage(`${run}/frames/${file}`)
+      const x = (i % cols) * width, y = Math.floor(i / cols) * height
+      g.drawImage(image, x, y + 20, width, 218)
+      g.fillStyle = '#ffd27f'
+      g.font = '12px sans-serif'
+      g.fillText(file.replace('.png', ''), x + 4, y + 14)
+    }
+    writeFileSync(`${run}/all-39-${facing}.png`, sheet.toBuffer('image/png'))
+  }
 }
 const previousFrames = `${out}/previous/${fighter}-${renderer}/frames`
 const previousIndexPath = `${out}/previous/${fighter}-${renderer}/index.json`

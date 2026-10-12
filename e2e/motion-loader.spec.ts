@@ -81,7 +81,9 @@ test('stage-scoped loading: measured downloads, restart and stage progression ne
     return g?.sim?.seed
   })).toBe(44)
   expect(requested, 'stage progression re-downloads nothing').toHaveLength(2)
-  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+  // Warm stage1 spear remains published; stage2 now prepares its boss ahead
+  // of newly requested mooks without dropping already valid cached art.
+  await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 15_000 }).toEqual(['guanyu', 'soldier', 'spearman', 'xiahoudun', 'zhangfei'])
   expect(errors).toEqual([])
 })
 

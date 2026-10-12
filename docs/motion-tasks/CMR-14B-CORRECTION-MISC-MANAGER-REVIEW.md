@@ -1,0 +1,15 @@
+# Corrected misc2–4 — common body registration accepted, weapon FAIL unwaived
+
+Exact sourcebb5b4de1c2285e22022e03f1b3f00fe9b729037662ec34ec1baec0ef163db4d2. Parentopenedfullreturnedsource, actualcompletebodycomparisonlight and materialendpointwindows; independentforegroundREADONLYreviewopenedbothlightdark/fullsource/originalguard andactualauthorityreport. Verdict BODY_REGISTRATION_ACCEPTABLE_FOR_SOURCE_REVIEW: samepersonbodymass/plumarmor/faceidentity/connectedhands, bracecompactvictiminterpretation andsubtletwistingstruggle/readablerelease towardguard. No hardbodyfailureestablished; hiddenheadanatomy/contact/normalpacedcontinuityUNVERIFIED.
+
+ManageracceptsONEwhole-source315/617=0.5105348460291734 factorforALLTHREE basedreleasebodyheight, unchangedguard1. No secondfactorproposal/iteration/posefit/weapon-basedq selection. The previouslyconditionalSAMEpoints/SAMEfactorbecomeactualweapon gate now; no retuning:
+
+- misc2 CLAMP375.1371695781±4.0842787682: whollybelow404.1605167917 lowerband.
+- misc3 STRUGGLE423.3602322565±4.0842787682: fullyinsideunchangedband404.1605167917–446.7037290856.
+- misc4 RELEASE395.5409698922±4.0842787682: whollybelowlowerband.
+
+Familycanonicalspread12.1159580346%>10%FAIL; reference17walk9+charge5+newmisc3 spread15.7466798704%STOP isdiagnosticonlynotacceptedcurrentpack. Oldclamp358.9959sourcewaiverDOESNOTtransfer. SourceheldforunwaivedFAIL, notfullacceptance. Numericfailureadds0genuinesource-unusable: walk1persists.
+
+All3requestsconsumedusage34/global164, originalcap12/global200repairledgerunchanged. Worker68/68/lint/typecheck/diff/protected2692inputsPASS technicalprovenanceonly; parentindependentlyverifiedoriginalmiscsource/candidate/runtimePNG/Amanifest/repairhashesandexactcurrentcounts3one-perfamily/cap12/remaining0/diffPASS. Allfailed/HOLDevidencepreserved; no newruntimepackpreparation oralpha/weapon/artretouch.
+
+Timingexception disclosed: workerfinalevidencewrite01:04:09.631Z is29.7s past15minassigneddeadline01:03:39.889Z beforehandback. No allowance/counterreset; worker/jobssettled. Independentfinalverdict DO_NOT_ACCEPT_CMR14B duewalk/5heavyshorts/2miscshorts; fundingclosed, stopallrequests. Parentconsolidatesexactsourcehandoffonce. No commits/pushdeploy/coredefault/policy/schedulerchanges.

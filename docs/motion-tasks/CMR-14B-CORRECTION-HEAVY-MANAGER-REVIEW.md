@@ -1,0 +1,19 @@
+# Corrected heavy — body registration accepted; source held for real weapon failure
+
+Manager reviewed actual corrected source SHAe5a7c00ff3b7144dc8db2e918f019323e0452f458553594fd20391181fae68af, full-body common0.80 lightcomparison and native endpointwitnesses, complete metricreport and exactcoordinate/canonical-summary definitions. Separateforeground READONLYbodyreview openedlight/dark/source/originalguardandverdict BODY_REGISTRATION_ACCEPTABLE_FOR_SOURCE_REVIEW. Manager frozecommonwhole-source0.80BEFOREmeasuringweapons underexplicitownerdelegatedregistration authority. Onebody-height-contextproposal315/396, notweaponfit/calibrationloop; originalguard1 unchanged.
+
+## Invalid grip rejection corrected, not historical failure reset
+
+AuthoredRAISEone closedshaftgrip+connected shoulder-bracing free hand preservesoriginalchoreography. OriginalworkeraddedpromptrequirementTWOclosedgripseverykey wasnotB/shared-contractcriterion, so grip-onlyUNUSABLE/secondSTOPwithdrawn. Originalreview/report/statuscopiesretained; methoderrorisnotgenuineartfailure/refund. Newfiniteconfirmedunusable1walk remains; heavyedit1consumedusage33/global163.
+
+## Actual corrected weapon verdict FAIL, unwaived
+
+Read and openedactualmaterialcap/tipproofs. Atfrozen0.80normalizedlengths heavy0–4:309.7250,337.4265,371.0224,357.9318,387.5915. All±6.4 conservativeintervalswhollybelowunchangedband404.1605167916991–446.70372908556226. Canonicalreference19(originalwalk9+charge5+newheavy5 excludingoldheavy5)32.18197%STOP; heavyalone22.07479%STOP. Actualretained14individualoldvectorsreadandreconciled; reference-setdiagnosticNOTcurrentpackacceptedstate. Staticdirectionmaximum43.733605°≤60°passesonlystilldirectionbound.
+
+Heavy remains **HOLD_NONWAIVED_WEAPON_FAIL**, not acceptedsource. Existingoldbody/head/weaponwaiversDONOTtransfer; frozenbodyfactornotretuned, nonewwaiver/reroll orretouch. NumericdeviationHOLDdoesnotfabricateanother genuinebody/poseunusablecount; final consolidated batchreport must includethisrealweaponfailure. Normalpacedcontinuity, headanatomy, planting/contact remainUNVERIFIED/unrun; bodyacceptancedoesnotclose thosegates.
+
+Worker20/20focusedunits/full lint/typecheck/diff/measurement+protected-auditPASS technicalevidenceonly;2660protectedinputsunchangedexceptauthorizedcurrentcampaignstatus. Parentseparatelyverifiedcorrectedsource/Amanifest/repairhashes/budget33global163/count1/miscconsumed0/factor.80,diffPASS. No worker/jobsremain. No sourcepixel/runtime/metadata/core/defaultchangeorimagecallinmeasurementpackage.
+
+## Next finite step
+
+RemainingONEfocusedmisc2–4edit isstillreleasedunderdirectfiniteauthority, noextraheavyorwalkrequest. Consolidateallunresolvedfamiliesonceafterlastrequestorvalidsecond-unusablestop. Withwalkfailedandheavyweaponheldnofullpackreplacement/DONEauthorized; existingruntimeoriginalsourcespreserved. Scheduledeletedstill0active. No commitpushdeploy/newfunding/waiver/controlchange.

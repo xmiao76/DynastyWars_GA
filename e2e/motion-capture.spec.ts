@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test'
 import type { Sim } from '../src/core/sim'
 import { makeCombatant } from '../src/core/entities'
 import { ENEMIES } from '../src/core/enemies'
+import { attackById } from '../src/core/attacks'
+import { xiahoudunClips } from '../src/game/art/motion-clips-xiahoudun'
 
 /**
  * CMR-05 capture harness for the ACTUAL whole-character motion path
@@ -20,7 +22,8 @@ test.use({ video: 'on' })
 
 const FIGHTER = process.env.MOTION_FIGHTER ?? 'guanyu'
 /** Enemy-kind captures drive a spawned enemy target instead of the player. */
-const ENEMY_KIND = process.env.MOTION_ENEMY_KIND ?? ''
+const XIAHOU = FIGHTER === 'xiahoudun'
+const ENEMY_KIND = process.env.MOTION_ENEMY_KIND || (XIAHOU ? 'xiahoudun' : '')
 const RENDERER = (process.env.MOTION_RENDERER ?? 'canvas') as 'canvas' | 'webgl'
 const OUT = process.env.MOTION_OUT ?? 'artifacts/motion-review'
 const COMMIT = process.env.MOTION_COMMIT ?? 'unknown'
@@ -50,6 +53,7 @@ interface Row {
 
 type LiveGame = {
   sim: Sim
+  paused?: boolean
   syncSprites(): void
   sprites: Map<number, {
     texture: { key: string }
@@ -58,6 +62,10 @@ type LiveGame = {
     y: number
     scaleX: number
     scaleY: number
+    displayOriginX: number
+    displayOriginY: number
+    flipX: boolean
+    alpha: number
   }>
 }
 
@@ -68,19 +76,26 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   // the budget scales with the sample count, not the fighter. Measured:
   // ~9s/sample headless (snapshot+decode+dataURL per crop), so the full
   // 70-sample run needs ~11 min.
-  test.setTimeout(FIGHTER === 'zhangfei' || FIGHTER === 'zhaoyun' || FIGHTER === 'weiyan' || FIGHTER === 'huangzhong' ? 900_000 : 240_000)
+  test.setTimeout(XIAHOU || FIGHTER === 'zhangfei' || FIGHTER === 'zhaoyun' || FIGHTER === 'weiyan' || FIGHTER === 'huangzhong' ? 900_000 : 240_000)
   mkdirSync(`${RUN}/frames`, { recursive: true })
   const errors: string[] = []
   page.on('pageerror', (e) => errors.push(String(e)))
   await page.setViewportSize({ width: 960, height: 540 })
   await page.goto(`/?renderer=${RENDERER}&autopilot=1&motion=1`)
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
-  await page.evaluate((f) => window.__DW__!.startGame(f, 42, 'stage1'), FIGHTER)
+  if (XIAHOU) {
+    // Ordinary solo start prepares the actual default ZF drop-in partner.
+    await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage2'))
+  } else await page.evaluate((fighter) => window.__DW__!.startGame(fighter, 42, 'stage1'), FIGHTER)
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 30_000 }).toBe('game')
   const introUp = (): Promise<boolean> => page.evaluate(() => !!window.__DW_GAME__?.scene.getScene('hud').children.list.some((o) => o.name === 'introCard'))
   await expect.poll(introUp).toBe(true)
   await page.keyboard.press('Enter')
   await expect.poll(introUp).toBe(false)
+
+  if (XIAHOU) {
+    await expect.poll(() => page.evaluate(() => !!window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions?.xiahoudun), { timeout: 30_000 }).toBe(true)
+  }
 
   // Isolate the subject on the real stage (test-page sim only).
   await page.evaluate((enemyKind) => {
@@ -110,7 +125,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     // Enemy-side subject: the enemy AI drives its states and the sim lets
     // stateTick progress. The sim's dead-entity cleanup removes dead
     // enemies, so setPlayer/sample respawn it from the last-set fields.
-    const target = makeCombatant(900001, ENEMY_KIND as never, 'enemy', 230, 216, def.maxHp, def.speed, 'right')
+    const target = makeCombatant(900001, ENEMY_KIND as never, 'enemy', 230, XIAHOU ? 232 : 216, def.maxHp, def.speed, 'right')
     target.invulnerableTicks = 999999
     await page.evaluate((t) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
@@ -121,12 +136,95 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     }, target as never)
   }
 
+  let runtime: unknown = null
+  if (XIAHOU) {
+    await expect.poll(() => page.evaluate(() => {
+      const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+      g.syncSprites()
+      return g.sprites.get(900001)?.frame.name.startsWith('entity:xiahoudun:motion:')
+    })).toBe(true)
+    runtime = await page.evaluate(async () => {
+      const path = '/src/game/adapters/motion-art.ts'
+      const mod = await import(/* @vite-ignore */ path) as typeof import('../src/game/adapters/motion-art')
+      const engine = mod.motionRuntime()
+      await engine.settle()
+      const scene = window.__DW_GAME__!.scene.getScene('game')
+      return { stage: 'stage2', hero: 'guanyu', requestedPartner: 'zhangfei', fixture: 'ordinary solo start; actual default GU+ZF preparation', published: Object.keys(scene.registry.get('paintedHeroArt')?.motions ?? {}).sort(), budget: engine.budget() }
+    })
+    writeFileSync(`${RUN}/runtime.json`, `${JSON.stringify(runtime, null, 2)}\n`)
+  }
+
   const rows: Row[] = []
   const began = Date.now()
 
   // Sample the player's ACTUAL drawn frame + full untrimmed cell box, and
   // optionally keep a 4x-of-logical crop of that box (camera-scroll aware).
   const sample = async (action: string, facing: string, origin: 'gameplay' | 'injected', source: Row['source'], shot?: string): Promise<void> => {
+    if (XIAHOU) {
+      const captured = await page.evaluate(async ({ action, origin, source, shot, commit, renderer, elapsed }) => {
+        const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+        const previousPause = g.paused
+        g.paused = true // TEST PAGE ONLY: no AI step during async snapshot/decode.
+        const hud = window.__DW_GAME__!.scene.getScene('hud')
+        const kids = hud.children.list as unknown as Array<{ visible: boolean }>
+        const visibility = kids.map((kid) => kid.visible)
+        const hudWasActive = hud.scene.isActive()
+        if (shot) {
+          hud.scene.pause() // prevent HudScene.update from recreating pause/HUD
+          kids.forEach((kid) => { kid.visible = false })
+        }
+        try {
+          const p = g.sim.entities.find((e) => e.id === 900001)!
+          if (!p) throw new Error('Xiahou target missing before capture')
+          g.syncSprites()
+          const sprite = g.sprites.get(p.id)!
+          const key = sprite.frame.name
+          if (!key.startsWith('entity:xiahoudun:motion:')) throw new Error(`legacy Xiahou capture: ${key}`)
+          const camera = (g as unknown as { cameras: { main: { zoom: number; scrollX: number; scrollY: number } } }).cameras.main
+          const sx = Math.abs(sprite.scaleX), sy = Math.abs(sprite.scaleY)
+          const box = {
+            x: Math.round((sprite.x - sprite.displayOriginX * sx - camera.scrollX) * camera.zoom),
+            y: Math.round((sprite.y - sprite.displayOriginY * sy - camera.scrollY) * camera.zoom),
+            w: Math.round(sprite.frame.realWidth * sx * camera.zoom),
+            h: Math.round(sprite.frame.realHeight * sy * camera.zoom),
+          }
+          let crop: string | undefined
+          if (shot) {
+            const url = await new Promise<string>((resolve) => window.__DW_GAME__!.renderer.snapshot((snap) => resolve((snap as HTMLImageElement).src)))
+            const image = new Image()
+            image.src = url
+            await image.decode()
+            const cv = document.createElement('canvas')
+            cv.width = box.w * 2
+            cv.height = box.h * 2
+            const ctx = cv.getContext('2d')!
+            // Preserve the original crop origin; out-of-viewport area is blank
+            // padding, NOT clamped/repositioned or stretched scene pixels.
+            ctx.drawImage(image, -box.x * 2, -box.y * 2, image.width * 2, image.height * 2)
+            crop = cv.toDataURL('image/png')
+          }
+          const snapshotKey = sprite.frame.name
+          if (snapshotKey !== key) throw new Error(`snapshot key drift ${key} -> ${snapshotKey}`)
+          return { crop, row: {
+            action, facing: p.facing, origin, source, renderer, commit,
+            state: p.state, stateTick: p.stateTick, tick: g.sim.tick, attackId: p.attackId,
+            key, snapshotKey, texKey: sprite.texture.key, elapsedMs: elapsed,
+            frozen: g.sim.freezeTicks > 0, paused: true, pauseMethod: 'test-page scene paused during snapshot',
+            actor: p.id, kind: p.kind, box, flipX: sprite.flipX, alpha: sprite.alpha,
+            entity: { x: p.x, y: p.y, z: p.z },
+            padding: { left: Math.max(0, -box.x), top: Math.max(0, -box.y), right: Math.max(0, box.x + box.w - 960), bottom: Math.max(0, box.y + box.h - 540) },
+          } }
+        } finally {
+          kids.forEach((kid, i) => { kid.visible = visibility[i]! })
+          g.paused = previousPause
+          if (shot && hudWasActive) hud.scene.resume()
+        }
+      }, { action, origin, source, shot, commit: COMMIT, renderer: RENDERER, elapsed: Date.now() - began })
+      rows.push(captured.row as Row)
+      if (shot && captured.crop) writeFileSync(`${RUN}/frames/${shot}.png`, Buffer.from(captured.crop.split(',')[1]!, 'base64'))
+      if (errors.length) throw new Error(`capture page errors: ${errors.join('; ')}`)
+      return
+    }
     if (shot) {
       // A review crop must show the figure, never HUD furniture on top.
       // State recovery AND hiding the whole HUD: the crop is figure evidence.
@@ -228,13 +326,34 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   }
 
   const runTicks = async (n: number, input: Record<string, boolean> = {}): Promise<void> => {
-    for (let i = 0; i < n; i++) {
-      await page.evaluate((inp) => window.__DW__!.run([inp]), { ...NEUTRAL, ...input })
+    if (XIAHOU) {
+      const tick = await page.evaluate(() => window.__DW__!.getSnapshot().tick)
+      await page.evaluate(({ n, inp }) => window.__DW__!.run(Array.from({ length: n }, () => inp)), { n, inp: { ...NEUTRAL, ...input } })
+      await expect.poll(() => page.evaluate(() => window.__DW__!.getSnapshot().tick)).toBe(tick + n)
+    } else {
+      for (let i = 0; i < n; i++) {
+        await page.evaluate((inp) => window.__DW__!.run([inp]), { ...NEUTRAL, ...input })
+      }
     }
     await page.evaluate(() => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r()))))
   }
 
   const setPlayer = async (fields: Record<string, unknown>): Promise<void> => {
+    if (XIAHOU) {
+      // Fresh actor + removed sprite resets presentation history honestly; do
+      // not carry low-collapse or release history across independent poses.
+      const fresh = makeCombatant(900001, 'xiahoudun', 'enemy', 230, 232, ENEMIES.xiahoudun!.maxHp, ENEMIES.xiahoudun!.speed, 'right')
+      await page.evaluate(({ fresh, fields }) => {
+        const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+        g.sim.entities = g.sim.entities.filter((e) => e.id !== 900001)
+        g.syncSprites() // forgetMotionEntity through the actual cleanup path
+        g.sim.entities.push(Object.assign(fresh, fields))
+        g.sim.scrollX = 0
+        ;(g as unknown as { cameras: { main: { scrollX: number } } }).cameras.main.scrollX = 0
+        g.syncSprites()
+      }, { fresh, fields })
+      return
+    }
     if (ENEMY_KIND) {
       const def = ENEMIES[ENEMY_KIND as keyof typeof ENEMIES]!
       const fresh = makeCombatant(900001, ENEMY_KIND as never, 'enemy', 230, 216, def.maxHp, def.speed, 'right')
@@ -270,6 +389,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     soldier: ['swing', 'soldier.swing'],
     spearman: ['thrust', 'spear.thrust'],
     lidian: ['charge', 'charge.dash'],
+    xiahoudun: ['charge', 'charge.dash.long'],
   }
   const [attackAction, attackId] = ENEMY_KIND
     ? (FIGHTER === 'archer'
@@ -419,6 +539,20 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['dying', { state: 'dying', stateTick: 25, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
+  const charge = attackById('charge.dash.long')
+  const xiahoudunIsolated: Array<[string, Record<string, unknown>]> = [
+    ['idle', { state: 'idle', stateTick: 0 }],
+    ['charge', { state: 'attack', attackId: 'charge.dash.long', stateTick: charge.startup + Math.floor(charge.active / 2) }],
+    ['hurt', { state: 'hitstun', stateTick: Math.floor(ENEMIES.xiahoudun!.hitstunTicks / 2) }],
+    ['combo', { state: 'attack', attackId: 'sword.combo', stateTick: attackById('sword.combo').startup + 1 }],
+    ['knockdown', { state: 'knockdown', stateTick: 21 }],
+    ['heavy', { state: 'attack', attackId: 'sword.heavy', stateTick: attackById('sword.heavy').startup + 2 }],
+    ['getup', { state: 'getup', stateTick: 10 }],
+    ['grabbed', { state: 'grabbed', stateTick: 0 }],
+    ['thrown', { state: 'thrown', stateTick: 0, vx: 3.5, thrownFromX: 209, z: 10 }],
+    ['dying', { state: 'dying', stateTick: 25, hp: 0 }],
+    ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
+  ]
   const guanyuIsolated: Array<[string, Record<string, unknown>]> = [
     ['idle', { state: 'idle', stateTick: 0 }],
     ['jab1', { state: 'attack', attackId: heroIds.jab1, stateTick: 0 }],
@@ -429,7 +563,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
   const isolated: Array<[string, Record<string, unknown>]> = ENEMY_KIND
-    ? (FIGHTER === 'archer' ? archerIsolated : FIGHTER === 'lidian' ? lidianIsolated : [
+    ? (XIAHOU ? xiahoudunIsolated : FIGHTER === 'archer' ? archerIsolated : FIGHTER === 'lidian' ? lidianIsolated : [
         ['idle', { state: 'idle', stateTick: 0 }],
         [attackAction, { state: 'attack', attackId, stateTick: 0 }],
         ['hurt', { state: 'hitstun', stateTick: 0 }],
@@ -442,10 +576,35 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       ])
     : (FIGHTER === 'zhangfei' ? zhangfeiIsolated : FIGHTER === 'zhaoyun' ? zhaoyunIsolated : FIGHTER === 'weiyan' ? weiyanIsolated : FIGHTER === 'huangzhong' ? huangzhongIsolated : guanyuIsolated)
   for (const facing of ['right', 'left'] as const) {
+    if (XIAHOU) {
+      // Every frame record is selected by actual state/clip dispatch, never by
+      // forcing sprite.setFrame or drawing raw PNG cells. All are injected.
+      const visited = new Set<string>()
+      for (const [clip, data] of Object.entries(xiahoudunClips())) {
+        for (const key of data.keys) {
+          if (visited.has(key.frame)) continue
+          visited.add(key.frame)
+          const fields: Record<string, unknown> = { stateTick: key.tick }
+          if (['charge', 'combo', 'heavy'].includes(clip)) Object.assign(fields, { state: 'attack', attackId: clip === 'charge' ? 'charge.dash.long' : `sword.${clip}` })
+          else fields.state = ({ idle: 'idle', walk: 'walk', hurt: 'hitstun', fall: 'knockdown', getup: 'getup', grab: 'grab', release: 'idle' } as Record<string, string>)[clip]
+          if (clip === 'release') {
+            await setPlayer({ facing, state: 'grab', stateTick: 0 })
+            await page.evaluate(() => {
+              const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
+              Object.assign(g.sim.entities.find((e) => e.id === 900001)!, { state: 'idle', stateTick: 0 })
+              g.syncSprites()
+            })
+          } else await setPlayer({ facing, ...fields })
+          await sample('all-keys', facing, 'injected', 'injected', `key-${key.frame.replace(':', '-')}-${facing}`)
+          expect(rows.at(-1)!.key, `dispatch ${clip}@${key.tick}`).toBe(`entity:xiahoudun:motion:${key.frame}`)
+        }
+      }
+      expect(visited.size).toBe(39)
+    }
     for (const [action, fields] of isolated) {
       await setPlayer({ facing, ...fields })
       await sample(action, facing, 'injected', 'injected', `${action}-${facing}`)
-      await runTicks(2)
+      if (!XIAHOU || (action !== 'dead' && action !== 'dying')) await runTicks(2)
       await sample(action, facing, 'injected', 'injected')
     }
     // Recover from the death segments before any further capture: the
@@ -459,7 +618,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     if (ENEMY_KIND) {
       // Real AI behaviour (gameplay provenance): the player stands in range
       // and the enemy walks/approaches on its own decisions.
-      await setPlayer({ facing, state: 'idle', stateTick: 0, x: facing === 'right' ? 300 : 160 })
+      await setPlayer({ facing, state: 'idle', stateTick: 0, x: XIAHOU ? 230 : facing === 'right' ? 300 : 160, ...(XIAHOU ? { thinkTick: 100 } : {}) })
       await page.evaluate((dir) => {
         const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
@@ -468,6 +627,17 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       }, facing)
       await runTicks(28)
       await sample('walk', facing, 'gameplay', 'ai', `walk-${facing}`)
+      if (XIAHOU) {
+        // Actual AI mixed run from a disclosed placement fixture, no pose or
+        // attack injection. Poll each rendered sim step and retain wall pace.
+        const startTick = await page.evaluate(() => window.__DW__!.getSnapshot().tick)
+        const startWall = Date.now()
+        for (let tick = 0; tick < 180; tick++) {
+          await runTicks(1)
+          await sample('mixed', facing, 'gameplay', 'ai')
+        }
+        writeFileSync(`${RUN}/pace-${facing}.json`, `${JSON.stringify({ ticks: 180, startTick, elapsedMs: Date.now() - startWall, mode: 'manual bridge step + renderer; not normal speed' }, null, 2)}\n`)
+      }
     } else {
       // Real-input walk (gameplay provenance).
       await setPlayer({ facing, state: 'idle', stateTick: 0 })
@@ -555,7 +725,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       contactSheet: `${RUN}/contact-sheet.png`,
     },
   }
-  writeFileSync(`${RUN}/trace.json`, `${JSON.stringify({ rows }, null, 2)}\n`)
+  writeFileSync(`${RUN}/trace.json`, `${JSON.stringify({ rows, ...(XIAHOU ? { runtime, method: 'all-keys/isolated injected; mixed AI gameplay from placement fixture; scene paused only during snapshot' } : {}) }, null, 2)}\n`)
   writeFileSync(`${RUN}/index.json`, `${JSON.stringify(index, null, 2)}\n`)
   writeFileSync(`${RUN}/page-errors.json`, `${JSON.stringify(errors, null, 2)}\n`)
   expect(errors).toEqual([])

@@ -110,9 +110,19 @@ This pass may edit `docs/UI_REVIEW_LEDGER.md` (review records only) and
 backlog, not a game task.
 Do not implement proposals or edit game source, detectors, verification thresholds,
 runner controls, adapters, or schedules in this pass. Do not access credentials,
-start another agent/runner, push, deploy, or run deploy.bat.
-
-Bounded-autonomy policy: read docs/LOOP_AUTONOMY.md. Routine diagnosis/review/record closure within this producer scope does not require per-command approval. Existing authorized foreground exceptions may deliver a complete end-to-end package with critical manager review; no background writer, new spend, task reset or proposal implementation. Unchanged waits create no repo edits, repeated choices or checkpoint commits; classified task-local parking is distinct from GLOBAL safety pauses.
+start another runner or a background/nested agent, push, deploy, or run deploy.bat.
+Only AGENTS.md rule 9's existing foreground exceptions are permitted: a strictly
+READ-ONLY specialist, or exactly ONE bounded economical worker for this producer's
+permitted evidence/check/review-record scope, never proposal implementation.
+For the economical handoff main pauses repository writes until the sole scoped
+worker's foreground call (`run_in_background: false`) settles and disposes it;
+main then reviews the evidence and acceptance checks. No async continuation,
+extra generation/spend/commit authority, BLOCKED/attempt reset, lock or GLOBAL
+runner-pause bypass, budget increase, acceptance waiver or new owner approval is
+granted. Read docs/LOOP_AUTONOMY.md: routine diagnosis/review/record closure in
+this producer scope doesn't require per-command approval; full end-to-end
+foreground package and critical manager review are permitted. Task-local
+parking never authorizes proposal implementation in the producer.
 
 If there is no justified new work and no regression, return IDLE - NO NEW FINDINGS.
 IDLE is a useful outcome, not a reason to invent enhancements. If nothing changed,

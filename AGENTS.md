@@ -60,6 +60,24 @@ These instructions describe behavior, not a particular model, API, or agent host
 9. Run only one development writer in this repository at a time. During ordinary
    iterations do not start nested runners, background agents, timers, or scheduled
    tasks. Scheduling is an explicit owner action outside the model iteration.
+   Owner-authorized exception (2026-10-07): Standard + strong specialist may run
+   a bounded FOREGROUND READ-ONLY consultation at its runtime checkpoints. The
+   reviewer may only read files/images (no shell, editing, generation, commits,
+   delegation or runner/schedule control). The main agent stays the sole writer.
+   Additional owner-authorized exception (2026-10-08): Standard + economical
+   subagents (`standard-econ-subagents`) may hand a bounded implementation/test
+   package to exactly ONE economical worker at a time. Start it explicitly in
+   FOREGROUND (`run_in_background: false`); no background agent, asynchronous
+   `send_message` continuation, nested agent/runner, timer, or schedule change
+   is authorized. The main agent pauses repository writes while the worker runs;
+   the worker is the sole development writer within its assigned scope until
+   the foreground call settles and disposes it. The main then reviews the
+   critical diff/evidence and acceptance checks, delegating any correction in
+   another foreground call. Read-only work orders remain strictly read-only.
+   Main-agent takeover needs a specific failed criterion/capability/risk reason,
+   and no worker may still be writing. This exception authorizes no new model
+   account, external spend, generation, commit, or blocked-task reset beyond
+   existing owner approvals. The main retains task, risk and acceptance decisions.
    Owner-approved two-role enhancement (2026-10-09): default each bounded work
    package to economic_worker. Record a manager acceptance review; first quality
    failure gets ONE targeted same-contract foreground correction. Two consecutive
@@ -74,6 +92,8 @@ These instructions describe behavior, not a particular model, API, or agent host
    package defaults economic again. Main self-review never replaces independent
    producer verification. Follow docs/ECONOMIC_TAKEOVER.md; model/role switch
    does not grant generation, budget, lock, pause or task-reset authority.
+   Neither exception resets task attempts, image budgets, BLOCKED status,
+   locks, runner pause, acceptance criteria or owner approval requirements.
 10. Visual-review findings rated S1-S3, with screenshot evidence and a located
     root cause, are defects, not proactive work. A producer files them in
     batches of at most six `UIR-n` tasks (`docs/VISUAL_REVIEW.md` section 4).

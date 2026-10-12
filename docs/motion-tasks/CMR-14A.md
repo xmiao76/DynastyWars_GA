@@ -1,6 +1,6 @@
 # CMR-14A — Xiahou Dun: author and prepare complete whole-character pack
 
-- Queue status: TODO; task attempts start at zero.
+- Queue status: DONE 2026-10-11 (offline pack; see [final acceptance](../../art/motion/xiahoudun/closeout-campaign/FINAL-ACCEPTANCE.md)). Live queue TASKS.md is authoritative.
 - Dependencies: CMR-13B DONE; CMR-01..05 DONE transitively.
 - Pair: [CMR-14B](CMR-14B.md) is the separate runtime/capture task.
 
