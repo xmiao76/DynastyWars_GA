@@ -1,0 +1,23 @@
+{
+  "campaign": "CMR-15A CLOSEOUT AMENDMENT",
+  "work": "cmr15a-amend-walk4",
+  "key": "walk:4",
+  "attempt": "second attempt (attempt2)",
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/candidate-raw.png",
+    "servedPath": "C:\\Users\\qiyu0\\.dsh\\plugins\\subscriptions\\images\\image-2026-10-12T21-58-57-755Z-s7a7ax-0.png",
+    "sha256": "3cdc2fa8ea1923e0fe3a8b9af09cd7d65b814d216ed0461b09d4e87dcf94e2b0",
+    "bytes": 1082109,
+    "width": 1254,
+    "height": 1254,
+    "mediaType": "image/png"
+  },
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/prompt.txt" },
+  "provider": { "requested": "gpt", "serving": "UNCONFIRMED" },
+  "references": [
+    { "role": "primary (padded walk:4 original cell)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk4-padded-ref.png", "sha256": "5b79aeb05b531205da9314d070d32c402eafc77a7815c16053e6ebf5bf15182b" },
+    { "role": "second (accepted walk:2 anchor; read via identical-bytes candidate-raw.jpg 893c90d7 due accepted.png JPEG-bytes extension mismatch)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6" }
+  ],
+  "reserveCommits": ["176213f", "952a5b9"],
+  "status": "UNREVIEWED — exactly one served gpt generation; no gate verdict yet"
+}
