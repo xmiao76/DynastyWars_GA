@@ -1,0 +1,155 @@
+{
+  "work": "cmr15a-reg-amend-regate",
+  "key": "walk:4",
+  "attempt": "attempt2 re-gate under REGISTRATION AMENDMENT",
+  "zeroGeneration": true,
+  "authority": "Owner 2026-10-12 CMR-15A REGISTRATION AMENDMENT: deterministic salvage registration cap raised from +-4% to +-12% for candidates whose native resolution exceeds the 512px pack cell (uniform whole-candidate scale+translate only, factor recorded).",
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "input": {
+    "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/candidate-raw.png",
+    "sha256": "3cdc2fa8ea1923e0fe3a8b9af09cd7d65b814d216ed0461b09d4e87dcf94e2b0",
+    "size": [
+      1254,
+      1254
+    ],
+    "nativeExceeds512Cell": true
+  },
+  "registration": {
+    "rule": "ONE uniform scale+translate, whole candidate: factor = 459/bodyHeightPxAt512, translate ground->500@512, alpha bounds centred horizontally",
+    "bodyHeightPxAt512Before": 416.05103668261563,
+    "groundYAt512Before": 460.555023923445,
+    "factor": 1.1032300355740923,
+    "factorPct": 10.323003557409226,
+    "capPct": 12,
+    "withinNewCap": true,
+    "overallNativeToRegisteredScale": 0.450441609421001,
+    "translatePxAt512": {
+      "dx": -33.6339548577036,
+      "dy": -8.098135426889144
+    },
+    "registeredPath": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/registered.png",
+    "registeredSha256": "b0d7030be18132b855d43d35a03cc72a24fe875e3994b44777d06239eaa32803",
+    "registeredSize": [
+      512,
+      512
+    ]
+  },
+  "landmarksRegisteredAt512": {
+    "weapon": {
+      "butt": [
+        6.905789990186491,
+        337.8410206084396
+      ],
+      "tip": [
+        508.6977428851815,
+        88.74681059862607
+      ]
+    },
+    "beardTip": [
+      297.44062806673213,
+      142.7998037291462
+    ],
+    "crownY": 40.999999999999964,
+    "supportSoleY": 500,
+    "passingToeY": 469.36997055937195,
+    "alphaBoundsRaster": {
+      "xmin": 3,
+      "ymin": 41,
+      "xmax": 508,
+      "ymax": 500
+    }
+  },
+  "remeasuredAfterRegistration": {
+    "weapon": {
+      "registeredPxAt512": 560.2170021077421,
+      "registeredU": 145.63293136553463,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": false,
+      "deltaPctVsAnchor": 11.348526832587861,
+      "spreadAnchorVsCandCanonical": 0.10739158680369881,
+      "registeredAngleDeg": -26.400230978676348,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": -0.08982603387120847,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 5.333300314990345,
+        "tip": 4.455014842307832,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxAt512": 3.302257114818474,
+      "tipClipped": false,
+      "preRegistrationU": 132.00595222169693
+    },
+    "body": {
+      "registeredHeightPxAt512": 459.00000000000006,
+      "frozenHeightPxAt512": 459,
+      "rasterAlphaHeightPx": 460,
+      "rasterCrownY": 41,
+      "rasterGroundY": 500
+    },
+    "ground": {
+      "frozenGroundYAt512": 500,
+      "registeredGroundYAt512": 500,
+      "rasterGroundY": 500,
+      "groundedErrorPx": 0,
+      "groundedErrorU": 0,
+      "limitU": 1.5
+    },
+    "greenPxRegistered": 0,
+    "greenPxRaw": 0,
+    "edgeOpaquePxRegistered": {
+      "left": 0,
+      "right": 0,
+      "top": 0,
+      "bottom": 0
+    },
+    "headEndpointRAW": {
+      "beardTipRegistered": [
+        297.44062806673213,
+        142.7998037291462
+      ],
+      "measuredClearBackgroundGapPx": 0,
+      "note": "RAW only (transform of attempt2 0px gap; beard over collar). Batch-end UNVERIFIED_OWNER_ACCEPTED reserved only if ALL other gates pass."
+    },
+    "gaitMeasured": {
+      "supportBoot": "screen-left flat support, sole row 500.00@512 registered",
+      "passingBoot": "screen-right forward passing, lowest row 469.37@512 registered (30.63px@512 clear)",
+      "note": "Uniform scale+translate cannot change leg arrangement; visual reconfirmation on registered.png recorded in verdicts."
+    }
+  },
+  "gates": {
+    "factorWithinNewCap": true,
+    "weaponLengthPass": false,
+    "weaponCorridorPass": true,
+    "weaponDirectionPass": true,
+    "bodyPass": true,
+    "groundPass": true,
+    "seamsPass": true
+  },
+  "verdicts": {
+    "identity": "PASS (visual on registered.png: same helmeted full-bearded ochre/dark-armoured massive Xu Chu, right-facing three-quarter)",
+    "anatomy": "PASS (visual: connected two-hand glaive grip, natural hip/skirt overlap, no extra/floating limbs)",
+    "weaponLength": "FAIL — registered length 145.63u OUTSIDE frozen band [124.41,137.50]u (uniform registration scales the whole candidate: pre-registration 132.01u x factor 1.1032 = 145.63u). Recorded raw; no waiver in-batch.",
+    "weaponCorridorDirection": "PASS",
+    "scaleGround": "PASS after authorized registration (body 459px@512, ground 0.00u)",
+    "seams": "PASS (greenPx=0 on registered cell, no edge clipping: alpha bounds inside 512 cell)",
+    "gaitPassingA": "PASS (visual reconfirmed on registered cell: screen-left flat support + screen-right bent forward passing boot clear of ground, opposite screen arrangement to accepted walk:2 Passing-B)",
+    "headEndpointRAW": "RECORDED_RAW_NOT_A_REJECT (0px gap; batch-end ruling only, cannot rescue a failed gate)"
+  },
+  "overall": "FAIL — candidate remains UNACCEPTED, not banked (no accepted.png); exact failing gate in verdicts.weaponLength",
+  "ledgerUnchanged": "Xu Chu 8 / global 175 (zero generation in this re-gate)"
+}
