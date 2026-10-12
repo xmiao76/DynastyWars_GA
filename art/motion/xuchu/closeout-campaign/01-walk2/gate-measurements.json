@@ -1,0 +1,206 @@
+{
+  "work": "cmr15a-closeout-01-walk2",
+  "key": "walk:2",
+  "request": "01",
+  "zeroNewGenerationInGate": true,
+  "inputs": {
+    "original": {
+      "path": "art/motion/xuchu/proof-of-control/walk2-original-cell.png",
+      "sha256": "75c07dc26e3490c8de17377656eb1464066fc3e44bf9616de4d3424c1efcad0f",
+      "pinned": true,
+      "size": [
+        512,
+        512
+      ]
+    },
+    "candidate": {
+      "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg",
+      "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6",
+      "pinned": true,
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  },
+  "landmarks": {
+    "candWeapon1024": {
+      "butt": [
+        70,
+        636
+      ],
+      "tip": [
+        972,
+        190
+      ]
+    },
+    "candBeardTip1024": [
+      525,
+      318
+    ],
+    "candCrown1024": 82,
+    "candSupportSole1024": 1000,
+    "candSupportBoot1024": {
+      "x": [
+        420,
+        625
+      ],
+      "soleY": 1000
+    },
+    "candLiftedBoot1024": {
+      "x": [
+        178,
+        292
+      ],
+      "lowestY": 924,
+      "toe": [
+        196,
+        900
+      ]
+    },
+    "origWeapon": {
+      "butt": [
+        35,
+        315
+      ],
+      "tip": [
+        483,
+        95
+      ]
+    },
+    "origBounds": {
+      "xmin": 0,
+      "ymin": 45,
+      "xmax": 488,
+      "ymax": 501
+    },
+    "origSupport": {
+      "xmin": 100,
+      "ymin": 105,
+      "xmax": 194,
+      "ymax": 501
+    },
+    "origGroundY": 501
+  },
+  "measurements": {
+    "weapon": {
+      "originalPxAt512": 499.10319574212303,
+      "candidatePxAt512": 503.12026395286443,
+      "lengthDeltaPctVsOrig": 0.8048572409496133,
+      "spreadOrigVsCandCanonical": 0.008016312473794892,
+      "originalAngleDeg": -26.154335778312912,
+      "candidateAngleDeg": -26.31040494480514,
+      "angleDeltaDeg": -0.15606916649222669,
+      "corridorPerpPx": {
+        "buttToOrigLine": 2.692829882608924,
+        "tipToOrigLine": 1.3223718173525967,
+        "corridorLimitPx": 14
+      }
+    },
+    "body": {
+      "originalHeightPx": 457,
+      "candidateHeightPxAt512": 459,
+      "deltaPctVsOrig": 0.437636761487965
+    },
+    "ground": {
+      "origGroundY": 501,
+      "candidateGroundYAt512": 500,
+      "groundedErrorPx": 1,
+      "uPerPx": 0.259958071278826,
+      "groundedErrorU": 0.259958071278826,
+      "limitU": 1.5
+    },
+    "headEndpointRAW": {
+      "beardTip1024": [
+        525,
+        318
+      ],
+      "backdropRefRgb": [
+        114,
+        109,
+        103
+      ],
+      "samplesBelowTip": [
+        {
+          "y": 322,
+          "rgb": [
+            109,
+            94,
+            89
+          ]
+        },
+        {
+          "y": 330,
+          "rgb": [
+            104,
+            87,
+            77
+          ]
+        },
+        {
+          "y": 340,
+          "rgb": [
+            78,
+            67,
+            63
+          ]
+        },
+        {
+          "y": 350,
+          "rgb": [
+            78,
+            67,
+            63
+          ]
+        },
+        {
+          "y": 360,
+          "rgb": [
+            99,
+            82,
+            74
+          ]
+        },
+        {
+          "y": 370,
+          "rgb": [
+            61,
+            50,
+            44
+          ]
+        },
+        {
+          "y": 380,
+          "rgb": [
+            58,
+            45,
+            37
+          ]
+        }
+      ],
+      "measuredClearBackgroundGapPxAt1024": 0,
+      "note": "RAW only per CAMPAIGN (c): beard conceals chin/beard-base endpoint; unreadable endpoint does NOT reject here; reserved for batch-end UNVERIFIED_OWNER_ACCEPTED ruling only if all other gates pass + independent visual review."
+    },
+    "gait": {
+      "supportBoot": "centre boot flat planted, sole row 1000@1024",
+      "liftedBoot": "screen-left boot bent-knee tucked, toe down, lowest row 924@1024, clear of support sole by 76px@1024 (38px@512)",
+      "feetSeparation": "support boot x420-625 vs lifted x178-292 @1024: horizontal gap 128px@1024, clearly separated",
+      "bothGrounded": false
+    }
+  },
+  "briefBandIfAccepted": {
+    "bodyHeightPxAt512": 459,
+    "bodyHeightU": 119.32075471698113,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponAngleDegAt512": -26.31040494480514,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "crownYAt512": 41,
+    "groundYAt512": 500,
+    "uPerPx": 0.259958071278826,
+    "fixedFromSha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6"
+  }
+}

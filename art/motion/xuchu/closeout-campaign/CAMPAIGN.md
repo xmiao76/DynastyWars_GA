@@ -169,6 +169,12 @@ text-to-image substitution, runtime activation or 15B work is authorized; if all
 sources pass or receive the exact rulings above, prepare the **offline pack only**
 and return for independent review — this grant does not itself mark CMR-15A DONE.
 
+## Campaign progress
+
+| # | Request | Status | Candidate SHA-256 | Reserve (Xu Chu / global) | Gates / band |
+|---|---|---|---|---|---|
+| 01 | walk:2 (Passing-B) | **ACCEPTED — banked anchor 1** (whole-candidate, no splice) | `893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6` (`01-walk2/accepted.png`, byte copy of candidate-raw.jpg) | 4 / 171 (reserve commit `9ee925b`) | Identity/anatomy/weapon/scale-ground/seams/gait PASS (weapon 503.12px@512, +0.80% vs original, Δangle −0.16°, corridor ≤2.69px/14px; ground 0.26u ≤1.5u; body +0.44%); head endpoint RAW gap 0px (not a reject, batch-end ruling reserved); **brief band FIXED from this anchor**: body 459px@512, weapon 503.12px@512 = 130.79u, band [124.41, 137.50]u, angle −26.31°, groundY 500@512. Genuinely unusable = 0. Evidence: `01-walk2/gate.json`, `gate.mjs`. |
+
 ## Setup checks (this package)
 
 Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings
