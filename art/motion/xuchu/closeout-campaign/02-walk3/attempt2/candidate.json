@@ -1,0 +1,24 @@
+{
+  "campaign": "CMR-15A CLOSEOUT AMENDMENT",
+  "work": "cmr15a-amend-walk3",
+  "key": "walk:3",
+  "attempt": "second attempt (attempt2)",
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/02-walk3/attempt2/candidate-raw.png",
+    "servedPath": "C:\\Users\\qiyu0\\.dsh\\plugins\\subscriptions\\images\\image-2026-10-12T21-53-23-989Z-vjnzip-0.png",
+    "sha256": "d92a24afe7060fd40201acf74c252676f1fa0c5be670b3450f9b0d9e5fb4424b",
+    "bytes": 1178483,
+    "width": 1254,
+    "height": 1254,
+    "mediaType": "image/png"
+  },
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/02-walk3/attempt2/prompt.txt" },
+  "provider": { "requested": "gpt", "serving": "UNCONFIRMED" },
+  "references": [
+    { "role": "primary (padded walk:3 original cell)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk3-padded-ref.png", "sha256": "8a952923ecdbba82f85930f5dddee1a4704da3d0d7082d738f7b37390e8c016c" },
+    { "role": "second (accepted walk:2 anchor)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6" }
+  ],
+  "reserveCommit": "822d907",
+  "note": "Two pre-generation harness reference-validation rejections (missing sha256: prefix in attachmentId) served zero generations and consumed no provider request; corrected encoding only, same two references, no substitution. Exactly ONE served generation in this attempt.",
+  "status": "UNREVIEWED — candidate served, gates not yet run at this commit"
+}
