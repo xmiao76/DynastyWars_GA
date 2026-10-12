@@ -1,0 +1,36 @@
+{
+  "campaign": "CMR-15A CLOSEOUT AMENDMENT",
+  "work": "cmr15a-amend-walk3",
+  "attempt": "walk:3 second attempt (attempt2; briefed on attempt-1 measured failure, no blind reroll)",
+  "key": "walk:3",
+  "phase": "Contact-B (CAMPAIGN (a): Leg-B front heel-strike to flat support under hip; Leg-A trailing rear toe-off, heel raised; support/occlusion visibly reversed vs walk:1 Contact-A)",
+  "grant": "CMR-15A CLOSEOUT AMENDMENT (owner grant, 2026-10-12): ceilings Xu Chu 22 total / global 189/200 (nominal cap 12 unchanged); each key at most ONE second attempt briefed on first failure; references = key original cell on padded canvas + accepted walk:2 for walk:3/4/5; provider gpt-preferred for walk:3/4 second attempts",
+  "briefedOnAttempt1Failure": {
+    "source": "art/motion/xuchu/closeout-campaign/02-walk3/gate.json",
+    "candidateSha256": "ec73c75ab600ced5b4935cc29081824617dc3f5ed2c7ce1857f8d802602c48c7",
+    "groundErrorU": 7.928721174004192,
+    "groundNote": "candidate ground 469.5 vs frozen 500@512 (too high/floating)",
+    "weaponAngleDeltaDeg": 4.688219208645844,
+    "weaponAngleNote": "candidate -21.62deg vs frozen -26.31deg (too shallow); blade tip clipped at right frame edge, length unmeasurable lower-bound 123.46u vs band [124.41,137.50]u",
+    "corridorTipPerpPx": 38.19464525046506,
+    "corridorLimitPx": 14,
+    "gaitDefect": "front-flat/rear-toe arrangement same as walk:1; Contact-B opposite support/occlusion not proven"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 173, "sha256": "2aa9db8c294d4f7b10410226013d51bda962432d1031507b197975fc74839358", "walk": 6, "xuchuUsed": 6 },
+    "after": { "globalSummed": 174, "sha256": "ce9d409ff6879d01d05a6ca922dd6b760d40e5e33150b96e11681a59d935325e", "walk": 7, "xuchuUsed": 7 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": { "requested": "gpt", "preference": "gpt-preferred per amendment for walk:3 second attempt", "serving": "TO_BE_RECORDED_AFTER_CALL" },
+  "references": [
+    { "role": "primary (padded walk:3 original cell, ground line marked)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk3-padded-ref.png", "sha256": "8a952923ecdbba82f85930f5dddee1a4704da3d0d7082d738f7b37390e8c016c", "size": [1024, 1024] },
+    { "role": "second (accepted walk:2 anchor, gait/identity/weapon)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] }
+  ],
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/02-walk3/attempt2/prompt.txt" },
+  "status": "RESERVED — reserve-before-call; exactly one generation authorized for this attempt; no refunds"
+}
