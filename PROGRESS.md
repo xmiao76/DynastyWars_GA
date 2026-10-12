@@ -4,6 +4,18 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A unblock feasibility (owner grant): verdict NOT DEMONSTRATED, re-blocked WAITING_FOR_OWNER
+
+- Owner grant recorded verbatim in TASKS.md CMR-15A (owner, 2026-10-12): "UNBLOCK CMR-15A: Reset BLOCKED→TODO. First perform a zero-generation feasibility and named-region/mask plan. Proceed only if it demonstrates a complete path with ≤4 anchor requests and 6 retained downstream requests. No waiver, extra funding, or unconstrained generation is implied." Status was reset BLOCKED→TODO for this package (preserved as Prior:), then re-blocked on the verdict below. Attempt accounting unchanged: 2 failed consumers, 1 remaining; no waiver/spend.
+- Ledger verified fresh (no writes): Xu Chu used 2/12 (walk 2/2 closed), per-fighter sum global 169/200. Zero image generation, zero reservations.
+- [Feasibility + named-region/mask plan](docs/motion-tasks/CMR-15A-FEASIBILITY-PLAN.md): candidate-1/2 inventory with SHA-256 hashes and cell/bounds/weapon endpoints; named HEAD-BEARD/BEARD-BASE, GAIT-EDIT (keys 2/3/4 opposite support, key 5 brake), TORSO/WEAPON-PRESERVE regions in candidate-2 source coordinates; existing-pixel overlay `art/motion/xuchu/feasibility-plan/candidate2-named-regions-overlay.png` (sha 73267f48…) rendered and opened. CMR-14A closeout re-evaluated: isolated single-pose generation + fixed-q finishing demonstrated for acyclic poses, but NOT region-preserving (whole figures regenerated, no masks), head gate closed UNVERIFIED by owner acceptance (waiver-equivalent, excluded here), no gait alternation, 4/6 unwaived in weapon band.
+- Verdict NOT DEMONSTRATED: minimum 6 anchor interventions (gait 2/3/4 + brake 5 gait/head combined + head-only 0/1) + 6 downstream = 12 future > ≤4+6 ceiling (Xu Chu would be 14/12); no demonstrated mask/pose control; zero contingency. Allocation table, per-request gates (reserve-before-call, scale/projection/head, riskiest-first, stop conditions) in the plan doc.
+- Status: CMR-15A BLOCKED WAITING_FOR_OWNER with the exact missing owner decision in TASKS.md (supply/fund demonstrated workflow or corrected keys; or revise scope/funding incl. ≥6 anchors / head-UNVERIFIED or weapon waivers; or descope/pause). Next action: owner decision only; no anchor request authorized, CMR-15B stays TODO/unready.
+
+### 2026-10-12 — Loop driver prompt changed (owner request): schedule-780a8342-df2a-482e-ac17-3baad77a35d5 keeps half-hourly cadence (every_seconds 1800, same title), prompt replaced from the tick.md runbook block to bare 'continue' per explicit owner choice; still exactly one driver, no duplicate created.
+
+### 2026-10-12 — Half-hourly loop driver resumed (owner request): one DSH repeating reminder every_seconds 1800, id schedule-780a8342-df2a-482e-ac17-3baad77a35d5, title 'DynastyWars half-hourly loop tick — DSH-session worker', prompt = owner-approved docs/SCHEDULING.md verbatim tick.md block. schedule_list was empty before; exactly one driver now. Prior deletion (owner-directed) was recorded 2026-10-12; this recreation is on fresh explicit owner authorization.
+
 ### 2026-10-12 — CMR-14B 14B-PRECEDENT DONE
 
 - Accepted 14A pack integrated opt-in as-is; integration criteria 1-8 PASS; independent review ACCEPT (receipt toolu_01WHQQHAaFuqmv4hYPjUmAFy). Rounds: 1 toolu_0111SfMxTABe3MMfLJpQJJS5 DO_NOT_ACCEPT (crit 4/5 gaps), 2 toolu_012CjipExrWX4tEzrpYs3KiS DO_NOT_ACCEPT (mobile provenance only), 3 ACCEPT.
