@@ -4,6 +4,13 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-14B walk-1 close-out (cmr14b-walk-edit-1-closeout): STOP, no candidate, spend held at 35
+
+- Auth recorded + reopened: 14B-AUTONOMOUS-CORRECTION (2026-10-12, work cmr14b-walk-edit-1b; baseline e849a18 adopted); TASKS BLOCKED→IN_PROGRESS for bounded autonomous campaign walk→heavy→misc (≤6 focused EDITs, ≤2/family; walk:1–8 coherent alternating 8-key gait preserving guard:0/camera/body/32-tick cycle/speed; Xiahou 34→40 max, global 164→170/200 binding, cap 12/role caps unchanged; reserve-before-call, no refunds; read_image before image_generate, provider grok explicit; no-substitution on reference failure; STOP on 2nd genuinely unusable; new counters prospective from 0, history preserved).
+- Reserved 35 (verified, NO second increment): art/motion/generation-budget.json xiahoudun used 34→35 + walk 2→3 (single walk:1–8 EDIT reserved before call). Recomputed per-fighter sum 165 = 17+8+8+7+12+15+25+20+14+35+2+2; file keys are version/totalCap/sheetCandidatesPerSequence/roleCaps/fighters (no global-used row), so no stale global to correct; all other values untouched. Spend held at 35 pending owner/host decision on reuse-vs-new-reservation for any retry.
+- Generation STOP (worker zero writes of its own; verbatim strings NOT persisted in repo — recorded here from close-out package handoff, not from files): read_image refs recorded verbatim — NOT AVAILABLE in repo (no worker file writes; close-out package states only "actual intended images as edit references"); image_generate rejected references TWICE verbatim — NOT AVAILABLE in repo (close-out package states only "references rejected twice", zero output bytes). STOP per no-substitution rule (correct the reference, never substitute text-to-image); NO candidate produced; zero output bytes.
+- Campaign blocked on harness reference plumbing. Next: host fix + retry, or owner pixels. This close-out: ZERO image calls, ZERO generation, ZERO re-reservation; local commit only, never push.
+
 ### 2026-10-12 — CMR-14B finite correction ended34/global164; final DO_NOT_ACCEPT, exact artwork handoff
 
 - LastONEfocusedmisc2–4EDITreservedbeforecall, returnedSHA bb5b4de1c2285e22022e03f1b3f00fe9b729037662ec34ec1baec0ef163db4d2/2172x724/1,405,119B. All3requestsconsumedwalk1/heavy1/misc1,no reroll/refund/repaircharge/capchange; usage34/global164 remaining0. Originals/nativeRGBAcompositepreserved; transportedWEBPconversiondisclosed. [Source report](docs/motion-tasks/CMR-14B-CORRECTION-MISC.md).
