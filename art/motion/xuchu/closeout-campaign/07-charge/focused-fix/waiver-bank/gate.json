@@ -1,0 +1,517 @@
+{
+  "work": "cmr15a-charge-waiver-bank",
+  "grant": "CMR-15A CHARGE EXACT-HASH WAIVER (owner, 2026-10-13; verbatim in TASKS.md CMR-15A): reset BLOCKED->IN_PROGRESS prospectively (ledger Xu16/global183, ceilings 22/189 preserved); zero generation; measure focused-fix spares 5-8 first, spare only if role+length pass; otherwise waive for exact final hashes a0aec6aa... (cell3, 146.04u OUT_HIGH +8.54u) and 3c864aa1... (cell4, 118.70u OUT_LOW -5.71u), sheet 4791a19e..., weapon-length/fixed-band/resulting-spread only, failed numbers retained NOT PASS, no blanket/transfer; bank cells0-4 if all other gates PASS on re-verification; head RAW for batch-end ruling; no combo/heavy/misc/fall/getup generation, no pack, no 15B.",
+  "sheet": {
+    "path": "art/motion/xuchu/closeout-campaign/07-charge/focused-fix/candidate-raw.png",
+    "sha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8",
+    "size": [
+      1536,
+      1024
+    ],
+    "components": 9
+  },
+  "method": "waiver-bank/build.mjs (focused-fix gate build copied + spare landmark boxes 5-8 from focused grid views): ONE sheet scale 1.3540, deterministic registration + max shaft retouch for OUT_HIGH; rerun byte-identical (measure.json a88db16c...); keeps 0-4 final hashes reproduced exactly vs focused-fix gate.json",
+  "ledgerVerified": {
+    "sha256": "3a7c4545781b379382cbff2bb1b6aa304469797d48540e40a0c8232c7d01a254",
+    "xuchuUsed": 16,
+    "xuchuCharge": 2,
+    "globalUsed": 183,
+    "expected": "Xu Chu 16 / global 183 (waiver-bank zero generation)",
+    "matches": true
+  },
+  "spares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-dash-alt",
+      "finalFile": "cell5-spare-dash-alt-retouched.png",
+      "finalHash": "9a2cefe8c042134a12ee056db65ee0302c86dc5d74e49b729be50d5ad4d2f3fe",
+      "registeredHash": "69750262629bd4f1707a43dfc36e1121299969b8e565c1ca8db7bb64df7080ad",
+      "registeredU": 163.88,
+      "finalU": 160.66,
+      "finalPx": 618.02,
+      "angDeg": -15.2,
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 87,
+          "x1": 145,
+          "soleY": 501
+        },
+        {
+          "x0": 305,
+          "x1": 336,
+          "soleY": 481
+        }
+      ],
+      "bodyRegPx": 364.22,
+      "retouchFeasibility": {
+        "totalAvailPx": 12,
+        "removeToBandHiPx": 102,
+        "deficitToBandHiPx": 90,
+        "appliedButtPx": 12,
+        "appliedBladePx": 0,
+        "changedOutside": 0
+      },
+      "seams": "PASS (greenPx=0, no canvas-edge alpha)",
+      "head": "RAW (beard conceals chin/beard-base endpoint; batch-end ruling reserved)",
+      "visualRole": "crushing dash (levelled glaive, forward drive, tucked front leg)",
+      "roleFitsCell": 3,
+      "lengthVerdict": "FAIL OUT_HIGH (+23.16u over band-hi) after max deterministic retouch",
+      "substitution": "NOT ELIGIBLE (role and/or length fails)"
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-brake-alt",
+      "finalFile": "cell6-spare-brake-alt-retouched.png",
+      "finalHash": "55de354246a6640816ad9e70dec96dd0220acc07aede7d724007c1b23c52126d",
+      "registeredHash": "765b2e226d6705c263c807113cc3857f1a39ea1eb463445c8d9d64e7b6e3b20e",
+      "registeredU": 179.72,
+      "finalU": 176.26,
+      "finalPx": 678.02,
+      "angDeg": -14.88,
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 53,
+          "x1": 117,
+          "soleY": 501
+        },
+        {
+          "x0": 444,
+          "x1": 506,
+          "soleY": 499
+        }
+      ],
+      "bodyRegPx": 381.82,
+      "retouchFeasibility": {
+        "totalAvailPx": 13,
+        "removeToBandHiPx": 163,
+        "deficitToBandHiPx": 150,
+        "appliedButtPx": 0,
+        "appliedBladePx": 13,
+        "changedOutside": 0
+      },
+      "seams": "PASS (greenPx=0, no canvas-edge alpha)",
+      "head": "RAW (beard conceals chin/beard-base endpoint; batch-end ruling reserved)",
+      "visualRole": "forward dash/stride (leaning in, trailing rear leg) - NOT a brake",
+      "roleFitsCell": null,
+      "lengthVerdict": "FAIL OUT_HIGH (+38.76u over band-hi) after max deterministic retouch",
+      "substitution": "NOT ELIGIBLE (role and/or length fails)"
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-brake-alt2",
+      "finalFile": "cell7-spare-brake-alt2-retouched.png",
+      "finalHash": "2993546c7dda233599c17298483d3e17f05a6467b2df21b1ad425df4c0b6217f",
+      "registeredHash": "a045335670aa66c4c1e91b1dcf9c0391151277f8b0f0f1229d492701ec8969bd",
+      "registeredU": 157.18,
+      "finalU": 150.42,
+      "finalPx": 578.65,
+      "angDeg": -22.86,
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 231,
+          "x1": 307,
+          "soleY": 501
+        },
+        {
+          "x0": 454,
+          "x1": 562,
+          "soleY": 498
+        }
+      ],
+      "bodyRegPx": 391.3,
+      "retouchFeasibility": {
+        "totalAvailPx": 26,
+        "removeToBandHiPx": 76,
+        "deficitToBandHiPx": 50,
+        "appliedButtPx": 0,
+        "appliedBladePx": 26,
+        "changedOutside": 0
+      },
+      "seams": "PASS (greenPx=0, no canvas-edge alpha)",
+      "head": "RAW (beard conceals chin/beard-base endpoint; batch-end ruling reserved)",
+      "visualRole": "brake (wide planted stance, weight settled)",
+      "roleFitsCell": 4,
+      "lengthVerdict": "FAIL OUT_HIGH (+12.92u over band-hi) after max deterministic retouch",
+      "substitution": "NOT ELIGIBLE (role and/or length fails)"
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-guard-alt",
+      "finalFile": "cell8-spare-guard-alt-retouched.png",
+      "finalHash": "2dd1743578133250ff2ec6c91909890f06abedd8638f85e0864d3e9c14c7341f",
+      "registeredHash": "2dd1743578133250ff2ec6c91909890f06abedd8638f85e0864d3e9c14c7341f",
+      "registeredU": 148.85,
+      "finalU": 148.85,
+      "finalPx": 572.59,
+      "angDeg": -23.48,
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 190,
+          "x1": 256,
+          "soleY": 501
+        },
+        {
+          "x0": 364,
+          "x1": 478,
+          "soleY": 499
+        }
+      ],
+      "bodyRegPx": 453.58,
+      "retouchFeasibility": {
+        "totalAvailPx": 0,
+        "removeToBandHiPx": 44,
+        "deficitToBandHiPx": 44,
+        "appliedButtPx": 0,
+        "appliedBladePx": 0,
+        "changedOutside": 0
+      },
+      "seams": "PASS (greenPx=0, no canvas-edge alpha)",
+      "head": "RAW (beard conceals chin/beard-base endpoint; batch-end ruling reserved)",
+      "visualRole": "guard (upright double support) - duplicates passing cell0",
+      "roleFitsCell": null,
+      "lengthVerdict": "FAIL OUT_HIGH (+11.35u over band-hi) after max deterministic retouch",
+      "substitution": "NOT ELIGIBLE (role and/or length fails)"
+    }
+  ],
+  "substitution": {
+    "cell3": {
+      "roleFittingSpares": [
+        "cell5-spare-dash-alt 160.66u FAIL OUT_HIGH (+23.16u over band-hi) after max deterministic retouch"
+      ],
+      "selected": null,
+      "decision": "no spare passes role+length -> exact waived final cell used per grant"
+    },
+    "cell4": {
+      "roleFittingSpares": [
+        "cell7-spare-brake-alt2 150.42u FAIL OUT_HIGH (+12.92u over band-hi) after max deterministic retouch"
+      ],
+      "selected": null,
+      "decision": "no spare passes role+length -> exact waived final cell used per grant"
+    }
+  },
+  "finalCells": [
+    {
+      "cell": 0,
+      "name": "cell0-guard",
+      "sourceFile": "cells/cell0-guard-retouched.png",
+      "sourceHash": "3f33dc31f464b8c7776333e69cf0e1769a227f20240fc68314623a74a77ae3ae",
+      "registeredHash": "dc7f448047abc36e9e2afe9c2ad7fae90aa7c165cb5d9c1e4919ea0ff0a938f3",
+      "priorGateHashReproduced": true,
+      "weapon": {
+        "registeredU": 150.07,
+        "finalU": 137.25,
+        "finalPx": 527.96,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "angDegRaw": -22.88,
+        "lengthVerdict": "PASS",
+        "waiverHashMatch": null
+      },
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 175,
+          "x1": 240,
+          "soleY": 502
+        },
+        {
+          "x0": 349,
+          "x1": 460,
+          "soleY": 502
+        }
+      ],
+      "bodyRegPx": 459,
+      "nonWaivedGates": {
+        "identity": "PASS (visual, personally opened final+marked cell and sequence: same helmeted full-bearded ochre/dark lamellar Xu Chu, glaive+tassel consistent)",
+        "anatomy": "PASS (visual: two arms/hands connected on shaft, two legs/boots, no fused/extra/floating limbs)",
+        "poseRoleSequence": "PASS (visual: cell0-guard reads its charge beat; guard->crouch-coil->launch->crushing-dash->brake sequence coherent on contact-keeps-sequence.png)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch outside proof: changedOutside=2 at |p|<=20: pasted pommel-cap AA edge pixels (alpha 5/8, shaft-brown, previously transparent) at p=20.0/20.3 (probe-outside.mjs in focused-fix gate); zero non-weapon pixels changed; tip 4x clean)",
+        "scaleGround": "PASS (groundErr 0.52u <=1.5u at ONE sheet scale 1.3540; body crown->sole 459px registered, guard cell0 = frozen 459px)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy in measure.json; stays RAW for batch-end ruling per grant - not a reject)"
+      },
+      "nonWaivedPass": true,
+      "selection": "focused-fix final cell (length PASS, no waiver needed)"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-crouch-coil-windup",
+      "sourceFile": "cells/cell1-crouch-coil-windup-registered.png",
+      "sourceHash": "452dc8e993e73e18b2a4142584867ab7bb2251cb50cbf39ecbdb533eebb32a71",
+      "registeredHash": "452dc8e993e73e18b2a4142584867ab7bb2251cb50cbf39ecbdb533eebb32a71",
+      "priorGateHashReproduced": true,
+      "weapon": {
+        "registeredU": 133.67,
+        "finalU": 133.67,
+        "finalPx": 514.22,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "angDegRaw": -22.49,
+        "lengthVerdict": "PASS",
+        "waiverHashMatch": null
+      },
+      "groundErrU": 0,
+      "boots": [
+        {
+          "x0": 124,
+          "x1": 181,
+          "soleY": 500
+        },
+        {
+          "x0": 378,
+          "x1": 487,
+          "soleY": 500
+        }
+      ],
+      "bodyRegPx": 342.56,
+      "nonWaivedGates": {
+        "identity": "PASS (visual, personally opened final+marked cell and sequence: same helmeted full-bearded ochre/dark lamellar Xu Chu, glaive+tassel consistent)",
+        "anatomy": "PASS (visual: two arms/hands connected on shaft, two legs/boots, no fused/extra/floating limbs)",
+        "poseRoleSequence": "PASS (visual: cell1-crouch-coil-windup reads its charge beat; guard->crouch-coil->launch->crushing-dash->brake sequence coherent on contact-keeps-sequence.png)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied; tip 4x clean)",
+        "scaleGround": "PASS (groundErr 0u <=1.5u at ONE sheet scale 1.3540; body crown->sole 342.56px registered, guard cell0 = frozen 459px)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy in measure.json; stays RAW for batch-end ruling per grant - not a reject)"
+      },
+      "nonWaivedPass": true,
+      "selection": "focused-fix final cell (length PASS, no waiver needed)"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-launch",
+      "sourceFile": "cells/cell2-launch-registered.png",
+      "sourceHash": "e11525d4e43bc5f32ffdad915d1c5a983f8082d10c6ccbb7c02b787a6d877fa7",
+      "registeredHash": "e11525d4e43bc5f32ffdad915d1c5a983f8082d10c6ccbb7c02b787a6d877fa7",
+      "priorGateHashReproduced": true,
+      "weapon": {
+        "registeredU": 131.35,
+        "finalU": 131.35,
+        "finalPx": 505.28,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "angDegRaw": -19.56,
+        "lengthVerdict": "PASS",
+        "waiverHashMatch": null
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 111,
+          "x1": 170,
+          "soleY": 501
+        },
+        {
+          "x0": 335,
+          "x1": 403,
+          "soleY": 500
+        }
+      ],
+      "bodyRegPx": 395.36,
+      "nonWaivedGates": {
+        "identity": "PASS (visual, personally opened final+marked cell and sequence: same helmeted full-bearded ochre/dark lamellar Xu Chu, glaive+tassel consistent)",
+        "anatomy": "PASS (visual: two arms/hands connected on shaft, two legs/boots, no fused/extra/floating limbs)",
+        "poseRoleSequence": "PASS (visual: cell2-launch reads its charge beat; guard->crouch-coil->launch->crushing-dash->brake sequence coherent on contact-keeps-sequence.png)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied; tip 4x clean)",
+        "scaleGround": "PASS (groundErr 0.26u <=1.5u at ONE sheet scale 1.3540; body crown->sole 395.36px registered, guard cell0 = frozen 459px)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy in measure.json; stays RAW for batch-end ruling per grant - not a reject)"
+      },
+      "nonWaivedPass": true,
+      "selection": "focused-fix final cell (length PASS, no waiver needed)"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-crushing-dash",
+      "sourceFile": "cells/cell3-crushing-dash-retouched.png",
+      "sourceHash": "a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69",
+      "registeredHash": "a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69",
+      "priorGateHashReproduced": true,
+      "weapon": {
+        "registeredU": 146.04,
+        "finalU": 146.04,
+        "finalPx": 561.79,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "angDegRaw": -16.57,
+        "lengthVerdict": "FAIL NOT PASS - WAIVED for this exact hash only (OUT_HIGH +8.54u over band-hi; failed numbers retained)",
+        "waiverHashMatch": true
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 66,
+          "x1": 127,
+          "soleY": 501
+        },
+        {
+          "x0": 313,
+          "x1": 379,
+          "soleY": 500
+        }
+      ],
+      "bodyRegPx": 372.35,
+      "nonWaivedGates": {
+        "identity": "PASS (visual, personally opened final+marked cell and sequence: same helmeted full-bearded ochre/dark lamellar Xu Chu, glaive+tassel consistent)",
+        "anatomy": "PASS (visual: two arms/hands connected on shaft, two legs/boots, no fused/extra/floating limbs)",
+        "poseRoleSequence": "PASS (visual: cell3-crushing-dash reads its charge beat; guard->crouch-coil->launch->crushing-dash->brake sequence coherent on contact-keeps-sequence.png)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch outside proof: changedOutside=0; tip 4x clean)",
+        "scaleGround": "PASS (groundErr 0.26u <=1.5u at ONE sheet scale 1.3540; body crown->sole 372.35px registered, guard cell0 = frozen 459px)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy in measure.json; stays RAW for batch-end ruling per grant - not a reject)"
+      },
+      "nonWaivedPass": true,
+      "selection": "exact waived focused-fix final cell (no spare passed role+length)"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-brake",
+      "sourceFile": "cells/cell4-brake-registered.png",
+      "sourceHash": "3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374",
+      "registeredHash": "3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374",
+      "priorGateHashReproduced": true,
+      "weapon": {
+        "registeredU": 118.7,
+        "finalU": 118.7,
+        "finalPx": 456.61,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "angDegRaw": -25.71,
+        "lengthVerdict": "FAIL NOT PASS - WAIVED for this exact hash only (OUT_LOW -5.71u under band-lo; failed numbers retained)",
+        "waiverHashMatch": true
+      },
+      "groundErrU": 0,
+      "boots": [
+        {
+          "x0": 170,
+          "x1": 240,
+          "soleY": 500
+        },
+        {
+          "x0": 484,
+          "x1": 589,
+          "soleY": 498
+        }
+      ],
+      "bodyRegPx": 394.01,
+      "nonWaivedGates": {
+        "identity": "PASS (visual, personally opened final+marked cell and sequence: same helmeted full-bearded ochre/dark lamellar Xu Chu, glaive+tassel consistent)",
+        "anatomy": "PASS (visual: two arms/hands connected on shaft, two legs/boots, no fused/extra/floating limbs)",
+        "poseRoleSequence": "PASS (visual: cell4-brake reads its charge beat; guard->crouch-coil->launch->crushing-dash->brake sequence coherent on contact-keeps-sequence.png)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied; tip 4x clean)",
+        "scaleGround": "PASS (groundErr 0u <=1.5u at ONE sheet scale 1.3540; body crown->sole 394.01px registered, guard cell0 = frozen 459px)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy in measure.json; stays RAW for batch-end ruling per grant - not a reject)"
+      },
+      "nonWaivedPass": true,
+      "selection": "exact waived focused-fix final cell (no spare passed role+length)"
+    }
+  ],
+  "direction": {
+    "policy": "angles recorded raw per pose (charge choreography levels/raises the glaive); corridor = rigid straight butt->tip shaft verified on marked cells (crosses on pommel cap + blade tip); consecutive direction steps <=60deg",
+    "anglesDeg": [
+      -22.88,
+      -22.49,
+      -19.56,
+      -16.57,
+      -25.71
+    ],
+    "directionSteps": [
+      {
+        "from": 0,
+        "to": 1,
+        "stepDeg": 0.39
+      },
+      {
+        "from": 1,
+        "to": 2,
+        "stepDeg": 2.93
+      },
+      {
+        "from": 2,
+        "to": 3,
+        "stepDeg": 2.99
+      },
+      {
+        "from": 3,
+        "to": 4,
+        "stepDeg": 9.14
+      }
+    ],
+    "verdict": "PASS"
+  },
+  "weaponSpread": {
+    "finalU": [
+      137.25,
+      133.67,
+      131.35,
+      146.04,
+      118.7
+    ],
+    "spreadPct": 20.49,
+    "verdict": "NOT PASS - WAIVED as resulting spread of the two exact-hash waived cells only (grant); cells0-2 individually in frozen band [124.41,137.50]u"
+  },
+  "waiverRecord": [
+    "cell3-crushing-dash a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69: 146.04u OUT_HIGH +8.54u vs band-hi 137.50u - FAIL retained, NOT PASS, waived for this exact hash only",
+    "cell4-brake 3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374: 118.70u OUT_LOW -5.71u vs band-lo 124.41u - FAIL retained, NOT PASS, waived for this exact hash only"
+  ],
+  "sequenceInspection": "personally opened: all final+marked keeps 0-4, cell0 tip-4x, spare marked cells/grids, contact-keeps-sequence.png (guard->coil->launch->dash->brake coherent, grounded boots at ground line, identity constant) and contact-spares.png",
+  "verdict": "PASS - CHARGE BANKED (cells0-4 accepted; cell3/cell4 weapon length NOT PASS under exact-hash waiver; head RAW)",
+  "banked": true,
+  "accepted": [
+    {
+      "cell": 0,
+      "name": "cell0-guard",
+      "acceptedFile": "accepted/cell0-guard.png",
+      "acceptedHash": "3f33dc31f464b8c7776333e69cf0e1769a227f20240fc68314623a74a77ae3ae",
+      "selectionHash": "3f33dc31f464b8c7776333e69cf0e1769a227f20240fc68314623a74a77ae3ae",
+      "sourceSheetSha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-crouch-coil-windup",
+      "acceptedFile": "accepted/cell1-crouch-coil-windup.png",
+      "acceptedHash": "452dc8e993e73e18b2a4142584867ab7bb2251cb50cbf39ecbdb533eebb32a71",
+      "selectionHash": "452dc8e993e73e18b2a4142584867ab7bb2251cb50cbf39ecbdb533eebb32a71",
+      "sourceSheetSha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-launch",
+      "acceptedFile": "accepted/cell2-launch.png",
+      "acceptedHash": "e11525d4e43bc5f32ffdad915d1c5a983f8082d10c6ccbb7c02b787a6d877fa7",
+      "selectionHash": "e11525d4e43bc5f32ffdad915d1c5a983f8082d10c6ccbb7c02b787a6d877fa7",
+      "sourceSheetSha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-crushing-dash",
+      "acceptedFile": "accepted/cell3-crushing-dash.png",
+      "acceptedHash": "a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69",
+      "selectionHash": "a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69",
+      "sourceSheetSha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-brake",
+      "acceptedFile": "accepted/cell4-brake.png",
+      "acceptedHash": "3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374",
+      "selectionHash": "3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374",
+      "sourceSheetSha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8"
+    }
+  ],
+  "failedCriteria": [
+    "cell3 weapon length 146.04u OUT_HIGH (NOT PASS, waived exact hash a0aec6aa...)",
+    "cell4 weapon length 118.70u OUT_LOW (NOT PASS, waived exact hash 3c864aa1...)",
+    "resulting weapon spread 20.49% (NOT PASS, waived as resulting spread)"
+  ],
+  "postSalvageAccounting": "charge sheet banked under the exact-hash waiver; combo remains unbanked post-salvage FAIL and CMR-15A is NOT DONE; no combo/heavy/misc/fall/getup generation, no pack, no 15B in this grant"
+}

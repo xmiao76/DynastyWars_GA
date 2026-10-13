@@ -560,3 +560,29 @@ CMR-15A stays IN_PROGRESS; Phase 3 (per the Alternative Completion grant,
 offline pack only then independent review) is a later package, NOT started
 here; not DONE, no 15B. Ledger unchanged (`e22523da…`, Xu Chu 13/global
 180, ceilings 22/189); zero generation.
+
+## CHARGE EXACT-HASH WAIVER — charge BANKED (owner grant, 2026-10-13; work cmr15a-charge-waiver-bank, ZERO generation)
+
+Grant recorded verbatim in TASKS.md CMR-15A (owner, 2026-10-13, "CMR-15A
+CHARGE EXACT-HASH WAIVER: …"). Prospective BLOCKED→IN_PROGRESS; all history
+and ledger Xu Chu 16/global 183 (`3a7c4545…`, ceilings 22/189) preserved.
+Focused-fix spares 5–8 measured first (`07-charge/focused-fix/waiver-bank/
+build.mjs`, ONE sheet scale 1.3540, max deterministic retouch, rerun
+byte-identical; keeps 0–4 final hashes reproduced exactly): spare5 dash
+163.88→160.66u FAIL (avail 12 vs 102px), spare6 stride 179.72→176.26u FAIL
+(13 vs 163px), spare7 brake 157.18→150.42u FAIL (26 vs 76px), spare8 guard
+148.85u FAIL (0 vs 44px). No spare passes role+length for cell3/cell4 → the
+exact waived final cells are used. Re-verification of final cells0–4 (all
+final+marked cells, tip-4x, sequence contact personally opened):
+identity/anatomy/pose-role/sequence/seams/corridor/direction (steps
+≤9.14°)/body/ground (≤0.52u) PASS; head RAW for batch-end ruling.
+
+**Banked as charge accepted cells** (`07-charge/focused-fix/waiver-bank/
+accepted/`, source sheet `4791a19e…`): cell0-guard `3f33dc31…` 137.25u PASS;
+cell1-crouch-coil-windup `452dc8e9…` 133.67u PASS; cell2-launch `e11525d4…`
+131.35u PASS; **cell3-crushing-dash `a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69` 146.04u OUT_HIGH +8.54u — FAIL retained, NOT
+PASS, waived for this exact hash only; cell4-brake `3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374` 118.70u OUT_LOW −5.71u — FAIL
+retained, NOT PASS, waived for this exact hash only**; resulting weapon
+spread 20.49% NOT PASS, waived as resulting spread. No blanket/transferred
+waiver. Combo remains unbanked; CMR-15A IN_PROGRESS, not DONE; no pack/15B.
+Evidence: `07-charge/focused-fix/waiver-bank/gate.json` + `measure.json`.

@@ -44,5 +44,23 @@
   "gatesRun": false,
   "extractionRun": false,
   "banked": false,
-  "nextStep": "separate full re-gate package (all keeps; a failed fix makes this sheet post-salvage unusable 1/2, STOP at 2 not reached)"
+  "nextStep": "separate full re-gate package (all keeps; a failed fix makes this sheet post-salvage unusable 1/2, STOP at 2 not reached)",
+  "waiverBank": {
+    "work": "cmr15a-charge-waiver-bank (2026-10-13, zero generation)",
+    "grant": "CMR-15A CHARGE EXACT-HASH WAIVER (owner 2026-10-13, verbatim in TASKS.md CMR-15A)",
+    "sparesMeasured": "focused spares 5-8 registered at sheet scale 1.3540 + max retouch: 160.66/176.26/150.42/148.85u ALL FAIL length -> no role+length substitution for cell3/cell4",
+    "banked": true,
+    "acceptedDir": "art/motion/xuchu/closeout-campaign/07-charge/focused-fix/waiver-bank/accepted/",
+    "accepted": [
+      { "cell": 0, "name": "cell0-guard", "sha256": "3f33dc31f464b8c7776333e69cf0e1769a227f20240fc68314623a74a77ae3ae", "weaponU": 137.25 },
+      { "cell": 1, "name": "cell1-crouch-coil-windup", "sha256": "452dc8e993e73e18b2a4142584867ab7bb2251cb50cbf39ecbdb533eebb32a71", "weaponU": 133.67 },
+      { "cell": 2, "name": "cell2-launch", "sha256": "e11525d4e43bc5f32ffdad915d1c5a983f8082d10c6ccbb7c02b787a6d877fa7", "weaponU": 131.35 },
+      { "cell": 3, "name": "cell3-crushing-dash", "sha256": "a0aec6aaacaa9f871c41d0ad0971d56aae9e28d20d440f2482fa3e6453874b69", "weaponU": 146.04, "waiver": "FAIL NOT PASS OUT_HIGH +8.54u - waived for this exact hash only" },
+      { "cell": 4, "name": "cell4-brake", "sha256": "3c864aa12b4de8d157013d7431b0aaeaceb51d377c4724f3c94812de8369a374", "weaponU": 118.7, "waiver": "FAIL NOT PASS OUT_LOW -5.71u - waived for this exact hash only" }
+    ],
+    "weaponSpread": "20.49% NOT PASS - waived as resulting spread of the two exact-hash waived cells",
+    "head": "RAW (batch-end ruling reserved)",
+    "gate": "art/motion/xuchu/closeout-campaign/07-charge/focused-fix/waiver-bank/gate.json",
+    "ledgerUnchanged": "Xu Chu 16 / global 183 (3a7c4545...), ceilings 22/189"
+  }
 }
