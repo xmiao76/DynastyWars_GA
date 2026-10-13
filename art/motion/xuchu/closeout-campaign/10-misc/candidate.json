@@ -1,0 +1,41 @@
+{
+  "work": "cmr15a-phase3-misc-generate",
+  "key": "misc",
+  "attempt": "CMR-15A Phase 3: exactly ONE 3x3 misc sheet generation (Li Dian method, Xu Chu identity/frozen-band brief); generation only - no extraction, retouch, gates or focused fix in this package",
+  "status": "UNREVIEWED - candidate saved beside this file; no gates run, nothing banked; a separate gating package judges it (heavy counts post-fix unusable #1; a post-salvage+fix unusable misc verdict would be #2 = STOP, not decided here). One earlier image_generate invocation errored on reference-format validation BEFORE any generation (no image produced/consumed); the retried call with sha256:-prefixed attachmentIds is the single generation of this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "no provider recorded for Li Dian misc in art/motion/lidian/PROVENANCE.md (Request 11/14) -> gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/10-misc/candidate-raw.png",
+    "sha256": "6c3b5e5c4f46c7ed03171a7d391f3a97095eb1b09f93c0081028960f189e3471",
+    "bytes": 2357839,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T06-51-26-084Z-pqtalg-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/10-misc/prompt.txt",
+    "sha256": "f9c8e4b7e96a6cec475447bcbf96037d3b78f1030f6be04055b016f3f3b385bd",
+    "sourceFile": "art/motion/lidian/misc-prompt.txt",
+    "sourceSha256": "4b9885490a362c0cc145834fb30ee6ad9edff433e6e0cbe1802f24876ebba43b",
+    "construction": "Li Dian misc 3x3 structure adapted sentence-by-sentence to Xu Chu identity + frozen band (weapon 130.79u [124.41,137.50]u = registered 479-529px target ~504px @459px body, groundY500@512); explicit native 321-347px target ~334px = intersection of registered band / expected scale 1.49-1.52 (combo 1.4903, combo-fix 1.4854, heavy 1.5249, heavy-fix 1.5049), also 1.10x crown-to-sole; keeps hurt-recoil/hurt-fold/held-clamp/held-struggle/release, spares alternate reactions; level-to-moderate-diagonal family <=30deg, no vertical, no foreshortening; butt cap explicitly drawn visible behind rear hand + complete tip, both in frame 35px+ (heavy stub lesson); no second fighter/grappler, no labels/guide lines"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted)", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds",
+  "reserveCommit": "9e16e8b",
+  "ledgerAfter": { "xuchuUsed": 20, "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 1, "globalSummed": 187, "ceilings": "25/192", "sha256": "f54e26eebb58dc4ab15450c8fef03dd360eea091c8161a5c49fb6e8dda460807" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false
+}
