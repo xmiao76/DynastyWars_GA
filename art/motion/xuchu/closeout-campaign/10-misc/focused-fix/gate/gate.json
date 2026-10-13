@@ -1,0 +1,397 @@
+{
+  "work": "cmr15a-misc-focused-fix-gates",
+  "candidateDescription": {
+    "fixSheet": {
+      "path": "10-misc/focused-fix/candidate-raw.png",
+      "sha256": "a5a6471c7294a11799814a6a84a88e672f5d2d5b499cff6c67f6d4d64b8507c5",
+      "size": [
+        1536,
+        1024
+      ],
+      "components": 9
+    },
+    "originalSheet": {
+      "sha256": "6c3b5e5c4f46c7ed03171a7d391f3a97095eb1b09f93c0081028960f189e3471"
+    },
+    "sheetHashReverified": "a5a6471c7294a11799814a6a84a88e672f5d2d5b499cff6c67f6d4d64b8507c5 (Get-FileHash this package)",
+    "reserveCommit": "e272c9e (Xu 20->21, misc 1->2, global 187->188)",
+    "candidateCommit": "f08d4ba (UNREVIEWED)"
+  },
+  "registration": {
+    "method": "one uniform sheet scale 1.3661 (cell4 336->459px), groundY500 - identical to original misc gate",
+    "sheetScale": 1.3660714285714286,
+    "determinism": "build.mjs rerun this package reproduced measure.json byte-identically (SHA-256 08f2910f85d5c7176f5124fab976522093c0e9f9eaf15ba130322e37cb1f7d65 before/after); original cells0/1 final hashes re-verified 3cb8c83c.../a454f232..."
+  },
+  "retouchPolicy": "deterministic shaft retouch BEFORE length verdicts (changedOutside=0): fix cell0 86px applied (160.88->138.28u, deficit 4px to band-hi), cell1 39px blade-side (142.13->131.90u PASS), cells2/3/4 in band natively (127.68/136.68/133.01u, no retouch), spares max-applied still OUT_HIGH. All 9 butt caps drawn, every cell fully measurable.",
+  "ledgerVerified": {
+    "sha256": "16fc50a7d7916c0d66e31f745f888c10fbdc27a7daec031ce854da899458d3da",
+    "xuchuUsed": 21,
+    "xuchuMisc": 2,
+    "globalUsed": 188,
+    "expected": "Xu Chu 21 (misc 2) / global 188",
+    "matches": true
+  },
+  "fixKeeps": [
+    {
+      "cell": 0,
+      "name": "cell0-hurt-recoil",
+      "source": "focused-fix a5a6471c",
+      "finalFile": "cell0-hurt-recoil-retouched.png",
+      "finalHash": "487765fcaaacaa1a98fa0bef2e2f735cba894ca98e857e1300f03d12d2732d56",
+      "gates": {
+        "identity": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "anatomy": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "poseRole": "PASS (hurt-recoil/hurt-fold/held-clamp arms-pinned/held-struggle/release per keeps contact)",
+        "weaponLength": "FAIL",
+        "weaponCorridorGrip": "PASS (haft in front, gripped, both ends in empty space)",
+        "weaponAngleDegRaw": -22.91,
+        "scaleGround": "PASS (groundErr 0.52u, bodyReg 445.34px)",
+        "seams": "PASS (greenPx=0, no edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "registeredU": 160.88,
+        "finalU": 138.28,
+        "finalPx": 531.93,
+        "overBandHiU": 0.78,
+        "retouch": {
+          "totalAvailPx": 86,
+          "removeToBandHiPx": 90,
+          "appliedButtPx": 56,
+          "appliedBladePx": 30,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+0.78u) after max deterministic shaft retouch"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-hurt-fold",
+      "source": "focused-fix a5a6471c",
+      "finalFile": "cell1-hurt-fold-retouched.png",
+      "finalHash": "0912eef71a239c8da6c069ebf28bf6ed22c7083ec141c5aa0e51b418bd1f3bd0",
+      "gates": {
+        "identity": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "anatomy": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "poseRole": "PASS (hurt-recoil/hurt-fold/held-clamp arms-pinned/held-struggle/release per keeps contact)",
+        "weaponLength": "PASS",
+        "weaponCorridorGrip": "PASS (haft in front, gripped, both ends in empty space)",
+        "weaponAngleDegRaw": 6.75,
+        "scaleGround": "PASS (groundErr 0.26u, bodyReg 411.19px)",
+        "seams": "PASS (greenPx=0, no edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "registeredU": 142.13,
+        "finalU": 131.9,
+        "finalPx": 507.41,
+        "overBandHiU": 0,
+        "retouch": {
+          "totalAvailPx": 74,
+          "removeToBandHiPx": 18,
+          "appliedButtPx": 0,
+          "appliedBladePx": 39,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "PASS"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-held-clamp",
+      "source": "focused-fix a5a6471c",
+      "finalFile": "cell2-held-clamp-registered.png",
+      "finalHash": "19e1496b95d2f4ce4eca37b26aab026adecd78e975fd4b54003cc9a29c67e89a",
+      "gates": {
+        "identity": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "anatomy": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "poseRole": "PASS (hurt-recoil/hurt-fold/held-clamp arms-pinned/held-struggle/release per keeps contact)",
+        "weaponLength": "PASS",
+        "weaponCorridorGrip": "PASS (haft in front, gripped, both ends in empty space)",
+        "weaponAngleDegRaw": -16.48,
+        "scaleGround": "PASS (groundErr 0.26u, bodyReg 450.8px)",
+        "seams": "PASS (greenPx=0, no edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "registeredU": 127.68,
+        "finalU": 127.68,
+        "finalPx": 491.17,
+        "overBandHiU": 0,
+        "retouch": "none needed (in band)"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-held-struggle",
+      "source": "focused-fix a5a6471c",
+      "finalFile": "cell3-held-struggle-registered.png",
+      "finalHash": "e6348490f397a40614668695e2a2a9a617cfd1710416fd093d4255b247f9faa3",
+      "gates": {
+        "identity": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "anatomy": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "poseRole": "PASS (hurt-recoil/hurt-fold/held-clamp arms-pinned/held-struggle/release per keeps contact)",
+        "weaponLength": "PASS",
+        "weaponCorridorGrip": "PASS (haft in front, gripped, both ends in empty space)",
+        "weaponAngleDegRaw": -13.11,
+        "scaleGround": "PASS (groundErr 0.26u, bodyReg 474.03px)",
+        "seams": "PASS (greenPx=0, no edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "registeredU": 136.68,
+        "finalU": 136.68,
+        "finalPx": 525.79,
+        "overBandHiU": 0,
+        "retouch": "none needed (in band)"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-release",
+      "source": "focused-fix a5a6471c",
+      "finalFile": "cell4-release-registered.png",
+      "finalHash": "40400f922355e6e9050b5f7c0205460faf75090c0dd3efbbf84b20f319e145d2",
+      "gates": {
+        "identity": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "anatomy": "PASS (visual: fix sheet, keeps contact, marked cells2/3/4 personally opened this package; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, two arms/legs/boots, grips connected; cell2 haft now visibly gripped in front of arms/torso with both hands on the haft - original corridor/grip failure cured; markers on cap ball/blade tip)",
+        "poseRole": "PASS (hurt-recoil/hurt-fold/held-clamp arms-pinned/held-struggle/release per keeps contact)",
+        "weaponLength": "PASS",
+        "weaponCorridorGrip": "PASS (haft in front, gripped, both ends in empty space)",
+        "weaponAngleDegRaw": -16.16,
+        "scaleGround": "PASS (groundErr 0.26u, bodyReg 459px)",
+        "seams": "PASS (greenPx=0, no edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "registeredU": 133.01,
+        "finalU": 133.01,
+        "finalPx": 511.66,
+        "overBandHiU": 0,
+        "retouch": "none needed (in band)"
+      },
+      "verdict": "PASS"
+    }
+  ],
+  "fixSpares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-reaction-a",
+      "finalHash": "74576e31b00d9a72289c606c6b68b45a1191dc67f9927f89497d1e1ebd2c103c",
+      "finalU": 148.34,
+      "overBandHiU": 10.84,
+      "verdict": "FAIL - OUT_HIGH (+10.84u) after max retouch"
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-reaction-b",
+      "finalHash": "abdce4fda541c8c019a4ce908ecb39bb2d0a3af6031d9c334a9c097df995c7ba",
+      "finalU": 159.04,
+      "overBandHiU": 21.54,
+      "verdict": "FAIL - OUT_HIGH (+21.54u) after max retouch"
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-reaction-c",
+      "finalHash": "2aedb9f8aa9f776611018700a2fcef0b9abee9d11bf8ed5c63d01d6153e65584",
+      "finalU": 166.27,
+      "overBandHiU": 28.77,
+      "verdict": "FAIL - OUT_HIGH (+28.77u) after max retouch"
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-reaction-d",
+      "finalHash": "237a94aef9e8e8fe3853429fa407804a4faafea8fba9af0af4ca1976a66bcbeb",
+      "finalU": 153.42,
+      "overBandHiU": 15.92,
+      "verdict": "FAIL - OUT_HIGH (+15.92u) after max retouch"
+    }
+  ],
+  "candidateWiseComparison": [
+    {
+      "role": "cell0-hurt-recoil",
+      "selected": {
+        "cell": 0,
+        "name": "cell0-hurt-recoil",
+        "source": "original 6c3b5e5c",
+        "finalU": 137.1,
+        "finalHash": "3cb8c83c475d6c9ec31113933b98a73639b2286e8ececd928a5fa00ec04aac8d",
+        "file": "art/motion/xuchu/closeout-campaign/10-misc/gate/cells-registered/cell0-hurt-recoil-retouched.png",
+        "verdict": "PASS"
+      },
+      "original": {
+        "finalU": 137.1,
+        "verdict": "PASS"
+      },
+      "fix": {
+        "finalU": 138.28,
+        "verdict": "FAIL - weapon length OUT_HIGH (+0.78u) after max deterministic shaft retouch"
+      }
+    },
+    {
+      "role": "cell1-hurt-fold",
+      "selected": {
+        "cell": 1,
+        "name": "cell1-hurt-fold",
+        "source": "original 6c3b5e5c",
+        "finalU": 132.34,
+        "finalHash": "a454f232f41c59ba55f45b805d7b0898d8d19616feda5cb311f9ee20aa4255b5",
+        "file": "art/motion/xuchu/closeout-campaign/10-misc/gate/cells-registered/cell1-hurt-fold-retouched.png",
+        "verdict": "PASS"
+      },
+      "original": {
+        "finalU": 132.34,
+        "verdict": "PASS"
+      },
+      "fix": {
+        "finalU": 131.9,
+        "verdict": "PASS"
+      }
+    },
+    {
+      "role": "cell2-held-clamp",
+      "selected": {
+        "cell": 2,
+        "name": "cell2-held-clamp",
+        "source": "focused-fix a5a6471c",
+        "finalU": 127.68,
+        "finalHash": "19e1496b95d2f4ce4eca37b26aab026adecd78e975fd4b54003cc9a29c67e89a",
+        "file": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/gate/cells-registered/cell2-held-clamp-registered.png",
+        "verdict": "PASS"
+      },
+      "original": {
+        "finalU": 141.63,
+        "verdict": "FAIL - weapon length OUT_HIGH (+4.13u over band-hi) after max deterministic shaft retouch; ALSO FAIL - weapon corridor/grip: haft hidden behind crossed arms/torso, clasped hands do not grip the haft (shaft re-emerges at socket only)"
+      },
+      "fix": {
+        "finalU": 127.68,
+        "verdict": "PASS"
+      }
+    },
+    {
+      "role": "cell3-held-struggle",
+      "selected": {
+        "cell": 3,
+        "name": "cell3-held-struggle",
+        "source": "focused-fix a5a6471c",
+        "finalU": 136.68,
+        "finalHash": "e6348490f397a40614668695e2a2a9a617cfd1710416fd093d4255b247f9faa3",
+        "file": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/gate/cells-registered/cell3-held-struggle-registered.png",
+        "verdict": "PASS"
+      },
+      "original": {
+        "finalU": 153.22,
+        "verdict": "FAIL - weapon length OUT_HIGH (+15.72u over band-hi) after max deterministic shaft retouch"
+      },
+      "fix": {
+        "finalU": 136.68,
+        "verdict": "PASS"
+      }
+    },
+    {
+      "role": "cell4-release",
+      "selected": {
+        "cell": 4,
+        "name": "cell4-release",
+        "source": "focused-fix a5a6471c",
+        "finalU": 133.01,
+        "finalHash": "40400f922355e6e9050b5f7c0205460faf75090c0dd3efbbf84b20f319e145d2",
+        "file": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/gate/cells-registered/cell4-release-registered.png",
+        "verdict": "PASS"
+      },
+      "original": {
+        "finalU": 159.27,
+        "verdict": "FAIL - weapon length OUT_HIGH (+21.77u over band-hi) after max deterministic shaft retouch"
+      },
+      "fix": {
+        "finalU": 133.01,
+        "verdict": "PASS"
+      }
+    }
+  ],
+  "selectedSet": [
+    {
+      "cell": 0,
+      "name": "cell0-hurt-recoil",
+      "source": "original 6c3b5e5c",
+      "finalU": 137.1,
+      "finalHash": "3cb8c83c475d6c9ec31113933b98a73639b2286e8ececd928a5fa00ec04aac8d",
+      "file": "art/motion/xuchu/closeout-campaign/10-misc/gate/cells-registered/cell0-hurt-recoil-retouched.png",
+      "verdict": "PASS",
+      "acceptedFile": "accepted/cell0-hurt-recoil.png"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-hurt-fold",
+      "source": "original 6c3b5e5c",
+      "finalU": 132.34,
+      "finalHash": "a454f232f41c59ba55f45b805d7b0898d8d19616feda5cb311f9ee20aa4255b5",
+      "file": "art/motion/xuchu/closeout-campaign/10-misc/gate/cells-registered/cell1-hurt-fold-retouched.png",
+      "verdict": "PASS",
+      "acceptedFile": "accepted/cell1-hurt-fold.png"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-held-clamp",
+      "source": "focused-fix a5a6471c",
+      "finalU": 127.68,
+      "finalHash": "19e1496b95d2f4ce4eca37b26aab026adecd78e975fd4b54003cc9a29c67e89a",
+      "file": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/gate/cells-registered/cell2-held-clamp-registered.png",
+      "verdict": "PASS",
+      "acceptedFile": "accepted/cell2-held-clamp.png"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-held-struggle",
+      "source": "focused-fix a5a6471c",
+      "finalU": 136.68,
+      "finalHash": "e6348490f397a40614668695e2a2a9a617cfd1710416fd093d4255b247f9faa3",
+      "file": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/gate/cells-registered/cell3-held-struggle-registered.png",
+      "verdict": "PASS",
+      "acceptedFile": "accepted/cell3-held-struggle.png"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-release",
+      "source": "focused-fix a5a6471c",
+      "finalU": 133.01,
+      "finalHash": "40400f922355e6e9050b5f7c0205460faf75090c0dd3efbbf84b20f319e145d2",
+      "file": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/gate/cells-registered/cell4-release-registered.png",
+      "verdict": "PASS",
+      "acceptedFile": "accepted/cell4-release.png"
+    }
+  ],
+  "mixedDirectionStepsDeg": [
+    30.22,
+    24.01,
+    3.37,
+    3.05
+  ],
+  "mixedDirectionVerdict": "PASS (30.22/24.01/3.37/3.05deg <=60)",
+  "mixedLengthSpread": {
+    "finalUs": [
+      137.1,
+      132.34,
+      127.68,
+      136.68,
+      133.01
+    ],
+    "spreadPct": 7.06,
+    "rule": "(max-min)/mean canonical; all selected lengths in band"
+  },
+  "waiverEligibleExactCells": [
+    {
+      "name": "cell0-hurt-recoil (focused-fix copy, NOT selected/banked)",
+      "finalHash": "487765fcaaacaa1a98fa0bef2e2f735cba894ca98e857e1300f03d12d2732d56",
+      "finalU": 138.28,
+      "overBandHiU": 0.78,
+      "note": "WAIVER_ELIGIBLE (fully measurable, only-length +0.78u) but unnecessary - original cell0 passes at 137.10u and is banked instead; no waiver requested/granted"
+    }
+  ],
+  "verdict": "PASS - BANKED coherent 5-cell misc set (original cells0/1 + focused-fix cells2/3/4) in focused-fix/gate/accepted/; 0 waivers used",
+  "postSalvageAccounting": "Misc focused fix SUCCEEDED post-salvage: a banked sheet resets the consecutive post-fix unusable count #1 (heavy) -> 0. No #2/STOP. CMR-15A remains IN_PROGRESS (heavy unbanked with one waiver-eligible cell held; fall/getup next per grant; no pack/15B here).",
+  "banked": true,
+  "generation": "zero in this package"
+}
