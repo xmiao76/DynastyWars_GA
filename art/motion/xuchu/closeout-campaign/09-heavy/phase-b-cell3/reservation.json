@@ -1,0 +1,42 @@
+{
+  "campaign": "CMR-15A COMPLETION CAMPAIGN Phase B (ceilings Xu Chu 32 / global 199, hard cap 200 preserved; Phase A: fall banked, heavy cell4 57190b6f… 145.22u +7.72u selected under exact-hash waiver pending cells2/3; cell2 isolated candidate GATED FAIL 161.23u length-only, shared-fix eligible, NOT selected)",
+  "work": "cmr15a-heavy-cell3-generate",
+  "key": "heavy",
+  "request": "09-heavy/phase-b-cell3 (heavy cell3-follow-through ONLY: exactly ONE isolated single-pose EDIT; no sheet, no gates/banking/shared-fix in this package)",
+  "basis": {
+    "brief": "original 09-heavy/gate: cell3 FAIL butt cap not drawn, haft ends at hands, stub 86.68u/333.43 registered px; focused-fix cell3 still stub 97.74u — isolated replacement is the Phase B path (cell2 done separately, gated FAIL length-only)",
+    "paddedReference": "phase-b-cell3/build-padded-ref.mjs (deterministic, double-run identical; same geometry as cell2 phase-b): gate-registered original cell3 9d7a0c02… (1024x768) placed unchanged 1:1 (padded scale 1.0) at (256,128) on 1536x1024 transparent canvas, no guide line in sent ref; padded-ref.json records ground soles y=886, crown y=488, stub butt/grip [857,678], old tip [1163,811]",
+    "correctedNativeTargetDerivation": "CORRECTED from cell2 measured overshoot (phase-b/gate.json): cell2 final axis 620.2px = 161.23u (native raw 961.67px, figure enlarged +43.36%, weapon/body 1.68). HARD MAX = 0.82 x 620.2 = 508.6 -> 508 native px; aiming registered ~500px in frozen band 479-529px ([124.41,137.50]u) at padded scale 1.0 => briefed native range 479-508px, target axis cap [545,585] (empty rear margin left of back) -> tip [1020,725] = 495.2px @16.42deg through grip [857,678]; weapon/body 495.2/396.48 = 1.25x crouched crown-sole; prompt forbids enlarging the figure and any glaive >=620px; cap+tip fully in frame 40px+ margin",
+    "originalCell": { "registeredPath": "art/motion/xuchu/closeout-campaign/09-heavy/gate/cells-registered/cell3-follow-through-registered.png", "sha256": "9d7a0c0230a3c8b94a53a8d0650ec9a28bdf84448bece2cd961adabd961c6ee6", "sheetPath": "art/motion/xuchu/closeout-campaign/09-heavy/candidate-raw.png", "sheetSha256": "37b725170f1dc838297d8228570917f582126602ba848ca40cb34f65b4daa954" },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "weaponPxRegisteredBand": [479, 529], "aimRegisteredPx": 500, "paddedScale": 1.0, "nativeOutputRangePx": [479, 508], "nativeHardMaxPx": 508, "nativeTargetAxisPx": 495.2 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/prompt.txt",
+    "promptSha256": "6599469d88faa59914164b785d646aeb33be7058ef068cf5e8587f1f4c1a056f",
+    "promptNote": "image_generate prompt = phase-b-cell3/prompt.txt exact text (edit first reference only; preserve cell3 pose/identity/camera/body scale/ground exactly, no enlargement; redraw ONLY the glaive complete: round butt cap in empty rear margin ~[545,585], blade tip closer ~[1020,725], total 479-508 native px target ~495 hard max 508 @~16deg through the grip; cap/tip fully in frame 40px+)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 193, "sha256": "88be315758533d69f0204ef10594b4543aad824c274811d05d7a5c67b38cd1b5", "heavy": 3, "xuchuUsed": 26 },
+    "after": { "globalSummed": 194, "sha256": "cf6e77d89bef2858bf89c68c4d021524607eb3d395d3350b6f11de7034c564e0", "heavy": 4, "xuchuUsed": 27 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 32,
+    "campaignCeilingGlobal": 199
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "gpt per work order (cell2 isolated edit via gpt drew the cap and passed every gate except length); exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - padded original cell3-follow-through (pose/camera/scale/ground truth; built deterministically this package)", "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/cell3-padded-ref.png", "sha256": "4584346819ae75a49d516d6f0c642e3e46990df021c674fdc7032d5474bc0e3e", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:2 anchor 1 Passing-B - identity/weapon/scale (via candidate-raw.jpg; accepted.png holds identical JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4 (padded cell3 -> banked walk:2 -> body master -> portrait master) after this reserve commit and before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt isolated cell3 EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in phase-b-cell3/, no gates/banking/shared-fix here"
+}

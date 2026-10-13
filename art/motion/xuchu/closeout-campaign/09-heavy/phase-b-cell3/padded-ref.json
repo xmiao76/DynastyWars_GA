@@ -1,0 +1,115 @@
+{
+  "work": "cmr15a-heavy-cell3-generate (COMPLETION CAMPAIGN Phase B)",
+  "zeroGeneration": true,
+  "source": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/gate/cells-registered/cell3-follow-through-registered.png",
+    "sha256": "9d7a0c0230a3c8b94a53a8d0650ec9a28bdf84448bece2cd961adabd961c6ee6",
+    "size": [
+      1024,
+      768
+    ],
+    "role": "original heavy cell3-follow-through after gate registration (scale 1.5249169435215948); identity/pose/camera/scale/ground truth"
+  },
+  "canvas": {
+    "size": [
+      1536,
+      1024
+    ],
+    "fill": "transparent (alpha 0)",
+    "placement": {
+      "offset": [
+        256,
+        128
+      ],
+      "scale": 1,
+      "note": "same geometry as cell2 phase-b; registered pixels unchanged 1:1; NO guide/ground line in sent ref"
+    }
+  },
+  "geometryRegisteredPx": {
+    "bounds": [
+      112,
+      360,
+      913,
+      758
+    ],
+    "crownY": 360,
+    "soleY": [
+      751,
+      758
+    ],
+    "stubButtRearHand": [
+      601.3,
+      549.88
+    ],
+    "stubTip": [
+      907,
+      683
+    ],
+    "stubPx": 333.43,
+    "stubU": 86.68,
+    "stubAngleDeg": 23.53,
+    "bodyCrouchedCrownSolePx": 396.48
+  },
+  "geometryPaddedPx": {
+    "crownY": 488,
+    "groundSoleY": 886,
+    "stubButtGrip": [
+      857,
+      678
+    ],
+    "oldTip": [
+      1163,
+      811
+    ]
+  },
+  "weaponTarget": {
+    "frozenBandRegisteredPx": [
+      479,
+      529
+    ],
+    "bandU": [
+      124.41,
+      137.5
+    ],
+    "paddedScale": 1,
+    "correctedFromCell2": {
+      "cell2FinalAxisPx": 620.2,
+      "cell2FinalU": 161.23,
+      "cell2NativeRawPx": 961.67,
+      "cell2EnlargementPct": 43.36,
+      "cell2WeaponBodyRatio": 1.68,
+      "capFactor": 0.82,
+      "capPx": 508.6
+    },
+    "nativeOutputRangePx": [
+      479,
+      508
+    ],
+    "nativeHardMaxPx": 508,
+    "nativeOutputTargetPx": 495.2,
+    "derivation": "HARD MAX = 0.82 x cell2 final axis 620.2px = 508.6 -> 508px; aiming registered ~500px (frozen band 479-529) at padded scale 1.0, so briefed native range 479-508px with target axis 495.2px; weapon/body = 495.2/396.48 = 1.25x crouched crown-sole (cell2 produced 1.68x and FAILED +23.73u); figure must NOT be enlarged (crown y488, soles y886)",
+    "targetCapPadded": [
+      545,
+      585
+    ],
+    "targetTipPadded": [
+      1020,
+      725
+    ],
+    "targetAxisPx": 495.2,
+    "targetAxisDeg": 16.42,
+    "axisNote": "shallower than the 23.53deg stub, through the grip [857,678]: straight stub extension lands the cap on the torso and keeping the old tip overshoots; cap sits in empty space left of the back, tip much closer than old tip [1163,811]"
+  },
+  "paddedReference": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/cell3-padded-ref.png",
+    "sha256": "4584346819ae75a49d516d6f0c642e3e46990df021c674fdc7032d5474bc0e3e",
+    "bytes": 245194,
+    "sent": true
+  },
+  "markedPreview": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/cell3-padded-marked.png",
+    "sha256": "589ec9491c5141ee38740221904bf032298d5b85d056eb4c9a31788e54cc0a10",
+    "bytes": 281598,
+    "sent": false
+  }
+}
