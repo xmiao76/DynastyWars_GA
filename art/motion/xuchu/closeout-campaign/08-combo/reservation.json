@@ -1,0 +1,42 @@
+{
+  "campaign": "CMR-15A ALTERNATIVE COMPLETION Phase 3 (charge, combo, heavy, misc, fall, getup as one 3x3 sheet each using the Li Dian method and Xu Chu identity/band briefs; deterministic retouch before at most one focused fix per sheet; ceilings Xu Chu 22 / global 189)",
+  "work": "cmr15a-phase3-combo-generate",
+  "key": "combo",
+  "request": "08-combo (Phase 3 sheet after charge; exactly ONE whole-sheet generation in this package; no extraction/gates/focused fix)",
+  "basis": {
+    "methodSource": "Li Dian combo: art/motion/lidian/combo-prompt.txt (sha256 c0917eac6c2c78b209fb3a8fd34daf77066a5a056e83ddbe0b9e9203aa52f7a2) adapted sentence-by-sentence; PROVENANCE.md Request 4/12 (ordered refs body, portrait, accepted charge sheet; no provider recorded for Li Dian combo -> gpt per work order); AUTHORING-PLAN.md combo 5 (windup/strike/follow-through/recover x2 + guard link; sword.combo with the GLAIVE); Xu Chu charge prompt ebf2d9c9... identity/camera/ground sentences reused verbatim for refs adaptation",
+    "requiredFrames": "CMR-15A sword.combo (jab1 binding 9/4/12 = 25t, 9 dmg / reach 30 / arc 10 / knockback 1, no knockdown) ordered source plan guard->draw back->glaive strike->recoil->guard (art/motion/xuchu/IDENTITY_ACTION_MANIFEST.md); as Li Dian combo layout cells0-4 keeps: cell0 windup (glaive lowered back, body coiled), cell1 rising-cut strike, cell2 follow-through, cell3 horizontal sweep strike, cell4 recover settling back to guard; cells5-8 spares alternate slash poses",
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "angleDeg": -26.31, "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxAt512TargetBand": [479, 529], "weaponPxAt512Target": 504 },
+    "nativeLengthDerivation": "charge sheet registration scale 1.3540 (native guard crown-to-sole 339px -> 459px at 512 registration): registered 479-529px / 1.3540 = 354-391 native sheet px, target 504/1.3540 = 372px; ratio form 1.10x crown-to-sole height stated in prompt so the length tracks drawn figure size",
+    "chargeOutcome": "Phase 3 charge sheet + its single focused fix both gated NOT BANKED (post-salvage unusable 1/2, campaign STOP at 2 NOT reached); combo is the next sheet per grant; a second consecutive post-salvage unusable here would STOP the campaign"
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/08-combo/prompt.txt",
+    "promptSha256": "47f6bd38dd482e308bb84b7ff90633a017b9eb0dca6a3335bb9afd5c9c1ad572",
+    "promptNote": "image_generate prompt = prompt.txt exact text (single paragraph, Li Dian combo 3x3 structure adapted sentence-by-sentence to Xu Chu identity/frozen band; explicit native 354-391px tip-to-pommel target ~372px = 1.10x crown-to-sole so registered length lands 479-529px target ~504px at 459px body; complete blade tip and butt cap fully inside sheet with empty margin; same camera/scale/ground as banked refs; no labels/guide lines)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 182, "sha256": "84b259260fed1448fee0f70c6824b4c15ac0722bf84726bba7eb03f880303ce9", "walk": 13, "charge": 2, "combo": 0, "xuchuUsed": 15 },
+    "after": { "globalSummed": 183, "sha256": "3a7c4545781b379382cbff2bb1b6aa304469797d48540e40a0c8232c7d01a254", "walk": 13, "charge": 2, "combo": 1, "xuchuUsed": 16 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "no provider recorded for Li Dian combo in PROVENANCE.md -> gpt per work order; exactly one image_generate with referenceImages, size 1536x1024 (Li Dian sheet geometry), no second call/reroll",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted) - identity/weapon/scale/ground truth (Li Dian order adapted: banked anchors first)", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 Passing-B - identity/weapon/scale (via candidate-raw.jpg; accepted.png holds identical JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "acceptedCopy": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master - costume/build identity (Li Dian order ref: body master)", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master - face/beard/helmet identity (Li Dian order ref: portrait master)", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference to be opened with read_image in order 1->2->3->4 after this reserve commit and before the call; same order passed as referenceImages (Li Dian body/portrait/accepted-sheet order adapted as in 07-charge: banked walk anchors first as scale/weapon truth, then body/portrait masters)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt sheet generation authorized in this package; no refunds; candidate lands UNREVIEWED beside this file, no extraction/gates/fix here"
+}
