@@ -107,3 +107,26 @@ both facings) and its ACCEPT; no runtime/15B work in this grant.
   rerun typecheck/lint/test, then apply head UNVERIFIED_OWNER_ACCEPTED, mark
   DONE, and commit. All waivers/head limitation/carried limitations above are
   preserved verbatim for CMR-15B; no runtime activation, no 15B start.
+
+## FINAL acceptance (2026-10-13; work cmr15a-done-closeout-final) — CMR-15A DONE
+
+Supersedes the NOT-DONE attempt above. Lint cleanup `b62ed43` removed the 53
+errors. Final checks: `npm run lint` PASS (exit 0); `npm run typecheck` PASS
+(exit 0); targeted motion units (pack-projection + motion-{catalog,scope,
+profiles,budget,retouch,review-core,actions,transitions,guides}) **103 pass /
+1 skip / 0 fail**; `arm-chain.test.ts` 14 pass / 1 fail = documented G6
+baseline only. Guan-Yu-sheet-reading suites (motion-pipeline/repack/runtime/
+clips/weapon-arc) were not rerun against the pre-existing unstaged dirty
+Guan Yu edits; the prior closeout stash-verified the committed tree on them
+as baseline-only G6 (59 pass/1 G6). No Xu Chu failure.
+
+Independent review receipt `call_01a137572247737c90df4c2a1bb7e6b4` ACCEPT stands.
+With every other gate passing and visual consistency independently reviewed,
+the head-size gate is now closed **UNVERIFIED_OWNER_ACCEPTED** under the
+pre-authorized grant limitation (beard conceals the chin/beard-base endpoint;
+RAW on every banked cell — owner-accepted unverified, not a measurement pass).
+Hidden 3D ground/contact remain unverified. All exact-hash weapon waivers in
+the table above are preserved verbatim (FAIL retained, no blanket/transfer)
+and carried to CMR-15B. **CMR-15A acceptance met 2026-10-13 = DONE**; pack
+remains offline/not activated; no 15B started. See
+[FINAL-ACCEPTANCE](FINAL-ACCEPTANCE.md).
