@@ -1,0 +1,647 @@
+{
+  "work": "cmr15a-heavy-focused-fix-gates",
+  "candidateDescription": {
+    "sheet": {
+      "path": "art/motion/xuchu/closeout-campaign/09-heavy/focused-fix/candidate-raw.png",
+      "sha256": "593ea8e4a2d2fb44cd847715ac8e3be39ddf8a6278440597d77b61d338d476c3",
+      "size": [
+        1536,
+        1024
+      ],
+      "components": 9
+    },
+    "sheetHashReverified": "593ea8e4a2d2fb44cd847715ac8e3be39ddf8a6278440597d77b61d338d476c3 (Get-FileHash this package; matches candidate.json)",
+    "reserveCommit": "819e4a2 (Xu Chu 18->19, heavy 1->2, global 185->186)",
+    "candidateCommit": "b611b09 (UNREVIEWED)",
+    "provider": "gpt-preferred single sheet EDIT of the original heavy sheet, serving UNCONFIRMED (candidate.json)",
+    "editTargetOriginal": {
+      "path": "art/motion/xuchu/closeout-campaign/09-heavy/candidate-raw.png",
+      "sha256": "37b725170f1dc838297d8228570917f582126602ba848ca40cb34f65b4daa954",
+      "gate": "09-heavy/gate/gate.json (FAIL 2/5: cells0/1 PASS 129.07/130.47u; cell2/cell3 stubs 92.10/86.68u; cell4 155.56u +18.06u)"
+    }
+  },
+  "registration": {
+    "method": "one uniform sheet scale from cell4-recover crown->sole 305 native px (fix sheet) to frozen 459px (scale 1.5049; original sheet used its own 301px/1.5249 - each sheet registered independently to the same frozen body/ground, so mixed-source selection stays scale/ground coherent); per-cell translate sole->groundY500 (canvas 1024x768, groundYCanvas 756, padTop 256)",
+    "sheetScale": 1.5049180327868852,
+    "scaleCell": "cell4-recover",
+    "scaleBodyNativePx": 305,
+    "determinism": "build.mjs rerun reproduced measure.json byte-identically (SHA-256 recorded in TASKS/PROGRESS); gate-verdict.mjs rerun twice byte-identical"
+  },
+  "retouchPolicy": "deterministic shaft shortening assessed FIRST, before any length-failure verdict (pommel-side then blade-side clean runs; probe-butt-run.py rerun this package confirms the build scan). Fix cell2-crushing-chop (cap now drawn) registered 167.02u: clean shaft only t=28-40 (width jumps to 68-69px at t=44 where the haft enters the back/skirt silhouette and stays over the body to rearGrip t~284), blade run none before socket 462.04 -> buttAvail 14px applied (changedOutside=0) -> 163.30u, deficit 100px to band-hi. Fix cell4-recover 145.22u: width 63-71px from t=24 (haft across skirt), no clean cap-end in [8,64], blade run none (socket 399.24) -> avail 0 vs 30px, applied 0. Fix cell3 remains an OUT_LOW stub (no cap drawn) - shortening retouch cannot lengthen and a missing pommel may not be fabricated.",
+  "anglePolicy": "angles raw per pose; direction continuity judged on the undirected shaft axis (modulo 180deg) because the overhead beat points the blade back over the head, flipping the directed butt->tip vector (same policy as the original heavy gate). Frozen length band remains the binding weapon gate.",
+  "ledgerVerified": {
+    "sha256": "c52a6eaf925a974416d2bc2648269510fbaf2840070f09630368df0272fddab9",
+    "xuchuUsed": 19,
+    "xuchuHeavy": 2,
+    "globalUsed": 186,
+    "expected": "Xu Chu 19 (heavy 2) / global 186",
+    "matches": true
+  },
+  "ledgerNote": "ledger file SHA-256 c52a6eaf925a974416d2bc2648269510fbaf2840070f09630368df0272fddab9, Xu Chu 19 (heavy 2)/global 186, ceilings 25/192 - verified in build.mjs; zero generation this package",
+  "keeps": [
+    {
+      "cell": 0,
+      "name": "cell0-raise",
+      "finalFile": "cell0-raise-registered.png",
+      "finalHash": "12a4c2cc51d72de89156535c840157620ad5e19da1314346e7c23408bab956d5",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; fix sheet, all 9 grid views, butt/grip/tip zooms, marked cells 0/1/2/3/4 and keeps/spares contacts opened; butt/tip markers verified on cap/tip where drawn, on the rear grip where the haft ends at the hands)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: raise / overhead hold / crushing chop / follow-through / recover toward guard; poses preserved from the original sheet)",
+        "weaponLength": "PASS",
+        "weaponAngleDegRaw": -25.8,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 127.65,
+        "registeredPx": 491.04,
+        "finalU": 127.65,
+        "finalPx": 491.04,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouchFeasibility": "none needed (registered length already in band)"
+      },
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 323,
+          "x1": 390,
+          "soleY": 758
+        },
+        {
+          "x0": 646,
+          "x1": 762,
+          "soleY": 755
+        }
+      ],
+      "verdict": "PASS"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-overhead-hold",
+      "finalFile": "cell1-overhead-hold-registered.png",
+      "finalHash": "f875b3502df7570b4ce50097136bd743dbe8b0f38be4d0d0c3ed154b24b83981",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; fix sheet, all 9 grid views, butt/grip/tip zooms, marked cells 0/1/2/3/4 and keeps/spares contacts opened; butt/tip markers verified on cap/tip where drawn, on the rear grip where the haft ends at the hands)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: raise / overhead hold / crushing chop / follow-through / recover toward guard; poses preserved from the original sheet)",
+        "weaponLength": "PASS",
+        "weaponAngleDegRaw": 162.04,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 129.41,
+        "registeredPx": 497.8,
+        "finalU": 129.41,
+        "finalPx": 497.8,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouchFeasibility": "none needed (registered length already in band)"
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 374,
+          "x1": 445,
+          "soleY": 757
+        },
+        {
+          "x0": 706,
+          "x1": 825,
+          "soleY": 755
+        }
+      ],
+      "verdict": "PASS"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-crushing-chop",
+      "finalFile": "cell2-crushing-chop-retouched.png",
+      "finalHash": "ebe2d49c40995ce0e61513f44359b3143faefc68b40ebc0d68f2c60e7dca0ae0",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; fix sheet, all 9 grid views, butt/grip/tip zooms, marked cells 0/1/2/3/4 and keeps/spares contacts opened; butt/tip markers verified on cap/tip where drawn, on the rear grip where the haft ends at the hands)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: raise / overhead hold / crushing chop / follow-through / recover toward guard; poses preserved from the original sheet)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": 11.42,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 167.02,
+        "registeredPx": 642.49,
+        "finalU": 163.3,
+        "finalPx": 628.17,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 25.8,
+        "underBandLoU": 0,
+        "retouchFeasibility": {
+          "buttAvailPx": 14,
+          "bladeRunT": null,
+          "bladeAvailPx": 0,
+          "socketTReg": 462.04,
+          "totalAvailPx": 14,
+          "removeToBandHiPx": 114,
+          "deficitToBandHiPx": 100,
+          "reachesBand": false,
+          "appliedButtPx": 14,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 155,
+          "x1": 223,
+          "soleY": 758
+        },
+        {
+          "x0": 491,
+          "x1": 607,
+          "soleY": 758
+        }
+      ],
+      "verdict": "FAIL - weapon length OUT_HIGH (+25.8u over band-hi) after max deterministic shaft retouch"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-follow-through",
+      "finalFile": "cell3-follow-through-registered.png",
+      "finalHash": "8b35c738092850499c71cb8bbcd72d0448fc54e1ba8258cb3d1f698cdb5abd02",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; fix sheet, all 9 grid views, butt/grip/tip zooms, marked cells 0/1/2/3/4 and keeps/spares contacts opened; butt/tip markers verified on cap/tip where drawn, on the rear grip where the haft ends at the hands)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: raise / overhead hold / crushing chop / follow-through / recover toward guard; poses preserved from the original sheet)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": 16.87,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": false,
+        "registeredU": 97.74,
+        "registeredPx": 375.97,
+        "finalU": 97.74,
+        "finalPx": 375.97,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 26.67,
+        "retouchFeasibility": "not applicable (butt cap not drawn; weapon too short, retouch shortens only)"
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 116,
+          "x1": 185,
+          "soleY": 751
+        },
+        {
+          "x0": 470,
+          "x1": 590,
+          "soleY": 757
+        }
+      ],
+      "verdict": "FAIL - butt cap STILL not drawn after the focused fix (haft ends at/behind the hand; visible stub 97.74u only, whole weapon OUT_LOW by at least 26.67u vs band-lo); shortening retouch cannot lengthen, missing part may not be fabricated, no waiver for stub cells"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-recover",
+      "finalFile": "cell4-recover-retouched.png",
+      "finalHash": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; fix sheet, all 9 grid views, butt/grip/tip zooms, marked cells 0/1/2/3/4 and keeps/spares contacts opened; butt/tip markers verified on cap/tip where drawn, on the rear grip where the haft ends at the hands)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: raise / overhead hold / crushing chop / follow-through / recover toward guard; poses preserved from the original sheet)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -25.86,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 145.22,
+        "registeredPx": 558.62,
+        "finalU": 145.22,
+        "finalPx": 558.62,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 7.72,
+        "underBandLoU": 0,
+        "retouchFeasibility": {
+          "buttAvailPx": 0,
+          "bladeRunT": null,
+          "bladeAvailPx": 0,
+          "socketTReg": 399.24,
+          "totalAvailPx": 0,
+          "removeToBandHiPx": 30,
+          "deficitToBandHiPx": 30,
+          "reachesBand": false,
+          "appliedButtPx": 0,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 246,
+          "x1": 316,
+          "soleY": 757
+        },
+        {
+          "x0": 561,
+          "x1": 680,
+          "soleY": 756
+        }
+      ],
+      "verdict": "FAIL - weapon length OUT_HIGH (+7.72u over band-hi) after max deterministic shaft retouch"
+    }
+  ],
+  "passCountFixSheet": "2/5",
+  "directionStepsDirectedFix": [
+    {
+      "from": "cell0-raise",
+      "to": "cell1-overhead-hold",
+      "fromAngDeg": -25.8,
+      "toAngDeg": 162.04,
+      "stepDeg": 187.84,
+      "passLe60": false
+    },
+    {
+      "from": "cell1-overhead-hold",
+      "to": "cell2-crushing-chop",
+      "fromAngDeg": 162.04,
+      "toAngDeg": 11.42,
+      "stepDeg": 150.62,
+      "passLe60": false
+    },
+    {
+      "from": "cell2-crushing-chop",
+      "to": "cell3-follow-through",
+      "fromAngDeg": 11.42,
+      "toAngDeg": 16.87,
+      "stepDeg": 5.45,
+      "passLe60": true
+    },
+    {
+      "from": "cell3-follow-through",
+      "to": "cell4-recover",
+      "fromAngDeg": 16.87,
+      "toAngDeg": -25.86,
+      "stepDeg": 42.73,
+      "passLe60": true
+    }
+  ],
+  "directionStepsAxisFix": [
+    {
+      "from": "cell0-raise",
+      "to": "cell1-overhead-hold",
+      "directedFromDeg": -25.8,
+      "directedToDeg": 162.04,
+      "axisStepDeg": 7.84,
+      "passLe60": true
+    },
+    {
+      "from": "cell1-overhead-hold",
+      "to": "cell2-crushing-chop",
+      "directedFromDeg": 162.04,
+      "directedToDeg": 11.42,
+      "axisStepDeg": 29.38,
+      "passLe60": true
+    },
+    {
+      "from": "cell2-crushing-chop",
+      "to": "cell3-follow-through",
+      "directedFromDeg": 11.42,
+      "directedToDeg": 16.87,
+      "axisStepDeg": 5.45,
+      "passLe60": true
+    },
+    {
+      "from": "cell3-follow-through",
+      "to": "cell4-recover",
+      "directedFromDeg": 16.87,
+      "directedToDeg": -25.86,
+      "axisStepDeg": 42.73,
+      "passLe60": true
+    }
+  ],
+  "lengthSpreadKeepsFix": {
+    "finalUs": [
+      127.65,
+      129.41,
+      163.3,
+      97.74,
+      145.22
+    ],
+    "spreadPct": 49.42
+  },
+  "spares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-overhead-a",
+      "finalFile": "cell5-spare-overhead-a-registered.png",
+      "finalHash": "da87830d019048f900dada7d3ede5e89db2741c8d8acbbb8161f470db9bfdf37",
+      "buttCapVisible": true,
+      "registeredU": 132.74,
+      "finalU": 132.74,
+      "finalPx": 510.61,
+      "angleDeg": -165.21,
+      "groundErrU": 0.52,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "overBandHiU": 0,
+      "underBandLoU": 0,
+      "verdict": "PASS (length; seams/identity/anatomy/scale-ground same visual pass as keeps)"
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-overhead-b",
+      "finalFile": "cell6-spare-overhead-b-registered.png",
+      "finalHash": "6df46d3e2c199b95747e86f3ba07a5ff99b298d92237a7074566d1a237831880",
+      "buttCapVisible": false,
+      "registeredU": 95.88,
+      "finalU": 95.88,
+      "finalPx": 368.82,
+      "angleDeg": -151.35,
+      "groundErrU": 0.26,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "overBandHiU": 0,
+      "underBandLoU": 28.53,
+      "verdict": "FAIL - butt cap not drawn / haft ends at hands (stub 95.88u, OUT_LOW by at least 28.53u); cannot lengthen"
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-chop-a",
+      "finalFile": "cell7-spare-chop-a-registered.png",
+      "finalHash": "f4cd830dc843f6526c3f91f277999519d8cabc2a70cbf68948170f35c335dbf3",
+      "buttCapVisible": false,
+      "registeredU": 93.2,
+      "finalU": 93.2,
+      "finalPx": 358.5,
+      "angleDeg": 20.53,
+      "groundErrU": 0.26,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "overBandHiU": 0,
+      "underBandLoU": 31.21,
+      "verdict": "FAIL - butt cap not drawn / haft ends at hands (stub 93.2u, OUT_LOW by at least 31.21u); cannot lengthen"
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-chop-b",
+      "finalFile": "cell8-spare-chop-b-registered.png",
+      "finalHash": "14d58c1d0b7133d362c98a7a7a5386073ea00e651d9e6c61e75ae9e590f24386",
+      "buttCapVisible": false,
+      "registeredU": 96.19,
+      "finalU": 96.19,
+      "finalPx": 370.03,
+      "angleDeg": 12.77,
+      "groundErrU": 0.52,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "overBandHiU": 0,
+      "underBandLoU": 28.22,
+      "verdict": "FAIL - butt cap not drawn / haft ends at hands (stub 96.19u, OUT_LOW by at least 28.22u); cannot lengthen"
+    }
+  ],
+  "candidateSelection": {
+    "method": "best passing source per beat across original sheet 37b72517 + focused-fix sheet 593ea8e4 (Li Dian splice method at cell-selection level); spares 5-8 of both sheets gated for role-fit substitution; original cells0/1 retained where both pass",
+    "perRole": [
+      {
+        "cell": 0,
+        "role": "raise / heavy preparation",
+        "original": {
+          "source": "original heavy sheet 37b72517",
+          "finalFile": "09-heavy/gate/cells-registered/cell0-raise-registered.png",
+          "finalHash": "7b416cd6a49055226390690ce4a6acb24cc30e4f92b0db56ac3e954c0d9bcfb7",
+          "finalU": 129.07,
+          "buttCapVisible": true,
+          "verdict": "PASS"
+        },
+        "fix": {
+          "source": "focused-fix sheet 593ea8e4",
+          "finalFile": "09-heavy/focused-fix/gate/cells-registered/cell0-raise-registered.png",
+          "finalHash": "12a4c2cc51d72de89156535c840157620ad5e19da1314346e7c23408bab956d5",
+          "finalU": 127.65,
+          "buttCapVisible": true,
+          "verdict": "PASS"
+        },
+        "selected": "original",
+        "rationale": "BOTH pass (original 129.07u, fix 127.65u); original retained per work order (cells0/1 pass and may be retained; the fix was briefed to leave them unchanged)"
+      },
+      {
+        "cell": 1,
+        "role": "overhead hold",
+        "original": {
+          "source": "original heavy sheet 37b72517",
+          "finalFile": "09-heavy/gate/cells-registered/cell1-overhead-hold-registered.png",
+          "finalHash": "26270b4c7837522a82587a124aaab8e5be7ccd681b5587be3f6cb7d47d6113b5",
+          "finalU": 130.47,
+          "buttCapVisible": true,
+          "verdict": "PASS"
+        },
+        "fix": {
+          "source": "focused-fix sheet 593ea8e4",
+          "finalFile": "09-heavy/focused-fix/gate/cells-registered/cell1-overhead-hold-registered.png",
+          "finalHash": "f875b3502df7570b4ce50097136bd743dbe8b0f38be4d0d0c3ed154b24b83981",
+          "finalU": 129.41,
+          "buttCapVisible": true,
+          "verdict": "PASS"
+        },
+        "selected": "original",
+        "rationale": "BOTH pass (original 130.47u, fix 129.41u); original retained per work order"
+      },
+      {
+        "cell": 2,
+        "role": "crushing chop",
+        "original": {
+          "source": "original heavy sheet 37b72517",
+          "finalFile": "09-heavy/gate/cells-registered/cell2-crushing-chop-registered.png",
+          "finalHash": "6c59ba43f7fc04511f11be1bf202c252da3d49cc4bff49503f3ceee0a31d8ca1",
+          "finalU": 92.1,
+          "buttCapVisible": false,
+          "verdict": "FAIL - butt cap not drawn (haft ends at the hands; visible stub 92.1u only, whole weapon OUT_LOW by at least 32.31u vs band-lo); shortening retouch cannot lengthen, missing part may not be fabricated, no waiver"
+        },
+        "fix": {
+          "source": "focused-fix sheet 593ea8e4",
+          "finalFile": "09-heavy/focused-fix/gate/cells-registered/cell2-crushing-chop-retouched.png",
+          "finalHash": "ebe2d49c40995ce0e61513f44359b3143faefc68b40ebc0d68f2c60e7dca0ae0",
+          "finalU": 163.3,
+          "buttCapVisible": true,
+          "verdict": "FAIL - weapon length OUT_HIGH (+25.8u over band-hi) after max deterministic shaft retouch"
+        },
+        "selected": null,
+        "rationale": "NO passing source: original is a 92.10u stub (no cap, no waiver); the fix drew a complete cap but overshot to 167.02u -> 163.30u after max retouch (+25.80u over band-hi; buttAvail 14px vs 114px to band-hi because the haft lies across the back/skirt from t~44 to the rear grip at t~284, blade run none) - not small, NOT waiver-eligible. Chop spares on both sheets are stubs; overhead spares do not fit the chop beat"
+      },
+      {
+        "cell": 3,
+        "role": "follow-through",
+        "original": {
+          "source": "original heavy sheet 37b72517",
+          "finalFile": "09-heavy/gate/cells-registered/cell3-follow-through-registered.png",
+          "finalHash": "9d7a0c0230a3c8b94a53a8d0650ec9a28bdf84448bece2cd961adabd961c6ee6",
+          "finalU": 86.68,
+          "buttCapVisible": false,
+          "verdict": "FAIL - butt cap not drawn (haft ends at the hands; visible stub 86.68u only, whole weapon OUT_LOW by at least 37.73u vs band-lo); shortening retouch cannot lengthen, missing part may not be fabricated, no waiver"
+        },
+        "fix": {
+          "source": "focused-fix sheet 593ea8e4",
+          "finalFile": "09-heavy/focused-fix/gate/cells-registered/cell3-follow-through-registered.png",
+          "finalHash": "8b35c738092850499c71cb8bbcd72d0448fc54e1ba8258cb3d1f698cdb5abd02",
+          "finalU": 97.74,
+          "buttCapVisible": false,
+          "verdict": "FAIL - butt cap STILL not drawn after the focused fix (haft ends at/behind the hand; visible stub 97.74u only, whole weapon OUT_LOW by at least 26.67u vs band-lo); shortening retouch cannot lengthen, missing part may not be fabricated, no waiver for stub cells"
+        },
+        "selected": null,
+        "rationale": "NO passing source: original 86.68u stub AND fix 97.74u stub - the focused fix again drew no butt cap on this cell (haft ends at/behind the hand, cell3-gripzoom); stubs are not fully measurable, no waiver. No role-fit passing spare on either sheet"
+      },
+      {
+        "cell": 4,
+        "role": "recover toward guard",
+        "original": {
+          "source": "original heavy sheet 37b72517",
+          "finalFile": "09-heavy/gate/cells-registered/cell4-recover-retouched.png",
+          "finalHash": "13ef7ecf1a99fa6f87de8bb89c3903e898b5d14ad46fd5a9b5a03aabfacdad19",
+          "finalU": 155.56,
+          "buttCapVisible": true,
+          "verdict": "FAIL - weapon length OUT_HIGH (+18.06u over band-hi) after max deterministic shaft retouch"
+        },
+        "fix": {
+          "source": "focused-fix sheet 593ea8e4",
+          "finalFile": "09-heavy/focused-fix/gate/cells-registered/cell4-recover-retouched.png",
+          "finalHash": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+          "finalU": 145.22,
+          "buttCapVisible": true,
+          "verdict": "FAIL - weapon length OUT_HIGH (+7.72u over band-hi) after max deterministic shaft retouch"
+        },
+        "selected": null,
+        "rationale": "NO passing source: original 155.56u (+18.06u, explicitly no waiver); fix shortened to 145.22u (+7.72u over band-hi, retouch avail 0 vs 30px to band-hi - haft across skirt 63-71px wide from t=24, no blade run) - FAIL retained; fully measurable with only-length failure, held WAIVER_ELIGIBLE for an owner ruling (exact hash below), NOT banked"
+      }
+    ],
+    "spareSubstitution": "no passing role-fit spare for any failing beat on either sheet: overhead spares pass length (original spare5 133.95u, fix spare5 132.74u) but duplicate the already-passing overhead-hold beat and cannot cover the down-forward crushing-chop/follow-through beats without deleting the strike; chop spares 7/8 and overhead-b spare6 are butt-cap stubs on BOTH sheets (original 82.43/97.16/97.14u, fix 93.20/96.19/95.88u); no spare reads as a settling recover",
+    "mixedSequenceAxisSteps": [
+      {
+        "fromCell": 0,
+        "toCell": 1,
+        "fromAngDeg": -26.28,
+        "toAngDeg": 162.02,
+        "axisStepDeg": 8.3,
+        "passLe60": true
+      },
+      {
+        "fromCell": 1,
+        "toCell": 2,
+        "fromAngDeg": 162.02,
+        "toAngDeg": 11.42,
+        "axisStepDeg": 29.4,
+        "passLe60": true
+      },
+      {
+        "fromCell": 2,
+        "toCell": 3,
+        "fromAngDeg": 11.42,
+        "toAngDeg": 16.87,
+        "axisStepDeg": 5.45,
+        "passLe60": true
+      },
+      {
+        "fromCell": 3,
+        "toCell": 4,
+        "fromAngDeg": 16.87,
+        "toAngDeg": -25.86,
+        "axisStepDeg": 42.73,
+        "passLe60": true
+      }
+    ],
+    "mixedSequenceDirectionVerdict": "PASS on shaft-axis steps for the best-available mixed sequence (original 0/1 + fix 2/3/4); raise -> overhead -> chop -> follow-through -> recover poses/identity are preserved across both sheets (same figures, costume, grips) and both registrations share frozen body 459px/groundY500, so sequence coherence itself passes - the set fails on weapon length only",
+    "mixedLengthSpread": {
+      "finalUs": [
+        129.07,
+        130.47,
+        163.3,
+        97.74,
+        145.22
+      ],
+      "spreadPct": 49.23,
+      "note": "reported, not PASS (includes FAIL lengths incl. the cell3 stub lower bound)"
+    },
+    "coherentAllPassSetExists": false
+  },
+  "verdict": "FAIL - NOT BANKED (no accepted cells created). Fix sheet alone: 2/5 keeps pass (cells0/1). Candidate-wise across original+fix: roles 0/1 have passing sources (originals retained), role 4 has only a waiver-eligible fix cell (+7.72u, FAIL retained), roles 2/3 have NO passing source on either sheet - so no coherent all-pass 5-cell heavy set exists and nothing is banked",
+  "failedCriteria": [
+    "cell2-crushing-chop fix [ebe2d49c40995ce0e61513f44359b3143faefc68b40ebc0d68f2c60e7dca0ae0]: FAIL - weapon length OUT_HIGH (+25.8u over band-hi) after max deterministic shaft retouch; final 163.3u/628.17px vs band [124.41,137.5]u (original cell2 92.1u stub also FAIL, no waiver)",
+    "cell3-follow-through fix [8b35c738092850499c71cb8bbcd72d0448fc54e1ba8258cb3d1f698cdb5abd02]: FAIL - butt cap STILL not drawn after the focused fix (haft ends at/behind the hand; visible stub 97.74u only, whole weapon OUT_LOW by at least 26.67u vs band-lo); shortening retouch cannot lengthen, missing part may not be fabricated, no waiver for stub cells; stub 97.74u/375.97px vs band [124.41,137.5]u (original cell3 86.68u stub also FAIL, no waiver)",
+    "cell4-recover fix [57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8]: FAIL - weapon length OUT_HIGH (+7.72u over band-hi) after max deterministic shaft retouch; final 145.22u/558.62px vs band [124.41,137.5]u - WAIVER_ELIGIBLE exact hash held, FAIL retained NOT PASS (original cell4 155.56u +18.06u FAIL, explicitly no waiver)"
+  ],
+  "waiverEligibleExactCells": [
+    {
+      "cell": 4,
+      "name": "cell4-recover",
+      "source": "focused-fix sheet 593ea8e4",
+      "finalFile": "09-heavy/focused-fix/gate/cells-registered/cell4-recover-retouched.png",
+      "finalHash": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+      "finalU": 145.22,
+      "finalPx": 558.62,
+      "deviationU": 7.72,
+      "bandU": [
+        124.40626991803302,
+        137.50166675151021
+      ],
+      "status": "WAIVER_ELIGIBLE - FAIL retained, NOT PASS, NOT BANKED; exact hash only, held for owner ruling",
+      "note": "fully measurable (complete butt cap + tip inside frame); only failing gate is weapon length +7.72u after max retouch (avail 0 vs 30px to band-hi); identity/anatomy/pose-role/seams/scale-ground PASS, head RAW"
+    }
+  ],
+  "postFixAccounting": "Deterministic salvage (registration + max shaft retouch + full spare substitution on BOTH sheets) AND heavy's one authorized focused fix are now both exhausted without a complete in-band set. Under the corrected process rules (PROCESS CORRECTION grant: a sheet counts post-salvage unusable only after salvage AND its focused fix are exhausted; banked sheet resets count to 0; STOP at 2 consecutive post-fix unusable), heavy is post-fix unusable #1 (prospective count 0 -> 1; the initial heavy-sheet FAIL correctly never counted). STOP is NOT reached; CMR-15A stays IN_PROGRESS - no further heavy generation is authorized in this package (misc/fall/getup proceed per grant in later packages). No waiver granted here; the one waiver-eligible hash above is held for an owner ruling only.",
+  "prospectivePostSalvageCount": 1,
+  "banked": false,
+  "generation": "zero in this package"
+}
