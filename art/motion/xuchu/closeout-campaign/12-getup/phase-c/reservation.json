@@ -1,0 +1,42 @@
+{
+  "campaign": "CMR-15A COMPLETION CAMPAIGN Phase C (getup redo: ONE new sheet edit plus one focused fix granted; fall+heavy banked, prospective post-salvage count 0; ceilings Xu Chu 32 / global 199, hard cap 200 preserved)",
+  "work": "cmr15a-getup-phasec-generate",
+  "key": "getup",
+  "request": "12-getup/phase-c (Phase C getup redo sheet EDIT; exactly ONE image_generate in this package; generation only, no extraction/gates/banking/pack)",
+  "basis": {
+    "initialGate": "art/motion/xuchu/closeout-campaign/12-getup/gate/gate.json sha256 d96ff4a9114bf3e344fb057542c69244acb9949526d47e54b9a2da8cf099e64d: original sheet 9c2102e5... all 9 cells OUT_HIGH after max retouch at ONE scale 1.3540 vs frozen band [124.41,137.50]u target 130.79u — keeps cell0-down 161.48u, cell1-elbow 157.69u, cell2-kneel 155.13u, cell3-crouch 144.50u, cell4-rise 138.93u; spares cell5 148.65u, cell6 145.26u, cell7 147.61u, cell8 142.26u. Identity/anatomy/pose-roles/grip/seams/ground/direction all PASS; all butt caps drawn, fully measurable.",
+    "priorFixExcluded": "The prior focused-fix sheet (12-getup/focused-fix/candidate-raw.png 9ab14bae...) OVERSHORTENED all keeps to 103.13-119.39u OUT_LOW under a uniform ~15% brief and is NOT used as a base or reference here; this redo edits ONLY the original sheet 9c2102e5...",
+    "perCellCorrection": "Exact per-cell shortening to the common target 130.79u (percent = (finalU-130.79)/finalU from the initial gate): cell0 -19.0% (161.48u), cell1 -17.1% (157.69u), cell2 -15.7% (155.13u), cell3 -9.5% (144.50u), cell4 -5.9% (138.93u); spares same proportional correction to 130.79u: cell5 -12.0% (148.65u), cell6 -10.0% (145.26u), cell7 -11.4% (147.61u), cell8 -8.1% (142.26u). Move blade tips inward along existing axes, remove plain haft only; figures/body scale/poses/layout/identity unchanged exactly; complete butt caps + tips fully in frame 35px+.",
+    "originalCandidate": { "path": "art/motion/xuchu/closeout-campaign/12-getup/candidate-raw.png", "sha256": "9c2102e5f2402935daeb9dfb3ecbcc056d654973f0d76c4c52874193bc6cc1c9", "bytes": 2147935, "size": [1536, 1024] },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "bodyPxAt512": 459, "registrationScale": 1.3539823008849559 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/prompt.txt",
+    "promptSha256": "adb7b894a84a026fabe1e0b931b5da1bf206ea97b90c1ea48befeff1511c252e",
+    "promptNote": "image_generate prompt = phase-c/prompt.txt exact text (edit first reference only; preserve every pose/layout/identity/body scale exactly, do not shrink figures; exact per-cell percentages above to target 130.79u, tips moved inward along existing axes; caps/tips in frame 35px+; no uniform shortening)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 195, "sha256": "a35d7441bd8d6d33c1d8e8e339dbee5bf34a122fff4c8daed8197609d15510fa", "walk": 13, "charge": 2, "combo": 2, "heavy": 5, "misc": 2, "fall": 2, "getup": 2, "xuchuUsed": 28 },
+    "after": { "globalSummed": 196, "sha256": "93c0589933c12d966972ecbd97aa0fd672f005e75ed080ea6ccb3e374ab4934c", "walk": 13, "charge": 2, "combo": 2, "heavy": 5, "misc": 2, "fall": 2, "getup": 3, "xuchuUsed": 29 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 32,
+    "campaignCeilingGlobal": 199
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "gpt per work order (original getup generation provider requested gpt, serving UNCONFIRMED); exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - original getup sheet ONLY (pose/layout/identity source; NOT the overshortened focused-fix sheet)", "path": "art/motion/xuchu/closeout-campaign/12-getup/candidate-raw.png", "sha256": "9c2102e5f2402935daeb9dfb3ecbcc056d654973f0d76c4c52874193bc6cc1c9", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size + rise terminal guard", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor - identity/band (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4 (original getup sheet -> banked walk:0 -> banked walk:2 -> body master) after this reserve commit and before the call; same order passed as referenceImages (no portrait this package per work order)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt Phase C sheet EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in phase-c/, no gates/banking/pack here"
+}
