@@ -1,0 +1,134 @@
+{
+  "work": "cmr15a-heavy-shared-fix-generate (COMPLETION CAMPAIGN Phase B ONE shared fix, generation only)",
+  "zeroGeneration": true,
+  "builder": "phase-b-shared-fix/build-two-panel-ref.py (deterministic: PIL LANCZOS resize to one pack scale + alpha composite; double-run byte-identical required)",
+  "canvas": {
+    "size": [
+      1536,
+      1024
+    ],
+    "fill": "transparent (alpha 0)",
+    "separation": "clear 64px transparent column x in [736,800); no labels, no drawn separator/guide lines"
+  },
+  "packScale": 0.6875,
+  "panelSize": [
+    704,
+    528
+  ],
+  "panels": [
+    {
+      "side": "LEFT",
+      "cell": "cell2-crushing-chop final (phase-b gate final, FAIL length-only)",
+      "sourcePath": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b/cell2-retouched.png",
+      "sourceSha256": "1ce7855bed87b89fa514935f7ebf78a1ddef10a3a2d5a0a3c73089ab456a1d4c",
+      "sourceSize": [
+        1024,
+        768
+      ],
+      "offset": [
+        32,
+        248
+      ],
+      "registered": {
+        "pxLen": 620.2,
+        "u": 161.23,
+        "angDeg": 10.29,
+        "butt": [
+          242.78,
+          522.19
+        ],
+        "tip": [
+          853,
+          633
+        ]
+      },
+      "panelNative": {
+        "butt": [
+          198.91,
+          607.01
+        ],
+        "tip": [
+          618.44,
+          683.19
+        ],
+        "pxLen": 426.39
+      }
+    },
+    {
+      "side": "RIGHT",
+      "cell": "cell3-follow-through final (phase-b-cell3 gate final, FAIL length-only)",
+      "sourcePath": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/cell3-retouched.png",
+      "sourceSha256": "cf208444cd4faf7400861cee17a2cd4afad46225c198f729a63460d8291c4f44",
+      "sourceSize": [
+        1024,
+        768
+      ],
+      "offset": [
+        800,
+        248
+      ],
+      "registered": {
+        "pxLen": 606.64,
+        "u": 157.7,
+        "angDeg": 15.66,
+        "butt": [
+          273.88,
+          482.27
+        ],
+        "tip": [
+          858,
+          646
+        ]
+      },
+      "panelNative": {
+        "butt": [
+          988.29,
+          579.56
+        ],
+        "tip": [
+          1389.88,
+          692.12
+        ],
+        "pxLen": 417.06
+      }
+    }
+  ],
+  "gateScale": {
+    "uPerRegisteredPx": 0.259958071278826,
+    "registeredPxPerU": 3.846774,
+    "source": "phase-b/gate.py U = 124/477"
+  },
+  "weaponTarget": {
+    "targetU": 130.79,
+    "targetRegisteredPx": 503.12,
+    "derivationRegistered": "130.79u x 477/124 registered px per u = 503.12 registered px (frozen band [124.41,137.50]u = 479-529 registered px)",
+    "targetNativePanelPx": 345.89,
+    "derivationNative": "503.12 registered px x pack scale 0.6875 = 345.89 native px on the 1536x1024 two-panel canvas (same for both panels)",
+    "cell2": {
+      "fromU": 161.23,
+      "fromRegisteredPx": 620.2,
+      "fromNativePanelPx": 426.39,
+      "factor": 0.8112,
+      "shorterPct": 18.88,
+      "axisDeg": 10.29
+    },
+    "cell3": {
+      "fromU": 157.7,
+      "fromRegisteredPx": 606.64,
+      "fromNativePanelPx": 417.06,
+      "factor": 0.8294,
+      "shorterPct": 17.06,
+      "axisDeg": 15.66
+    }
+  },
+  "twoPanelReference": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/two-panel-ref.png",
+    "sha256": "7d2e8ff3da2505ee0e044c53822e1935673efe69be455915472ad93bcf7c9d20",
+    "bytes": 295660,
+    "size": [
+      1536,
+      1024
+    ],
+    "sent": "reference 1 (EDIT target)"
+  }
+}

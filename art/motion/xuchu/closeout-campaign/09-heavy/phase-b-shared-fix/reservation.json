@@ -1,0 +1,52 @@
+{
+  "campaign": "CMR-15A COMPLETION CAMPAIGN Phase B (ceilings Xu Chu 32 / global 199, hard cap 200 preserved; Phase A: fall banked, heavy cell4 57190b6f… 145.22u +7.72u selected under exact-hash waiver pending cells2/3; cell2 isolated candidate GATED FAIL 161.23u length-only and cell3 isolated candidate GATED FAIL 157.70u length-only, both caps drawn and every non-length gate PASS, both held eligible for this ONE shared briefed fix)",
+  "work": "cmr15a-heavy-shared-fix-generate",
+  "key": "heavy",
+  "request": "09-heavy/phase-b-shared-fix (heavy cell2+cell3 ONE shared two-panel length-only fix: exactly ONE EDIT; no split/gates/banking/pack in this package)",
+  "basis": {
+    "brief": "phase-b/gate.json + phase-b-cell3/gate.json sharedFixBrief: both finals fully measurable, caps drawn, fail ONLY weapon length vs frozen band [124.41,137.50]u (cell2 161.23u +23.73u, cell3 157.70u +20.20u, both beyond the <=9u waiver) => the Phase B ONE shared briefed fix covering cells2+3, generation only here",
+    "twoPanelReference": "phase-b-shared-fix/build-two-panel-ref.py (deterministic, double-run byte-identical): final cell2-retouched 1ce7855b… (LEFT) and final cell3-retouched cf208444… (RIGHT), each 1024x768, at ONE identical pack scale 0.6875 -> 704x528 panels at (32,248) and (800,248) on a 1536x1024 transparent canvas with a clear 64px transparent separation column x[736,800), no labels/no drawn lines; two-panel-ref.png 7d2e8ff3… (295660 B), geometry in two-panel-ref.json",
+    "measuredFactors": {
+      "gateScale": "phase-b/gate.py U = 124/477 u per registered px = 3.846774 registered px per u",
+      "targetU": 130.79,
+      "targetRegisteredPx": 503.12,
+      "targetNativePanelPx": 345.89,
+      "derivation": "130.79u x 477/124 = 503.12 registered px; x pack scale 0.6875 = 345.89 native px on the two-panel canvas (same target for both panels)",
+      "cell2Left": { "fromU": 161.23, "fromRegisteredPx": 620.2, "fromNativePanelPx": 426.39, "factor": 0.8112, "shorterPct": 18.88, "axisDeg": 10.29, "buttPanel": [198.91, 607.01], "tipPanel": [618.44, 683.19] },
+      "cell3Right": { "fromU": 157.70, "fromRegisteredPx": 606.64, "fromNativePanelPx": 417.06, "factor": 0.8294, "shorterPct": 17.06, "axisDeg": 15.66, "buttPanel": [988.29, 579.56], "tipPanel": [1389.88, 692.12] }
+    },
+    "sourceFinals": [
+      { "cell": "cell2-crushing-chop", "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b/cell2-retouched.png", "sha256": "1ce7855bed87b89fa514935f7ebf78a1ddef10a3a2d5a0a3c73089ab456a1d4c", "size": [1024, 768], "u": 161.23 },
+      { "cell": "cell3-follow-through", "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/cell3-retouched.png", "sha256": "cf208444cd4faf7400861cee17a2cd4afad46225c198f729a63460d8291c4f44", "size": [1024, 768], "u": 157.7 }
+    ],
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.5], "weaponPxRegisteredBand": [479, 529], "packScale": 0.6875, "targetNativePanelPx": 345.89 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/prompt.txt",
+    "promptSha256": "2958c24c36828aeb2445c8f375f1ea2c8ee1f8b6d4c342fcefbefe55e8a059d8",
+    "promptNote": "image_generate prompt = phase-b-shared-fix/prompt.txt exact text (edit first reference only; preserve each panel pose/identity/background/positions/scales exactly, no panel merge; shorten ONLY both glaives along their existing axes to ~346 native px each = 130.79u/503.12 registered px: LEFT 426->346px factor 0.8112 @10.29deg, RIGHT 417->346px factor 0.8294 @15.66deg; complete caps+tips fully inside their own panel)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 194, "sha256": "cf6e77d89bef2858bf89c68c4d021524607eb3d395d3350b6f11de7034c564e0", "heavy": 4, "xuchuUsed": 27 },
+    "after": { "globalSummed": 195, "sha256": "a35d7441bd8d6d33c1d8e8e339dbee5bf34a122fff4c8daed8197609d15510fa", "heavy": 5, "xuchuUsed": 28 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 32,
+    "campaignCeilingGlobal": 199
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "gpt per work order; exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - deterministic two-panel reference (LEFT final cell2 + RIGHT final cell3 at pack scale 0.6875; built this package)", "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/two-panel-ref.png", "sha256": "7d2e8ff3da2505ee0e044c53822e1935673efe69be455915472ad93bcf7c9d20", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:2 anchor 1 Passing-B - identity/weapon/scale (via candidate-raw.jpg; accepted.png holds identical JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3 (two-panel -> banked walk:2 -> body master) after this reserve commit and before the call; same order passed as referenceImages (portrait not sent, per work order)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt two-panel shared-fix EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in phase-b-shared-fix/, no split/gates/banking here"
+}
