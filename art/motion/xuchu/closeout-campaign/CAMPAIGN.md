@@ -330,6 +330,41 @@ prepare the offline pack only and return for independent review.
 | walk:4 attempt-2 REGISTRATION AMENDMENT re-gate (`03-walk4/attempt2/regate.mjs`/`regate.json`/`registered.png`) | **FAIL — candidate remains UNACCEPTED, not banked (no accepted.png); CMR-15A BLOCKED again on exact gate** (zero generation; ledger unchanged Xu Chu 8 / global 175). One uniform scale+translate (factor 1.1032300355740923, +10.32% within new ±12% cap, native 1254px > 512px cell; dx −33.63, dy −8.10 @512) produced `registered.png` (`b0d7030b…`, 512×512). Re-measured: identity/anatomy PASS; **weapon length FAIL — 560.22px@512 = 145.63u vs frozen band [124.41,137.50]u** (pre-registration 132.01u scaled by the same uniform factor; +11.35% vs anchor, spread 10.74%; no in-batch waiver); corridor PASS (butt 5.33 / tip 4.46px vs 14px), direction PASS (−26.40°, Δ−0.09°), tip inside frame (margin 3.30px@512, not clipped); scale/ground PASS after registration (body 459.00px@512, ground 500@512 = 0.00u ≤1.5u, raster crown 41 / ground 500); seams PASS (greenPx=0, no edge clipping); gait Passing-A PASS (visually reconfirmed on registered cell, opposite walk:2); head RAW 0px (not a reject). |
 | walk:4 second attempt (`03-walk4/attempt2/`) | **REJECTED after salvage — unaccepted, not banked; AMENDMENT STOP (2 consecutive)** (candidate `3cdc2fa8ea1923e0fe3a8b9af09cd7d65b814d216ed0461b09d4e87dcf94e2b0`, reserve commits `176213f`+`952a5b9`, candidate commit `d267a38`, Xu Chu 8 / global 175, ceilings 22/189). Exactly one gpt EDIT (provider gpt, serving UNCONFIRMED, no substitution) with padded walk4 ref `5b79aeb0…` + accepted walk:2 anchor `893c90d7…` (read via identical-bytes candidate-raw.jpg due accepted.png extension mismatch), briefed on walk:4 attempt-1 failure (ground +7.15u, Δ+3.53°, tip clipped/corridor 46.26px, trailing toe-down gait) AND walk:3 attempt-2 lessons (−9.71% too small, retained green line; explicitly no ground/guide line drawn, anchor-scale body, feet on ground level). Gates (`03-walk4/attempt2/gate.json`): identity/anatomy PASS; weapon PASS (132.01u in band [124.41,137.50]u, angle Δ−0.09°, corridor ≤3.99px/14px, tip not clipped, margin 50px native); seams PASS (greenPx=0, no retained guide line, no clipping); gait PASS (screen-left flat support + screen-right bent forward passing boot 68px native clear, opposite arrangement to walk:2); scale/ground FAIL (body 416.05 vs 459px@512 −9.36%; ground 460.56 vs 500@512 = 10.25u >1.5u; salvage step (1) factor 1.1032 exceeds ±4% cap, not applied; steps (2)–(3) do not cure scale/ground); head RAW gap 0px (not a reject). **Post-amendment consecutive unusable 1→2 = revised STOP reached: campaign STOPPED, no further amendment requests; CMR-15A BLOCKED WAITING_FOR_OWNER.** walk:4 second attempt spent, no third attempt. |
 
+## ALTERNATIVE COMPLETION Phase 1 (2026-10-12; work cmr15a-alt-phase1-bank, ZERO generation)
+
+Prospective reset BLOCKED→IN_PROGRESS for Phase 1 only; all prior BLOCKED/STOP
+history above, banked walk:2 (`893c90d7…`) + walk:4 (`75488eb1…`), the frozen
+brief band (weapon 130.79u, band [124.41,137.50]u, angle −26.31°, groundY
+500@512, body 459px@512) and ledger (Xu Chu 11 / global 178, file SHA-256
+`371a8bcf…`) are preserved. NOTE: the owner's Alternative Completion grant
+verbatim text was not present in the repo or the worker work order — TASKS.md
+CMR-15A records it as PENDING VERBATIM INSERTION (relayed Phase-1 scope only);
+this section does not quote it.
+
+Campaign-standard gate (`alternative-phase1/gate.mjs`, CAMPAIGN (c) checklist,
+FRESH raster landmarks — alpha≥16 butt-band centroid / max-projection tip /
+crown-ground / boot-column soles — not the diagnostic scripts or their carried
+landmarks) on the EXACT alternative outputs. Full per-key reports + fresh
+marked/gameplay/head/legs/tip-4x/soles-4x imagery in each key's `alternative/`
+dir (`gate.json`):
+
+| Key | Exact output SHA-256 | Fresh raster weapon (u / Δangle / corridor butt·tip px) | Body·ground | Boots soles @512 | Verdict |
+|---|---|---|---|---|---|
+| walk:3 Contact-B | `dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7` (`alternative/walk3-rotated.png`; source attempt3 registered `2d21f6cd…`) | 131.96u in band / +0.76° / 4.48·11.22 ≤14 | 459px / 0.00u | rear 496, front 500 | **PASS — BANKED** `02-walk3/alternative/accepted.png` (`dc3e699f…`, byte copy) |
+| walk:0 Guard | `2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450` (`alternative/walk0-registered.png`; sheet `bad2aee5…` comp id0, reg 0.9808) | 129.66u in band / +1.05° / 10.45·1.32 ≤14 | 458px / 0.00u | 500 / 493 both flat | **PASS — BANKED** `05-walk0/alternative/accepted.png` (`2a4a415d…`) |
+| walk:1 heel-strike Contact-A | `2de4d8490eff7f1751785c312dc1fac6518e6d6d40d03befefc8e9bee113367c` (`alternative/walk1-registered.png`; sheet `bad2aee5…` comp id1, reg 1.0000) | 134.45u in band / +1.65° / 11.77·3.11 ≤14 | 458px / 0.00u | rear 497 toe-off, front heel 500 toe-up | **PASS — BANKED** `06-walk1/alternative/accepted.png` (`2de4d849…`) |
+
+Identity/anatomy PASS all three (fresh full + head reads); seams PASS
+(greenPx=0, zero edge-opaque; walk:3 grip-exit rotation seam continuous at
+gameplay 1x + `gate-seam-grip-4x.png`; walk:0/1 whole-component tips complete,
+neighbour fragment excluded); gait as tabled — walk:1 description CORRECTED to
+**heel-strike Contact-A** (diagnostic "front flat" was wrong); head endpoint
+RAW 0px all three (not a reject, batch-end ruling reserved). Walk set now
+banked: walk:0 guard, walk:1 Contact-A, walk:2 Passing-B, walk:3 Contact-B,
+walk:4 Passing-A; walk:5 Brake still unbanked/rejected. Ledger verified
+unchanged Xu Chu 11 / global 178 (ceilings 22/189 untouched); CMR-15A stays
+IN_PROGRESS, not DONE; no pack preparation, no runtime/15B work in Phase 1.
+
 ## Setup checks (this package)
 
 Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings

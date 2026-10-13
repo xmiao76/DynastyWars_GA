@@ -1,0 +1,88 @@
+{
+  "work": "cmr15a-alt-phase1-bank",
+  "zeroGeneration": true,
+  "ledgerVerified": {
+    "path": "art/motion/generation-budget.json",
+    "sha256": "371a8bcfc7c440de127c30037c29fa5215c4fe73c969fa59524c97fb64435a8c",
+    "xuchuUsed": 11,
+    "xuchuWalk": 11,
+    "globalUsed": 178,
+    "totalCap": 200,
+    "expected": "Xu Chu 11 / global 178",
+    "matches": true
+  },
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "cells": [
+    {
+      "key": "walk:3",
+      "phase": "Contact-B",
+      "exactOutput": {
+        "path": "art/motion/xuchu/alternative/walk3-rotated.png",
+        "sha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+        "size": [
+          512,
+          512
+        ]
+      },
+      "allNumericPass": true,
+      "banked": {
+        "acceptedPath": "art/motion/xuchu/closeout-campaign/02-walk3/alternative/accepted.png",
+        "acceptedSha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+        "exactOutputSha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+        "byteCopyOfExactOutput": true
+      },
+      "gateJson": "art/motion/xuchu/closeout-campaign/02-walk3/alternative/gate.json"
+    },
+    {
+      "key": "walk:0",
+      "phase": "Guard/bookend double support",
+      "exactOutput": {
+        "path": "art/motion/xuchu/alternative/walk0-registered.png",
+        "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450",
+        "size": [
+          512,
+          512
+        ]
+      },
+      "allNumericPass": true,
+      "banked": {
+        "acceptedPath": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png",
+        "acceptedSha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450",
+        "exactOutputSha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450",
+        "byteCopyOfExactOutput": true
+      },
+      "gateJson": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/gate.json"
+    },
+    {
+      "key": "walk:1",
+      "phase": "Contact-A (heel-strike)",
+      "exactOutput": {
+        "path": "art/motion/xuchu/alternative/walk1-registered.png",
+        "sha256": "2de4d8490eff7f1751785c312dc1fac6518e6d6d40d03befefc8e9bee113367c",
+        "size": [
+          512,
+          512
+        ]
+      },
+      "allNumericPass": true,
+      "banked": {
+        "acceptedPath": "art/motion/xuchu/closeout-campaign/06-walk1/alternative/accepted.png",
+        "acceptedSha256": "2de4d8490eff7f1751785c312dc1fac6518e6d6d40d03befefc8e9bee113367c",
+        "exactOutputSha256": "2de4d8490eff7f1751785c312dc1fac6518e6d6d40d03befefc8e9bee113367c",
+        "byteCopyOfExactOutput": true
+      },
+      "gateJson": "art/motion/xuchu/closeout-campaign/06-walk1/alternative/gate.json"
+    }
+  ]
+}

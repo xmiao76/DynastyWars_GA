@@ -1,0 +1,162 @@
+{
+  "work": "cmr15a-alt-phase1-bank",
+  "key": "walk:3",
+  "phase": "Contact-B",
+  "zeroGeneration": true,
+  "gateStandard": "CAMPAIGN.md (c) checklist; fresh raster landmarks (this script), frozen band from 01-walk2 anchor 893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6",
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "anchorWeaponLineAt512": {
+    "butt": [
+      35,
+      318
+    ],
+    "tip": [
+      486,
+      95
+    ]
+  },
+  "exactOutput": {
+    "path": "art/motion/xuchu/alternative/walk3-rotated.png",
+    "sha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+    "size": [
+      512,
+      512
+    ]
+  },
+  "sourceProvenance": "02-walk3/attempt3/registered.png 2d21f6cdb34deea98efae12d1fac396d7c1e26150cc82bc36de2ccb6242b14d4 + distal micro-rotation -1.332deg (alternative/walk3-microrotate.mjs)",
+  "freshRasterMeasurement": {
+    "raster": {
+      "alphaBounds": {
+        "xmin": 22,
+        "ymin": 41,
+        "xmax": 487,
+        "ymax": 500
+      },
+      "greenPx": 0,
+      "edgeOpaquePx": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    "weapon": {
+      "buttRaster": [
+        25.01098901098901,
+        327.9340659340659
+      ],
+      "buttMinX": 22,
+      "buttBandPx": 91,
+      "tipRaster": [
+        483,
+        109
+      ],
+      "tipT": 507.5830948507887,
+      "topBladeRaster": [
+        480,
+        108
+      ],
+      "pxAt512": 507.6278749370589,
+      "u": 131.9619632960069,
+      "inBand": true,
+      "deltaPctVsAnchor": 0.8959311137220979,
+      "spreadAnchorVsCandCanonical": 0.008919355496701763,
+      "angleDeg": -25.549359563216697,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": 0.7610453815884419,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 4.477486690787178,
+        "tip": 11.21998139301513,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxAt512": 29,
+      "xmaxMarginPx": 24
+    },
+    "body": {
+      "rasterCrownY": 41,
+      "rasterGroundY": 500,
+      "bodyHeightPxAt512": 459,
+      "frozenHeightPxAt512": 459,
+      "deltaPx": 0
+    },
+    "ground": {
+      "frozenGroundYAt512": 500,
+      "rasterGroundY": 500,
+      "groundedErrorU": 0,
+      "limitU": 1.5
+    },
+    "boots": [
+      {
+        "x0": 55,
+        "x1": 110,
+        "soleY": 496
+      },
+      {
+        "x0": 278,
+        "x1": 393,
+        "soleY": 500
+      }
+    ]
+  },
+  "gatesNumeric": {
+    "weaponLengthPass": true,
+    "weaponCorridorPass": true,
+    "weaponDirectionPass": true,
+    "bodyPass": true,
+    "groundPass": true,
+    "seamsNumericPass": true
+  },
+  "allNumericPass": true,
+  "headEndpointRAW": {
+    "measuredClearBackgroundGapPx": 0,
+    "note": "RAW only — beard tip over collar/chest on gate-head-zoom.png (fresh visual read this package); NOT a per-candidate reject; batch-end UNVERIFIED_OWNER_ACCEPTED reserved only if ALL other gates pass."
+  },
+  "gateImages": [
+    "gate-marked.png",
+    "gate-gameplay.png (exact cell 1x)",
+    "gate-head-zoom.png",
+    "gate-legs-zoom.png",
+    "gate-tip-4x.png",
+    "gate-soles-zoom.png",
+    "gate-soles-4x.png",
+    "gate-seam-grip-4x.png"
+  ],
+  "ledgerVerified": {
+    "path": "art/motion/generation-budget.json",
+    "sha256": "371a8bcfc7c440de127c30037c29fa5215c4fe73c969fa59524c97fb64435a8c",
+    "xuchuUsed": 11,
+    "xuchuWalk": 11,
+    "globalUsed": 178,
+    "totalCap": 200,
+    "expected": "Xu Chu 11 / global 178",
+    "matches": true
+  },
+  "banked": {
+    "acceptedPath": "art/motion/xuchu/closeout-campaign/02-walk3/alternative/accepted.png",
+    "acceptedSha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+    "exactOutputSha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+    "byteCopyOfExactOutput": true
+  },
+  "verdicts": {
+    "identity": "PASS (full + head zoom: same blunt-faced helmeted full-bearded ochre/dark-armoured massive Xu Chu as banked walk:2/walk:4; no costume/other-fighter drift)",
+    "anatomy": "PASS (connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs; micro-rotation seam at front-hand exit continuous — gate-seam-grip-4x.png)",
+    "seams": "PASS (greenPx=0, zero edge-opaque px; rotation cut at hand exit continuous at gameplay 1x (gate-gameplay.png) and 4x (gate-seam-grip-4x.png): no kink, halo or step; tip complete — gate-tip-4x.png)",
+    "gait": "PASS Contact-B (screen-right front boot flat planted sole 500@512 = front support; screen-left rear boot toe-down heel-raised sole 496@512 trailing toe-off; flat-front contact distinct from walk:1 heel-strike, and from Passing-B walk:2 / Passing-A walk:4 banked anchors)",
+    "weaponLengthCorridorDirection": "PASS (fresh raster numbers in freshRasterMeasurement.weapon vs frozen band)",
+    "scaleGround": "PASS (fresh raster body/ground in freshRasterMeasurement)",
+    "headEndpointRAW": "RECORDED_RAW_NOT_A_REJECT (0px clear gap, beard over collar; batch-end ruling only)"
+  },
+  "overall": "PASS — BANKED into closeout campaign (accepted.png = byte copy of exact alternative output)"
+}

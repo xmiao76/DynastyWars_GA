@@ -69,8 +69,10 @@ below reproduced byte-identically.
   band, Δangle +2.26°, corridor butt 13.14/tip 7.36px ≤14 PASS (butt close
   to limit), tip inside (margin 19.5px); identity/anatomy PASS; seams PASS
   (greenPx=0, edgeOpaque=0 — the neighbouring blade fragment that failed the
-  nominal cell is excluded by component extraction); gait Contact-A
-  (front flat / rear toe-off) PASS; head RAW as above.
+  nominal cell is excluded by component extraction); gait **heel-strike
+  Contact-A** (front boot heel grounded, toe raised; rear toe-off) PASS —
+  corrected 2026-10-12 in cmr15a-alt-phase1-bank (the earlier "front flat"
+  wording was wrong; fresh soles-4x read); head RAW as above.
 - **Verdict: PASS (diagnostic) for both keys.** Full-sheet component
   extraction removes the only failing gates (tip clip / fragment seam) with
   zero generation; the original sheet pixels already satisfy every gate.
