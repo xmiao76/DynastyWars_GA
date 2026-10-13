@@ -1,0 +1,44 @@
+{
+  "campaign": "CMR-15A PHASE-3 (walk+charge+combo+misc banked; heavy post-fix unusable unresolved; fall INITIAL sheet FAIL with focused fix unspent does NOT increment count, stays 0 after misc reset; ceilings Xu Chu 25 / global 192; nominal cap 12 / global 200 unchanged)",
+  "work": "cmr15a-fall-focused-fix-generate",
+  "key": "fall",
+  "request": "11-fall/focused-fix (fall's ONE focused fix; exactly ONE sheet EDIT in this package, provider as original fall generation; generation only, no extraction/gates/splice/banking/getup)",
+  "basis": {
+    "brief": "art/motion/xuchu/closeout-campaign/11-fall/gate/gate.json sha256 53624dedec1207b76da2c59180f7415d7e71f7ce2d535330bc26f635698e7e54 focusedFixBrief + measured failures vs frozen band [124.41,137.50]u after max deterministic shaft retouch + corrected prone-cap probe: cell3-impact 132.06u PASS gripped (preserve exactly, reference keep); cell0-topple 131.87u length PASS but grip FAIL (both hands open/flailing, glaive floats across torso); cell1-airborne 138.32u OUT_HIGH +0.82u (46px applied, deficit 3px) AND grip FAIL (both hands open, floating glaive); cell2-tumble butt cap NOT drawn (haft ends blunt behind skirt plate, unmeasurable stub); cell4-DOWN 119.76u OUT_LOW -4.65u only-length FAIL (fully measurable, cap ball hidden under shins in first pass; flat prone pose itself PASS). Spares: cell5 stub, cell6 136.25u PASS length but grounded recline (no coherent set), cells7/8 107.70/88.86u OUT_LOW - nothing banked.",
+    "changeOnly": "Cell3 (and spares5-8) completely unchanged. Cells0/1 ONLY grip redraw: BOTH hands visibly wrapped around the haft in front of the torso (work-order steer, stronger than gate's one-hand minimum); cell0 glaive length/axis unchanged. Cell1 additionally shortened ~2-3% along its axis into the band. Cell2 ONLY: extend haft beyond rear grip into empty space and draw the COMPLETE round butt cap, whole weapon ~408-451 native px target ~429. Cell4 DOWN ONLY: lengthen glaive ~+5-8% (native 392px -> ~412-430px, registered 479-529px target ~504px) along its axis, cap ball clear of the legs, EXACT flat prone grounded pose unchanged. All changed cells: complete caps+tips fully in frame in empty transparent space.",
+    "nativeLengthDerivation": "fall registration scale 1.173913 (cell4 prone head-to-boots 391 native px = 459px); registered 479/504/529px / 1.1739 = 408/429/451 native px; 429/391 = 1.10x prone length. Gate DOWN steer 392 -> 412-430 native px sits inside that window toward target 504 registered px.",
+    "originalCandidate": { "path": "art/motion/xuchu/closeout-campaign/11-fall/candidate-raw.png", "sha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd", "bytes": 2204326, "size": [1536, 1024], "promptFile": "art/motion/xuchu/closeout-campaign/11-fall/prompt.txt", "promptSha256": "3caa92e69765a835119f114b8d4d204d28d87c806bceec343bc144be83e69e5b", "reserveCommit": "a6a2df5", "candidateCommit": "5099569", "gateCommit": "488365b" },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "bodyPxAt512": 459, "weaponPxRegisteredBand": [479, 529], "weaponPxRegisteredTarget": 504, "registrationScale": 1.173913043478261, "weaponPxSheetNativeBand": [408, 451], "sheetNativeTargetPx": 429 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/prompt.txt",
+    "promptSha256": "39b5c2b3207ec3403bea4c2f841468cd8f71cddc76f57e644366a9516fcd2fe6",
+    "promptNote": "image_generate prompt = focused-fix/prompt.txt exact text (edit first reference only; preserve all poses/identity/layout and cell3 exactly; cells0/1 both hands visibly grip haft, cell1 shorten ~2-3% into band, cell2 complete butt cap drawn in empty space, cell4 DOWN glaive lengthened ~+5-8% native 392->412-430px = registered 479-529 target ~504px with flat grounded pose unchanged; caps/tips fully in frame)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 189, "sha256": "d9dbeecd2499d3d3d90f28dbec61b8f8b46853341a3542f1e210486b365cd6f3", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "fall": 1, "xuchuUsed": 22 },
+    "after": { "globalSummed": 190, "sha256": "62a686fbdb777a68c1619e56714c6500b113bd3742486cc458f7e2409717dc02", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "fall": 2, "xuchuUsed": 23 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 25,
+    "campaignCeilingGlobal": 192,
+    "prospectivePostSalvageCount": 0
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "original fall generation recorded provider requested gpt, serving UNCONFIRMED (11-fall/candidate.json) -> gpt per work order; exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - original fall sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/11-fall/candidate-raw.png", "sha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor - identity/band (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4->5 (original fall sheet -> banked walk:0 -> banked walk:2 -> body master -> portrait master) after this reserve commit and before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt focused-fix EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in focused-fix/, no gates/splice/banking/getup here"
+}
