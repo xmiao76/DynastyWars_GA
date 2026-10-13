@@ -1,0 +1,32 @@
+{
+  "campaign": "CMR-15A CLOSEOUT AMENDMENT (as amended by REGISTRATION AMENDMENT + SHAFT-RETOUCH SALVAGE)",
+  "work": "cmr15a-walk5-attempt1",
+  "attempt": "walk:5 FIRST attempt (attempt1; at most one future briefed second attempt if this fails; a first-attempt failure is NOT counted post-correction unusable)",
+  "key": "walk:5",
+  "phase": "Brake / bookend transition (CAMPAIGN (a): Leg-A front braking boot flat with braking heel pressure + Leg-B rear toe/partial support, double support decelerating; weight settling back toward walk:0 guard; not a plain guard duplicate, not a passing pose)",
+  "grant": "CMR-15A CLOSEOUT AMENDMENT + REGISTRATION AMENDMENT + SHAFT-RETOUCH SALVAGE (owner grants, 2026-10-12, verbatim in TASKS.md CMR-15A): continuation in amendment order after walk:3 third attempt; ceilings Xu Chu 22 total / global 189/200 (nominal cap 12 unchanged); salvage order (1) uniform registration <=±12% for native >512px to groundY/body, (2) shaft retouch after registration for in-frame length outliers (target ~132u in [124.41,137.50]u), (3) weapon splice only if both grips demonstrably align and seams pass; STOP on two consecutive post-correction unusable (currently 1 after walk:3 attempt3 corridor reject)",
+  "briefedOnPriorLessons": {
+    "bodyScale": "walk:3/walk:4 candidates rendered 6.6-9.7% too small; prompt mandates anchor body height 459px@512, boots at ground level",
+    "weapon": "clipped tips in original walk:3/walk:4 attempts and corridor tip perp 15.36px vs 14px in walk:3 attempt3; prompt mandates whole tip >=40px inside every edge, anchor weapon/body ratio, ~26deg shaft angle",
+    "seams": "no retained green/guide/ground lines (walk:3 attempt2 retained 4065 green px); remove neighbouring-cell blade fragment at left edge of padded walk:5 ref",
+    "gaitContext": "walk:2 Passing-B and walk:4 Passing-A banked (passing legs opposite, alternation partially proven); walk:5 must be a double-support BRAKE distinct from both passing poses and from a plain guard"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 176, "sha256": "7e74e156e5b0453530707ed2668d7b65737cabea98224070fd359a76a46c3b7f", "walk": 9, "xuchuUsed": 9 },
+    "after": { "globalSummed": 177, "sha256": "225f819f36ab34163f7754954d76881a083ad5955d75aff7288c5ba22c049704", "walk": 10, "xuchuUsed": 10 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": { "requested": "grok", "preference": "provider grok per amendment provider rule (gpt-preferred only for walk:3/4 second attempts; grok otherwise) and work order cmr15a-walk5-attempt1", "serving": "TO_BE_RECORDED_AFTER_CALL" },
+  "references": [
+    { "role": "primary (padded walk:5 original cell, ground line marked)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk5-padded-ref.png", "sha256": "df0f13a12ef1f2e69cc204bd775734d8169c82f7e1b48c8f969e18a173cb4bf8", "size": [1024, 1024] },
+    { "role": "second (accepted walk:2 anchor 1, Passing-B; sent via byte-identical candidate-raw.jpg, accepted.png carries JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "role": "third (accepted walk:4 anchor 2, Passing-A, registered+retouched, gait context)", "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png", "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad", "size": [512, 512] }
+  ],
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/04-walk5/prompt.txt" },
+  "status": "RESERVED — reserve-before-call; exactly one generation authorized for this attempt; no refunds"
+}
