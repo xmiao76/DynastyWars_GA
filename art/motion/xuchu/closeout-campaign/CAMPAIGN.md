@@ -362,6 +362,69 @@ walk:4 Passing-A; walk:5 Brake still unbanked/rejected. Ledger verified
 unchanged Xu Chu 11 / global 178 (ceilings 22/189 untouched); CMR-15A stays
 IN_PROGRESS, not DONE; no pack preparation, no runtime/15B work in Phase 1.
 
+## ALTERNATIVE COMPLETION Phase 2 — Brake guide preparation (2026-10-12; work cmr15a-walk5-guide, ZERO generation, NO reservation)
+
+Preparation only: the Phase-2 guide-guided walk:5 edit is **not reserved and not
+called** in this package (ledger verified unchanged, file SHA-256 `371a8bcf…`,
+Xu Chu 11 / global 178, ceilings 22/189). The edit itself is a later separate
+reserve-before-call package; if Brake gait then fails, STOP for owner decision.
+
+**Donor cell identified:** Li Dian `charge-prepared-source.png` (`40054db9…`)
+cell **4 "brake"** — `charge-prompt.txt` authors cells 0–4 as
+coil/launch/dash/dash-alt/brake and `art/motion/lidian/registration.json`
+layout.charge maps position 4 → cell 4 "brake" (keptCells 0–4); row-major 3×3
+on 1536×1024 ⇒ centre cell, origin (512,341). Traced front leg (sheet px):
+hip (757,516) → knee (834,586) → ankle (870,646), heel (860,666) — a
+near-straight diagonal strut 41.0° from vertical, shin 31.0°, knee bend 16.8°.
+The donor's forward-leaning torso and trailing rear leg are deliberately NOT
+copied (the trailing read is what failed walk:5 attempts 1–2).
+
+**Guide built deterministically** (`04-walk5/phase2-guide/build-guide.mjs`,
+method after `test/game/wholeframe-guides.test.ts`/`motion-guides.test.ts`
+grey mannequin; joints authored @512, rendered ×2 on a 1024×1024 #FF00FF
+canvas at the frozen anchor geometry: crown 82@1024, ground 1000@1024,
+weapon butt [70,636] tip [972,190] = 503.12px@512 / −26.31°; raster
+non-magenta bounds x54–975, y80–1001 incl. outline, tip 49px inside right
+edge). Xu Chu upright torso/head/weapon = banked walk:2 skeleton
+(cross-checked walk:4); lower body adapted from the donor trace to Xu Chu
+proportions: front strut 31.87° / shin 25.94° from vertical, knee bend 11.17°,
+front heel 80px@512 ahead of the front hip, hips low/back over the rear boot;
+rear leg a 52.94° bent support with ankle −4px@512 vs its hip and heel raised
+only 6px (partial support under the body — not trailing toe-off, not
+vertical-shin front contact). Thigh/shin lengths matched across legs
+(92.8/91.4 and 82.3/80.6 px@512). Clean guide + marked overlay + donor crop
+were all opened and read against the donor and both anchors: braced diagonal
+front strut with planted heel, weight back over the rear support — PASS as a
+guide (no generation judged here).
+
+| File (`04-walk5/phase2-guide/`) | SHA-256 | Role |
+|---|---|---|
+| `guide-walk5-brake.png` | `6e7819c34e8395838575f78b6645e7383c8f326828e281e982f0bba4cd9215fe` | CLEAN guide, sent as reference 1 — mannequin+weapon on magenta only, no text/ground/guide lines |
+| `guide-walk5-brake-marked.png` | `c788f2de061dab592c7a5c3324f22c7751fea8ccffac5b06f7940ec9ed2f6ec8` | Marked diagnostic (hip/knee/ankle/sole/ground/weapon + angles) — NEVER sent |
+| `guide-spec.json` | (hash in file set; sources/joints/metrics/prompt) | Source hashes, donor trace, guide joints @512/@1024, metrics, rejection-pattern checks, exact Phase-2 prompt + reference order |
+| `prompt.txt` | (exact byte copy of spec `phase2.promptExact` + LF) | Exact intended Phase-2 prompt text (2683 chars in spec) |
+| `lidian-charge-cell4-donor.png` | `836e65c9ef6ee199f18e950230d4fbbf7cf35ac34c6662554a2bb57daf19dae1` | Unchanged nominal-cell donor crop on dark grey (donor blade spills past the nominal cell; legs fully inside) |
+| `build-guide.mjs` | — | Reproducible builder; double-run reproduced every output hash byte-identically |
+
+**Phase-2 reference order (binding, when later reserved):** (1) clean guide
+`guide-walk5-brake.png` (`6e7819c3…`) — exact pose/silhouette/weapon;
+(2) banked walk:2 (`893c90d7…`, sent via `01-walk2/candidate-raw.jpg` —
+`accepted.png` is identical JPEG bytes under a .png name) — identity/weapon/
+scale; (3) banked walk:4 `03-walk4/attempt2/accepted.png` (`75488eb1…`) —
+identity/gait context. The padded walk:5 original cell is intentionally
+omitted (its guard legs pull against Brake; attempts 1–2 with it as primary
+failed Brake twice). Kind: isolated single-pose EDIT, provider grok
+(amendment rule), 1024×1024; after-counts if reserved Xu Chu 12 / global 179.
+Exact prompt text lives verbatim in `guide-spec.json: phase2.promptExact` and
+`prompt.txt`: it requires copying the guide pose limb-for-limb (diagonal
+braced front strut, heel planted ahead, hips low/back, rear bent support
+under the hip with heel only slightly raised — no vertical shin, no trailing
+toe-off, no passing leg, no square guard), Xu Chu identity/scale/weapon from
+the anchors (918px@1024 body, weapon/body 503/459, ~26°, tip ≥40px inside),
+and forbids reproducing the magenta/grey guide surface or any line/text.
+Post-call: full campaign (c) gate + salvage order as usual, Brake judged
+against this guide's metrics. CMR-15A stays IN_PROGRESS, not DONE.
+
 ## Setup checks (this package)
 
 Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings

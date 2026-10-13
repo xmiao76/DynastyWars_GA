@@ -1,0 +1,481 @@
+{
+  "work": "cmr15a-walk5-guide",
+  "purpose": "Phase 2 grey-mannequin Brake guide for the ONE authorized guide-guided walk:5 edit (Alternative Completion grant). This package makes NO reservation and NO generation; ledger Xu Chu 11/global 178 unchanged.",
+  "zeroGeneration": true,
+  "reservationMade": false,
+  "canvas": {
+    "size": [
+      1024,
+      1024
+    ],
+    "background": "#FF00FF flat (whole-frame guide convention)",
+    "scaleFrom512": 2,
+    "crownYAt1024": 82,
+    "groundYAt1024": 1000,
+    "bodyPxAt1024": 918,
+    "tipMarginRule": "whole glaive >=40px inside every edge at 1024 (tip at [972,190]: 52px right / 190px top)"
+  },
+  "frozenBand": {
+    "bodyPxAt512": 459,
+    "weaponU": 130.79,
+    "bandU": [
+      124.41,
+      137.5
+    ],
+    "angleDeg": -26.31,
+    "groundYAt512": 500
+  },
+  "sources": [
+    {
+      "role": "donor sheet (prepared)",
+      "path": "art/motion/lidian/charge-prepared-source.png",
+      "sha256": "40054db9c32c534de9106ed91c71572d3318a02de8e71609dbf766870ca4022f"
+    },
+    {
+      "role": "donor candidate (same cells, unprepared)",
+      "path": "art/motion/lidian/charge-candidate-1.png",
+      "sha256": "a0cfe1b1ebf3a466b05cacebfd0e4c4861013252153ba1dbbb7da7d6a338c8a4"
+    },
+    {
+      "role": "donor prompt (cells 0-4 = coil/launch/dash/dash2/brake)",
+      "path": "art/motion/lidian/charge-prompt.txt",
+      "sha256": "68a4936514dc34ea8965eac9c710832cf72f04a2bf0af7ae76cb2c7bd398f3fc"
+    },
+    {
+      "role": "donor registration (layout.charge position 4 label brake)",
+      "path": "art/motion/lidian/registration.json",
+      "sha256": "9141cd2ca3d51cca2d3790b3ebf0b6add17776f7f0d2f0f1bf106e18cdc2b41b"
+    },
+    {
+      "role": "anchor walk:2 (identity/weapon/crown/ground)",
+      "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg",
+      "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6"
+    },
+    {
+      "role": "anchor walk:4 (identity/torso cross-check)",
+      "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png",
+      "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad"
+    },
+    {
+      "role": "walk5 padded reference used by failed attempts 1-2 (NOT a Phase-2 reference: its guard legs conflict with the Brake pose; identity now comes from the banked anchors)",
+      "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk5-padded-ref.png",
+      "sha256": "df0f13a12ef1f2e69cc204bd775734d8169c82f7e1b48c8f969e18a173cb4bf8"
+    },
+    {
+      "role": "generation ledger (read-only proof, unchanged)",
+      "path": "art/motion/generation-budget.json",
+      "sha256": "371a8bcfc7c440de127c30037c29fa5215c4fe73c969fa59524c97fb64435a8c"
+    }
+  ],
+  "donorCell": {
+    "sheet": "art/motion/lidian/charge-prepared-source.png",
+    "sheetSize": [
+      1536,
+      1024
+    ],
+    "cellOrigin": [
+      512,
+      341
+    ],
+    "cellSize": [
+      512,
+      341
+    ],
+    "cellIndex": 4,
+    "layoutLabel": "brake",
+    "jointsSheet": {
+      "crown": [
+        780,
+        379
+      ],
+      "head": [
+        782,
+        403
+      ],
+      "hip": [
+        757,
+        516
+      ],
+      "frontKnee": [
+        834,
+        586
+      ],
+      "frontAnkle": [
+        870,
+        646
+      ],
+      "frontHeel": [
+        860,
+        666
+      ],
+      "frontToe": [
+        937,
+        663
+      ],
+      "rearKnee": [
+        697,
+        579
+      ],
+      "rearAnkle": [
+        630,
+        639
+      ],
+      "rearToe": [
+        607,
+        663
+      ],
+      "rearHeelRaised": [
+        640,
+        649
+      ],
+      "weaponButt": [
+        647,
+        546
+      ]
+    },
+    "groundSheetY": 666,
+    "identification": "charge-prompt.txt authors cells 0-4 as crouch-coil, launch, dash, dash alternate, brake (skidding stop); registration.json layout.charge maps position 4 -> cell 4 label \"brake\", keptCells [0..4]. Row-major 3x3 on 1536x1024 => centre cell, origin (512,341), 512x341.",
+    "tracedJointsSheetPx": {
+      "crown": [
+        780,
+        379
+      ],
+      "head": [
+        782,
+        403
+      ],
+      "hip": [
+        757,
+        516
+      ],
+      "frontKnee": [
+        834,
+        586
+      ],
+      "frontAnkle": [
+        870,
+        646
+      ],
+      "frontHeel": [
+        860,
+        666
+      ],
+      "frontToe": [
+        937,
+        663
+      ],
+      "rearKnee": [
+        697,
+        579
+      ],
+      "rearAnkle": [
+        630,
+        639
+      ],
+      "rearToe": [
+        607,
+        663
+      ],
+      "rearHeelRaised": [
+        640,
+        649
+      ],
+      "weaponButt": [
+        647,
+        546
+      ]
+    },
+    "traceNote": "Joints read by eye on the 2x enlarged cell-4 crop (probe grid), robe-occluded rear knee estimated; front-leg angles are the transferred quantity, absolute positions are re-derived for Xu Chu below.",
+    "crop": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/lidian-charge-cell4-donor.png",
+      "sha256": "836e65c9ef6ee199f18e950230d4fbbf7cf35ac34c6662554a2bb57daf19dae1"
+    }
+  },
+  "guideJointsAt512": {
+    "crownY": 41,
+    "groundY": 500,
+    "head": [
+      236,
+      89
+    ],
+    "headR": [
+      36,
+      48
+    ],
+    "neck": [
+      224,
+      146
+    ],
+    "chest": [
+      206,
+      196
+    ],
+    "shoulderN": [
+      150,
+      162
+    ],
+    "shoulderF": [
+      254,
+      168
+    ],
+    "elbowN": [
+      108,
+      228
+    ],
+    "elbowF": [
+      268,
+      222
+    ],
+    "hip": [
+      195,
+      320
+    ],
+    "hipA": [
+      214,
+      324
+    ],
+    "hipB": [
+      176,
+      324
+    ],
+    "kneeA": [
+      270,
+      398
+    ],
+    "ankleA": [
+      306,
+      472
+    ],
+    "heelA": [
+      294,
+      500
+    ],
+    "toeA": [
+      348,
+      500
+    ],
+    "kneeB": [
+      212,
+      408
+    ],
+    "ankleB": [
+      172,
+      478
+    ],
+    "heelB": [
+      160,
+      494
+    ],
+    "toeB": [
+      210,
+      500
+    ],
+    "weaponButt": [
+      35,
+      318
+    ],
+    "weaponTip": [
+      486,
+      95
+    ],
+    "handN": [
+      170,
+      251
+    ],
+    "handF": [
+      279,
+      198
+    ]
+  },
+  "guideJointsAt1024": {
+    "crownY": 82,
+    "groundY": 1000,
+    "head": [
+      472,
+      178
+    ],
+    "headR": [
+      72,
+      96
+    ],
+    "neck": [
+      448,
+      292
+    ],
+    "chest": [
+      412,
+      392
+    ],
+    "shoulderN": [
+      300,
+      324
+    ],
+    "shoulderF": [
+      508,
+      336
+    ],
+    "elbowN": [
+      216,
+      456
+    ],
+    "elbowF": [
+      536,
+      444
+    ],
+    "hip": [
+      390,
+      640
+    ],
+    "hipA": [
+      428,
+      648
+    ],
+    "hipB": [
+      352,
+      648
+    ],
+    "kneeA": [
+      540,
+      796
+    ],
+    "ankleA": [
+      612,
+      944
+    ],
+    "heelA": [
+      588,
+      1000
+    ],
+    "toeA": [
+      696,
+      1000
+    ],
+    "kneeB": [
+      424,
+      816
+    ],
+    "ankleB": [
+      344,
+      956
+    ],
+    "heelB": [
+      320,
+      988
+    ],
+    "toeB": [
+      420,
+      1000
+    ],
+    "weaponButt": [
+      70,
+      636
+    ],
+    "weaponTip": [
+      972,
+      190
+    ],
+    "handN": [
+      340,
+      502
+    ],
+    "handF": [
+      558,
+      396
+    ]
+  },
+  "metrics": {
+    "donorFrontStrutFromVerticalDeg": 41,
+    "donorFrontShinFromVerticalDeg": 30.96,
+    "donorFrontKneeBendDeg": 16.76,
+    "guideFrontStrutFromVerticalDeg": 31.87,
+    "guideFrontShinFromVerticalDeg": 25.94,
+    "guideFrontThighFromVerticalDeg": 37.12,
+    "guideFrontKneeBendDeg": 11.17,
+    "guideRearKneeBendDeg": 52.94,
+    "guideFrontHeelAheadOfFrontHipPxAt512": 80,
+    "guideFrontAnkleAheadOfFrontKneePxAt512": 36,
+    "guideRearAnkleMinusRearHipPxAt512": -4,
+    "guideHipCentreOverRearBoot": "195 within rear boot x[160,210]",
+    "guideStanceToeToHeelPxAt512": 188,
+    "guideThighLengthsPxAt512": {
+      "A": 92.8,
+      "B": 91.39
+    },
+    "guideShinLengthsPxAt512": {
+      "A": 82.29,
+      "B": 80.62
+    },
+    "weaponPxAt512": 503.12,
+    "weaponAngleDeg": 26.31,
+    "bodyPxAt512": 459
+  },
+  "adaptation": [
+    "Front strut angles transferred from donor (41deg/31deg) and reduced to 32deg/26deg: Xu Chu legs are shorter/heavier and his torso stays upright (donor leans into the dash), so the same hip height cannot reach the donor stance; segment lengths kept consistent (thigh ~93/91px, shin ~82/81px @512 both legs).",
+    "Hips lowered/back-shifted vs walk:2 support hip so hip centre [195] sits over the rear boot [160..210] while the front heel [294] is 80px@512 ahead of the front hip — weight settling back, crown/ground unchanged at the frozen anchor values.",
+    "Rear leg deliberately NOT donor-copied: donor rear trails behind (dash skid), which is exactly the toe-off read rejected in walk:5 attempts 1-2. Guide rear ankle is 4px behind its hip, knee bent 52deg squat, heel raised only 6px (CAMPAIGN (a) toe/partial support) under the body.",
+    "Torso/head/arms/weapon are the walk:2 anchor skeleton; hands are placed on the frozen weapon axis by construction; blade silhouette is schematic (design detail comes from the anchor references)."
+  ],
+  "rejectCriteriaChecks": {
+    "front shin vertical (attempts 1-2 fail)": "guide shin 25.94deg from vertical, ankle 36px@512 ahead of knee — FAIL pattern absent",
+    "trailing toe-off rear (attempts 1-2 fail)": "rear ankle -4px@512 vs rear hip, toe[210,500] not stretched behind — FAIL pattern absent",
+    "weight over front foot": "hip centre and head both behind the front heel and over/near the rear boot",
+    "guard duplicate": "stance is staggered front-strut + squat rear, boots 84px@512 apart front-to-back (rear toe 210 -> front heel 294), not side-by-side"
+  },
+  "outputs": {
+    "cleanGuide": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/guide-walk5-brake.png",
+      "sha256": "6e7819c34e8395838575f78b6645e7383c8f326828e281e982f0bba4cd9215fe",
+      "bytes": 69946,
+      "contains": "grey mannequin + weapon on #FF00FF only; no text, no ground/guide lines, no markers"
+    },
+    "markedDiagnostic": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/guide-walk5-brake-marked.png",
+      "sha256": "c788f2de061dab592c7a5c3324f22c7751fea8ccffac5b06f7940ec9ed2f6ec8",
+      "bytes": 143115,
+      "contains": "same mannequin + hip/knee/ankle/sole/ground/weapon landmarks and angles — NEVER sent to a provider"
+    },
+    "donorCrop": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/lidian-charge-cell4-donor.png",
+      "sha256": "836e65c9ef6ee199f18e950230d4fbbf7cf35ac34c6662554a2bb57daf19dae1",
+      "bytes": 104162
+    },
+    "promptFile": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/prompt.txt",
+      "sha256": "cf0180fac81c409af0c420db552ca39d560a2f4da2aa121bee24f7c65134df25"
+    },
+    "buildScript": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/build-guide.mjs"
+    }
+  },
+  "phase2": {
+    "status": "NOT reserved, NOT generated in this package. Executes only as a later, separate reserve-before-call package under the Alternative Completion grant (Phase 2: exactly ONE guide-guided walk:5 edit; if Brake gait fails, STOP for owner decision).",
+    "kind": "isolated single-pose image EDIT (image_generate with referenceImages, never text-to-image)",
+    "provider": "grok (amendment provider rule: gpt-preferred only for walk:3/4 second attempts, grok otherwise); record serving provider honestly (prior serving was UNCONFIRMED)",
+    "referenceOrder": [
+      {
+        "order": 1,
+        "role": "pose guide (this package, clean — the only guide image sent)",
+        "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/guide-walk5-brake.png",
+        "sha256": "6e7819c34e8395838575f78b6645e7383c8f326828e281e982f0bba4cd9215fe"
+      },
+      {
+        "order": 2,
+        "role": "banked walk:2 anchor — identity/weapon/scale. SEND VIA candidate-raw.jpg (accepted.png holds identical JPEG bytes under a .png name; extension-mismatch refusal recorded in campaign history)",
+        "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg",
+        "acceptedCopy": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png",
+        "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6"
+      },
+      {
+        "order": 3,
+        "role": "banked walk:4 anchor — identity, opposite-passing gait context",
+        "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png",
+        "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad"
+      }
+    ],
+    "excludedReference": "padded walk5 original cell intentionally omitted (its guard-stance legs pull against the Brake pose; attempts 1-2 with it as primary failed Brake twice). Original walk:5 identity detail is redundant with the two banked anchors.",
+    "size": "1024x1024",
+    "promptExact": "Single isolated single-pose EDIT. Reference order is binding: FIRST reference is a flat grey-mannequin pose guide on magenta — copy its EXACT pose, silhouette, proportions, limb placement and weapon placement limb-for-limb, but do NOT copy the grey mannequin surface or the magenta background. SECOND reference (banked Xu Chu walk:2 anchor) and THIRD reference (banked Xu Chu walk:4 anchor) fix the identity, costume, glaive design, body scale and ground: huge blunt-faced helmeted dark/full-bearded ochre/dark-armoured boss Xu Chu, orthographic right-facing three-quarter gameplay camera, same lighting, plain dark background like the anchors. Paint the fully rendered Xu Chu of references 2-3 in exactly the guide pose: walk:5 BRAKE / bookend transition — a heavy warrior jamming to a stop and sitting his weight BACK. FRONT BRAKING LEG exactly as guided: front heel planted far ahead of the hip line, the whole front leg one near-straight DIAGONAL STRUT leaning down-forward from hip to heel (shin clearly diagonal, absolutely not vertical), knee nearly straight and braced, heel digging in with braking pressure, boot flat toe forward, front boot the forward-most point of the lower body. HIPS LOW AND BACK behind that strut, torso upright, head above the rear leg, mass settling back toward guard. REAR SUPPORT LEG exactly as guided: close under the hips with the ankle almost directly below the rear hip, knee bent absorbing the settling weight, rear boot in partial contact with heel only slightly raised — catching the weight beside/under the body, NOT stretched far behind in a trailing toe-off push. Both boots on the same ground level as the guide feet (double support, decelerating); no lifted passing leg, no forward walking contact stride, no square side-by-side guard stance. BODY SCALE MANDATORY: crown-to-sole height matches the guide and anchors exactly, 918px on the 1024 canvas (459px at 512 scale), no shrinking to fit, soles at the guide foot level near the canvas bottom. WEAPON: the whole single rigid glaive completely inside the frame, blade tip at least 40px inside every edge, never clipped; length matches the anchor ratio exactly (weapon 503px against a 459px body at 512 scale); shaft rising to the right at about 26 degrees, butt cap behind the rear hand, red tassel under the blade socket, both hands firmly gripping the shaft where the guide hands sit. Exactly ONE glaive and one full-body figure. Do NOT draw the magenta background, any grey mannequin shading, or any green line, ground line, guide line, grid, marker or text in the output. No scenery, no other characters, no extra limbs; natural connected anatomy with authored hip/skirt overlap.",
+    "afterCountsIfReserved": "Xu Chu 12 / global 179 (ceilings 22/189) — only when the later package reserves",
+    "gateAfter": "Campaign (c) full gate with salvage order (registration <=±12%, shaft retouch, splice) before any unusable verdict; Brake gait judged against this guide (front shin/heel-ahead/rear-support geometry in metrics above)."
+  }
+}
