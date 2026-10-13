@@ -468,6 +468,53 @@ Walk set remains banked except walk:5 (walk:0/1/2/3/4 banked). Ledger
 unchanged by this zero-generation gate: Xu Chu 12 / global 179 (file
 `088825cd…`, ceilings 22/189); not DONE.
 
+## WALK:5 GPT GUIDE ATTEMPT — gate result (2026-10-13; work cmr15a-walk5-gpt-gates, ZERO generation)
+
+**REJECTED after salvage — candidate `1bc806bb…` UNACCEPTED, not banked (no
+`04-walk5/gpt-attempt/accepted.png`); Brake FAIL = final-attempt STOP.** The one
+additional gpt-preferred guide-guided edit (reserve `eada279`, Xu Chu 12→13 /
+global 179→180; references clean guide `6e7819c3…` → walk:2 `893c90d7…` →
+walk:4 `75488eb1…`) was gated campaign-standard with the authorized salvage
+order (`04-walk5/gpt-attempt/probe.mjs`/`gate.mjs`/`gate.json`; candidate +
+probe/gate head/legs/tip/butt/soles/soles-4x + marked + registered all opened
+with the guide/anchors; rerun reproduced `registered.png` `fcca9950…`
+identically):
+
+1. **Registration applied**: factor 1.0458 (+4.58% ≤±12%, native 1254px; raw
+   body 438.87px@512) → body 459px@512, front-sole ground 500@512 = 0.00u.
+2. **Shaft retouch NOT banked (length outlier, gait-incurable)**: registered
+   weapon 536.58px@512 = **139.49u OUT_HIGH vs frozen band [124.41,137.50]u**,
+   tip inside (margin 16.47px@512) — an in-frame length outlier; projected
+   shortening to 132u along the candidate axis stays in corridor, so length
+   alone was retouch-curable, but retouch cannot cure the Brake gait failure
+   below, so no retouched art is banked (phase2/walk3-attempt3 precedent; raw
+   FAIL recorded, no in-batch waiver). Angle −26.97° Δ−0.66° and corridor butt
+   0.08/tip 6.29px vs 14px PASS.
+3. **Weapon splice not attempted**: two-grip exact alignment not demonstrated,
+   seams gameplay+4x unproven, and a splice cannot cure gait.
+
+Identity/anatomy PASS (same helmeted full-bearded ochre/dark Xu Chu as both
+anchors, connected two-hand grip, no extra limbs); seams PASS (greenPx=0,
+magentaPx=0, edge-opaque=0, alpha fringe clean); head RAW gap 0px (not a
+reject). **Exact Brake FAIL (conjunctive; guide in brackets): front strut
+PASSES for the first time** (shin 35.4° from vertical [25.94°], knee bend 8.4°
+[11.17°], strut 29.3° [31.87°], heel 87.5px@512 ahead [80px], flat front sole)
+**&mdash; but hips/weight are NOT back** (hip centre 220.1@512, head centre
+252.2@512 over mid-stance, ahead of the rear forefoot contact [141,180]@512;
+guide hip centre 195 within rear boot [160,210]) **and the rear leg is the
+rejected trailing toe-off** (ankle −51.2px@512 vs its hip [−4px], heel raised
+23.5px@512 [6px], forefoot-only at 497.0@512; raster sole 1141→1189 native vs
+front 1196). Stance front-heel−rear-toe 158.0px@512 [84px] = a wide ordinary
+forward stride/contact stance with a straighter front leg, not weight jammed
+back over a rear support under the hips. Joint-uncertainty robust (±30px
+native hips; see gate.json).
+
+**Disposition: final authorized walk:5 generation spent; per the grant ("If
+Brake fails again, STOP for my decision—no third generation attempt") CMR-15A
+is BLOCKED WAITING_FOR_OWNER / STOP — no Phase 3, no pack preparation.** Walk
+set remains banked except walk:5. Ledger unchanged by this gate: Xu Chu 13 /
+global 180 (file `e22523da…`, ceilings 22/189); not DONE.
+
 ## Setup checks (this package)
 
 Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings
