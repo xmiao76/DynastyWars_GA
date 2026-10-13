@@ -586,3 +586,30 @@ retained, NOT PASS, waived for this exact hash only**; resulting weapon
 spread 20.49% NOT PASS, waived as resulting spread. No blanket/transferred
 waiver. Combo remains unbanked; CMR-15A IN_PROGRESS, not DONE; no pack/15B.
 Evidence: `07-charge/focused-fix/waiver-bank/gate.json` + `measure.json`.
+
+## PHASE-3 CONTINUATION (owner grant, 2026-10-13; work cmr15a-combo-focused-fix-generate)
+
+Grant recorded verbatim in TASKS.md CMR-15A (owner, 2026-10-13, "CMR-15A
+PHASE-3 CONTINUATION: …"). **Prospective accounting only:** the new
+post-salvage consecutive-unusable count starts at **0** (a banked sheet
+resets it to 0; STOP again at 2 consecutive or before exceeding the
+ceilings); the historical STOP (charge focused-fix #1 + combo #2) and all
+prior failures/sources/counts above are preserved unchanged and never
+erased. **Ceilings raised to Xu Chu 25 total / global 192 maximum**
+(nominal recorded base unchanged: Xu Chu cap 12, global cap 200) to fund
+one focused fix per remaining sheet. First step under this grant: combo's
+one unspent focused fix, reserve-before-call **Xu Chu 16→17 / combo 1→2 /
+global 183→184**, briefed on the measured combo gate failures
+(`08-combo/gate/gate.json`: after max retouch cell0 173.91u, cell1
+179.89u, cell3 191.16u, cell4 171.37u OUT_HIGH vs band [124.41,137.50]u;
+cell2 butt cap not visible + tip clipped at registered top edge) — shorten
+every glaive into [124.41,137.50]u at 459-body scale (registered
+479–529px; sheet-native 321–355px target ~338px at the combo registration
+scale 1.4903), poses/identity/layout frozen, cell2 butt cap fully visible
+and tip inside frame; deterministic retouch then full re-gate in a later
+package (only fully measurable cells with small residual length deviation
+may be held for batch-end exact-hash waiver — a still-clipped/unmeasurable
+cell2 fails the sheet, no waiver). Then heavy, misc, fall, getup in order,
+one 3×3 sheet each + retouch before ≤1 focused fix per sheet; offline pack
+only after all sources pass or receive the exact rulings already
+authorized; do not mark CMR-15A DONE or start CMR-15B in this grant.

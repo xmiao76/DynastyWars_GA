@@ -1,0 +1,44 @@
+{
+  "campaign": "CMR-15A PHASE-3 CONTINUATION (owner grant 2026-10-13, verbatim in TASKS.md CMR-15A: prospective new post-salvage count from 0, historical STOP preserved, banked sheet resets consecutive to 0, STOP again at 2 consecutive or before exceeding ceilings Xu 25 / global 192; nominal base unchanged cap 12 / global 200)",
+  "work": "cmr15a-combo-focused-fix-generate",
+  "key": "combo",
+  "request": "08-combo/focused-fix (combo's ONE unspent focused fix; exactly ONE gpt sheet EDIT in this package as the original combo generation; no extraction/gates/retouch/banking)",
+  "basis": {
+    "brief": "art/motion/xuchu/closeout-campaign/08-combo/gate/gate.json measured failures after max deterministic retouch vs frozen band [124.41,137.50]u: cell0 windup 201.00u registered -> 173.91u FAIL (+36.41u, avail 104 vs 245px), cell1 rising-cut 198.84 -> 179.89u FAIL (+42.39u, 73 vs 236px), cell2 follow-through FAIL butt cap not visible (visible stub 106.74u lower bound only, whole weapon unmeasurable) and blade tip clipped at registered top edge (edge.t=18, ymin=0; not fabricable), cell3 sweep 191.16u FAIL (+53.66u, 0 vs 207px), cell4 recover 173.35 -> 171.37u FAIL (+33.87u, 8 vs 138px); spares 5-8 also FAIL after retouch (162.49-174.29u); deterministic retouch exhausted -> the sheet's one focused fix, briefed on these measured values; deterministic retouch then full re-gate in a later package; only fully measurable cells with small residual length deviation may be held for batch-end exact-hash waiver - a still-clipped/unmeasurable cell2 fails the sheet, no waiver",
+    "changeOnly": "Shorten EVERY glaive (all 9 cells) so butt-cap -> blade-tip lands 479-529px (target ~504px) at the 459px-body registered scale = 321-355px sheet-native (target ~338px) via combo registration scale 1.4902597402597402 (cell4 recover crown->sole 308 native -> 459px; 479/1.4903=321.42, 504/1.4903=338.20, 529/1.4903=354.97); blade+socket toward front grip, pommel cap toward rear grip along existing axes; poses/identity/layout/ground/grips/orientations EXACTLY frozen; cell2 complete round metal butt-cap fully visible in empty transparent space clear of arm/hand and complete blade tip fully inside frame with margin; no other changes",
+    "sheetNativeCurrentPx": "cell0 518.8 (773.21 registered px / 1.4903), cell1 513.3 (764.90), cell2 unmeasurable (butt cap hidden, tip clipped), cell3 493.4 (735.36), cell4 447.5 (666.83), spares5-8 ~442-473 (registered 171.09/183.50/179.06/174.15u)",
+    "originalCandidate": { "path": "art/motion/xuchu/closeout-campaign/08-combo/candidate-raw.png", "sha256": "79601415b7bbf85f8f5c7e68577af393d88837f5ea0bd04d6bbcbdc5f9cf03fa", "promptFile": "art/motion/xuchu/closeout-campaign/08-combo/prompt.txt", "promptSha256": "47f6bd38dd482e308bb84b7ff90633a017b9eb0dca6a3335bb9afd5c9c1ad572", "reserveCommit": "717bff32cd76a66e9d279ec80a305255b61e64cf", "candidateCommit": "b73ed34", "gateCommit": "c51960b" },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxRegisteredBand": [479, 529], "weaponPxRegisteredTarget": 504, "registrationScale": 1.4902597402597402, "weaponPxSheetNativeBand": [321, 355], "sheetNativeTargetPx": 338 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/08-combo/focused-fix/prompt.txt",
+    "promptSha256": "0ffc970c0cc2d696aae06478b2cbbb581a94c56c201a917ea485d49149f4a2e5",
+    "promptNote": "image_generate prompt = focused-fix/prompt.txt exact text (edit first reference only; preserve all poses/identity/layout exactly; shorten every glaive to 321-355px sheet-native target ~338px = registered 479-529px target ~504px at 459-body scale; cell2 butt cap fully visible + tip fully inside frame; no other changes)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 183, "sha256": "3a7c4545781b379382cbff2bb1b6aa304469797d48540e40a0c8232c7d01a254", "walk": 13, "charge": 2, "combo": 1, "xuchuUsed": 16 },
+    "after": { "globalSummed": 184, "sha256": "97d178e5da7c43b1e3a0a350f047ee14e459a032498f6158eaedcfaea237ca57", "walk": 13, "charge": 2, "combo": 2, "xuchuUsed": 17 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 25,
+    "campaignCeilingGlobal": 192,
+    "prospectivePostSalvageCount": 0
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "original combo generation recorded provider preference gpt (08-combo/candidate.json: requested gpt, serving UNCONFIRMED) -> gpt; exactly one image_generate EDIT with referenceImages in prior combo-brief order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - original combo sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/08-combo/candidate-raw.png", "sha256": "79601415b7bbf85f8f5c7e68577af393d88837f5ea0bd04d6bbcbdc5f9cf03fa", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor - identity/band (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in prior combo-brief order 1->2->3->4->5 (original combo sheet -> banked walk:0 -> banked walk:2 -> body master -> portrait master) after this reserve commit and before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt focused-fix EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in focused-fix/, no extraction/gates/banking here"
+}

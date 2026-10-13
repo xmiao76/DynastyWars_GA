@@ -166,11 +166,11 @@
     "xuchu": {
       "role": "boss",
       "cap": 12,
-      "used": 16,
+      "used": 17,
       "sheetCandidates": {
         "walk": 13,
         "charge": 2,
-        "combo": 1
+        "combo": 2
       }
     },
     "horse": {
