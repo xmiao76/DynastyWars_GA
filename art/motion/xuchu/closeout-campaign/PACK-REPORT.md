@@ -75,3 +75,35 @@ content-bottom evidence only).
 Pack is complete and hash-verified offline. Remaining before any DONE:
 independent review (visual consistency incl. the head ruling, paced continuity,
 both facings) and its ACCEPT; no runtime/15B work in this grant.
+
+## DONE closeout attempt (2026-10-13; work cmr15a-done-closeout-rerun) — NOT DONE, lint FAIL
+
+- **Independent review receipt `call_01a137572247737c90df4c2a1bb7e6b4` = ACCEPT,
+  DONE eligible** (recorded as fact). Head closure UNVERIFIED_OWNER_ACCEPTED is
+  **NOT applied** in this attempt because the PROJECT checks below do not all
+  pass; head remains **UNVERIFIED** until the lint failure is fixed and the
+  closeout reruns.
+- **Checks (exact):** `npm run typecheck` PASS (exit 0). `npm run test` (full
+  units incl. CMR-04 prepare/quality/negative-control + CMR-05/motion suites):
+  working tree 997 pass / 10 fail / 6 skip (1013) — 1 documented historical G6
+  baseline (`arm-chain.test.ts > G6 the far fist never paints`) + 9 Guan Yu pack
+  failures (motion-pipeline 1, motion-repack 1, motion-runtime 7) proven caused
+  solely by the pre-existing unstaged edits to
+  `src/game/assets/motion/guanyu-motion-sheet.png` + `prepared.json` (with only
+  those two files stashed, the four suites rerun 59 pass / 1 fail = G6 only;
+  stash popped, dirty files restored untouched). So committed-tree units =
+  baseline-only G6; no Xu Chu test fails.
+- **`npm run lint` FAIL — the blocker:** 53 errors, 0 warnings, all
+  `@typescript-eslint/no-unused-vars` (49) / `no-useless-assignment` (4) in 22
+  committed campaign measurement scripts: 52 in 21 files under
+  `art/motion/xuchu/closeout-campaign/**` (e.g. unused `regionHashBefore`,
+  `copyFileSync`, `existsSync` ×15 each; `regBuf` ×4) + 1 in
+  `art/motion/xuchu/proof-of-control/gate-walk2.mjs:44` (`candRearToe1024`).
+  This is pre-existing at HEAD `4f5bfd5`, is **not** the documented G6 baseline,
+  and 1 file sits outside this package's write scope, so lint cannot go green
+  here. Per closeout rules CMR-15A is therefore **NOT marked DONE**.
+- **Next action (one scoped package):** remove the 53 unused vars/assignments
+  in those 22 `.mjs` files (no behavior change; do not alter gate outputs),
+  rerun typecheck/lint/test, then apply head UNVERIFIED_OWNER_ACCEPTED, mark
+  DONE, and commit. All waivers/head limitation/carried limitations above are
+  preserved verbatim for CMR-15B; no runtime activation, no 15B start.
