@@ -2,7 +2,7 @@
   "work": "cmr15a-phase3-getup-generate",
   "key": "getup",
   "attempt": "CMR-15A Phase 3: exactly ONE 3x3 getup sheet generation (Li Dian method, Xu Chu identity/frozen-band brief, flat DOWN start from selected fall fix cell4); generation only - no extraction, retouch, gates, focused fix or pack in this package",
-  "status": "UNREVIEWED - candidate generated, not gated, not banked",
+  "status": "GATED FAIL - NOT BANKED (work cmr15a-phase3-getup-gates, zero generation): 0/5 keeps pass, all 9 cells OUT_HIGH after max retouch; cell3/cell4 waiver-eligible exact hashes held; getup focused fix unspent, count remains fall #1; see gate/gate.json (d96ff4a9...) + gate/measure.json (fccbc3d3...)",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "no provider recorded for Li Dian getup in art/motion/lidian/PROVENANCE.md (Request 13/14) -> gpt per work order",
@@ -35,7 +35,8 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
+  "gatesRun": true,
+  "extractionRun": true,
+  "gate": { "work": "cmr15a-phase3-getup-gates", "gateJsonSha256": "d96ff4a9114bf3e344fb057542c69244acb9949526d47e54b9a2da8cf099e64d", "measureJsonSha256": "fccbc3d3af20a93e89002c0645a9ae1be79decae517ce04eb3312292ac64bb12", "verdict": "FAIL - NOT BANKED (0/5 keeps pass; all 9 cells OUT_HIGH after max deterministic retouch at ONE scale 1.3540 vs band [124.41,137.50]u: keeps 161.48/157.69/155.13/144.50/138.93u, spares 148.65/145.26/147.61/142.26u - no substitution; identity/anatomy/roles/grip/seams/ground/direction PASS, DOWN pose continuity vs selected fall cell4 PASS (weapon length mismatch part of FAIL), rise guard continuity PASS; cell3-crouch c25876ae... +7.00u and cell4-rise df0eb324... +1.43u WAIVER_ELIGIBLE exact hashes held FAIL retained NOT banked; initial-sheet failure, getup focused fix UNSPENT so consecutive post-fix unusable count REMAINS fall #1, no STOP)" },
   "banked": false
 }

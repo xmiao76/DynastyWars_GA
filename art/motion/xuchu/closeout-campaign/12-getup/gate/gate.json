@@ -1,0 +1,339 @@
+{
+  "work": "cmr15a-phase3-getup-gates",
+  "candidateDescription": {
+    "sheet": {
+      "path": "art/motion/xuchu/closeout-campaign/12-getup/candidate-raw.png",
+      "sha256": "9c2102e5f2402935daeb9dfb3ecbcc056d654973f0d76c4c52874193bc6cc1c9",
+      "size": [
+        1536,
+        1024
+      ],
+      "components": 9
+    },
+    "reserveCommit": "3513439 (Xu 23->24, getup 0->1, global 190->191)",
+    "candidateCommit": "735c22d (UNREVIEWED)"
+  },
+  "hashVerification": {
+    "allMatch": true,
+    "count": 30,
+    "note": "candidate + all 9 registered/retouched/final cells + both continuity references re-hashed this package against measure.json/candidate.json",
+    "measureJsonSha256": "fccbc3d3af20a93e89002c0645a9ae1be79decae517ce04eb3312292ac64bb12",
+    "buildRerun": "build.mjs rerun this package reproduced measure.json byte-identically (same SHA-256 before/after)"
+  },
+  "registration": {
+    "method": "cell4-rise upright crown->sole = frozen 459px; one uniform scale for all 9 cells; lowest component px -> groundY500; cell0-down prone head-to-boots recorded as cross-check only",
+    "sheetScale": 1.3539823008849559,
+    "scaleBodyNativePx": 339
+  },
+  "retouchPolicy": "deterministic shaft shortening attempted BEFORE every length verdict (changedOutside=0 all cells): cell0 163.58->161.48u (8px), cell3 151.94->144.50u (29px), cell4 149.46->138.93u (40px), cell5 14px, cell6 44px, cell8 28px; cells1/2/7 have 0px method-clean avail (haft across body/grip to socket). No lengthening, no fabricated parts; all 9 butt caps drawn so every cell is fully measurable.",
+  "ledgerVerified": {
+    "sha256": "46c0216b75ff726af904ebd11f23ec05e468564275291ed8bd51a351464a0d49",
+    "xuchuUsed": 24,
+    "xuchuGetup": 1,
+    "globalUsed": 191,
+    "expected": "Xu Chu 24 (getup 1) / global 191",
+    "matches": true
+  },
+  "keeps": [
+    {
+      "cell": 0,
+      "name": "cell0-down",
+      "finalFile": "cell0-down-retouched.png",
+      "finalHash": "bf54031b2038b8f3bc2ba5d714624edea6feba0ab6f537f91507472007dfe786",
+      "gates": {
+        "identity": "PASS (visual this package: raw sheet, keeps/spares contacts, marked cell0/cell4 opened; Xu Chu helmet/beard/lamellar/glaive+red tassel consistent; butt/tip markers on true cap balls/blade tips)",
+        "anatomy": "PASS (visual: connected head/arms/legs/boots, no fused or extra limbs across keeps contact + raw sheet)",
+        "poseRole": "PASS (DOWN flat prone bookend (legs extended, face down, glaive along ground))",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped in every keep; the free hand props on the ground in elbow/kneel/crouch as briefed; butt caps drawn complete behind the rear grip on all 9 cells)",
+        "weaponAngleDegRaw": -8.38,
+        "scaleGround": "PASS (one sheet scale 1.35 from cell4-rise crown->sole=459px; groundErr 0.78u <=1.5u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 163.58,
+        "finalU": 161.48,
+        "finalPx": 621.19,
+        "overBandHiU": 23.98,
+        "retouch": {
+          "totalAvailPx": 8,
+          "removeToBandHiPx": 101,
+          "appliedButtPx": 0,
+          "appliedBladePx": 8,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+23.98u over band-hi) after max deterministic shaft retouch (avail 8px vs 101px to band-hi)"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-elbow",
+      "finalFile": "cell1-elbow-retouched.png",
+      "finalHash": "9a14c88603d2d1c6ebdb5e35a335f40436d658deca05a7c3f77df3ffc0b87c8f",
+      "gates": {
+        "identity": "PASS (visual this package: raw sheet, keeps/spares contacts, marked cell0/cell4 opened; Xu Chu helmet/beard/lamellar/glaive+red tassel consistent; butt/tip markers on true cap balls/blade tips)",
+        "anatomy": "PASS (visual: connected head/arms/legs/boots, no fused or extra limbs across keeps contact + raw sheet)",
+        "poseRole": "PASS (elbow-prop (chest lifting on forearms))",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped in every keep; the free hand props on the ground in elbow/kneel/crouch as briefed; butt caps drawn complete behind the rear grip on all 9 cells)",
+        "weaponAngleDegRaw": -13.66,
+        "scaleGround": "PASS (one sheet scale 1.35 from cell4-rise crown->sole=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 157.69,
+        "finalU": 157.69,
+        "finalPx": 606.6,
+        "overBandHiU": 20.19,
+        "retouch": {
+          "totalAvailPx": 0,
+          "removeToBandHiPx": 78,
+          "appliedButtPx": 0,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+20.19u over band-hi) after max deterministic shaft retouch (avail 0px vs 78px to band-hi)"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-kneel",
+      "finalFile": "cell2-kneel-retouched.png",
+      "finalHash": "7c54b956cdd61dc47597144242886b32167c8b9ea87364245af3da688bfa4a44",
+      "gates": {
+        "identity": "PASS (visual this package: raw sheet, keeps/spares contacts, marked cell0/cell4 opened; Xu Chu helmet/beard/lamellar/glaive+red tassel consistent; butt/tip markers on true cap balls/blade tips)",
+        "anatomy": "PASS (visual: connected head/arms/legs/boots, no fused or extra limbs across keeps contact + raw sheet)",
+        "poseRole": "PASS (kneel (one knee down, free hand on ground, rising))",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped in every keep; the free hand props on the ground in elbow/kneel/crouch as briefed; butt caps drawn complete behind the rear grip on all 9 cells)",
+        "weaponAngleDegRaw": -15.63,
+        "scaleGround": "PASS (one sheet scale 1.35 from cell4-rise crown->sole=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 155.13,
+        "finalU": 155.13,
+        "finalPx": 596.74,
+        "overBandHiU": 17.63,
+        "retouch": {
+          "totalAvailPx": 0,
+          "removeToBandHiPx": 68,
+          "appliedButtPx": 0,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+17.63u over band-hi) after max deterministic shaft retouch (avail 0px vs 68px to band-hi)"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-crouch",
+      "finalFile": "cell3-crouch-retouched.png",
+      "finalHash": "c25876aee1ebe95a57ba9067b2a6e93045ddd19d266b8e17687796499d0d4aa7",
+      "gates": {
+        "identity": "PASS (visual this package: raw sheet, keeps/spares contacts, marked cell0/cell4 opened; Xu Chu helmet/beard/lamellar/glaive+red tassel consistent; butt/tip markers on true cap balls/blade tips)",
+        "anatomy": "PASS (visual: connected head/arms/legs/boots, no fused or extra limbs across keeps contact + raw sheet)",
+        "poseRole": "PASS (crouch (both feet planted, low, one hand ground))",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped in every keep; the free hand props on the ground in elbow/kneel/crouch as briefed; butt caps drawn complete behind the rear grip on all 9 cells)",
+        "weaponAngleDegRaw": -11.14,
+        "scaleGround": "PASS (one sheet scale 1.35 from cell4-rise crown->sole=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 151.94,
+        "finalU": 144.5,
+        "finalPx": 555.86,
+        "overBandHiU": 7,
+        "retouch": {
+          "totalAvailPx": 29,
+          "removeToBandHiPx": 56,
+          "appliedButtPx": 0,
+          "appliedBladePx": 29,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+7u over band-hi) after max deterministic shaft retouch (avail 29px vs 56px to band-hi)"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-rise",
+      "finalFile": "cell4-rise-retouched.png",
+      "finalHash": "df0eb324b339611de723a1b064cc158d9e172e3b49965665025a078707a8828b",
+      "gates": {
+        "identity": "PASS (visual this package: raw sheet, keeps/spares contacts, marked cell0/cell4 opened; Xu Chu helmet/beard/lamellar/glaive+red tassel consistent; butt/tip markers on true cap balls/blade tips)",
+        "anatomy": "PASS (visual: connected head/arms/legs/boots, no fused or extra limbs across keeps contact + raw sheet)",
+        "poseRole": "PASS (rise-stand to two-handed guard)",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped in every keep; the free hand props on the ground in elbow/kneel/crouch as briefed; butt caps drawn complete behind the rear grip on all 9 cells)",
+        "weaponAngleDegRaw": -19.82,
+        "scaleGround": "PASS (one sheet scale 1.35 from cell4-rise crown->sole=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 149.46,
+        "finalU": 138.93,
+        "finalPx": 534.43,
+        "overBandHiU": 1.43,
+        "retouch": {
+          "totalAvailPx": 40,
+          "removeToBandHiPx": 46,
+          "appliedButtPx": 40,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+1.43u over band-hi) after max deterministic shaft retouch (avail 40px vs 46px to band-hi)"
+    }
+  ],
+  "passCount": "0/5",
+  "spares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-getup-a",
+      "finalFile": "cell5-spare-getup-a-retouched.png",
+      "finalHash": "23ff94431bdbdacae1ada1cc01c680c1143a25b2c356f311470405efe7a0342e",
+      "finalU": 148.65,
+      "overBandHiU": 11.15,
+      "angleDeg": -15.39,
+      "groundErrU": 0.26,
+      "roleRead": "crouch/lean-forward alternate (near crouch beat)",
+      "verdict": "FAIL - weapon length OUT_HIGH +11.15u after max deterministic shaft retouch (avail 14px vs 57px to band-hi)"
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-getup-b",
+      "finalFile": "cell6-spare-getup-b-retouched.png",
+      "finalHash": "f6e0f09a2904921da480f38addbddbb5ca02a4e053dd84776368a555375dd3d2",
+      "finalU": 145.26,
+      "overBandHiU": 7.76,
+      "angleDeg": -14.79,
+      "groundErrU": 0,
+      "roleRead": "kneel alternate (both knees low, hand to ground)",
+      "verdict": "FAIL - weapon length OUT_HIGH +7.76u after max deterministic shaft retouch (avail 44px vs 75px to band-hi)"
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-getup-c",
+      "finalFile": "cell7-spare-getup-c-retouched.png",
+      "finalHash": "764c5dab0e4935da6eec7081be688194d452430e1e708c064a9cf7a3e485b5e7",
+      "finalU": 147.61,
+      "overBandHiU": 10.11,
+      "angleDeg": -21.9,
+      "groundErrU": 0.26,
+      "roleRead": "kneel-to-rise alternate (one knee up)",
+      "verdict": "FAIL - weapon length OUT_HIGH +10.11u after max deterministic shaft retouch (avail 0px vs 39px to band-hi)"
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-getup-d",
+      "finalFile": "cell8-spare-getup-d-retouched.png",
+      "finalHash": "a143e13c5d73dd01563f80f88b08b4a96d8991c0aa5628983cc2c3289d39ec69",
+      "finalU": 142.26,
+      "overBandHiU": 4.76,
+      "angleDeg": -16.92,
+      "groundErrU": 0.26,
+      "roleRead": "rise/guard alternate (standing, leaning)",
+      "verdict": "FAIL - weapon length OUT_HIGH +4.76u after max deterministic shaft retouch (avail 28px vs 47px to band-hi)"
+    }
+  ],
+  "directionSteps": [
+    {
+      "from": "cell0-down",
+      "to": "cell1-elbow",
+      "fromAngDeg": -8.38,
+      "toAngDeg": -13.66,
+      "stepDeg": 5.28,
+      "passLe60": true
+    },
+    {
+      "from": "cell1-elbow",
+      "to": "cell2-kneel",
+      "fromAngDeg": -13.66,
+      "toAngDeg": -15.63,
+      "stepDeg": 1.97,
+      "passLe60": true
+    },
+    {
+      "from": "cell2-kneel",
+      "to": "cell3-crouch",
+      "fromAngDeg": -15.63,
+      "toAngDeg": -11.14,
+      "stepDeg": 4.49,
+      "passLe60": true
+    },
+    {
+      "from": "cell3-crouch",
+      "to": "cell4-rise",
+      "fromAngDeg": -11.14,
+      "toAngDeg": -19.82,
+      "stepDeg": 8.68,
+      "passLe60": true
+    }
+  ],
+  "directionVerdict": "PASS (shaft-axis steps 5.28/1.97/4.49/8.68deg <=60; DOWN->elbow->kneel->crouch->rise reads as one coherent getting-up sequence on the keeps contact)",
+  "lengthSpreadKeeps": {
+    "finalUs": [
+      161.48,
+      157.69,
+      155.13,
+      144.5,
+      138.93
+    ],
+    "spreadPct": 14.88
+  },
+  "lengthSpreadNote": "14.88% on final keep lengths (includes FAIL lengths; reported, not a PASS, while length gates fail)",
+  "continuity": {
+    "startDownVsSelectedFallCell4": "PASS pose/identity/ground (visual, both opened this package): getup cell0-down reproduces the selected fall-fix cell4 (cb0b12c1...) flat prone face-down pose, same facing, legs extended, glaive gripped along the ground line, same ground registration (same 1024x768 canvas method). NOT bankable joint continuity: cell0 weapon is 161.48u vs fall cell4 136.03u, so the exact frame-to-frame weapon length does NOT match - recorded as part of the cell0 length FAIL, curable only by the focused fix redraw at in-band length.",
+    "endRiseVsBankedWalk0Guard": "PASS pose family (visual, both opened this package): getup cell4-rise ends upright in the banked walk:0 two-handed diagonal guard family (wide stance, front hand at socket, butt behind rear hand); terminal guard continuity is coherent. Cell4 itself is +1.43u OUT_HIGH (waiver-eligible below), so it is not banked here."
+  },
+  "substitutionAssessment": "No spare passes length (148.65/145.26/147.61/142.26u after max retouch), so no spare can substitute any keep regardless of role fit (roles read: crouch/kneel/kneel-rise/rise alternates). No coherent all-pass 5-cell set exists on this sheet; nothing banked.",
+  "verdict": "FAIL - NOT BANKED (0/5 keeps pass; no accepted cells created; no accepted/ dir)",
+  "failedCriteria": [
+    "cell0-down [bf54031b2038b8f3bc2ba5d714624edea6feba0ab6f537f91507472007dfe786]: FAIL - weapon length OUT_HIGH (+23.98u over band-hi) after max deterministic shaft retouch (avail 8px vs 101px to band-hi); final 161.48u/621.19px vs band [124.41,137.5]u",
+    "cell1-elbow [9a14c88603d2d1c6ebdb5e35a335f40436d658deca05a7c3f77df3ffc0b87c8f]: FAIL - weapon length OUT_HIGH (+20.19u over band-hi) after max deterministic shaft retouch (avail 0px vs 78px to band-hi); final 157.69u/606.6px vs band [124.41,137.5]u",
+    "cell2-kneel [7c54b956cdd61dc47597144242886b32167c8b9ea87364245af3da688bfa4a44]: FAIL - weapon length OUT_HIGH (+17.63u over band-hi) after max deterministic shaft retouch (avail 0px vs 68px to band-hi); final 155.13u/596.74px vs band [124.41,137.5]u",
+    "cell3-crouch [c25876aee1ebe95a57ba9067b2a6e93045ddd19d266b8e17687796499d0d4aa7]: FAIL - weapon length OUT_HIGH (+7u over band-hi) after max deterministic shaft retouch (avail 29px vs 56px to band-hi); final 144.5u/555.86px vs band [124.41,137.5]u",
+    "cell4-rise [df0eb324b339611de723a1b064cc158d9e172e3b49965665025a078707a8828b]: FAIL - weapon length OUT_HIGH (+1.43u over band-hi) after max deterministic shaft retouch (avail 40px vs 46px to band-hi); final 138.93u/534.43px vs band [124.41,137.5]u"
+  ],
+  "waiverEligibleExactCells": [
+    {
+      "cell": 3,
+      "name": "cell3-crouch",
+      "finalHash": "c25876aee1ebe95a57ba9067b2a6e93045ddd19d266b8e17687796499d0d4aa7",
+      "finalU": 144.5,
+      "deviation": "OUT_HIGH +7u",
+      "status": "WAIVER_ELIGIBLE - FAIL retained, NOT PASS, NOT BANKED; exact hash only, held for a possible future owner ruling (no blanket/transfer)",
+      "basis": "fully measurable (cap ball + tip drawn, markers verified); identity/anatomy/pose-role/grip/scale-ground/seams/direction all PASS - length is the only failing gate after max retouch"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-rise",
+      "finalHash": "df0eb324b339611de723a1b064cc158d9e172e3b49965665025a078707a8828b",
+      "finalU": 138.93,
+      "deviation": "OUT_HIGH +1.43u",
+      "status": "WAIVER_ELIGIBLE - FAIL retained, NOT PASS, NOT BANKED; exact hash only, held for a possible future owner ruling (no blanket/transfer)",
+      "basis": "fully measurable (cap ball + tip drawn, markers verified); identity/anatomy/pose-role/grip/scale-ground/seams/direction all PASS - length is the only failing gate after max retouch"
+    }
+  ],
+  "notWaiverEligible": "cells0/1/2 deviations +23.98/+20.19/+17.63u are not small; spares5/6/7 +11.15/+7.76/+10.11u are not small and spare8 +4.76u (a143e13c...) is waiver-sized but only alternates the rise beat already covered by waiver-eligible cell4 - no waiver requested for any spare. No waiver is granted or requested in this package; the focused fix is the next step and waivers are a batch-end owner ruling only.",
+  "postSalvageAccounting": "INITIAL getup sheet: deterministic registration + max shaft retouch + full spare substitution exhausted without any in-band cell, but getup's ONE focused fix is UNSPENT, so under the corrected campaign process this does NOT increment the consecutive post-fix unusable count - it REMAINS at fall #1 (STOP at 2 not reached). Only a post-fix unusable getup would become #2 = STOP. CMR-15A stays IN_PROGRESS; ledger unchanged Xu 24 (getup 1)/global 191, ceilings 25/192; zero generation; no pack/15B.",
+  "focusedFixBrief": {
+    "namedCells": "redraw ALL FIVE keeps shorter (no keep passes to preserve; carry this sheet as pose/identity reference): this sheet drew registered 147.61-163.58u weapons because its actual scale is 1.3540 (cell4 crown->sole 339 native px), not the ~1.17 the prompt's 408-451px native window assumed",
+    "lengthSteer": "target registered 479-529px (~504px, band 124.41-137.50u) = NATIVE 354-391px target ~372px at THIS sheet scale 1.3540, i.e. draw every glaive ~15% shorter relative to the body (1.10x crown->sole ratio is the scale-invariant steer); do not rely on post retouch (cells1/2 gave 0px clean avail where the haft crosses the body)",
+    "preserveSteer": "poses are GOOD - keep the exact DOWN flat prone start (matches selected fall cell4), elbow/kneel/crouch progression and standing-guard rise; keep complete butt caps visible behind rear hands and full tips in frame (no stub regression); same identity/body size/common ground"
+  },
+  "banked": false,
+  "accepted": [],
+  "generation": "zero in this package"
+}
