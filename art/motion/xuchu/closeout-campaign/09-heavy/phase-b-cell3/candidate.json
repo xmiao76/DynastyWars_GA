@@ -35,5 +35,11 @@
   "textToImage": false,
   "gatesRun": false,
   "extractionRun": false,
-  "banked": false
+  "banked": false,
+  "gate": {
+    "work": "cmr15a-heavy-cell3-gate (2026-10-13, zero generation, reuses phase-b cell2 gate method)",
+    "status": "GATED FAIL - NOT selected (no cell3-selected.png), NOT banked; shared-fix eligible (candidate fails length only)",
+    "gateFile": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-cell3/gate.json",
+    "final": { "file": "cell3-retouched.png", "sha256": "cf208444cd4faf7400861cee17a2cd4afad46225c198f729a63460d8291c4f44", "u": 157.7, "deviationU": 20.2, "registeredU": 183.6, "registrationScale": 0.7301657458563536, "retouchAvailPx": 99, "removeToBandHiPx": 178 }
+  }
 }
