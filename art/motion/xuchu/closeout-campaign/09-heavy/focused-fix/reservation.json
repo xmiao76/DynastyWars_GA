@@ -1,0 +1,44 @@
+{
+  "campaign": "CMR-15A PROCESS CORRECTION + COMBO WAIVER-BANK + HEAVY FIX (owner grant verbatim in TASKS.md CMR-15A: combo banked, prospective post-salvage count reset to 0; heavy initial-sheet FAIL with its one focused fix unspent never counted/STOPped; ceilings Xu 25 / global 192; nominal cap 12 / global 200 unchanged)",
+  "work": "cmr15a-heavy-focused-fix-generate",
+  "key": "heavy",
+  "request": "09-heavy/focused-fix (heavy's ONE focused fix; exactly ONE sheet EDIT in this package, provider as original heavy generation; no gates/extraction/splice/banking)",
+  "basis": {
+    "brief": "art/motion/xuchu/closeout-campaign/09-heavy/gate/gate.json (fa546458…) + gate/measure.json (5a284768…) measured failures vs frozen band [124.41,137.50]u after deterministic retouch assessment: cell0-raise 129.07u PASS and cell1-overhead-hold 130.47u PASS (preserve exactly); cell2-crushing-chop FAIL butt cap not drawn, haft ends at hands, visible stub 92.10u/354.3px registered OUT_LOW >=32.31u (retouch cannot lengthen, missing part not fabricable deterministically); cell3-follow-through FAIL same stub defect 86.68u/333.43px OUT_LOW >=37.73u; cell4-recover FAIL 155.56u/598.39px OUT_HIGH +18.06u (retouch avail 0 vs 70px to band-hi, butt haft across skirt 62-72px wide, blade run t402-406 to socket 406.94); spares 6/7/8 same stub defect 97.14/82.43/97.16u, spare5 133.95u PASS duplicate overhead — no coherent in-band set. Per-cell splice/banking may be assessed in a later package across original+fix sheets (cells0/1 originals pass); this package is generation only.",
+    "changeOnly": "Cells0/1 (and spares5-8) completely unchanged. Cells2/3 ONLY: on the same glaive axis/grips/orientation, extend the haft past the rear hand into the empty transparent margin and draw the complete round metal butt cap fully visible in empty space so each complete glaive lands registered 479-529px target ~504px = 314-347 sheet-native px target ~331 (heavy registration scale 1.5249169435215948, cell4 body 301 native -> 459px; 479/1.5249=314.1, 504/1.5249=330.5, 529/1.5249=346.9). Cell4 ONLY: shorten its glaive from 392 native px (598.39 registered) into the same 314-347 native px target ~331 along its existing axis. Tips and caps fully inside the frame with clear empty margin in every changed cell; no other changes.",
+    "sheetNativeCurrentPx": "cell0 325.6 (496.5 registered / 1.5249) PASS keep, cell1 329.1 (501.88) PASS keep, cell2 stub 232.3 (354.3, butt cap not drawn), cell3 stub 218.7 (333.43, butt cap not drawn), cell4 392.4 (598.39)",
+    "originalCandidate": { "path": "art/motion/xuchu/closeout-campaign/09-heavy/candidate-raw.png", "sha256": "37b725170f1dc838297d8228570917f582126602ba848ca40cb34f65b4daa954", "bytes": 2158477, "size": [1536, 1024], "promptFile": "art/motion/xuchu/closeout-campaign/09-heavy/prompt.txt", "promptSha256": "3f799d092aea81dce050923247adccc15e344ebe43fae516ec969e6ba266d1c2", "reserveCommit": "6dc3b7e161d2de730ba47ca2bcf6d55757ef4221" },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxRegisteredBand": [479, 529], "weaponPxRegisteredTarget": 504, "registrationScale": 1.5249169435215948, "weaponPxSheetNativeBand": [314, 347], "sheetNativeTargetPx": 331 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/09-heavy/focused-fix/prompt.txt",
+    "promptSha256": "21892fe1fc2cae40de965cf595368f30ac68caa08640a51933ea1e53da6b6705",
+    "promptNote": "image_generate prompt = focused-fix/prompt.txt exact text (edit first reference only; preserve all poses/identity/layout and cells0/1 exactly; only cells2/3 draw complete butt caps + full glaives into empty margin to registered 479-529px target ~504px = 314-347 native px target ~331; cell4 shortened into same range; tips/caps fully in frame; no other changes)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 185, "sha256": "adbadcd5c985dbbbf114b2e815344815abe0facb9b7da7b43333c848c9b15a1f", "walk": 13, "charge": 2, "combo": 2, "heavy": 1, "xuchuUsed": 18 },
+    "after": { "globalSummed": 186, "sha256": "c52a6eaf925a974416d2bc2648269510fbaf2840070f09630368df0272fddab9", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "xuchuUsed": 19 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 25,
+    "campaignCeilingGlobal": 192,
+    "prospectivePostSalvageCount": 0
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "original heavy generation recorded provider requested gpt, serving UNCONFIRMED (09-heavy/candidate.json) -> gpt; exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - original heavy sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/09-heavy/candidate-raw.png", "sha256": "37b725170f1dc838297d8228570917f582126602ba848ca40cb34f65b4daa954", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor - identity/band (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4->5 (original heavy sheet -> banked walk:0 -> banked walk:2 -> body master -> portrait master) after this reserve commit and before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt focused-fix EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in focused-fix/, no gates/splice/banking here"
+}
