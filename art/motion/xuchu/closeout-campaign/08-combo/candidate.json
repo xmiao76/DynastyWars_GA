@@ -1,0 +1,41 @@
+{
+  "work": "cmr15a-phase3-combo-generate",
+  "key": "combo",
+  "attempt": "CMR-15A ALTERNATIVE COMPLETION Phase 3: exactly ONE 3x3 combo sheet generation (Li Dian method, Xu Chu identity/frozen-band brief); this package is generation only - no extraction, deterministic retouch, gates or focused fix",
+  "status": "UNREVIEWED - generated only; no gates run, not banked (no accepted.png / prepared source) in this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "no provider recorded for Li Dian combo in art/motion/lidian/PROVENANCE.md (Request 4/12) -> gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/08-combo/candidate-raw.png",
+    "sha256": "79601415b7bbf85f8f5c7e68577af393d88837f5ea0bd04d6bbcbdc5f9cf03fa",
+    "bytes": 2242746,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T04-31-02-119Z-8wzvzh-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/08-combo/prompt.txt",
+    "sha256": "47f6bd38dd482e308bb84b7ff90633a017b9eb0dca6a3335bb9afd5c9c1ad572",
+    "sourceFile": "art/motion/lidian/combo-prompt.txt",
+    "sourceSha256": "c0917eac6c2c78b209fb3a8fd34daf77066a5a056e83ddbe0b9e9203aa52f7a2",
+    "construction": "Li Dian combo 3x3 structure adapted sentence-by-sentence to Xu Chu identity + frozen band (weapon 130.79u [124.41,137.50]u = 479-529px target ~504px @459px body, groundY500@512); explicit native length 354-391 raw px target ~372px = registered band / charge registration scale 1.3540, also stated as 1.10x crown-to-sole height; keeps cell0 windup, cell1 rising-cut strike, cell2 follow-through, cell3 horizontal sweep strike, cell4 recover to guard (sword.combo guard->draw back->strike->recoil->guard, 9/4/12=25t); cells5-8 spares alternate slash poses; complete blade tip + butt cap fully inside sheet; same camera/scale/ground as banked refs; no labels/guide lines"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted)", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds",
+  "reserveCommit": "717bff32cd76a66e9d279ec80a305255b61e64cf",
+  "ledgerAfter": { "xuchuUsed": 16, "walk": 13, "charge": 2, "combo": 1, "globalSummed": 183, "ceilings": "22/189", "sha256": "3a7c4545781b379382cbff2bb1b6aa304469797d48540e40a0c8232c7d01a254" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false
+}
