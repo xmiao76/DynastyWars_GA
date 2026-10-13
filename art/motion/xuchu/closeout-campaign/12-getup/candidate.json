@@ -1,0 +1,41 @@
+{
+  "work": "cmr15a-phase3-getup-generate",
+  "key": "getup",
+  "attempt": "CMR-15A Phase 3: exactly ONE 3x3 getup sheet generation (Li Dian method, Xu Chu identity/frozen-band brief, flat DOWN start from selected fall fix cell4); generation only - no extraction, retouch, gates, focused fix or pack in this package",
+  "status": "UNREVIEWED - candidate generated, not gated, not banked",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "no provider recorded for Li Dian getup in art/motion/lidian/PROVENANCE.md (Request 13/14) -> gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/12-getup/candidate-raw.png",
+    "sha256": "9c2102e5f2402935daeb9dfb3ecbcc056d654973f0d76c4c52874193bc6cc1c9",
+    "bytes": 2147935,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T09-49-07-571Z-bts8rn-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/12-getup/prompt.txt",
+    "sha256": "2a376e5ca5e3042d0c0c61afd54f0aa3a8a38e1cea048b3c695f53655ddbd89c",
+    "sourceFile": "art/motion/lidian/getup-prompt.txt",
+    "sourceSha256": "d7867b5209a1cd21bf393e68b95cd347510f88a46b004bafc15fe828ec805fb0",
+    "construction": "Li Dian getup 3x3 structure adapted sentence-by-sentence to Xu Chu identity + frozen band (weapon 130.79u [124.41,137.50]u = registered 479-529px target ~504px @459px body, groundY500@512); keeps DOWN flat prone bookend reproducing selected fall focused-fix cell4 (cb0b12c1..., 136.03u PASS selected not banked) -> elbow-prop -> kneel -> crouch -> rise-stand to walk:0 guard, spares alternate rising poses; explicit native 408-451px target ~430px = 1.10x crown-to-sole (scale-invariant ratio primary; latest fall sheets scales 1.1650-1.1739, prone native 394px, same window the fall focused fix landed in band), prone DOWN measured head-to-boots; level-to-moderate-diagonal family <=30deg, no vertical, no foreshortening; butt cap explicitly drawn visible behind rear hand + complete tip, both in frame 35px+ (heavy stub lesson); consistent body size + common ground (DOWN flat on it); no labels/guide lines"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted) + rise-stand terminal", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "selected fall DOWN focused-fix cell4 (136.03u PASS selected not banked) - cell0 pose source; walk:2 not used in this slot per work order", "path": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell4-down-retouched.png", "sha256": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d", "size": [1024, 768] },
+    { "order": 3, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds",
+  "reserveCommit": "3513439",
+  "ledgerAfter": { "xuchuUsed": 24, "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "fall": 2, "getup": 1, "globalSummed": 191, "ceilings": "25/192", "sha256": "46c0216b75ff726af904ebd11f23ec05e468564275291ed8bd51a351464a0d49" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false
+}
