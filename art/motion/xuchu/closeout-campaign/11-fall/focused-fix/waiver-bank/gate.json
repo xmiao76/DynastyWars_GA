@@ -1,0 +1,404 @@
+{
+  "work": "cmr15a-completion-phase-a",
+  "phase": "COMPLETION CAMPAIGN Phase A (zero generation): fall waiver-bank + heavy cell4 selection record",
+  "method": "reverify.mjs: fresh SHA-256 + pngjs raster spot checks (canvas 1024x768, greenPx=0, no canvas-edge alpha, alpha bounds + finalU vs source measure.json) on the fall gate selectedSet; non-waived gates from 11-fall/focused-fix/gate/gate.json; sequence continuity re-opened this package on contact-keeps-sequence.png + marked cell0 + original cell3 final (topple->airborne->tumble->impact->flat DOWN, one coherent arc). Deterministic rerun.",
+  "frozenBandU": [
+    124.41,
+    137.5
+  ],
+  "ledgerVerified": {
+    "sha256": "b4bf720b63e513ab93114b340ea2d8b8327d58c00554da7a1a23488941930093",
+    "xuchuUsed": 25,
+    "globalUsed": 192,
+    "matches": true,
+    "expected": "Xu Chu 25 / global 192 (zero generation)",
+    "ceilings": "32/199 under COMPLETION CAMPAIGN (global hard cap 200 preserved)"
+  },
+  "cells": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "source": "focused-fix 44eb667d",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell0-topple-retouched.png",
+      "finalHash": "5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        768
+      ],
+      "freshBounds": {
+        "xmin": 271,
+        "ymin": 288,
+        "xmax": 755,
+        "ymax": 757
+      },
+      "measureBounds": {
+        "xmin": 271,
+        "ymin": 288,
+        "xmax": 755,
+        "ymax": 757
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.26,
+      "weapon": {
+        "finalU": 138.19,
+        "measureU": 138.19,
+        "angleDeg": -28.74,
+        "buttCapVisible": true
+      },
+      "gatesFromFallGate": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS - BOTH hands visibly wrapped on the haft in front of the torso (original floating-glaive grip FAIL cured)",
+        "weaponAngleDegRaw": -28.74,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "lengthStatus": "FAIL NOT PASS — waived exact hash only (pre-authorized small waiver <=9u, COMPLETION CAMPAIGN): 138.19u OUT_HIGH +0.69u vs band [124.41,137.50]u",
+      "head": "RAW (batch-end UNVERIFIED_OWNER_ACCEPTED ruling reserved, Phase D only)",
+      "bankEligible": true
+    },
+    {
+      "cell": 1,
+      "name": "cell1-airborne",
+      "source": "focused-fix 44eb667d",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell1-airborne-retouched.png",
+      "finalHash": "2d3b97c42c1b18885c5e3c4f930270bea5916a5212a705bf9f1e8ca0065507e7",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        768
+      ],
+      "freshBounds": {
+        "xmin": 292,
+        "ymin": 366,
+        "xmax": 737,
+        "ymax": 757
+      },
+      "measureBounds": {
+        "xmin": 292,
+        "ymin": 366,
+        "xmax": 737,
+        "ymax": 757
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.26,
+      "weapon": {
+        "finalU": 131.91,
+        "measureU": 131.91,
+        "angleDeg": -31.4,
+        "buttCapVisible": true
+      },
+      "gatesFromFallGate": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - BOTH hands visibly wrapped on the haft (original floating-glaive grip FAIL cured)",
+        "weaponAngleDegRaw": -31.4,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end UNVERIFIED_OWNER_ACCEPTED ruling reserved, Phase D only)",
+      "bankEligible": true
+    },
+    {
+      "cell": 2,
+      "name": "cell2-tumble",
+      "source": "focused-fix 44eb667d",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell2-tumble-retouched.png",
+      "finalHash": "3662d3b49c15aad547cf4968c46c889f169880dd47d9dad8381492f024658e5e",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        768
+      ],
+      "freshBounds": {
+        "xmin": 249,
+        "ymin": 441,
+        "xmax": 751,
+        "ymax": 757
+      },
+      "measureBounds": {
+        "xmin": 249,
+        "ymin": 441,
+        "xmax": 751,
+        "ymax": 757
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.26,
+      "weapon": {
+        "finalU": 132.24,
+        "measureU": 132.24,
+        "angleDeg": -11.77,
+        "buttCapVisible": true
+      },
+      "gatesFromFallGate": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - haft visibly gripped one-handed while inverted, complete round butt cap now drawn in empty space left of the boots (original blunt stub cured)",
+        "weaponAngleDegRaw": -11.77,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end UNVERIFIED_OWNER_ACCEPTED ruling reserved, Phase D only)",
+      "bankEligible": true
+    },
+    {
+      "cell": 3,
+      "name": "cell3-impact",
+      "source": "original aa207ce6",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/gate/cells-registered/cell3-impact-retouched.png",
+      "finalHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        768
+      ],
+      "freshBounds": {
+        "xmin": 245,
+        "ymin": 445,
+        "xmax": 780,
+        "ymax": 757
+      },
+      "measureBounds": {
+        "xmin": 245,
+        "ymin": 445,
+        "xmax": 780,
+        "ymax": 757
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.26,
+      "weapon": {
+        "finalU": 132.06,
+        "measureU": 132.06,
+        "angleDeg": -25.77,
+        "buttCapVisible": true
+      },
+      "gatesFromFallGate": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - haft visibly gripped two-handed, legs-up impact (fix copy; original also PASS)",
+        "weaponAngleDegRaw": -25.31,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end UNVERIFIED_OWNER_ACCEPTED ruling reserved, Phase D only)",
+      "bankEligible": true
+    },
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "source": "focused-fix 44eb667d",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell4-down-retouched.png",
+      "finalHash": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        768
+      ],
+      "freshBounds": {
+        "xmin": 187,
+        "ymin": 614,
+        "xmax": 817,
+        "ymax": 761
+      },
+      "measureBounds": {
+        "xmin": 187,
+        "ymin": 614,
+        "xmax": 817,
+        "ymax": 761
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 1.3,
+      "weapon": {
+        "finalU": 136.03,
+        "measureU": 136.03,
+        "angleDeg": -10.5,
+        "buttCapVisible": true
+      },
+      "gatesFromFallGate": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "PASS (genuinely flat prone face-down bookend, legs extended, aspectWH 4.26, no kneeling/propping)",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - folded arm grips the haft alongside the flat prone body; cap ball drawn clear at the ground line, marker on the ball (prone probe agrees, see proneCrossCheck)",
+        "weaponAngleDegRaw": -10.5,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 1.3u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end UNVERIFIED_OWNER_ACCEPTED ruling reserved, Phase D only)",
+      "bankEligible": true
+    }
+  ],
+  "directionStepsDeg": [
+    2.66,
+    19.63,
+    14,
+    15.27
+  ],
+  "directionPass": true,
+  "lengthSpread": {
+    "finalUs": [
+      138.19,
+      131.91,
+      132.24,
+      132.06,
+      136.03
+    ],
+    "spreadPct": 4.68,
+    "gateSpreadPct": 4.68
+  },
+  "spreadStatus": "4.68% NOT PASS — waived as the resulting spread of the exact-hash topple length waiver, failed figure retained",
+  "verdict": "FALL BANKED cells0-4 (fix cells1/2/4 PASS, original cell3 PASS, cell0-topple weapon length FAIL NOT PASS waived exact hash only + resulting spread waived; head RAW)",
+  "banked": true,
+  "accepted": [
+    {
+      "cell": 0,
+      "file": "accepted/cell0-topple.png",
+      "sha256": "5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df"
+    },
+    {
+      "cell": 1,
+      "file": "accepted/cell1-airborne.png",
+      "sha256": "2d3b97c42c1b18885c5e3c4f930270bea5916a5212a705bf9f1e8ca0065507e7"
+    },
+    {
+      "cell": 2,
+      "file": "accepted/cell2-tumble.png",
+      "sha256": "3662d3b49c15aad547cf4968c46c889f169880dd47d9dad8381492f024658e5e"
+    },
+    {
+      "cell": 3,
+      "file": "accepted/cell3-impact.png",
+      "sha256": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46"
+    },
+    {
+      "cell": 4,
+      "file": "accepted/cell4-down.png",
+      "sha256": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d"
+    }
+  ],
+  "heavyCell4SelectedPending": {
+    "cell": 4,
+    "name": "cell4-recover",
+    "file": "art/motion/xuchu/closeout-campaign/09-heavy/focused-fix/gate/cells-registered/cell4-recover-retouched.png",
+    "finalHash": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+    "hashMatchesGate": true,
+    "canvas": [
+      1024,
+      768
+    ],
+    "freshBounds": {
+      "xmin": 246,
+      "ymin": 297,
+      "xmax": 779,
+      "ymax": 757
+    },
+    "measureBounds": {
+      "xmin": 246,
+      "ymin": 297,
+      "xmax": 779,
+      "ymax": 757
+    },
+    "boundsMatch": true,
+    "greenPx": 0,
+    "edge": {
+      "l": 0,
+      "r": 0,
+      "t": 0,
+      "b": 0
+    },
+    "seamsSpotCheck": "PASS",
+    "groundErrU": 0.26,
+    "weapon": {
+      "finalU": 145.22,
+      "measureU": 145.22,
+      "overBandHiU": 7.72,
+      "buttCapVisible": true
+    },
+    "gatesFromHeavyGate": {
+      "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; fix sheet, all 9 grid views, butt/grip/tip zooms, marked cells 0/1/2/3/4 and keeps/spares contacts opened; butt/tip markers verified on cap/tip where drawn, on the rear grip where the haft ends at the hands)",
+      "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+      "poseRole": "PASS (visual vs prompt keep role: raise / overhead hold / crushing chop / follow-through / recover toward guard; poses preserved from the original sheet)",
+      "weaponLength": "FAIL",
+      "weaponAngleDegRaw": -25.86,
+      "scaleGround": "PASS",
+      "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+      "head": "RAW (beard conceals chin/beard-base endpoint; not gated; batch-end ruling reserved)"
+    },
+    "nonWaivedGatesPass": true,
+    "lengthStatus": "FAIL NOT PASS — 145.22u OUT_HIGH +7.72u vs band [124.41,137.50]u",
+    "disposition": "SELECTED as the heavy cell4 under the pre-authorized small waiver (exact hash 57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8 only, +7.72u <=9u, fully measurable, every other gate PASS) PENDING heavy cells2/3 — heavy family NOT banked, no accepted copy made",
+    "head": "RAW (batch-end ruling reserved)"
+  },
+  "heavyCell4VerificationPass": true,
+  "prospectivePostFixUnusableCount": 0,
+  "countNote": "Under the COMPLETION CAMPAIGN the prospective count starts at 0; banking fall keeps/resets it at 0. Historical fall#getup STOP preserved, not erased.",
+  "generation": "zero in this package"
+}
