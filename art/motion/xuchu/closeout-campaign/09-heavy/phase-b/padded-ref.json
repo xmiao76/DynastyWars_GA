@@ -1,0 +1,106 @@
+{
+  "work": "cmr15a-heavy-cell2-generate (COMPLETION CAMPAIGN Phase B)",
+  "zeroGeneration": true,
+  "source": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/gate/cells-registered/cell2-crushing-chop-registered.png",
+    "sha256": "6c59ba43f7fc04511f11be1bf202c252da3d49cc4bff49503f3ceee0a31d8ca1",
+    "size": [
+      1024,
+      768
+    ],
+    "role": "original heavy cell2-crushing-chop after gate registration (scale 1.5249169435215948); identity/pose/camera/scale/ground truth"
+  },
+  "canvas": {
+    "size": [
+      1536,
+      1024
+    ],
+    "fill": "transparent (alpha 0)",
+    "placement": {
+      "offset": [
+        256,
+        128
+      ],
+      "scale": 1,
+      "note": "registered cell pixels unchanged 1:1; NO guide/ground line in sent ref"
+    }
+  },
+  "geometryRegisteredPx": {
+    "bounds": [
+      152,
+      359,
+      873,
+      758
+    ],
+    "crownY": 359,
+    "soleY": [
+      757,
+      758
+    ],
+    "stubButtRearHand": [
+      536.24,
+      539.44
+    ],
+    "stubTip": [
+      866,
+      669
+    ],
+    "stubPx": 354.3,
+    "stubU": 92.1,
+    "stubAngleDeg": 21.45,
+    "bodyCrouchedCrownSolePx": 398
+  },
+  "geometryPaddedPx": {
+    "crownY": 487,
+    "groundSoleY": 886,
+    "stubButtRearHand": [
+      792,
+      667
+    ],
+    "oldTip": [
+      1122,
+      797
+    ]
+  },
+  "weaponTarget": {
+    "frozenBandRegisteredPx": [
+      479,
+      529
+    ],
+    "frozenTargetRegisteredPx": 504,
+    "bandU": [
+      124.41,
+      137.5
+    ],
+    "paddedScale": 1,
+    "nativeOutputBandPx": [
+      479,
+      529
+    ],
+    "nativeOutputTargetPx": 504,
+    "derivation": "479-529 registered px x padded scale 1.0 = 479-529 native px on the 1536x1024 output canvas (target 504); ratio 504/459 = 1.10x standing crown-sole (this crouched pose measures 398px crown-sole, so do NOT scale the weapon to the crouch height)",
+    "targetCapPadded": [
+      515,
+      603
+    ],
+    "targetTipPadded": [
+      1000,
+      728
+    ],
+    "targetAxisPx": 500.8,
+    "targetAxisDeg": 14.45,
+    "whyShallower": "straight 21.45deg stub extension at 504px lands the cap on the torso; keeping the old tip and extending into empty space overshot to 163.30u in the focused fix. Redraw the whole glaive on the shallower ~14.5deg axis through both hands: cap in empty space left of the skirt/back, tip closer than the old tip."
+  },
+  "paddedReference": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b/cell2-padded-ref.png",
+    "sha256": "10be8edd63895dc28f15f923b05eb7f147e1b8fc411c99dcfeb7548eb48fd825",
+    "bytes": 246180,
+    "sent": true
+  },
+  "markedPreview": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b/cell2-padded-marked.png",
+    "sha256": "8206f8624e99a91d86743dc5bd8b8e44e4e83177578b01e122d69b6a4487c7ff",
+    "bytes": 281603,
+    "sent": false
+  }
+}
