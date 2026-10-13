@@ -425,6 +425,49 @@ and forbids reproducing the magenta/grey guide surface or any line/text.
 Post-call: full campaign (c) gate + salvage order as usual, Brake judged
 against this guide's metrics. CMR-15A stays IN_PROGRESS, not DONE.
 
+## ALTERNATIVE COMPLETION Phase 2 — walk:5 gate result (2026-10-13; work cmr15a-walk5-phase2-gates, ZERO generation)
+
+**REJECTED after salvage — candidate `4d9a7308…` UNACCEPTED, not banked (no
+`04-walk5/phase2/accepted.png`); Brake FAIL = grant STOP.** The sole Phase-2
+guide-guided edit (reserve `2c2d7e2`, Xu Chu 11→12 / global 178→179; references
+clean guide `6e7819c3…` → walk:2 `893c90d7…` → walk:4 `75488eb1…`) was gated
+campaign-standard with the authorized salvage order (`04-walk5/phase2/gate.mjs`/
+`gate.json`; probe + gate head/legs/tip/soles/soles-4x + marked + registered +
+candidate all opened; gate rerun reproduced `registered.png`
+`01b4c21477e39e8ba540adbdb8deb68a686b9e833970e5eb7788e8ad583f7b73` identically):
+
+1. **Registration applied**: factor 1.0528 (+5.28% ≤±12%, native 1024px; raw body
+   436px@512) → body 459px@512, front-heel ground 500@512 = 0.00u.
+2. **Shaft retouch not applicable**: registered weapon 517.92px@512 = **134.64u
+   in frozen band [124.41,137.50]u** (Δ+2.94% vs anchor, spread 2.90%), angle
+   −25.91° Δ+0.40°, corridor butt 6.45/tip 2.87px vs 14px, tip inside (margin
+   24.39px@512) — no in-frame length outlier.
+3. **Weapon splice not attempted**: both-grips exact alignment not demonstrated,
+   and a splice cannot cure gait; precondition (grips align + seams gameplay+4x)
+   not met.
+
+Other gates PASS: identity/anatomy (same helmeted full-bearded ochre/dark Xu
+Chu as both anchors, connected two-hand grip, no extra limbs), seams
+(greenPx=0, magentaPx=0 — no retained guide line/surface, no clipping),
+head RAW gap 0px (not a reject). **Gait Brake FAIL (guide values in
+brackets)**: front shin/boot-shaft knee→ankle **0.0° from vertical [25.94°]**
+with knee bend **53.5° [11.17°]** and whole-leg strut 19.0° [31.87°], heel
+57.9px@512 ahead of hip [80px] — a bent-knee forward heel-strike with toe
+raised 47px native, not a near-straight diagonal braced strut with a flat
+digging heel; rear boot is a **trailing toe-down** boot with ankle
+**−84.2px@512 vs its hip [−4px, under the hip]** and toe 13px native above
+the front-heel row (registered 493.16@512), so no grounded rear support;
+head/torso lean forward over the stride — no weight settling back toward
+guard. This is materially the vertical-shin + trailing toe-off stride
+rejected in walk:5 attempts 1–2.
+
+**Disposition: sole Phase-2 attempt spent; per the Alternative Completion
+grant ("if Brake gait fails, STOP for my decision") CMR-15A is BLOCKED
+WAITING_FOR_OWNER — no further requests, no Phase 3, no pack preparation.**
+Walk set remains banked except walk:5 (walk:0/1/2/3/4 banked). Ledger
+unchanged by this zero-generation gate: Xu Chu 12 / global 179 (file
+`088825cd…`, ceilings 22/189); not DONE.
+
 ## Setup checks (this package)
 
 Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings

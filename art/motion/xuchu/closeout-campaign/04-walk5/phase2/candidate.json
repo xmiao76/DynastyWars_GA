@@ -2,8 +2,18 @@
   "work": "cmr15a-walk5-phase2-generate",
   "key": "walk:5",
   "attempt": "Phase 2 guide-guided single edit (Alternative Completion grant; the ONE authorized Phase 2 generation)",
-  "status": "UNREVIEWED",
-  "gateNote": "No gates run and nothing banked in this package. Later gating is a separate package; if Brake gait fails there, the grant requires STOP for owner decision.",
+  "status": "REJECTED — UNACCEPTED, not banked (no accepted.png); Brake gait FAIL after salvage = grant STOP",
+  "gateNote": "Gated 2026-10-13 in work cmr15a-walk5-phase2-gates (zero generation): see gate.json. Registration factor 1.0528 (+5.28% <=+-12%) -> registered.png 01b4c21477e39e8ba540adbdb8deb68a686b9e833970e5eb7788e8ad583f7b73; identity/anatomy/seams PASS; weapon 134.64u in frozen band [124.41,137.50]u, angle delta +0.40deg, corridor butt 6.45/tip 2.87px vs 14px (shaft retouch n/a in-band; splice grips not demonstrated aligned and cannot cure gait); body 459px/ground 0.00u; head RAW 0px (not a reject); gait Brake FAIL (front shin 0.0deg from vertical vs guide 25.94deg, knee bend 53.5deg vs 11.17deg, toe raised 47px native heel-strike; rear ankle -84.2px@512 vs guide -4px toe-down trailing boot 13px native above the front-heel row; weight forward, not back). Sole Phase 2 attempt spent; CMR-15A BLOCKED WAITING_FOR_OWNER per grant STOP.",
+  "gate": {
+    "file": "art/motion/xuchu/closeout-campaign/04-walk5/phase2/gate.json",
+    "script": "art/motion/xuchu/closeout-campaign/04-walk5/phase2/gate.mjs",
+    "overall": "FAIL",
+    "failingGate": "gait Brake only (all numeric gates PASS after registration)",
+    "registered": { "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2/registered.png", "sha256": "01b4c21477e39e8ba540adbdb8deb68a686b9e833970e5eb7788e8ad583f7b73", "factor": 1.0527522935779816 },
+    "accepted": null,
+    "grantStopReached": true,
+    "ledgerUnchangedByGate": { "xuchuUsed": 12, "globalSummed": 179, "sha256": "088825cd3d95f22e2a4be35fdf0026e17983c18b1a124f4bb30df582f73a0cb4" }
+  },
   "provider": {
     "requested": "grok",
     "serving": "UNCONFIRMED (subscription image_generate called with provider preference grok per guide-spec phase2.provider; serving provider not independently confirmed)"

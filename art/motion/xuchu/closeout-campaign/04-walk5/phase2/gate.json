@@ -1,0 +1,310 @@
+{
+  "work": "cmr15a-walk5-phase2-gates",
+  "key": "walk:5",
+  "attempt": "Phase 2 guide-guided single edit (sole Phase 2 attempt; candidate 4d9a7308)",
+  "zeroGeneration": true,
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "inputs": {
+    "candidate": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2/candidate-raw.jpg",
+      "sha256": "4d9a730885c978bd114387fe45bab69350c37f116903f35ff7e0ab9a5d2c7bf6",
+      "size": [
+        1024,
+        1024
+      ],
+      "format": "jpeg (opaque)"
+    },
+    "guide": "04-walk5/phase2-guide/guide-walk5-brake.png 6e7819c3... (metrics in guide-spec.json)",
+    "referencesSent": [
+      "guide 6e7819c3...",
+      "01-walk2/candidate-raw.jpg 893c90d7...",
+      "03-walk4/attempt2/accepted.png 75488eb1..."
+    ],
+    "ledgerVerified": {
+      "path": "art/motion/generation-budget.json",
+      "sha256": "088825cd3d95f22e2a4be35fdf0026e17983c18b1a124f4bb30df582f73a0cb4",
+      "note": "unchanged Xu Chu 12 / global 179 (ceilings 22/189); no ledger write in this package"
+    }
+  },
+  "landmarksNative1024": {
+    "weapon": {
+      "butt": [
+        70,
+        618
+      ],
+      "tip": [
+        955,
+        188
+      ]
+    },
+    "beardTip": [
+      535,
+      260
+    ],
+    "crown": 93,
+    "frontHeel": 965,
+    "rearToe": 952,
+    "figureBoundsX": {
+      "xmin": 68,
+      "xmax": 962
+    },
+    "gait": {
+      "frontHip": [
+        490,
+        645
+      ],
+      "frontKnee": [
+        625,
+        745
+      ],
+      "frontAnkle": [
+        625,
+        885
+      ],
+      "frontHeel": [
+        600,
+        965
+      ],
+      "frontToe": [
+        785,
+        918
+      ],
+      "rearHip": [
+        375,
+        650
+      ],
+      "rearKnee": [
+        395,
+        805
+      ],
+      "rearAnkle": [
+        215,
+        815
+      ],
+      "rearHeelTop": [
+        180,
+        800
+      ],
+      "rearToe": [
+        240,
+        952
+      ],
+      "headCentre": [
+        505,
+        185
+      ]
+    }
+  },
+  "rawMeasurements": {
+    "bodyHeightPxAt512": 436,
+    "deltaPctVsFrozen": -5.010893246187364,
+    "groundYAt512": 482.5,
+    "groundErrorU": 4.549266247379455,
+    "rearToeClearancePxNativeVsFrontHeel": 13,
+    "greenPxRaw": 0,
+    "magentaPxRaw": 0,
+    "weaponRaw": {
+      "pxAt512": 491.96671635386065,
+      "u": 127.89071871672687,
+      "angleDeg": -25.913990796848505,
+      "tipRightMarginPxNative": 69,
+      "bladeRightMarginPxNative": 62,
+      "buttLeftMarginPxNative": 68
+    }
+  },
+  "salvage": {
+    "step1Registration": {
+      "applied": true,
+      "rule": "ONE uniform scale+translate, whole candidate: factor=459/bodyHeightPxAt512, translate front-heel ground->500@512, landmark figure bounds centred horizontally",
+      "factor": 1.0527522935779816,
+      "factorPct": 5.275229357798161,
+      "capPct": 12,
+      "withinCap": true,
+      "nativeExceeds512": true,
+      "overallNativeToRegisteredScale": 0.5263761467889908,
+      "translatePxAt512": {
+        "dx": -15.08371559633025,
+        "dy": -7.952981651376149
+      },
+      "registeredPath": "art/motion/xuchu/closeout-campaign/04-walk5/phase2/registered.png",
+      "registeredSha256": "01b4c21477e39e8ba540adbdb8deb68a686b9e833970e5eb7788e8ad583f7b73"
+    },
+    "step2ShaftRetouch": {
+      "applied": false,
+      "note": "registered weapon length 134.64u in frozen band [124.41,137.50]u; no in-frame length outlier to retouch."
+    },
+    "step3WeaponSplice": {
+      "applied": false,
+      "note": "not attempted: exact grip alignment between the registered candidate hands and the original-cell weapon grips is not demonstrated (no overlay proof that both grips coincide), and a weapon splice cannot cure the gait-phase defect below; splice precondition (both grips align + seams pass at gameplay and 4x) not met; no fabrication."
+    },
+    "finalCell": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2/registered.png",
+      "sha256": "01b4c21477e39e8ba540adbdb8deb68a686b9e833970e5eb7788e8ad583f7b73"
+    }
+  },
+  "landmarksRegisteredAt512": {
+    "weapon": {
+      "butt": [
+        21.762614678899105,
+        317.3474770642202
+      ],
+      "tip": [
+        487.60550458715596,
+        91.00573394495412
+      ]
+    },
+    "beardTip": [
+      266.5275229357798,
+      128.90481651376146
+    ],
+    "crownY": 40.99999999999999,
+    "frontHeelY": 500,
+    "rearToeY": 493.1571100917431,
+    "gait": {
+      "frontHip": [
+        242.84059633027522,
+        331.5596330275229
+      ],
+      "frontKnee": [
+        313.901376146789,
+        384.197247706422
+      ],
+      "frontAnkle": [
+        313.901376146789,
+        457.8899082568807
+      ],
+      "frontHeel": [
+        300.7419724770642,
+        500
+      ],
+      "frontToe": [
+        398.1215596330275,
+        475.2603211009174
+      ],
+      "rearHip": [
+        182.3073394495413,
+        334.1915137614679
+      ],
+      "rearKnee": [
+        192.83486238532112,
+        415.77981651376143
+      ],
+      "rearAnkle": [
+        98.08715596330278,
+        421.04357798165137
+      ],
+      "rearHeelTop": [
+        79.66399082568809,
+        413.1479357798165
+      ],
+      "rearToe": [
+        111.24655963302754,
+        493.1571100917431
+      ],
+      "headCentre": [
+        250.73623853211012,
+        89.42660550458714
+      ]
+    }
+  },
+  "remeasuredAfterSalvage": {
+    "weapon": {
+      "pxAt512": 517.9190890055552,
+      "u": 134.63724745637072,
+      "inBand": true,
+      "deltaPctVsAnchor": 2.9414090651847,
+      "spreadAnchorVsCandCanonical": 0.028987766259570225,
+      "angleDeg": -25.913990796848513,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": 0.39641414795662655,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 6.452184503835296,
+        "tip": 2.868869674518123,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxAt512": 24.394495412844037
+    },
+    "weaponRatioToBody": 1.1283640283345429,
+    "anchorWeaponRatioToBody": 1.0961225794180054,
+    "body": {
+      "registeredHeightPxAt512": 459,
+      "frozenHeightPxAt512": 459
+    },
+    "ground": {
+      "frozenGroundYAt512": 500,
+      "registeredGroundYAt512": 500,
+      "groundedErrorU": 0,
+      "limitU": 1.5
+    },
+    "greenPxRaw": 0,
+    "magentaPxRaw": 0,
+    "headEndpointRAW": {
+      "beardTipNative": [
+        535,
+        260
+      ],
+      "beardTipRegistered": [
+        266.5275229357798,
+        128.90481651376146
+      ],
+      "measuredClearBackgroundGapPxNative": 0,
+      "note": "RAW only (beard tip over collar/chest, as anchors). Batch-end UNVERIFIED_OWNER_ACCEPTED reserved only if ALL other gates pass — they do not here."
+    },
+    "gaitMeasured": {
+      "frontStrutFromVerticalDeg": 18.970407808486545,
+      "frontShinFromVerticalDeg": 0,
+      "frontKneeBendDeg": 53.47114463301483,
+      "frontHeelAheadOfFrontHipPxAt512": 57.90137614678899,
+      "frontAnkleAheadOfFrontKneePxAt512": 0,
+      "frontToeRiseAboveHeelPxNative": 47,
+      "rearAnkleMinusRearHipPxAt512": -84.22018348623853,
+      "rearToeClearancePxNativeVsFrontHeel": 13,
+      "rearToeYRegisteredAt512": 493.1571100917431,
+      "headCentreXNative": 505,
+      "guide": {
+        "frontStrutFromVerticalDeg": 31.87,
+        "frontShinFromVerticalDeg": 25.94,
+        "frontKneeBendDeg": 11.17,
+        "frontHeelAheadOfFrontHipPxAt512": 80,
+        "rearAnkleMinusRearHipPxAt512": -4,
+        "rearHeelRaisedPxAt512": 6
+      },
+      "jointUncertaintyNote": "hips skirt-occluded, centres +-20px native; the verdict does not hinge on hip error: the visible front shin/boot shaft (knee->ankle x 625->625) is vertical within any plausible centre error, and the rear boot is visibly toe-down with its ankle far behind the rear pant leg."
+    }
+  },
+  "gatesNumeric": {
+    "registrationWithinCap": true,
+    "weaponLengthPass": true,
+    "weaponCorridorPass": true,
+    "weaponDirectionPass": true,
+    "bodyPass": true,
+    "groundPass": true,
+    "seamsNumericPass": true
+  },
+  "verdicts": {
+    "identity": "PASS (visual on candidate + head zoom vs banked walk:2/walk:4 anchors, all opened: same blunt-faced helmeted dark/full-bearded ochre-shouldered dark-armoured massive Xu Chu, right-facing three-quarter, same glaive+tassel, exactly one weapon, no other-fighter/costume drift)",
+    "anatomy": "PASS (visual full + zooms: connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs, no pasted-on legs)",
+    "weaponCorridorLengthDirection": "PASS (see weapon numbers; whole tip inside frame)",
+    "scaleGround": "PASS after authorized registration (factor recorded, within +-12%; front heel is the ground contact)",
+    "seams": "PASS (greenPx=0 and magentaPx=0: no retained guide/ground line or magenta guide surface; no edge clipping of blade/butt/boots/headgear; whole candidate, no splice/retouch seam; verified on gate-marked-registered.png gameplay size + gate-tip/gate-legs/gate-soles zooms and gate-soles-4x.png)",
+    "gaitBrake": "FAIL (visual on candidate + probe/gate legs+soles zooms, registered reconfirmed; guide metrics in brackets — front leg is NOT a near-straight diagonal braced strut: visible shin/boot-shaft knee[625,745]->ankle[625,885] is VERTICAL (0.0deg from vertical [guide 25.94deg], ankle 0.0px@512 ahead of knee [guide 36px]), knee bend 53.5deg [guide 11.17deg], whole-leg strut hip->heel 19.0deg [guide 31.87deg] with heel 57.9px@512 ahead of the front hip [guide 80px]; the front foot is a forward-stride heel-strike with toe raised 47px native above the heel, not a flat boot planted with braking pressure. Rear leg is the rejected TRAILING TOE-OFF pattern: boot hangs toe-down behind the body, ankle -84.2px@512 vs the rear hip [guide -4px = under the hip], toe lowest row 952 native = 13px native ABOVE the front-heel ground row 965 (registered 493.2@512 vs ground 500) so it is not a grounded rear support catching settling weight. Head/torso lean forward over the stride (head centre x~505 native, ahead of both hips) — no hips-low/back weight-settling toward guard is demonstrated. This is materially the contact/toe-off stride rejected in walk:5 attempts 1-2 (vertical shin + trailing toe-down boot), not the Phase-2 guide Brake (diagonal braced front strut, heel ahead, weight back over a bent rear support under the hips). Salvage steps (1)-(3) cannot cure gait.)",
+    "headEndpointRAW": "RECORDED_RAW_NOT_A_REJECT (gap recorded in remeasuredAfterSalvage.headEndpointRAW; batch-end ruling only, and unavailable here because another gate fails)"
+  },
+  "overall": "FAIL — not banked; exact failing gate(s) in gatesNumeric/verdicts",
+  "disposition": "REJECT Phase 2 candidate after salvage — candidate UNACCEPTED, not banked (no accepted.png); sole Phase 2 attempt spent. Brake gait FAIL triggers the Alternative Completion grant STOP (\"if Brake gait fails, STOP for my decision\"): CMR-15A BLOCKED WAITING_FOR_OWNER, no further requests, no Phase 3. Walk set remains banked except walk:5.",
+  "ledgerAfterReserve": "Xu Chu 12 / global 179 (ceilings 22/189), unchanged by this zero-generation gate",
+  "grantStopReached": true,
+  "walk5Complete": false
+}
