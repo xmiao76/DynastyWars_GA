@@ -2,7 +2,7 @@
   "work": "cmr15a-phase3-heavy-generate",
   "key": "heavy",
   "attempt": "CMR-15A PHASE-3 CONTINUATION: exactly ONE 3x3 heavy sheet generation (Li Dian method, Xu Chu identity/frozen-band brief); this package is generation only - no extraction, deterministic retouch, gates or focused fix",
-  "status": "UNREVIEWED - generated only; no gates run, not banked (no accepted.png / prepared source) in this package",
+  "status": "GATED FAIL - NOT BANKED (work cmr15a-phase3-heavy-gates, correction of call_01a133d3af8973d192ff7659bb00a954; zero generation): 2/5 keeps pass after deterministic registration+retouch assessment; cell2/cell3 butt cap not drawn (stubs 92.10/86.68u OUT_LOW), cell4 155.56u OUT_HIGH +18.06u retouch avail 0 vs 70px; spares 6-8 stubs, spare5 PASS overhead duplicate; no coherent in-band set, 0 waiver-eligible; prospective post-salvage unusable #2 consecutive = STOP, CMR-15A BLOCKED WAITING_FOR_OWNER; see gate/gate.json (fa546458…) + gate/measure.json (5a284768…)",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "no provider recorded for Li Dian heavy in art/motion/lidian/PROVENANCE.md (Request 9/12) -> gpt per work order",
@@ -35,7 +35,7 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
+  "gatesRun": true,
+  "extractionRun": true,
   "banked": false
 }
