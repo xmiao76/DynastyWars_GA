@@ -1,0 +1,42 @@
+{
+  "work": "cmr15a-phase3-charge-generate",
+  "key": "charge",
+  "attempt": "CMR-15A ALTERNATIVE COMPLETION Phase 3: exactly ONE 3x3 charge sheet generation (Li Dian method, Xu Chu identity/frozen-band brief); this package is generation only - no extraction, deterministic retouch, gates or focused fix",
+  "status": "UNREVIEWED - generated only; no gates run, not banked (no accepted.png / prepared source) in this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "no provider recorded for Li Dian charge in art/motion/lidian/PROVENANCE.md -> gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/07-charge/candidate-raw.png",
+    "sha256": "11080736380132eb798b6b0636f03ab385cf287725be748fc4bc9189f4c189e5",
+    "bytes": 2205514,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T03-04-19-276Z-7o1s18-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy; PNG magic 89 50 4E 47, IHDR 1536x1024)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/07-charge/prompt.txt",
+    "sha256": "ebf2d9c941b2e0f486452cf0912c7a692aaa44db85d845a3f0ce8d5af2ba4768",
+    "sourceFile": "art/motion/lidian/charge-prompt.txt",
+    "sourceSha256": "68a4936514dc34ea8965eac9c710832cf72f04a2bf0af7ae76cb2c7bd398f3fc",
+    "construction": "Li Dian charge 3x3 structure adapted sentence-by-sentence to Xu Chu identity + frozen band (weapon 130.79u [124.41,137.50]u = 479-529px@459px body, groundY500@512); keeps cell0 guard, cell1 crouch-coil windup, cell2 launch, cell3 crushing dash, cell4 brake (charge.crush guard->windup->crushing advance->brake->guard); cells5-8 spares alternate dash/brake; same camera/scale/ground as banked refs; weapon fully in frame; no labels/guide lines"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted)", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in order 1->2->3->4 before reservation (walk:0 re-read singly after a pre-call validation error); same order passed as referenceImages",
+  "callNote": "first image_generate invocation failed BEFORE any upstream generation on reference validation (attachmentId missing sha256: prefix; no image produced, no ledger change beyond the reserve); corrected reference format and made the single successful generation above - exactly one generated image total, no reroll/second sheet",
+  "reserveCommit": "96e4630c6cca91d09ea9550eb6377ba69883330a",
+  "ledgerAfter": { "xuchuUsed": 14, "walk": 13, "charge": 1, "globalSummed": 181, "ceilings": "22/189", "sha256": "1fd2c67d57c95de3d086938f51d7c36ce0b9fec8731a3d292506f2609b3f6a94" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false
+}

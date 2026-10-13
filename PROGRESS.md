@@ -4,6 +4,11 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-13 — CMR-15A Alternative Completion Phase 3: charge 3×3 sheet candidate GENERATED, UNREVIEWED (IN_PROGRESS, no gates/extraction, not banked)
+
+- Work `cmr15a-phase3-charge-generate`: reserve-before-call committed `96e4630` ([reservation.json](art/motion/xuchu/closeout-campaign/07-charge/reservation.json) + [prompt.txt](art/motion/xuchu/closeout-campaign/07-charge/prompt.txt) `ebf2d9c9…`, Xu Chu 13→14 / charge 0→1 / global 180→181, ceilings 22/189). Prompt adapts Li Dian `charge-prompt.txt` (`68a49365…`, PROVENANCE Request 3/12 + AUTHORING-PLAN keeps 0–4/spares 5–8) sentence-by-sentence to Xu Chu identity + frozen band (130.79u [124.41,137.50]u, body 459px@512, groundY500): keeps guard/crouch-coil windup/launch/crushing dash/brake (`charge.crush` guard→windup→advance→brake→guard), spares alternate dash/brake, weapon fully in frame, no labels/guide lines. References read+sent in order: banked walk:0 guard `2a4a415d…` → banked walk:2 via candidate-raw.jpg `893c90d7…` → body master `98c1847b…` → portrait master `c663fd54…`. No provider recorded for Li Dian charge → exactly ONE gpt sheet generation, 1536×1024 (serving UNCONFIRMED); one earlier invocation failed pre-generation reference validation (missing `sha256:` prefix, no image produced) and was corrected — one generated image total, no reroll.
+- Candidate `11080736…` 1536×1024 PNG (2,205,514 B) byte-copied to `07-charge/candidate-raw.png` with [candidate.json](art/motion/xuchu/closeout-campaign/07-charge/candidate.json) **UNREVIEWED**; no extraction/retouch/gates/focused fix in this package, nothing banked, never pushed. Next: separate deterministic-retouch + gating package for this sheet.
+
 ### 2026-10-13 — CMR-15A WALK:5 ZERO-GENERATION PHASE AMENDMENT: original walk:5 BANKED under amended Stop/Settle (GPT candidate rejected; IN_PROGRESS, zero generation, no Phase 3)
 
 - Work `cmr15a-walk5-zerogen-amendment`: owner grant recorded verbatim in TASKS.md CMR-15A; prospective BLOCKED→IN_PROGRESS (history/banked walk:0–4/frozen band/ledger preserved); CAMPAIGN §(a) walk:5 ONLY amended from exact Li Dian-guide Brake metrics to the Stop/Settle closing-key definition. Ledger verified unchanged (`e22523da…`, Xu Chu 13/global 180, ceilings 22/189); zero generation.
