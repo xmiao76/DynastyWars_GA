@@ -1,0 +1,27 @@
+{
+  "work": "cmr15a-walk5-attempt2",
+  "key": "walk:5",
+  "attempt": "attempt2 (second attempt, briefed on attempt-1 Brake-gait failure)",
+  "status": "UNREVIEWED",
+  "provider": {
+    "requested": "grok",
+    "serving": "grok (subscription image_generate, provider preference grok; single call)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/04-walk5/attempt2/candidate-raw.jpg",
+    "sha256": "998735e68a04c380b6aecbe1f93ef531f7019634f534fac5d4261f876234c1f4",
+    "bytes": 158967,
+    "size": [
+      1024,
+      1024
+    ],
+    "format": "jpeg"
+  },
+  "references": [
+    "padded-refs/walk5-padded-ref.png df0f13a1...",
+    "01-walk2/accepted.png 893c90d7... (byte-identical candidate-raw.jpg)",
+    "03-walk4/attempt2/accepted.png 75488eb1..."
+  ],
+  "reserveCommit": "da1296b",
+  "exactlyOneGeneration": true
+}
