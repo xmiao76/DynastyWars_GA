@@ -1,0 +1,3594 @@
+{
+  "work": "cmr15a-phase3-fall-gates",
+  "canvas": [
+    1024,
+    768
+  ],
+  "groundYCanvas": 756,
+  "padTop": 256,
+  "sheetSha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd",
+  "sheetSize": [
+    1536,
+    1024
+  ],
+  "components": 9,
+  "sheetScale": 1.173913043478261,
+  "scaleCell": "cell4-down",
+  "scaleMethod": "cell4-down prone body length head-to-boots (helmet-end x minus boot-end x) = frozen 459px; one uniform scale for all 9 cells; lowest component px -> groundY500",
+  "scaleBodyNativePx": 391,
+  "proneCrossChecks": {
+    "4": {
+      "bootEndX": 492,
+      "headEndX": 883,
+      "lenPx": 391
+    },
+    "7": {
+      "bootEndX": 494,
+      "headEndX": 891,
+      "lenPx": 397
+    },
+    "8": {
+      "bootEndX": 1015,
+      "headEndX": 1397,
+      "lenPx": 382
+    }
+  },
+  "frozen": {
+    "bodyPx": 459,
+    "groundY": 500,
+    "weaponU": 130.79017343848048,
+    "bandU": [
+      124.40626991803302,
+      137.50166675151021
+    ],
+    "angleDeg": -26.31040494480514,
+    "weaponPxAt512": 503.12026395286443
+  },
+  "targetU": 132,
+  "ledgerVerified": {
+    "sha256": "d9dbeecd2499d3d3d90f28dbec61b8f8b46853341a3542f1e210486b365cd6f3",
+    "xuchuUsed": 22,
+    "xuchuFall": 1,
+    "globalUsed": 189,
+    "expected": "Xu Chu 22 (fall 1) / global 189",
+    "matches": true
+  },
+  "keeps": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 1,
+      "compPx": 70248,
+      "nativeBounds": [
+        33,
+        24,
+        471,
+        430
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          59.82,
+          281.96
+        ],
+        "tip": [
+          466,
+          33
+        ],
+        "crownY": 81,
+        "soleY": 430,
+        "helmetWNative": 62,
+        "rearGripTNative": [
+          104.04,
+          189.37
+        ],
+        "frontGripTNative": [
+          197.51,
+          282.84
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": 216,
+        "dy": 251,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "f43e230fbf9245e65183243a5090a7531a10cb2f503ec9c254c345aa6c8850a7",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 255,
+          "ymin": 279,
+          "xmax": 770,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          286.61,
+          583.13
+        ],
+        "tip": [
+          761,
+          285
+        ],
+        "pxLen": 560.29,
+        "u": 145.65,
+        "angDeg": -32.15,
+        "boots": [
+          {
+            "x0": 522,
+            "x1": 590,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.08,
+        "aspectWH": 1.08
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 40,
+          "bladeRunT": [
+            357,
+            388
+          ],
+          "bladeCleanStartT": 357,
+          "socketTReg": 388.96,
+          "buttAvailPx": 32,
+          "bladeAvailPx": 23,
+          "removeToTarget132Px": 53,
+          "removeToBandHiPx": 32,
+          "totalAvailPx": 55,
+          "reachesBand": true,
+          "reachesTarget": true
+        },
+        "removeRequestedPx": 53,
+        "buttRemovePx": 32,
+        "bladeRemovePx": 21,
+        "bCut": [
+          8,
+          40
+        ],
+        "dCut": [
+          363,
+          384
+        ],
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              40
+            ],
+            "widthBeforeCut": [
+              -11,
+              11
+            ],
+            "widthAfterJoint": [
+              -56,
+              12
+            ]
+          },
+          "bladeJoint": {
+            "cutT": [
+              363,
+              384
+            ],
+            "widthBeforeJoint": [
+              16,
+              36
+            ],
+            "widthAfterCut": [
+              17,
+              39
+            ]
+          }
+        },
+        "movedPx": 8644,
+        "outsideProof": {
+          "hashBefore": "52a2c3826433eab4de4228d7c826d59729bf07903a316e01529156d8a6880cdc",
+          "hashAfter": "52a2c3826433eab4de4228d7c826d59729bf07903a316e01529156d8a6880cdc",
+          "changedOutside": 0,
+          "changedInside": 12789
+        },
+        "retouchedHash": "dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 255,
+            "ymin": 290,
+            "xmax": 752,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            313.61,
+            566.13
+          ],
+          "tip": [
+            743,
+            296
+          ],
+          "pxLen": 507.29,
+          "u": 131.87,
+          "angDeg": -32.17,
+          "boots": [
+            {
+              "x0": 522,
+              "x1": 590,
+              "soleY": 757
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.08,
+          "aspectWH": 1.06
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 255,
+          "ymin": 290,
+          "xmax": 752,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          313.61,
+          566.13
+        ],
+        "tip": [
+          743,
+          296
+        ],
+        "pxLen": 507.29,
+        "u": 131.87,
+        "angDeg": -32.17,
+        "boots": [
+          {
+            "x0": 522,
+            "x1": 590,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.08,
+        "aspectWH": 1.06
+      },
+      "finalHash": "dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8",
+      "finalFile": "cell0-topple-retouched.png",
+      "compHeightNativePx": 407,
+      "compHeightRegPx": 477.78,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell0-topple-marked.png",
+        "headZoom": "cell0-topple-head-zoom.png",
+        "tip4x": "cell0-topple-tip-4x.png",
+        "solesZoom": "cell0-topple-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 1,
+      "name": "cell1-airborne",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 0,
+      "compPx": 69759,
+      "nativeBounds": [
+        543,
+        18,
+        981,
+        359
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          547.34,
+          261.13
+        ],
+        "tip": [
+          978,
+          25
+        ],
+        "crownY": 96,
+        "soleY": 359,
+        "helmetWNative": 74,
+        "rearGripTNative": [
+          97,
+          181.75
+        ],
+        "frontGripTNative": [
+          191.12,
+          275.43
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -383,
+        "dy": 335,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "bfb8d9b46b610fa600e939dd0b39b35a3dd4f42279e0b306de0fa5bfe63da857",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 255,
+          "ymin": 356,
+          "xmax": 770,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          259.97,
+          642.81
+        ],
+        "tip": [
+          762,
+          357
+        ],
+        "pxLen": 577.68,
+        "u": 150.17,
+        "angDeg": -29.65,
+        "boots": [
+          {
+            "x0": 429,
+            "x1": 501,
+            "soleY": 757
+          },
+          {
+            "x0": 605,
+            "x1": 656,
+            "soleY": 749
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.12,
+        "aspectWH": 1.28
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 50,
+          "bladeRunT": [
+            364,
+            376
+          ],
+          "bladeCleanStartT": 364,
+          "socketTReg": 401.48,
+          "buttAvailPx": 42,
+          "bladeAvailPx": 4,
+          "removeToTarget132Px": 70,
+          "removeToBandHiPx": 49,
+          "totalAvailPx": 46,
+          "reachesBand": false,
+          "reachesTarget": false
+        },
+        "removeRequestedPx": 70,
+        "buttRemovePx": 42,
+        "bladeRemovePx": 4,
+        "bCut": [
+          8,
+          50
+        ],
+        "dCut": [
+          368,
+          372
+        ],
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              50
+            ],
+            "widthBeforeCut": [
+              -13,
+              12
+            ],
+            "widthAfterJoint": [
+              -56,
+              11
+            ]
+          },
+          "bladeJoint": {
+            "cutT": [
+              368,
+              372
+            ],
+            "widthBeforeJoint": [
+              12,
+              33
+            ],
+            "widthAfterCut": [
+              12,
+              34
+            ]
+          }
+        },
+        "movedPx": 15337,
+        "outsideProof": {
+          "hashBefore": "6f642742d1e90a91f1979b702932cd6d3c02410801cd4af6f543e840a3ececbb",
+          "hashAfter": "6f642742d1e90a91f1979b702932cd6d3c02410801cd4af6f543e840a3ececbb",
+          "changedOutside": 0,
+          "changedInside": 17348
+        },
+        "retouchedHash": "aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 259,
+            "ymin": 358,
+            "xmax": 767,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            295.97,
+            621.81
+          ],
+          "tip": [
+            762,
+            365
+          ],
+          "pxLen": 532.1,
+          "u": 138.32,
+          "angDeg": -28.86,
+          "boots": [
+            {
+              "x0": 429,
+              "x1": 501,
+              "soleY": 757
+            },
+            {
+              "x0": 605,
+              "x1": 656,
+              "soleY": 749
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.12,
+          "aspectWH": 1.27
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 259,
+          "ymin": 358,
+          "xmax": 767,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          295.97,
+          621.81
+        ],
+        "tip": [
+          762,
+          365
+        ],
+        "pxLen": 532.1,
+        "u": 138.32,
+        "angDeg": -28.86,
+        "boots": [
+          {
+            "x0": 429,
+            "x1": 501,
+            "soleY": 757
+          },
+          {
+            "x0": 605,
+            "x1": 656,
+            "soleY": 749
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.12,
+        "aspectWH": 1.27
+      },
+      "finalHash": "aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23",
+      "finalFile": "cell1-airborne-retouched.png",
+      "compHeightNativePx": 342,
+      "compHeightRegPx": 401.48,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell1-airborne-marked.png",
+        "headZoom": "cell1-airborne-head-zoom.png",
+        "tip4x": "cell1-airborne-tip-4x.png",
+        "solesZoom": "cell1-airborne-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 2,
+      "name": "cell2-tumble",
+      "role": "keep",
+      "buttCapVisible": false,
+      "compId": 2,
+      "compPx": 55227,
+      "nativeBounds": [
+        1058,
+        86,
+        1505,
+        363
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          1157.09,
+          157.16
+        ],
+        "tip": [
+          1505,
+          102
+        ],
+        "crownY": 137,
+        "soleY": 363,
+        "helmetWNative": 141,
+        "rearGripTNative": [
+          126.47,
+          203.27
+        ],
+        "frontGripTNative": [
+          126.47,
+          203.27
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -992,
+        "dy": 330,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 250,
+          "ymin": 431,
+          "xmax": 776,
+          "ymax": 756
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          352.27,
+          517.1
+        ],
+        "tip": [
+          776,
+          452
+        ],
+        "pxLen": 428.7,
+        "u": 111.44,
+        "angDeg": -8.73,
+        "boots": [
+          {
+            "x0": 420,
+            "x1": 533,
+            "soleY": 756
+          }
+        ],
+        "groundErrU": 0,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 1.62
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 250,
+          "ymin": 431,
+          "xmax": 776,
+          "ymax": 756
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          352.27,
+          517.1
+        ],
+        "tip": [
+          776,
+          452
+        ],
+        "pxLen": 428.7,
+        "u": 111.44,
+        "angDeg": -8.73,
+        "boots": [
+          {
+            "x0": 420,
+            "x1": 533,
+            "soleY": 756
+          }
+        ],
+        "groundErrU": 0,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 1.62
+      },
+      "finalHash": "caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562",
+      "finalFile": "cell2-tumble-registered.png",
+      "compHeightNativePx": 278,
+      "compHeightRegPx": 326.35,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell2-tumble-marked.png",
+        "headZoom": "cell2-tumble-head-zoom.png",
+        "tip4x": "cell2-tumble-tip-4x.png",
+        "solesZoom": "cell2-tumble-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 3,
+      "name": "cell3-impact",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 3,
+      "compPx": 58864,
+      "nativeBounds": [
+        39,
+        455,
+        494,
+        720
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          51.79,
+          708.53
+        ],
+        "tip": [
+          490,
+          505
+        ],
+        "crownY": 531,
+        "soleY": 720,
+        "helmetWNative": 57,
+        "rearGripTNative": [
+          202.86,
+          290.23
+        ],
+        "frontGripTNative": [
+          202.86,
+          290.23
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": 199,
+        "dy": -89,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "ec6fc3fb36311c852c9c9a3df872f06a8a590e196e1a84e544c161d1088b040b",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 245,
+          "ymin": 445,
+          "xmax": 780,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          260.52,
+          743.89
+        ],
+        "tip": [
+          772,
+          497
+        ],
+        "pxLen": 567.95,
+        "u": 147.64,
+        "angDeg": -25.77,
+        "boots": [
+          {
+            "x0": 256,
+            "x1": 321,
+            "soleY": 753
+          },
+          {
+            "x0": 359,
+            "x1": 630,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.52,
+        "aspectWH": 1.71
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 76,
+          "bladeRunT": [
+            387,
+            411
+          ],
+          "bladeCleanStartT": 387,
+          "socketTReg": 434.23,
+          "buttAvailPx": 68,
+          "bladeAvailPx": 16,
+          "removeToTarget132Px": 60,
+          "removeToBandHiPx": 40,
+          "totalAvailPx": 84,
+          "reachesBand": true,
+          "reachesTarget": true
+        },
+        "removeRequestedPx": 60,
+        "buttRemovePx": 60,
+        "bladeRemovePx": 0,
+        "bCut": [
+          8,
+          68
+        ],
+        "dCut": null,
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              68
+            ],
+            "widthBeforeCut": [
+              -12,
+              13
+            ],
+            "widthAfterJoint": [
+              0,
+              16
+            ]
+          }
+        },
+        "movedPx": 275,
+        "outsideProof": {
+          "hashBefore": "e81440456fda00a36a1422db5f49a2b65d72c27475d12dadfec7075899316f79",
+          "hashAfter": "e81440456fda00a36a1422db5f49a2b65d72c27475d12dadfec7075899316f79",
+          "changedOutside": 0,
+          "changedInside": 1712
+        },
+        "retouchedHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 245,
+            "ymin": 445,
+            "xmax": 780,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            314.52,
+            717.89
+          ],
+          "tip": [
+            772,
+            497
+          ],
+          "pxLen": 508.01,
+          "u": 132.06,
+          "angDeg": -25.77,
+          "boots": [
+            {
+              "x0": 359,
+              "x1": 630,
+              "soleY": 757
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.47,
+          "aspectWH": 1.71
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 245,
+          "ymin": 445,
+          "xmax": 780,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          314.52,
+          717.89
+        ],
+        "tip": [
+          772,
+          497
+        ],
+        "pxLen": 508.01,
+        "u": 132.06,
+        "angDeg": -25.77,
+        "boots": [
+          {
+            "x0": 359,
+            "x1": 630,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.47,
+        "aspectWH": 1.71
+      },
+      "finalHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+      "finalFile": "cell3-impact-retouched.png",
+      "compHeightNativePx": 266,
+      "compHeightRegPx": 312.26,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell3-impact-marked.png",
+        "headZoom": "cell3-impact-head-zoom.png",
+        "tip4x": "cell3-impact-tip-4x.png",
+        "solesZoom": "cell3-impact-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 5,
+      "compPx": 37293,
+      "nativeBounds": [
+        492,
+        592,
+        1025,
+        710
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          584.51,
+          681.07
+        ],
+        "tip": [
+          1025,
+          609
+        ],
+        "crownY": 594,
+        "soleY": 710,
+        "helmetWNative": 114,
+        "rearGripTNative": [
+          223.37,
+          298.7
+        ],
+        "frontGripTNative": [
+          223.37,
+          298.7
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -378,
+        "dy": -77,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 200,
+          "ymin": 618,
+          "xmax": 826,
+          "ymax": 758
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          294.67,
+          717.65
+        ],
+        "tip": [
+          826,
+          639
+        ],
+        "pxLen": 537.12,
+        "u": 139.63,
+        "angDeg": -8.42,
+        "boots": [
+          {
+            "x0": 203,
+            "x1": 234,
+            "soleY": 737
+          },
+          {
+            "x0": 317,
+            "x1": 622,
+            "soleY": 758
+          },
+          {
+            "x0": 704,
+            "x1": 730,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.52,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 4.45
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": null,
+          "buttCleanEndT": 0,
+          "bladeRunT": [
+            373,
+            381
+          ],
+          "bladeCleanStartT": 373,
+          "socketTReg": 381.22,
+          "buttAvailPx": 0,
+          "bladeAvailPx": 0,
+          "removeToTarget132Px": 29,
+          "removeToBandHiPx": 9,
+          "totalAvailPx": 0,
+          "reachesBand": false,
+          "reachesTarget": false
+        },
+        "removeRequestedPx": 29,
+        "buttRemovePx": 0,
+        "bladeRemovePx": 0,
+        "bCut": null,
+        "dCut": null,
+        "seam": {},
+        "movedPx": 0,
+        "outsideProof": {
+          "hashBefore": "c38fac91639d09481c311788023460c7d895697efc9047de9e0cb90fd20143aa",
+          "hashAfter": "c38fac91639d09481c311788023460c7d895697efc9047de9e0cb90fd20143aa",
+          "changedOutside": 0,
+          "changedInside": 0
+        },
+        "retouchedHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 200,
+            "ymin": 618,
+            "xmax": 826,
+            "ymax": 758
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            294.67,
+            717.65
+          ],
+          "tip": [
+            826,
+            639
+          ],
+          "pxLen": 537.12,
+          "u": 139.63,
+          "angDeg": -8.42,
+          "boots": [
+            {
+              "x0": 203,
+              "x1": 234,
+              "soleY": 737
+            },
+            {
+              "x0": 317,
+              "x1": 622,
+              "soleY": 758
+            },
+            {
+              "x0": 704,
+              "x1": 730,
+              "soleY": 755
+            }
+          ],
+          "groundErrU": 0.52,
+          "contactColsFrac10": 0.13,
+          "aspectWH": 4.45
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 200,
+          "ymin": 618,
+          "xmax": 826,
+          "ymax": 758
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          294.67,
+          717.65
+        ],
+        "tip": [
+          826,
+          639
+        ],
+        "pxLen": 537.12,
+        "u": 139.63,
+        "angDeg": -8.42,
+        "boots": [
+          {
+            "x0": 203,
+            "x1": 234,
+            "soleY": 737
+          },
+          {
+            "x0": 317,
+            "x1": 622,
+            "soleY": 758
+          },
+          {
+            "x0": 704,
+            "x1": 730,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.52,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 4.45
+      },
+      "finalHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+      "finalFile": "cell4-down-retouched.png",
+      "compHeightNativePx": 119,
+      "compHeightRegPx": 139.7,
+      "proneLen": {
+        "bootEndX": 492,
+        "headEndX": 883,
+        "lenPx": 391
+      },
+      "evidence": {
+        "marked": "cell4-down-marked.png",
+        "headZoom": "cell4-down-head-zoom.png",
+        "tip4x": "cell4-down-tip-4x.png",
+        "solesZoom": "cell4-down-soles-zoom.png"
+      }
+    }
+  ],
+  "spares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-fall-a",
+      "role": "spare",
+      "buttCapVisible": false,
+      "compId": 4,
+      "compPx": 42636,
+      "nativeBounds": [
+        1029,
+        543,
+        1526,
+        709
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          1144.37,
+          639.04
+        ],
+        "tip": [
+          1526,
+          634
+        ],
+        "crownY": 560,
+        "soleY": 709,
+        "helmetWNative": 97,
+        "rearGripTNative": [
+          44.78,
+          121.97
+        ],
+        "frontGripTNative": [
+          215.02,
+          291.56
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -988,
+        "dy": -76,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "30491a766cf6d044d0360b012b2a5a903dad004eb598ed71e1024f7dae440602",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 220,
+          "ymin": 562,
+          "xmax": 804,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          342.02,
+          674.07
+        ],
+        "tip": [
+          804,
+          669
+        ],
+        "pxLen": 462.01,
+        "u": 120.1,
+        "angDeg": -0.63,
+        "boots": [
+          {
+            "x0": 220,
+            "x1": 266,
+            "soleY": 744
+          },
+          {
+            "x0": 313,
+            "x1": 534,
+            "soleY": 756
+          },
+          {
+            "x0": 584,
+            "x1": 639,
+            "soleY": 739
+          },
+          {
+            "x0": 706,
+            "x1": 733,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.18,
+        "aspectWH": 2.98
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 220,
+          "ymin": 562,
+          "xmax": 804,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          342.02,
+          674.07
+        ],
+        "tip": [
+          804,
+          669
+        ],
+        "pxLen": 462.01,
+        "u": 120.1,
+        "angDeg": -0.63,
+        "boots": [
+          {
+            "x0": 220,
+            "x1": 266,
+            "soleY": 744
+          },
+          {
+            "x0": 313,
+            "x1": 534,
+            "soleY": 756
+          },
+          {
+            "x0": 584,
+            "x1": 639,
+            "soleY": 739
+          },
+          {
+            "x0": 706,
+            "x1": 733,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.18,
+        "aspectWH": 2.98
+      },
+      "finalHash": "30491a766cf6d044d0360b012b2a5a903dad004eb598ed71e1024f7dae440602",
+      "finalFile": "cell5-spare-fall-a-registered.png",
+      "compHeightNativePx": 167,
+      "compHeightRegPx": 196.04,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell5-spare-fall-a-marked.png",
+        "headZoom": "cell5-spare-fall-a-head-zoom.png",
+        "tip4x": "cell5-spare-fall-a-tip-4x.png",
+        "solesZoom": "cell5-spare-fall-a-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-fall-b",
+      "role": "spare",
+      "buttCapVisible": true,
+      "compId": 6,
+      "compPx": 52910,
+      "nativeBounds": [
+        34,
+        751,
+        477,
+        991
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          36.89,
+          936.42
+        ],
+        "tip": [
+          476,
+          809
+        ],
+        "crownY": 788,
+        "soleY": 991,
+        "helmetWNative": 72,
+        "rearGripTNative": [
+          112.84,
+          200.94
+        ],
+        "frontGripTNative": [
+          112.84,
+          200.94
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": 212,
+        "dy": -407,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "37ba04eb251d27cd5e7aa58a52d2dc2d35a920a1212375bfeea4d452464d4b07",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 252,
+          "ymin": 475,
+          "xmax": 773,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          255.47,
+          693.44
+        ],
+        "tip": [
+          772,
+          544
+        ],
+        "pxLen": 537.72,
+        "u": 139.78,
+        "angDeg": -16.14,
+        "boots": [
+          {
+            "x0": 386,
+            "x1": 526,
+            "soleY": 757
+          },
+          {
+            "x0": 639,
+            "x1": 705,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.21,
+        "aspectWH": 1.84
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 22,
+          "bladeRunT": [
+            378,
+            384
+          ],
+          "bladeCleanStartT": 378,
+          "socketTReg": 404.01,
+          "buttAvailPx": 14,
+          "bladeAvailPx": 0,
+          "removeToTarget132Px": 30,
+          "removeToBandHiPx": 9,
+          "totalAvailPx": 14,
+          "reachesBand": true,
+          "reachesTarget": false
+        },
+        "removeRequestedPx": 30,
+        "buttRemovePx": 14,
+        "bladeRemovePx": 0,
+        "bCut": [
+          8,
+          22
+        ],
+        "dCut": null,
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              22
+            ],
+            "widthBeforeCut": [
+              -12,
+              11
+            ],
+            "widthAfterJoint": [
+              -44,
+              10
+            ]
+          }
+        },
+        "movedPx": 249,
+        "outsideProof": {
+          "hashBefore": "60af3de69e99a71e42280e90263cdaedfe819c20dd0ecfa9403b74a171bcf2e9",
+          "hashAfter": "60af3de69e99a71e42280e90263cdaedfe819c20dd0ecfa9403b74a171bcf2e9",
+          "changedOutside": 0,
+          "changedInside": 630
+        },
+        "retouchedHash": "3c949f3fcf143eef0a3a503bc99f57300424bc2d8dab58cfb7f65efc653428b1",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 265,
+            "ymin": 475,
+            "xmax": 773,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            268.47,
+            689.44
+          ],
+          "tip": [
+            772,
+            544
+          ],
+          "pxLen": 524.12,
+          "u": 136.25,
+          "angDeg": -16.11,
+          "boots": [
+            {
+              "x0": 386,
+              "x1": 526,
+              "soleY": 757
+            },
+            {
+              "x0": 639,
+              "x1": 705,
+              "soleY": 757
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.22,
+          "aspectWH": 1.8
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 265,
+          "ymin": 475,
+          "xmax": 773,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          268.47,
+          689.44
+        ],
+        "tip": [
+          772,
+          544
+        ],
+        "pxLen": 524.12,
+        "u": 136.25,
+        "angDeg": -16.11,
+        "boots": [
+          {
+            "x0": 386,
+            "x1": 526,
+            "soleY": 757
+          },
+          {
+            "x0": 639,
+            "x1": 705,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.22,
+        "aspectWH": 1.8
+      },
+      "finalHash": "3c949f3fcf143eef0a3a503bc99f57300424bc2d8dab58cfb7f65efc653428b1",
+      "finalFile": "cell6-spare-fall-b-retouched.png",
+      "compHeightNativePx": 241,
+      "compHeightRegPx": 282.91,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell6-spare-fall-b-marked.png",
+        "headZoom": "cell6-spare-fall-b-head-zoom.png",
+        "tip4x": "cell6-spare-fall-b-tip-4x.png",
+        "solesZoom": "cell6-spare-fall-b-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-fall-c",
+      "role": "spare",
+      "buttCapVisible": true,
+      "compId": 7,
+      "compPx": 40229,
+      "nativeBounds": [
+        494,
+        835,
+        1007,
+        987
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          600.52,
+          946.65
+        ],
+        "tip": [
+          1007,
+          902
+        ],
+        "crownY": 871,
+        "soleY": 987,
+        "helmetWNative": 77,
+        "rearGripTNative": [
+          188.44,
+          266
+        ],
+        "frontGripTNative": [
+          188.44,
+          266
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -369,
+        "dy": -403,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "b6bb7b4c4cb3bf519780a0d226a588149db3fb933c699f2a7c9747f53474793d",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 211,
+          "ymin": 577,
+          "xmax": 813,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          322.87,
+          702.4
+        ],
+        "tip": [
+          813,
+          647
+        ],
+        "pxLen": 493.25,
+        "u": 128.23,
+        "angDeg": -6.45,
+        "boots": [
+          {
+            "x0": 217,
+            "x1": 239,
+            "soleY": 733
+          },
+          {
+            "x0": 360,
+            "x1": 464,
+            "soleY": 757
+          },
+          {
+            "x0": 688,
+            "x1": 714,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.33
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 211,
+          "ymin": 577,
+          "xmax": 813,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          322.87,
+          702.4
+        ],
+        "tip": [
+          813,
+          647
+        ],
+        "pxLen": 493.25,
+        "u": 128.23,
+        "angDeg": -6.45,
+        "boots": [
+          {
+            "x0": 217,
+            "x1": 239,
+            "soleY": 733
+          },
+          {
+            "x0": 360,
+            "x1": 464,
+            "soleY": 757
+          },
+          {
+            "x0": 688,
+            "x1": 714,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.33
+      },
+      "finalHash": "b6bb7b4c4cb3bf519780a0d226a588149db3fb933c699f2a7c9747f53474793d",
+      "finalFile": "cell7-spare-fall-c-registered.png",
+      "compHeightNativePx": 153,
+      "compHeightRegPx": 179.61,
+      "proneLen": {
+        "bootEndX": 494,
+        "headEndX": 891,
+        "lenPx": 397
+      },
+      "evidence": {
+        "marked": "cell7-spare-fall-c-marked.png",
+        "headZoom": "cell7-spare-fall-c-head-zoom.png",
+        "tip4x": "cell7-spare-fall-c-tip-4x.png",
+        "solesZoom": "cell7-spare-fall-c-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-fall-d",
+      "role": "spare",
+      "buttCapVisible": true,
+      "compId": 8,
+      "compPx": 36573,
+      "nativeBounds": [
+        1015,
+        854,
+        1515,
+        986
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          1200.1,
+          953.21
+        ],
+        "tip": [
+          1515,
+          896
+        ],
+        "crownY": 864,
+        "soleY": 986,
+        "helmetWNative": 102,
+        "rearGripTNative": [
+          148.18,
+          226.79
+        ],
+        "frontGripTNative": [
+          148.18,
+          226.79
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -973,
+        "dy": -401,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "573a6c437ca11b5ad7c2ed1565f088e785243096753780b7023636dc8ee3fd56",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 219,
+          "ymin": 602,
+          "xmax": 806,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          422.65,
+          716.38
+        ],
+        "tip": [
+          806,
+          651
+        ],
+        "pxLen": 388.89,
+        "u": 101.09,
+        "angDeg": -9.68,
+        "boots": [
+          {
+            "x0": 473,
+            "x1": 582,
+            "soleY": 757
+          },
+          {
+            "x0": 710,
+            "x1": 738,
+            "soleY": 754
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.77
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 219,
+          "ymin": 602,
+          "xmax": 806,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          422.65,
+          716.38
+        ],
+        "tip": [
+          806,
+          651
+        ],
+        "pxLen": 388.89,
+        "u": 101.09,
+        "angDeg": -9.68,
+        "boots": [
+          {
+            "x0": 473,
+            "x1": 582,
+            "soleY": 757
+          },
+          {
+            "x0": 710,
+            "x1": 738,
+            "soleY": 754
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.77
+      },
+      "finalHash": "573a6c437ca11b5ad7c2ed1565f088e785243096753780b7023636dc8ee3fd56",
+      "finalFile": "cell8-spare-fall-d-registered.png",
+      "compHeightNativePx": 133,
+      "compHeightRegPx": 156.13,
+      "proneLen": {
+        "bootEndX": 1015,
+        "headEndX": 1397,
+        "lenPx": 382
+      },
+      "evidence": {
+        "marked": "cell8-spare-fall-d-marked.png",
+        "headZoom": "cell8-spare-fall-d-head-zoom.png",
+        "tip4x": "cell8-spare-fall-d-tip-4x.png",
+        "solesZoom": "cell8-spare-fall-d-soles-zoom.png"
+      }
+    }
+  ],
+  "all": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 1,
+      "compPx": 70248,
+      "nativeBounds": [
+        33,
+        24,
+        471,
+        430
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          59.82,
+          281.96
+        ],
+        "tip": [
+          466,
+          33
+        ],
+        "crownY": 81,
+        "soleY": 430,
+        "helmetWNative": 62,
+        "rearGripTNative": [
+          104.04,
+          189.37
+        ],
+        "frontGripTNative": [
+          197.51,
+          282.84
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": 216,
+        "dy": 251,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "f43e230fbf9245e65183243a5090a7531a10cb2f503ec9c254c345aa6c8850a7",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 255,
+          "ymin": 279,
+          "xmax": 770,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          286.61,
+          583.13
+        ],
+        "tip": [
+          761,
+          285
+        ],
+        "pxLen": 560.29,
+        "u": 145.65,
+        "angDeg": -32.15,
+        "boots": [
+          {
+            "x0": 522,
+            "x1": 590,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.08,
+        "aspectWH": 1.08
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 40,
+          "bladeRunT": [
+            357,
+            388
+          ],
+          "bladeCleanStartT": 357,
+          "socketTReg": 388.96,
+          "buttAvailPx": 32,
+          "bladeAvailPx": 23,
+          "removeToTarget132Px": 53,
+          "removeToBandHiPx": 32,
+          "totalAvailPx": 55,
+          "reachesBand": true,
+          "reachesTarget": true
+        },
+        "removeRequestedPx": 53,
+        "buttRemovePx": 32,
+        "bladeRemovePx": 21,
+        "bCut": [
+          8,
+          40
+        ],
+        "dCut": [
+          363,
+          384
+        ],
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              40
+            ],
+            "widthBeforeCut": [
+              -11,
+              11
+            ],
+            "widthAfterJoint": [
+              -56,
+              12
+            ]
+          },
+          "bladeJoint": {
+            "cutT": [
+              363,
+              384
+            ],
+            "widthBeforeJoint": [
+              16,
+              36
+            ],
+            "widthAfterCut": [
+              17,
+              39
+            ]
+          }
+        },
+        "movedPx": 8644,
+        "outsideProof": {
+          "hashBefore": "52a2c3826433eab4de4228d7c826d59729bf07903a316e01529156d8a6880cdc",
+          "hashAfter": "52a2c3826433eab4de4228d7c826d59729bf07903a316e01529156d8a6880cdc",
+          "changedOutside": 0,
+          "changedInside": 12789
+        },
+        "retouchedHash": "dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 255,
+            "ymin": 290,
+            "xmax": 752,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            313.61,
+            566.13
+          ],
+          "tip": [
+            743,
+            296
+          ],
+          "pxLen": 507.29,
+          "u": 131.87,
+          "angDeg": -32.17,
+          "boots": [
+            {
+              "x0": 522,
+              "x1": 590,
+              "soleY": 757
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.08,
+          "aspectWH": 1.06
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 255,
+          "ymin": 290,
+          "xmax": 752,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          313.61,
+          566.13
+        ],
+        "tip": [
+          743,
+          296
+        ],
+        "pxLen": 507.29,
+        "u": 131.87,
+        "angDeg": -32.17,
+        "boots": [
+          {
+            "x0": 522,
+            "x1": 590,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.08,
+        "aspectWH": 1.06
+      },
+      "finalHash": "dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8",
+      "finalFile": "cell0-topple-retouched.png",
+      "compHeightNativePx": 407,
+      "compHeightRegPx": 477.78,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell0-topple-marked.png",
+        "headZoom": "cell0-topple-head-zoom.png",
+        "tip4x": "cell0-topple-tip-4x.png",
+        "solesZoom": "cell0-topple-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 1,
+      "name": "cell1-airborne",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 0,
+      "compPx": 69759,
+      "nativeBounds": [
+        543,
+        18,
+        981,
+        359
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          547.34,
+          261.13
+        ],
+        "tip": [
+          978,
+          25
+        ],
+        "crownY": 96,
+        "soleY": 359,
+        "helmetWNative": 74,
+        "rearGripTNative": [
+          97,
+          181.75
+        ],
+        "frontGripTNative": [
+          191.12,
+          275.43
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -383,
+        "dy": 335,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "bfb8d9b46b610fa600e939dd0b39b35a3dd4f42279e0b306de0fa5bfe63da857",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 255,
+          "ymin": 356,
+          "xmax": 770,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          259.97,
+          642.81
+        ],
+        "tip": [
+          762,
+          357
+        ],
+        "pxLen": 577.68,
+        "u": 150.17,
+        "angDeg": -29.65,
+        "boots": [
+          {
+            "x0": 429,
+            "x1": 501,
+            "soleY": 757
+          },
+          {
+            "x0": 605,
+            "x1": 656,
+            "soleY": 749
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.12,
+        "aspectWH": 1.28
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 50,
+          "bladeRunT": [
+            364,
+            376
+          ],
+          "bladeCleanStartT": 364,
+          "socketTReg": 401.48,
+          "buttAvailPx": 42,
+          "bladeAvailPx": 4,
+          "removeToTarget132Px": 70,
+          "removeToBandHiPx": 49,
+          "totalAvailPx": 46,
+          "reachesBand": false,
+          "reachesTarget": false
+        },
+        "removeRequestedPx": 70,
+        "buttRemovePx": 42,
+        "bladeRemovePx": 4,
+        "bCut": [
+          8,
+          50
+        ],
+        "dCut": [
+          368,
+          372
+        ],
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              50
+            ],
+            "widthBeforeCut": [
+              -13,
+              12
+            ],
+            "widthAfterJoint": [
+              -56,
+              11
+            ]
+          },
+          "bladeJoint": {
+            "cutT": [
+              368,
+              372
+            ],
+            "widthBeforeJoint": [
+              12,
+              33
+            ],
+            "widthAfterCut": [
+              12,
+              34
+            ]
+          }
+        },
+        "movedPx": 15337,
+        "outsideProof": {
+          "hashBefore": "6f642742d1e90a91f1979b702932cd6d3c02410801cd4af6f543e840a3ececbb",
+          "hashAfter": "6f642742d1e90a91f1979b702932cd6d3c02410801cd4af6f543e840a3ececbb",
+          "changedOutside": 0,
+          "changedInside": 17348
+        },
+        "retouchedHash": "aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 259,
+            "ymin": 358,
+            "xmax": 767,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            295.97,
+            621.81
+          ],
+          "tip": [
+            762,
+            365
+          ],
+          "pxLen": 532.1,
+          "u": 138.32,
+          "angDeg": -28.86,
+          "boots": [
+            {
+              "x0": 429,
+              "x1": 501,
+              "soleY": 757
+            },
+            {
+              "x0": 605,
+              "x1": 656,
+              "soleY": 749
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.12,
+          "aspectWH": 1.27
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 259,
+          "ymin": 358,
+          "xmax": 767,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          295.97,
+          621.81
+        ],
+        "tip": [
+          762,
+          365
+        ],
+        "pxLen": 532.1,
+        "u": 138.32,
+        "angDeg": -28.86,
+        "boots": [
+          {
+            "x0": 429,
+            "x1": 501,
+            "soleY": 757
+          },
+          {
+            "x0": 605,
+            "x1": 656,
+            "soleY": 749
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.12,
+        "aspectWH": 1.27
+      },
+      "finalHash": "aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23",
+      "finalFile": "cell1-airborne-retouched.png",
+      "compHeightNativePx": 342,
+      "compHeightRegPx": 401.48,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell1-airborne-marked.png",
+        "headZoom": "cell1-airborne-head-zoom.png",
+        "tip4x": "cell1-airborne-tip-4x.png",
+        "solesZoom": "cell1-airborne-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 2,
+      "name": "cell2-tumble",
+      "role": "keep",
+      "buttCapVisible": false,
+      "compId": 2,
+      "compPx": 55227,
+      "nativeBounds": [
+        1058,
+        86,
+        1505,
+        363
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          1157.09,
+          157.16
+        ],
+        "tip": [
+          1505,
+          102
+        ],
+        "crownY": 137,
+        "soleY": 363,
+        "helmetWNative": 141,
+        "rearGripTNative": [
+          126.47,
+          203.27
+        ],
+        "frontGripTNative": [
+          126.47,
+          203.27
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -992,
+        "dy": 330,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 250,
+          "ymin": 431,
+          "xmax": 776,
+          "ymax": 756
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          352.27,
+          517.1
+        ],
+        "tip": [
+          776,
+          452
+        ],
+        "pxLen": 428.7,
+        "u": 111.44,
+        "angDeg": -8.73,
+        "boots": [
+          {
+            "x0": 420,
+            "x1": 533,
+            "soleY": 756
+          }
+        ],
+        "groundErrU": 0,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 1.62
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 250,
+          "ymin": 431,
+          "xmax": 776,
+          "ymax": 756
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          352.27,
+          517.1
+        ],
+        "tip": [
+          776,
+          452
+        ],
+        "pxLen": 428.7,
+        "u": 111.44,
+        "angDeg": -8.73,
+        "boots": [
+          {
+            "x0": 420,
+            "x1": 533,
+            "soleY": 756
+          }
+        ],
+        "groundErrU": 0,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 1.62
+      },
+      "finalHash": "caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562",
+      "finalFile": "cell2-tumble-registered.png",
+      "compHeightNativePx": 278,
+      "compHeightRegPx": 326.35,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell2-tumble-marked.png",
+        "headZoom": "cell2-tumble-head-zoom.png",
+        "tip4x": "cell2-tumble-tip-4x.png",
+        "solesZoom": "cell2-tumble-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 3,
+      "name": "cell3-impact",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 3,
+      "compPx": 58864,
+      "nativeBounds": [
+        39,
+        455,
+        494,
+        720
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          51.79,
+          708.53
+        ],
+        "tip": [
+          490,
+          505
+        ],
+        "crownY": 531,
+        "soleY": 720,
+        "helmetWNative": 57,
+        "rearGripTNative": [
+          202.86,
+          290.23
+        ],
+        "frontGripTNative": [
+          202.86,
+          290.23
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": 199,
+        "dy": -89,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "ec6fc3fb36311c852c9c9a3df872f06a8a590e196e1a84e544c161d1088b040b",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 245,
+          "ymin": 445,
+          "xmax": 780,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          260.52,
+          743.89
+        ],
+        "tip": [
+          772,
+          497
+        ],
+        "pxLen": 567.95,
+        "u": 147.64,
+        "angDeg": -25.77,
+        "boots": [
+          {
+            "x0": 256,
+            "x1": 321,
+            "soleY": 753
+          },
+          {
+            "x0": 359,
+            "x1": 630,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.52,
+        "aspectWH": 1.71
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 76,
+          "bladeRunT": [
+            387,
+            411
+          ],
+          "bladeCleanStartT": 387,
+          "socketTReg": 434.23,
+          "buttAvailPx": 68,
+          "bladeAvailPx": 16,
+          "removeToTarget132Px": 60,
+          "removeToBandHiPx": 40,
+          "totalAvailPx": 84,
+          "reachesBand": true,
+          "reachesTarget": true
+        },
+        "removeRequestedPx": 60,
+        "buttRemovePx": 60,
+        "bladeRemovePx": 0,
+        "bCut": [
+          8,
+          68
+        ],
+        "dCut": null,
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              68
+            ],
+            "widthBeforeCut": [
+              -12,
+              13
+            ],
+            "widthAfterJoint": [
+              0,
+              16
+            ]
+          }
+        },
+        "movedPx": 275,
+        "outsideProof": {
+          "hashBefore": "e81440456fda00a36a1422db5f49a2b65d72c27475d12dadfec7075899316f79",
+          "hashAfter": "e81440456fda00a36a1422db5f49a2b65d72c27475d12dadfec7075899316f79",
+          "changedOutside": 0,
+          "changedInside": 1712
+        },
+        "retouchedHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 245,
+            "ymin": 445,
+            "xmax": 780,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            314.52,
+            717.89
+          ],
+          "tip": [
+            772,
+            497
+          ],
+          "pxLen": 508.01,
+          "u": 132.06,
+          "angDeg": -25.77,
+          "boots": [
+            {
+              "x0": 359,
+              "x1": 630,
+              "soleY": 757
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.47,
+          "aspectWH": 1.71
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 245,
+          "ymin": 445,
+          "xmax": 780,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          314.52,
+          717.89
+        ],
+        "tip": [
+          772,
+          497
+        ],
+        "pxLen": 508.01,
+        "u": 132.06,
+        "angDeg": -25.77,
+        "boots": [
+          {
+            "x0": 359,
+            "x1": 630,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.47,
+        "aspectWH": 1.71
+      },
+      "finalHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+      "finalFile": "cell3-impact-retouched.png",
+      "compHeightNativePx": 266,
+      "compHeightRegPx": 312.26,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell3-impact-marked.png",
+        "headZoom": "cell3-impact-head-zoom.png",
+        "tip4x": "cell3-impact-tip-4x.png",
+        "solesZoom": "cell3-impact-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "role": "keep",
+      "buttCapVisible": true,
+      "compId": 5,
+      "compPx": 37293,
+      "nativeBounds": [
+        492,
+        592,
+        1025,
+        710
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          584.51,
+          681.07
+        ],
+        "tip": [
+          1025,
+          609
+        ],
+        "crownY": 594,
+        "soleY": 710,
+        "helmetWNative": 114,
+        "rearGripTNative": [
+          223.37,
+          298.7
+        ],
+        "frontGripTNative": [
+          223.37,
+          298.7
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -378,
+        "dy": -77,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 200,
+          "ymin": 618,
+          "xmax": 826,
+          "ymax": 758
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          294.67,
+          717.65
+        ],
+        "tip": [
+          826,
+          639
+        ],
+        "pxLen": 537.12,
+        "u": 139.63,
+        "angDeg": -8.42,
+        "boots": [
+          {
+            "x0": 203,
+            "x1": 234,
+            "soleY": 737
+          },
+          {
+            "x0": 317,
+            "x1": 622,
+            "soleY": 758
+          },
+          {
+            "x0": 704,
+            "x1": 730,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.52,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 4.45
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": null,
+          "buttCleanEndT": 0,
+          "bladeRunT": [
+            373,
+            381
+          ],
+          "bladeCleanStartT": 373,
+          "socketTReg": 381.22,
+          "buttAvailPx": 0,
+          "bladeAvailPx": 0,
+          "removeToTarget132Px": 29,
+          "removeToBandHiPx": 9,
+          "totalAvailPx": 0,
+          "reachesBand": false,
+          "reachesTarget": false
+        },
+        "removeRequestedPx": 29,
+        "buttRemovePx": 0,
+        "bladeRemovePx": 0,
+        "bCut": null,
+        "dCut": null,
+        "seam": {},
+        "movedPx": 0,
+        "outsideProof": {
+          "hashBefore": "c38fac91639d09481c311788023460c7d895697efc9047de9e0cb90fd20143aa",
+          "hashAfter": "c38fac91639d09481c311788023460c7d895697efc9047de9e0cb90fd20143aa",
+          "changedOutside": 0,
+          "changedInside": 0
+        },
+        "retouchedHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 200,
+            "ymin": 618,
+            "xmax": 826,
+            "ymax": 758
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            294.67,
+            717.65
+          ],
+          "tip": [
+            826,
+            639
+          ],
+          "pxLen": 537.12,
+          "u": 139.63,
+          "angDeg": -8.42,
+          "boots": [
+            {
+              "x0": 203,
+              "x1": 234,
+              "soleY": 737
+            },
+            {
+              "x0": 317,
+              "x1": 622,
+              "soleY": 758
+            },
+            {
+              "x0": 704,
+              "x1": 730,
+              "soleY": 755
+            }
+          ],
+          "groundErrU": 0.52,
+          "contactColsFrac10": 0.13,
+          "aspectWH": 4.45
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 200,
+          "ymin": 618,
+          "xmax": 826,
+          "ymax": 758
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          294.67,
+          717.65
+        ],
+        "tip": [
+          826,
+          639
+        ],
+        "pxLen": 537.12,
+        "u": 139.63,
+        "angDeg": -8.42,
+        "boots": [
+          {
+            "x0": 203,
+            "x1": 234,
+            "soleY": 737
+          },
+          {
+            "x0": 317,
+            "x1": 622,
+            "soleY": 758
+          },
+          {
+            "x0": 704,
+            "x1": 730,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.52,
+        "contactColsFrac10": 0.13,
+        "aspectWH": 4.45
+      },
+      "finalHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+      "finalFile": "cell4-down-retouched.png",
+      "compHeightNativePx": 119,
+      "compHeightRegPx": 139.7,
+      "proneLen": {
+        "bootEndX": 492,
+        "headEndX": 883,
+        "lenPx": 391
+      },
+      "evidence": {
+        "marked": "cell4-down-marked.png",
+        "headZoom": "cell4-down-head-zoom.png",
+        "tip4x": "cell4-down-tip-4x.png",
+        "solesZoom": "cell4-down-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 5,
+      "name": "cell5-spare-fall-a",
+      "role": "spare",
+      "buttCapVisible": false,
+      "compId": 4,
+      "compPx": 42636,
+      "nativeBounds": [
+        1029,
+        543,
+        1526,
+        709
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          1144.37,
+          639.04
+        ],
+        "tip": [
+          1526,
+          634
+        ],
+        "crownY": 560,
+        "soleY": 709,
+        "helmetWNative": 97,
+        "rearGripTNative": [
+          44.78,
+          121.97
+        ],
+        "frontGripTNative": [
+          215.02,
+          291.56
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -988,
+        "dy": -76,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "30491a766cf6d044d0360b012b2a5a903dad004eb598ed71e1024f7dae440602",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 220,
+          "ymin": 562,
+          "xmax": 804,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          342.02,
+          674.07
+        ],
+        "tip": [
+          804,
+          669
+        ],
+        "pxLen": 462.01,
+        "u": 120.1,
+        "angDeg": -0.63,
+        "boots": [
+          {
+            "x0": 220,
+            "x1": 266,
+            "soleY": 744
+          },
+          {
+            "x0": 313,
+            "x1": 534,
+            "soleY": 756
+          },
+          {
+            "x0": 584,
+            "x1": 639,
+            "soleY": 739
+          },
+          {
+            "x0": 706,
+            "x1": 733,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.18,
+        "aspectWH": 2.98
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 220,
+          "ymin": 562,
+          "xmax": 804,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          342.02,
+          674.07
+        ],
+        "tip": [
+          804,
+          669
+        ],
+        "pxLen": 462.01,
+        "u": 120.1,
+        "angDeg": -0.63,
+        "boots": [
+          {
+            "x0": 220,
+            "x1": 266,
+            "soleY": 744
+          },
+          {
+            "x0": 313,
+            "x1": 534,
+            "soleY": 756
+          },
+          {
+            "x0": 584,
+            "x1": 639,
+            "soleY": 739
+          },
+          {
+            "x0": 706,
+            "x1": 733,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.18,
+        "aspectWH": 2.98
+      },
+      "finalHash": "30491a766cf6d044d0360b012b2a5a903dad004eb598ed71e1024f7dae440602",
+      "finalFile": "cell5-spare-fall-a-registered.png",
+      "compHeightNativePx": 167,
+      "compHeightRegPx": 196.04,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell5-spare-fall-a-marked.png",
+        "headZoom": "cell5-spare-fall-a-head-zoom.png",
+        "tip4x": "cell5-spare-fall-a-tip-4x.png",
+        "solesZoom": "cell5-spare-fall-a-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-fall-b",
+      "role": "spare",
+      "buttCapVisible": true,
+      "compId": 6,
+      "compPx": 52910,
+      "nativeBounds": [
+        34,
+        751,
+        477,
+        991
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          36.89,
+          936.42
+        ],
+        "tip": [
+          476,
+          809
+        ],
+        "crownY": 788,
+        "soleY": 991,
+        "helmetWNative": 72,
+        "rearGripTNative": [
+          112.84,
+          200.94
+        ],
+        "frontGripTNative": [
+          112.84,
+          200.94
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": 212,
+        "dy": -407,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "37ba04eb251d27cd5e7aa58a52d2dc2d35a920a1212375bfeea4d452464d4b07",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 252,
+          "ymin": 475,
+          "xmax": 773,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          255.47,
+          693.44
+        ],
+        "tip": [
+          772,
+          544
+        ],
+        "pxLen": 537.72,
+        "u": 139.78,
+        "angDeg": -16.14,
+        "boots": [
+          {
+            "x0": 386,
+            "x1": 526,
+            "soleY": 757
+          },
+          {
+            "x0": 639,
+            "x1": 705,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.21,
+        "aspectWH": 1.84
+      },
+      "retouch": {
+        "feasibility": {
+          "capStartT": 8,
+          "buttCleanEndT": 22,
+          "bladeRunT": [
+            378,
+            384
+          ],
+          "bladeCleanStartT": 378,
+          "socketTReg": 404.01,
+          "buttAvailPx": 14,
+          "bladeAvailPx": 0,
+          "removeToTarget132Px": 30,
+          "removeToBandHiPx": 9,
+          "totalAvailPx": 14,
+          "reachesBand": true,
+          "reachesTarget": false
+        },
+        "removeRequestedPx": 30,
+        "buttRemovePx": 14,
+        "bladeRemovePx": 0,
+        "bCut": [
+          8,
+          22
+        ],
+        "dCut": null,
+        "seam": {
+          "buttJoint": {
+            "cutT": [
+              8,
+              22
+            ],
+            "widthBeforeCut": [
+              -12,
+              11
+            ],
+            "widthAfterJoint": [
+              -44,
+              10
+            ]
+          }
+        },
+        "movedPx": 249,
+        "outsideProof": {
+          "hashBefore": "60af3de69e99a71e42280e90263cdaedfe819c20dd0ecfa9403b74a171bcf2e9",
+          "hashAfter": "60af3de69e99a71e42280e90263cdaedfe819c20dd0ecfa9403b74a171bcf2e9",
+          "changedOutside": 0,
+          "changedInside": 630
+        },
+        "retouchedHash": "3c949f3fcf143eef0a3a503bc99f57300424bc2d8dab58cfb7f65efc653428b1",
+        "retouchedMeasure": {
+          "bounds": {
+            "xmin": 265,
+            "ymin": 475,
+            "xmax": 773,
+            "ymax": 757
+          },
+          "greenPx": 0,
+          "edge": {
+            "l": 0,
+            "r": 0,
+            "t": 0,
+            "b": 0
+          },
+          "butt": [
+            268.47,
+            689.44
+          ],
+          "tip": [
+            772,
+            544
+          ],
+          "pxLen": 524.12,
+          "u": 136.25,
+          "angDeg": -16.11,
+          "boots": [
+            {
+              "x0": 386,
+              "x1": 526,
+              "soleY": 757
+            },
+            {
+              "x0": 639,
+              "x1": 705,
+              "soleY": 757
+            }
+          ],
+          "groundErrU": 0.26,
+          "contactColsFrac10": 0.22,
+          "aspectWH": 1.8
+        }
+      },
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 265,
+          "ymin": 475,
+          "xmax": 773,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          268.47,
+          689.44
+        ],
+        "tip": [
+          772,
+          544
+        ],
+        "pxLen": 524.12,
+        "u": 136.25,
+        "angDeg": -16.11,
+        "boots": [
+          {
+            "x0": 386,
+            "x1": 526,
+            "soleY": 757
+          },
+          {
+            "x0": 639,
+            "x1": 705,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.22,
+        "aspectWH": 1.8
+      },
+      "finalHash": "3c949f3fcf143eef0a3a503bc99f57300424bc2d8dab58cfb7f65efc653428b1",
+      "finalFile": "cell6-spare-fall-b-retouched.png",
+      "compHeightNativePx": 241,
+      "compHeightRegPx": 282.91,
+      "proneLen": null,
+      "evidence": {
+        "marked": "cell6-spare-fall-b-marked.png",
+        "headZoom": "cell6-spare-fall-b-head-zoom.png",
+        "tip4x": "cell6-spare-fall-b-tip-4x.png",
+        "solesZoom": "cell6-spare-fall-b-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-fall-c",
+      "role": "spare",
+      "buttCapVisible": true,
+      "compId": 7,
+      "compPx": 40229,
+      "nativeBounds": [
+        494,
+        835,
+        1007,
+        987
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          600.52,
+          946.65
+        ],
+        "tip": [
+          1007,
+          902
+        ],
+        "crownY": 871,
+        "soleY": 987,
+        "helmetWNative": 77,
+        "rearGripTNative": [
+          188.44,
+          266
+        ],
+        "frontGripTNative": [
+          188.44,
+          266
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -369,
+        "dy": -403,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "b6bb7b4c4cb3bf519780a0d226a588149db3fb933c699f2a7c9747f53474793d",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 211,
+          "ymin": 577,
+          "xmax": 813,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          322.87,
+          702.4
+        ],
+        "tip": [
+          813,
+          647
+        ],
+        "pxLen": 493.25,
+        "u": 128.23,
+        "angDeg": -6.45,
+        "boots": [
+          {
+            "x0": 217,
+            "x1": 239,
+            "soleY": 733
+          },
+          {
+            "x0": 360,
+            "x1": 464,
+            "soleY": 757
+          },
+          {
+            "x0": 688,
+            "x1": 714,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.33
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 211,
+          "ymin": 577,
+          "xmax": 813,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          322.87,
+          702.4
+        ],
+        "tip": [
+          813,
+          647
+        ],
+        "pxLen": 493.25,
+        "u": 128.23,
+        "angDeg": -6.45,
+        "boots": [
+          {
+            "x0": 217,
+            "x1": 239,
+            "soleY": 733
+          },
+          {
+            "x0": 360,
+            "x1": 464,
+            "soleY": 757
+          },
+          {
+            "x0": 688,
+            "x1": 714,
+            "soleY": 755
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.33
+      },
+      "finalHash": "b6bb7b4c4cb3bf519780a0d226a588149db3fb933c699f2a7c9747f53474793d",
+      "finalFile": "cell7-spare-fall-c-registered.png",
+      "compHeightNativePx": 153,
+      "compHeightRegPx": 179.61,
+      "proneLen": {
+        "bootEndX": 494,
+        "headEndX": 891,
+        "lenPx": 397
+      },
+      "evidence": {
+        "marked": "cell7-spare-fall-c-marked.png",
+        "headZoom": "cell7-spare-fall-c-head-zoom.png",
+        "tip4x": "cell7-spare-fall-c-tip-4x.png",
+        "solesZoom": "cell7-spare-fall-c-soles-zoom.png"
+      }
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-fall-d",
+      "role": "spare",
+      "buttCapVisible": true,
+      "compId": 8,
+      "compPx": 36573,
+      "nativeBounds": [
+        1015,
+        854,
+        1515,
+        986
+      ],
+      "nativeLandmarks": {
+        "butt": [
+          1200.1,
+          953.21
+        ],
+        "tip": [
+          1515,
+          896
+        ],
+        "crownY": 864,
+        "soleY": 986,
+        "helmetWNative": 102,
+        "rearGripTNative": [
+          148.18,
+          226.79
+        ],
+        "frontGripTNative": [
+          148.18,
+          226.79
+        ]
+      },
+      "registration": {
+        "scale": 1.173913043478261,
+        "dx": -973,
+        "dy": -401,
+        "canvas": [
+          1024,
+          768
+        ]
+      },
+      "registeredHash": "573a6c437ca11b5ad7c2ed1565f088e785243096753780b7023636dc8ee3fd56",
+      "registeredMeasure": {
+        "bounds": {
+          "xmin": 219,
+          "ymin": 602,
+          "xmax": 806,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          422.65,
+          716.38
+        ],
+        "tip": [
+          806,
+          651
+        ],
+        "pxLen": 388.89,
+        "u": 101.09,
+        "angDeg": -9.68,
+        "boots": [
+          {
+            "x0": 473,
+            "x1": 582,
+            "soleY": 757
+          },
+          {
+            "x0": 710,
+            "x1": 738,
+            "soleY": 754
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.77
+      },
+      "retouch": null,
+      "finalMeasure": {
+        "bounds": {
+          "xmin": 219,
+          "ymin": 602,
+          "xmax": 806,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          422.65,
+          716.38
+        ],
+        "tip": [
+          806,
+          651
+        ],
+        "pxLen": 388.89,
+        "u": 101.09,
+        "angDeg": -9.68,
+        "boots": [
+          {
+            "x0": 473,
+            "x1": 582,
+            "soleY": 757
+          },
+          {
+            "x0": 710,
+            "x1": 738,
+            "soleY": 754
+          }
+        ],
+        "groundErrU": 0.26,
+        "contactColsFrac10": 0.11,
+        "aspectWH": 3.77
+      },
+      "finalHash": "573a6c437ca11b5ad7c2ed1565f088e785243096753780b7023636dc8ee3fd56",
+      "finalFile": "cell8-spare-fall-d-registered.png",
+      "compHeightNativePx": 133,
+      "compHeightRegPx": 156.13,
+      "proneLen": {
+        "bootEndX": 1015,
+        "headEndX": 1397,
+        "lenPx": 382
+      },
+      "evidence": {
+        "marked": "cell8-spare-fall-d-marked.png",
+        "headZoom": "cell8-spare-fall-d-head-zoom.png",
+        "tip4x": "cell8-spare-fall-d-tip-4x.png",
+        "solesZoom": "cell8-spare-fall-d-soles-zoom.png"
+      }
+    }
+  ],
+  "directionSteps": [
+    {
+      "from": "cell0-topple",
+      "to": "cell1-airborne",
+      "fromAngDeg": -32.17,
+      "toAngDeg": -28.86,
+      "stepDeg": 3.31,
+      "passLe60": true
+    },
+    {
+      "from": "cell1-airborne",
+      "to": "cell2-tumble",
+      "fromAngDeg": -28.86,
+      "toAngDeg": -8.73,
+      "stepDeg": 20.13,
+      "passLe60": true
+    },
+    {
+      "from": "cell2-tumble",
+      "to": "cell3-impact",
+      "fromAngDeg": -8.73,
+      "toAngDeg": -25.77,
+      "stepDeg": 17.04,
+      "passLe60": true
+    },
+    {
+      "from": "cell3-impact",
+      "to": "cell4-down",
+      "fromAngDeg": -25.77,
+      "toAngDeg": -8.42,
+      "stepDeg": 17.35,
+      "passLe60": true
+    }
+  ],
+  "lengthSpreadKeeps": {
+    "finalUs": [
+      131.87,
+      138.32,
+      111.44,
+      132.06,
+      139.63
+    ],
+    "spreadPct": 21.57
+  }
+}

@@ -2,7 +2,7 @@
   "work": "cmr15a-phase3-fall-generate",
   "key": "fall",
   "attempt": "CMR-15A Phase 3: exactly ONE 3x3 fall sheet generation (Li Dian method, Xu Chu identity/frozen-band brief); generation only - no extraction, retouch, gates, focused fix or getup in this package",
-  "status": "UNREVIEWED candidate saved beside this file; no gates/banking in this package",
+  "status": "GATED FAIL - NOT BANKED (1/5 keeps pass; no accepted cells) - see gate/gate.json (finish work cmr15a-phase3-fall-gate-finish: candidate + all 9 final-cell hashes re-verified match)",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "no provider recorded for Li Dian fall in art/motion/lidian/PROVENANCE.md (Request 12/14) -> gpt per work order",
@@ -35,7 +35,8 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
+  "gatesRun": true,
+  "gateVerdict": "FAIL - NOT BANKED (1/5 keeps pass; cell3-impact PASS 132.06u candidate only; cell0 grip FAIL, cell1 grip+length FAIL +0.82u, cell2 butt cap not drawn, cell4-DOWN 119.76u -4.65u only-length FAIL waiver-eligible exact hash 21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f held NOT banked; initial-sheet failure, fall focused fix UNSPENT so consecutive post-fix unusable count stays 0, no STOP)",
+  "extractionRun": true,
   "banked": false
 }

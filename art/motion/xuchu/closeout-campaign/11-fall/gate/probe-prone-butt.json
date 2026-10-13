@@ -1,0 +1,76 @@
+{
+  "work": "cmr15a-phase3-fall-gates (correction probe)",
+  "scale": 1.173913043478261,
+  "bandU": [
+    124.40626991803302,
+    137.50166675151021
+  ],
+  "cells": {
+    "cell4-down": {
+      "tightBox": [
+        638,
+        695,
+        675,
+        712
+      ],
+      "alphaPxInBox": 467,
+      "buttNative": [
+        643.06,
+        699.19
+      ],
+      "tipNative": [
+        1025,
+        609
+      ],
+      "nativePx": 392.45,
+      "regPx": 460.7,
+      "u": 119.76,
+      "buildU": 139.63,
+      "inBand": false
+    },
+    "cell7-spare-fall-c": {
+      "tightBox": [
+        658,
+        955,
+        695,
+        975
+      ],
+      "alphaPxInBox": 672,
+      "buttNative": [
+        660,
+        966.44
+      ],
+      "tipNative": [
+        1007,
+        902
+      ],
+      "nativePx": 352.93,
+      "regPx": 414.31,
+      "u": 107.7,
+      "buildU": 128.23,
+      "inBand": false
+    },
+    "cell8-spare-fall-d": {
+      "tightBox": [
+        1226,
+        963,
+        1265,
+        987
+      ],
+      "alphaPxInBox": 676,
+      "buttNative": [
+        1235.33,
+        977.02
+      ],
+      "tipNative": [
+        1515,
+        896
+      ],
+      "nativePx": 291.17,
+      "regPx": 341.81,
+      "u": 88.86,
+      "buildU": 101.09,
+      "inBand": false
+    }
+  }
+}

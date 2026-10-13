@@ -1,0 +1,358 @@
+{
+  "work": "cmr15a-phase3-fall-gates",
+  "candidateDescription": {
+    "sheet": {
+      "path": "art/motion/xuchu/closeout-campaign/11-fall/candidate-raw.png",
+      "sha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd",
+      "size": [
+        1536,
+        1024
+      ],
+      "components": 9
+    },
+    "sheetHashReverified": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd (Get-FileHash this package; matches candidate.json)",
+    "reserveCommit": "a6a2df5 (Xu Chu 21->22, fall 0->1, global 188->189)",
+    "candidateCommit": "5099569 (UNREVIEWED)",
+    "provider": "gpt-preferred single sheet generation, serving UNCONFIRMED (candidate.json)"
+  },
+  "registration": {
+    "method": "cell4-down prone body length head-to-boots (helmet-end x minus boot-end x) = frozen 459px; one uniform scale for all 9 cells; lowest component px -> groundY500",
+    "sheetScale": 1.173913043478261,
+    "scaleCell": "cell4-down",
+    "scaleBodyNativePx": 391,
+    "proneCrossChecks": {
+      "4": {
+        "bootEndX": 492,
+        "headEndX": 883,
+        "lenPx": 391
+      },
+      "7": {
+        "bootEndX": 494,
+        "headEndX": 891,
+        "lenPx": 397
+      },
+      "8": {
+        "bootEndX": 1015,
+        "headEndX": 1397,
+        "lenPx": 382
+      }
+    },
+    "canvas": [
+      1024,
+      768
+    ],
+    "groundYCanvas": 756,
+    "determinism": "build.mjs rerun this package reproduced measure.json byte-identically (SHA-256 c43c34439ff0739e1db8f19ef3b93175b9e506ac52447aed151d3569bd05bbd5 before/after); probe-prone-butt.mjs rerun twice identical (probe-prone-butt.json SHA-256 ae829cc32961c3ce6b37a96fe2ffcd4f5e04a83166abd77a93c0432b8e1b040c); this verdict is a pure function of those two files"
+  },
+  "methodCorrection": "The partial build placed prone-cell butt BOXes ~60px left of the actual cap balls (on the legs lying above the haft), so build lengths for cells 4/7/8 (139.63/128.23/101.09u) measured shin/boot-to-tip - the red crosses sit on legs in the marked views, personally opened this package. probe-capgrid.py (10px grids cell{4,7,8}-capgrid10.png, opened) locates the true balls at native ~(641,700)/(658,962)/(1229,975); probe-prone-butt.mjs re-measures cap-to-tip at the same scale: cell4 119.76u, cell7 107.70u, cell8 88.86u (all OUT_LOW). Corrected values govern below. The build retouch on those cells applied 0px, so no final raster is affected. Cell2/cell5 stub lengths in measure.json are likewise contaminated and are used only as stub evidence, not lengths.",
+  "retouchPolicy": "deterministic shaft shortening assessed BEFORE length verdicts (changedOutside=0): cell0 145.65->131.87u (53px, in band), cell1 150.17->138.32u (46px applied, deficit 3px to band-hi), cell3 147.64->132.06u (60px, in band), cell6 139.78->136.25u (14px, in band). No lengthening possible for OUT_LOW/stub cells; no parts fabricated.",
+  "ledgerVerified": {
+    "sha256": "d9dbeecd2499d3d3d90f28dbec61b8f8b46853341a3542f1e210486b365cd6f3",
+    "xuchuUsed": 22,
+    "xuchuFall": 1,
+    "globalUsed": 189,
+    "expected": "Xu Chu 22 (fall 1) / global 189",
+    "matches": true
+  },
+  "ledgerNote": "Xu Chu 22 (fall 1)/global 189, ceilings 25/192 - verified in build.mjs; zero generation this package",
+  "keeps": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "finalFile": "cell0-topple-retouched.png",
+      "finalHash": "dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/heavy lamellar/glaive+tassel consistent; sheet, keeps/spares contacts, marked cells 0/1/2/3/4/6/7, grip/butt zooms and cap grids opened this package; butt/tip markers on cap ball/blade tip for cells 0/1/3/6 - prone cells 4/7/8 corrected by probe, see methodCorrection)",
+        "anatomy": "PASS (visual: two arms/legs/boots, heads/hands connected, no fused/extra limbs across the 9 cells)",
+        "poseRole": "PASS (visual vs prompt roles: topple tipping back / airborne feet off ground twisting / tumble inverted knees tucked / impact on back legs kicking up / DOWN flat prone face-down legs extended)",
+        "downFlatGrounded": "n/a (only cell4 is the DOWN bookend)",
+        "weaponLength": "PASS",
+        "weaponGrip": "FAIL - weapon grip: both hands open/flailing, no hand on the haft; glaive floats across the torso",
+        "weaponAngleDegRaw": -32.17,
+        "scaleGround": "PASS (one sheet scale 1.1739 from cell4 prone head-to-boots 391px=459px, cross-checks 397/382px on cells 7/8; groundErr 0.26u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "buildU": 131.87,
+        "correctedU": null,
+        "finalU": 131.87,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouchFeasibility": {
+          "totalAvailPx": 55,
+          "removeToBandHiPx": 32,
+          "deficitToBandHiPx": 0,
+          "appliedButtPx": 32,
+          "appliedBladePx": 21,
+          "changedOutside": 0
+        }
+      },
+      "groundErrU": 0.26,
+      "verdict": "FAIL - weapon grip: both hands open/flailing, no hand on the haft; glaive floats across the torso"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-airborne",
+      "finalFile": "cell1-airborne-retouched.png",
+      "finalHash": "aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/heavy lamellar/glaive+tassel consistent; sheet, keeps/spares contacts, marked cells 0/1/2/3/4/6/7, grip/butt zooms and cap grids opened this package; butt/tip markers on cap ball/blade tip for cells 0/1/3/6 - prone cells 4/7/8 corrected by probe, see methodCorrection)",
+        "anatomy": "PASS (visual: two arms/legs/boots, heads/hands connected, no fused/extra limbs across the 9 cells)",
+        "poseRole": "PASS (visual vs prompt roles: topple tipping back / airborne feet off ground twisting / tumble inverted knees tucked / impact on back legs kicking up / DOWN flat prone face-down legs extended)",
+        "downFlatGrounded": "n/a (only cell4 is the DOWN bookend)",
+        "weaponLength": "FAIL",
+        "weaponGrip": "FAIL - weapon grip: both hands open, no hand on the haft; glaive floats across the torso",
+        "weaponAngleDegRaw": -28.86,
+        "scaleGround": "PASS (one sheet scale 1.1739 from cell4 prone head-to-boots 391px=459px, cross-checks 397/382px on cells 7/8; groundErr 0.26u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "buildU": 138.32,
+        "correctedU": null,
+        "finalU": 138.32,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0.82,
+        "underBandLoU": 0,
+        "retouchFeasibility": {
+          "totalAvailPx": 46,
+          "removeToBandHiPx": 49,
+          "deficitToBandHiPx": 3,
+          "appliedButtPx": 42,
+          "appliedBladePx": 4,
+          "changedOutside": 0
+        }
+      },
+      "groundErrU": 0.26,
+      "verdict": "FAIL - weapon length OUT_HIGH (+0.82u) after max deterministic shaft retouch; ALSO FAIL - weapon grip: both hands open, no hand on the haft; glaive floats across the torso"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-tumble",
+      "finalFile": "cell2-tumble-registered.png",
+      "finalHash": "caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/heavy lamellar/glaive+tassel consistent; sheet, keeps/spares contacts, marked cells 0/1/2/3/4/6/7, grip/butt zooms and cap grids opened this package; butt/tip markers on cap ball/blade tip for cells 0/1/3/6 - prone cells 4/7/8 corrected by probe, see methodCorrection)",
+        "anatomy": "PASS (visual: two arms/legs/boots, heads/hands connected, no fused/extra limbs across the 9 cells)",
+        "poseRole": "PASS (visual vs prompt roles: topple tipping back / airborne feet off ground twisting / tumble inverted knees tucked / impact on back legs kicking up / DOWN flat prone face-down legs extended)",
+        "downFlatGrounded": "n/a (only cell4 is the DOWN bookend)",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped)",
+        "weaponAngleDegRaw": -8.73,
+        "scaleGround": "PASS (one sheet scale 1.1739 from cell4 prone head-to-boots 391px=459px, cross-checks 397/382px on cells 7/8; groundErr 0u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha)",
+        "head": "RAW (not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": false,
+        "buildU": 111.44,
+        "correctedU": null,
+        "finalU": 111.44,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 12.97,
+        "retouchFeasibility": null
+      },
+      "groundErrU": 0,
+      "verdict": "FAIL - butt cap not drawn: haft ends blunt behind the skirt plate (cell2-butt-zoom); whole weapon unmeasurable, shortening retouch cannot lengthen, nothing fabricated (build length 111.44u is boot-sole-contaminated - red cross on the boot in the marked view - and is NOT a valid weapon length)"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-impact",
+      "finalFile": "cell3-impact-retouched.png",
+      "finalHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/heavy lamellar/glaive+tassel consistent; sheet, keeps/spares contacts, marked cells 0/1/2/3/4/6/7, grip/butt zooms and cap grids opened this package; butt/tip markers on cap ball/blade tip for cells 0/1/3/6 - prone cells 4/7/8 corrected by probe, see methodCorrection)",
+        "anatomy": "PASS (visual: two arms/legs/boots, heads/hands connected, no fused/extra limbs across the 9 cells)",
+        "poseRole": "PASS (visual vs prompt roles: topple tipping back / airborne feet off ground twisting / tumble inverted knees tucked / impact on back legs kicking up / DOWN flat prone face-down legs extended)",
+        "downFlatGrounded": "n/a (only cell4 is the DOWN bookend)",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS (haft visibly gripped)",
+        "weaponAngleDegRaw": -25.77,
+        "scaleGround": "PASS (one sheet scale 1.1739 from cell4 prone head-to-boots 391px=459px, cross-checks 397/382px on cells 7/8; groundErr 0.26u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "buildU": 132.06,
+        "correctedU": null,
+        "finalU": 132.06,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouchFeasibility": {
+          "totalAvailPx": 84,
+          "removeToBandHiPx": 40,
+          "deficitToBandHiPx": 0,
+          "appliedButtPx": 60,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "groundErrU": 0.26,
+      "verdict": "PASS"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "finalFile": "cell4-down-retouched.png",
+      "finalHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/heavy lamellar/glaive+tassel consistent; sheet, keeps/spares contacts, marked cells 0/1/2/3/4/6/7, grip/butt zooms and cap grids opened this package; butt/tip markers on cap ball/blade tip for cells 0/1/3/6 - prone cells 4/7/8 corrected by probe, see methodCorrection)",
+        "anatomy": "PASS (visual: two arms/legs/boots, heads/hands connected, no fused/extra limbs across the 9 cells)",
+        "poseRole": "PASS (visual vs prompt roles: topple tipping back / airborne feet off ground twisting / tumble inverted knees tucked / impact on back legs kicking up / DOWN flat prone face-down legs extended)",
+        "downFlatGrounded": "PASS (genuinely flat prone bookend: horizontal face-down body, legs extended straight, arm folded gripping haft alongside; aspectWH 4.45, groundErr 0.52u at ground line, no kneeling/propping; usable as getup first frame in pose terms)",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS (haft visibly gripped)",
+        "weaponAngleDegRaw": -13.26,
+        "scaleGround": "PASS (one sheet scale 1.1739 from cell4 prone head-to-boots 391px=459px, cross-checks 397/382px on cells 7/8; groundErr 0.52u)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "buildU": 139.63,
+        "correctedU": 119.76,
+        "finalU": 119.76,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "underBandLoU": 4.65,
+        "retouchFeasibility": {
+          "totalAvailPx": 0,
+          "removeToBandHiPx": 9,
+          "deficitToBandHiPx": 9,
+          "appliedButtPx": 0,
+          "appliedBladePx": 0,
+          "changedOutside": 0
+        }
+      },
+      "groundErrU": 0.52,
+      "verdict": "FAIL - weapon length OUT_LOW (-4.65u under band-lo); shaft retouch shortens only"
+    }
+  ],
+  "passCount": "1/5",
+  "directionVerdict": "PASS (directed steps 3.31/20.13/17.04deg and, with the corrected cell4 butt, 12.51deg into DOWN at -13.26deg; all <=60deg). Sequence continuity on the keeps contact: topple -> airborne -> inverted tumble -> legs-up impact -> flat DOWN reads as one coherent fall arc in pose/facing/identity; the continuity break is weapon grip (cells 0/1 ungripped) and cell2 missing cap, not direction. No standing frame is inserted anywhere - cell4 is the genuine terminal DOWN.",
+  "lengthSpreadCorrectedMeasurableKeeps": {
+    "finalUs": [
+      131.87,
+      138.32,
+      132.06,
+      119.76
+    ],
+    "spreadPct": 14.22,
+    "note": "reported, not a PASS, while length gates fail; excludes stub cell2 (unmeasurable)"
+  },
+  "spares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-fall-a",
+      "finalFile": "cell5-spare-fall-a-registered.png",
+      "finalHash": "30491a766cf6d044d0360b012b2a5a903dad004eb598ed71e1024f7dae440602",
+      "buttCapVisible": false,
+      "buildU": 120.1,
+      "correctedU": null,
+      "finalU": 120.1,
+      "angleDeg": -0.63,
+      "groundErrU": 0.26,
+      "roleRead": "prone dive/crawl propped on arms, head raised - NOT flat DOWN, not airborne/tumble",
+      "verdict": "FAIL - butt cap not drawn (haft ends blunt at the skirt behind the hand, cell5-butt-zoom; unmeasurable stub)"
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-fall-b",
+      "finalFile": "cell6-spare-fall-b-retouched.png",
+      "finalHash": "3c949f3fcf143eef0a3a503bc99f57300424bc2d8dab58cfb7f65efc653428b1",
+      "buttCapVisible": true,
+      "buildU": 136.25,
+      "correctedU": null,
+      "finalU": 136.25,
+      "angleDeg": -16.11,
+      "groundErrU": 0.26,
+      "roleRead": "grounded recline on back/side, gripped - impact-phase read, already ground-contacting",
+      "verdict": "PASS length (identity/anatomy/seams/scale-ground same visual pass as keeps; role fit assessed below)"
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-fall-c",
+      "finalFile": "cell7-spare-fall-c-registered.png",
+      "finalHash": "b6bb7b4c4cb3bf519780a0d226a588149db3fb933c699f2a7c9747f53474793d",
+      "buttCapVisible": true,
+      "buildU": 128.23,
+      "correctedU": 107.7,
+      "finalU": 107.7,
+      "angleDeg": -6.45,
+      "groundErrU": 0.26,
+      "roleRead": "prone face-down DOWN alternate (legs bent)",
+      "verdict": "FAIL - weapon length OUT_LOW -16.71u"
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-fall-d",
+      "finalFile": "cell8-spare-fall-d-registered.png",
+      "finalHash": "573a6c437ca11b5ad7c2ed1565f088e785243096753780b7023636dc8ee3fd56",
+      "buttCapVisible": true,
+      "buildU": 101.09,
+      "correctedU": 88.86,
+      "finalU": 88.86,
+      "angleDeg": -9.68,
+      "groundErrU": 0.26,
+      "roleRead": "flat prone DOWN alternate",
+      "verdict": "FAIL - weapon length OUT_LOW -35.55u"
+    }
+  ],
+  "substitutionAssessment": {
+    "cell0Topple": "NO valid substitution: spare6 passes length (136.25u) but is already ground-contacting recline - inserting it as topple puts ground contact BEFORE the airborne beat and duplicates impact; spare5 is a stub, spares 7/8 are prone DOWN alternates failing length. Cell0 also fails grip in its own right.",
+    "cell1Airborne": "NO spare is airborne (all four spares are grounded/prone); no substitution exists.",
+    "cell2Tumble": "NO spare reads as mid-air inverted tumble; no substitution exists.",
+    "cell4Down": "spare7/spare8 fit the DOWN role family but fail length after correction (107.70/88.86u OUT_LOW, not small); spare5 is propped, not flat, and a stub. No substitution.",
+    "conclusion": "only cell3 and spare6 pass length at all, and no coherent all-pass 5-cell topple/airborne/tumble/impact/DOWN set exists on this sheet; nothing banked, no accepted cells"
+  },
+  "verdict": "FAIL - NOT BANKED (1/5 keeps pass; no accepted cells created)",
+  "failedCriteria": [
+    "cell0-topple [dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8]: FAIL - weapon grip: both hands open/flailing, no hand on the haft; glaive floats across the torso; final 131.87u vs band [124.41,137.5]u",
+    "cell1-airborne [aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23]: FAIL - weapon length OUT_HIGH (+0.82u) after max deterministic shaft retouch; ALSO FAIL - weapon grip: both hands open, no hand on the haft; glaive floats across the torso; final 138.32u vs band [124.41,137.5]u",
+    "cell2-tumble [caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562]: FAIL - butt cap not drawn: haft ends blunt behind the skirt plate (cell2-butt-zoom); whole weapon unmeasurable, shortening retouch cannot lengthen, nothing fabricated (build length 111.44u is boot-sole-contaminated - red cross on the boot in the marked view - and is NOT a valid weapon length); final 111.44u vs band [124.41,137.5]u",
+    "cell4-down [21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f]: FAIL - weapon length OUT_LOW (-4.65u under band-lo); shaft retouch shortens only; final 119.76u vs band [124.41,137.5]u"
+  ],
+  "waiverEligibleExactCells": [
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "finalHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+      "finalU": 119.76,
+      "deviation": "OUT_LOW -4.65u",
+      "basis": "fully measurable (cap ball + tip both drawn, corrected probe), ONLY failing gate is this small length deviation; identity/anatomy/DOWN-flat/grip/scale-ground/seams/direction all PASS. FAIL retained, NOT PASS, NOT banked; held for a possible future exact-hash owner waiver only"
+    }
+  ],
+  "notWaiverEligible": "cell1 (+0.82u, small) is NOT waiver-eligible because it also fails grip (not only-length); cell0 fails grip (length passes, nothing to waive); cell2 stub and spare5 stub are unmeasurable; spares 7/8 deviations (-16.71/-35.55u) are not small",
+  "postSalvageAccounting": "INITIAL fall sheet verdict: deterministic salvage exhausted (registration, retouch before verdicts, corrected prone measurement, all 4 spares assessed for substitution) but the one fall FOCUSED FIX is UNSPENT, so per the corrected campaign process this failure does NOT increment the consecutive post-fix unusable count - it stays 0 (reset by the misc bank). A post-fix unusable fall would become #1. No STOP. CMR-15A stays IN_PROGRESS; no getup in this package.",
+  "focusedFixBrief": {
+    "eligibility": "ELIGIBLE (initial sheet failed post-salvage with fix unspent; one reserved focused edit remains under the PHASE-3 grant, ceilings Xu 25/global 192, currently 22/189)",
+    "namedCells": "redraw cells 0/1/2/4; PRESERVE cell3-impact exactly (PASS 132.06u, gripped) as the reference keep",
+    "gripSteer": "cells 0/1: ONE hand must visibly grip the haft (the other may flail); no floating glaive across the torso",
+    "capSteer": "cell2: draw the complete metal butt cap in EMPTY space beyond the grip (this sheet ends the haft blunt at the skirt); on prone cells keep the cap ball clear of the legs so both ends stay measurable (this sheet hid the balls under the shins, corrupting first-pass measurement)",
+    "lengthSteer": "cell1 shorten ~2% (it missed band-hi by 3px of retouch availability); cell4 DOWN lengthen the drawn glaive ~+5-8% (native 392px -> ~412-430px at this sheet scale; keep the exact flat prone pose); all cells keep native target ~1.10x prone head-to-boots"
+  },
+  "banked": false,
+  "generation": "zero in this package"
+}
