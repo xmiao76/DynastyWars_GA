@@ -1,0 +1,222 @@
+{
+  "fighter": "xuchu",
+  "role": "boss",
+  "density": 2,
+  "box": {
+    "width": 260,
+    "height": 144,
+    "groundY": 136
+  },
+  "camera": "unverified",
+  "ground": "unverified",
+  "saddle": "unverified",
+  "pivot": {
+    "x": 260,
+    "y": 272
+  },
+  "identity": [
+    {
+      "name": "walk:0",
+      "restoredSha256": "24dfbd8ef911e4c98fa02ba829c84bb1879291f41b3e5f53a3abf5c562013e55",
+      "pinned": false
+    },
+    {
+      "name": "walk:1",
+      "restoredSha256": "1a45678aa037b7bbfd78de6dea03d5ba12aacf9661658a5f8bb0b31b929e932c",
+      "pinned": false
+    },
+    {
+      "name": "walk:2",
+      "restoredSha256": "98155bdaa41e315556f26bb8a2e79aba64af059c7ec747b128fe1785b5aa9267",
+      "pinned": false
+    },
+    {
+      "name": "walk:3",
+      "restoredSha256": "7407c5f84b37b525de5e4cc03cae63cb70b2501a8a249a924979449a6f4b847c",
+      "pinned": false
+    },
+    {
+      "name": "walk:4",
+      "restoredSha256": "77594083399aea62eb1de956e51162dedba917337dce226610a6173938e6766a",
+      "pinned": false
+    },
+    {
+      "name": "walk:5",
+      "restoredSha256": "f9849a96841504e3f5de18d02ba4f6bc83fb9adf0db4c6aa459791d78759affa",
+      "pinned": false
+    },
+    {
+      "name": "charge:0",
+      "restoredSha256": "10555ab70a290d3e4dd030e5d36af3195b63c8699b566f77c8bec140568e0a03",
+      "pinned": false
+    },
+    {
+      "name": "charge:1",
+      "restoredSha256": "8a3b31c0b759f76659959aa70213923a4a197fd391dff405d86b8d9d3f98762b",
+      "pinned": false
+    },
+    {
+      "name": "charge:2",
+      "restoredSha256": "e425341ce2d2e274178bd72cf948589af5c1d8c492867c502dc551239540b33d",
+      "pinned": false
+    },
+    {
+      "name": "charge:3",
+      "restoredSha256": "eddab7cce6faed1058acc3ba0f8ba54247608d81b832c03f08a38ae9bce0d1ec",
+      "pinned": false
+    },
+    {
+      "name": "charge:4",
+      "restoredSha256": "6bac29748ed975dd31d4d6ab66e3fc6022c29c6538f75463ed5c6597483677c8",
+      "pinned": false
+    },
+    {
+      "name": "combo:0",
+      "restoredSha256": "39207b56f2476ab6ad80c0d3b87b949589d67c71b5d5e3263ab43dd814fe7b4a",
+      "pinned": false
+    },
+    {
+      "name": "combo:1",
+      "restoredSha256": "5ef32485d853b6721026bb8da06e0991bc2f3b9b98b22ae57c3338adfb15d27e",
+      "pinned": false
+    },
+    {
+      "name": "combo:2",
+      "restoredSha256": "b744e33939f9c6aeed52fa1c89001d85502992bd733816ad32db36dc78c27691",
+      "pinned": false
+    },
+    {
+      "name": "combo:3",
+      "restoredSha256": "656801c546ea75647e1e054111905261be748e024efc60c0aef44029335c2be2",
+      "pinned": false
+    },
+    {
+      "name": "combo:4",
+      "restoredSha256": "79655a4f1f6f69a3ab36a23147e0d63779a65d0a92c4b9855cd9049e39d247fe",
+      "pinned": false
+    },
+    {
+      "name": "heavy:0",
+      "restoredSha256": "4672f6f46f0373a179275340e36e05e3f7267b9896f60fd9bfe98e693a220271",
+      "pinned": false
+    },
+    {
+      "name": "heavy:1",
+      "restoredSha256": "bad91e7ecb9cef269af12de28be012d4e39d385c64f4a48a1f86e87a7d280f4b",
+      "pinned": false
+    },
+    {
+      "name": "heavy:2",
+      "restoredSha256": "973e66b34e41d67465c80caf69c2617bc03e83b1f592bf3a5fe14dbe7edf2a26",
+      "pinned": false
+    },
+    {
+      "name": "heavy:3",
+      "restoredSha256": "68b70e0d672c5070144615ec7082dac1dce669500947242c7e60ba552a039a6d",
+      "pinned": false
+    },
+    {
+      "name": "heavy:4",
+      "restoredSha256": "db120ec73955396ec326de0a1c6d60718e0d7cd900263d2083d064089347fff6",
+      "pinned": false
+    },
+    {
+      "name": "misc:0",
+      "restoredSha256": "70338b0e3f6f7ab2e88e5bf2cd41730c9cf9bbc6eabc9ac5bed3839d7af57b4b",
+      "pinned": false
+    },
+    {
+      "name": "misc:1",
+      "restoredSha256": "8a256719270db0fed52f8b1f7700b00b712498d6339128e3bf7eea4c6ffaf3bf",
+      "pinned": false
+    },
+    {
+      "name": "misc:2",
+      "restoredSha256": "9a220c61e945499c319dfb8c5b3ec02c345a7164547e205633420771c45a7814",
+      "pinned": false
+    },
+    {
+      "name": "misc:3",
+      "restoredSha256": "1dfa35cea18924c143e6957f85af31f434307376eb55dfdc158d84bc78ec23c2",
+      "pinned": false
+    },
+    {
+      "name": "misc:4",
+      "restoredSha256": "426aa2bd26f3e45c3bf45a6905abc60ed3eeb65cd8a7e3e75015b9567ff2c9dc",
+      "pinned": false
+    },
+    {
+      "name": "fall:0",
+      "restoredSha256": "90293481141064c4092b890d74b2a8d07735fafa38ec15bbc4eb1c73fca79921",
+      "pinned": false
+    },
+    {
+      "name": "fall:1",
+      "restoredSha256": "7c539ae0eb52732e9ed935657520ff51fabae49b8d39d6ee6009d4bf2308d8db",
+      "pinned": false
+    },
+    {
+      "name": "fall:2",
+      "restoredSha256": "4848472443bc75ff3d41703f4d6feb2d2f67ee6f329f2ca378adb2c131c58a6b",
+      "pinned": false
+    },
+    {
+      "name": "fall:3",
+      "restoredSha256": "6122ad982ad86e068a65ed880102b83fb5d71d8b78f685ce4c5a540b2893095b",
+      "pinned": false
+    },
+    {
+      "name": "fall:4",
+      "restoredSha256": "5788572fd0827798e7e4189d2570970fbaafe3ddf942da45d446544017349b1e",
+      "pinned": false
+    },
+    {
+      "name": "getup:0",
+      "restoredSha256": "9c63d437f811dc56f46d74a58f49c1dbdff604b826d9dbfc91d41c6864181459",
+      "pinned": false
+    },
+    {
+      "name": "getup:1",
+      "restoredSha256": "d17b3182a779b954596f9c77d7edbf1d18d723354070072bfd0e001fdf80257a",
+      "pinned": false
+    },
+    {
+      "name": "getup:2",
+      "restoredSha256": "20575f1172b52c33fed33a11371db067ce2e47ad27aa4a65bc3c705aad288a24",
+      "pinned": false
+    },
+    {
+      "name": "getup:3",
+      "restoredSha256": "e86ce861d45acc5927fdaf9331de307a39b0cd3722f998cb5de37dfb1ac808ba",
+      "pinned": false
+    },
+    {
+      "name": "getup:4",
+      "restoredSha256": "c542d3e6aa148454a0fa5ad44c9b81eb1e2825f384172f76af84351ebd92f239",
+      "pinned": false
+    }
+  ],
+  "landmarks": "unverified",
+  "suspects": [],
+  "counts": {
+    "sourceCells": 63,
+    "displayedUniqueDrawings": 36,
+    "duplicateSourceCells": 0,
+    "unusedSourceCells": 27
+  },
+  "budgets": {
+    "errors": [],
+    "decodedBytes": 9388376,
+    "trimBytes": 7539512,
+    "gpuBytes": 9388376,
+    "clonedCanvasBytes": 0,
+    "networkBytes": 0
+  },
+  "pages": [
+    {
+      "name": "xuchu-1",
+      "width": 1979,
+      "height": 1186
+    }
+  ]
+}

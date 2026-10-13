@@ -1,0 +1,740 @@
+{
+  "id": "xuchu",
+  "revision": "xuchu-1",
+  "role": "boss",
+  "density": 2,
+  "box": {
+    "width": 260,
+    "height": 144,
+    "groundY": 136
+  },
+  "frames": [
+    {
+      "name": "walk:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 147,
+        "trimY": 48,
+        "w": 226,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "24dfbd8ef911e4c98fa02ba829c84bb1879291f41b3e5f53a3abf5c562013e55",
+      "contentSha256": "f66e1dd7ed197826dcc4e4366788e208c5cfa687acb0da8d9abc4b19286a94dd",
+      "page": "xuchu-1",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "walk:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 143,
+        "trimY": 49,
+        "w": 234,
+        "h": 225
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "1a45678aa037b7bbfd78de6dea03d5ba12aacf9661658a5f8bb0b31b929e932c",
+      "contentSha256": "a177e25941e6ba5fee0b26bec9bfacadadb2c35925715de8d2a95dc91e7d1e65",
+      "page": "xuchu-1",
+      "x": 226,
+      "y": 0
+    },
+    {
+      "name": "walk:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 147,
+        "trimY": 50,
+        "w": 226,
+        "h": 224
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "98155bdaa41e315556f26bb8a2e79aba64af059c7ec747b128fe1785b5aa9267",
+      "contentSha256": "089f225958faaadea56481f904fc4b144e80d1dacc3d92899d2c28864c8c8e6f",
+      "page": "xuchu-1",
+      "x": 460,
+      "y": 0
+    },
+    {
+      "name": "walk:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 145,
+        "trimY": 48,
+        "w": 229,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "7407c5f84b37b525de5e4cc03cae63cb70b2501a8a249a924979449a6f4b847c",
+      "contentSha256": "37040ebc2ab358df7b747fade8d4e8d14193e81c86f7b8af3868dd5b5e342725",
+      "page": "xuchu-1",
+      "x": 686,
+      "y": 0
+    },
+    {
+      "name": "walk:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 147,
+        "trimY": 48,
+        "w": 225,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "77594083399aea62eb1de956e51162dedba917337dce226610a6173938e6766a",
+      "contentSha256": "91230e6ac9f6e840b002e252ab4ecb0bedc0a559e725563e7c088b405b6f0522",
+      "page": "xuchu-1",
+      "x": 915,
+      "y": 0
+    },
+    {
+      "name": "walk:5",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 144,
+        "trimY": 49,
+        "w": 233,
+        "h": 225
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "f9849a96841504e3f5de18d02ba4f6bc83fb9adf0db4c6aa459791d78759affa",
+      "contentSha256": "7783012a525b4c10b09b3d6cd81da8c6e6e704ce71149b072fcb1baf1ec786d9",
+      "page": "xuchu-1",
+      "x": 1140,
+      "y": 0
+    },
+    {
+      "name": "charge:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 140,
+        "trimY": 48,
+        "w": 240,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "10555ab70a290d3e4dd030e5d36af3195b63c8699b566f77c8bec140568e0a03",
+      "contentSha256": "f148f4020c0af47fafae5fa67dda7564215a4baae1db648a5a4c25b39f3d6c28",
+      "page": "xuchu-1",
+      "x": 1373,
+      "y": 0
+    },
+    {
+      "name": "charge:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 132,
+        "trimY": 105,
+        "w": 255,
+        "h": 169
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "8a3b31c0b759f76659959aa70213923a4a197fd391dff405d86b8d9d3f98762b",
+      "contentSha256": "c68ef907c8d9ebb928de3124a9dd06efd469ae2fe84bbf291f06ee957a2aa1d0",
+      "page": "xuchu-1",
+      "x": 1613,
+      "y": 0
+    },
+    {
+      "name": "charge:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 126,
+        "trimY": 79,
+        "w": 268,
+        "h": 195
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "e425341ce2d2e274178bd72cf948589af5c1d8c492867c502dc551239540b33d",
+      "contentSha256": "bab283a7576f28f411f50614066a7196e5264447c2e838524263c34382f694ff",
+      "page": "xuchu-1",
+      "x": 0,
+      "y": 226
+    },
+    {
+      "name": "charge:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 104,
+        "trimY": 90,
+        "w": 312,
+        "h": 184
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "eddab7cce6faed1058acc3ba0f8ba54247608d81b832c03f08a38ae9bce0d1ec",
+      "contentSha256": "79aeb6517a94117f9a25a9594847cbd90bedbcdedf5626f3ff8cedaba6b0de6b",
+      "page": "xuchu-1",
+      "x": 268,
+      "y": 226
+    },
+    {
+      "name": "charge:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 155,
+        "trimY": 81,
+        "w": 211,
+        "h": 193
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "6bac29748ed975dd31d4d6ab66e3fc6022c29c6538f75463ed5c6597483677c8",
+      "contentSha256": "21e308b81ac68e326f6a6ea7cb2656a4e7d42a6bb8cd3775e86ac37f4ab0c513",
+      "page": "xuchu-1",
+      "x": 580,
+      "y": 226
+    },
+    {
+      "name": "combo:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 132,
+        "trimY": 48,
+        "w": 256,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "39207b56f2476ab6ad80c0d3b87b949589d67c71b5d5e3263ab43dd814fe7b4a",
+      "contentSha256": "6f845f9429f4659456f3d014e84b40892f2ae5ae39d9369eed95ea8204be89ca",
+      "page": "xuchu-1",
+      "x": 791,
+      "y": 226
+    },
+    {
+      "name": "combo:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 118,
+        "trimY": 46,
+        "w": 284,
+        "h": 228
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "5ef32485d853b6721026bb8da06e0991bc2f3b9b98b22ae57c3338adfb15d27e",
+      "contentSha256": "d10218024d4bd7f59baeadadbc5221a69471e99d2550457dbf8f5e99d9fb89ea",
+      "page": "xuchu-1",
+      "x": 1047,
+      "y": 226
+    },
+    {
+      "name": "combo:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 122,
+        "trimY": 42,
+        "w": 276,
+        "h": 232
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "b744e33939f9c6aeed52fa1c89001d85502992bd733816ad32db36dc78c27691",
+      "contentSha256": "bf5a84c3b5a97c254155bdb9f91cb8a688e6dff0ab70ff7b705cfbdb2d5f8836",
+      "page": "xuchu-1",
+      "x": 1331,
+      "y": 226
+    },
+    {
+      "name": "combo:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 84,
+        "trimY": 65,
+        "w": 352,
+        "h": 209
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "656801c546ea75647e1e054111905261be748e024efc60c0aef44029335c2be2",
+      "contentSha256": "2bf2e38e8d1b3220e36af26f055cadbe53f60dab40bd0f1c6818fd8a8f29042c",
+      "page": "xuchu-1",
+      "x": 1607,
+      "y": 226
+    },
+    {
+      "name": "combo:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 133,
+        "trimY": 48,
+        "w": 253,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "79655a4f1f6f69a3ab36a23147e0d63779a65d0a92c4b9855cd9049e39d247fe",
+      "contentSha256": "b31ad8d5ae5b9d7f7dc7fea86b66d9e50c94d15c0d5d821f2ba1912afd2ee3c3",
+      "page": "xuchu-1",
+      "x": 0,
+      "y": 458
+    },
+    {
+      "name": "heavy:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 137,
+        "trimY": 6,
+        "w": 245,
+        "h": 268
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "4672f6f46f0373a179275340e36e05e3f7267b9896f60fd9bfe98e693a220271",
+      "contentSha256": "7b22b7b3ce2c91d4ba918e03ea485ab688f5855814e5cfc82783205e3da3a629",
+      "page": "xuchu-1",
+      "x": 253,
+      "y": 458
+    },
+    {
+      "name": "heavy:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 106,
+        "trimY": 5,
+        "w": 307,
+        "h": 269
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "bad91e7ecb9cef269af12de28be012d4e39d385c64f4a48a1f86e87a7d280f4b",
+      "contentSha256": "387fef310f80506ec48c24a1de40fcd329fe7ba328d4c3bd25c26aa5c820b030",
+      "page": "xuchu-1",
+      "x": 498,
+      "y": 458
+    },
+    {
+      "name": "heavy:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 98,
+        "trimY": 78,
+        "w": 323,
+        "h": 196
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "973e66b34e41d67465c80caf69c2617bc03e83b1f592bf3a5fe14dbe7edf2a26",
+      "contentSha256": "443a4e616605f11b47df4f0c99c20461fb8a4bd2aef96f9f6f764c2435a41f1b",
+      "page": "xuchu-1",
+      "x": 805,
+      "y": 458
+    },
+    {
+      "name": "heavy:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 93,
+        "trimY": 79,
+        "w": 334,
+        "h": 195
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "68b70e0d672c5070144615ec7082dac1dce669500947242c7e60ba552a039a6d",
+      "contentSha256": "cd607835350088816fb349e065ba17c0b30570b41f3c1bfb012c2fb4665e941d",
+      "page": "xuchu-1",
+      "x": 1128,
+      "y": 458
+    },
+    {
+      "name": "heavy:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 129,
+        "trimY": 48,
+        "w": 261,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "db120ec73955396ec326de0a1c6d60718e0d7cd900263d2083d064089347fff6",
+      "contentSha256": "2242051462152d23389fbbe1857cfb5ea77332674d66ab69e76bcd366a439cf8",
+      "page": "xuchu-1",
+      "x": 1462,
+      "y": 458
+    },
+    {
+      "name": "misc:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 136,
+        "trimY": 55,
+        "w": 248,
+        "h": 219
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "70338b0e3f6f7ab2e88e5bf2cd41730c9cf9bbc6eabc9ac5bed3839d7af57b4b",
+      "contentSha256": "9ea4dc360b9e78c85b2c1830215c1d7acb772635c86b759b5bc0114b13b6976b",
+      "page": "xuchu-1",
+      "x": 1723,
+      "y": 458
+    },
+    {
+      "name": "misc:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 131,
+        "trimY": 72,
+        "w": 257,
+        "h": 202
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "8a256719270db0fed52f8b1f7700b00b712498d6339128e3bf7eea4c6ffaf3bf",
+      "contentSha256": "d5403e55c3b3ba4af51d2fb08e5c99674ff88e5419a94c46d8957f08edc3eb1e",
+      "page": "xuchu-1",
+      "x": 0,
+      "y": 727
+    },
+    {
+      "name": "misc:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 143,
+        "trimY": 52,
+        "w": 234,
+        "h": 222
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "9a220c61e945499c319dfb8c5b3ec02c345a7164547e205633420771c45a7814",
+      "contentSha256": "62920d4087283d603c80247a7befc7f54c2382430a676ee5db057c8cc22284ac",
+      "page": "xuchu-1",
+      "x": 257,
+      "y": 727
+    },
+    {
+      "name": "misc:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 129,
+        "trimY": 41,
+        "w": 262,
+        "h": 233
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "1dfa35cea18924c143e6957f85af31f434307376eb55dfdc158d84bc78ec23c2",
+      "contentSha256": "8fdfecb6d1e7b4d96d9ddadde3e5859280f0ca7a0248746f7ef74c7da9e6c165",
+      "page": "xuchu-1",
+      "x": 491,
+      "y": 727
+    },
+    {
+      "name": "misc:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 129,
+        "trimY": 48,
+        "w": 262,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "426aa2bd26f3e45c3bf45a6905abc60ed3eeb65cd8a7e3e75015b9567ff2c9dc",
+      "contentSha256": "c61a1287f179b2a7d6bcd2ea6e705ac39da3132d9845896ca6f53cf4e456988b",
+      "page": "xuchu-1",
+      "x": 753,
+      "y": 727
+    },
+    {
+      "name": "fall:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 141,
+        "trimY": 44,
+        "w": 237,
+        "h": 230
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "90293481141064c4092b890d74b2a8d07735fafa38ec15bbc4eb1c73fca79921",
+      "contentSha256": "6b706af614b0eaaa9f56c33790a0e5f41728f2cb5eafc392eecc19ffe5182278",
+      "page": "xuchu-1",
+      "x": 1015,
+      "y": 727
+    },
+    {
+      "name": "fall:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 151,
+        "trimY": 81,
+        "w": 219,
+        "h": 193
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "7c539ae0eb52732e9ed935657520ff51fabae49b8d39d6ee6009d4bf2308d8db",
+      "contentSha256": "e4fd32113cb0eaafba7805a623abf81ab6db89d3b487e1d79f9748b6673327da",
+      "page": "xuchu-1",
+      "x": 1252,
+      "y": 727
+    },
+    {
+      "name": "fall:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 137,
+        "trimY": 118,
+        "w": 246,
+        "h": 156
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "4848472443bc75ff3d41703f4d6feb2d2f67ee6f329f2ca378adb2c131c58a6b",
+      "contentSha256": "459eee1952024e05c631725998f4d69ad3b6975825b64a9b5522a7615b334316",
+      "page": "xuchu-1",
+      "x": 1471,
+      "y": 727
+    },
+    {
+      "name": "fall:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 129,
+        "trimY": 120,
+        "w": 262,
+        "h": 154
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "6122ad982ad86e068a65ed880102b83fb5d71d8b78f685ce4c5a540b2893095b",
+      "contentSha256": "09a3fb8a61902c13e3fca6d4ea21892ba24215cc6a64399f775f01df15861841",
+      "page": "xuchu-1",
+      "x": 1717,
+      "y": 727
+    },
+    {
+      "name": "fall:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 106,
+        "trimY": 199,
+        "w": 308,
+        "h": 75
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "5788572fd0827798e7e4189d2570970fbaafe3ddf942da45d446544017349b1e",
+      "contentSha256": "a18ffa3b74fd3b7e8370dc39e80a965dc384a0b1e64d47418b2e1a6f40cdc722",
+      "page": "xuchu-1",
+      "x": 0,
+      "y": 960
+    },
+    {
+      "name": "getup:0",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 96,
+        "trimY": 190,
+        "w": 328,
+        "h": 84
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "9c63d437f811dc56f46d74a58f49c1dbdff604b826d9dbfc91d41c6864181459",
+      "contentSha256": "6b202f2e2fa1898d34e9d719f1e1a002a2215ac53d2769fa3d0749dcd5f6e130",
+      "page": "xuchu-1",
+      "x": 308,
+      "y": 960
+    },
+    {
+      "name": "getup:1",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 113,
+        "trimY": 151,
+        "w": 295,
+        "h": 123
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "d17b3182a779b954596f9c77d7edbf1d18d723354070072bfd0e001fdf80257a",
+      "contentSha256": "f9682865c6627943bccf1e29cf2534ddc019e10de03c7776393e4873406e6dfc",
+      "page": "xuchu-1",
+      "x": 636,
+      "y": 960
+    },
+    {
+      "name": "getup:2",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 142,
+        "trimY": 91,
+        "w": 236,
+        "h": 183
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "20575f1172b52c33fed33a11371db067ce2e47ad27aa4a65bc3c705aad288a24",
+      "contentSha256": "fe2629543bd6da138f8ed6daf932ac237a461185ab8a89ad86246bb7c7842d7d",
+      "page": "xuchu-1",
+      "x": 931,
+      "y": 960
+    },
+    {
+      "name": "getup:3",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 140,
+        "trimY": 110,
+        "w": 240,
+        "h": 164
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "e86ce861d45acc5927fdaf9331de307a39b0cd3722f998cb5de37dfb1ac808ba",
+      "contentSha256": "083208b62d8a4d84f856b61fa3c90aeb9333bbc857c8e0bc3327871f7972f044",
+      "page": "xuchu-1",
+      "x": 1167,
+      "y": 960
+    },
+    {
+      "name": "getup:4",
+      "trim": {
+        "srcW": 520,
+        "srcH": 288,
+        "trimX": 147,
+        "trimY": 48,
+        "w": 227,
+        "h": 226
+      },
+      "pivot": {
+        "x": 260,
+        "y": 272
+      },
+      "restoredSha256": "c542d3e6aa148454a0fa5ad44c9b81eb1e2825f384172f76af84351ebd92f239",
+      "contentSha256": "63d0870b22b8b94c08a834611085ecaffd61dff3ef221dcbec52566ddaab63bb",
+      "page": "xuchu-1",
+      "x": 1407,
+      "y": 960
+    }
+  ],
+  "pages": [
+    {
+      "name": "xuchu-1",
+      "width": 1979,
+      "height": 1186
+    }
+  ]
+}

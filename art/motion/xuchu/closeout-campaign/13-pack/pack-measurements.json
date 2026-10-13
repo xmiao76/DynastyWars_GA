@@ -1,0 +1,56 @@
+{
+  "manifestSha256": "d0545e8575a24704d9f923173af3de5656a213b907e8f35d57632f4197e27266",
+  "deterministic": true,
+  "frames": 36,
+  "uniqueFrames": 36,
+  "counts": {
+    "sourceCells": 63,
+    "displayedUniqueDrawings": 36,
+    "duplicateSourceCells": 0,
+    "unusedSourceCells": 27
+  },
+  "pages": [
+    {
+      "name": "xuchu-1",
+      "width": 1979,
+      "height": 1186
+    }
+  ],
+  "decodedBytes": 9388376,
+  "decodedCapBytes": 16777216,
+  "budget": {
+    "errors": [],
+    "decodedBytes": 9388376,
+    "trimBytes": 7539512,
+    "gpuBytes": 9388376,
+    "clonedCanvasBytes": 0,
+    "networkBytes": 0
+  },
+  "suspects": [],
+  "base": 0.483278,
+  "fitBound": 0.48816029143898,
+  "fitBinding": "heavy:1 height",
+  "budgetBound": 0.639705882352941,
+  "budgetStepDowns": 0,
+  "walkGuardPx": 221.824602,
+  "maxAbsContentBottomVsNominalGroundU": 1.04,
+  "ledgerVerified": {
+    "sha256": "93c0589933c12d966972ecbd97aa0fd672f005e75ed080ea6ccb3e374ab4934c",
+    "xuchu": {
+      "role": "boss",
+      "cap": 12,
+      "used": 29,
+      "sheetCandidates": {
+        "walk": 13,
+        "charge": 2,
+        "combo": 2,
+        "heavy": 5,
+        "misc": 2,
+        "fall": 2,
+        "getup": 3
+      }
+    },
+    "globalUsed": 196,
+    "campaignCeilings": "Xu Chu 32 / global 199 (nominal cap 12 unchanged, global hard cap 200)"
+  }
+}
