@@ -1,0 +1,212 @@
+{
+  "work": "cmr15a-shaft-retouch-walk4",
+  "key": "walk:4",
+  "attempt": "attempt2 registered cell + deterministic shaft retouch",
+  "zeroGeneration": true,
+  "authority": "Owner 2026-10-12 CMR-15A SHAFT-RETOUCH SALVAGE (verbatim in TASKS.md CMR-15A): deterministic shaft retouch on registered.png b0d7030b..., shorten along existing shaft axis into [124.41,137.50]u (target ~132u), tip redrawn on same shaft line, no pixels changed outside weapon region, seams at gameplay + 4x, full re-gate, bank as anchor 2 if all pass.",
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500
+  },
+  "input": {
+    "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/registered.png",
+    "sha256": "b0d7030be18132b855d43d35a03cc72a24fe875e3994b44777d06239eaa32803",
+    "size": [
+      512,
+      512
+    ],
+    "weaponBeforeU": 145.63293136553463
+  },
+  "retouch": {
+    "method": "Rigid terminal-blade-segment shift along the measured shaft axis (Li Dian rigid-shaft retouch practice): copy pixels with axis projection t >= T_CAP within the blade cross-band, erase all weapon-band pixels with t >= jointT, redraw the segment shifted inward by an integer pixel vector. Shaft/collar/tassel/body untouched; tip stays on the same shaft line (angle unchanged by construction).",
+    "axis": {
+      "butt": [
+        6.905789990186491,
+        337.8410206084396
+      ],
+      "tipBefore": [
+        508.6977428851815,
+        88.74681059862607
+      ],
+      "unitU": [
+        0.8957099677572607,
+        -0.4446387900985325
+      ],
+      "unitN": [
+        0.4446387900985325,
+        0.8957099677572607
+      ],
+      "angleDeg": -26.400230978676348
+    },
+    "targetU": 132,
+    "targetPx": 507.77419354838713,
+    "deltaPx": 52.442808559355,
+    "shiftPx": [
+      -47,
+      23
+    ],
+    "shiftAlongUPx": -52.3250606568575,
+    "shiftPerpPx": -0.2966938762140323,
+    "tCapPx": 510,
+    "jointTPx": 457.6749393431425,
+    "jointPoint": [
+      416.84979515253895,
+      134.34098932048542
+    ],
+    "oBand": [
+      -20,
+      75
+    ],
+    "movingPx": 1747,
+    "seamWidthMatch": {
+      "capStartWidthAtTCap": {
+        "lo": 13.467973210716622,
+        "hi": 56.41702495014377,
+        "width": 42.94905173942715
+      },
+      "retainedWidthAtJoint": {
+        "lo": 14.975564045137475,
+        "hi": 53.8649751856361,
+        "width": 38.88941114049862
+      },
+      "dLoPx": -1.5075908344208528,
+      "dHiPx": 2.5520497645076716
+    },
+    "weaponRegionForHash": {
+      "tMin": 452.6749393431425,
+      "oLo": -25,
+      "oHi": 80
+    },
+    "output": {
+      "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/retouched.png",
+      "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad",
+      "size": [
+        512,
+        512
+      ]
+    },
+    "outsideWeaponRegionProof": {
+      "hashBefore": "6cbac8ab2fa42ad7de0f7a0344247abdf8d5387950269d9c009e57da95653975",
+      "hashAfter": "6cbac8ab2fa42ad7de0f7a0344247abdf8d5387950269d9c009e57da95653975",
+      "identical": true,
+      "changedPxInsideRegion": 4575,
+      "changedPxOutsideRegion": 0
+    }
+  },
+  "remeasured": {
+    "weapon": {
+      "beforePxAt512": 560.2170021077421,
+      "beforeU": 145.63293136553463,
+      "afterPxAt512": 507.8920281103111,
+      "afterU": 132.03063204544773,
+      "targetU": 132,
+      "bandU": {
+        "lo": 124.40626991803302,
+        "hi": 137.50166675151021
+      },
+      "inBand": true,
+      "deltaPctVsAnchor": 0.9484341020090045,
+      "spreadAnchorVsCandCanonical": 0.00943957693671346,
+      "angleDeg": -26.433701297051943,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": -0.12329635224680402,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 5.333300314990345,
+        "tip": 4.240354436560155,
+        "corridorLimitPx": 14
+      },
+      "buttLandmark": [
+        6.905789990186491,
+        337.8410206084396
+      ],
+      "tipLandmarkBefore": [
+        508.6977428851815,
+        88.74681059862607
+      ],
+      "tipLandmarkAfter": [
+        461.6977428851815,
+        111.74681059862607
+      ],
+      "rasterMaxTBladePx": {
+        "t": 503.1333420910358,
+        "at": [
+          458,
+          115
+        ],
+        "note": "max axis projection of any alpha>=16 blade-band pixel (x>=360) after retouch"
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxAt512": 50.302257114818474,
+      "tipClipped": false
+    },
+    "bodyGround": {
+      "rasterCrownY": 41,
+      "rasterGroundY": 500,
+      "bodyHeightLandmarkPxAt512": 459,
+      "frozenHeightPxAt512": 459,
+      "groundedErrorU": 0,
+      "note": "Butt/body/legs pixels are outside the weapon region and byte-identical (outside-hash proof); crown/ground raster rows re-measured on retouched.png.",
+      "gaitMeasured": {
+        "supportSoleY": 500,
+        "passingToeY": 469.36997055937195,
+        "note": "Leg pixels unchanged (outside weapon region); Passing-A visually reconfirmed on retouched.png (see verdicts)."
+      }
+    },
+    "greenPx": 0,
+    "edgeOpaquePx": {
+      "left": 0,
+      "right": 0,
+      "top": 0,
+      "bottom": 0
+    },
+    "alphaBoundsRaster": {
+      "xmin": 3,
+      "ymin": 41,
+      "xmax": 461,
+      "ymax": 500
+    },
+    "headEndpointRAW": {
+      "beardTip": [
+        297.44062806673213,
+        142.7998037291462
+      ],
+      "measuredClearBackgroundGapPx": 0,
+      "note": "RAW only (unchanged pixels outside weapon region; beard over collar). Batch-end UNVERIFIED_OWNER_ACCEPTED reserved only if ALL other gates pass."
+    }
+  },
+  "gates": {
+    "weaponLengthPass": true,
+    "weaponCorridorPass": true,
+    "weaponDirectionPass": true,
+    "bodyPass": true,
+    "groundPass": true,
+    "seamsNumericPass": true,
+    "outsideWeaponRegionUnchanged": true
+  },
+  "verdicts": {
+    "identity": "PASS (visual on retouched.png: same helmeted full-bearded ochre/dark-armoured massive Xu Chu; body pixels byte-identical outside weapon region)",
+    "anatomy": "PASS (visual: connected two-hand glaive grip, natural hip/skirt overlap; grips/hands byte-identical, blade still connects through the unchanged collar/tassel)",
+    "weaponLength": "PASS — retouched length 132.03u inside frozen band [124.41,137.50]u (target 132u; before 145.63u)",
+    "weaponCorridorDirection": "PASS",
+    "scaleGround": "PASS (body 459px@512 landmark, ground 500@512 = 0.00u; raster crown 41 / ground 500 re-measured; body/leg pixels byte-identical)",
+    "seams": "PASS (numeric greenPx=0/no edge clipping; seam at the retouch joint + tip visually verified on retouch-seam-gameplay.png at gameplay size and retouch-seam-4x.png at 4x: continuous blade silhouette/texture, no gap, halo or step beyond the recorded <=3px width match)",
+    "gaitPassingA": "PASS (visual on retouched.png: screen-left flat support + screen-right bent forward passing boot clear of ground, opposite screen arrangement to accepted walk:2 Passing-B; leg pixels byte-identical)",
+    "headEndpointRAW": "RECORDED_RAW_NOT_A_REJECT (0px gap; batch-end ruling only)"
+  },
+  "overall": "PASS — banked as anchor 2 (accepted.png = byte copy of retouched.png)",
+  "ledgerUnchanged": "Xu Chu 8 / global 175 (zero generation in this retouch)",
+  "banked": {
+    "anchor": 2,
+    "acceptedPath": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png",
+    "acceptedSha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad",
+    "registeredSha256": "b0d7030be18132b855d43d35a03cc72a24fe875e3994b44777d06239eaa32803",
+    "retouchedSha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad"
+  }
+}

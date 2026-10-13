@@ -202,6 +202,31 @@ CMR-15A DONE. Re-gate result is recorded in the Amendment progress table below a
 in `03-walk4/attempt2/regate.json`: **FAIL on weapon length after registration** —
 the candidate remains unaccepted and CMR-15A is BLOCKED again on that exact gate.
 
+### SHAFT-RETOUCH SALVAGE note (owner grant, 2026-10-12 — "CMR-15A SHAFT-RETOUCH SALVAGE", recorded verbatim in TASKS.md CMR-15A)
+
+Prospective only; all history, the banked walk:2 anchor, the frozen brief band and
+ledger counts (Xu Chu 8, global 175; ceilings 22/189) are preserved. The salvage
+order now explicitly includes **deterministic shaft retouch after registration for
+length outliers**: on the registered walk:4 cell (`03-walk4/attempt2/registered.png`,
+`b0d7030b…`, weapon 145.63u), shorten the glaive along its existing shaft axis into
+[124.41, 137.50]u (target ≈132u), tip redrawn on the same shaft line, no pixels
+changed outside the weapon region; verify seams at gameplay size and 4x, then
+re-gate fully — if all pass, bank as anchor 2. The same after-registration shaft
+retouch is explicitly part of the salvage order for length outliers in the
+remaining keys (walk:3 third attempt, then walk:5, walk:0, walk:1, charge, combo,
+heavy, misc, fall, getup, in later packages). This grant does not mark CMR-15A DONE.
+
+**Shaft-retouch salvage result (2026-10-12, zero generation): PASS — banked as
+anchor 2.** Deterministic `03-walk4/attempt2/retouch.mjs` shortened the registered
+cell (`b0d7030b…`, 145.63u) along its measured shaft axis: terminal blade segment
+(t≥510px) copy/shifted inward by (−47,+23)px to joint t=457.67px (seam width match
+dLo −1.51 / dHi +2.55px) → `retouched.png` (`75488eb1…`). Outside-weapon-region
+RGBA hash identical (`6cbac8ab…`, 0 changed px outside; 4575 inside). Full re-gate
+(`retouch-gate.json`): weapon **132.03u in band**, angle Δ−0.12°, corridor ≤5.33px,
+body 459px, ground 0.00u, seams verified at gameplay size + 4x, gait Passing-A,
+head RAW 0px. `accepted.png` banked (byte copy of `retouched.png`, `75488eb1…`;
+registered + retouched hashes recorded). **Consecutive unusable = 0.**
+
 ### Amended ceilings and order
 
 | Counter | Preserved now | Amended ceiling | Nominal recorded base |
@@ -298,6 +323,7 @@ prepare the offline pack only and return for independent review.
 |---|---|
 | Setup (this package) | DONE — grant recorded, IN_PROGRESS, zero-gen gates, padded refs, salvage record; ledger unchanged 6/173 |
 | walk:3 second attempt (`02-walk3/attempt2/`) | **REJECTED after salvage — unaccepted, not banked** (candidate `d92a24afe7060fd40201acf74c252676f1fa0c5be670b3450f9b0d9e5fb4424b`, reserve commit `822d907`, Xu Chu 7 / global 174, ceilings 22/189). One gpt-preferred EDIT (serving UNCONFIRMED) with padded walk3 ref + accepted walk:2 anchor, briefed on attempt-1 failure. Gates (`02-walk3/attempt2/gate.json`): identity/anatomy PASS; weapon PASS (125.65u in band [124.41,137.50]u, angle Δ−0.45°, corridor ≤12.03px/14px, tip not clipped, right margin 37px native recorded raw); scale/ground FAIL (body 414.42 vs 459px@512 −9.71%; ground 474.85 vs 500@512 = 6.54u >1.5u; salvage step (1) factor 1.1076 exceeds ±4% cap, not applied; steps (2)–(3) do not cure); seams FAIL (retained painted green ground line, 4065 green px); gait FAIL (front-flat/rear-toe same screen arrangement as walk:1, Contact-B opposite occlusion not proven); head RAW gap 0px (not a reject). **Post-amendment post-correction unusable count 0→1 (consecutive 1/2; STOP at 2 consecutive not reached).** walk:3 second attempt spent, no third attempt. Next amendment key: walk:4 (manager/owner direction). |
+| walk:4 SHAFT-RETOUCH SALVAGE (`03-walk4/attempt2/retouch.mjs`/`retouch-gate.json`/`retouched.png`/`accepted.png`) | **PASS — BANKED AS ANCHOR 2** (zero generation; ledger unchanged Xu Chu 8 / global 175). Glaive shortened on the registered cell along its existing shaft axis 145.63u → **132.03u in band [124.41,137.50]u** (507.89px@512, Δ+0.95% vs anchor, angle −26.43° Δ−0.12°, corridor butt 5.33/tip 4.24px vs 14px, tip margin 50.30px); outside-weapon-region RGBA hash identical (`6cbac8ab…`, 0 changed px outside); seams PASS at gameplay + 4x (joint seam continuous, greenPx=0); body 459px, ground 0.00u; gait Passing-A PASS; head RAW 0px. `accepted.png` = byte copy of `retouched.png` (`75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad`); registered `b0d7030be18132b855d43d35a03cc72a24fe875e3994b44777d06239eaa32803`. **Consecutive unusable = 0.** CMR-15A stays IN_PROGRESS; continuation in later packages. |
 | walk:4 attempt-2 REGISTRATION AMENDMENT re-gate (`03-walk4/attempt2/regate.mjs`/`regate.json`/`registered.png`) | **FAIL — candidate remains UNACCEPTED, not banked (no accepted.png); CMR-15A BLOCKED again on exact gate** (zero generation; ledger unchanged Xu Chu 8 / global 175). One uniform scale+translate (factor 1.1032300355740923, +10.32% within new ±12% cap, native 1254px > 512px cell; dx −33.63, dy −8.10 @512) produced `registered.png` (`b0d7030b…`, 512×512). Re-measured: identity/anatomy PASS; **weapon length FAIL — 560.22px@512 = 145.63u vs frozen band [124.41,137.50]u** (pre-registration 132.01u scaled by the same uniform factor; +11.35% vs anchor, spread 10.74%; no in-batch waiver); corridor PASS (butt 5.33 / tip 4.46px vs 14px), direction PASS (−26.40°, Δ−0.09°), tip inside frame (margin 3.30px@512, not clipped); scale/ground PASS after registration (body 459.00px@512, ground 500@512 = 0.00u ≤1.5u, raster crown 41 / ground 500); seams PASS (greenPx=0, no edge clipping); gait Passing-A PASS (visually reconfirmed on registered cell, opposite walk:2); head RAW 0px (not a reject). |
 | walk:4 second attempt (`03-walk4/attempt2/`) | **REJECTED after salvage — unaccepted, not banked; AMENDMENT STOP (2 consecutive)** (candidate `3cdc2fa8ea1923e0fe3a8b9af09cd7d65b814d216ed0461b09d4e87dcf94e2b0`, reserve commits `176213f`+`952a5b9`, candidate commit `d267a38`, Xu Chu 8 / global 175, ceilings 22/189). Exactly one gpt EDIT (provider gpt, serving UNCONFIRMED, no substitution) with padded walk4 ref `5b79aeb0…` + accepted walk:2 anchor `893c90d7…` (read via identical-bytes candidate-raw.jpg due accepted.png extension mismatch), briefed on walk:4 attempt-1 failure (ground +7.15u, Δ+3.53°, tip clipped/corridor 46.26px, trailing toe-down gait) AND walk:3 attempt-2 lessons (−9.71% too small, retained green line; explicitly no ground/guide line drawn, anchor-scale body, feet on ground level). Gates (`03-walk4/attempt2/gate.json`): identity/anatomy PASS; weapon PASS (132.01u in band [124.41,137.50]u, angle Δ−0.09°, corridor ≤3.99px/14px, tip not clipped, margin 50px native); seams PASS (greenPx=0, no retained guide line, no clipping); gait PASS (screen-left flat support + screen-right bent forward passing boot 68px native clear, opposite arrangement to walk:2); scale/ground FAIL (body 416.05 vs 459px@512 −9.36%; ground 460.56 vs 500@512 = 10.25u >1.5u; salvage step (1) factor 1.1032 exceeds ±4% cap, not applied; steps (2)–(3) do not cure scale/ground); head RAW gap 0px (not a reject). **Post-amendment consecutive unusable 1→2 = revised STOP reached: campaign STOPPED, no further amendment requests; CMR-15A BLOCKED WAITING_FOR_OWNER.** walk:4 second attempt spent, no third attempt. |
 
