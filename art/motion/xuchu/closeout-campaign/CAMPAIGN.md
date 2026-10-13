@@ -62,7 +62,7 @@ as sole support, and walk:2 / walk:4 must be provably opposite passing poses.
 | walk:2 | **Passing-B (FIRST request — riskiest opposite-passing proof)** | Leg-A sole support, flat under hip | Leg-B passing forward | B knee bent, toe tucked/clear of ground, feet clearly separated; A boot flat. Must not read as a grounded stride or a kick |
 | walk:3 | Contact-B (opposite contact to walk:1) | Leg-B (front, under hip) + Leg-A trailing push-off | None (A leaving ground) | B heel-strike→flat at front; A toe-off at rear — support/occlusion visibly reversed vs walk:1 |
 | walk:4 | Passing-A (opposite passing to walk:2) | Leg-B sole support, flat under hip | Leg-A passing forward | A knee bent, toe tucked/clear of ground, feet clearly separated; passing leg is the opposite leg to walk:2 |
-| walk:5 | Brake / bookend transition | Leg-A front braking + Leg-B rear support (double support, decelerating) | None | A front boot flat with braking heel pressure, B rear toe/partial contact; weight visibly settling back toward walk:0 guard — not a plain guard duplicate |
+| walk:5 | **Stop/Settle closing key** (AMENDED 2026-10-13 by owner WALK:5 ZERO-GENERATION PHASE AMENDMENT, walk:5 ONLY — replaces the exact Li Dian-guide Brake metrics; original row read "Brake / bookend transition … A front boot flat with braking heel pressure, B rear toe/partial contact; weight visibly settling back toward walk:0 guard") | Both grounded (front planted + rear closing) | None | A genuinely distinct grounded drawing after walk:4 Passing-A that reads as the final step settling toward walk:0 guard: front foot planted ahead, rear foot grounded/closing, no passing leg, not a guard duplicate, not a repeat of the walk:1/walk:3 contact arrangement |
 | (→ walk:0) | Loop closes to guard bookend | Both | None | Matches walk:0 framing/ground so the cycle can loop or stop |
 
 Alternation proof required across the accepted set: support sequence
@@ -523,3 +523,40 @@ Ledger recomputed (Xu Chu 3/12 used, global 170/200) — matches grant ceilings
 Zero `image_generate` calls, zero reservations, zero ledger writes in this setup.
 No tests/browser/build run: no code, runtime, UI or shipping change (docs + reference
 crops only); `git diff --check` at commit time.
+
+## WALK:5 ZERO-GENERATION PHASE AMENDMENT (owner grant, 2026-10-13; work cmr15a-walk5-zerogen-amendment, ZERO generation)
+
+Grant recorded verbatim in TASKS.md CMR-15A (owner, 2026-10-13, "CMR-15A
+WALK:5 ZERO-GENERATION PHASE AMENDMENT: …"). Prospective BLOCKED→IN_PROGRESS;
+all history, banked walk:0–4, frozen band and ledger Xu Chu 13/global 180
+(ceilings 22/189) preserved. **§(a) walk:5 amended ONLY** (row above): the
+exact Li Dian-guide Brake metrics are replaced by the **Stop/Settle closing
+key** definition. CMR-15A acceptance otherwise unchanged. Scope of this
+package: (i) component-extract the original walk-candidate-2 walk:5 figure
+(`bad2aee5…`), register it campaign-standard, shaft-retouch only if an
+in-frame length outlier; (ii) shaft-retouch the GPT registered candidate
+`fcca9950…` to ~132u; gate BOTH campaign-standard (identity/anatomy/seams,
+weapon corridor/length/direction, body/ground, amended Stop/Settle gait,
+head RAW) including comparative distinctness vs banked walk:0/1/3 and
+walk:4→candidate→walk:0 continuity at gameplay size and 4x. Bank at most
+one, only if every gate passes; if neither passes, STOP WAITING_FOR_OWNER
+with no generation. Phase 3 is NOT started in this package.
+
+**Result (2026-10-13, zero generation; `04-walk5/zerogen-amendment/build.mjs`
++ `finalize.mjs`/`gate.json`, reruns hash-identical; both final cells +
+marked/head/legs/tip-4x/soles-4x + sequence/compare sheets personally
+opened):**
+
+| Candidate | Build | Weapon fresh raster | Body/ground | Amended Stop/Settle + distinctness | Verdict |
+|---|---|---|---|---|---|
+| (i) Original candidate-2 walk:5 | component [1057,542,1514,984] of `bad2aee5…` (tip complete, xmax 1514 < sheet edge), extracted → registration 1.0361 (+3.61% ≤±12%) → `orig-registered.png` `89afcca7…`; **no shaft retouch** (135.10u in band = no in-frame outlier) | 135.10u in [124.41,137.50]u, Δ+0.79°, corridor 4.02/3.11px ≤14 | 458px / 0.00u | **PASS**: front flat planted (sole 492, heelRaised 1px, centre 296.5 = +23.5px ahead of guard 273), rear full-flat grounded (sole 500, heelRaised 2px), no passing leg; stance 196 vs walk:0 171px, silhouette XOR 18.56% (legs 26.85%) ≠ guard duplicate; both heels down ≠ walk:1 (rear heelRaised 15px) / walk:3 (9px) toe-off; walk:4→5→0 settle coherent at gameplay size + legs-2x + soles-4x | **PASS — BANKED** `04-walk5/zerogen-amendment/accepted.png` (byte copy, `89afcca7…`) |
+| (ii) GPT registered `fcca9950…` | deterministic shaft retouch along its axis (joint (424,116), seam width match −0.32px) → `gpt-retouched.png` `e34fb958…`; outside-weapon-region RGBA hash identical, 0 changed px outside | 140.39u fresh raster (139.49u prior landmarks) OUT_HIGH → **131.90u in band**, Δ−0.48°, corridor 4.20/8.43px ≤14 | 459px / 0.00u (carried) | **FAIL**: front planted flat (sole 500, centre 374) but rear is forefoot-only toe-off (heel 479 vs sole 497, heelRaised 18px; prior landmark 23.5px) — not grounded/closing, and front-flat + rear-toe-off repeats the walk:1/walk:3 contact arrangement the amendment excludes; reads as another stride, not a settle | **NOT banked** (weapon/body/ground/seams/identity/anatomy PASS after retouch; gait-only failure, deterministically incurable) |
+
+Identity/anatomy/seams PASS both (green/magenta/edge-opaque = 0; GPT retouch
+joint continuous at gameplay + 4x); head RAW 0px both (not a reject;
+batch-end ruling reserved). **Exactly one banked — the choice is forced, as
+only the original passes every gate.** Walk set now banked walk:0–5.
+CMR-15A stays IN_PROGRESS; Phase 3 (per the Alternative Completion grant,
+offline pack only then independent review) is a later package, NOT started
+here; not DONE, no 15B. Ledger unchanged (`e22523da…`, Xu Chu 13/global
+180, ceilings 22/189); zero generation.
