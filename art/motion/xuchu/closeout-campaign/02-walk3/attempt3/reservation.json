@@ -1,0 +1,38 @@
+{
+  "campaign": "CMR-15A CLOSEOUT (REGISTRATION AMENDMENT + SHAFT-RETOUCH SALVAGE remainder)",
+  "work": "cmr15a-walk3-attempt3",
+  "attempt": "walk:3 THIRD attempt (attempt3; authorized only for walk:3 by REGISTRATION AMENDMENT + SHAFT-RETOUCH SALVAGE grants, briefed on attempt-2 measured failures, no blind reroll)",
+  "key": "walk:3",
+  "phase": "Contact-B (CAMPAIGN (a): Leg-B front heel-strike to flat support under hip; Leg-A trailing rear toe-off, heel raised; support/occlusion visibly reversed vs walk:1 Contact-A; opposite to walk:2 Passing-B, distinct from walk:4 Passing-A)",
+  "grant": "CMR-15A SHAFT-RETOUCH SALVAGE (owner grant, 2026-10-12) executing the remainder of the REGISTRATION AMENDMENT: ONE walk:3 third attempt (provider gpt, padded ref + walk:2 anchor, briefed also that the weapon must be proportionally shorter relative to the body — target weapon/body ratio of the anchor); ceilings Xu Chu 22 total / global 189/200 (nominal cap 12 unchanged); salvage order (1) uniform registration <=±12% to groundY/body, (2) shaft retouch after registration for length outliers (target ≈132u in [124.41,137.50]u), (3) weapon splice only if grips align; STOP on two consecutive post-correction unusable (currently 0 consecutive after walk:4 banked as anchor 2)",
+  "briefedOnAttempt2Failure": {
+    "source": "art/motion/xuchu/closeout-campaign/02-walk3/attempt2/gate.json",
+    "candidateSha256": "d92a24afe7060fd40201acf74c252676f1fa0c5be670b3450f9b0d9e5fb4424b",
+    "bodyScale": "body 414.42 vs frozen 459px@512 = -9.71%; body height MUST match anchor body scale",
+    "weaponProportion": "attempt-2 weapon 125.65u at its small body scale would scale to ~139u after body registration; weapon must be proportionally SHORTER relative to the body, target anchor weapon/body ratio (503.12px weapon / 459px body @512, frozen band [124.41,137.50]u, target ≈132u after any shaft retouch)",
+    "groundErrorU": 6.539168580876618,
+    "groundNote": "candidate ground 474.85 vs frozen 500@512; salvage step (1) factor 1.1076 exceeded the then ±4% cap and was not applied (cap now ±12% for native >512px under REGISTRATION AMENDMENT)",
+    "weaponAngleDeltaDeg": -0.44945546103204137,
+    "corridorNote": "weapon PASS in attempt 2 (125.65u in band, corridor butt 12.03/tip 8.24px vs 14px, tip not clipped, right margin 37px native); brief requires whole tip >=40px inside every frame edge",
+    "seamsDefect": "retained painted green ground line, 4065 green px; no guide lines may appear in the output",
+    "gaitDefect": "front-flat/rear-toe-off same screen arrangement as walk:1; Contact-B opposite support/occlusion not proven — leg arrangement must be Contact-B opposite to walk:2 Passing-B and distinct from walk:1 Contact-A and walk:4 Passing-A"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 175, "sha256": "b1e1f22eba8ee80a59750ecf42a8dc73367549d32c5924dd51d3a6ff7403b305", "walk": 8, "xuchuUsed": 8 },
+    "after": { "globalSummed": 176, "sha256": "7e74e156e5b0453530707ed2668d7b65737cabea98224070fd359a76a46c3b7f", "walk": 9, "xuchuUsed": 9 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": { "requested": "gpt", "preference": "provider gpt exactly per work order / SHAFT-RETOUCH SALVAGE remainder (no substitution)", "serving": "TO_BE_RECORDED_AFTER_CALL" },
+  "references": [
+    { "role": "primary (padded walk:3 original cell, ground line marked)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk3-padded-ref.png", "sha256": "8a952923ecdbba82f85930f5dddee1a4704da3d0d7082d738f7b37390e8c016c", "size": [1024, 1024] },
+    { "role": "second (accepted walk:2 anchor 1, Passing-B)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "role": "third (accepted walk:4 anchor 2, Passing-A, registered+retouched, gait opposite reference)", "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png", "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad", "size": [512, 512] }
+  ],
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/02-walk3/attempt3/prompt.txt" },
+  "status": "RESERVED — reserve-before-call; exactly one generation authorized for this attempt; no refunds"
+}
