@@ -2,7 +2,7 @@
   "work": "cmr15a-phase3-misc-generate",
   "key": "misc",
   "attempt": "CMR-15A Phase 3: exactly ONE 3x3 misc sheet generation (Li Dian method, Xu Chu identity/frozen-band brief); generation only - no extraction, retouch, gates or focused fix in this package",
-  "status": "UNREVIEWED - candidate saved beside this file; no gates run, nothing banked; a separate gating package judges it (heavy counts post-fix unusable #1; a post-salvage+fix unusable misc verdict would be #2 = STOP, not decided here). One earlier image_generate invocation errored on reference-format validation BEFORE any generation (no image produced/consumed); the retried call with sha256:-prefixed attachmentIds is the single generation of this package",
+  "status": "GATED FAIL - NOT BANKED (see gate field below; initial-sheet failure, focused fix unspent, count stays #1). Originally UNREVIEWED candidate saved beside this file. One earlier image_generate invocation errored on reference-format validation BEFORE any generation (no image produced/consumed); the retried call with sha256:-prefixed attachmentIds is the single generation of this package",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "no provider recorded for Li Dian misc in art/motion/lidian/PROVENANCE.md (Request 11/14) -> gpt per work order",
@@ -35,7 +35,17 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
-  "banked": false
+  "gatesRun": true,
+  "extractionRun": true,
+  "banked": false,
+  "gate": {
+    "work": "cmr15a-phase3-misc-gates (correction of timed-out call_01a1340e5e41711caaf8a71cb467235d; partial hash-verified artifacts reused, build rerun byte-identical)",
+    "verdict": "FAIL - NOT BANKED (2/5 keeps pass; no accepted cells created; 0 waiver-eligible keeps)",
+    "gateJson": "art/motion/xuchu/closeout-campaign/10-misc/gate/gate.json",
+    "gateJsonSha256": "8ecec2bf5dc7b7954d749fa08642ebf75cb8e055fb90a6d07ab9378a6b78ce8f",
+    "measureJsonSha256": "27c78514b9bc6acff46ba1dbe3e6daee793373f4beabc2b5d1965894ea0b2154",
+    "passKeeps": "cell0-hurt-recoil 137.10u, cell1-hurt-fold 132.34u (after deterministic shaft retouch; candidates only, NOT banked - misc banks only as a coherent complete set)",
+    "failedKeeps": "cell2-held-clamp 141.63u +4.13u OUT_HIGH + corridor/grip FAIL (haft hidden behind crossed arms, clasped hands do not grip haft); cell3-held-struggle 153.22u +15.72u; cell4-release 159.27u +21.77u; spares 137.52 (+0.02u, waiver-sized but only alternates passing cell0)/159.24/163.80/154.61u - no role-fit passing substitution",
+    "accounting": "INITIAL misc sheet failure: does NOT increment the consecutive post-fix unusable count (stays #1, heavy focused fix); misc focused fix remains UNSPENT and is the next step; zero generation in the gate package; ledger unchanged Xu Chu 20 (misc 1)/global 187"
+  }
 }
