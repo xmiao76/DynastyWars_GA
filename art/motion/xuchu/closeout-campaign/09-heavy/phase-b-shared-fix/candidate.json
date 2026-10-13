@@ -2,7 +2,7 @@
   "work": "cmr15a-heavy-shared-fix-generate",
   "key": "heavy",
   "cell": "cell2-crushing-chop (LEFT) + cell3-follow-through (RIGHT) ONE shared two-panel length-only fix (COMPLETION CAMPAIGN Phase B)",
-  "status": "UNREVIEWED - generated only; no split, extraction, registration, measurement, gates, selection or banking in this package",
+  "status": "GATED (work cmr15a-heavy-shared-fix-gates, verified cmr15a-heavy-shared-fix-finish) - HEAVY BANKED coherent selected 5; see gate.json / gateDisposition below",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "gpt per work order",
@@ -32,8 +32,17 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "splitRun": false,
-  "gatesRun": false,
-  "extractionRun": false,
-  "banked": false
+  "splitRun": true,
+  "gatesRun": true,
+  "extractionRun": true,
+  "banked": true,
+  "gateDisposition": {
+    "gate": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/gate.json",
+    "gateSha256": "62cfb92e968b99cf474634fd1a5eb10fe25cf157e97ece2dc17faf4682b190b8",
+    "heavyBanked": true,
+    "cell2": { "file": "cell2-selected.png", "sha256": "0bb2ebf82af81b79c6f208ab8af582b85a639c51cfe4fc00bcc0fb7b27f4d55a", "finalU": 136.39, "status": "PASS" },
+    "cell3": { "file": "cell3-selected.png", "sha256": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9", "finalU": 141.14, "status": "FAIL retained +3.64u, selected only under pre-authorized <=9u exact-hash waiver (NOT PASS)" },
+    "acceptedSet": "accepted/cell0-raise.png, cell1-overhead-hold.png, cell2-crushing-chop.png, cell3-follow-through.png (waived), cell4-recover.png (Phase A waived +7.72u); all byte-copy hashes verified in gate.json accepted[]",
+    "postFixAccounting": "banked family resets prospective post-salvage count to 0; CMR-15A stays IN_PROGRESS, not DONE; ledger unchanged Xu Chu 28/heavy 5/global 195, ceilings 32/199"
+  }
 }

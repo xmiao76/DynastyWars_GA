@@ -1,0 +1,824 @@
+{
+  "work": "cmr15a-heavy-shared-fix-gates",
+  "zeroGeneration": true,
+  "visualPass": true,
+  "sourcesVerified": {
+    "sharedCandidate": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\phase-b-shared-fix\\candidate-raw.png",
+      "sha256": "2035a2d18e4b9ad3779bc73fb62c666e581157f8e6260d0a80932d3ae211f54b",
+      "verified": true
+    },
+    "twoPanelRef": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\phase-b-shared-fix\\two-panel-ref.png",
+      "sha256": "7d2e8ff3da2505ee0e044c53822e1935673efe69be455915472ad93bcf7c9d20",
+      "verified": true
+    },
+    "isolatedCell2Final": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\phase-b\\cell2-retouched.png",
+      "sha256": "1ce7855bed87b89fa514935f7ebf78a1ddef10a3a2d5a0a3c73089ab456a1d4c",
+      "verified": true
+    },
+    "isolatedCell3Final": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\phase-b-cell3\\cell3-retouched.png",
+      "sha256": "cf208444cd4faf7400861cee17a2cd4afad46225c198f729a63460d8291c4f44",
+      "verified": true
+    },
+    "originalCell0": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell0-raise-registered.png",
+      "sha256": "7b416cd6a49055226390690ce4a6acb24cc30e4f92b0db56ac3e954c0d9bcfb7",
+      "verified": true
+    },
+    "originalCell1": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell1-overhead-hold-registered.png",
+      "sha256": "26270b4c7837522a82587a124aaab8e5be7ccd681b5587be3f6cb7d47d6113b5",
+      "verified": true
+    },
+    "originalCell2Stub": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell2-crushing-chop-registered.png",
+      "sha256": "6c59ba43f7fc04511f11be1bf202c252da3d49cc4bff49503f3ceee0a31d8ca1",
+      "verified": true
+    },
+    "originalCell3Stub": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell3-follow-through-registered.png",
+      "sha256": "9d7a0c0230a3c8b94a53a8d0650ec9a28bdf84448bece2cd961adabd961c6ee6",
+      "verified": true
+    },
+    "fixCell2": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\focused-fix\\gate\\cells-registered\\cell2-crushing-chop-retouched.png",
+      "sha256": "ebe2d49c40995ce0e61513f44359b3143faefc68b40ebc0d68f2c60e7dca0ae0",
+      "verified": true
+    },
+    "fixCell3Stub": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\focused-fix\\gate\\cells-registered\\cell3-follow-through-registered.png",
+      "sha256": "8b35c738092850499c71cb8bbcd72d0448fc54e1ba8258cb3d1f698cdb5abd02",
+      "verified": true
+    },
+    "fixCell4Selected": {
+      "path": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\focused-fix\\gate\\cells-registered\\cell4-recover-retouched.png",
+      "sha256": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+      "verified": true
+    }
+  },
+  "ledgerVerified": {
+    "sha256": "a35d7441bd8d6d33c1d8e8e339dbee5bf34a122fff4c8daed8197609d15510fa",
+    "xuchuUsed": 28,
+    "xuchuHeavy": 5,
+    "globalSummed": 195,
+    "ceilings": "32/199"
+  },
+  "rawCandidateStreaks": {
+    "alpha1to15Px": 17688,
+    "alpha16to127Px": 3728,
+    "gap736_800AlphaGe16": 0,
+    "gap736_800AlphaGe1": 8,
+    "note": "raw candidate carries faint horizontal streak residue at alpha 1-15 (below the campaign alpha>=16 extraction threshold); extraction keeps only the two figure components, so no streak pixel reaches any final cell"
+  },
+  "split": {
+    "componentsTotal": 2,
+    "keptTwo": [
+      {
+        "id": 1,
+        "n": 100184,
+        "xmin": 53,
+        "ymin": 407,
+        "xmax": 705,
+        "ymax": 799
+      },
+      {
+        "id": 2,
+        "n": 101058,
+        "xmin": 812,
+        "ymin": 407,
+        "xmax": 1491,
+        "ymax": 801
+      }
+    ],
+    "otherComponents": [],
+    "method": "recorded separation column [736,800) midpoint x=768 + largest alpha>=16 component per side (two-panel-ref.json geometry)"
+  },
+  "cell2": {
+    "role": "crushing chop",
+    "side": "LEFT",
+    "split": {
+      "recordedPanel": {
+        "offset": [
+          32,
+          248
+        ],
+        "size": [
+          704,
+          528
+        ],
+        "packScale": 0.6875
+      },
+      "separationColumn": [
+        736,
+        800
+      ],
+      "splitX": 768,
+      "component": {
+        "n": 100184,
+        "bounds": [
+          53,
+          407,
+          705,
+          799
+        ]
+      },
+      "panelBottomRecorded": 776,
+      "soleY": 799,
+      "note": "component lies wholly on its recorded side of the clear separation column; soles spill below the recorded panel bottom because the edit enlarged the figure (recorded raw)"
+    },
+    "native": {
+      "butt": [
+        198.17,
+        563.98
+      ],
+      "tip": [
+        704,
+        667
+      ],
+      "pxLen": 516.21,
+      "angDeg": 11.51,
+      "crownY": 407,
+      "soleY": 799,
+      "crouchedCrownSolePx": 392,
+      "boots": [
+        [
+          53,
+          122,
+          797
+        ],
+        [
+          388,
+          507,
+          799
+        ]
+      ],
+      "rearGripT": [
+        221.46,
+        309.03
+      ],
+      "frontGripT": [
+        284.62,
+        366.03
+      ],
+      "socketT": 356.86,
+      "gripCentroidPerpPx": {
+        "rearGrip": 24.97,
+        "frontGrip": 20.96
+      },
+      "frameMarginsPx": {
+        "buttLeft": 198,
+        "tipRight": 831,
+        "top": 407,
+        "bottom": 224
+      },
+      "vsPanelTarget": {
+        "weaponNativePx": 516.21,
+        "briefedTargetNativePanelPx": 345.89,
+        "bodyNativePx": 392,
+        "panelBodyPx": 273.62,
+        "enlargementVsPanelPct": 43.26,
+        "weaponBodyRatioNative": 1.32,
+        "ownPanelCheck": {
+          "panelX": [
+            32,
+            736
+          ],
+          "buttX": 198.17,
+          "tipX": 704,
+          "buttInsideOwnPanel": true,
+          "tipInsideOwnPanel": true,
+          "tipMarginToPanelRightPx": 31
+        }
+      }
+    },
+    "registration": {
+      "scale": 1.0153061224489797,
+      "dx": 127,
+      "dy": -55,
+      "canvas": [
+        1024,
+        768
+      ],
+      "groundY": 756,
+      "rule": "ONE uniform scale+translate: scale=398.0/candidate crouched crown-sole (original cell2 registered body), soles->756, bounds centred horizontally (phase-b gate convention)",
+      "hash": "0bb2ebf82af81b79c6f208ab8af582b85a639c51cfe4fc00bcc0fb7b27f4d55a",
+      "file": "cell2-registered.png"
+    },
+    "registeredMeasure": {
+      "bounds": {
+        "xmin": 181,
+        "ymin": 359,
+        "xmax": 844,
+        "ymax": 757
+      },
+      "greenPx": 0,
+      "magentaPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "butt": [
+        328.71,
+        519.32
+      ],
+      "tip": [
+        844,
+        618
+      ],
+      "pxLen": 524.65,
+      "u": 136.39,
+      "angDeg": 10.84,
+      "boots": [
+        {
+          "x0": 181,
+          "x1": 251,
+          "soleY": 755
+        },
+        {
+          "x0": 522,
+          "x1": 642,
+          "soleY": 757
+        }
+      ],
+      "groundErrU": 0.26
+    },
+    "retouch": null,
+    "final": {
+      "file": "cell2-registered.png",
+      "sha256": "0bb2ebf82af81b79c6f208ab8af582b85a639c51cfe4fc00bcc0fb7b27f4d55a",
+      "measure": {
+        "bounds": {
+          "xmin": 181,
+          "ymin": 359,
+          "xmax": 844,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "magentaPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          328.71,
+          519.32
+        ],
+        "tip": [
+          844,
+          618
+        ],
+        "pxLen": 524.65,
+        "u": 136.39,
+        "angDeg": 10.84,
+        "boots": [
+          {
+            "x0": 181,
+            "x1": 251,
+            "soleY": 755
+          },
+          {
+            "x0": 522,
+            "x1": 642,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26
+      },
+      "inBand": true,
+      "deviationU": 0.0
+    },
+    "evidence": {
+      "marked": "cell2-final-marked.png",
+      "cap4x": "cell2-final-cap-4x.png",
+      "tip4x": "cell2-final-tip-4x.png",
+      "headZoom": "cell2-final-head-zoom.png",
+      "solesZoom": "cell2-final-soles-zoom.png",
+      "gripsZoom": "cell2-final-grips-zoom.png",
+      "gameplay": "cell2-final-gameplay.png",
+      "probeGrid": "probe-left-cell2-grid.png"
+    },
+    "verdicts": {
+      "identity": "PASS (marked + head-zoom personally opened vs original cell1/selected cell4 on the continuity contacts: same helmeted blunt bearded face, ochre/dark lamellar, red-tassel glaive; no substitution/drift)",
+      "anatomy": "PASS (connected anatomy, both hands visibly wrap the haft in grips-zoom, two legs/boots planted, no extra/floating limbs)",
+      "poseRole": "PASS (crushing chop: coiled down-forward lunge, wide planted stance, glaive driven down-forward; matches the isolated cell2 candidate and the original cell2 pose)",
+      "buttCapComplete": "PASS (complete round metal butt-cap ball fully drawn in empty margin behind the back, cap-4x; butt marker sits on the true cap ball)",
+      "wholeWeaponInFrame": "PASS by raster (native margins buttLeft 198px, tipRight 831px, top 407px, bottom 224px on the shared canvas; final canvas edge alpha {'l': 0, 'r': 0, 't': 0, 'b': 0})",
+      "weaponLength": "PASS (registered 136.39u; final 136.39u in band [124.41,137.50]u, no retouch needed)",
+      "weaponDirection": "axis 10.84deg vs prior-final target 10.29deg (delta 0.55deg); family steps in continuity (all <=60 required)",
+      "weaponCorridor": "PASS (one straight rigid shaft butt->tip through both grips on marked + grips-zoom, no fork/bend; grip box-centroid perp values are whole-hand/forearm box centroids, not shaft offset)",
+      "bodyGround": "registered groundErr 0.26u (<=1.5u required), boots [755, 757]; RAW enlargement vs recorded panel 43.26% recorded (candidate enlarged both figures on the two-panel canvas, as in the isolated gates; uniform registration restores the original crouched body 398.0px)",
+      "seams": "raster greenPx 0, magentaPx 0, edge {'l': 0, 'r': 0, 't': 0, 'b': 0}; no retouch; visual: PASS (final shaft/body continuous at gameplay size; no retouch applied; no streak residue in the extracted final \u2014 raw alpha 1-15 streaks stay below the extraction threshold and reach no final pixel)",
+      "headEndpointRAW": "RAW: beard merges into the collar, chin/beard-base endpoint concealed (head-zoom, 0px readable gap) \u2014 not a reject; batch-end UNVERIFIED_OWNER_ACCEPTED reserved only at batch end",
+      "lengthPass": true,
+      "waiverCandidate": false,
+      "overall": "PASS",
+      "selected": true,
+      "selectedFile": "cell2-selected.png",
+      "selectedSha256": "0bb2ebf82af81b79c6f208ab8af582b85a639c51cfe4fc00bcc0fb7b27f4d55a"
+    }
+  },
+  "cell3": {
+    "role": "follow-through",
+    "side": "RIGHT",
+    "split": {
+      "recordedPanel": {
+        "offset": [
+          800,
+          248
+        ],
+        "size": [
+          704,
+          528
+        ],
+        "packScale": 0.6875
+      },
+      "separationColumn": [
+        736,
+        800
+      ],
+      "splitX": 768,
+      "component": {
+        "n": 101058,
+        "bounds": [
+          812,
+          407,
+          1491,
+          801
+        ]
+      },
+      "panelBottomRecorded": 776,
+      "soleY": 801,
+      "note": "component lies wholly on its recorded side of the clear separation column; soles spill below the recorded panel bottom because the edit enlarged the figure (recorded raw)"
+    },
+    "native": {
+      "butt": [
+        971.68,
+        534.89
+      ],
+      "tip": [
+        1490,
+        685
+      ],
+      "pxLen": 539.62,
+      "angDeg": 16.15,
+      "crownY": 407,
+      "soleY": 801,
+      "crouchedCrownSolePx": 394,
+      "boots": [
+        [
+          812,
+          880,
+          796
+        ],
+        [
+          1154,
+          1275,
+          801
+        ]
+      ],
+      "rearGripT": [
+        97.2,
+        240.66
+      ],
+      "frontGripT": [
+        272.77,
+        382.92
+      ],
+      "socketT": 386.36,
+      "gripCentroidPerpPx": {
+        "rearGrip": 13.14,
+        "frontGrip": 19.65
+      },
+      "frameMarginsPx": {
+        "buttLeft": 972,
+        "tipRight": 45,
+        "top": 407,
+        "bottom": 222
+      },
+      "vsPanelTarget": {
+        "weaponNativePx": 539.62,
+        "briefedTargetNativePanelPx": 345.89,
+        "bodyNativePx": 394,
+        "panelBodyPx": 272.58,
+        "enlargementVsPanelPct": 44.54,
+        "weaponBodyRatioNative": 1.37,
+        "ownPanelCheck": {
+          "panelX": [
+            800,
+            1504
+          ],
+          "buttX": 971.68,
+          "tipX": 1490,
+          "buttInsideOwnPanel": true,
+          "tipInsideOwnPanel": true,
+          "tipMarginToPanelRightPx": 13
+        }
+      }
+    },
+    "registration": {
+      "scale": 1.006294416243655,
+      "dx": -647,
+      "dy": -50,
+      "canvas": [
+        1024,
+        768
+      ],
+      "groundY": 756,
+      "rule": "ONE uniform scale+translate: scale=396.48/candidate crouched crown-sole (original cell3 registered body), soles->756, bounds centred horizontally (phase-b gate convention)",
+      "hash": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9",
+      "file": "cell3-registered.png"
+    },
+    "registeredMeasure": {
+      "bounds": {
+        "xmin": 170,
+        "ymin": 360,
+        "xmax": 854,
+        "ymax": 757
+      },
+      "greenPx": 0,
+      "magentaPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "butt": [
+        331.31,
+        489.59
+      ],
+      "tip": [
+        853,
+        640
+      ],
+      "pxLen": 542.94,
+      "u": 141.14,
+      "angDeg": 16.08,
+      "boots": [
+        {
+          "x0": 170,
+          "x1": 239,
+          "soleY": 752
+        },
+        {
+          "x0": 514,
+          "x1": 637,
+          "soleY": 757
+        }
+      ],
+      "groundErrU": 0.26
+    },
+    "retouch": {
+      "feasibility": {
+        "widthProfilePerpPxEvery20T": {
+          "0": 21,
+          "20": 72,
+          "40": 66,
+          "60": 103,
+          "80": 113,
+          "100": 113,
+          "120": 113,
+          "140": 113,
+          "160": 113,
+          "180": 113,
+          "200": 113,
+          "220": 113,
+          "240": 113,
+          "260": 113,
+          "280": 113,
+          "300": 62,
+          "320": 56,
+          "340": 47,
+          "360": 23,
+          "380": 60,
+          "400": 56,
+          "420": 40,
+          "440": 56,
+          "460": 47,
+          "480": 45,
+          "500": 40,
+          "520": 36,
+          "540": 15
+        },
+        "widthProfileNote": "perp extent >30px (or the 113px scan cap) along the whole butt run and from the front grip to the socket: the shaft lies across the back/skirt/torso silhouette and the blade socket follows the front grip immediately, so no clean shaft-only run exists (campaign shaft_only = width<=30, gaps 0)",
+        "capStartT": null,
+        "buttCleanEndT": 0,
+        "bladeRunT": null,
+        "socketTReg": 388.79,
+        "buttAvailPx": 0,
+        "bladeAvailPx": 0,
+        "removeToTarget132Px": 35,
+        "removeToBandHiPx": 15,
+        "totalAvailPx": 0,
+        "reachesBand": false,
+        "reachesTarget": false
+      },
+      "removeRequestedPx": 35,
+      "buttRemovePx": 0,
+      "bladeRemovePx": 0,
+      "bCut": null,
+      "dCut": null,
+      "seam": {},
+      "movedPx": 0,
+      "outsideProof": {
+        "hashBefore": "1895ba16447495708dcbe98db8bf0ca2a32d02f509b872f6c79beea23058e059",
+        "hashAfter": "1895ba16447495708dcbe98db8bf0ca2a32d02f509b872f6c79beea23058e059",
+        "changedOutside": 0,
+        "changedInside": 0
+      },
+      "retouchedHash": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9",
+      "retouchedMeasure": {
+        "bounds": {
+          "xmin": 170,
+          "ymin": 360,
+          "xmax": 854,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "magentaPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          331.31,
+          489.59
+        ],
+        "tip": [
+          853,
+          640
+        ],
+        "pxLen": 542.94,
+        "u": 141.14,
+        "angDeg": 16.08,
+        "boots": [
+          {
+            "x0": 170,
+            "x1": 239,
+            "soleY": 752
+          },
+          {
+            "x0": 514,
+            "x1": 637,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26
+      }
+    },
+    "final": {
+      "file": "cell3-retouched.png",
+      "sha256": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9",
+      "measure": {
+        "bounds": {
+          "xmin": 170,
+          "ymin": 360,
+          "xmax": 854,
+          "ymax": 757
+        },
+        "greenPx": 0,
+        "magentaPx": 0,
+        "edge": {
+          "l": 0,
+          "r": 0,
+          "t": 0,
+          "b": 0
+        },
+        "butt": [
+          331.31,
+          489.59
+        ],
+        "tip": [
+          853,
+          640
+        ],
+        "pxLen": 542.94,
+        "u": 141.14,
+        "angDeg": 16.08,
+        "boots": [
+          {
+            "x0": 170,
+            "x1": 239,
+            "soleY": 752
+          },
+          {
+            "x0": 514,
+            "x1": 637,
+            "soleY": 757
+          }
+        ],
+        "groundErrU": 0.26
+      },
+      "inBand": false,
+      "deviationU": 3.64
+    },
+    "evidence": {
+      "marked": "cell3-final-marked.png",
+      "cap4x": "cell3-final-cap-4x.png",
+      "tip4x": "cell3-final-tip-4x.png",
+      "headZoom": "cell3-final-head-zoom.png",
+      "solesZoom": "cell3-final-soles-zoom.png",
+      "gripsZoom": "cell3-final-grips-zoom.png",
+      "gameplay": "cell3-final-gameplay.png",
+      "probeGrid": "probe-right-cell3-grid.png"
+    },
+    "verdicts": {
+      "identity": "PASS (marked + head-zoom personally opened vs original cell1/selected cell4 on the continuity contacts: same helmeted blunt bearded face, ochre/dark lamellar, red-tassel glaive; no substitution/drift)",
+      "anatomy": "PASS (connected anatomy; front hand visibly wraps the haft in grips-zoom, shaft passes behind arm/torso exactly as the original follow-through, two legs/boots planted, no extra/floating limbs)",
+      "poseRole": "PASS (follow-through: deeper low down-forward lunge after the chop, glaive driven low; matches the isolated cell3 candidate and the original cell3 pose, distinct from cell2)",
+      "buttCapComplete": "PASS (complete round metal butt-cap ball fully drawn in empty margin behind the back, cap-4x; butt marker sits on the true cap ball)",
+      "wholeWeaponInFrame": "PASS by raster (native margins buttLeft 972px, tipRight 45px, top 407px, bottom 222px on the shared canvas; final canvas edge alpha {'l': 0, 'r': 0, 't': 0, 'b': 0})",
+      "weaponLength": "FAIL retained, WAIVER-CANDIDATE <=9u (registered 141.14u; max retouch avail 0px; final 141.14u, deviation 3.64u, fully measurable cap+tip) \u2014 selectable ONLY under the pre-authorized exact-hash small waiver if every other gate passes; FAIL NOT PASS",
+      "weaponDirection": "axis 16.08deg vs prior-final target 15.66deg (delta 0.42deg); family steps in continuity (all <=60 required)",
+      "weaponCorridor": "PASS (one straight rigid shaft butt->tip through the front grip and behind the torso on the same line on marked + grips-zoom, no fork/bend)",
+      "bodyGround": "registered groundErr 0.26u (<=1.5u required), boots [752, 757]; RAW enlargement vs recorded panel 44.54% recorded (candidate enlarged both figures on the two-panel canvas, as in the isolated gates; uniform registration restores the original crouched body 396.48px)",
+      "seams": "raster greenPx 0, magentaPx 0, edge {'l': 0, 'r': 0, 't': 0, 'b': 0}; retouch changedOutside 0, seam widths {}; visual: PASS (final shaft/body continuous at gameplay size; deterministic retouch assessed first and applied 0px \u2014 final is byte-identical to the registered cell, so no joint exists; no streak residue in the extracted final)",
+      "headEndpointRAW": "RAW: beard merges into the collar, chin/beard-base endpoint concealed (head-zoom, 0px readable gap) \u2014 not a reject; batch-end UNVERIFIED_OWNER_ACCEPTED reserved only at batch end",
+      "lengthPass": false,
+      "waiverCandidate": true,
+      "overall": "WAIVER_CANDIDATE",
+      "selected": true,
+      "selectedFile": "cell3-selected.png",
+      "selectedSha256": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9"
+    }
+  },
+  "continuity": {
+    "refs": {
+      "cell0Original": {
+        "u": 129.07,
+        "ang": -26.28,
+        "hash": "7b416cd6a49055226390690ce4a6acb24cc30e4f92b0db56ac3e954c0d9bcfb7",
+        "file": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell0-raise-registered.png"
+      },
+      "cell1Original": {
+        "u": 130.47,
+        "ang": 162.02,
+        "hash": "26270b4c7837522a82587a124aaab8e5be7ccd681b5587be3f6cb7d47d6113b5",
+        "file": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell1-overhead-hold-registered.png"
+      },
+      "cell4SelectedWaived": {
+        "u": 145.22,
+        "ang": -25.86,
+        "hash": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+        "file": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\focused-fix\\gate\\cells-registered\\cell4-recover-retouched.png",
+        "note": "Phase A selected under pre-authorized <=9u waiver, +7.72u FAIL retained NOT PASS"
+      }
+    },
+    "sequenceUCell0to4": [
+      129.07,
+      130.47,
+      136.39,
+      141.14,
+      145.22
+    ],
+    "sequenceAngCell0to4": [
+      -26.28,
+      162.02,
+      10.84,
+      16.08,
+      -25.86
+    ],
+    "axisStepsDeg": {
+      "cell0to1": 8.3,
+      "cell1to2": 28.82,
+      "cell2to3": 5.24,
+      "cell3to4": 41.94
+    },
+    "allStepsLe60": true,
+    "spreadPctCell0to4": 11.84,
+    "spreadNote": "spread reported; waived only as resulting spread of the exact selected set if banked under the recorded waivers",
+    "contact5": "continuity-cell0-cell1-shared2-shared3-cell4.png",
+    "contact4": "continuity-cell1-shared2-shared3-cell4.png",
+    "visual": "PASS (both continuity contacts personally opened: cell0 raise -> cell1 overhead -> shared cell2 chop -> shared cell3 follow-through -> selected cell4 recover reads as one coherent crushing-chop arc; same identity/costume/grips, soles on one ground line, glaive blade/tassel consistent; the only continuity blemish is the recorded weapon-length progression 129.07/130.47/136.39/141.14/145.22u, which is the waived length/spread deviation, not a pose/identity break)"
+  },
+  "selection": {
+    "method": "best passing source per role across original sheet 37b72517 / focused-fix 593ea8e4 / isolated Phase B candidates / shared two-panel fix 2035a2d1",
+    "cell0": {
+      "selected": "original",
+      "hash": "7b416cd6a49055226390690ce4a6acb24cc30e4f92b0db56ac3e954c0d9bcfb7",
+      "u": 129.07,
+      "status": "PASS"
+    },
+    "cell1": {
+      "selected": "original",
+      "hash": "26270b4c7837522a82587a124aaab8e5be7ccd681b5587be3f6cb7d47d6113b5",
+      "u": 130.47,
+      "status": "PASS"
+    },
+    "cell2": {
+      "sources": {
+        "originalStub": {
+          "u": 92.1,
+          "hash": "6c59ba43f7fc04511f11be1bf202c252da3d49cc4bff49503f3ceee0a31d8ca1",
+          "status": "FAIL cap not drawn, no waiver"
+        },
+        "focusedFix": {
+          "u": 163.3,
+          "hash": "ebe2d49c40995ce0e61513f44359b3143faefc68b40ebc0d68f2c60e7dca0ae0",
+          "status": "FAIL +25.80u"
+        },
+        "isolated": {
+          "u": 161.23,
+          "hash": "1ce7855bed87b89fa514935f7ebf78a1ddef10a3a2d5a0a3c73089ab456a1d4c",
+          "status": "FAIL +23.73u"
+        },
+        "sharedFix": {
+          "u": 136.39,
+          "hash": "0bb2ebf82af81b79c6f208ab8af582b85a639c51cfe4fc00bcc0fb7b27f4d55a",
+          "status": "PASS"
+        }
+      },
+      "selected": "sharedFix"
+    },
+    "cell3": {
+      "sources": {
+        "originalStub": {
+          "u": 86.68,
+          "hash": "9d7a0c0230a3c8b94a53a8d0650ec9a28bdf84448bece2cd961adabd961c6ee6",
+          "status": "FAIL cap not drawn, no waiver"
+        },
+        "focusedFixStub": {
+          "u": 97.74,
+          "hash": "8b35c738092850499c71cb8bbcd72d0448fc54e1ba8258cb3d1f698cdb5abd02",
+          "status": "FAIL cap not drawn, no waiver"
+        },
+        "isolated": {
+          "u": 157.7,
+          "hash": "cf208444cd4faf7400861cee17a2cd4afad46225c198f729a63460d8291c4f44",
+          "status": "FAIL +20.20u"
+        },
+        "sharedFix": {
+          "u": 141.14,
+          "hash": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9",
+          "status": "WAIVER_CANDIDATE"
+        }
+      },
+      "selected": "sharedFix"
+    },
+    "cell4": {
+      "selected": "focusedFix under recorded waiver (Phase A)",
+      "hash": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+      "u": 145.22,
+      "status": "FAIL NOT PASS waived exact hash only +7.72u (fully measurable, every other gate PASS)"
+    }
+  },
+  "heavyBanked": true,
+  "accepted": [
+    {
+      "file": "accepted/cell0-raise.png",
+      "sourceFile": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell0-raise-registered.png",
+      "source": "original heavy sheet 37b72517",
+      "sha256": "7b416cd6a49055226390690ce4a6acb24cc30e4f92b0db56ac3e954c0d9bcfb7",
+      "finalU": 129.07,
+      "status": "PASS",
+      "byteCopyVerified": true
+    },
+    {
+      "file": "accepted/cell1-overhead-hold.png",
+      "sourceFile": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\gate\\cells-registered\\cell1-overhead-hold-registered.png",
+      "source": "original heavy sheet 37b72517",
+      "sha256": "26270b4c7837522a82587a124aaab8e5be7ccd681b5587be3f6cb7d47d6113b5",
+      "finalU": 130.47,
+      "status": "PASS",
+      "byteCopyVerified": true
+    },
+    {
+      "file": "accepted/cell2-crushing-chop.png",
+      "sourceFile": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\phase-b-shared-fix\\cell2-registered.png",
+      "source": "shared two-panel fix 2035a2d1 LEFT",
+      "sha256": "0bb2ebf82af81b79c6f208ab8af582b85a639c51cfe4fc00bcc0fb7b27f4d55a",
+      "finalU": 136.39,
+      "status": "PASS",
+      "byteCopyVerified": true
+    },
+    {
+      "file": "accepted/cell3-follow-through.png",
+      "sourceFile": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\phase-b-shared-fix\\cell3-retouched.png",
+      "source": "shared two-panel fix 2035a2d1 RIGHT",
+      "sha256": "e5e234f917bcfdf4c31d8db0bb5c8515d7b52dad50e8adaba818b3220b939fc9",
+      "finalU": 141.14,
+      "status": "FAIL-waived-<=9u",
+      "byteCopyVerified": true
+    },
+    {
+      "file": "accepted/cell4-recover.png",
+      "sourceFile": "art\\motion\\xuchu\\closeout-campaign\\09-heavy\\focused-fix\\gate\\cells-registered\\cell4-recover-retouched.png",
+      "source": "focused-fix sheet 593ea8e4 (Phase A waiver-selected)",
+      "sha256": "57190b6f0d3e7b26b868ecb4e6d89a3ca6dad4b399e3db7104adcfb1861ae9a8",
+      "finalU": 145.22,
+      "status": "FAIL NOT PASS waived exact hash only +7.72u",
+      "byteCopyVerified": true
+    }
+  ],
+  "postFixAccounting": "heavy BANKED as a coherent selected 5 (cells0/1 PASS originals, shared cells2/3 PASS/waived, cell4 waived exact hash) => banked family resets the prospective post-salvage count to 0 under the COMPLETION CAMPAIGN grant",
+  "generation": "zero in this package (no image call, ledger unchanged)"
+}
