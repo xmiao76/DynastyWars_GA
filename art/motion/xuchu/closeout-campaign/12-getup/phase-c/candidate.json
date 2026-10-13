@@ -2,7 +2,7 @@
   "work": "cmr15a-getup-phasec-generate",
   "key": "getup",
   "attempt": "CMR-15A COMPLETION CAMPAIGN Phase C: exactly ONE sheet EDIT of the ORIGINAL getup sheet 9c2102e5... (NOT the overshortened focused-fix sheet) with exact per-cell glaive shortening to target 130.79u; generation only - no extraction, retouch, gates, banking or pack in this package",
-  "status": "UNREVIEWED (candidate not gated; no verdict recorded here)",
+  "status": "GATED (cmr15a-getup-phasec-gates, verified cmr15a-getup-phasec-finish): GETUP BANKED coherent 5-cell set in phase-c/gate/accepted/ (all Phase C keeps: cell2 127.56u/cell3 125.11u/cell4 126.64u PASS; cell0 121.35u -3.06u and cell1 120.29u -4.12u FAIL retained, waived exact hashes only under pre-authorized <=9u waiver, NOT PASS); Phase C focused fix NOT needed/spent; head RAW for Phase D; verdict in gate/gate.json dc8fdd61...",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "gpt per work order (original getup generation provider requested gpt)",
@@ -33,7 +33,8 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
-  "banked": false
+  "gatesRun": true,
+  "extractionRun": true,
+  "banked": true,
+  "gate": { "file": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/gate.json", "sha256": "dc8fdd610f542b92727734c0a17642d212e4b22c07803ee204168283df80df68", "measureSha256": "044d00f806a4a8b16c6ed58f7a257dd86a3e33cf7ed163e206c6cedddc847e62", "acceptedDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/accepted/", "hashVerification": "cmr15a-getup-phasec-finish: candidate 8b498af9..., measure.json, all 5 selected registered finals and all 5 accepted copies fresh SHA-256 match gate.json exactly" }
 }

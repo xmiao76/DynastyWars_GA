@@ -1,0 +1,764 @@
+{
+  "work": "cmr15a-getup-phasec-gates",
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/candidate-raw.png",
+    "sha256": "8b498af93ac5da4cc9c0d045f0ffda361fbfb262c05b5f78cce0581ef8dd1704",
+    "size": [
+      1536,
+      1024
+    ],
+    "components": 9,
+    "reserveCommit": "219b74f"
+  },
+  "hashVerification": {
+    "allMatch": true,
+    "count": 29,
+    "measureJsonSha256": "044d00f806a4a8b16c6ed58f7a257dd86a3e33cf7ed163e206c6cedddc847e62"
+  },
+  "registration": {
+    "method": "cell4-rise upright crown->sole = frozen 459px; one uniform scale for all 9 cells; lowest component px -> groundY500; cell0-down prone head-to-boots recorded as cross-check only",
+    "sheetScale": 1.3421052631578947,
+    "scaleBodyNativePx": 342
+  },
+  "retouchPolicy": "Deterministic retouch assessed FIRST by build.mjs at corrected true-cap landmarks: no OUT_HIGH cell exists on Phase C (keeps 121.35/120.29/127.56/125.11/126.64u), so no shortening retouch applies; cells0/1 OUT_LOW cannot be lengthened deterministically, nothing fabricated. First-pass prone butt boxes caught leg/boot (crosses on leg/boot in marked views, lengths overstated) and were re-tightened on the true cap balls from butt-grid10 zooms before verdicts - rerun markers sit on the true balls/tips (marked cell0/cell1 re-opened).",
+  "ledgerVerified": {
+    "sha256": "93c0589933c12d966972ecbd97aa0fd672f005e75ed080ea6ccb3e374ab4934c",
+    "xuchuUsed": 29,
+    "xuchuGetup": 3,
+    "globalUsed": 196,
+    "expected": "Xu Chu 29 (getup 3) / global 196",
+    "matches": true
+  },
+  "phasecKeeps": [
+    {
+      "cell": 0,
+      "name": "cell0-down",
+      "finalFile": "cell0-down-registered.png",
+      "finalHash": "23667b4bfee165093c892a99144e571b045e4414dc16fb410b9ed746a7767cf9",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 121.35,
+      "dev": -3.06,
+      "angleDeg": -9.99,
+      "groundErrU": 0.26,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": false,
+      "pass": false,
+      "waivable": true,
+      "gates": {
+        "identity": "PASS (visual this package: phase-c sheet + all 9 native grids + keeps/spares contacts + marked cell0/cell1/cell4 opened; same helmet/beard/lamellar Xu Chu, glaive+red tassel consistent)",
+        "anatomy": "PASS (visual: connected limbs/grips, no extra/fused limbs)",
+        "poseRole": "PASS (DOWN flat prone bookend; DOWN->elbow->kneel->crouch->rise coherent on keeps contact)",
+        "weaponGripCap": "PASS (haft gripped; complete butt cap balls drawn on all 9 cells, verified on butt-grid10 zooms)",
+        "weaponLength": "FAIL (121.35u, -3.06u outside band; retouch assessed first in build - OUT_LOW cannot be lengthened)",
+        "scaleGround": "PASS (ONE scale 1.34 cell4-rise 342->459px; groundErr 0.26u <=1.5u; prone cross-check cell0 396px native)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch splice)",
+        "head": "RAW (beard conceals endpoint; batch-end Phase D ruling reserved, not a reject)"
+      }
+    },
+    {
+      "cell": 1,
+      "name": "cell1-elbow",
+      "finalFile": "cell1-elbow-registered.png",
+      "finalHash": "6420114d1a81072f35b2da0f35552d36b81e4674cb2f040b6395e927e814b56b",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 120.29,
+      "dev": -4.12,
+      "angleDeg": -13.09,
+      "groundErrU": 0.26,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": false,
+      "pass": false,
+      "waivable": true,
+      "gates": {
+        "identity": "PASS (visual this package: phase-c sheet + all 9 native grids + keeps/spares contacts + marked cell0/cell1/cell4 opened; same helmet/beard/lamellar Xu Chu, glaive+red tassel consistent)",
+        "anatomy": "PASS (visual: connected limbs/grips, no extra/fused limbs)",
+        "poseRole": "PASS (elbow-prop; DOWN->elbow->kneel->crouch->rise coherent on keeps contact)",
+        "weaponGripCap": "PASS (haft gripped; complete butt cap balls drawn on all 9 cells, verified on butt-grid10 zooms)",
+        "weaponLength": "FAIL (120.29u, -4.12u outside band; retouch assessed first in build - OUT_LOW cannot be lengthened)",
+        "scaleGround": "PASS (ONE scale 1.34 cell4-rise 342->459px; groundErr 0.26u <=1.5u; prone cross-check cell0 396px native)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch splice)",
+        "head": "RAW (beard conceals endpoint; batch-end Phase D ruling reserved, not a reject)"
+      }
+    },
+    {
+      "cell": 2,
+      "name": "cell2-kneel",
+      "finalFile": "cell2-kneel-registered.png",
+      "finalHash": "63e21d8369a023b82fc28f468d067bc202d1e7ba9e591c9edb40a35f624a77a1",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 127.56,
+      "dev": 0,
+      "angleDeg": -17.04,
+      "groundErrU": 0.26,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false,
+      "gates": {
+        "identity": "PASS (visual this package: phase-c sheet + all 9 native grids + keeps/spares contacts + marked cell0/cell1/cell4 opened; same helmet/beard/lamellar Xu Chu, glaive+red tassel consistent)",
+        "anatomy": "PASS (visual: connected limbs/grips, no extra/fused limbs)",
+        "poseRole": "PASS (kneel; DOWN->elbow->kneel->crouch->rise coherent on keeps contact)",
+        "weaponGripCap": "PASS (haft gripped; complete butt cap balls drawn on all 9 cells, verified on butt-grid10 zooms)",
+        "weaponLength": "PASS (127.56u in band)",
+        "scaleGround": "PASS (ONE scale 1.34 cell4-rise 342->459px; groundErr 0.26u <=1.5u; prone cross-check cell0 396px native)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch splice)",
+        "head": "RAW (beard conceals endpoint; batch-end Phase D ruling reserved, not a reject)"
+      }
+    },
+    {
+      "cell": 3,
+      "name": "cell3-crouch",
+      "finalFile": "cell3-crouch-registered.png",
+      "finalHash": "567a1f04f87079cc9112cbf5da4a661ebeb1693fed05716380e1a09aed2b944e",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 125.11,
+      "dev": 0,
+      "angleDeg": -10.98,
+      "groundErrU": 0.26,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false,
+      "gates": {
+        "identity": "PASS (visual this package: phase-c sheet + all 9 native grids + keeps/spares contacts + marked cell0/cell1/cell4 opened; same helmet/beard/lamellar Xu Chu, glaive+red tassel consistent)",
+        "anatomy": "PASS (visual: connected limbs/grips, no extra/fused limbs)",
+        "poseRole": "PASS (crouch; DOWN->elbow->kneel->crouch->rise coherent on keeps contact)",
+        "weaponGripCap": "PASS (haft gripped; complete butt cap balls drawn on all 9 cells, verified on butt-grid10 zooms)",
+        "weaponLength": "PASS (125.11u in band)",
+        "scaleGround": "PASS (ONE scale 1.34 cell4-rise 342->459px; groundErr 0.26u <=1.5u; prone cross-check cell0 396px native)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch splice)",
+        "head": "RAW (beard conceals endpoint; batch-end Phase D ruling reserved, not a reject)"
+      }
+    },
+    {
+      "cell": 4,
+      "name": "cell4-rise",
+      "finalFile": "cell4-rise-registered.png",
+      "finalHash": "d7cd3a45edabd630b4de68dc7a837a35ad5146815590d376a285b4928da37bf7",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 126.64,
+      "dev": 0,
+      "angleDeg": -20.77,
+      "groundErrU": 0.52,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false,
+      "gates": {
+        "identity": "PASS (visual this package: phase-c sheet + all 9 native grids + keeps/spares contacts + marked cell0/cell1/cell4 opened; same helmet/beard/lamellar Xu Chu, glaive+red tassel consistent)",
+        "anatomy": "PASS (visual: connected limbs/grips, no extra/fused limbs)",
+        "poseRole": "PASS (rise-stand to guard; DOWN->elbow->kneel->crouch->rise coherent on keeps contact)",
+        "weaponGripCap": "PASS (haft gripped; complete butt cap balls drawn on all 9 cells, verified on butt-grid10 zooms)",
+        "weaponLength": "PASS (126.64u in band)",
+        "scaleGround": "PASS (ONE scale 1.34 cell4-rise 342->459px; groundErr 0.52u <=1.5u; prone cross-check cell0 396px native)",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch splice)",
+        "head": "RAW (beard conceals endpoint; batch-end Phase D ruling reserved, not a reject)"
+      }
+    }
+  ],
+  "phasecSpares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-getup-a",
+      "finalFile": "cell5-spare-getup-a-registered.png",
+      "finalHash": "96b12fcc2b59d7d52f7d14e3e7cb66a8b70eecc0fc47245837fc76cd49598eee",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 127.4,
+      "dev": 0,
+      "angleDeg": -16.86,
+      "groundErrU": 0.52,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-getup-b",
+      "finalFile": "cell6-spare-getup-b-registered.png",
+      "finalHash": "d3907ff23e27b3d903d8414c432c1ef97e0fb3e01faeea4aeaa0d20da04f6638",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 135.24,
+      "dev": 0,
+      "angleDeg": -15.53,
+      "groundErrU": 0.26,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-getup-c",
+      "finalFile": "cell7-spare-getup-c-registered.png",
+      "finalHash": "ff9cffd910e6a16d235193cfc9c7ac8eb7c555cab1db61742cdfcc8d2d92dbab",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 126.6,
+      "dev": 0,
+      "angleDeg": -21.14,
+      "groundErrU": 0,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-getup-d",
+      "finalFile": "cell8-spare-getup-d-registered.png",
+      "finalHash": "81071f335b232d750b5a32359444a7f8742500b516f3740d85c916f875143735",
+      "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+      "finalU": 128.03,
+      "dev": 0,
+      "angleDeg": -18.19,
+      "groundErrU": 0.52,
+      "seamPass": true,
+      "groundPass": true,
+      "lenPass": true,
+      "pass": true,
+      "waivable": false
+    }
+  ],
+  "originalKeepsSummary": [
+    {
+      "name": "cell0-down",
+      "hash": "bf54031b2038b8f3bc2ba5d714624edea6feba0ab6f537f91507472007dfe786",
+      "u": 161.48,
+      "dev": 23.98,
+      "pass": false,
+      "waivable9u": false
+    },
+    {
+      "name": "cell1-elbow",
+      "hash": "9a14c88603d2d1c6ebdb5e35a335f40436d658deca05a7c3f77df3ffc0b87c8f",
+      "u": 157.69,
+      "dev": 20.19,
+      "pass": false,
+      "waivable9u": false
+    },
+    {
+      "name": "cell2-kneel",
+      "hash": "7c54b956cdd61dc47597144242886b32167c8b9ea87364245af3da688bfa4a44",
+      "u": 155.13,
+      "dev": 17.63,
+      "pass": false,
+      "waivable9u": false
+    },
+    {
+      "name": "cell3-crouch",
+      "hash": "c25876aee1ebe95a57ba9067b2a6e93045ddd19d266b8e17687796499d0d4aa7",
+      "u": 144.5,
+      "dev": 7,
+      "pass": false,
+      "waivable9u": true
+    },
+    {
+      "name": "cell4-rise",
+      "hash": "df0eb324b339611de723a1b064cc158d9e172e3b49965665025a078707a8828b",
+      "u": 138.93,
+      "dev": 1.43,
+      "pass": false,
+      "waivable9u": true
+    }
+  ],
+  "fixKeepsSummary": [
+    {
+      "name": "cell0-down",
+      "hash": "7b6303be3210b5e6601040eb47665c0deed8044c11803ad13e0f5114a85f90af",
+      "u": 105.84,
+      "dev": -18.57,
+      "pass": false,
+      "waivable9u": false
+    },
+    {
+      "name": "cell1-elbow",
+      "hash": "aebcf9636cc15fdcadeaf65bcc0f3a778ef6121933dda0f208ae349f7066c950",
+      "u": 103.13,
+      "dev": -21.28,
+      "pass": false,
+      "waivable9u": false
+    },
+    {
+      "name": "cell2-kneel",
+      "hash": "30722a8a3cb76d3f896e31328eca40e38f78dbb5ec78f69d2ba5c0e7ad2c350c",
+      "u": 118.6,
+      "dev": -5.81,
+      "pass": false,
+      "waivable9u": true
+    },
+    {
+      "name": "cell3-crouch",
+      "hash": "3ebfa93b91f4535597c4078e4b5fb91312acbda576c2264e26617bb724959ef7",
+      "u": 119.39,
+      "dev": -5.02,
+      "pass": false,
+      "waivable9u": true
+    },
+    {
+      "name": "cell4-rise",
+      "hash": "9e8890a1bfea14f9d1d71ef07d8325c7b7edaab462270a5c5ca68337a982774e",
+      "u": 111.98,
+      "dev": -12.43,
+      "pass": false,
+      "waivable9u": false
+    }
+  ],
+  "selection": [
+    {
+      "beat": 0,
+      "role": "DOWN flat prone bookend",
+      "candidates": [
+        {
+          "src": "phasec keep",
+          "name": "cell0-down",
+          "hash": "23667b4bfee165093c892a99144e571b045e4414dc16fb410b9ed746a7767cf9",
+          "u": 121.35,
+          "dev": -3.06,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "original keep",
+          "name": "cell0-down",
+          "hash": "bf54031b2038b8f3bc2ba5d714624edea6feba0ab6f537f91507472007dfe786",
+          "u": 161.48,
+          "dev": 23.98,
+          "pass": false,
+          "waivable": false
+        },
+        {
+          "src": "fix keep",
+          "name": "cell0-down",
+          "hash": "7b6303be3210b5e6601040eb47665c0deed8044c11803ad13e0f5114a85f90af",
+          "u": 105.84,
+          "dev": -18.57,
+          "pass": false,
+          "waivable": false
+        }
+      ],
+      "selected": {
+        "src": "phasec keep",
+        "name": "cell0-down",
+        "hash": "23667b4bfee165093c892a99144e571b045e4414dc16fb410b9ed746a7767cf9",
+        "u": 121.35,
+        "dev": -3.06,
+        "status": "FAIL retained - WAIVED exact hash only (pre-authorized <=9u), NOT PASS",
+        "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+        "finalFile": "cell0-down-registered.png",
+        "angleDeg": -9.99
+      }
+    },
+    {
+      "beat": 1,
+      "role": "elbow-prop",
+      "candidates": [
+        {
+          "src": "phasec keep",
+          "name": "cell1-elbow",
+          "hash": "6420114d1a81072f35b2da0f35552d36b81e4674cb2f040b6395e927e814b56b",
+          "u": 120.29,
+          "dev": -4.12,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "original keep",
+          "name": "cell1-elbow",
+          "hash": "9a14c88603d2d1c6ebdb5e35a335f40436d658deca05a7c3f77df3ffc0b87c8f",
+          "u": 157.69,
+          "dev": 20.19,
+          "pass": false,
+          "waivable": false
+        },
+        {
+          "src": "fix keep",
+          "name": "cell1-elbow",
+          "hash": "aebcf9636cc15fdcadeaf65bcc0f3a778ef6121933dda0f208ae349f7066c950",
+          "u": 103.13,
+          "dev": -21.28,
+          "pass": false,
+          "waivable": false
+        }
+      ],
+      "selected": {
+        "src": "phasec keep",
+        "name": "cell1-elbow",
+        "hash": "6420114d1a81072f35b2da0f35552d36b81e4674cb2f040b6395e927e814b56b",
+        "u": 120.29,
+        "dev": -4.12,
+        "status": "FAIL retained - WAIVED exact hash only (pre-authorized <=9u), NOT PASS",
+        "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+        "finalFile": "cell1-elbow-registered.png",
+        "angleDeg": -13.09
+      }
+    },
+    {
+      "beat": 2,
+      "role": "kneel",
+      "candidates": [
+        {
+          "src": "phasec keep",
+          "name": "cell2-kneel",
+          "hash": "63e21d8369a023b82fc28f468d067bc202d1e7ba9e591c9edb40a35f624a77a1",
+          "u": 127.56,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original keep",
+          "name": "cell2-kneel",
+          "hash": "7c54b956cdd61dc47597144242886b32167c8b9ea87364245af3da688bfa4a44",
+          "u": 155.13,
+          "dev": 17.63,
+          "pass": false,
+          "waivable": false
+        },
+        {
+          "src": "fix keep",
+          "name": "cell2-kneel",
+          "hash": "30722a8a3cb76d3f896e31328eca40e38f78dbb5ec78f69d2ba5c0e7ad2c350c",
+          "u": 118.6,
+          "dev": -5.81,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "phasec spare",
+          "name": "cell6-spare-getup-b",
+          "hash": "d3907ff23e27b3d903d8414c432c1ef97e0fb3e01faeea4aeaa0d20da04f6638",
+          "u": 135.24,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original spare",
+          "name": "cell6-spare-getup-b",
+          "hash": "f6e0f09a2904921da480f38addbddbb5ca02a4e053dd84776368a555375dd3d2",
+          "u": 145.26,
+          "dev": 7.76,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "fix spare",
+          "name": "cell6-spare-getup-b",
+          "hash": "c2dee91fa6879f0708be1319745346f4149b81b3cd967fcac0f5be3fd39b80bd",
+          "u": 135.06,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "phasec spare",
+          "name": "cell7-spare-getup-c",
+          "hash": "ff9cffd910e6a16d235193cfc9c7ac8eb7c555cab1db61742cdfcc8d2d92dbab",
+          "u": 126.6,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original spare",
+          "name": "cell7-spare-getup-c",
+          "hash": "764c5dab0e4935da6eec7081be688194d452430e1e708c064a9cf7a3e485b5e7",
+          "u": 147.61,
+          "dev": 10.11,
+          "pass": false,
+          "waivable": false
+        },
+        {
+          "src": "fix spare",
+          "name": "cell7-spare-getup-c",
+          "hash": "806e5022c6355dcae053719e5d991710d8807686a84fa5857ebad734cd6dde3d",
+          "u": 126.13,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        }
+      ],
+      "selected": {
+        "src": "phasec keep",
+        "name": "cell2-kneel",
+        "hash": "63e21d8369a023b82fc28f468d067bc202d1e7ba9e591c9edb40a35f624a77a1",
+        "u": 127.56,
+        "dev": 0,
+        "status": "PASS",
+        "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+        "finalFile": "cell2-kneel-registered.png",
+        "angleDeg": -17.04
+      }
+    },
+    {
+      "beat": 3,
+      "role": "crouch",
+      "candidates": [
+        {
+          "src": "phasec keep",
+          "name": "cell3-crouch",
+          "hash": "567a1f04f87079cc9112cbf5da4a661ebeb1693fed05716380e1a09aed2b944e",
+          "u": 125.11,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original keep",
+          "name": "cell3-crouch",
+          "hash": "c25876aee1ebe95a57ba9067b2a6e93045ddd19d266b8e17687796499d0d4aa7",
+          "u": 144.5,
+          "dev": 7,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "fix keep",
+          "name": "cell3-crouch",
+          "hash": "3ebfa93b91f4535597c4078e4b5fb91312acbda576c2264e26617bb724959ef7",
+          "u": 119.39,
+          "dev": -5.02,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "phasec spare",
+          "name": "cell5-spare-getup-a",
+          "hash": "96b12fcc2b59d7d52f7d14e3e7cb66a8b70eecc0fc47245837fc76cd49598eee",
+          "u": 127.4,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original spare",
+          "name": "cell5-spare-getup-a",
+          "hash": "23ff94431bdbdacae1ada1cc01c680c1143a25b2c356f311470405efe7a0342e",
+          "u": 148.65,
+          "dev": 11.15,
+          "pass": false,
+          "waivable": false
+        },
+        {
+          "src": "fix spare",
+          "name": "cell5-spare-getup-a",
+          "hash": "d950c7c12cee40b53496716fccf6bcfbaad9c5eb924ac5942f26700dada6fef3",
+          "u": 118.5,
+          "dev": -5.91,
+          "pass": false,
+          "waivable": true
+        }
+      ],
+      "selected": {
+        "src": "phasec keep",
+        "name": "cell3-crouch",
+        "hash": "567a1f04f87079cc9112cbf5da4a661ebeb1693fed05716380e1a09aed2b944e",
+        "u": 125.11,
+        "dev": 0,
+        "status": "PASS",
+        "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+        "finalFile": "cell3-crouch-registered.png",
+        "angleDeg": -10.98
+      }
+    },
+    {
+      "beat": 4,
+      "role": "rise-stand to guard",
+      "candidates": [
+        {
+          "src": "phasec keep",
+          "name": "cell4-rise",
+          "hash": "d7cd3a45edabd630b4de68dc7a837a35ad5146815590d376a285b4928da37bf7",
+          "u": 126.64,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original keep",
+          "name": "cell4-rise",
+          "hash": "df0eb324b339611de723a1b064cc158d9e172e3b49965665025a078707a8828b",
+          "u": 138.93,
+          "dev": 1.43,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "fix keep",
+          "name": "cell4-rise",
+          "hash": "9e8890a1bfea14f9d1d71ef07d8325c7b7edaab462270a5c5ca68337a982774e",
+          "u": 111.98,
+          "dev": -12.43,
+          "pass": false,
+          "waivable": false
+        },
+        {
+          "src": "phasec spare",
+          "name": "cell8-spare-getup-d",
+          "hash": "81071f335b232d750b5a32359444a7f8742500b516f3740d85c916f875143735",
+          "u": 128.03,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        },
+        {
+          "src": "original spare",
+          "name": "cell8-spare-getup-d",
+          "hash": "a143e13c5d73dd01563f80f88b08b4a96d8991c0aa5628983cc2c3289d39ec69",
+          "u": 142.26,
+          "dev": 4.76,
+          "pass": false,
+          "waivable": true
+        },
+        {
+          "src": "fix spare",
+          "name": "cell8-spare-getup-d",
+          "hash": "068a0f2888ba37d44c28721e584c863ca650354d4c45304a540f276a23b3a8bd",
+          "u": 126.45,
+          "dev": 0,
+          "pass": true,
+          "waivable": false
+        }
+      ],
+      "selected": {
+        "src": "phasec keep",
+        "name": "cell4-rise",
+        "hash": "d7cd3a45edabd630b4de68dc7a837a35ad5146815590d376a285b4928da37bf7",
+        "u": 126.64,
+        "dev": 0,
+        "status": "PASS",
+        "srcDir": "art/motion/xuchu/closeout-campaign/12-getup/phase-c/gate/",
+        "finalFile": "cell4-rise-registered.png",
+        "angleDeg": -20.77
+      }
+    }
+  ],
+  "accepted": [
+    {
+      "beat": 0,
+      "name": "cell0-down",
+      "src": "phasec keep",
+      "u": 121.35,
+      "status": "FAIL retained - WAIVED exact hash only (pre-authorized <=9u), NOT PASS",
+      "acceptedHashVerified": true
+    },
+    {
+      "beat": 1,
+      "name": "cell1-elbow",
+      "src": "phasec keep",
+      "u": 120.29,
+      "status": "FAIL retained - WAIVED exact hash only (pre-authorized <=9u), NOT PASS",
+      "acceptedHashVerified": true
+    },
+    {
+      "beat": 2,
+      "name": "cell2-kneel",
+      "src": "phasec keep",
+      "u": 127.56,
+      "status": "PASS",
+      "acceptedHashVerified": true
+    },
+    {
+      "beat": 3,
+      "name": "cell3-crouch",
+      "src": "phasec keep",
+      "u": 125.11,
+      "status": "PASS",
+      "acceptedHashVerified": true
+    },
+    {
+      "beat": 4,
+      "name": "cell4-rise",
+      "src": "phasec keep",
+      "u": 126.64,
+      "status": "PASS",
+      "acceptedHashVerified": true
+    }
+  ],
+  "waivedCells": [
+    {
+      "beat": 0,
+      "name": "cell0-down",
+      "exactHash": "23667b4bfee165093c892a99144e571b045e4414dc16fb410b9ed746a7767cf9",
+      "finalU": 121.35,
+      "deviationU": -3.06,
+      "rule": "COMPLETION CAMPAIGN pre-authorized small waiver <=9u: fully measurable (complete cap ball + tip drawn, markers verified on true balls/tips), every other gate PASS; FAIL retained, NOT PASS, exact hash only, no blanket/transfer; deterministic retouch cannot lengthen OUT_LOW, nothing fabricated"
+    },
+    {
+      "beat": 1,
+      "name": "cell1-elbow",
+      "exactHash": "6420114d1a81072f35b2da0f35552d36b81e4674cb2f040b6395e927e814b56b",
+      "finalU": 120.29,
+      "deviationU": -4.12,
+      "rule": "COMPLETION CAMPAIGN pre-authorized small waiver <=9u: fully measurable (complete cap ball + tip drawn, markers verified on true balls/tips), every other gate PASS; FAIL retained, NOT PASS, exact hash only, no blanket/transfer; deterministic retouch cannot lengthen OUT_LOW, nothing fabricated"
+    }
+  ],
+  "directionStepsSelected": [
+    {
+      "from": "DOWN flat prone bookend",
+      "to": "elbow-prop",
+      "stepDeg": 3.1,
+      "passLe60": true
+    },
+    {
+      "from": "elbow-prop",
+      "to": "kneel",
+      "stepDeg": 3.95,
+      "passLe60": true
+    },
+    {
+      "from": "kneel",
+      "to": "crouch",
+      "stepDeg": 6.06,
+      "passLe60": true
+    },
+    {
+      "from": "crouch",
+      "to": "rise-stand to guard",
+      "stepDeg": 9.79,
+      "passLe60": true
+    }
+  ],
+  "lengthSpreadSelected": {
+    "finalUs": [
+      121.35,
+      120.29,
+      127.56,
+      125.11,
+      126.64
+    ],
+    "spreadPct": 5.85,
+    "note": "Spread of the exact selected set; to the extent it is not a PASS it is the resulting spread of the two waived exact-hash cells and is covered only as such under the same pre-authorized waiver (FAIL retained if not PASS)"
+  },
+  "continuity": {
+    "downVsBankedFallCell4": "PASS pose/ground (banked fall cell4-down cb0b12c1 136.03u and phasec cell0-down both flat prone face-down on the same ground line, head right, one hand on haft - personally compared this package); weapon shorter (121.35u) is exactly the waived -3.06u-vs-band deviation of the selected cell0, FAIL retained under its waiver",
+    "sequence": "PASS (keeps contact: flat DOWN -> elbow-prop head raised -> kneel hand to ground -> crouch -> standing rise, one coherent getup arc, no standing insertion, direction steps <=9.79deg)",
+    "riseVsBankedWalk0": "PASS (cell4-rise 126.64u PASS standing two-handed guard family matching banked walk:0 guard; marked cell4 opened, soles flat at ground)"
+  },
+  "verdict": "BANKED coherent 5-cell getup set in phase-c/gate/accepted/ (all Phase C keeps: 3 PASS + 2 waived exact-hash <=9u FAIL-retained); banked family resets prospective post-fix count to 0",
+  "failedCriteria": [
+    "phasec cell0-down [23667b4bfee165093c892a99144e571b045e4414dc16fb410b9ed746a7767cf9]: weapon length 121.35u dev -3.06u vs band [124.41,137.5]u - waived exact hash (<=9u, FAIL retained)",
+    "phasec cell1-elbow [6420114d1a81072f35b2da0f35552d36b81e4674cb2f040b6395e927e814b56b]: weapon length 120.29u dev -4.12u vs band [124.41,137.5]u - waived exact hash (<=9u, FAIL retained)",
+    "original cell0-down [bf54031b2038b8f3bc2ba5d714624edea6feba0ab6f537f91507472007dfe786]: 161.48u dev 23.98u FAIL",
+    "original cell1-elbow [9a14c88603d2d1c6ebdb5e35a335f40436d658deca05a7c3f77df3ffc0b87c8f]: 157.69u dev 20.19u FAIL",
+    "original cell2-kneel [7c54b956cdd61dc47597144242886b32167c8b9ea87364245af3da688bfa4a44]: 155.13u dev 17.63u FAIL",
+    "original cell3-crouch [c25876aee1ebe95a57ba9067b2a6e93045ddd19d266b8e17687796499d0d4aa7]: 144.5u dev 7u FAIL (<=9u-sized but not selected - Phase C source preferred)",
+    "original cell4-rise [df0eb324b339611de723a1b064cc158d9e172e3b49965665025a078707a8828b]: 138.93u dev 1.43u FAIL (<=9u-sized but not selected - Phase C source preferred)",
+    "fix cell0-down [7b6303be3210b5e6601040eb47665c0deed8044c11803ad13e0f5114a85f90af]: 105.84u dev -18.57u FAIL",
+    "fix cell1-elbow [aebcf9636cc15fdcadeaf65bcc0f3a778ef6121933dda0f208ae349f7066c950]: 103.13u dev -21.28u FAIL",
+    "fix cell2-kneel [30722a8a3cb76d3f896e31328eca40e38f78dbb5ec78f69d2ba5c0e7ad2c350c]: 118.6u dev -5.81u FAIL (<=9u-sized but not selected)",
+    "fix cell3-crouch [3ebfa93b91f4535597c4078e4b5fb91312acbda576c2264e26617bb724959ef7]: 119.39u dev -5.02u FAIL (<=9u-sized but not selected)",
+    "fix cell4-rise [9e8890a1bfea14f9d1d71ef07d8325c7b7edaab462270a5c5ca68337a982774e]: 111.98u dev -12.43u FAIL"
+  ],
+  "postSalvageAccounting": "Getup BANKED under COMPLETION Phase C (sheet + deterministic salvage; Phase C focused fix NOT needed/spent). Prospective post-fix unusable count resets/stays 0. Ledger unchanged Xu Chu 29 (getup 3)/global 196, ceilings 32/199; zero generation, no pack/15B in this package. Head RAW remains for Phase D batch-end ruling.",
+  "banked": true,
+  "generation": "zero in this package"
+}
