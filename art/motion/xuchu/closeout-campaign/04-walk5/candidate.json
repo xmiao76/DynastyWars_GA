@@ -1,0 +1,27 @@
+{
+  "work": "cmr15a-walk5-attempt1",
+  "key": "walk:5",
+  "attempt": "attempt1 (first attempt)",
+  "status": "UNREVIEWED",
+  "provider": {
+    "requested": "grok",
+    "serving": "grok (subscription image_generate, provider preference grok; single call)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/04-walk5/candidate-raw.jpg",
+    "sha256": "cc99a96b9b805d1e4c7fb36a65cd91f79b30eed1d74492adc3653b5e077fbd89",
+    "bytes": 236611,
+    "size": [
+      1024,
+      1024
+    ],
+    "format": "jpeg"
+  },
+  "references": [
+    "padded-refs/walk5-padded-ref.png df0f13a1...",
+    "01-walk2/accepted.png 893c90d7... (byte-identical candidate-raw.jpg)",
+    "03-walk4/attempt2/accepted.png 75488eb1..."
+  ],
+  "reserveCommit": "2f17d0b",
+  "exactlyOneGeneration": true
+}
