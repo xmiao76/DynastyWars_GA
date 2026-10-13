@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A walk:3 THIRD attempt REJECT after salvage (corridor FAIL; post-correction unusable 0→1)
+
+- Work `cmr15a-walk3-attempt3` (correction after failed worker's step-budget exhaustion): on entry, reserve commit `d7453de` (Xu Chu 8→9, global 175→176) and candidate commit `982540f` already existed, plus uncommitted gate artifacts (ignored `art/motion`) — ALL preserved, NO second reservation and NO second generation. The single authorized gpt EDIT (padded walk3 ref `8a952923…` + banked walk:2 `893c90d7…` + banked walk:4 `75488eb1…`, briefed on scale/gait/weapon-ratio failures) served candidate `29e06c60…` 1254×1254 PNG.
+- Salvage+gates (`02-walk3/attempt3/gate.mjs` rerun by correction worker — `registered.png` hash `2d21f6cd…` and all numbers identical; marked-registered + soles-4x images re-opened): registration factor 1.0707 (+7.07% ≤±12%) → body 459px@512, ground 0.00u; weapon 132.13u in band [124.41,137.50]u (shaft retouch not applicable/cannot cure corridor: band-low shortening still ≈14.68px >14px); splice grips not demonstrated aligned. Identity/anatomy/seams/gait Contact-B PASS (front flat, rear toe-off 9px native); **weapon corridor FAIL: tip perp 15.36px vs 14px (butt 3.54px, angle Δ+1.33°)**; head RAW 0px (not a reject).
+- Verdict REJECT: candidate UNACCEPTED, not banked (no accepted.png). Post-correction consecutive unusable **0→1** (STOP at 2 not reached); walk:3 third attempt spent. CMR-15A stays IN_PROGRESS; ledger Xu Chu 9/global 176, ceilings 22/189; next key walk:5 in a later package. Never pushed.
+
 ### 2026-10-12 — CMR-15A SHAFT-RETOUCH SALVAGE PASS (walk:4 retouched 132.03u, banked as anchor 2)
 
 - Work `cmr15a-shaft-retouch-walk4`, zero image generation. Owner grant recorded verbatim in TASKS.md CMR-15A ("CMR-15A SHAFT-RETOUCH SALVAGE", owner 2026-10-12): prospective BLOCKED→IN_PROGRESS for deterministic shaft retouch + full re-gate ONLY (continuation in later packages); CAMPAIGN.md AMENDMENT gained a SHAFT-RETOUCH SALVAGE note (salvage order now explicitly includes shaft retouch after registration for length outliers) plus the result below.
