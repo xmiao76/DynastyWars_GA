@@ -1,0 +1,41 @@
+{
+  "campaign": "CMR-15A PHASE-3 (walk+charge+combo banked; heavy post-fix unusable #1, STOP at 2 not reached; ceilings Xu Chu 25 / global 192; nominal cap 12 / global 200 unchanged)",
+  "work": "cmr15a-phase3-misc-generate",
+  "key": "misc",
+  "request": "10-misc (Phase 3 sheet after heavy; exactly ONE whole-sheet generation in this package; generation only, no extraction/gates/focused fix)",
+  "basis": {
+    "methodSource": "Li Dian misc: art/motion/lidian/misc-prompt.txt (sha256 4b9885490a362c0cc145834fb30ee6ad9edff433e6e0cbe1802f24876ebba43b) adapted sentence-by-sentence; PROVENANCE.md Request 11/14 (misc 3x3 hurt-recoil/fold, held-clamp/struggle, release + spares; level-to-diagonal family <=30deg, NO vertical 341px-height reason, no-foreshorten, 35px+ margins; ordered refs body, portrait, heavy-prepared; NO provider recorded for Li Dian misc -> gpt per work order); AUTHORING-PLAN.md misc 5; Xu Chu IDENTITY_ACTION_MANIFEST.md (hurt/hitstun 10t upright, grabbed/upright-held/escape beats, grabs=true); Xu Chu heavy prompt 3f799d09... identity/camera/ground sentences reused verbatim for refs adaptation; heavy+both-fix lesson added: butt cap MUST be drawn as visible knob behind rear hand in empty space (stubs failed heavy cells 2/3 twice)",
+    "requiredFrames": "cells0-4 keeps: cell0 hurt-recoil, cell1 hurt-fold, cell2 held-clamp (unseen grappler, no second fighter drawn), cell3 held-struggle, cell4 release back to guard; cells5-8 spares alternate reaction poses",
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "angleDeg": -26.31, "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxAt512TargetBand": [479, 529], "weaponPxAt512Target": 504 },
+    "nativeLengthDerivation": "recent Xu Chu 3x3 sheet registration scales: combo 1.4903, combo-fix 1.4854, heavy 1.5249, heavy-fix 1.5049 -> expected ~1.49-1.52. Registered 479-529px maps to native 321-355px at 1.4903 and 314-347px at 1.5249; intersection 321-347 native px, target 504/1.51 ~= 334px, lands in the registered 479-529px band across the whole expected scale range; ratio form 504/459 = 1.10x crown-to-sole also stated so length tracks drawn figure size. Complete blade tip + round butt cap fully inside sheet with 35px+ empty margin in every cell"
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/10-misc/prompt.txt",
+    "promptSha256": "f9c8e4b7e96a6cec475447bcbf96037d3b78f1030f6be04055b016f3f3b385bd",
+    "promptNote": "image_generate prompt = prompt.txt exact text (single paragraph, Li Dian misc structure adapted to Xu Chu identity/frozen band; explicit native 321-347px tip-to-pommel target ~334px = 1.10x crown-to-sole so registered lands 479-529px target ~504px at 459px body; butt cap explicitly drawn visible behind rear hand; tips/caps in frame 35px+; no labels/guide lines, no second fighter)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 186, "sha256": "c52a6eaf925a974416d2bc2648269510fbaf2840070f09630368df0272fddab9", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 0, "xuchuUsed": 19 },
+    "after": { "globalSummed": 187, "sha256": "f54e26eebb58dc4ab15450c8fef03dd360eea091c8161a5c49fb6e8dda460807", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 1, "xuchuUsed": 20 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 25,
+    "amendedCeilingGlobal": 192
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "no provider recorded for Li Dian misc in PROVENANCE.md (Request 11/14) -> gpt per work order; exactly one image_generate with referenceImages, size 1536x1024, no second call/reroll",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted) - identity/weapon/scale/ground truth", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 Passing-B (via candidate-raw.jpg; accepted.png identical JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "acceptedCopy": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in order 1->2->3->4 after this reserve commit and before the call; same order passed as referenceImages (banked walk0 -> walk2 -> body -> portrait per work order)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt sheet generation authorized in this package; no refunds; candidate lands UNREVIEWED beside this file, no gates here"
+}
