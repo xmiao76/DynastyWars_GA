@@ -1,0 +1,42 @@
+{
+  "campaign": "CMR-15A PHASE-3 (walk+charge+combo+misc banked; heavy post-fix unusable unresolved; fall post-fix unusable #1, topple waiver pending; ceilings Xu Chu 25 / global 192; nominal cap 12 / global 200 unchanged)",
+  "work": "cmr15a-phase3-getup-generate",
+  "key": "getup",
+  "request": "12-getup (Phase 3 sheet after fall; exactly ONE whole-sheet generation in this package; generation only, no extraction/gates/focused fix/pack)",
+  "basis": {
+    "methodSource": "Li Dian getup: art/motion/lidian/getup-prompt.txt (sha256 d7867b5209a1cd21bf393e68b95cd347510f88a46b004bafc15fe828ec805fb0) adapted sentence-by-sentence; PROVENANCE.md Request 13/14+fix 14/14 (getup 3x3 DOWN shared bookend + elbow/kneel/crouch/rise + spares; anti-foreshorten + no-vertical + native-px brief + 35px+ margins; ordered refs body, portrait, fall-prepared; NO provider recorded for Li Dian getup -> gpt per work order); AUTHORING-PLAN.md getup 5 (DOWN/elbow/kneel/crouch/rise-stand; shares DOWN); Xu Chu IDENTITY_ACTION_MANIFEST.md (getup 24t down->kneeling->standing->exact guard bookend; knocked-down shared down bookend); Xu Chu fall prompt 3caa92e6... identity/camera/ground/butt-cap sentences reused (heavy stub lesson: butt cap MUST be drawn as visible knob behind rear hand in empty space)",
+    "downStart": "cell0 DOWN must reproduce the selected fall DOWN source: focused-fix cell4-down-retouched.png cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d (136.03u PASS, candidate-wise selected in 11-fall/focused-fix/gate/gate.json; original fall cell4 119.76u superseded) - flat face-down prone, arms folded under chest, legs extended straight back, glaive alongside still held, lying flat on the common ground",
+    "requiredFrames": "cells0-4 keeps: cell0 DOWN flat prone bookend (fall cell4 source), cell1 elbow-prop, cell2 kneel, cell3 crouch, cell4 rise-stand to walk:0 guard bookend; cells5-8 spares alternate rising poses",
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "angleDeg": -26.31, "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxAt512TargetBand": [479, 529], "weaponPxAt512Target": 504 },
+    "nativeLengthDerivation": "ratio form is scale-invariant and primary: 504/459 = 1.10x crown-to-sole body length (prone DOWN measured head-to-boots) lands registered 479-529px target ~504px at ANY sheet scale. Latest Xu Chu fall sheets registered at scales 1.1739 (original) / 1.1650 (focused fix, prone body native 394px) -> native glaive for registered 479-529px = 408-454px; briefed explicit native 408-451px target ~430px (the same window the fall focused fix briefed and landed in band). Complete blade tip + round butt cap fully inside sheet with 35px+ empty margin in every cell; consistent body size and common ground level (DOWN lies flat on it) in every cell"
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/12-getup/prompt.txt",
+    "promptSha256": "2a376e5ca5e3042d0c0c61afd54f0aa3a8a38e1cea048b3c695f53655ddbd89c",
+    "promptNote": "image_generate prompt = prompt.txt exact text (single paragraph, Li Dian getup 3x3 structure adapted to Xu Chu identity/frozen band; explicit flat DOWN start reproducing selected fall fix cell4; native 408-451px target ~430px = 1.10x crown-to-sole so registered lands 479-529px target ~504px at 459px body; butt cap explicitly drawn visible behind rear hand; tips/caps in frame 35px+; no labels/guide lines)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 190, "sha256": "62a686fbdb777a68c1619e56714c6500b113bd3742486cc458f7e2409717dc02", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "fall": 2, "getup": 0, "xuchuUsed": 23 },
+    "after": { "globalSummed": 191, "sha256": "46c0216b75ff726af904ebd11f23ec05e468564275291ed8bd51a351464a0d49", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "fall": 2, "getup": 1, "xuchuUsed": 24 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 25,
+    "amendedCeilingGlobal": 192
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "no provider recorded for Li Dian getup in PROVENANCE.md (Request 13/14) -> gpt per work order; exactly one image_generate with referenceImages, size 1536x1024, no second call/reroll",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted) - identity/weapon/scale/ground truth + rise-stand terminal guard bookend", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "selected fall DOWN focused-fix cell4 (136.03u PASS, candidate-wise selected, NOT banked - fall sheet FAIL held) - cell0 flat DOWN pose to reproduce; replaces walk:2 in this slot per work order because getup starts from DOWN (Li Dian getup likewise anchored on its fall sheet)", "path": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell4-down-retouched.png", "sha256": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d", "size": [1024, 768] },
+    { "order": 3, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in order 1->2->3->4 after this reserve commit and before the call; same order passed as referenceImages (banked walk0 -> selected fall DOWN fix cell4 -> body -> portrait per work order; walk:2 893c90d7... not used in this slot, recorded here)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt sheet generation authorized in this package; no refunds; candidate lands UNREVIEWED beside this file, no gates/pack here"
+}
