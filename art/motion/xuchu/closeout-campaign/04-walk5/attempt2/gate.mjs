@@ -57,7 +57,7 @@ const dy = FROZEN.groundYAt512 - groundPxAt512 * factor
 const xminAfter = (figureBoundsNative.xmin / S) * factor, xmaxAfter = (figureBoundsNative.xmax / S) * factor
 const dx = 256 - (xminAfter + xmaxAfter) / 2
 const k = factor / S
-let regBuf = null, registeredSha256 = null
+let regBuf, registeredSha256 = null
 if (withinCap) {
   const rcv = createCanvas(512, 512); const rg = rcv.getContext('2d'); rg.imageSmoothingEnabled = true; rg.translate(dx, dy); rg.scale(k, k); rg.drawImage(candImg, 0, 0)
   regBuf = rcv.toBuffer('image/png'); writeFileSync(dir + 'registered.png', regBuf); registeredSha256 = sha(regBuf)

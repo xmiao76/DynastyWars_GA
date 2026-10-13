@@ -12,7 +12,6 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { PNG } from 'pngjs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
-import { spreadOf } from '../../../../../scripts/pack-projection.mjs'
 
 const dir = 'art/motion/xuchu/closeout-campaign/00-zerogen/'
 const sha = (buf) => createHash('sha256').update(buf).digest('hex')
@@ -83,7 +82,6 @@ for (const [name, c] of Object.entries(CELLS)) {
   g.strokeStyle = '#ffe040'; g.strokeRect(b.xmin, b.ymin, b.xmax - b.xmin + 1, b.ymax - b.ymin + 1)
   g.fillStyle = '#40c0ff'; g.beginPath(); g.arc(c.beardTip[0], c.beardTip[1], 5, 0, 7); g.fill(); g.fillText('beard tip RAW', c.beardTip[0] + 8, c.beardTip[1])
   writeFileSync(dir + `gate-${name}-marked.png`, cv.toBuffer('image/png'))
-  const weaponPass = false // tip clipped at cell edge: whole length unmeasurable from this cell
   cellsOut[name] = {
     key: c.key, phaseRole: c.phase,
     input: { path: c.path, sha256: sha(buf), pinned: sha(buf) === c.pin, size: [512, 512] },

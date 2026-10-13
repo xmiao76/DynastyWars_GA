@@ -126,7 +126,7 @@ const VISUAL = {
     gait: 'PASS heel-strike Contact-A — CORRECTION of the diagnostic wording "front flat": screen-right front boot heel grounded (sole 500@512) with toe raised = heel-strike (gate-soles-4x.png), screen-left rear boot toe-down push-off sole 497@512. Heel-strike instant distinct from walk:3 flat-front Contact-B.',
   },
 }
-for (const { cell, report, buf } of results) {
+for (const { cell, report } of results) {
   const v = VISUAL[cell.key]
   report.verdicts = { ...v, weaponLengthCorridorDirection: report.allNumericPass ? 'PASS (fresh raster numbers in freshRasterMeasurement.weapon vs frozen band)' : 'FAIL (see numbers)', scaleGround: report.allNumericPass ? 'PASS (fresh raster body/ground in freshRasterMeasurement)' : 'FAIL (see numbers)', headEndpointRAW: 'RECORDED_RAW_NOT_A_REJECT (0px clear gap, beard over collar; batch-end ruling only)' }
   if (report.allNumericPass) {

@@ -14,7 +14,7 @@
 // grids opened this package): complete round cap balls in empty space on ALL 9
 // cells, so BUTT_VISIBLE=true throughout and every length is fully measurable.
 // Banking/WAIVER_ELIGIBLE decided in gate-verdict.mjs. Deterministic reruns.
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { PNG } from 'pngjs'
 
@@ -264,7 +264,6 @@ function retouch(png, m, lmReg) {
   let bladeRemove = Math.min(remove - buttRemove, bladeAvail)
   const feasibility = { capStartT: capEndScan, buttCleanEndT: buttCleanEnd, bladeRunT: bladeRun, bladeCleanStartT: bladeCleanStart, socketTReg: round2(socketT), buttAvailPx: buttAvail, bladeAvailPx: bladeAvail, removeToTarget132Px: remove, removeToBandHiPx: Math.ceil(m.pxLen - FROZEN.bandU[1] / U_PER_PX), totalAvailPx: buttAvail + bladeAvail, reachesBand: buttAvail + bladeAvail >= Math.ceil(m.pxLen - FROZEN.bandU[1] / U_PER_PX), reachesTarget: buttAvail + bladeAvail >= remove }
   const out = new PNG({ width: W, height: H }); png.data.copy(out.data)
-  const regionHashBefore = (() => { const h = createHash('sha256'); return h })()
   // collect ops
   const tOf = (x, y) => (x - butt[0]) * ux + (y - butt[1]) * uy
   const pOf = (x, y) => (x - butt[0]) * vx + (y - butt[1]) * vy

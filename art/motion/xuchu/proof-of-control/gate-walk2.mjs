@@ -41,7 +41,6 @@ const candBeardTip1024 = [515, 257]
 // Candidate body: helmet crown top / supporting (screen-right, flat) sole, 1024.
 const candCrown1024 = 85
 const candSupportSole1024 = 1006 // gate-cand-soles-zoom.png (crop 350,900 @x3/x4): sole bottom row
-const candRearToe1024 = 975
 
 const len = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1])
 const ang = (a, b) => (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI

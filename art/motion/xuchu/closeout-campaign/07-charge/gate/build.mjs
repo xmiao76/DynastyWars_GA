@@ -8,7 +8,7 @@
 // accepted keep cells ONLY if every keep passes every gate. Deterministic: rerun reproduces
 // byte-identical registered/retouched PNGs (pngjs encode, no canvas resampling of final art:
 // scaling is a fixed bilinear resample implemented below).
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { PNG } from 'pngjs'
 
@@ -217,7 +217,6 @@ function retouch(png, m, lmReg) {
   let bladeRemove = Math.min(remove - buttRemove, bladeAvail)
   const feasibility = { buttCleanEndT: buttCleanEnd, bladeRunT: bladeRun, bladeCleanStartT: bladeCleanStart, socketTReg: round2(socketT), buttAvailPx: buttAvail, bladeAvailPx: bladeAvail, removeToTarget132Px: remove, removeToBandHiPx: Math.ceil(m.pxLen - FROZEN.bandU[1] / U_PER_PX), totalAvailPx: buttAvail + bladeAvail, reachesBand: buttAvail + bladeAvail >= Math.ceil(m.pxLen - FROZEN.bandU[1] / U_PER_PX), reachesTarget: buttAvail + bladeAvail >= remove }
   const out = new PNG({ width: W, height: H }); png.data.copy(out.data)
-  const regionHashBefore = (() => { const h = createHash('sha256'); return h })()
   // collect ops
   const tOf = (x, y) => (x - butt[0]) * ux + (y - butt[1]) * uy
   const pOf = (x, y) => (x - butt[0]) * vx + (y - butt[1]) * vy
