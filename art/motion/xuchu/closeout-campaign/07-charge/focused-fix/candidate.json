@@ -1,0 +1,48 @@
+{
+  "work": "cmr15a-charge-focused-fix-generate",
+  "key": "charge",
+  "attempt": "CMR-15A ALTERNATIVE COMPLETION Phase 3: the charge sheet's SINGLE authorized focused fix (exactly ONE gpt-preferred sheet EDIT); this package is generation only - no extraction, deterministic retouch, gates or banking",
+  "status": "UNREVIEWED - generated only; no gates run, not banked (no accepted.png / prepared source) in this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "focusedFixBrief: provider gpt-preferred as the original sheet",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/07-charge/focused-fix/candidate-raw.png",
+    "sha256": "4791a19e997d4769834d1e4144986251b12cfd4e2d42e37c2c62c536b21edaf8",
+    "bytes": 2209370,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T04-03-20-857Z-ir7jqr-0.png (byte-copied unchanged to focused-fix/candidate-raw.png; sha256/bytes verified after copy; PNG magic 89 50 4E 47, IHDR 1536x1024)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/07-charge/focused-fix/prompt.txt",
+    "sha256": "0eb6d293f5ca21011347f998d21629f1434c56e7e82927a1bf639692f33ce202",
+    "construction": "brief-exact focused fix: edit the original sheet only; preserve all poses/identity/layout/ground exactly; shorten every glaive in keeps 1-4 (crouch-coil/launch/crushing dash/brake) to 354-391px sheet-native (target ~375px; = 479-529px at 459px-body registered scale) with blade+socket toward front grip and pommel toward rear grip, tips fully inside frame; cell0 and spares 5-8 unchanged; no other changes"
+  },
+  "editTargetOriginal": {
+    "path": "art/motion/xuchu/closeout-campaign/07-charge/candidate-raw.png",
+    "sha256": "11080736380132eb798b6b0636f03ab385cf287725be748fc4bc9189f4c189e5",
+    "promptFile": "art/motion/xuchu/closeout-campaign/07-charge/prompt.txt",
+    "promptSha256": "ebf2d9c941b2e0f486452cf0912c7a692aaa44db85d845a3f0ce8d5af2ba4768",
+    "failedCriteriaBeingFixed": "keeps 1-4 weapon length after max retouch: cell1 152.07u, cell2 159.43u, cell3 174.51u, cell4 148.47u vs frozen band [124.41,137.50]u (07-charge/gate/gate.json; spares assessed no coherent set in spares/SPARE-ASSESSMENT.md)"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET original charge sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/07-charge/candidate-raw.png", "sha256": "11080736380132eb798b6b0636f03ab385cf287725be748fc4bc9189f4c189e5", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in brief order 1->2->3->4->5 after the reserve commit; same order passed as referenceImages",
+  "reserveCommit": "a3da994006389ce69d5ad6add6e7da9b983b9f45",
+  "ledgerAfter": { "xuchuUsed": 15, "walk": 13, "charge": 2, "globalSummed": 182, "ceilings": "22/189", "sha256": "84b259260fed1448fee0f70c6824b4c15ac0722bf84726bba7eb03f880303ce9" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false,
+  "nextStep": "separate full re-gate package (all keeps; a failed fix makes this sheet post-salvage unusable 1/2, STOP at 2 not reached)"
+}
