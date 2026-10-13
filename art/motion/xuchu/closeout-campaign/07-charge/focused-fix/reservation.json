@@ -1,0 +1,42 @@
+{
+  "campaign": "CMR-15A ALTERNATIVE COMPLETION Phase 3 (charge 3x3 sheet; deterministic retouch before at most one focused fix per sheet; ceilings Xu Chu 22 / global 189)",
+  "work": "cmr15a-charge-focused-fix-generate",
+  "key": "charge",
+  "request": "07-charge/focused-fix (the sheet's SINGLE authorized focused fix; exactly ONE gpt-preferred sheet EDIT in this package; no extraction/gates/banking)",
+  "basis": {
+    "brief": "art/motion/xuchu/closeout-campaign/07-charge/spares/SPARE-ASSESSMENT.md + spares/spares-gate.json focusedFixBrief: keeps 1-4 FAIL weapon length only after max deterministic retouch (cell1 152.07u, cell2 159.43u, cell3 174.51u, cell4 148.47u vs frozen band [124.41,137.50]u); spares 5-8 form no coherent set (crouch-coil uncovered); retouch exhausted -> grant's at-most-one focused fix per sheet",
+    "changeOnly": "Shorten ONLY the glaive in keeps cell1 crouch-coil, cell2 launch, cell3 crushing dash, cell4 brake to butt->tip 479-529px at the 459px-body registered scale = 354-391px sheet-native (target ~375px, guard body 339px native); blade+socket toward front grip, pommel cap toward rear grip; poses/identity/layout/ground/grips EXACTLY frozen; tips fully inside frame in empty transparent space; cell0 and spares 5-8 unchanged; no other changes",
+    "originalCandidate": { "path": "art/motion/xuchu/closeout-campaign/07-charge/candidate-raw.png", "sha256": "11080736380132eb798b6b0636f03ab385cf287725be748fc4bc9189f4c189e5", "promptFile": "art/motion/xuchu/closeout-campaign/07-charge/prompt.txt", "promptSha256": "ebf2d9c941b2e0f486452cf0912c7a692aaa44db85d845a3f0ce8d5af2ba4768", "reserveCommit": "96e4630c6cca91d09ea9550eb6377ba69883330a" },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxRegisteredBand": [479, 529], "weaponPxSheetNativeBand": [354, 391], "sheetNativeTargetPx": 375 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/07-charge/focused-fix/prompt.txt",
+    "promptSha256": "0eb6d293f5ca21011347f998d21629f1434c56e7e82927a1bf639692f33ce202",
+    "promptNote": "image_generate prompt = focused-fix/prompt.txt exact text (brief-exact: edit first reference only, shorten every glaive in keeps 1-4 to 354-391px sheet-native target ~375px, tips fully inside frame, cell0/spares unchanged, no other changes)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 181, "sha256": "1fd2c67d57c95de3d086938f51d7c36ce0b9fec8731a3d292506f2609b3f6a94", "walk": 13, "charge": 1, "xuchuUsed": 14 },
+    "after": { "globalSummed": 182, "sha256": "84b259260fed1448fee0f70c6824b4c15ac0722bf84726bba7eb03f880303ce9", "walk": 13, "charge": 2, "xuchuUsed": 15 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "brief: provider gpt-preferred as the original sheet; exactly one image_generate EDIT with referenceImages in brief order, size 1536x1024, no second call/reroll",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - original charge sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/07-charge/candidate-raw.png", "sha256": "11080736380132eb798b6b0636f03ab385cf287725be748fc4bc9189f4c189e5", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor - identity/band (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in brief order 1->2->3->4->5 before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt focused-fix EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in focused-fix/, no extraction/gates/banking here; a failed fix makes this sheet post-salvage unusable 1/2 (STOP at 2 not reached)"
+}
