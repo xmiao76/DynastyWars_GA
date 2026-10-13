@@ -1,0 +1,194 @@
+{
+  "work": "cmr15a-walk5-attempt1",
+  "key": "walk:5",
+  "attempt": "attempt1 (FIRST attempt)",
+  "zeroNewGenerationInGate": true,
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponLengthU": 130.79017343848048,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500,
+    "crownYAt512": 41
+  },
+  "inputs": {
+    "candidate": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/candidate-raw.jpg",
+      "sha256": "cc99a96b9b805d1e4c7fb36a65cd91f79b30eed1d74492adc3653b5e077fbd89",
+      "size": [
+        1024,
+        1024
+      ],
+      "format": "jpeg (opaque, grok)"
+    },
+    "references": [
+      "padded-refs/walk5-padded-ref.png df0f13a1...",
+      "01-walk2/accepted.png 893c90d7...",
+      "03-walk4/attempt2/accepted.png 75488eb1..."
+    ]
+  },
+  "landmarksNative1024": {
+    "weapon": {
+      "butt": [
+        68,
+        634
+      ],
+      "tip": [
+        968,
+        186
+      ]
+    },
+    "beardTip": [
+      545,
+      263
+    ],
+    "crown": 92,
+    "frontSole": 1001,
+    "rearToe": 998,
+    "figureBoundsX": {
+      "xmin": 62,
+      "xmax": 974
+    }
+  },
+  "rawMeasurements": {
+    "bodyHeightPxAt512": 454.5,
+    "deltaPctVsFrozen": -0.9803921568627451,
+    "groundYAt512": 500.5,
+    "groundErrorU": 0.129979035639413,
+    "rearToeClearancePxNativeVsFrontSole": 3,
+    "greenPxRaw": 0,
+    "weaponRaw": {
+      "pxAt512": 502.6688770950515,
+      "u": 130.67283178152283,
+      "angleDeg": -26.463101499062404,
+      "tipRightMarginPxNative": 56,
+      "bladeRightMarginPxNative": 50,
+      "buttLeftMarginPxNative": 62
+    }
+  },
+  "salvage": {
+    "step1Registration": {
+      "applied": true,
+      "rule": "ONE uniform scale+translate, whole candidate: factor=459/bodyHeightPxAt512, translate ground->500@512, landmark figure bounds centred horizontally",
+      "factor": 1.00990099009901,
+      "factorPct": 0.990099009900991,
+      "capPct": 12,
+      "withinCap": true,
+      "nativeExceeds512": true,
+      "overallNativeToRegisteredScale": 0.504950495049505,
+      "translatePxAt512": {
+        "dx": -5.56435643564356,
+        "dy": -5.455445544554436
+      },
+      "registeredPath": "art/motion/xuchu/closeout-campaign/04-walk5/registered.png",
+      "registeredSha256": "95c9c452bda59837786e94ddfd1bce524f4c3fbc319c76a5cbede7c738bcd593"
+    },
+    "step2ShaftRetouch": {
+      "applied": false,
+      "note": "registered weapon length 131.97u in frozen band [124.41,137.50]u; no in-frame length outlier to retouch."
+    },
+    "step3WeaponSplice": {
+      "applied": false,
+      "note": "not attempted: exact grip alignment between the registered candidate hands and the original-cell weapon grips is not demonstrated, and a weapon splice cannot cure the gait-phase defect below; splice precondition (both grips align + seams at gameplay and 4x) not met; no fabrication."
+    },
+    "finalCell": {
+      "path": "art/motion/xuchu/closeout-campaign/04-walk5/registered.png",
+      "sha256": "95c9c452bda59837786e94ddfd1bce524f4c3fbc319c76a5cbede7c738bcd593"
+    }
+  },
+  "landmarksRegisteredAt512": {
+    "weapon": {
+      "butt": [
+        28.772277227722775,
+        314.6831683168317
+      ],
+      "tip": [
+        483.2277227722772,
+        88.46534653465349
+      ]
+    },
+    "beardTip": [
+      269.63366336633663,
+      127.34653465346537
+    ],
+    "crownY": 41.00000000000002,
+    "frontSoleY": 500,
+    "rearToeY": 498.4851485148515
+  },
+  "remeasuredAfterSalvage": {
+    "weapon": {
+      "pxAt512": 507.64579667025004,
+      "u": 131.96662219520127,
+      "inBand": true,
+      "deltaPctVsAnchor": 0.899493230868869,
+      "spreadAnchorVsCandCanonical": 0.008954659032765135,
+      "angleDeg": -26.463101499062407,
+      "anchorAngleDeg": -26.31040494480514,
+      "angleDeltaDegVsAnchor": -0.15269655425726825,
+      "corridorPerpPxVsAnchorLine": {
+        "butt": 5.733566055683605,
+        "tip": 7.08646975703502,
+        "corridorLimitPx": 14
+      },
+      "tipInsideFrame": true,
+      "tipRightMarginPxAt512": 28.772277227722782
+    },
+    "weaponRatioToBody": 1.1059821278218955,
+    "anchorWeaponRatioToBody": 1.0961225794180054,
+    "body": {
+      "registeredHeightPxAt512": 459,
+      "frozenHeightPxAt512": 459
+    },
+    "ground": {
+      "frozenGroundYAt512": 500,
+      "registeredGroundYAt512": 500,
+      "groundedErrorU": 0,
+      "limitU": 1.5
+    },
+    "greenPxRaw": 0,
+    "headEndpointRAW": {
+      "beardTipNative": [
+        545,
+        263
+      ],
+      "beardTipRegistered": [
+        269.63366336633663,
+        127.34653465346537
+      ],
+      "measuredClearBackgroundGapPxNative": 0,
+      "note": "RAW only (beard tip over collar/chest, as anchors). Batch-end UNVERIFIED_OWNER_ACCEPTED reserved only if ALL other gates pass."
+    },
+    "gaitMeasured": {
+      "frontBoot": "screen-right boot flat, sole row 500.00@512 registered (1001@1024 native), shin vertical under the hip (boot x~455-650 native)",
+      "rearBoot": "screen-left boot toe-down heel-raised trailing behind, lowest toe row 498.49@512 registered (998@1024 native, 3px native above the front sole = toe at/just leaving ground)",
+      "feetSeparation": "boots clearly separated front-to-back (rear x~120-305, front x~455-650 native)"
+    }
+  },
+  "gatesNumeric": {
+    "registrationWithinCap": true,
+    "weaponLengthPass": true,
+    "weaponCorridorPass": true,
+    "weaponDirectionPass": true,
+    "bodyPass": true,
+    "groundPass": true,
+    "seamsNumericPass": true
+  },
+  "verdicts": {
+    "identity": "PASS (visual on candidate + head zoom: same blunt-faced helmeted dark/full-bearded ochre/dark-armoured massive Xu Chu, right-facing three-quarter, no other-fighter/costume drift; stray neighbouring blade fragment of the padded ref absent, exactly one glaive)",
+    "anatomy": "PASS (visual full + zooms: connected two-hand glaive grip, natural hip/skirt overlap, no extra/mitten/floating limbs)",
+    "weaponCorridorLengthDirection": "PASS (see weapon numbers; whole tip inside frame)",
+    "scaleGround": "PASS after authorized registration (factor recorded, within +-12%)",
+    "seams": "PASS (greenPx=0: no retained guide/ground line; no edge clipping of blade/butt/boots/headgear; whole candidate, no splice/retouch seam; verified on gate-marked-registered.png gameplay size + gate-tip/gate-legs/gate-soles zooms and gate-soles-4x.png)",
+    "gaitBrake": "FAIL (visual on candidate + legs/soles zooms, registered reconfirmed: screen-right boot flat with shin VERTICAL under the hip = weight-bearing support, not a forward-planted braced braking leg ahead of the body; screen-left boot toe-down heel-raised trailing behind with toe essentially at the front-sole row = contact/toe-off pair, the same foot-state family as walk:1/walk:3 contacts. No braced-ahead front leg with braking heel pressure and no visible weight-settling-back toward guard is demonstrated, so the walk:5 BRAKE phase (CAMPAIGN (a)) is NOT proven; salvage steps (1)-(3) cannot cure gait. Distinct from the banked passing poses walk:2/walk:4 (no tucked leg), but distinctness alone does not prove Brake.)",
+    "headEndpointRAW": "RECORDED_RAW_NOT_A_REJECT (gap recorded in remeasuredAfterSalvage.headEndpointRAW; batch-end ruling only)"
+  },
+  "overall": "FAIL — not banked; exact failing gate(s) in gatesNumeric/verdicts",
+  "disposition": "REJECT attempt-1 after salvage — candidate UNACCEPTED, not banked (no accepted.png); FIRST-attempt failure: eligible for exactly one future briefed second attempt, NOT counted post-correction unusable yet; consecutive post-correction unusable stays 1",
+  "ledgerAfterReserve": "Xu Chu 10 / global 177 (ceilings 22/189)",
+  "consecutivePostCorrectionUnusableAfterThis": 1,
+  "eligibleForOneBriefedSecondAttempt": true
+}

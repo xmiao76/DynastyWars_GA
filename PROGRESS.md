@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-12 — CMR-15A walk:5 FIRST attempt REJECT after salvage (gait Brake FAIL; attempt-1 rejection, not yet post-correction unusable)
+
+- Work `cmr15a-walk5-attempt1` (correction after deadline failure): on entry, reserve commit `2f17d0b` (Xu Chu 9→10, global 176→177) and candidate commit `9637b28` already existed, plus uncommitted gate artifacts (ignored `art/motion`) — ALL preserved, NO second reservation and NO second generation. The single authorized grok EDIT (padded walk5 ref `df0f13a1…` + banked walk:2 `893c90d7…` + banked walk:4 `75488eb1…`) served candidate `cc99a96b…` 1024×1024 JPEG.
+- Salvage+gates (`04-walk5/gate.mjs` rerun by correction worker — `registered.png` hash `95c9c452…` and all numbers identical; marked-registered + legs zoom re-opened and gait independently reconfirmed): registration factor 1.0099 (+0.99% ≤±12%) → body 459px@512, ground 0.00u; weapon 131.97u in band [124.41,137.50]u, Δ−0.15°, corridor 5.73/7.09px vs 14px (no shaft retouch needed); splice grips not demonstrated aligned and cannot cure gait. Identity/anatomy/seams PASS; **gait Brake FAIL: screen-right flat boot with shin vertical under hip (weight-bearing support, not forward-planted braced braking leg), screen-left toe-down trailing at the front-sole row (contact/toe-off pair) — Brake/bookend phase and weight-settling-back toward guard not proven**; head RAW 0px (not a reject).
+- Verdict REJECT attempt-1: candidate UNACCEPTED, not banked (no accepted.png). **First-attempt failure — eligible for exactly one future briefed second attempt; NOT counted post-correction unusable yet (consecutive stays 1, STOP at 2 not reached).** CMR-15A stays IN_PROGRESS; ledger Xu Chu 10/global 177, ceilings 22/189; next key = manager direction (walk:5 second attempt or walk:0). Never pushed.
+
 ### 2026-10-12 — CMR-15A walk:3 THIRD attempt REJECT after salvage (corridor FAIL; post-correction unusable 0→1)
 
 - Work `cmr15a-walk3-attempt3` (correction after failed worker's step-budget exhaustion): on entry, reserve commit `d7453de` (Xu Chu 8→9, global 175→176) and candidate commit `982540f` already existed, plus uncommitted gate artifacts (ignored `art/motion`) — ALL preserved, NO second reservation and NO second generation. The single authorized gpt EDIT (padded walk3 ref `8a952923…` + banked walk:2 `893c90d7…` + banked walk:4 `75488eb1…`, briefed on scale/gait/weapon-ratio failures) served candidate `29e06c60…` 1254×1254 PNG.
