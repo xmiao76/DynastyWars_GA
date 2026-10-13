@@ -1,0 +1,35 @@
+{
+  "campaign": "CMR-15A CLOSEOUT AMENDMENT (as amended by REGISTRATION AMENDMENT + SHAFT-RETOUCH SALVAGE)",
+  "work": "cmr15a-walk5-attempt2",
+  "attempt": "walk:5 SECOND attempt (attempt2; the one briefed second attempt after attempt-1 first-attempt rejection; no blind reroll, no third attempt)",
+  "key": "walk:5",
+  "phase": "Brake / bookend transition (CAMPAIGN (a): Leg-A front braking boot flat with braking heel pressure + Leg-B rear toe/partial support, double support decelerating; weight visibly settling back toward walk:0 guard; not a plain guard duplicate, not a passing pose, not a forward contact stride)",
+  "grant": "CMR-15A CLOSEOUT AMENDMENT + REGISTRATION AMENDMENT + SHAFT-RETOUCH SALVAGE (owner grants, 2026-10-12, verbatim in TASKS.md CMR-15A): ceilings Xu Chu 22 total / global 189/200 (nominal cap 12 unchanged); each key at most ONE second attempt briefed in writing on the first failure; salvage order (1) uniform registration <=±12% for native >512px to groundY/body, (2) shaft retouch after registration for in-frame length outliers (target ~132u in [124.41,137.50]u), (3) weapon splice only if both grips demonstrably align and seams pass at gameplay and 4x; STOP on two consecutive post-correction unusable (currently 1 after walk:3 attempt3; a walk:5 attempt-2 failure after salvage makes 2 = campaign STOP/BLOCKED)",
+  "briefedOnAttempt1Failure": {
+    "source": "art/motion/xuchu/closeout-campaign/04-walk5/gate.json",
+    "candidateSha256": "cc99a96b9b805d1e4c7fb36a65cd91f79b30eed1d74492adc3653b5e077fbd89",
+    "soleFailingGate": "gait Brake FAIL — screen-right boot flat with shin VERTICAL under the hip (weight-bearing support, not a forward-planted braced braking leg) + screen-left boot toe-down heel-raised trailing with toe essentially at the front-sole row (rear toe 998 vs front sole 1001 @1024 native) = contact/toe-off pair; no braced-ahead front leg with braking heel pressure and no visible weight-settling-back toward guard demonstrated",
+    "passingPropertiesToPreserve": "identity/anatomy/seams PASS; after registration factor 1.0099: weapon 131.97u in band [124.41,137.50]u, angle delta -0.15deg, corridor butt 5.73/tip 7.09px vs 14px, whole tip inside (margin 56px native), body 459px@512 (raw 454.5, -0.98%), ground 0.13u raw / 0.00u registered, greenPx=0; head RAW 0px (not a reject)",
+    "correctionBriefedInPrompt": "front ankle planted FAR AHEAD of knee/hip as a diagonal braced strut ~30-40deg from vertical with digging heel (explicitly NOT a vertical shin); hips LOW and BACK, torso upright/slightly back, head over rear leg; rear leg close under hips, knee bent absorbing, partial/toe contact catching weight (explicitly NOT a far-trailing toe-off push)"
+  },
+  "consecutivePostCorrectionUnusableBefore": 1,
+  "stopIfThisFailsAfterSalvage": "consecutive post-correction unusable 1->2 = campaign STOP; CMR-15A BLOCKED WAITING_FOR_OWNER with exact failed gates",
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 177, "sha256": "225f819f36ab34163f7754954d76881a083ad5955d75aff7288c5ba22c049704", "walk": 10, "xuchuUsed": 10 },
+    "after": { "globalSummed": 178, "sha256": "371a8bcfc7c440de127c30037c29fa5215c4fe73c969fa59524c97fb64435a8c", "walk": 11, "xuchuUsed": 11 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": { "requested": "grok", "preference": "provider grok per amendment provider rule (gpt-preferred only for walk:3/4 second attempts; grok otherwise) and work order cmr15a-walk5-attempt2; isolated single-pose EDIT only, no text-to-image", "serving": "TO_BE_RECORDED_AFTER_CALL" },
+  "references": [
+    { "role": "primary (padded walk:5 original cell, ground line marked in ref only - must NOT be redrawn)", "path": "art/motion/xuchu/closeout-campaign/padded-refs/walk5-padded-ref.png", "sha256": "df0f13a12ef1f2e69cc204bd775734d8169c82f7e1b48c8f969e18a173cb4bf8", "size": [1024, 1024] },
+    { "role": "second (accepted walk:2 anchor 1, Passing-B; sent via byte-identical candidate-raw.jpg, accepted.png carries JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "role": "third (accepted walk:4 anchor 2, Passing-A, registered+retouched, gait context)", "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png", "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad", "size": [512, 512] }
+  ],
+  "prompt": { "file": "art/motion/xuchu/closeout-campaign/04-walk5/attempt2/prompt.txt" },
+  "status": "RESERVED — reserve-before-call; exactly one generation authorized for this attempt; no refunds"
+}
