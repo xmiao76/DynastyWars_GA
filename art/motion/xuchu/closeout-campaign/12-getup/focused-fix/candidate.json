@@ -2,7 +2,7 @@
   "work": "cmr15a-getup-focused-fix-generate",
   "key": "getup",
   "attempt": "CMR-15A Phase-3 getup ONE focused fix (exactly ONE sheet EDIT of the original getup sheet, provider as original getup generation); generation only - no extraction/retouch/gates/splice/banking/pack",
-  "status": "UNREVIEWED candidate - no gates run in this package; separate gating package decides (a post-fix unusable getup would become consecutive post-fix unusable #2 = STOP, not decided here)",
+  "status": "GATED FAIL - NOT BANKED (cmr15a-getup-fix-gate-finish, focused-fix/gate/gate.json 20a88998...): fix overshot OUT_LOW - keeps 105.84/103.13/118.60/119.39/111.98u vs band [124.41,137.50]u, retouch cannot lengthen; candidate-wise beats DOWN/elbow have NO passing source on either sheet (originals OUT_HIGH), no coherent all-pass set, no accepted cells; fix cell3-crouch 3ebfa93b... -5.02u WAIVER_ELIGIBLE held FAIL retained; getup = consecutive post-fix unusable #2 after fall #1 = CAMPAIGN STOP, CMR-15A BLOCKED WAITING_FOR_OWNER",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "original getup generation recorded provider requested gpt, serving UNCONFIRMED (12-getup/candidate.json) -> gpt per work order",
@@ -39,7 +39,8 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
+  "gatesRun": "yes - separate package cmr15a-getup-fix-gate-finish (extraction/measure by cmr15a-getup-focused-fix-gates build, reused hash-verified, no rebuild; verdict rerun twice identical)",
+  "extractionRun": "yes - focused-fix/gate/ (measure.json 8a1e54ee...)",
+  "gateJson": { "path": "art/motion/xuchu/closeout-campaign/12-getup/focused-fix/gate/gate.json", "sha256": "20a889988b527516e0d2e6e453b048ba14e7b514396c9e823f3b96e35c0f79d9", "verdict": "FAIL - NOT BANKED (0/5 fix keeps pass; no accepted/ dir)" },
   "banked": false
 }
