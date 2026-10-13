@@ -2,7 +2,7 @@
   "work": "cmr15a-heavy-cell2-generate",
   "key": "heavy",
   "cell": "cell2-crushing-chop ONLY (COMPLETION CAMPAIGN Phase B isolated single-pose replacement; cell3 not in this package)",
-  "status": "UNREVIEWED - exactly ONE gpt isolated single-pose EDIT generated; no extraction/registration/gates/banking in this package; next = separate gating package",
+  "status": "GATED FAIL (cmr15a-heavy-cell2-gate, zero generation) - NOT selected, NOT banked; see gate below / gate.json",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "gpt evidence-based per work order (original heavy generation requested gpt, serving UNCONFIRMED; gpt guide edits landed measurable in-frame weapons)",
@@ -33,7 +33,19 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
-  "banked": false
+  "gatesRun": true,
+  "extractionRun": true,
+  "banked": false,
+  "gate": {
+    "work": "cmr15a-heavy-cell2-gate",
+    "overall": "FAIL - NOT selected (no cell2-selected.png), not banked",
+    "report": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b/gate.json",
+    "registeredU": 173.62,
+    "finalAfterMaxRetouch": { "file": "cell2-retouched.png", "sha256": "1ce7855bed87b89fa514935f7ebf78a1ddef10a3a2d5a0a3c73089ab456a1d4c", "u": 161.23, "deviationU": 23.73, "bandU": [124.41, 137.5] },
+    "onlyFailingGate": "weapon length (+23.73u after max retouch avail 48px vs 139px to band-hi; exceeds preauthorized <=9u waiver)",
+    "passing": "identity/anatomy/pose/drawn butt cap/whole weapon in frame/direction/corridor/body-ground at registered scale/seams/continuity; head RAW 0px",
+    "rawEnlargement": "figure enlarged on padded canvas +43.36% (body 572 vs 399px), weapon native 961.67px vs 479-529 target; soles y885 vs 886",
+    "sharedFixEligible": true,
+    "familyCountedUnusable": false
+  }
 }
