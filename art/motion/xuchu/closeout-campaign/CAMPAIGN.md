@@ -336,10 +336,7 @@ Prospective reset BLOCKED→IN_PROGRESS for Phase 1 only; all prior BLOCKED/STOP
 history above, banked walk:2 (`893c90d7…`) + walk:4 (`75488eb1…`), the frozen
 brief band (weapon 130.79u, band [124.41,137.50]u, angle −26.31°, groundY
 500@512, body 459px@512) and ledger (Xu Chu 11 / global 178, file SHA-256
-`371a8bcf…`) are preserved. NOTE: the owner's Alternative Completion grant
-verbatim text was not present in the repo or the worker work order — TASKS.md
-CMR-15A records it as PENDING VERBATIM INSERTION (relayed Phase-1 scope only);
-this section does not quote it.
+`371a8bcf…`) are preserved. Owner grant (Alternative Completion, verbatim): "CMR-15A ALTERNATIVE COMPLETION: Reset BLOCKED→IN_PROGRESS prospectively; preserve all history, banked walk:2/walk:4, frozen band, and ledger counts (Xu Chu 11/global 178); ceilings 22/189 unchanged. Phase 1, zero generation: rerun the campaign-standard gate with independent raster re-measurement on the alternative diagnostic outputs; bank walk:3, walk:0, and walk:1 only if every gate passes, correcting walk:1’s description to heel-strike Contact-A. Phase 2: reserve and make ONE guide-guided walk:5 edit using a grey-mannequin Brake guide derived from Li Dian’s braced legs and banked Xu Chu anchors for identity; if Brake gait fails, STOP for my decision. Phase 3: charge, combo, heavy, misc, fall, and getup as one 3×3 sheet each using the Li Dian method and Xu Chu identity/band briefs; deterministic retouch before at most one focused fix per sheet. STOP on two consecutive post-salvage unusable sources or before exceeding 22/189. Prepare the offline pack only, apply the batch-end head/exact-hash rulings already authorized, and return for independent review; do not mark CMR-15A DONE or start CMR-15B."
 
 Campaign-standard gate (`alternative-phase1/gate.mjs`, CAMPAIGN (c) checklist,
 FRESH raster landmarks — alpha≥16 butt-band centroid / max-projection tip /
