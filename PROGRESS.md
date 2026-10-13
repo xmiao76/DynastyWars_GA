@@ -4,6 +4,10 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-13 — CMR-15A Phase 2 walk:5 candidate GENERATED, UNREVIEWED (no gates, not banked)
+
+- Work `cmr15a-walk5-phase2-generate`: reserve-before-call committed `2c2d7e2` ([reservation.json](art/motion/xuchu/closeout-campaign/04-walk5/phase2/reservation.json) + prompt copy, Xu Chu 11→12 / walk 12 / global 178→179, ceilings 22/189), then exactly ONE grok-preferred isolated single-pose EDIT (serving UNCONFIRMED) using phase2-guide `prompt.txt` verbatim (`cf0180fa…`) with references read and sent in binding order: clean Brake guide `6e7819c3…` → banked walk:2 via candidate-raw.jpg `893c90d7…` → banked walk:4 `75488eb1…`. Candidate `4d9a7308…` 1024×1024 JPEG saved as `04-walk5/phase2/candidate-raw.jpg` with `candidate.json` status **UNREVIEWED**; no gates run, nothing banked, no second call, never pushed. Next: separate gating package (Brake failure there = grant STOP).
+
 ### 2026-10-12 — CMR-15A Alternative Completion Phase 2 PREPARATION: grey-mannequin Brake guide built + visually verified (IN_PROGRESS, zero generation, NO reservation)
 
 - Work `cmr15a-walk5-guide`: donor identified as Li Dian charge **cell 4 "brake"** (centre cell (512,341) of `charge-prepared-source.png` `40054db9…`; prompt order coil/launch/dash/dash2/brake + registration layout label); traced braced front strut (41.0° strut / 31.0° shin from vertical, sheet hip (757,516)→knee (834,586)→ankle (870,646)). Deterministic `04-walk5/phase2-guide/build-guide.mjs` (whole-frame mannequin method) renders the guide at padded 1024 geometry from the walk:2 anchor skeleton (crown 82 / ground 1000 / weapon [70,636]→[972,190] = 503.12px@512, −26.31°), lower body adapted to Xu Chu proportions: strut 31.87° / shin 25.94°, knee bend 11.17°, heel 80px@512 ahead of hip, hips back over a 52.94° bent rear support (ankle −4px vs hip, heel +6px — not vertical-shin contact, not trailing toe-off).
