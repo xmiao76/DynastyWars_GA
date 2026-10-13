@@ -1,0 +1,373 @@
+{
+  "work": "cmr15a-alt-phase1-diagnostic",
+  "experiment": 2,
+  "stage": "A extraction+registration+measurement",
+  "zeroGeneration": true,
+  "statusNote": "DIAGNOSTIC ONLY — CMR-15A remains BLOCKED; nothing banked/copied to accepted paths.",
+  "source": {
+    "path": "art/motion/xuchu/walk-candidate-2.png",
+    "sha256": "bad2aee559b2835f38433e74e7a696696baa13d9d84d28b13afa740d25ca7e6c",
+    "size": [
+      1536,
+      1024
+    ]
+  },
+  "componentAnalysis": {
+    "thresholdAlphaGE": 8,
+    "connectivity": 8,
+    "totalComponents": 13,
+    "figureComponents": [
+      {
+        "id": 0,
+        "cnt": 82786,
+        "bounds": [
+          52,
+          31,
+          520,
+          498
+        ]
+      },
+      {
+        "id": 1,
+        "cnt": 85996,
+        "bounds": [
+          567,
+          40,
+          1044,
+          498
+        ]
+      },
+      {
+        "id": 2,
+        "cnt": 81129,
+        "bounds": [
+          1055,
+          45,
+          1512,
+          501
+        ]
+      },
+      {
+        "id": 6,
+        "cnt": 83364,
+        "bounds": [
+          65,
+          531,
+          534,
+          976
+        ]
+      },
+      {
+        "id": 7,
+        "cnt": 78620,
+        "bounds": [
+          570,
+          534,
+          1050,
+          978
+        ]
+      },
+      {
+        "id": 8,
+        "cnt": 80153,
+        "bounds": [
+          1057,
+          542,
+          1514,
+          984
+        ]
+      }
+    ],
+    "thresholdSensitivity": "probe: alpha>=1 merges faint background smears into bounds (still 6 max components); alpha>=4/8/16/128 all yield exactly 6 figure components with near-identical bounds",
+    "minPixelDistanceWalk0ToWalk1": 146,
+    "minPixelDistanceWalk1ToWalk2": 105
+  },
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500
+  },
+  "cells": {
+    "walk0": {
+      "key": "walk:0",
+      "component": {
+        "id": 0,
+        "cntAlphaGE8": 82786,
+        "boundsSheet": [
+          52,
+          31,
+          520,
+          498
+        ],
+        "nominalCellOrigin": [
+          0,
+          0
+        ],
+        "spillBeyondNominalRightPx": 9,
+        "priorNominalCellSha256": "6bfff0f6aa45105fd34c758e5900dd321f7c2079369faaf42dafdcad24c53eca"
+      },
+      "extracted": {
+        "path": "art/motion/xuchu/alternative/walk0-extracted.png",
+        "sha256": "14ad2e1cd69cb96f34c191cade275ac6b71f5227e49af80fa71707352e3d70e9",
+        "size": [
+          469,
+          468
+        ]
+      },
+      "landmarksSheet": {
+        "butt": [
+          52,
+          303
+        ],
+        "tip": [
+          515,
+          86
+        ],
+        "topBlade": [
+          514,
+          86
+        ],
+        "crown": 31,
+        "ground": 498,
+        "bootClusters": [
+          {
+            "x0": 98,
+            "x1": 178,
+            "ymax": 498,
+            "cnt": 4428
+          },
+          {
+            "x0": 250,
+            "x1": 354,
+            "ymax": 491,
+            "cnt": 5201
+          }
+        ]
+      },
+      "registration": {
+        "rule": "uniform scale factor=459/(ymax-ymin+1) then translate ground(ymax)->500@512, alpha bounds centred horizontally (attempt3 gate convention)",
+        "bodyHeightPx": 468,
+        "factor": 0.9807692307692307,
+        "factorPct": -1.9230769230769273,
+        "withinPlusMinus12Pct": true,
+        "dx": -24.5,
+        "dy": 11.576923076923094
+      },
+      "registered": {
+        "path": "art/motion/xuchu/alternative/walk0-registered.png",
+        "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450",
+        "rasterBounds": {
+          "xmin": 27,
+          "ymin": 42,
+          "xmax": 486,
+          "ymax": 500
+        },
+        "greenPx": 0,
+        "edgeOpaquePx": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "landmarksRegistered": {
+        "weapon": {
+          "butt": [
+            26.5,
+            308.75
+          ],
+          "tip": [
+            480.5961538461538,
+            95.92307692307693
+          ]
+        },
+        "beard": [
+          255.01923076923077,
+          137.11538461538464
+        ],
+        "crownY": 41.98076923076925,
+        "groundY": 500,
+        "bootClustersRegistered": [
+          {
+            "x": [
+              71.61538461538461,
+              150.07692307692307
+            ],
+            "soleY": 500,
+            "cnt": 4428
+          },
+          {
+            "x": [
+              220.69230769230768,
+              322.6923076923077
+            ],
+            "soleY": 493.13461538461536,
+            "cnt": 5201
+          }
+        ]
+      },
+      "weaponRegistered": {
+        "pxAt512": 501.49637698019353,
+        "u": 130.36803091309014,
+        "inBand": true,
+        "deltaPctVsAnchor": -0.32276318189065006,
+        "spreadAnchorVsCandCanonical": 0.0032328490421235406,
+        "angleDeg": -25.11166429351247,
+        "anchorAngleDeg": -26.31040494480514,
+        "angleDeltaDegVsAnchor": 1.1987406512926704,
+        "corridorPerpPxVsAnchorLine": {
+          "butt": 12.05924395159806,
+          "tip": 1.5677166206803692,
+          "corridorLimitPx": 14
+        },
+        "tipInsideFrame": true,
+        "tipRightMarginPxAt512": 31.40384615384619
+      },
+      "wholeLengthMeasurable": true,
+      "tipClippedInSheet": false
+    },
+    "walk1": {
+      "key": "walk:1",
+      "component": {
+        "id": 1,
+        "cntAlphaGE8": 85996,
+        "boundsSheet": [
+          567,
+          40,
+          1044,
+          498
+        ],
+        "nominalCellOrigin": [
+          512,
+          0
+        ],
+        "spillBeyondNominalRightPx": 21,
+        "priorNominalCellSha256": "98c283b5283c1f87252a35f1a41c1b4aedf7844bd9fb0c191beb592c684e429d"
+      },
+      "extracted": {
+        "path": "art/motion/xuchu/alternative/walk1-extracted.png",
+        "sha256": "14f2d07f07699c123b917971f3025b4d296bdf1cc04fb1bfe468ca6d443b597a",
+        "size": [
+          478,
+          459
+        ]
+      },
+      "landmarksSheet": {
+        "butt": [
+          567,
+          310
+        ],
+        "tip": [
+          1042,
+          98
+        ],
+        "topBlade": [
+          1039,
+          93
+        ],
+        "crown": 40,
+        "ground": 498,
+        "bootClusters": [
+          {
+            "x0": 581,
+            "x1": 688,
+            "ymax": 495,
+            "cnt": 4525
+          },
+          {
+            "x0": 791,
+            "x1": 928,
+            "ymax": 498,
+            "cnt": 6105
+          }
+        ]
+      },
+      "registration": {
+        "rule": "uniform scale factor=459/(ymax-ymin+1) then translate ground(ymax)->500@512, alpha bounds centred horizontally (attempt3 gate convention)",
+        "bodyHeightPx": 459,
+        "factor": 1,
+        "factorPct": 0,
+        "withinPlusMinus12Pct": true,
+        "dx": -549.5,
+        "dy": 2
+      },
+      "registered": {
+        "path": "art/motion/xuchu/alternative/walk1-registered.png",
+        "sha256": "2de4d8490eff7f1751785c312dc1fac6518e6d6d40d03befefc8e9bee113367c",
+        "rasterBounds": {
+          "xmin": 18,
+          "ymin": 42,
+          "xmax": 495,
+          "ymax": 500
+        },
+        "greenPx": 0,
+        "edgeOpaquePx": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "landmarksRegistered": {
+        "weapon": {
+          "butt": [
+            17.5,
+            312
+          ],
+          "tip": [
+            492.5,
+            100
+          ]
+        },
+        "beard": [
+          254.5,
+          140
+        ],
+        "crownY": 42,
+        "groundY": 500,
+        "bootClustersRegistered": [
+          {
+            "x": [
+              31.5,
+              138.5
+            ],
+            "soleY": 497,
+            "cnt": 4525
+          },
+          {
+            "x": [
+              241.5,
+              378.5
+            ],
+            "soleY": 500,
+            "cnt": 6105
+          }
+        ]
+      },
+      "weaponRegistered": {
+        "pxAt512": 520.1624746173064,
+        "u": 135.22043365313624,
+        "inBand": true,
+        "deltaPctVsAnchor": 3.387303570431943,
+        "spreadAnchorVsCandCanonical": 0.03330889894273994,
+        "angleDeg": -24.051961132205076,
+        "anchorAngleDeg": -26.31040494480514,
+        "angleDeltaDegVsAnchor": 2.2584438126000634,
+        "corridorPerpPxVsAnchorLine": {
+          "butt": 13.135030475773338,
+          "tip": 7.363050676780257,
+          "corridorLimitPx": 14
+        },
+        "tipInsideFrame": true,
+        "tipRightMarginPxAt512": 19.5
+      },
+      "wholeLengthMeasurable": true,
+      "tipClippedInSheet": false
+    }
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "work": "cmr15a-alt-phase1-diagnostic",
+  "experiment": 1,
+  "key": "walk:3",
+  "method": "distal-segment micro-rotation around front grip",
+  "zeroGeneration": true,
+  "statusNote": "DIAGNOSTIC ONLY — CMR-15A remains BLOCKED; nothing banked/copied to accepted paths.",
+  "source": {
+    "path": "art/motion/xuchu/closeout-campaign/02-walk3/attempt3/registered.png",
+    "sha256": "2d21f6cdb34deea98efae12d1fac396d7c1e26150cc82bc36de2ccb6242b14d4",
+    "size": [
+      512,
+      512
+    ]
+  },
+  "frozenBriefBand": {
+    "bodyHeightPxAt512": 459,
+    "weaponLengthPxAt512": 503.12026395286443,
+    "weaponBandU": {
+      "lo": 124.40626991803302,
+      "hi": 137.50166675151021
+    },
+    "weaponAngleDegAt512": -26.31040494480514,
+    "groundYAt512": 500
+  },
+  "anchorWeaponAt512": {
+    "butt": [
+      35,
+      318
+    ],
+    "tip": [
+      486,
+      95
+    ]
+  },
+  "frontGrip": {
+    "method": "centroid of skin-tone pixels (r>110,g>60,b<110,r>b+25, alpha>=16) with chord-frame t in [270,345], o in [-10,55] (front hand cluster; probe histogram peak t 280-320)",
+    "skinPx": 836,
+    "skinTRange": [
+      270.0680441018148,
+      337.011693489274
+    ],
+    "pivotPxAt512": [
+      305.66866028708137,
+      221.94497607655504
+    ],
+    "pivotChordFrame": {
+      "t": 301.69191539926015,
+      "o": 23.319685037087424
+    }
+  },
+  "rotation": {
+    "rule": "Rotate source pixels with chord-frame t>=T_CUT and o in O_BAND around PIVOT by theta = frozenAngle - angle(butt->tip) (rigid rotation turns all segment directions by theta; aligning the measured weapon chord direction to the frozen direction). Inverse-mapped premultiplied bilinear resample (deterministic). Cut plane t=325 sits just distal to the fingers so the kink is at the hand exit; skin-tone (hand) output pixels are guarded byte-identical; skin-classified px inside the geometric rotating set are counted below (includes warm steel highlights meeting the skin colour test).",
+    "chordAngleDeg": -24.97819419923045,
+    "pivotTipAngleDeg": -31.418188630363677,
+    "frozenAngleDeg": -26.31040494480514,
+    "thetaDeg": -1.332210745574688,
+    "thetaMinDegForPerp14": -0.3760000000000003,
+    "tCut": 325,
+    "oBand": [
+      -8,
+      98
+    ],
+    "rotatingSourcePx": 7344,
+    "skinPxInRotatingSet": 169,
+    "tipBefore": [
+      483.0957142857142,
+      113.56571428571431
+    ],
+    "tipAfter": [
+      480.5280057716867,
+      109.46994251951715
+    ],
+    "tipDisplacementPx": 4.834094886717388,
+    "seamOffsetAtCutCentrePx": 0.5637542318766681,
+    "cutCentreShaftPoint": [
+      329.6176249182107,
+      218.1580896436298
+    ],
+    "cutCentreAfterRot": [
+      329.5231087192907,
+      217.60231493918513
+    ],
+    "rasterTipCheck": {
+      "maxProjectionPx": [
+        483,
+        109
+      ],
+      "tAlongNewAxis": 510.14756358963086,
+      "topmostBladePxXGE380": [
+        480,
+        108
+      ]
+    }
+  },
+  "writableRegion": {
+    "definition": "output px whose chord-frame (t,o) has t>=323 and o in [-12,102], OR whose inverse-rotated source coords satisfy the same; all other pixels copied byte-identical",
+    "outsideHashBefore": "330cd1dc07db871e77d8750115d2d6dcfe22ff08af7c7dec1c99eeb24350f695",
+    "outsideHashAfter": "330cd1dc07db871e77d8750115d2d6dcfe22ff08af7c7dec1c99eeb24350f695",
+    "identical": true,
+    "changedPxInside": 7752,
+    "changedPxOutside": 0,
+    "changedPxYAtLeast300": 0,
+    "changedPxLegsYAtLeast340": 0
+  },
+  "output": {
+    "path": "art/motion/xuchu/alternative/walk3-rotated.png",
+    "sha256": "dc3e699fabf115ea6ab3c064b51680862697a59a85c70cfa627252f41dff1ea7",
+    "size": [
+      512,
+      512
+    ]
+  },
+  "weaponBefore": {
+    "pxAt512": 508.2896311822098,
+    "u": 132.13399217315308,
+    "inBand": true,
+    "deltaPctVsAnchor": 1.027461543435203,
+    "spreadAnchorVsCandCanonical": 0.010222101354179449,
+    "angleDeg": -24.97819419923045,
+    "anchorAngleDeg": -26.31040494480514,
+    "angleDeltaDegVsAnchor": 1.332210745574688,
+    "corridorPerpPxVsAnchorLine": {
+      "butt": 3.5377255819260185,
+      "tip": 15.355138685678535,
+      "corridorLimitPx": 14
+    },
+    "tipInsideFrame": true,
+    "tipRightMarginPxAt512": 28.904285714285777
+  },
+  "weaponAfter": {
+    "pxAt512": 507.71428095015926,
+    "u": 131.98442523651937,
+    "inBand": true,
+    "deltaPctVsAnchor": 0.9131051413435471,
+    "spreadAnchorVsCandCanonical": 0.009089552826344226,
+    "angleDeg": -25.519541646452243,
+    "anchorAngleDeg": -26.31040494480514,
+    "angleDeltaDegVsAnchor": 0.790863298352896,
+    "corridorPerpPxVsAnchorLine": {
+      "butt": 3.5377255819260185,
+      "tip": 10.545568810334045,
+      "corridorLimitPx": 14
+    },
+    "tipInsideFrame": true,
+    "tipRightMarginPxAt512": 31.471994228313292
+  },
+  "raster": {
+    "alphaBounds": {
+      "xmin": 22,
+      "ymin": 41,
+      "xmax": 487,
+      "ymax": 500
+    },
+    "greenPx": 0,
+    "edgeOpaquePx": {
+      "left": 0,
+      "right": 0,
+      "top": 0,
+      "bottom": 0
+    }
+  },
+  "gatesNumeric": {
+    "weaponLengthPass": true,
+    "weaponCorridorPass": true,
+    "weaponDirectionPass": true,
+    "bodyPass": true,
+    "groundPass": true,
+    "seamsNumericPass": true,
+    "outsideWeaponRegionUnchanged": true,
+    "gaitGroundPixelsUnchanged": true
+  },
+  "allNumericPass": true,
+  "carriedVerdictsUnchangedPixels": "Identity/anatomy/gait/scale-ground/head-RAW pixels outside W are byte-identical to attempt3 registered.png, whose gate.json recorded PASS for identity/anatomy/gait Contact-B/scale-ground and head RAW 0px; visual re-check of full/legs/seam/tip zooms recorded in REPORT.md."
+}
