@@ -38,5 +38,12 @@
   "textToImage": false,
   "gatesRun": false,
   "extractionRun": false,
-  "banked": false
+  "banked": false,
+  "sparesAssessment": {
+    "work": "cmr15a-charge-spares-assessment (2026-10-13, zero generation, after keeps gate cmr15a-phase3-charge-gates)",
+    "verdict": "NO COHERENT 5-CELL SET - NOT BANKED (no accepted cells); spares 5-8 registered at keeps sheet scale 1.3540/groundY500: cell5 164.38u->159.77u max-retouch proof FAIL, cell6 183.39u->179.35u FAIL, cell7 157.58u->139.65u FAIL (9px deficit, genuine brake), cell8 147.15u->132.80u PASS after applied retouch but guard duplicate of passing cell0; crouch-coil uncovered by any spare; single focused-fix brief written for a later package (not executed)",
+    "evidence": ["art/motion/xuchu/closeout-campaign/07-charge/spares/SPARE-ASSESSMENT.md", "art/motion/xuchu/closeout-campaign/07-charge/spares/spares-gate.json", "art/motion/xuchu/closeout-campaign/07-charge/spares/spares-measure.json"],
+    "ledgerVerifiedUnchanged": { "sha256": "1fd2c67d57c95de3d086938f51d7c36ce0b9fec8731a3d292506f2609b3f6a94", "xuchuUsed": 14, "charge": 1, "globalUsed": 181, "ceilings": "22/189" },
+    "banked": false
+  }
 }
