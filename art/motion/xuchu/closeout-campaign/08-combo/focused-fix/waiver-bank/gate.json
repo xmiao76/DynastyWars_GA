@@ -1,0 +1,427 @@
+{
+  "work": "cmr15a-combo-waiver-bank",
+  "grant": "CMR-15A PROCESS CORRECTION + COMBO WAIVER-BANK + HEAVY FIX (owner, 2026-10-13; verbatim in TASKS.md CMR-15A): combo part only in this package — ART WAIVER (early, exact hashes only, FAIL retained, superseding batch-end timing as for charge): cell1 df6196ff... 140.96u +3.46 and cell3 18c68a00... 143.48u +5.98, plus resulting 9.54% spread; bank combo cells0-4 zero-generation on re-verification (count -> 0). No heavy work in this package.",
+  "method": "waiver-bank/reverify.mjs: fresh SHA-256 + pngjs raster spot checks (canvas, greenPx, edge alpha, alpha bounds vs measure.json) on focused-fix gate final cells0-4; non-waived gates taken from gate.json (identity/anatomy/poseRole/scaleGround/seams PASS, direction steps <=38.41deg, head RAW) and sequence contact re-opened visually this package; accepted/ byte copies written only if all checks reproduce. Deterministic rerun.",
+  "sheet": {
+    "path": "art/motion/xuchu/closeout-campaign/08-combo/focused-fix/candidate-raw.png",
+    "sha256": "e316128362dca38e128cdfed08d8ba2e7a2f61807e94c596893dab5fcfd621ef",
+    "size": [
+      1536,
+      1024
+    ],
+    "components": 9
+  },
+  "ledgerVerified": {
+    "sha256": "adbadcd5c985dbbbf114b2e815344815abe0facb9b7da7b43333c848c9b15a1f",
+    "xuchuUsed": 18,
+    "globalUsed": 185,
+    "matches": true,
+    "expected": "Xu Chu 18 / global 185 (zero generation)",
+    "ceilings": "25/192"
+  },
+  "cells": [
+    {
+      "cell": 0,
+      "name": "cell0-windup",
+      "finalFile": "cell0-windup-registered.png",
+      "finalHash": "38e987905398b2c380492dcc887e421d055797d6869c01f3a43ebdcbd5d354b8",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        512
+      ],
+      "freshBounds": {
+        "xmin": 251,
+        "ymin": 41,
+        "xmax": 775,
+        "ymax": 502
+      },
+      "measureBounds": {
+        "xmin": 251,
+        "ymin": 41,
+        "xmax": 775,
+        "ymax": 502
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 251,
+          "x1": 327,
+          "soleY": 502
+        },
+        {
+          "x0": 554,
+          "x1": 678,
+          "soleY": 499
+        }
+      ],
+      "weapon": {
+        "finalU": 135.4,
+        "finalPx": 520.87,
+        "angleDegRaw": 9.08,
+        "buttCapVisible": true
+      },
+      "gatesFromGateJson": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; sheet, all 9 marked cells, keeps/spares contacts and cell2 cap/tip zooms opened; butt/tip markers verified on caps/on tip in every marked cell)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: windup / rising-cut strike / follow-through / horizontal sweep strike / recover)",
+        "weaponLength": "PASS",
+        "weaponAngleDegRaw": 9.08,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet proxy in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end ruling reserved)",
+      "bankEligible": true
+    },
+    {
+      "cell": 1,
+      "name": "cell1-rising-cut",
+      "finalFile": "cell1-rising-cut-retouched.png",
+      "finalHash": "df6196ff6cc638f6f8319ad18803a03ad7ab1ee82565545fc6d898d05e08a3e9",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        512
+      ],
+      "freshBounds": {
+        "xmin": 222,
+        "ymin": 38,
+        "xmax": 803,
+        "ymax": 502
+      },
+      "measureBounds": {
+        "xmin": 222,
+        "ymin": 38,
+        "xmax": 803,
+        "ymax": 502
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 222,
+          "x1": 293,
+          "soleY": 502
+        },
+        {
+          "x0": 548,
+          "x1": 673,
+          "soleY": 500
+        }
+      ],
+      "weapon": {
+        "finalU": 140.96,
+        "finalPx": 542.25,
+        "angleDegRaw": -29.33,
+        "buttCapVisible": true
+      },
+      "gatesFromGateJson": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; sheet, all 9 marked cells, keeps/spares contacts and cell2 cap/tip zooms opened; butt/tip markers verified on caps/on tip in every marked cell)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: windup / rising-cut strike / follow-through / horizontal sweep strike / recover)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -29.33,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet proxy in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "lengthStatus": "FAIL NOT PASS — waived exact hash only (owner COMBO WAIVER-BANK grant): 140.96u OUT_HIGH +3.46u",
+      "head": "RAW (batch-end ruling reserved)",
+      "bankEligible": true
+    },
+    {
+      "cell": 2,
+      "name": "cell2-follow-through",
+      "finalFile": "cell2-follow-through-registered.png",
+      "finalHash": "8aa01ca269c5420f1499c4fb8cb6d0135f7e591902f37102bfac4069aef022e5",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        512
+      ],
+      "freshBounds": {
+        "xmin": 230,
+        "ymin": 29,
+        "xmax": 795,
+        "ymax": 501
+      },
+      "measureBounds": {
+        "xmin": 230,
+        "ymin": 29,
+        "xmax": 795,
+        "ymax": 501
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 230,
+          "x1": 299,
+          "soleY": 501
+        },
+        {
+          "x0": 513,
+          "x1": 636,
+          "soleY": 496
+        }
+      ],
+      "weapon": {
+        "finalU": 130.49,
+        "finalPx": 501.98,
+        "angleDegRaw": -21.46,
+        "buttCapVisible": true
+      },
+      "gatesFromGateJson": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; sheet, all 9 marked cells, keeps/spares contacts and cell2 cap/tip zooms opened; butt/tip markers verified on caps/on tip in every marked cell)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: windup / rising-cut strike / follow-through / horizontal sweep strike / recover)",
+        "weaponLength": "PASS",
+        "weaponAngleDegRaw": -21.46,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet proxy in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end ruling reserved)",
+      "bankEligible": true
+    },
+    {
+      "cell": 3,
+      "name": "cell3-sweep",
+      "finalFile": "cell3-sweep-retouched.png",
+      "finalHash": "18c68a0075163b7245a272413eca488be3a0ee6b2fc30dcfa0a7b2120bdbbda3",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        512
+      ],
+      "freshBounds": {
+        "xmin": 152,
+        "ymin": 75,
+        "xmax": 874,
+        "ymax": 502
+      },
+      "measureBounds": {
+        "xmin": 152,
+        "ymin": 75,
+        "xmax": 874,
+        "ymax": 502
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 152,
+          "x1": 227,
+          "soleY": 502
+        },
+        {
+          "x0": 467,
+          "x1": 600,
+          "soleY": 499
+        }
+      ],
+      "weapon": {
+        "finalU": 143.48,
+        "finalPx": 551.94,
+        "angleDegRaw": -7.24,
+        "buttCapVisible": true
+      },
+      "gatesFromGateJson": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; sheet, all 9 marked cells, keeps/spares contacts and cell2 cap/tip zooms opened; butt/tip markers verified on caps/on tip in every marked cell)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: windup / rising-cut strike / follow-through / horizontal sweep strike / recover)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -7.24,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet proxy in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "lengthStatus": "FAIL NOT PASS — waived exact hash only (owner COMBO WAIVER-BANK grant): 143.48u OUT_HIGH +5.98u",
+      "head": "RAW (batch-end ruling reserved)",
+      "bankEligible": true
+    },
+    {
+      "cell": 4,
+      "name": "cell4-recover",
+      "finalFile": "cell4-recover-registered.png",
+      "finalHash": "3f6a773dd72d714c91faeb985c4bbacf0f8b4b6e6966031cd7b70627576d4c90",
+      "hashMatchesGate": true,
+      "canvas": [
+        1024,
+        512
+      ],
+      "freshBounds": {
+        "xmin": 255,
+        "ymin": 42,
+        "xmax": 772,
+        "ymax": 502
+      },
+      "measureBounds": {
+        "xmin": 255,
+        "ymin": 42,
+        "xmax": 772,
+        "ymax": 502
+      },
+      "boundsMatch": true,
+      "greenPx": 0,
+      "edge": {
+        "l": 0,
+        "r": 0,
+        "t": 0,
+        "b": 0
+      },
+      "seamsSpotCheck": "PASS",
+      "groundSpotCheck": "PASS",
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 255,
+          "x1": 327,
+          "soleY": 502
+        },
+        {
+          "x0": 520,
+          "x1": 645,
+          "soleY": 500
+        }
+      ],
+      "weapon": {
+        "finalU": 130.71,
+        "finalPx": 502.81,
+        "angleDegRaw": -26.12,
+        "buttCapVisible": true
+      },
+      "gatesFromGateJson": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent; sheet, all 9 marked cells, keeps/spares contacts and cell2 cap/tip zooms opened; butt/tip markers verified on caps/on tip in every marked cell)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role: windup / rising-cut strike / follow-through / horizontal sweep strike / recover)",
+        "weaponLength": "PASS",
+        "weaponAngleDegRaw": -26.12,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, no retouch applied)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet proxy in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "lengthStatus": "PASS",
+      "head": "RAW (batch-end ruling reserved)",
+      "bankEligible": true
+    }
+  ],
+  "directionSteps": [
+    {
+      "from": "cell0-windup",
+      "to": "cell1-rising-cut",
+      "fromAngDeg": 9.08,
+      "toAngDeg": -29.33,
+      "stepDeg": 38.41,
+      "passLe60": true
+    },
+    {
+      "from": "cell1-rising-cut",
+      "to": "cell2-follow-through",
+      "fromAngDeg": -29.33,
+      "toAngDeg": -21.46,
+      "stepDeg": 7.87,
+      "passLe60": true
+    },
+    {
+      "from": "cell2-follow-through",
+      "to": "cell3-sweep",
+      "fromAngDeg": -21.46,
+      "toAngDeg": -7.24,
+      "stepDeg": 14.22,
+      "passLe60": true
+    },
+    {
+      "from": "cell3-sweep",
+      "to": "cell4-recover",
+      "fromAngDeg": -7.24,
+      "toAngDeg": -26.12,
+      "stepDeg": 18.88,
+      "passLe60": true
+    }
+  ],
+  "directionPass": true,
+  "lengthSpreadKeeps": {
+    "finalUs": [
+      135.4,
+      140.96,
+      130.49,
+      143.48,
+      130.71
+    ],
+    "spreadPct": 9.54
+  },
+  "spreadStatus": "9.54% NOT PASS — waived as resulting spread for the exact banked set (same grant), failed figure retained",
+  "verdict": "BANKED cells0-4 (cells0/2/4 PASS; cell1/cell3 weapon length FAIL NOT PASS waived exact hashes only; spread 9.54% NOT PASS waived; head RAW)",
+  "banked": true,
+  "accepted": [
+    {
+      "cell": 0,
+      "file": "accepted/cell0-windup.png",
+      "sha256": "38e987905398b2c380492dcc887e421d055797d6869c01f3a43ebdcbd5d354b8"
+    },
+    {
+      "cell": 1,
+      "file": "accepted/cell1-rising-cut.png",
+      "sha256": "df6196ff6cc638f6f8319ad18803a03ad7ab1ee82565545fc6d898d05e08a3e9"
+    },
+    {
+      "cell": 2,
+      "file": "accepted/cell2-follow-through.png",
+      "sha256": "8aa01ca269c5420f1499c4fb8cb6d0135f7e591902f37102bfac4069aef022e5"
+    },
+    {
+      "cell": 3,
+      "file": "accepted/cell3-sweep.png",
+      "sha256": "18c68a0075163b7245a272413eca488be3a0ee6b2fc30dcfa0a7b2120bdbbda3"
+    },
+    {
+      "cell": 4,
+      "file": "accepted/cell4-recover.png",
+      "sha256": "3f6a773dd72d714c91faeb985c4bbacf0f8b4b6e6966031cd7b70627576d4c90"
+    }
+  ],
+  "prospectivePostSalvageCount": 0,
+  "countNote": "Under the grant process rules the retroactive prospective count was 1 (combo focused-fix; heavy not counted — its focused fix unspent); banking combo resets it to 0.",
+  "generation": "zero in this package"
+}
