@@ -1,0 +1,41 @@
+{
+  "work": "cmr15a-walk5-gpt-generate",
+  "key": "walk:5",
+  "attempt": "WALK:5 GPT GUIDE ATTEMPT: exactly ONE additional guide-guided isolated single-pose EDIT, provider gpt-preferred (owner grant 2026-10-13; if Brake fails again at later gates STOP for owner decision - no third generation attempt)",
+  "status": "UNREVIEWED - generated only; no gates run, not banked (no accepted.png) in this package",
+  "provider": {
+    "requested": "gpt",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt per owner grant; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/04-walk5/gpt-attempt/candidate-raw.png",
+    "sha256": "1bc806bbd4eb977e4581811c4b41aaf33c9db4b7078b5d627a30a04d37a1e4ce",
+    "bytes": 1290274,
+    "size": [
+      1254,
+      1254
+    ],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T02-24-39-206Z-jjng09-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy; PNG magic 89 50 4E 47, IHDR 1254x1254)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/04-walk5/gpt-attempt/prompt.txt",
+    "sourceFile": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/prompt.txt",
+    "sourceSha256": "cf0180fac81c409af0c420db552ca39d560a2f4da2aa121bee24f7c65134df25",
+    "sha256": "66cd8c773241a6ba444e98d176e1605f241571af6e8ce455970f927758bdff75",
+    "construction": "guide-spec prompt.txt exact pose/identity text + owner-grant binding Brake override verbatim (guide lower-body joints binding; diagonal braced strut, heel far ahead, knee nearly straight, hips/weight back over rear support; no ordinary stride / vertical-shin contact / trailing toe-off)"
+  },
+  "references": [
+    { "order": 1, "role": "clean Brake pose guide", "path": "art/motion/xuchu/closeout-campaign/04-walk5/phase2-guide/guide-walk5-brake.png", "sha256": "6e7819c34e8395838575f78b6645e7383c8f326828e281e982f0bba4cd9215fe", "size": [1024, 1024] },
+    { "order": 2, "role": "banked walk:2 anchor (via candidate-raw.jpg, the file used by guide-spec)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "banked walk:4 anchor (accepted)", "path": "art/motion/xuchu/closeout-campaign/03-walk4/attempt2/accepted.png", "sha256": "75488eb18b330aef398faede00f59a000f20d7a3659d6c2ec24e031f29c0a6ad", "size": [512, 512] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in the exact binding order 1->2->3 immediately before the single call; the same order was passed as referenceImages; hashes re-verified equal to guide-spec.json before reservation",
+  "reserveCommit": "eada279044d14940cc264a9ed10a257cd5df4d10",
+  "ledgerAfter": { "xuchuUsed": 13, "walk": 13, "globalSummed": 180, "ceilings": "22/189", "sha256": "e22523da1e58847eaa6aa723cc7a03c681dd985cfa7da1c082eab4a667bf0951" },
+  "size": "1024x1024 (requested; served native 1254x1254)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "banked": false
+}

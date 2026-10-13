@@ -4,6 +4,10 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-13 — CMR-15A WALK:5 GPT GUIDE ATTEMPT candidate GENERATED, UNREVIEWED (IN_PROGRESS, no gates, not banked)
+
+- Work `cmr15a-walk5-gpt-generate`: owner grant recorded verbatim in TASKS.md CMR-15A, status BLOCKED→IN_PROGRESS prospectively (history/banked walk:0–4/frozen band preserved); reserve-before-call committed `eada279` ([reservation.json](art/motion/xuchu/closeout-campaign/04-walk5/gpt-attempt/reservation.json) + combined prompt `66cd8c77…`, Xu Chu 12→13 / walk 13 / global 179→180, ceilings 22/189), then exactly ONE gpt-preferred isolated single-pose EDIT (serving UNCONFIRMED) with references read and sent in exact order: clean Brake guide `6e7819c3…` → banked walk:2 via candidate-raw.jpg `893c90d7…` → banked walk:4 `75488eb1…`. Candidate `1bc806bb…` 1254×1254 PNG saved as `04-walk5/gpt-attempt/candidate-raw.png` with `candidate.json` **UNREVIEWED**; no gates run, nothing banked, no second call, never pushed. Next: separate salvage+gating package (Brake fail again = STOP for owner, no third generation).
+
 ### 2026-10-13 — CMR-15A Phase 2 walk:5 REJECT after salvage (Brake FAIL = grant STOP; BLOCKED WAITING_FOR_OWNER, zero generation)
 
 - Work `cmr15a-walk5-phase2-gates`: sole Phase-2 candidate `4d9a7308…` (reserve `2c2d7e2`, Xu Chu 12/global 179) gated campaign-standard (`04-walk5/phase2/gate.mjs`/`gate.json`; candidate + probe/gate zooms + registered + marked + guide/anchors opened; rerun hash-identical). Salvage in order: registration factor 1.0528 (+5.28% ≤±12%) → `registered.png` `01b4c214…` (body 459px@512, ground 0.00u); shaft retouch n/a — weapon 134.64u in frozen band [124.41,137.50]u, angle Δ+0.40°, corridor butt 6.45/tip 2.87px vs 14px, tip inside; splice not attempted (grips not demonstrated aligned, cannot cure gait). Identity/anatomy/seams PASS (greenPx=0/magentaPx=0, no clipping); head RAW 0px (not a reject).
