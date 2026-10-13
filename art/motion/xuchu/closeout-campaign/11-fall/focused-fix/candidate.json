@@ -1,0 +1,46 @@
+{
+  "work": "cmr15a-fall-focused-fix-generate",
+  "key": "fall",
+  "attempt": "CMR-15A Phase-3 fall ONE focused fix (exactly ONE sheet EDIT of the original fall sheet, provider as original fall generation); generation only - no extraction/retouch/gates/splice/banking/getup",
+  "status": "UNREVIEWED - generated only; no gates run, not banked in this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "original fall generation recorded provider requested gpt, serving UNCONFIRMED (11-fall/candidate.json) -> gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/candidate-raw.png",
+    "sha256": "44eb667de76a123393c9a7286c819ebc6c3ef263ab697eb7503108cf6e0aaf2a",
+    "bytes": 2177134,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T08-33-09-362Z-3vxbw5-0.png (byte-copied unchanged to focused-fix/candidate-raw.png; sha256/bytes verified after copy)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/prompt.txt",
+    "sha256": "39b5c2b3207ec3403bea4c2f841468cd8f71cddc76f57e644366a9516fcd2fe6",
+    "construction": "briefed verbatim from 11-fall/gate/gate.json focusedFixBrief (53624ded...): edit original fall sheet only; preserve all poses/identity/layout/ground exactly and cell3-impact completely unchanged (132.06u PASS, gripped); cells0/1 BOTH hands visibly wrapped around the haft (work-order steer; gate minimum was one hand) fixing the floating-glaive grip FAILs, cell1 additionally shortened ~2-3% into the band (138.32u +0.82u after max retouch); cell2 complete round butt cap drawn in empty space beyond the grip at full native 408-451px target ~429 (haft previously ended blunt behind skirt); cell4-DOWN glaive lengthened ~+5-8% native 392->412-430px = registered 479-529px target ~504px at scale 1.1739, exact flat prone grounded pose preserved, cap ball clear of the legs; caps+tips fully in frame; spares5-8 unchanged; no other changes"
+  },
+  "editTargetOriginal": {
+    "path": "art/motion/xuchu/closeout-campaign/11-fall/candidate-raw.png",
+    "sha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd",
+    "failedCriteriaBeingFixed": "11-fall/gate/gate.json after max deterministic retouch + corrected prone probe: cell0-topple grip FAIL (131.87u length PASS); cell1-airborne 138.32u +0.82u OUT_HIGH + grip FAIL; cell2-tumble butt cap not drawn (unmeasurable stub); cell4-DOWN 119.76u -4.65u OUT_LOW only-length FAIL (waiver-eligible exact hash 21d08a4f... held on the original, NOT banked); cell3-impact PASS 132.06u preserved; spares no coherent set"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET original fall sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/11-fall/candidate-raw.png", "sha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4->5 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds",
+  "reserveCommit": "01e3f6f2cbbd13d31b14bbdaf37910aac252d858",
+  "ledgerAfter": { "xuchuUsed": 23, "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "fall": 2, "globalSummed": 190, "ceilings": "25/192", "nominal": "cap 12 / global 200 unchanged", "sha256": "62a686fbdb777a68c1619e56714c6500b113bd3742486cc458f7e2409717dc02" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false,
+  "nextStep": "separate deterministic registration/retouch + full gates package; per-cell splice across original+fix sheets permitted there (original cell3 passes, original cell4 waiver-eligible hash held); a post-fix unusable fall would become consecutive post-fix #1 (count currently 0) - not decided here; no getup before that gate"
+}
