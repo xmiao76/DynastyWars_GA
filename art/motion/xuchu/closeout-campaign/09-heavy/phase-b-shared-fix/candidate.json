@@ -1,0 +1,39 @@
+{
+  "work": "cmr15a-heavy-shared-fix-generate",
+  "key": "heavy",
+  "cell": "cell2-crushing-chop (LEFT) + cell3-follow-through (RIGHT) ONE shared two-panel length-only fix (COMPLETION CAMPAIGN Phase B)",
+  "status": "UNREVIEWED - generated only; no split, extraction, registration, measurement, gates, selection or banking in this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/candidate-raw.png",
+    "sha256": "2035a2d18e4b9ad3779bc73fb62c666e581157f8e6260d0a80932d3ae211f54b",
+    "bytes": 1304345,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T20-05-21-124Z-xp2abf-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/prompt.txt",
+    "sha256": "2958c24c36828aeb2445c8f375f1ea2c8ee1f8b6d4c342fcefbefe55e8a059d8",
+    "construction": "two-panel EDIT of the deterministic two-panel reference (final cell2 LEFT + final cell3 RIGHT at one pack scale 0.6875, 704x528 panels at (32,248)/(800,248), clear 64px transparent separation, no labels): preserve each panel pose/identity/background/position/scale exactly, no panel merge; shorten ONLY both glaives along their existing axes to target 130.79u = 503.12 registered px (gate scale 477/124=3.84677 registered px/u) = 345.89 native panel px: LEFT cell2 from 161.23u/426.39 native px factor 0.8112 (-18.88%) @10.29deg, RIGHT cell3 from 157.70u/417.06 native px factor 0.8294 (-17.06%) @15.66deg; complete caps+tips fully inside their own panel"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - deterministic two-panel reference (LEFT final cell2 1ce7855b… + RIGHT final cell3 cf208444…, pack scale 0.6875)", "path": "art/motion/xuchu/closeout-campaign/09-heavy/phase-b-shared-fix/two-panel-ref.png", "sha256": "7d2e8ff3da2505ee0e044c53822e1935673efe69be455915472ad93bcf7c9d20", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:2 anchor 1 (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds (portrait not sent, per work order)",
+  "reserveCommit": "8bd40d5",
+  "ledgerAfter": { "xuchuUsed": 28, "heavy": 5, "globalSummed": 195, "ceilings": "32/199", "sha256": "a35d7441bd8d6d33c1d8e8e339dbee5bf34a122fff4c8daed8197609d15510fa" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "splitRun": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false
+}
