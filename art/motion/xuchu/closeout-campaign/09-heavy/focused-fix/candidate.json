@@ -1,0 +1,48 @@
+{
+  "work": "cmr15a-heavy-focused-fix-generate",
+  "key": "heavy",
+  "attempt": "CMR-15A PROCESS CORRECTION + HEAVY FIX: heavy's ONE focused fix (exactly ONE sheet EDIT of the original heavy sheet, provider as original heavy generation); this package is generation only - no gates/extraction/retouch/splice/banking",
+  "status": "UNREVIEWED - generated only; no gates run, not banked (no accepted.png / prepared source) in this package",
+  "provider": {
+    "requested": "gpt",
+    "preferenceNote": "original heavy generation recorded provider requested gpt, serving UNCONFIRMED (09-heavy/candidate.json) -> gpt per work order",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/focused-fix/candidate-raw.png",
+    "sha256": "593ea8e4a2d2fb44cd847715ac8e3be39ddf8a6278440597d77b61d338d476c3",
+    "bytes": 2203155,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-13T06-32-57-642Z-r6jqtv-0.png (byte-copied unchanged to focused-fix/candidate-raw.png; sha256/bytes verified after copy; PNG magic 89 50 4E 47, IHDR 1536x1024)"
+  },
+  "prompt": {
+    "file": "art/motion/xuchu/closeout-campaign/09-heavy/focused-fix/prompt.txt",
+    "sha256": "21892fe1fc2cae40de965cf595368f30ac68caa08640a51933ea1e53da6b6705",
+    "construction": "measured gate-failure focused fix briefed from 09-heavy/gate/gate.json (fa546458…) + measure.json (5a284768…): edit the original heavy sheet only; preserve all poses/identity/layout/ground/grips exactly and cells0/1 completely unchanged (129.07/130.47u PASS); ONLY cells2/3 draw the missing complete round butt caps + full glaives extended into empty transparent margin on the same axes (stubs 92.10/86.68u, OUT_LOW >=32.31/37.73u) and cell4 shorten 155.56u (+18.06u, retouch avail 0 vs 70px) — all three to registered 479-529px target ~504px at 459px-body scale = 314-347 sheet-native px target ~331 via heavy registration scale 1.5249 (cell4 body 301 native -> 459px), band [124.41,137.50]u; tips+caps fully inside frame with clear empty margin; spares5-8 unchanged; no other changes"
+  },
+  "editTargetOriginal": {
+    "path": "art/motion/xuchu/closeout-campaign/09-heavy/candidate-raw.png",
+    "sha256": "37b725170f1dc838297d8228570917f582126602ba848ca40cb34f65b4daa954",
+    "promptFile": "art/motion/xuchu/closeout-campaign/09-heavy/prompt.txt",
+    "promptSha256": "3f799d092aea81dce050923247adccc15e344ebe43fae516ec969e6ba266d1c2",
+    "failedCriteriaBeingFixed": "09-heavy/gate/gate.json after deterministic retouch assessment: cell2-crushing-chop butt cap not drawn (stub 92.10u/354.3px, OUT_LOW >=32.31u), cell3-follow-through butt cap not drawn (stub 86.68u/333.43px, OUT_LOW >=37.73u), cell4-recover 155.56u/598.39px OUT_HIGH +18.06u (avail 0 vs 70px); cells0/1 PASS 129.07/130.47u preserved; spares 6/7/8 stubs, spare5 PASS duplicate overhead"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET original heavy sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/09-heavy/candidate-raw.png", "sha256": "37b725170f1dc838297d8228570917f582126602ba848ca40cb34f65b4daa954", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4->5 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds",
+  "reserveCommit": "819e4a2ab6d4f0b70e73c2dd88de385810656bdd",
+  "ledgerAfter": { "xuchuUsed": 19, "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "globalSummed": 186, "ceilings": "25/192", "nominal": "cap 12 / global 200 unchanged", "prospectivePostSalvageCount": 0, "sha256": "c52a6eaf925a974416d2bc2648269510fbaf2840070f09630368df0272fddab9" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "extractionRun": false,
+  "banked": false,
+  "nextStep": "separate deterministic registration/retouch + full gates package; per-cell splice across original+fix sheets permitted there (original cells0/1 pass); a post-salvage unusable verdict only after salvage AND this fix are exhausted (prospective count currently 0)"
+}
