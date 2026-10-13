@@ -1,0 +1,41 @@
+{
+  "campaign": "CMR-15A ALTERNATIVE COMPLETION Phase 3 (charge, combo, heavy, misc, fall, getup as one 3x3 sheet each using the Li Dian method and Xu Chu identity/band briefs; deterministic retouch before at most one focused fix per sheet; ceilings Xu Chu 22 / global 189)",
+  "work": "cmr15a-phase3-charge-generate",
+  "key": "charge",
+  "request": "07-charge (Phase 3 first sheet; exactly ONE whole-sheet generation in this package; no extraction/gates/focused fix)",
+  "basis": {
+    "methodSource": "Li Dian charge: art/motion/lidian/charge-prompt.txt (sha256 68a4936514dc34ea8965eac9c710832cf72f04a2bf0af7ae76cb2c7bd398f3fc) adapted sentence-by-sentence; PROVENANCE.md Request 3/12 (ordered refs body, portrait, accepted walk sheet; no provider recorded for Li Dian charge -> gpt per work order); AUTHORING-PLAN.md charge 5 keeps; registration.json layout.charge keptCells 0-4, spares 5-8 culled",
+    "requiredFrames": "CMR-15A charge.crush ordered source plan guard->windup->crushing advance->brake->guard (art/motion/xuchu/IDENTITY_ACTION_MANIFEST.md; 56t 12/22/22, advance 3.2u/tick ticks 12-33); sheet keeps: cell0 guard, cell1 crouch-coil windup, cell2 launch, cell3 crushing dash, cell4 brake settling toward guard; cells5-8 spares alternate dash/brake (Li Dian layout)",
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "angleDeg": -26.31, "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxAt512TargetBand": [479, 529] },
+    "walkBanked": "walk:0-5 all banked before this package (walk:0 guard 2a4a415d..., walk:2 anchor 893c90d7...)"
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/07-charge/prompt.txt",
+    "promptSha256": "ebf2d9c941b2e0f486452cf0912c7a692aaa44db85d845a3f0ce8d5af2ba4768",
+    "promptNote": "image_generate prompt = prompt.txt exact text (single paragraph, Li Dian charge structure adapted to Xu Chu identity/frozen band; guard + required keeps/spares as Li Dian layout; same camera/scale/ground as banked refs; weapon fully in frame; no labels/guide lines)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 180, "sha256": "e22523da1e58847eaa6aa723cc7a03c681dd985cfa7da1c082eab4a667bf0951", "walk": 13, "charge": 0, "xuchuUsed": 13 },
+    "after": { "globalSummed": 181, "sha256": "1fd2c67d57c95de3d086938f51d7c36ce0b9fec8731a3d292506f2609b3f6a94", "walk": 13, "charge": 1, "xuchuUsed": 14 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 22,
+    "amendedCeilingGlobal": 189
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "no provider recorded for Li Dian charge in PROVENANCE.md -> gpt per work order; exactly one image_generate with referenceImages, size 1536x1024 (Li Dian sheet geometry), no second call/reroll",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted) - identity/weapon/scale/ground truth, guard cell pose", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 Passing-B - identity/weapon/scale (via candidate-raw.jpg; accepted.png holds identical JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "acceptedCopy": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master - costume/build identity (Li Dian order ref: body master)", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master - face/beard/helmet identity (Li Dian order ref: portrait master)", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image in order 1->2->3->4 before reservation; same order to be passed as referenceImages (Li Dian body/portrait/accepted-walk order adapted: banked walk anchors first as scale/weapon truth, then body/portrait masters)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt sheet generation authorized in this package; no refunds; candidate lands UNREVIEWED beside this file, no extraction/gates/fix here"
+}
