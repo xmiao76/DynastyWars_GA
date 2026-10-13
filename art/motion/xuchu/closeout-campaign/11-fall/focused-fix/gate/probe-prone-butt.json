@@ -1,0 +1,76 @@
+{
+  "work": "cmr15a-fall-fix-gate-resume (prone cross-check probe)",
+  "scale": 1.1649746192893402,
+  "bandU": [
+    124.40626991803302,
+    137.50166675151021
+  ],
+  "cells": {
+    "cell4-down": {
+      "tightBox": [
+        595,
+        678,
+        635,
+        712
+      ],
+      "alphaPxInBox": 1325,
+      "buttNative": [
+        596.92,
+        700.12
+      ],
+      "tipNative": [
+        1050,
+        616
+      ],
+      "nativePx": 460.82,
+      "regPx": 536.85,
+      "u": 139.56,
+      "buildU": 141.58,
+      "inBand": false
+    },
+    "cell7-spare-fall-c": {
+      "tightBox": [
+        645,
+        935,
+        685,
+        975
+      ],
+      "alphaPxInBox": 1666,
+      "buttNative": [
+        646.74,
+        963.62
+      ],
+      "tipNative": [
+        1017,
+        889
+      ],
+      "nativePx": 377.71,
+      "regPx": 440.02,
+      "u": 114.39,
+      "buildU": 117.84,
+      "inBand": false
+    },
+    "cell8-spare-fall-d": {
+      "tightBox": [
+        1225,
+        950,
+        1280,
+        993
+      ],
+      "alphaPxInBox": 1037,
+      "buttNative": [
+        1231.92,
+        964.45
+      ],
+      "tipNative": [
+        1521,
+        890
+      ],
+      "nativePx": 298.51,
+      "regPx": 347.76,
+      "u": 90.4,
+      "buildU": 94.04,
+      "inBand": false
+    }
+  }
+}

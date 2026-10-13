@@ -1,0 +1,466 @@
+{
+  "work": "cmr15a-fall-fix-gate-finish",
+  "candidateDescription": {
+    "fixSheet": {
+      "path": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/candidate-raw.png",
+      "sha256": "44eb667de76a123393c9a7286c819ebc6c3ef263ab697eb7503108cf6e0aaf2a",
+      "size": [
+        1536,
+        1024
+      ],
+      "components": 9,
+      "hashReverifiedThisPackage": true
+    },
+    "originalSheet": {
+      "sha256": "aa207ce6c2ac9aca9d6b01ee013e0e6df8957ab2bd39747bdf0af2ec3bc9bafd"
+    },
+    "reserveCommit": "01e3f6f (Xu 22->23, fall 1->2, global 189->190)",
+    "candidateCommit": "2ac243e (UNREVIEWED)"
+  },
+  "hashVerification": {
+    "allMatch": true,
+    "count": 30,
+    "note": "candidate + all 9 fix registered/retouched/final + original 5 keep finals re-hashed this package against measure.json / original gate.json; no extraction rebuild was needed or run",
+    "measureJsonSha256": "f61148999326430f714dda488b8f3a7ed2861efe72871c6797e9af4002163b22"
+  },
+  "registration": {
+    "method": "cell4-down prone body length head-to-boots (helmet-end x minus boot-end x) = frozen 459px; one uniform scale for all 9 cells; lowest component px -> groundY500",
+    "sheetScale": 1.1649746192893402,
+    "scaleBodyNativePx": 394,
+    "proneCrossChecks": {
+      "4": {
+        "bootEndX": 492,
+        "headEndX": 886,
+        "lenPx": 394
+      },
+      "7": {
+        "bootEndX": 492,
+        "headEndX": 895,
+        "lenPx": 403
+      },
+      "8": {
+        "bootEndX": 1014,
+        "headEndX": 1398,
+        "lenPx": 384
+      }
+    }
+  },
+  "proneCrossCheck": "probe-prone-butt.json (tight cap boxes): cell4 probe 139.56u vs build 141.58u pre-retouch - after the same 21px blade cut the probe value is ~134.1u, agreeing with the build final 136.03u that the DOWN weapon is IN band; spares7/8 probe 114.39/90.4u agree OUT_LOW with build finals 114.41/89.78u. Markers verified on the true cap balls this package (original-sheet shin-contamination does not recur).",
+  "retouchPolicy": "deterministic shaft shortening BEFORE verdicts (changedOutside=0 all cells): cell0 149.25->138.19u (42px applied = max avail, 4px short of band-hi), cell1 137.98->131.91u, cell2 138.86->132.24u, cell3 146.58->132.17u, cell4 141.58->136.03u, spare6 141.37->139.23u (8px = max avail); spares5/7/8 OUT_LOW, shortening cannot lengthen. No parts fabricated.",
+  "ledgerVerified": {
+    "sha256": "62a686fbdb777a68c1619e56714c6500b113bd3742486cc458f7e2409717dc02",
+    "xuchuUsed": 23,
+    "xuchuFall": 2,
+    "globalUsed": 190,
+    "expected": "Xu Chu 23 (fall 2) / global 190",
+    "matches": true
+  },
+  "fixKeeps": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell0-topple-retouched.png",
+      "finalHash": "5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df",
+      "gates": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "FAIL",
+        "weaponGrip": "PASS - BOTH hands visibly wrapped on the haft in front of the torso (original floating-glaive grip FAIL cured)",
+        "weaponAngleDegRaw": -28.74,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 149.25,
+        "finalU": 138.19,
+        "finalPx": 531.58,
+        "overBandHiU": 0.69,
+        "underBandLoU": 0,
+        "retouch": {
+          "totalAvailPx": 42,
+          "removeToBandHiPx": 46,
+          "appliedButtPx": 26,
+          "appliedBladePx": 16,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "FAIL - weapon length OUT_HIGH (+0.69u) after max deterministic shaft retouch (avail 42px vs 46px to band-hi)"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-airborne",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell1-airborne-retouched.png",
+      "finalHash": "2d3b97c42c1b18885c5e3c4f930270bea5916a5212a705bf9f1e8ca0065507e7",
+      "gates": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - BOTH hands visibly wrapped on the haft (original floating-glaive grip FAIL cured)",
+        "weaponAngleDegRaw": -31.4,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 137.98,
+        "finalU": 131.91,
+        "finalPx": 507.44,
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouch": {
+          "totalAvailPx": 27,
+          "removeToBandHiPx": 2,
+          "appliedButtPx": 14,
+          "appliedBladePx": 9,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "PASS"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-tumble",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell2-tumble-retouched.png",
+      "finalHash": "3662d3b49c15aad547cf4968c46c889f169880dd47d9dad8381492f024658e5e",
+      "gates": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - haft visibly gripped one-handed while inverted, complete round butt cap now drawn in empty space left of the boots (original blunt stub cured)",
+        "weaponAngleDegRaw": -11.77,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 138.86,
+        "finalU": 132.24,
+        "finalPx": 508.68,
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouch": {
+          "totalAvailPx": 32,
+          "removeToBandHiPx": 6,
+          "appliedButtPx": 0,
+          "appliedBladePx": 26,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "PASS"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-impact",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell3-impact-retouched.png",
+      "finalHash": "827a79f5928eba07b53bcc3568380a6cae8c972552c75d42ed9795868dcc5205",
+      "gates": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "n/a",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - haft visibly gripped two-handed, legs-up impact (fix copy; original also PASS)",
+        "weaponAngleDegRaw": -25.31,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 0.26u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 146.58,
+        "finalU": 132.17,
+        "finalPx": 508.41,
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouch": {
+          "totalAvailPx": 68,
+          "removeToBandHiPx": 35,
+          "appliedButtPx": 48,
+          "appliedBladePx": 8,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "PASS"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell4-down-retouched.png",
+      "finalHash": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d",
+      "gates": {
+        "identity": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "anatomy": "PASS (visual this package: fix sheet, keeps-sequence + spares contacts, marked cells0-4 opened; Xu Chu helmet/beard/lamellar/glaive+tassel consistent, connected anatomy, butt/tip markers on the true cap balls/blade tips)",
+        "poseRole": "PASS (topple tipping back / airborne twisting / inverted tumble / legs-up impact / DOWN flat prone - one coherent fall arc on the keeps contact)",
+        "downFlatGrounded": "PASS (genuinely flat prone face-down bookend, legs extended, aspectWH 4.26, no kneeling/propping)",
+        "weaponLength": "PASS",
+        "weaponGrip": "PASS - folded arm grips the haft alongside the flat prone body; cap ball drawn clear at the ground line, marker on the ball (prone probe agrees, see proneCrossCheck)",
+        "weaponAngleDegRaw": -10.5,
+        "scaleGround": "PASS (one sheet scale 1.16 from cell4 prone 394px=459px; groundErr 1.3u <=1.5u)",
+        "seams": "PASS (greenPx=0, no edge alpha, changedOutside=0)",
+        "head": "RAW (beard conceals endpoint; batch-end ruling)"
+      },
+      "weapon": {
+        "buttCapVisible": true,
+        "registeredU": 141.58,
+        "finalU": 136.03,
+        "finalPx": 523.28,
+        "overBandHiU": 0,
+        "underBandLoU": 0,
+        "retouch": {
+          "totalAvailPx": 21,
+          "removeToBandHiPx": 16,
+          "appliedButtPx": 0,
+          "appliedBladePx": 21,
+          "changedOutside": 0
+        }
+      },
+      "verdict": "PASS"
+    }
+  ],
+  "fixSpares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-fall-a",
+      "finalFile": "cell5-spare-fall-a-registered.png",
+      "finalHash": "432d70b50992c89771d06e5e5a28b790a0316a9b9d1983db7871982101b421b9",
+      "finalU": 121.14,
+      "overBandHiU": 0,
+      "underBandLoU": 3.27,
+      "angleDeg": 0.32,
+      "groundErrU": 0.26,
+      "roleRead": "prone dive propped on arms, head raised - not topple/airborne/tumble, not flat DOWN",
+      "verdict": "FAIL - weapon length OUT_LOW -3.27u after max retouch"
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-fall-b",
+      "finalFile": "cell6-spare-fall-b-retouched.png",
+      "finalHash": "78a4df9b385b0f7f4e29c87b6883dab687ffbe0b37653b527d92b4f0b64e2b26",
+      "finalU": 139.23,
+      "overBandHiU": 1.73,
+      "underBandLoU": 0,
+      "angleDeg": -16.84,
+      "groundErrU": 0.26,
+      "roleRead": "grounded recline on back/side, gripped - impact-family, duplicates cell3 beat",
+      "verdict": "FAIL - weapon length OUT_HIGH +1.73u after max retouch"
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-fall-c",
+      "finalFile": "cell7-spare-fall-c-registered.png",
+      "finalHash": "530b8b84be19caae8712f5bd41a58969eae106da04ffde54e508d02309674270",
+      "finalU": 114.41,
+      "overBandHiU": 0,
+      "underBandLoU": 10,
+      "angleDeg": -11.77,
+      "groundErrU": 0,
+      "roleRead": "prone DOWN alternate (legs bent)",
+      "verdict": "FAIL - weapon length OUT_LOW -10u after max retouch"
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-fall-d",
+      "finalFile": "cell8-spare-fall-d-registered.png",
+      "finalHash": "0641f93a466567cbd36d3806cda2899243d438b6e7bdbd6dfb3a42e61e88ed2d",
+      "finalU": 89.78,
+      "overBandHiU": 0,
+      "underBandLoU": 34.63,
+      "angleDeg": -18.46,
+      "groundErrU": 0.26,
+      "roleRead": "flat prone DOWN alternate",
+      "verdict": "FAIL - weapon length OUT_LOW -34.63u after max retouch"
+    }
+  ],
+  "candidateWiseComparison": [
+    {
+      "role": "cell0-topple",
+      "selectedSource": "focused-fix 44eb667d",
+      "selectionBasis": "no passing source: original 131.87u grip FAIL, fix grip PASS but 138.19u +0.69u only-length FAIL",
+      "original": {
+        "finalU": 131.87,
+        "finalHash": "dd3b32d0338ce525557300cef572a77af5c929ed69e1832ad6300cce30d07ef8",
+        "verdict": "FAIL - weapon grip: both hands open/flailing, no hand on the haft; glaive floats across the torso"
+      },
+      "fix": {
+        "finalU": 138.19,
+        "finalHash": "5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df",
+        "verdict": "FAIL - weapon length OUT_HIGH (+0.69u) after max deterministic shaft retouch (avail 42px vs 46px to band-hi)"
+      }
+    },
+    {
+      "role": "cell1-airborne",
+      "selectedSource": "focused-fix 44eb667d",
+      "selectionBasis": "fix cures original grip FAIL + 138.32u length FAIL (131.91u PASS)",
+      "original": {
+        "finalU": 138.32,
+        "finalHash": "aaf43246bb9d6eb9351f8b20292d4d207f9536e1721a8cafe75549c23dda2c23",
+        "verdict": "FAIL - weapon length OUT_HIGH (+0.82u) after max deterministic shaft retouch; ALSO FAIL - weapon grip: both hands open, no hand on the haft; glaive floats across the torso"
+      },
+      "fix": {
+        "finalU": 131.91,
+        "finalHash": "2d3b97c42c1b18885c5e3c4f930270bea5916a5212a705bf9f1e8ca0065507e7",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "role": "cell2-tumble",
+      "selectedSource": "focused-fix 44eb667d",
+      "selectionBasis": "fix draws the complete butt cap (original unmeasurable stub) at 132.24u PASS",
+      "original": {
+        "finalU": 111.44,
+        "finalHash": "caaa237b307e819c585e518a6c371f557688f65a143d4dffd74d1e2932007562",
+        "verdict": "FAIL - butt cap not drawn: haft ends blunt behind the skirt plate (cell2-butt-zoom); whole weapon unmeasurable, shortening retouch cannot lengthen, nothing fabricated (build length 111.44u is boot-sole-contaminated - red cross on the boot in the marked view - and is NOT a valid weapon length)"
+      },
+      "fix": {
+        "finalU": 132.24,
+        "finalHash": "3662d3b49c15aad547cf4968c46c889f169880dd47d9dad8381492f024658e5e",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "role": "cell3-impact",
+      "selectedSource": "original aa207ce6",
+      "selectionBasis": "both PASS (original 132.06u / fix 132.17u); original retained per brief preserve-cell3 rule",
+      "original": {
+        "finalU": 132.06,
+        "finalHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+        "verdict": "PASS"
+      },
+      "fix": {
+        "finalU": 132.17,
+        "finalHash": "827a79f5928eba07b53bcc3568380a6cae8c972552c75d42ed9795868dcc5205",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "role": "cell4-down",
+      "selectedSource": "focused-fix 44eb667d",
+      "selectionBasis": "fix lengthens DOWN into band 136.03u PASS (prone probe ~134.1u after the same 21px blade cut, agreeing in-band); original 119.76u only-length FAIL superseded, not selected",
+      "original": {
+        "finalU": 119.76,
+        "finalHash": "21d08a4fdcb07c733c2f3aa5b55a46d4c31ccc9ab9c285fae3efca617cc9ea3f",
+        "verdict": "FAIL - weapon length OUT_LOW (-4.65u under band-lo); shaft retouch shortens only"
+      },
+      "fix": {
+        "finalU": 136.03,
+        "finalHash": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d",
+        "verdict": "PASS"
+      }
+    }
+  ],
+  "selectedSet": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell0-topple-retouched.png",
+      "finalHash": "5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df",
+      "finalU": 138.19,
+      "angleDeg": -28.74,
+      "verdict": "FAIL - weapon length OUT_HIGH (+0.69u) after max deterministic shaft retouch (avail 42px vs 46px to band-hi)",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell0-topple-retouched.png",
+      "selectionBasis": "no passing source: original 131.87u grip FAIL, fix grip PASS but 138.19u +0.69u only-length FAIL"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-airborne",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell1-airborne-retouched.png",
+      "finalHash": "2d3b97c42c1b18885c5e3c4f930270bea5916a5212a705bf9f1e8ca0065507e7",
+      "finalU": 131.91,
+      "angleDeg": -31.4,
+      "verdict": "PASS",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell1-airborne-retouched.png",
+      "selectionBasis": "fix cures original grip FAIL + 138.32u length FAIL (131.91u PASS)"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-tumble",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell2-tumble-retouched.png",
+      "finalHash": "3662d3b49c15aad547cf4968c46c889f169880dd47d9dad8381492f024658e5e",
+      "finalU": 132.24,
+      "angleDeg": -11.77,
+      "verdict": "PASS",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell2-tumble-retouched.png",
+      "selectionBasis": "fix draws the complete butt cap (original unmeasurable stub) at 132.24u PASS"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-impact",
+      "source": "original aa207ce6",
+      "finalFile": "cell3-impact-retouched.png",
+      "finalHash": "8094caa06cb513f1cad713a8ca276f9ae5cb799661c9545dd6e3d8b575822d46",
+      "finalU": 132.06,
+      "angleDeg": -25.77,
+      "verdict": "PASS",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/gate/cells-registered/cell3-impact-retouched.png",
+      "selectionBasis": "both PASS (original 132.06u / fix 132.17u); original retained per brief preserve-cell3 rule"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-down",
+      "source": "focused-fix 44eb667d",
+      "finalFile": "cell4-down-retouched.png",
+      "finalHash": "cb0b12c149341e4b90f69e0674ca26f4f7574cd842135f718c5574214ce65e1d",
+      "finalU": 136.03,
+      "angleDeg": -10.5,
+      "verdict": "PASS",
+      "file": "art/motion/xuchu/closeout-campaign/11-fall/focused-fix/gate/cells-registered/cell4-down-retouched.png",
+      "selectionBasis": "fix lengthens DOWN into band 136.03u PASS (prone probe ~134.1u after the same 21px blade cut, agreeing in-band); original 119.76u only-length FAIL superseded, not selected"
+    }
+  ],
+  "mixedDirectionStepsDeg": [
+    2.66,
+    19.63,
+    14,
+    15.27
+  ],
+  "mixedDirectionVerdict": "PASS (2.66/19.63/14/15.27deg <=60; topple->airborne->tumble->impact->flat DOWN reads as one coherent fall arc, DOWN terminal)",
+  "mixedLengthSpread": {
+    "finalUs": [
+      138.19,
+      131.91,
+      132.24,
+      132.06,
+      136.03
+    ],
+    "spreadPct": 4.68,
+    "rule": "(max-min)/mean canonical; reported, not a PASS, while a length gate fails"
+  },
+  "substitutionAssessment": "No spare from either sheet fits the uncovered topple beat: fix spares all fail length (121.14 -3.27u propped prone / 139.23 +1.73u grounded recline duplicating impact / 114.41u / 89.78u DOWN alternates) and original spares are stub/recline/DOWN-family (original gate). No coherent all-pass 5-cell set exists.",
+  "waiverEligibleExactCells": [
+    {
+      "cell": 0,
+      "name": "cell0-topple",
+      "source": "focused-fix 44eb667d",
+      "finalHash": "5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df",
+      "finalU": 138.19,
+      "deviation": "OUT_HIGH +0.69u",
+      "basis": "fully measurable (cap+tip drawn, markers verified), ONLY failing gate is this small length deviation after max retouch (42px avail vs 46px to band-hi); identity/anatomy/pose-role/grip/scale-ground 0.26u/seams/direction all PASS. FAIL retained, NOT PASS, NOT banked; held for a possible future exact-hash owner waiver only, no blanket/transfer"
+    }
+  ],
+  "notWaiverEligible": "fix spare6 (+1.73u, small) is a grounded recline duplicating the impact beat, not the topple role; fix spare5 (-3.27u) is propped prone, not flat DOWN/topple; spares7/8 deviations are not small. The original cell4-DOWN waiver-eligible hold (21d08a4f..., 119.76u) is superseded - the fix DOWN passes in band and is selected, so no waiver is needed or requested for it; it remains unbanked as an unselected candidate.",
+  "failedCriteria": [
+    "cell0-topple [5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df] (focused-fix 44eb667d): FAIL - weapon length OUT_HIGH (+0.69u) after max deterministic shaft retouch (avail 42px vs 46px to band-hi); final 138.19u vs band [124.41,137.50]u"
+  ],
+  "verdict": "FAIL - NOT BANKED (4/5 selected roles pass; cell0-topple has no passing source; no accepted cells created)",
+  "postFixAccounting": "Fall deterministic salvage AND its ONE authorized focused fix are now both exhausted, so under the corrected campaign process fall counts as consecutive post-fix unusable #1 (prospective count 0->1, reset by the misc bank; heavy remains an earlier unresolved #1-era source superseded by that reset). STOP at 2 NOT reached. CMR-15A stays IN_PROGRESS; next per grant = getup in a later package; no pack/15B here.",
+  "banked": false,
+  "generation": "zero in this package"
+}

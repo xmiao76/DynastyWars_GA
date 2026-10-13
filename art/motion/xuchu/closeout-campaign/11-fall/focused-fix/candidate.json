@@ -2,7 +2,7 @@
   "work": "cmr15a-fall-focused-fix-generate",
   "key": "fall",
   "attempt": "CMR-15A Phase-3 fall ONE focused fix (exactly ONE sheet EDIT of the original fall sheet, provider as original fall generation); generation only - no extraction/retouch/gates/splice/banking/getup",
-  "status": "UNREVIEWED - generated only; no gates run, not banked in this package",
+  "status": "GATED 2026-10-13 (cmr15a-fall-fix-gate-finish) - FAIL, NOT BANKED, no accepted cells (see gate/gate.json 0f227f1f...)",
   "provider": {
     "requested": "gpt",
     "preferenceNote": "original fall generation recorded provider requested gpt, serving UNCONFIRMED (11-fall/candidate.json) -> gpt per work order",
@@ -39,8 +39,9 @@
   "size": "1536x1024 (requested and served native)",
   "exactlyOneGeneration": true,
   "textToImage": false,
-  "gatesRun": false,
-  "extractionRun": false,
+  "gatesRun": true,
+  "extractionRun": true,
   "banked": false,
-  "nextStep": "separate deterministic registration/retouch + full gates package; per-cell splice across original+fix sheets permitted there (original cell3 passes, original cell4 waiver-eligible hash held); a post-fix unusable fall would become consecutive post-fix #1 (count currently 0) - not decided here; no getup before that gate"
+  "gate": { "work": "cmr15a-fall-fix-gate-finish", "gateJsonSha256": "0f227f1fc34e40fee808a44a0040606e4e4d768204264fe33b659e58db1e1028", "measureJsonSha256": "f61148999326430f714dda488b8f3a7ed2861efe72871c6797e9af4002163b22", "verdict": "FAIL - NOT BANKED (4/5 selected roles pass candidate-wise: fix cells1/2/4 + original cell3 retained; cell0-topple has no passing source - original grip FAIL, fix 5c8bf0db47605c728b6d82f151ed43c1245c6daa5f81e9a2289945f62ca447df 138.19u +0.69u only-length FAIL after max retouch = WAIVER_ELIGIBLE exact hash held, FAIL retained, NOT banked; no accepted cells); fall = consecutive post-fix unusable #1 (STOP at 2 not reached)" },
+  "nextStep": "getup in a later package per grant; fall itself needs an exact-hash owner waiver for fix cell0-topple 5c8bf0db... (138.19u +0.69u) or another owner decision - no further fall generation is authorized (the one focused fix is spent)"
 }
