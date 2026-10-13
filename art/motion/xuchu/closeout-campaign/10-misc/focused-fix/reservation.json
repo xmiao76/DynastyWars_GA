@@ -1,0 +1,44 @@
+{
+  "campaign": "CMR-15A PHASE-3 CONTINUATION (walk+charge+combo banked; heavy post-fix unusable #1, STOP at 2 not reached; misc INITIAL sheet FAIL does NOT increment count, stays #1; ceilings Xu Chu 25 / global 192; nominal cap 12 / global 200 unchanged)",
+  "work": "cmr15a-misc-focused-fix-generate",
+  "key": "misc",
+  "request": "10-misc/focused-fix (misc's ONE focused fix; exactly ONE sheet EDIT in this package, provider as original misc generation; generation only, no extraction/gates/splice/banking)",
+  "basis": {
+    "brief": "art/motion/xuchu/closeout-campaign/10-misc/gate/gate.json sha256 8ecec2bf5dc7b7954d749fa08642ebf75cb8e055fb90a6d07ab9378a6b78ce8f focusedFixBrief + measured failures vs frozen band [124.41,137.50]u after max deterministic shaft retouch: cell0-hurt-recoil 137.10u PASS and cell1-hurt-fold 132.34u PASS (preserve exactly, carried unchanged in the edited sheet); cell2-held-clamp FAIL 141.63u/544.83px +4.13u (raw 143.78u/553.08px; retouch avail 8 vs 25px) AND corridor/grip FAIL (haft hidden behind crossed arms/torso, clasped hands grip each other not the haft); cell3-held-struggle FAIL 153.22u/589.39px +15.72u (raw 163.56u/629.20px; 40px applied, deficit 61px); cell4-release FAIL 159.27u/612.67px +21.77u (retouch avail 0 vs 84px). Spares 137.52 (+0.02u, only alternates passing cell0)/159.24/163.80/154.61u - no role-fit passing substitution, nothing banked. Retouch note: haft across skirt gave zero butt-side clean run (cell3/cell4), so the fix cannot rely on post retouch - native length must land in band.",
+    "changeOnly": "Cells0/1 (and spares5-8) completely unchanged. Cells2/3/4 ONLY: redraw each glaive ~15% shorter overall (cell2 ~405->369 native px -9%, cell3 ~461->369 -20%, cell4 ~448->369 -18%) into registered 479-529px target ~504px = 351-387 sheet-native px target ~369 (misc registration scale 1.3660714285714286, cell4 body 336 native -> 459px; 479/1.3661=350.6, 504/1.3661=368.9, 529/1.3661=387.3; ratio 369/336=1.10x crown-to-sole). NOTE this recomputes the original prompt's 321-347 native window, which assumed scale 1.49-1.52; the served misc sheet actually registered at 1.3661, so 351-387 is the correct intersection for an edit preserving figure size. Cell2 additionally: haft continuously visible IN FRONT of arms/torso, both hands visibly wrapped around the haft (no clasped empty hands), arms still pinned, no second fighter. All changed cells: complete round butt cap + complete blade tip fully in frame in empty transparent space; no other changes.",
+    "sheetNativeCurrentPx": "cell2 404.9 (553.08 registered / 1.3661), cell3 460.6 (629.20), cell4 448.5 (612.67); target ~369 each",
+    "originalCandidate": { "path": "art/motion/xuchu/closeout-campaign/10-misc/candidate-raw.png", "sha256": "6c3b5e5c4f46c7ed03171a7d391f3a97095eb1b09f93c0081028960f189e3471", "bytes": 2357839, "size": [1536, 1024], "promptFile": "art/motion/xuchu/closeout-campaign/10-misc/prompt.txt", "promptSha256": "f9c8e4b7e96a6cec475447bcbf96037d3b78f1030f6be04055b016f3f3b385bd", "reserveCommit": "9e16e8b", "candidateCommit": "889f794" },
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxRegisteredBand": [479, 529], "weaponPxRegisteredTarget": 504, "registrationScale": 1.3660714285714286, "weaponPxSheetNativeBand": [351, 387], "sheetNativeTargetPx": 369 }
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/10-misc/focused-fix/prompt.txt",
+    "promptSha256": "1509fd86f533b7016d439178231bd9469a765586d60818e390c4d4886ec95e40",
+    "promptNote": "image_generate prompt = focused-fix/prompt.txt exact text (edit first reference only; preserve all poses/identity/layout and cells0/1 exactly; only cells2/3/4 glaives ~15% shorter to registered 479-529px target ~504px = 351-387 native px target ~369 at actual scale 1.3661; cell2 haft visibly gripped in front of arms/torso; tips/caps fully in frame in empty space; no other changes)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 187, "sha256": "f54e26eebb58dc4ab15450c8fef03dd360eea091c8161a5c49fb6e8dda460807", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 1, "xuchuUsed": 20 },
+    "after": { "globalSummed": 188, "sha256": "16fc50a7d7916c0d66e31f745f888c10fbdc27a7daec031ce854da899458d3da", "walk": 13, "charge": 2, "combo": 2, "heavy": 2, "misc": 2, "xuchuUsed": 21 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "campaignCeilingXuchu": 25,
+    "campaignCeilingGlobal": 192,
+    "prospectivePostSalvageCount": 1
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "original misc generation recorded provider requested gpt, serving UNCONFIRMED (10-misc/candidate.json) -> gpt per work order; exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - original misc sheet (pose/layout/identity source)", "path": "art/motion/xuchu/closeout-campaign/10-misc/candidate-raw.png", "sha256": "6c3b5e5c4f46c7ed03171a7d391f3a97095eb1b09f93c0081028960f189e3471", "size": [1536, 1024] },
+    { "order": 2, "role": "banked walk:0 guard (accepted) - identity/weapon size", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 3, "role": "banked walk:2 anchor - identity/band (via candidate-raw.jpg; accepted.png identical bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 4, "role": "body master - costume/build identity", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 5, "role": "portrait master - face/beard/helmet identity", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3->4->5 (original misc sheet -> banked walk:0 -> banked walk:2 -> body master -> portrait master) after this reserve commit and before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt focused-fix EDIT authorized in this package; no refunds; candidate lands UNREVIEWED in focused-fix/, no gates/splice/banking here"
+}
