@@ -1,0 +1,43 @@
+{
+  "campaign": "CMR-15A PHASE-3 CONTINUATION (charge banked under exact-hash waiver; combo focused-fix gated FAIL 3/5 NOT BANKED, prospective post-salvage unusable #1/2, STOP at 2 not reached; ceilings Xu Chu 25 / global 192; nominal cap 12 / global 200 unchanged)",
+  "work": "cmr15a-phase3-heavy-generate",
+  "key": "heavy",
+  "request": "09-heavy (Phase 3 sheet after combo; exactly ONE whole-sheet generation in this package; no extraction/gates/focused fix)",
+  "basis": {
+    "methodSource": "Li Dian heavy: art/motion/lidian/heavy-prompt.txt (sha256 2b784dea2f2143e832ea5f36601ad5ff8d9e5967c163a6d5f752db8ccaaf7f7c) adapted sentence-by-sentence; PROVENANCE.md Request 9/12 (ordered refs body, portrait, accepted combo sheet; NO provider recorded for Li Dian heavy -> gpt per work order); AUTHORING-PLAN.md heavy 5 (raise -> overhead hold -> crushing chop -> follow -> recover; sword.heavy); Li Dian heavy lesson preserved: steep-diagonal family <=30deg, NO vertical (glaive cannot fit 341px cell height), endpoints in empty margins 35px+, full side-on length no foreshortening (his overheads first drew ~260-330px short); Xu Chu combo prompt 47f6bd38... identity/camera/ground sentences reused verbatim for refs adaptation",
+    "requiredFrames": "CMR-15A sword.heavy (jab2 binding 16/6/24 = 46t, 14 dmg / reach 34 / arc 12 / knockback 4, knockdown) ordered source plan guard->heavy preparation->committed chop->recovery->guard (art/motion/xuchu/IDENTITY_ACTION_MANIFEST.md); as Li Dian heavy layout cells0-4 keeps: cell0 raise / heavy preparation (glaive lifting up-back, elbows bending), cell1 overhead hold (glaive cocked high behind head, body coiled), cell2 crushing chop (glaive swept down-forward through strike plane, torso lunging), cell3 follow-through (glaive low-forward, weight committed), cell4 recover (settling back toward guard); cells5-8 spares alternate chop poses",
+    "frozenBand": { "weaponU": 130.79, "bandU": [124.41, 137.50], "angleDeg": -26.31, "bodyPxAt512": 459, "groundYAt512": 500, "weaponPxAt512TargetBand": [479, 529], "weaponPxAt512Target": 504 },
+    "nativeLengthDerivation": "expected sheet scale from the two most recent Xu Chu 3x3 sheets: combo original registration scale 1.4903 (cell4 recover native crown-to-sole 308px -> frozen 459px) and combo focused-fix 1.4854 (309px -> 459px); expected ~1.49. Registered 479-529px / 1.4903 = 321-355 native sheet px, target 504/1.4903 = 338px; ratio form 504/459 = 1.10x crown-to-sole height also stated in the prompt so length tracks drawn figure size. NOTE the earlier charge-derived scale 1.3540 (native 354-391px) is NOT used: at the actually-served ~1.49 scale that brief band already overshoots the registered band",
+    "shorterThanComboFailure": "combo failure pattern (08-combo gate): despite a 354-391px native brief the model drew native glaives of 448-519px (cell0 519, cell1 513, cell3 493, cell4 448, spares 442-473 = ~1.45-1.68x the 308px body; registered 667-773px = 173-201u, all OUT_HIGH after max retouch; cell2 butt hidden + tip clipped). This heavy brief therefore targets ~338 native px (321-355) = roughly two-thirds of the failed combo lengths and only 1.10x body height, explicitly forbids corner-to-corner glaives, says if in doubt draw slightly shorter never longer, and requires complete blade tip + round butt cap fully inside the sheet with 35px+ empty margin in every cell. The combo focused fix briefed at this same 321-355/target-338 scale landed 129-143u registered (near band), corroborating the steering",
+    "comboOutcome": "combo original + focused fix both NOT BANKED; focused-fix gate FAIL 3/5 (cell1 140.96u, cell3 143.48u waiver-eligible exact hashes) counts prospective post-salvage unusable #1/2 under PHASE-3 CONTINUATION; heavy is the next sheet per grant; a second consecutive post-salvage unusable verdict in a later heavy gate package would STOP the campaign (not decided here)"
+  },
+  "spec": {
+    "promptFile": "art/motion/xuchu/closeout-campaign/09-heavy/prompt.txt",
+    "promptSha256": "3f799d092aea81dce050923247adccc15e344ebe43fae516ec969e6ba266d1c2",
+    "promptNote": "image_generate prompt = prompt.txt exact text (single paragraph, Li Dian heavy 3x3 structure adapted sentence-by-sentence to Xu Chu identity/frozen band; explicit native 321-355px tip-to-pommel target ~338px = 1.10x crown-to-sole so registered length lands 479-529px target ~504px at 459px body; complete blade tip and butt cap fully inside sheet with 35px+ empty margin; steep-diagonal overhead family, no vertical, no foreshortening; same camera/scale/ground as banked refs; no labels/guide lines)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 184, "sha256": "97d178e5da7c43b1e3a0a350f047ee14e459a032498f6158eaedcfaea237ca57", "walk": 13, "charge": 2, "combo": 2, "heavy": 0, "xuchuUsed": 17 },
+    "after": { "globalSummed": 185, "sha256": "adbadcd5c985dbbbf114b2e815344815abe0facb9b7da7b43333c848c9b15a1f", "walk": 13, "charge": 2, "combo": 2, "heavy": 1, "xuchuUsed": 18 },
+    "capsUnchanged": true,
+    "nominalCapXuchu": 12,
+    "totalCap": 200,
+    "amendedCeilingXuchu": 25,
+    "amendedCeilingGlobal": 192
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "no provider recorded for Li Dian heavy in PROVENANCE.md (Request 9/12) -> gpt per work order; exactly one image_generate with referenceImages, size 1536x1024 (Li Dian sheet geometry), no second call/reroll",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "banked walk:0 guard (accepted) - identity/weapon/scale/ground truth (Li Dian order adapted: banked anchors first)", "path": "art/motion/xuchu/closeout-campaign/05-walk0/alternative/accepted.png", "sha256": "2a4a415dc2105f68911a7b08115bc7a14b0a213f68787990ae8726b51d66f450", "size": [512, 512] },
+    { "order": 2, "role": "banked walk:2 anchor 1 Passing-B - identity/weapon/scale (via candidate-raw.jpg; accepted.png holds identical JPEG bytes)", "path": "art/motion/xuchu/closeout-campaign/01-walk2/candidate-raw.jpg", "acceptedCopy": "art/motion/xuchu/closeout-campaign/01-walk2/accepted.png", "sha256": "893c90d752464b4cc2329543046d9af6cf4daa84820a8e8a5c63ca402dabb1e6", "size": [1024, 1024] },
+    { "order": 3, "role": "body master - costume/build identity (Li Dian order ref: body master)", "path": "art/fighter-bodies/xuchu-body-master.jpg", "sha256": "98c1847b17dca605e637954e0a9679c23d97f9fcd58d0a4ebb01c37665abb6cd", "size": [832, 1248] },
+    { "order": 4, "role": "portrait master - face/beard/helmet identity (Li Dian order ref: portrait master)", "path": "art/boss-faces/xuchu-portrait-master.jpg", "sha256": "c663fd5428314ced899d98ce41b5fa2e55fecb9b12335b1f9de4803afefb3a0d", "size": [1280, 720] }
+  ],
+  "referenceReadOrder": "each reference to be opened with read_image in order 1->2->3->4 after this reserve commit and before the call; same order passed as referenceImages (Li Dian body/portrait/accepted-sheet order adapted as in 07-charge/08-combo: banked walk anchors first as scale/weapon truth, then body/portrait masters)",
+  "status": "RESERVED - reserve-before-call; exactly one gpt sheet generation authorized in this package; no refunds; candidate lands UNREVIEWED beside this file, no extraction/gates/fix here"
+}
