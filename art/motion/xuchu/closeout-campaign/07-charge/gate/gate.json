@@ -1,0 +1,384 @@
+{
+  "work": "cmr15a-phase3-charge-gates",
+  "sheet": {
+    "path": "art/motion/xuchu/closeout-campaign/07-charge/candidate-raw.png",
+    "sha256": "11080736380132eb798b6b0636f03ab385cf287725be748fc4bc9189f4c189e5",
+    "size": [
+      1536,
+      1024
+    ],
+    "components": 9
+  },
+  "registration": {
+    "method": "one uniform sheet scale from cell0 guard crown->sole (339 native px) to frozen 459px; per-cell translate sole->groundY500; canvas 768x512",
+    "sheetScale": 1.3539823008849559,
+    "guardBodyNativePx": 339,
+    "determinism": "build.mjs rerun reproduced all registered/retouched PNG hashes byte-identically (verified 2026-10-13); pre-existing partial registered hashes also reproduced; partial retouched hashes superseded by blade-run scan fix in this correction"
+  },
+  "retouchPolicy": "deterministic shaft shortening BEFORE any length-failure verdict: pommel-side clean run first, blade-side clean run (front grip->socket) as supplement; outside-weapon-region changedPx=0 per keep (measure.json)",
+  "anglePolicy": "angles recorded raw per pose (charge choreography levels/raises the glaive; walk anchor -26.31deg corridor is not applied across charge poses); length vs frozen band is the binding weapon gate",
+  "ledgerVerified": {
+    "sha256": "1fd2c67d57c95de3d086938f51d7c36ce0b9fec8731a3d292506f2609b3f6a94",
+    "xuchuUsed": 14,
+    "xuchuCharge": 1,
+    "globalUsed": 181,
+    "expected": "Xu Chu 14 (charge 1) / global 181",
+    "matches": true
+  },
+  "keeps": [
+    {
+      "cell": 0,
+      "name": "cell0-guard",
+      "finalFile": "cell0-guard-retouched.png",
+      "finalHash": "f29263d5c15f56b0cc0685fbd66c35dd463d0b0fd16b019225a450bf399bc3db",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent, sheet + registered cell opened)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role)",
+        "weaponLength": "PASS",
+        "weaponAngleDegRaw": -23.61,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0, joints not visible at cell size)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy recorded in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "registeredU": 146.16,
+        "registeredPx": 562.26,
+        "finalU": 132.31,
+        "finalPx": 508.95,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 0,
+        "retouchFeasibility": {
+          "buttAvailPx": 46,
+          "bladeRunT": [
+            340,
+            380
+          ],
+          "bladeAvailPx": 32,
+          "totalAvailPx": 78,
+          "removeToBandHiPx": 34,
+          "removeTo132Px": 54,
+          "reachesBand": true,
+          "appliedButtPx": 46,
+          "appliedBladePx": 8,
+          "deficitToBandHiPx": 0
+        }
+      },
+      "groundErrU": 0.52,
+      "boots": [
+        {
+          "x0": 179,
+          "x1": 246,
+          "soleY": 502
+        },
+        {
+          "x0": 355,
+          "x1": 464,
+          "soleY": 501
+        }
+      ],
+      "verdict": "PASS"
+    },
+    {
+      "cell": 1,
+      "name": "cell1-crouch-coil-windup",
+      "finalFile": "cell1-crouch-coil-windup-retouched.png",
+      "finalHash": "31b89d20320eb2a29ec8265f4f99ac5439975d9a3cd4230ccdc92ae880525838",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent, sheet + registered cell opened)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -14.48,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0, joints not visible at cell size)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy recorded in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "registeredU": 161.21,
+        "registeredPx": 620.14,
+        "finalU": 152.07,
+        "finalPx": 584.97,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 14.57,
+        "retouchFeasibility": {
+          "buttAvailPx": 14,
+          "bladeRunT": [
+            390,
+            419
+          ],
+          "bladeAvailPx": 21,
+          "totalAvailPx": 35,
+          "removeToBandHiPx": 92,
+          "removeTo132Px": 112,
+          "reachesBand": false,
+          "appliedButtPx": 14,
+          "appliedBladePx": 21,
+          "deficitToBandHiPx": 57
+        }
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 113,
+          "x1": 168,
+          "soleY": 501
+        },
+        {
+          "x0": 368,
+          "x1": 474,
+          "soleY": 501
+        }
+      ],
+      "verdict": "FAIL - weapon length OUT_HIGH after max deterministic shaft retouch"
+    },
+    {
+      "cell": 2,
+      "name": "cell2-launch",
+      "finalFile": "cell2-launch-retouched.png",
+      "finalHash": "24c00f568bc9d5312fab998ad34faf87e640a8f6b59b645feef802519d833f13",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent, sheet + registered cell opened)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -17.4,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0, joints not visible at cell size)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy recorded in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "registeredU": 164.61,
+        "registeredPx": 633.2,
+        "finalU": 159.43,
+        "finalPx": 613.28,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 21.93,
+        "retouchFeasibility": {
+          "buttAvailPx": 8,
+          "bladeRunT": [
+            412,
+            432
+          ],
+          "bladeAvailPx": 12,
+          "totalAvailPx": 20,
+          "removeToBandHiPx": 105,
+          "removeTo132Px": 125,
+          "reachesBand": false,
+          "appliedButtPx": 8,
+          "appliedBladePx": 12,
+          "deficitToBandHiPx": 85
+        }
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 76,
+          "x1": 134,
+          "soleY": 501
+        },
+        {
+          "x0": 299,
+          "x1": 365,
+          "soleY": 500
+        }
+      ],
+      "verdict": "FAIL - weapon length OUT_HIGH after max deterministic shaft retouch"
+    },
+    {
+      "cell": 3,
+      "name": "cell3-crushing-dash",
+      "finalFile": "cell3-crushing-dash-retouched.png",
+      "finalHash": "ae096428f8e7955f12e4aa316a44c015fe6506c39a16ebd9dffc39070cda816f",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent, sheet + registered cell opened)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -8.95,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0, joints not visible at cell size)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy recorded in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "registeredU": 175.58,
+        "registeredPx": 675.4,
+        "finalU": 174.51,
+        "finalPx": 671.29,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 37.01,
+        "retouchFeasibility": {
+          "buttAvailPx": 4,
+          "bladeRunT": [
+            500,
+            504
+          ],
+          "bladeAvailPx": 0,
+          "totalAvailPx": 4,
+          "removeToBandHiPx": 147,
+          "removeTo132Px": 168,
+          "reachesBand": false,
+          "appliedButtPx": 4,
+          "appliedBladePx": 0,
+          "deficitToBandHiPx": 143
+        }
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 22,
+          "x1": 81,
+          "soleY": 501
+        },
+        {
+          "x0": 270,
+          "x1": 331,
+          "soleY": 498
+        }
+      ],
+      "verdict": "FAIL - weapon length OUT_HIGH after max deterministic shaft retouch"
+    },
+    {
+      "cell": 4,
+      "name": "cell4-brake",
+      "finalFile": "cell4-brake-retouched.png",
+      "finalHash": "ce614e85eedd9ec0e4059249ca1cecd05d896c08b628e6c008a3cb0641728279",
+      "gates": {
+        "identity": "PASS (visual: Xu Chu helmet/beard/lamellar/glaive+tassel consistent, sheet + registered cell opened)",
+        "anatomy": "PASS (visual: two arms/hands on shaft, two legs/boots, no fused/extra limbs)",
+        "poseRole": "PASS (visual vs prompt keep role)",
+        "weaponLength": "FAIL",
+        "weaponAngleDegRaw": -28,
+        "scaleGround": "PASS",
+        "seams": "PASS (greenPx=0, no canvas-edge alpha, retouch changedOutside=0, joints not visible at cell size)",
+        "head": "RAW (beard conceals chin/beard-base endpoint; helmet-width proxy recorded in measure.json, not gated; batch-end ruling reserved)"
+      },
+      "weapon": {
+        "registeredU": 152.08,
+        "registeredPx": 585.02,
+        "finalU": 148.47,
+        "finalPx": 571.14,
+        "bandU": [
+          124.40626991803302,
+          137.50166675151021
+        ],
+        "overBandHiU": 10.97,
+        "retouchFeasibility": {
+          "buttAvailPx": 0,
+          "bladeRunT": [
+            354,
+            376
+          ],
+          "bladeAvailPx": 14,
+          "totalAvailPx": 14,
+          "removeToBandHiPx": 57,
+          "removeTo132Px": 77,
+          "reachesBand": false,
+          "appliedButtPx": 0,
+          "appliedBladePx": 14,
+          "deficitToBandHiPx": 43
+        }
+      },
+      "groundErrU": 0.26,
+      "boots": [
+        {
+          "x0": 148,
+          "x1": 218,
+          "soleY": 501
+        },
+        {
+          "x0": 464,
+          "x1": 565,
+          "soleY": 498
+        }
+      ],
+      "verdict": "FAIL - weapon length OUT_HIGH after max deterministic shaft retouch"
+    }
+  ],
+  "spares": [
+    {
+      "cell": 5,
+      "name": "cell5-spare-dash-alt",
+      "compId": 5,
+      "compPx": 43719,
+      "nativeBounds": [
+        1066,
+        406,
+        1519,
+        674
+      ]
+    },
+    {
+      "cell": 6,
+      "name": "cell6-spare-brake-alt",
+      "compId": 8,
+      "compPx": 53303,
+      "nativeBounds": [
+        66,
+        722,
+        573,
+        1002
+      ]
+    },
+    {
+      "cell": 7,
+      "name": "cell7-spare-brake-alt2",
+      "compId": 7,
+      "compPx": 49959,
+      "nativeBounds": [
+        600,
+        700,
+        1013,
+        1005
+      ]
+    },
+    {
+      "cell": 8,
+      "name": "cell8-spare-guard-alt",
+      "compId": 6,
+      "compPx": 48679,
+      "nativeBounds": [
+        1096,
+        671,
+        1484,
+        1005
+      ]
+    }
+  ],
+  "sparesNote": "spares 5-8 component-extracted at native size only; weapon lengths NOT measured in this package - zero-gen spare measurement should precede spending the sheet focused fix",
+  "verdict": "FAIL - NOT BANKED (no accepted cells created)",
+  "failedCriteria": [
+    "cell1-crouch-coil-windup: weapon 152.07u vs band [124.41,137.5]u (+14.57u over band-hi) after retouch; registered 161.21u/620.14px, clean-shaft availability 35px vs 92px needed to reach band-hi (deficit 57px)",
+    "cell2-launch: weapon 159.43u vs band [124.41,137.5]u (+21.93u over band-hi) after retouch; registered 164.61u/633.2px, clean-shaft availability 20px vs 105px needed to reach band-hi (deficit 85px)",
+    "cell3-crushing-dash: weapon 174.51u vs band [124.41,137.5]u (+37.01u over band-hi) after retouch; registered 175.58u/675.4px, clean-shaft availability 4px vs 147px needed to reach band-hi (deficit 143px)",
+    "cell4-brake: weapon 148.47u vs band [124.41,137.5]u (+10.97u over band-hi) after retouch; registered 152.08u/585.02px, clean-shaft availability 14px vs 57px needed to reach band-hi (deficit 43px)"
+  ],
+  "focusedFixAssessment": {
+    "grantBasis": "CMR-15A ALTERNATIVE COMPLETION Phase 3: deterministic retouch before at most one focused fix per sheet (retouch now exhausted - see feasibility deficits)",
+    "recommendation": "ONE focused sheet EDIT in a later package (reserve-before-call Xu Chu 14->15 / global 181->182, ceilings 22/189): keep all nine poses/identity/layout/ground identical; shorten ONLY the glaive in every cell so butt->tip measures 479-529px at the 459px-body registered scale (target ~508px=132u) by moving blade+socket toward the front grip and pommel toward the rear grip; do not shrink figures",
+    "measuredBrief": [
+      "cell0-guard: registered 562.26px -> target ~508px (shorten ~54px, 9.65%)",
+      "cell1-crouch-coil-windup: registered 620.14px -> target ~508px (shorten ~112px, 18.08%)",
+      "cell2-launch: registered 633.2px -> target ~508px (shorten ~125px, 19.77%)",
+      "cell3-crushing-dash: registered 675.4px -> target ~508px (shorten ~167px, 24.79%)",
+      "cell4-brake: registered 585.02px -> target ~508px (shorten ~77px, 13.17%)"
+    ],
+    "risks": "sheet-wide edit may drift poses/scale/identity; full re-gate of all keeps required; if the focused fix also fails length, this sheet counts as a post-salvage unusable source (1 of 2 consecutive STOP)",
+    "zeroGenFirst": "measure spares 5-8 weapon lengths deterministically before the fix; a spare may substitute a keep role only if it reaches band after retouch (visually all sheet glaives are long, so substitution is unlikely)"
+  },
+  "consecutivePostSalvageUnusable": "0 - sheet not finally unusable while its one authorized focused fix remains unspent; STOP (2 consecutive) not reached",
+  "banked": false,
+  "generation": "zero in this package"
+}
