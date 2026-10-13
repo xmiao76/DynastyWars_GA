@@ -13,6 +13,7 @@ import { weiyanClips, validWeiyanPack, motionFrameForWeiyan, WEIYAN_COLLAPSE_TAI
 import { huangzhongClips, validHuangzhongPack, motionFrameForHuangzhong, HUANGZHONG_COLLAPSE_TAIL } from '../art/motion-clips-huangzhong'
 import { lidianClips, validLidianPack, motionFrameForLidian, LIDIAN_COLLAPSE_TAIL } from '../art/motion-clips-lidian'
 import { xiahoudunClips, validXiahoudunPack, motionFrameForXiahoudun, XIAHOUDUN_COLLAPSE_TAIL } from '../art/motion-clips-xiahoudun'
+import { xuchuClips, validXuchuPack, motionFrameForXuchu, XUCHU_COLLAPSE_TAIL } from '../art/motion-clips-xuchu'
 import { advanceMotion, type MotionPlayback } from '../art/motion-player'
 import { ART_RESOURCE_KEY, heroArtResources } from './hero-art'
 import {
@@ -51,6 +52,8 @@ import lidianPreparedJson from '../assets/motion/lidian-prepared.json'
 import lidianSheetUrl from '../assets/motion/lidian-motion-sheet.png'
 import xiahoudunPreparedJson from '../assets/motion/xiahoudun-prepared.json'
 import xiahoudunSheetUrl from '../assets/motion/xiahoudun-motion-sheet.png'
+import xuchuPreparedJson from '../assets/motion/xuchu-prepared.json'
+import xuchuSheetUrl from '../assets/motion/xuchu-motion-sheet.png'
 
 export interface MotionPrepared extends MotionPackGeometry {
   signatures: { sheet: string; actions: string }
@@ -130,6 +133,11 @@ export function xiahoudunPreparedRecord(): MotionPrepared {
   return xiahoudunPreparedJson as unknown as MotionPrepared
 }
 
+/** Xu Chu: immutable CMR-15A provenance, one page, no aliases. */
+export function xuchuPreparedRecord(): MotionPrepared {
+  return xuchuPreparedJson as unknown as MotionPrepared
+}
+
 // ---------------------------------------------------------------------------
 // Pack catalog. Every fighter with motion art is listed here; kinds outside
 // the catalog never request anything (no all-cast downloads).
@@ -196,6 +204,11 @@ const LIDIAN_PAGES: PackPage[] = [
 /** Xiahou Dun single atlas page (CMR-14B; source bytes copied unchanged). */
 const XIAHOUDUN_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: motionTextureKeys('xiahoudun').sheet, bytes: 2220630, sha256: 'e1fdf7e8ea2b4128e6c0380e407e79ca8c985ceb63b09a056097da6dd85af34f', width: 2044, height: 1589 },
+]
+
+/** Xu Chu single atlas page (CMR-15B; source bytes copied unchanged). */
+const XUCHU_PAGES: PackPage[] = [
+  { name: 'sheet', sourceKey: motionTextureKeys('xuchu').sheet, bytes: 2177184, sha256: '6e49fd2749fcde3813185d8520af36db5ec796baecb3285359215cf45fc49348', width: 1979, height: 1186 },
 ]
 
 export const MOTION_PACKS: Record<string, MotionPackDef> = {
@@ -278,6 +291,14 @@ export const MOTION_PACKS: Record<string, MotionPackDef> = {
     url: { sheet: xiahoudunSheetUrl, actions: xiahoudunSheetUrl },
     meta: xiahoudunPreparedRecord,
     clips: xiahoudunClips,
+  },
+  xuchu: {
+    id: 'xuchu',
+    revision: 'xuchu-1',
+    pages: XUCHU_PAGES,
+    url: { sheet: xuchuSheetUrl, actions: xuchuSheetUrl },
+    meta: xuchuPreparedRecord,
+    clips: xuchuClips,
   },
 }
 
@@ -608,11 +629,13 @@ function stageSpawnKinds(stageId: string): string[] {
 
 export function motionStageRequest(stageId: string, hero: string, secondPlayer?: string | null): MotionStageRequest {
   const stageKinds = stageSpawnKinds(stageId)
-  // Xiahou's stage must prepare its boss before encounter-order mooks consume
-  // the remaining cap. The shared policy still keeps hero/default 2P first;
-  // retain every mook and leave all other stage/future-kind ordering unchanged.
-  if (STAGES[stageId]?.bossKind === 'xiahoudun') {
-    const bossAt = stageKinds.indexOf('xiahoudun')
+  // Xiahou's and Xu Chu's stages must prepare their boss before
+  // encounter-order mooks consume the remaining cap (CMR-14B/15B). The
+  // shared policy still keeps hero/default 2P first; retain every mook
+  // and leave all other stage/future-kind ordering unchanged.
+  const bossKind = STAGES[stageId]?.bossKind
+  if (bossKind === 'xiahoudun' || bossKind === 'xuchu') {
+    const bossAt = stageKinds.indexOf(bossKind)
     if (bossAt > 0) stageKinds.unshift(...stageKinds.splice(bossAt, 1))
   }
   const futureKinds: string[] = []
@@ -685,9 +708,9 @@ export function publishMotionArtRecord(
     scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions })
     return undefined
   }
-  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : meta.id === 'zhangfei' ? validZhangfeiPack(meta) : meta.id === 'zhaoyun' ? validZhaoyunPack(meta) : meta.id === 'weiyan' ? validWeiyanPack(meta) : meta.id === 'huangzhong' ? validHuangzhongPack(meta) : meta.id === 'lidian' ? validLidianPack(meta) : meta.id === 'xiahoudun' ? validXiahoudunPack(meta) : validMotionPack(meta)
+  const valid = meta.id === 'soldier' ? validSoldierPack(meta) : meta.id === 'spearman' ? validSpearmanPack(meta) : meta.id === 'archer' ? validArcherPack(meta) : meta.id === 'zhangfei' ? validZhangfeiPack(meta) : meta.id === 'zhaoyun' ? validZhaoyunPack(meta) : meta.id === 'weiyan' ? validWeiyanPack(meta) : meta.id === 'huangzhong' ? validHuangzhongPack(meta) : meta.id === 'lidian' ? validLidianPack(meta) : meta.id === 'xiahoudun' ? validXiahoudunPack(meta) : meta.id === 'xuchu' ? validXuchuPack(meta) : validMotionPack(meta)
   if (!valid) return reject()
-  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : meta.id === 'zhangfei' ? zhangfeiClips() : meta.id === 'zhaoyun' ? zhaoyunClips() : meta.id === 'weiyan' ? weiyanClips() : meta.id === 'huangzhong' ? huangzhongClips() : meta.id === 'lidian' ? lidianClips() : meta.id === 'xiahoudun' ? xiahoudunClips() : guanyuClips())
+  const clipTable = clips ?? (meta.id === 'soldier' ? soldierClips() : meta.id === 'spearman' ? spearmanClips() : meta.id === 'archer' ? archerClips() : meta.id === 'zhangfei' ? zhangfeiClips() : meta.id === 'zhaoyun' ? zhaoyunClips() : meta.id === 'weiyan' ? weiyanClips() : meta.id === 'huangzhong' ? huangzhongClips() : meta.id === 'lidian' ? lidianClips() : meta.id === 'xiahoudun' ? xiahoudunClips() : meta.id === 'xuchu' ? xuchuClips() : guanyuClips())
   const keys = motionTextureKeys(meta.id)
   const images: CanvasImageSource[] = []
   const pageChecks: Array<[string, { width: number; height: number }, string]> = [[keys.sheet, meta.sheet, meta.signatures.sheet]]
@@ -704,7 +727,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : meta.id === 'zhaoyun' ? motionFrameForZhaoyun : meta.id === 'weiyan' ? motionFrameForWeiyan : meta.id === 'huangzhong' ? motionFrameForHuangzhong : meta.id === 'lidian' ? motionFrameForLidian : meta.id === 'xiahoudun' ? motionFrameForXiahoudun : undefined, ...(meta.id === 'zhangfei' ? { collapseTail: ZHANGFEI_COLLAPSE_TAIL } : {}), ...(meta.id === 'zhaoyun' ? { collapseTail: ZHAOYUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'weiyan' ? { collapseTail: WEIYAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'huangzhong' ? { collapseTail: HUANGZHONG_COLLAPSE_TAIL } : {}), ...(meta.id === 'lidian' ? { collapseTail: LIDIAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'xiahoudun' ? { collapseTail: XIAHOUDUN_COLLAPSE_TAIL } : {}) }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : meta.id === 'zhaoyun' ? motionFrameForZhaoyun : meta.id === 'weiyan' ? motionFrameForWeiyan : meta.id === 'huangzhong' ? motionFrameForHuangzhong : meta.id === 'lidian' ? motionFrameForLidian : meta.id === 'xiahoudun' ? motionFrameForXiahoudun : meta.id === 'xuchu' ? motionFrameForXuchu : undefined, ...(meta.id === 'zhangfei' ? { collapseTail: ZHANGFEI_COLLAPSE_TAIL } : {}), ...(meta.id === 'zhaoyun' ? { collapseTail: ZHAOYUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'weiyan' ? { collapseTail: WEIYAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'huangzhong' ? { collapseTail: HUANGZHONG_COLLAPSE_TAIL } : {}), ...(meta.id === 'lidian' ? { collapseTail: LIDIAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'xiahoudun' ? { collapseTail: XIAHOUDUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'xuchu' ? { collapseTail: XUCHU_COLLAPSE_TAIL } : {}) }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }
@@ -724,8 +747,10 @@ export interface MotionFrameRef {
 }
 
 /** Presentation history stays per scene/entity; no wall-clock frame queue. */
-// Xiahou Dun's AI stateTick stops in flight. Track observed displacement in
-// the existing per-entity presentation history; frozen renders add zero age.
+// Boss AI stateTick stops in flight (Xiahou Dun CMR-14B, Xu Chu CMR-15B).
+// Track observed displacement in the existing per-entity presentation
+// history; frozen renders add zero age.
+const OBSERVED_THROWN_KINDS = new Set(['xiahoudun', 'xuchu'])
 type RuntimePlayback = MotionPlayback & { thrownX?: number; thrownAge?: number }
 const playback = new WeakMap<Phaser.Scene, Map<number, RuntimePlayback>>()
 export function clearMotionPlayback(scene: Phaser.Scene): void { playback.delete(scene) }
@@ -751,7 +776,7 @@ export function ensureMotionFrame(scene: Phaser.Scene, entity: Entity): MotionFr
   const prev = state.get(entity.id)
   let observed: Entity = entity
   let thrownAge: number | undefined
-  if (entity.kind === 'xiahoudun' && entity.state === 'thrown') {
+  if (OBSERVED_THROWN_KINDS.has(entity.kind) && entity.state === 'thrown') {
     const moved = prev?.state === 'thrown' && prev.thrownX !== undefined ? Math.abs(entity.x - prev.thrownX) : 0
     const speed = Math.abs(entity.vx)
     thrownAge = prev?.state === 'thrown'
@@ -760,9 +785,9 @@ export function ensureMotionFrame(scene: Phaser.Scene, entity: Entity): MotionFr
     observed = { ...entity, airTicks: thrownAge }
   }
   // Core victims are `grabbed`, unlike the holder's `grab`. Bridge only a
-  // genuinely freed, grounded Xiahou victim into the existing release history.
+  // genuinely freed, grounded boss victim into the existing release history.
   // Throws, death and attacks retain their current binding and clocks.
-  const releasePrev = entity.kind === 'xiahoudun' && prev?.state === 'grabbed'
+  const releasePrev = OBSERVED_THROWN_KINDS.has(entity.kind) && prev?.state === 'grabbed'
     && (entity.state === 'idle' || entity.state === 'walk') && entity.grabbedBy === null
     && entity.z === 0 && entity.mountedOn === null ? { ...prev, state: 'grab' as const } : prev
   const sample = advanceMotion(art, observed, tick, releasePrev)

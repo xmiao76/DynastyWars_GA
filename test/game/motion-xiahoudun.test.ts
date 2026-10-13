@@ -361,12 +361,12 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
     expect(expensive.deferred).toContain('xiahoudun')
     expect(expensive.plannedBytes).toBeLessThanOrEqual(10000000)
   })
-  it('non-Xiahou stage1/3 request rosters and future-kind order remain unchanged', () => {
+  it('non-Xiahou stage1 request roster and future-kind order remain unchanged (stage3 is Xu Chu boss-first since CMR-15B)', () => {
     const kinds = (id: string): string[] => [...new Set([
       ...STAGES[id]!.waves.flatMap((wave) => wave.spawns.map((spawn) => spawn.kind)),
       ...STAGES[id]!.props.map((prop) => prop.kind), STAGES[id]!.bossKind, 'arrow', 'meat', 'sword', 'crate',
     ])]
-    for (const id of ['stage1', 'stage3']) {
+    for (const id of ['stage1']) {
       const stageKinds = kinds(id)
       const futureKinds = [...new Set(STAGE_ORDER.slice(STAGE_ORDER.indexOf(id as 'stage1') + 1).flatMap(kinds))].filter((kind) => !stageKinds.includes(kind))
       expect(motionStageRequest(id, 'guanyu', 'zhangfei')).toEqual({ hero: 'guanyu', secondPlayer: 'zhangfei', stageKinds, futureKinds })
@@ -384,6 +384,6 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
     expect(scope1.prefetch).not.toContain('xiahoudun')
     expect(scope1.prefetch).not.toContain('xuchu')
     const futureScope = stageMotionScope({ hero: 'xiahoudun', stageKinds: [], futureKinds: ['lidian', 'xuchu'], secondPlayer: null, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(futureScope.prefetch).toEqual(['lidian'])
+    expect(futureScope.prefetch).toEqual(['lidian', 'xuchu']) // Xu Chu catalogued by CMR-15B
   })
 })
