@@ -7,11 +7,14 @@ Formal per-criterion review of the CMR-15B runtime on the
 [Xu Chu action review](../XUCHU_ACTION_REVIEW.md) (commit `bcffcee`)
 covered the `artifacts/motion-review/` captures; this one judges the
 integration captures only and does not re-claim its evidence. All
-verdicts below are consumer self-check, fixed-unverified. After the
-independent-review evidence fixes (#2 crit-4 package, #3 mobile
-actual-viewport recapture, work `cmr15b-crit4-mobile-evidence`),
-the only remaining DONE item is a clean `npm run prodbuild` rerun
-(see Remaining), so CMR-15B stays **IN_PROGRESS**, not DONE.
+verdicts below are consumer self-check, fixed-unverified, unchanged
+by this reconciliation. After the independent-review evidence fixes
+(#2 crit-4 package, #3 mobile actual-viewport recapture, work
+`cmr15b-crit4-mobile-evidence`), criterion 8 was closed by the
+clean-tree prodbuild below and specification step 6 by independent
+review of the existing `bcffcee`/`7d89e8d` captures under the
+owner's no-recapture instruction (no fresh captures); CMR-15B is
+**DONE** at commit `43263e8` (see Remaining).
 
 ## Runtime identity
 
@@ -185,7 +188,7 @@ blanket/transfer beyond these exact images integrated as-is:
 | 5 | Actual footage + before/after contact/crop evidence every action/facing; capture commit/hash/dirty known | **PASS with caveats** | Contact sheets + enlarged crops + webm per run; commit/dirty/dirty hashes recorded (`bcffcee` canvas/webgl, `7d89e8d` mobile recapture); mobile viewport now **proven actual 844×390** in its index (see caveat above); remaining caveats: no legacy pair sheets (0 legacy rows — 12B/14B practice), footage not played at native speed |
 | 6 | Load/decode/cache within CMR-03; restart/cancel/evict as relevant | **PASS** | Decoded 9,388,376 ≤ 16 MiB; stage network 7,488,328 B, retained 39,892,600 ≤ 128 MiB, cloned canvas 0 (runtime.json); catalog/scope/budget suites recorded green, rerun catalog 14/14, scope 6/6, budget 9/9 |
 | 7 | Earlier fighters / Guan Yu reference unchanged; opt-in, default legacy | **PASS for 15B commits** | `1ec8478`+`bcffcee` touch no other fighter's pack; `?motion=1` only. Caveat: unrelated dirty packs sit in the working tree (not in these commits), left unstaged |
-| 8 | All applicable checks pass with documented baseline-only exceptions | **NOT YET** | See Checks: prodbuild on the integration tree is red for a documented dirty-Guan-Yu root cause; a clean rerun after that work is reconciled is still owed. Keeps the task IN_PROGRESS |
+| 8 | All applicable checks pass with documented baseline-only exceptions | **PASS** | See Checks: the dirty-tree prodbuild red (documented dirty-Guan-Yu root cause) is superseded by exactly one clean-tree rerun at committed HEAD `f5a381d` — **14/14 passed, exit 0**, log `artifacts/motion/xuchu/integration/prodbuild-clean.log`. Closes the last DONE gate; CMR-15B DONE at `43263e8` |
 
 ## Checks
 
@@ -209,27 +212,34 @@ blanket/transfer beyond these exact images integrated as-is:
   matches its pinned page record (committed 1,782,790 B), so the Guan
   Yu pack correctly falls back to whole-fighter legacy — `guanyu`
   missing from published sets and 5 instead of 6 motion page requests
-  in the GU-pilot/Xiahou build specs. A clean-HEAD prodbuild 14/14
-  was recorded for the earlier `bcffcee` capture package, but **for
-  the integration state a prodbuild rerun after the dirty Guan Yu
-  work is reconciled (committed or reverted by its owner) is still
-  owed** and is now the sole remaining DONE gate (see Remaining).
-  It was deliberately not rerun on the still-dirty tree in the
-  crit-4/mobile evidence package.
+  in the GU-pilot/Xiahou build specs. That dirty-tree result is
+  superseded: exactly one clean-tree rerun at committed HEAD
+  `f5a381d` (porcelain clean before the run) passed **14/14
+  (59.9s, exit 0)**, log
+  `artifacts/motion/xuchu/integration/prodbuild-clean.log`,
+  closing criterion 8. Specification step 6 was satisfied by
+  independent review of the **existing** captures (`bcffcee`
+  Canvas/WebGL, `7d89e8d` canvas-mobile) under the owner's
+  no-recapture instruction — no fresh captures were taken or are
+  claimed. CMR-15B DONE at `43263e8`.
 - No `signal` rerun claimed here (no timing/AI/observer change in
   15B); G6/UIR-19 baselines untouched by this review.
 
-## Remaining for DONE
+## Remaining for DONE — none
 
-1. **`npm run prodbuild` clean rerun only** — once the dirty Guan Yu
-   (and sibling) pack work is reconciled, to close criterion 8 on a
-   clean tree. (Independent-review evidence fixes #2/#3 are applied
-   above: the crit-4 post-registration package in `integration/crit4/`
-   and the mobile actual-viewport recapture. Standing OPEN landmarks
-   `contactU`/`weaponTipU` and the carried 15A head/weapon limitations
-   remain transferred exactly as recorded in the crit-4 package —
-   they are not closed by this review and are not separate remaining
-   work items, same shape as 12B/13B/14B.)
+CMR-15B is **DONE** at commit `43263e8`. Criterion 8 was closed by
+the clean-tree `npm run prodbuild` **14/14** at `f5a381d` (log
+`artifacts/motion/xuchu/integration/prodbuild-clean.log`), and
+specification step 6 by independent review of the **existing**
+`bcffcee` Canvas/WebGL + `7d89e8d` canvas-mobile captures under the
+owner's no-recapture instruction — no fresh captures claimed.
+(Independent-review evidence fixes #2/#3 stand as applied above:
+the crit-4 post-registration package in `integration/crit4/` and
+the mobile actual-viewport recapture. Standing OPEN landmarks
+`contactU`/`weaponTipU` and the carried 15A head/weapon limitations
+remain transferred exactly as recorded in the crit-4 package —
+they are not closed by DONE and are not separate remaining work
+items, same shape as 12B/13B/14B.)
 
 ## Artifacts
 
