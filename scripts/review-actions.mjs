@@ -3,7 +3,7 @@ import { readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 const OUT = 'artifacts/wholeframe/actions'
 mkdirSync(OUT, { recursive: true })
-const names = ['jump', 'jumpkick', 'hurt', 'knockdown', 'special', 'grab', 'mounted', 'dismount', 'airfall', 'ko']
+const names = ['jump', 'jumpkick', 'hurt', 'knockdown', 'special', 'grab', 'airfall', 'ko']
 const shots = readdirSync(`${OUT}/frames`).filter((f) => f.endsWith('.png')).sort()
 for (const name of names) {
   const files = shots.filter((f) => f.startsWith(`right-${name}-`))

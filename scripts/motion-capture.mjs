@@ -367,7 +367,7 @@ const report = {
                       decodedBytes: 2011 * 1646 * 4, gpuBytes: 2011 * 1646 * 4,
                       caps: { pageLimit: 2048, decodedPerFighter: 16 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
                     }
-                    : { networkBytes: 4_328_499, sourceBytes: 4_328_499, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
+                    : { networkBytes: 3_908_521, sourceBytes: 3_908_521, decodedBytes: 15_543_160, gpuBytes: 15_543_160 }),
     clonedCanvasBytes: 0,
   }),
   coverageSummary: {

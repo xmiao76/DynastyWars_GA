@@ -49,7 +49,7 @@ same-session goal. Full approved plan also remains in the session.
 - Validate all five IDs/expressions, finite pivots, alpha bounds, preparation
   determinism. Negative controls: missing/blank/swapped heads, erased features,
   shifted pivots. Retain fallback tests and all unrelated gates.
-- Inspect all 14 poses, both facings, mounted/co-op/restarts, texture reuse.
+- Inspect all 14 poses, both facings, co-op/restarts, texture reuse.
 - Before/after sheets at native select/HUD/gameplay size, phone + desktop;
   short motion capture detects head sliding, beard intersection, pasted-on seams.
 - Portrait/gameplay identity must agree; source traits and convincing natural

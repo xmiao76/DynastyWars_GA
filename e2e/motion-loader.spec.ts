@@ -64,7 +64,7 @@ test('stage-scoped loading: measured downloads, restart and stage progression ne
   expect(await spriteId(page, 'playerId')).toBe('entity:guanyu:motion:walk:0')
   // Measured stage-entry downloads (contract: <= 12 MiB).
   const bytes = (await Promise.all(responses.map(async (r) => (await r.body().catch(() => Buffer.alloc(0))).length))).reduce((a, b) => a + b, 0)
-  expect(bytes).toBe(1_782_790 + 2_545_709)
+  expect(bytes).toBe(1_782_790 + 2_125_731)
   expect(bytes).toBeLessThanOrEqual(12 * 1024 * 1024)
   // Restart (a fresh stage run): zero re-downloads - the pack cache is warm.
   await page.evaluate(() => window.__DW__!.startGame('guanyu', 43, 'stage1'))
