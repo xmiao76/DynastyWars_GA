@@ -131,6 +131,14 @@ loop stays inert.
   silently change with the texture density; `e2e/artscale.spec.ts` guards that.
   Camera BOUNDS are not used: Phaser's `clampX` assumes a centred origin.
 - The simulation must be deterministic: seeded RNG plus fixed 1/60s timestep; no `Math.random` or wall-clock time in core logic.
+- Character rendering is migrating to motion packs as the sole mode under the
+  owner-approved `docs/MOTION_SOLE_MODE_MIGRATION.md`: CMR-23 is the pre-flip
+  validation gate, CMR-24 is the two-part sole-motion final gate (default-flip
+  evidence before any legacy deletion, post-delete verification after), the
+  12 MiB stage-entry cap becomes wave-split with retry-then-error semantics,
+  and `?motion=0` exists only temporarily until the final deletion slice.
+  Until the Phase 3 flip lands, motion remains opt-in (`?motion=1`) and the
+  legacy renderer is the default; no slice runs ahead of its phase gate.
 - Automated browser runs (e2e, producer signals) default to the canvas
   renderer (`?renderer=canvas`) and the autopilot debug bridge
   (`?autopilot=1`) for stability. The visual signal ALSO checks WebGL,

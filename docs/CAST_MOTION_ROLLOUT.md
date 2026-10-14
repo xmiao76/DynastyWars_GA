@@ -5,7 +5,7 @@
 The owner accepts the Guan Yu enhancements and requests the same approach for every character, implemented by **loop threads, not this main planning thread**. The owner selected:
 
 1. Prioritize the character rollout over older unfinished tracks.
-2. Keep the cast opt-in behind `?motion=1` until separate owner approval of normal-play activation.
+2. Keep the cast opt-in behind `?motion=1` until separate owner approval of normal-play activation. **Superseded prospectively (2026-10-14):** the owner has now approved the staged sole-motion migration in [MOTION_SOLE_MODE_MIGRATION.md](MOTION_SOLE_MODE_MIGRATION.md) — CMR-23 pre-flip validation first, then wave-split loading/retry-then-error, default flip with temporary `?motion=0`, the two-part CMR-24 sole-motion gate, and legacy deletion only in the final slice. Until the Phase 3 flip actually lands, runtime behavior is unchanged (still opt-in); no slice may flip or delete ahead of its phase gate.
 
 Planning baseline: `540501c`, following Guan Yu implementation/review commits `d7d44eb`, `c2cf3fa`, `33e207f`, and `a6c6057`. The accepted reference is the current visual result, not a claim that every historical metric passed. Existing limitations stay in the [Guan Yu action review](GUANYU_ACTION_REVIEW.md).
 
@@ -18,7 +18,7 @@ Planning baseline: `540501c`, following Guan Yu implementation/review commits `d
 - Every CMR entry links its detailed specification. Load this shared contract and **only the selected specification** plus its listed local code. Avoid reading all 40 specifications in every iteration. Specification headers record initial status/attempts; the live queue and newest progress are authoritative after work begins.
 - Each consumer works on exactly one task. Continue IN_PROGRESS before choosing the first TODO. Implement no dependent task until prerequisites are DONE with evidence.
 - Owner-approved bounded autonomy supersedes ordering-only sequential edges: explicit Requires in the compact queue models actual prerequisite artifacts. Park a local incomplete fighter, never publish it or reset its BLOCKED status; select another ready independent task sequentially under the same sole-writer rule. Xu Chu source authoring needs completed foundations, not Xiahou Dun integration. Pair/full-cast tasks still require every current cast integration DONE. See [execution envelope and classified outcomes](LOOP_AUTONOMY.md).
-- GYM-1, BODY-7, ENH-12 and UIR-19 are explicitly owner-deferred as BLOCKED, preserving evidence and attempt counts. UIR-16 remains blocked as before. Unrelated TODOs follow the CMR queue. No loop policy or runner changes are required.
+- GYM-1, BODY-7, ENH-12 and UIR-19 are explicitly owner-deferred as BLOCKED, preserving evidence and attempt counts. UIR-16 remains blocked as before. Unrelated TODOs follow the CMR queue. No loop policy or runner changes are required. **Update (2026-10-14, sole-motion decision):** GYM-1 and BODY-7 are closed DONE as explicitly obsolete/superseded — both targeted the legacy renderer the migration deletes; no implementation of their original criteria is claimed and their records are preserved. ENH-12/UIR-19/UIR-16 are unchanged.
 - A task is not DONE because artwork was generated or the loader boots. Task-specific acceptance and relevant checks must pass. Producers independently verify fresh visual evidence; consumers never grade their own ledger findings as verified.
 - Existing three-unsuccessful-CONSUMER-iteration rule applies **per task**, with iteration records preserved across threads/models; three failed formulas within one diagnostic iteration are not three task iterations. For a selected CMR-A task's Acceptance 4, use the [bounded diagnosis and focused-redraw recovery](MOTION_ACCEPTANCE4_RECOVERY.md) without lowering the quality gate, reopening a blocked task or starting a second writer. Generation limits are additional caps, not permission to retry indefinitely.
 - Local commits only, scoped to the selected iteration. No push/deploy, other repository changes, secret access, permission escalation or scheduler/runner-control changes.
@@ -50,8 +50,8 @@ No new gameplay states, weapons, shields, attacks, damage, timing, range, speed,
 | [CMR-13A](motion-tasks/CMR-13A.md) / [13B](motion-tasks/CMR-13B.md) | Li Dian | 12B → 13A → 13B |
 | [CMR-14A](motion-tasks/CMR-14A.md) / [14B](motion-tasks/CMR-14B.md) | Xiahou Dun | 13B → 14A → 14B |
 | [CMR-15A](motion-tasks/CMR-15A.md) / [15B](motion-tasks/CMR-15B.md) | Xu Chu | CMR-05 → 15A → 15B (independent source pack) |
-| [CMR-23](motion-tasks/CMR-23.md) | Paired grab/throw (on foot) | All current cast B packs |
-| [CMR-24](motion-tasks/CMR-24.md) | Full-cast verification/owner presentation | CMR-23 |
+| [CMR-23](motion-tasks/CMR-23.md) | Paired grab/throw (on foot); sole-motion pre-flip validation gate (migration Phase 1) | All current cast B packs |
+| [CMR-24](motion-tasks/CMR-24.md) | Sole-motion final gate: default-flip evidence (Part A, before deletion) + post-delete verification (Part B); carries migration Phases 2–6 slices in order | CMR-23 |
 
 Each A authors/prepares a complete applicable pack without runtime activation. Each B integrates/reviews its own accepted A. Historical completed chains remain evidence; current explicit Requires controls ready selection and removes ordering-only links approved above. Pair/final work still waits for all actual prerequisite packs. Sequential sole-writer execution remains; independent readiness is not parallel writing.
 
@@ -86,13 +86,13 @@ Baseline measurement: Guan Yu regular atlas 1,827,406 bytes, actions 2,616,482 b
 Initial hard limits:
 - Density 2, atlas pages ≤2048×2048; trim/deduplicate frame pixels with exact pivot restoration.
 - ≤16 MiB decoded motion pixels/humanoid; ≤128 MiB retained motion-page cache.
-- ≤12 MiB added motion download to enter a stage, including immediate co-op needs. Report source PNG/network bytes and decode/GPU estimates separately.
+- ≤12 MiB added motion download to enter a stage, including immediate co-op needs. Report source PNG/network bytes and decode/GPU estimates separately. **Sole-motion staging (migration Phase 2+):** this cap is applied per spawn wave (wave-split) as defined in [MOTION_SOLE_MODE_MIGRATION.md](MOTION_SOLE_MODE_MIGRATION.md); the cap value itself does not move.
 - Skip cloning each drawing into a separate canvas; share native atlas frames. Release pages/textures safely when unused, including late-load cancellation and scene restarts.
-- Load stage/selected fighters and immediate default 2P hero, not all cast at title. Prefetch future kinds before needed; later joins with an uncached optional hero wait for bounded preparation before core join. If unavailable, settle on the whole legacy pack before joining.
-- Publication is atomic per fighter: missing/corrupt/timed-out/unsupported pack retains whole legacy rendering for that fighter for the stage, never old poses inserted into a valid new pack. Unmigrated fighters remain fully legacy.
+- Load stage/selected fighters and immediate default 2P hero, not all cast at title. Prefetch future kinds before needed; later joins with an uncached optional hero wait for bounded preparation before core join. If unavailable, settle on the whole legacy pack before joining (opt-in-era behavior; migration Phase 2 replaces this with retry-then-error blocking the join).
+- Publication is atomic per fighter: missing/corrupt/timed-out/unsupported pack retains whole legacy rendering for that fighter for the stage, never old poses inserted into a valid new pack. Unmigrated fighters remain fully legacy. **Opt-in-era semantics:** under the approved sole-motion migration this legacy retention is replaced in Phase 2 by bounded retry then a visible blocking error (atomicity unchanged); until that slice lands, the legacy behavior above is still the live runtime contract.
 - Bounded loading, cancellation, no per-render retry, no new clock dependency in core. Preserve all already-published ArtResources fields during asynchronous publication.
 
-If limits are not achievable, report measurements and block the selected task for owner review. Never quietly raise limits or solve it by lowering visual thresholds. Report fallback-art memory separately; do not claim optional motion totals cover whole-game memory.
+If limits are not achievable, report measurements and block the selected task for owner review. Never quietly raise limits or solve it by lowering visual thresholds. Report fallback-art memory separately while a fallback still exists (pre-Phase-5); do not claim optional motion totals cover whole-game memory.
 
 ## Applicable actions
 
@@ -124,7 +124,7 @@ Paired review: 5 heroes×6 enemies×2 facings, contact/depth/ground plus release
 
 ## Checks and known baseline findings
 
-Every implementation: meaningful targeted tests, lint/typecheck and recorded results. Source/UI integration: applicable e2e plus vision/prodbuild. Shared timing/loading/paired interactions: signal. Final CMR-24: full serial lint, typecheck, unit, e2e, signal, vision, build, prodbuild and fresh full visual review.
+Every implementation: meaningful targeted tests, lint/typecheck and recorded results. Source/UI integration: applicable e2e plus vision/prodbuild. Shared timing/loading/paired interactions: signal. CMR-24 (both Part A pre-deletion and Part B post-delete): full serial lint, typecheck, unit, e2e, signal, vision, build, prodbuild and fresh full visual review.
 
 Known starting blockers: arm-chain G6 unit failure on old paper-doll rendering and six possibly-undefined errors in the old UIR-19 hand test. CMR-01 reproduces them; future tasks must cause **no new failures** and document baseline exceptions instead of declaring full green. Do not weaken those gates or fix unrelated hand implementation as a side effect. Final report distinguishes accepted owner baseline exceptions from any remaining new defect.
 
@@ -140,6 +140,6 @@ No monetary cost or wall-time estimate is asserted: request cap is a ceiling, no
 
 ## Final handoff
 
-CMR-24 delivers an indexed whole-cast review page, actual action videos, applicable coverage matrix, performance/download/decode report, latest gate results and explicit unresolved issues. It remains opt-in; owner must explicitly approve default activation later. Do not retire legacy fallback, delete old tests or deploy during this rollout.
+CMR-24 delivers an indexed whole-cast review page, actual action videos, applicable coverage matrix, performance/download/decode report, latest gate results and explicit unresolved issues. **Superseded staging (2026-10-14):** the former "remains opt-in until later owner approval; do not retire legacy fallback or delete old tests" instruction is replaced by the owner-approved [sole-motion migration](MOTION_SOLE_MODE_MIGRATION.md): CMR-23 validates pre-flip, CMR-24 Part A gates the default flip, and only then may the final slice retire the legacy fallback/renderer, its exclusive tests and the temporary `?motion=0`, with CMR-24 Part B verifying the post-delete tree. No rollout or migration slice deploys; deployment stays owner-manual.
 
 The main thread completes by publishing this contract, 28 specifications, ordered queue/progress changes and a local planning commit. The next consumer task is CMR-01 **after any due producer review**. Implementation starts only in later loop threads.
