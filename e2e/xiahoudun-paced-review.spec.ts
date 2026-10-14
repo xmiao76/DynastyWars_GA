@@ -1,12 +1,14 @@
 import { Buffer } from 'node:buffer'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 import { ENEMIES } from '../src/core/enemies'
 import { makeCombatant } from '../src/core/entities'
 import type { Sim } from '../src/core/sim'
 
 type Live = { sim: Sim; paused: boolean; syncSprites(): void; sprites: Map<number, { frame: { name: string }; texture: { key: string }; x: number; y: number; displayOriginX: number; displayOriginY: number; scaleX: number; scaleY: number }>; cameras: { main: { zoom: number; scrollX: number; scrollY: number } } }
+// Stage2 GU/default-ZF source bytes, derived from the six committed pages.
+const STAGE2_BYTES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png'].reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
 for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['right', 'left'] as const) {
   test(`native real-clock Xiahou ${renderer}/${facing}`, async ({ page }, info) => {
     test.setTimeout(60000)
@@ -81,7 +83,7 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['righ
     expect(result.rows.some((r) => r.segment === 'heavy' && r.key.startsWith('heavy:'))).toBe(true)
     expect(result.rows.some((r) => r.segment === 'held-release' && r.key === 'misc:4')).toBe(true)
     expect(result.rows.some((r) => r.segment === 'held-release' && r.key.startsWith('walk:'))).toBe(true)
-    expect(result.budget.sourceBytes).toBe(12372346); expect(result.budget.sourceBytes).toBeLessThanOrEqual(result.budget.caps.stageDownloads)
+    expect(result.budget.sourceBytes).toBe(STAGE2_BYTES); expect(result.budget.sourceBytes).toBeLessThanOrEqual(result.budget.caps.stageDownloads)
     expect(errors).toEqual([])
   })
 }

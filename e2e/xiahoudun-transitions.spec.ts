@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, statSync, writeFileSync } from 'node:fs'
 import { expect, test } from '@playwright/test'
 import { ENEMIES } from '../src/core/enemies'
 import { makeCombatant } from '../src/core/entities'
@@ -7,6 +7,8 @@ import type { Entity } from '../src/core/types'
 
 test.use({ video: 'on' })
 const OUT = process.env.XIAHOU_TRANSITION_OUT ?? 'artifacts/CMR-14B/transitions-01/browser-final'
+// Stage2 GU/default-ZF source bytes, derived from the six committed pages.
+const STAGE2_BYTES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png'].reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
 type Sprite = { frame: { name: string; realWidth: number; realHeight: number }; texture: { key: string }; x: number; y: number; scaleX: number; scaleY: number; originX: number; originY: number; displayOriginX: number; displayOriginY: number; flipX: boolean }
 type Live = { sim: Sim; paused: boolean; syncSprites(): void; sprites: Map<number, Sprite>; cameras: { main: { zoom: number; scrollX: number; scrollY: number } } }
 for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['right', 'left'] as const) {
@@ -107,7 +109,7 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['righ
       return { rows, walk, images, freezeCorrect, flightFrozen, runtime: { budget: motionRuntime().budget(), published: Object.keys(engine.registry.get('paintedHeroArt').motions).sort() }, camera: { zoom: g.cameras.main.zoom, scrollX: g.cameras.main.scrollX, scrollY: g.cameras.main.scrollY } }
     }, { boss, facing })
     expect(result.runtime.published).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
-    expect(result.runtime.budget.sourceBytes).toBe(12372346)
+    expect(result.runtime.budget.sourceBytes).toBe(STAGE2_BYTES)
     expect(result.freezeCorrect).toBe(true); expect(result.flightFrozen).toBe(true)
     expect(result.rows.filter((r) => r.phase === 'DOWN to dying').every((r) => r.key === 'fall:4')).toBe(true)
     for (const row of result.rows.filter((r) => r.phase.includes('interrupted'))) expect(row.key).toMatch(/^(getup:|fall:4)/)

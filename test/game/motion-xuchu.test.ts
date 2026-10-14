@@ -305,14 +305,15 @@ describe('Xu Chu real PNG atomic publication, routing and resource limits', () =
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xuchu', 'soldier'])
     expect(req.stageKinds).toEqual(['xuchu', 'soldier', 'archer', 'spearman', 'crate', 'arrow', 'meat', 'sword'])
-    expect(scope.plannedBytes).toBe(11816827)
-    expect(CONTRACT_CAPS.stageDownloads).toBe(12582912)
+    expect(scope.plannedBytes).toBe(scope.immediate.reduce((n, kind) => n + packs[kind]!.sourceBytes, 0))
+    expect(CONTRACT_CAPS.stageDownloads).toBe(12 * 1024 * 1024)
     expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
     expect(scope.deferred).toEqual(expect.arrayContaining(['archer', 'spearman']))
     // Negative control: the pure policy on the old encounter-order roster
     // still defers the boss; no cap is raised to fit it.
     const old = stageMotionScope({ ...req, stageKinds: [...req.stageKinds.slice(1), 'xuchu'], packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'archer'])
+    // Post-rider-strip spearman fits on the old order too; the boss still does not.
+    expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'archer', 'spearman'])
     expect(old.deferred).toContain('xuchu')
   })
   it('stage3 includes its boss dynamically and stage1 does not publish Xu Chu', () => {

@@ -10,7 +10,13 @@ import type { Sim } from '../src/core/sim'
 import type { EntityState } from '../src/core/types'
 import type { MotionArt } from '../src/game/art/motion-clips'
 import { imageSignature, signatureMatches } from '../src/game/art/image-signature'
+import { CONTRACT_CAPS } from '../src/game/adapters/motion-catalog'
 import prepared from '../src/game/assets/motion/xiahoudun-prepared.json' with { type: 'json' }
+
+// Stage2 GU/default-ZF downloads = these six committed pages (guanyu 2 +
+// zhangfei 2 + xiahoudun 1 + soldier 1); expected bytes derive from the files.
+const STAGE2_FILES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png']
+const EXPECTED_BYTES = STAGE2_FILES.reduce((n, f) => n + readFileSync(`src/game/assets/motion/${f}`).length, 0)
 
 // Node-only imports construct complete fixtures and independent expectations.
 // The browser executes the shipped minified bundle: never import /src there.
@@ -78,7 +84,7 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
     expect(requests, 'no all-cast motion preload, even opted in').toEqual([])
     await stage(page)
     await expect.poll(() => published(page)).toEqual(enabled ? ['guanyu', 'soldier', 'xiahoudun', 'zhangfei'] : [])
-    if (enabled) await expect.poll(() => requests.length).toBe(6)
+    if (enabled) await expect.poll(() => requests.length).toBe(STAGE2_FILES.length)
     else expect(requests).toEqual([])
     expect(await page.evaluate(() => window.__DW__!.joinP2())).toBe(true)
     expect(await page.evaluate(() => window.__DW__!.getSnapshot().sim?.char2Id)).toBe('zhangfei')
@@ -91,9 +97,9 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
     const observed = await Promise.all(downloads)
     let pack: unknown = null
     if (enabled) {
-      expect(observed).toHaveLength(6)
-      expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(12372346)
-      expect(observed.reduce((n, r) => n + r.bytes, 0)).toBeLessThanOrEqual(12582912)
+      expect(observed).toHaveLength(STAGE2_FILES.length)
+      expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(EXPECTED_BYTES)
+      expect(observed.reduce((n, r) => n + r.bytes, 0)).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
       const boss = observed.filter((r) => isBossPNG(r.url))
       expect(boss).toHaveLength(1)
       expect(boss[0]).toMatchObject({ bytes: 2220630, sha256: HASH, width: 2044, height: 1589, signature: true })

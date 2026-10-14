@@ -343,17 +343,18 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xiahoudun', 'soldier'])
     expect(req.stageKinds).toEqual(['xiahoudun', 'soldier', 'spearman', 'archer', 'crate', 'arrow', 'meat', 'sword'])
-    expect(scope.plannedBytes).toBe(11860273)
-    expect(CONTRACT_CAPS.stageDownloads).toBe(12582912)
+    expect(scope.plannedBytes).toBe(scope.immediate.reduce((n, kind) => n + packs[kind]!.sourceBytes, 0))
+    expect(CONTRACT_CAPS.stageDownloads).toBe(12 * 1024 * 1024)
     expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
     expect(scope.deferred).toEqual(expect.arrayContaining(['spearman', 'archer']))
     expect(scope.prefetch).toEqual([])
     // Negative control: the actual pure policy on the old encounter-order
     // roster still defers the boss. No source-text/regex fixture stands in for it.
     const old = stageMotionScope({ ...req, stageKinds: [...req.stageKinds.slice(1), 'xiahoudun'], packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'spearman'])
+    // Post-rider-strip the mooks all fit on the old order; the boss still does not.
+    expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'spearman', 'archer'])
     expect(old.deferred).toContain('xiahoudun')
-    expect(['soldier', 'spearman', 'archer', 'xiahoudun'].reduce((sum, kind) => sum + packs[kind]!.sourceBytes, packs.guanyu!.sourceBytes + packs.zhangfei!.sourceBytes)).toBe(15043884)
+    expect(['soldier', 'spearman', 'archer', 'xiahoudun'].reduce((sum, kind) => sum + packs[kind]!.sourceBytes, packs.guanyu!.sourceBytes + packs.zhangfei!.sourceBytes)).toBeGreaterThan(CONTRACT_CAPS.stageDownloads)
     // A selected hero pair that cannot also afford Xiahou still falls back;
     // no boss-first policy is permitted to outrank either hero or raise caps.
     const expensive = stageMotionScope({ ...motionStageRequest('stage2', 'zhaoyun', 'zhangfei'), packs, budgetBytes: 9000000 })

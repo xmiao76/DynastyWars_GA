@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { devices, expect, test, type Page } from '@playwright/test'
 import type { Sim } from '../src/core/sim'
 import { ENEMIES } from '../src/core/enemies'
@@ -7,6 +7,8 @@ import { makeCombatant } from '../src/core/entities'
 
 test.use({ video: 'on' })
 const OUT = 'artifacts/CMR-14B/default-stage2'
+// Stage2 GU/default-ZF source bytes, derived from the six committed pages.
+const STAGE2_BYTES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png'].reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
 const PNG_HASH = 'e1fdf7e8ea2b4128e6c0380e407e79ca8c985ceb63b09a056097da6dd85af34f'
 type Live = {
   sim: Sim; paused: boolean; syncSprites(): void
@@ -67,15 +69,15 @@ for (const renderer of ['canvas', 'webgl']) {
     const entry = await runtime(page)
     expect(entry.published).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
     expect(entry.partner, 'ordinary solo start does not silently carry P2').toBeNull()
-    expect(entry.budget.sourceBytes).toBe(12372346)
-    expect(entry.budget.networkBytes).toBe(12372346)
-    expect(entry.budget.caps.stageDownloads).toBe(12582912)
+    expect(entry.budget.sourceBytes).toBe(STAGE2_BYTES)
+    expect(entry.budget.networkBytes).toBe(STAGE2_BYTES)
+    expect(entry.budget.caps.stageDownloads).toBe(12 * 1024 * 1024)
     expect(entry.budget.sourceBytes).toBeLessThan(entry.budget.caps.stageDownloads)
     expect(entry.budget.perFighterDecoded.xiahoudun).toBe(12991664)
     expect(entry.budget.clonedCanvasBytes).toBe(0)
     expect(entry.budget.retainedBytes).toBeLessThanOrEqual(entry.budget.caps.retainedCache)
     const observed = await Promise.all(downloads)
-    expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(12372346)
+    expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(STAGE2_BYTES)
     expect(observed.find((r) => r.url.includes('xiahoudun'))?.hash).toBe(PNG_HASH)
     expect(createHash('sha256').update(readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')).digest('hex')).toBe(PNG_HASH)
     // Publication is observed while the untouched intro still prevents any sim tick.
