@@ -1,6 +1,7 @@
 // Included by test-loop.mjs: use its isolated fake-adapter fixtures, never live models.
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { applyOutcome, parseQueue, planIteration, parseDisposition, rememberWait, reviewDue } from './autonomy.mjs';
@@ -134,6 +135,16 @@ export function registerAutonomyTests({ fixture, run, calls, state, snapshot }) 
     const ledger = path.join(root, 'docs/UI_REVIEW_LEDGER.md');
     fs.writeFileSync(ledger, '## Last full review\n- Date: old\n\n## Batch\n- Status: **PENDING FILING**\n'); assert.equal(reviewDue(root), true);
     fs.writeFileSync(ledger, '## Last full review\n- **DUE NOW**: owner flag\n'); assert.equal(reviewDue(root), true);
+  });
+
+  test('a -dirty capture anchor is read as its commit, not as a missing review', () => {
+    const root = fixture(); fs.mkdirSync(path.join(root, 'docs'), { recursive: true });
+    const git = (...args) => { const r = spawnSync('git', ['-c', 'user.name=fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'commit.gpgsign=false', ...args], { cwd: root, encoding: 'utf8' }); assert.equal(r.status, 0, r.stderr); return r.stdout.trim(); };
+    git('init', '-q'); git('add', 'TASKS.md'); git('commit', '-q', '-m', 'fixture');
+    const head = git('rev-parse', '--short', 'HEAD');
+    const ledger = path.join(root, 'docs/UI_REVIEW_LEDGER.md');
+    fs.writeFileSync(ledger, `## Last full review\n- Date: now. Commit: \`${head}-dirty\` (capture commit)\n`); assert.equal(reviewDue(root), false);
+    fs.writeFileSync(ledger, `## Last full review\n- Date: now. Commit: \`${head}\`\n`); assert.equal(reviewDue(root), false);
   });
 
   test('manual producer IDLE checks empty queue only once per input fingerprint', async () => {

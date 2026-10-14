@@ -96,7 +96,9 @@ export function reviewDue(repoRoot) {
   const section = /## Last full review\s*\n([\s\S]*?)(?=\n## |$)/.exec(ledger)?.[1] ?? '';
   const plain = value => value.replace(/[*`]/g, '');
   if (/^\s*-?\s*DUE NOW\b/m.test(plain(section)) || /^\s*(?:- )?(?:Status: )?PENDING FILING\b/m.test(plain(ledger))) return true;
-  const commit = /Commit: `([a-f0-9]{7,40})`/i.exec(section)?.[1];
+  // A capture may record a dirty worktree as `<sha>-dirty`; the cadence anchor is still <sha>.
+  // Without this, the anchor parsed as missing and every Auto tick became a producer pass.
+  const commit = /Commit: `([a-f0-9]{7,40})(?:-dirty)?`/i.exec(section)?.[1];
   if (!commit) return true;
   // File stdio avoids named-pipe confinement issues. Only our unique temp dir is removed.
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'loop-cadence-'));
