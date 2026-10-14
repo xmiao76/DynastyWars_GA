@@ -4,18 +4,17 @@ import { describe, expect, it } from 'vitest'
 import { artBoxFor, drawKindPose } from '../../src/game/art/registry'
 import type { ArtResources, HeroArt } from '../../src/game/art/hero-resources'
 import type { BodyArt } from '../../src/game/art/body-parts'
-import type { HorseArt } from '../../src/game/art/horse-frames'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'
 
 /**
  * BODY-7 whole-cast review sheet: every fighter (5 heroes + 3 mooks + 3
- * bosses + the horse), all 14 poses, both facings (left = texture mirror,
+ * bosses), all 14 poses, both facings (left = texture mirror,
  * the same construction the sprite adapter uses). Writes
  * artifacts/look/body7-cast.png. Assertions: each cell has ink.
  */
 const FIGHTERS = [
   'guanyu', 'zhangfei', 'zhaoyun', 'huangzhong', 'weiyan',
-  'soldier', 'spearman', 'archer', 'horse',
+  'soldier', 'spearman', 'archer',
   'xiahoudun', 'xuchu', 'lidian',
 ] as const
 const POSES = Object.keys(POSE_TABLE) as PoseName[]
@@ -58,14 +57,6 @@ async function loadResources(): Promise<ArtResources> {
       id, revision: meta.revision, sheet, density: meta.density, parts: meta.parts,
       skin: parseInt(meta.skin.slice(1), 16),
     }
-  }
-  const hm = (await import('../../src/game/assets/horse/prepared.json')).default as Record<string, {
-    revision: string; density: number; frames: HorseArt['frames']
-  }>
-  const horse = hm['horse']
-  if (horse) {
-    const sheet = (await loadImage('src/game/assets/horse/horse-sheet.png')) as unknown as CanvasImageSource
-    resources.horse = { id: 'horse', revision: horse.revision, sheet, density: horse.density, frames: horse.frames }
   }
   return resources
 }

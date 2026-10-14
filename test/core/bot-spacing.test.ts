@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { BOT_STEP_BATCH, decideBotScript } from '../../selfplay/bot'
 import type { SimSnapshot } from '../../src/core/snapshot'
 import type { GameSnapshot } from '../../src/game/debug/bridge'
@@ -23,7 +23,7 @@ function baseSim(charId: string): SimSnapshot {
     lives: 3,
     player: {
       x: 100, y: 200, z: 0, hp: 120, maxHp: 120, state: 'idle', facing: 'right',
-      invulnerable: false, weapon: 'sword', mounted: false, horseHp: null,
+      invulnerable: false, weapon: 'sword',
     },
     player2: null,
     char2Id: null,
@@ -67,13 +67,5 @@ describe('bot spacing follows the driven hero', () => {
     const hzScript = decideBotScript(snapshotOf(hz))
     expect(hzScript[1]?.attackPressed ?? false).toBe(false)
     expect(hzScript[0]?.right).toBe(true)
-  })
-
-  it('mounted riders still space off the long spear sweep', () => {
-    // 30px ahead: inside the sweep (reach 38 - 4) but outside every hero jab.
-    const sim = baseSim('huangzhong')
-    sim.enemies = [{ id: 7, kind: 'soldier', x: 130, y: 200, z: 0, hp: 24, state: 'idle' as const, vx: 0, boss: false }]
-    sim.player.mounted = true
-    expect(decideBotScript(snapshotOf(sim))[1]?.attackPressed).toBe(true)
   })
 })

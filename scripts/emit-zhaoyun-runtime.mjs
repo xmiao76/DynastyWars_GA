@@ -95,7 +95,6 @@ const prepared = {
     'zy.jab2': 'jab2',
     'zy.finisher': 'finisher',
     'zy.special': 'special',
-    'mounted.sweep': 'dismountedsweep',
   },
   // Owner-decided per-pack decoded exception, flowing from the fighter
   // config through the pipeline manifest (single source of truth).

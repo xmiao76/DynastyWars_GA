@@ -209,22 +209,22 @@ const bindings = fighter === 'xiahoudun'
       : fighter === 'zhangfei'
         ? {
           'zf.jab1': 'jab1', 'zf.jab2': 'jab2', 'zf.finisher': 'finisher',
-          'zf.jumpkick': 'jumpkick', 'zf.special': 'special', 'mounted.sweep': 'mountedsweep',
+          'zf.jumpkick': 'jumpkick', 'zf.special': 'special',
         }
         : fighter === 'zhaoyun'
           ? {
             'zy.jab1': 'jab1', 'zy.jab2': 'jab2', 'zy.finisher': 'finisher',
-            'zy.jumpkick': 'jumpkick', 'zy.special': 'special', 'mounted.sweep': 'mountedsweep',
+            'zy.jumpkick': 'jumpkick', 'zy.special': 'special',
           }
           : fighter === 'weiyan'
             ? {
               'wy.jab1': 'jab1', 'wy.jab2': 'jab2', 'wy.finisher': 'finisher',
-              'wy.jumpkick': 'jumpkick', 'wy.special': 'special', 'mounted.sweep': 'mountedsweep',
+              'wy.jumpkick': 'jumpkick', 'wy.special': 'special',
             }
             : fighter === 'huangzhong'
               ? {
                 'hz.jab1': 'jab1', 'hz.jab2': 'jab2', 'hz.finisher': 'finisher',
-                'hz.jumpkick': 'jumpkick', 'hz.special': 'special', 'mounted.sweep': 'mountedsweep',
+                'hz.jumpkick': 'jumpkick', 'hz.special': 'special',
               }
               : fighter === 'lidian'
                 ? {
@@ -232,7 +232,7 @@ const bindings = fighter === 'xiahoudun'
                 }
                 : {
           'gy.jab1': 'jab1', 'gy.jab2': 'jab2', 'gy.finisher': 'finisher',
-          'gy.jumpkick': 'jumpkick', 'gy.special': 'special', 'mounted.sweep': 'mountedsweep',
+          'gy.jumpkick': 'jumpkick', 'gy.special': 'special',
         }
 const verdict = validateTrace(rows, {
   pack: { frames: packFrames },
@@ -251,13 +251,13 @@ const injectedActions = fighter === 'xiahoudun'
     : fighter === 'archer'
       ? ['idle', 'shoot-release', 'shoot-reload', 'shoot-draw', 'shoot-aim', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
       : fighter === 'zhangfei'
-        ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+        ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'dying', 'dead']
         : fighter === 'zhaoyun'
-          ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+          ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'dying', 'dead']
           : fighter === 'weiyan'
-            ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+            ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'dying', 'dead']
             : fighter === 'huangzhong'
-              ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'mount', 'mountedsweep', 'dying', 'dead']
+              ? ['idle', 'jab1', 'hurt', 'jab2', 'knockdown', 'finisher', 'getup', 'special', 'jump', 'jumpkick', 'grab', 'grabbed', 'thrown', 'dying', 'dead']
               : fighter === 'lidian'
                 ? ['idle', 'charge', 'hurt', 'combo', 'knockdown', 'heavy', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
                 : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']

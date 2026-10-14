@@ -48,11 +48,6 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         { ticks: 2, values: { stateTick: 3 }, expected: 'jump:1' },
         { ticks: 5, values: { stateTick: 8 }, expected: 'walk:3' },
       ] },
-      { name: 'landing-mount', steps: [
-        { ticks: 1, values: { state: 'jump', stateTick: 35, airTicks: 35, z: 5 }, expected: 'jump:6' },
-        { ticks: 1, values: { state: 'idle', stateTick: 0, z: 0 }, expected: 'jump:7' },
-        { ticks: 1, values: { state: 'walk', stateTick: 1, mountedOn: 91 }, expected: 'rider:0' },
-      ] },
       { name: 'thrown-impact', steps: [
         { ticks: 1, values: { state: 'thrown', stateTick: 8, z: 10 }, expected: 'fall:4' },
         { ticks: 1, values: { state: 'knockdown', stateTick: 0, z: 0 }, expected: 'fall:4' },
@@ -65,18 +60,13 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         { ticks: 2, values: { stateTick: 2 }, expected: 'getup:1' },
         { ticks: 3, values: { stateTick: 5 }, expected: 'fall:6' },
       ] },
-      { name: 'mount-break-strike', steps: [
-        { ticks: 1, values: { state: 'attack', attackId: 'mounted.sweep', stateTick: 12, mountedOn: 91 }, expected: 'rider:4' },
-        { ticks: 1, values: { stateTick: 13, mountedOn: null }, expected: 'jab1:4' },
-        { ticks: 1, values: { stateTick: 14 }, expected: 'jab1:5' },
-      ] },
     ]
     const traces: unknown[] = []
     for (const scenario of scenarios) {
       await page.evaluate(() => {
         const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
-        Object.assign(p, { x: 230, y: 216, facing: 'right', state: 'attack', attackId: 'gy.jab1', stateTick: 26, mountedOn: null, z: 0 })
+        Object.assign(p, { x: 230, y: 216, facing: 'right', state: 'attack', attackId: 'gy.jab1', stateTick: 26, z: 0 })
         g.sim.tick++; g.syncSprites() // interruption clears any prior boundary
         p.state = 'idle'; p.attackId = null; p.stateTick = 0; g.sim.tick++; g.syncSprites()
       })

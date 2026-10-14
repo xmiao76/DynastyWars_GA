@@ -150,7 +150,7 @@ describe('weapon-true hero movesets', () => {
     }
   })
 
-  it('jumpkicks, specials, the mounted sweep and enemy attacks are untouched', () => {
+  it('jumpkicks, specials and enemy attacks are untouched', () => {
     // Jumpkicks keep their old damage and old (reach+2, arc+4) geometry.
     const kicks: Record<string, [number, number, number]> = {
       gy: [10, 30, 14],
@@ -178,11 +178,7 @@ describe('weapon-true hero movesets', () => {
     // Huang Zhong draw stays inert: the arrow projectile does the work.
     const hz = attackById('hz.special')
     expect([hz.damage, hz.reach, hz.arc, hz.startup, hz.active, hz.recover]).toEqual([0, 0, 0, 4, 0, 14])
-    // The mounted sweep and enemy defs are byte-identical data.
-    expect(ATTACKS['mounted.sweep']).toEqual({
-      id: 'mounted.sweep', damage: 14, reach: 38, arc: 12, startup: 8, active: 6,
-      recover: 14, knockback: 3, knockdown: true, aerial: false, aoe: false,
-    })
+    // Enemy defs are byte-identical data.
     expect(ATTACKS['soldier.swing']).toEqual({
       id: 'soldier.swing', damage: 6, reach: 24, arc: 10, startup: 14, active: 4,
       recover: 20, knockback: 2, knockdown: false, aerial: false, aoe: false,

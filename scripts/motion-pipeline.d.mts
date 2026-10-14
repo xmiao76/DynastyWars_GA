@@ -63,10 +63,9 @@ export interface FrameFit {
 
 export interface FighterSpec {
   id: string
-  role: 'hero' | 'mook' | 'boss' | 'shooter' | 'horse'
+  role: 'hero' | 'mook' | 'boss' | 'shooter'
   density: number
   box: { width: number; height: number; groundY: number }
-  saddleY?: number
   revision?: string
   /** Documented per-pack decoded-cap owner exception (bytes); default DECODED_CAP. */
   decodedCapBytes?: number
@@ -100,7 +99,6 @@ export interface PackReport {
   box: { width: number; height: number; groundY: number }
   camera: unknown
   ground: unknown
-  saddle: unknown
   pivot: unknown
   identity: Array<{ name: string; restoredSha256: string; pinned: boolean }>
   landmarks: unknown

@@ -35,7 +35,7 @@ describe('fixture profiles validate and sample their actual capabilities', () =>
     }
     // Non-Guan binding isolation: zhangfei binds only zf.* ids.
     const zf = heroProfile('zhangfei')
-    expect(Object.keys(zf.attackBindings).every((id) => id.startsWith('zf.') || id === 'mounted.sweep')).toBe(true)
+    expect(Object.keys(zf.attackBindings).every((id) => id.startsWith('zf.'))).toBe(true)
     expect(zf.attackBindings['gy.jab1']).toBeUndefined()
   })
 
@@ -47,18 +47,17 @@ describe('fixture profiles validate and sample their actual capabilities', () =>
     expect(validateMotionProfile(shooterProfile('archer'))).toEqual([])
   })
 
-  it('capability matrix matches the kind (enemies carry no jump/special/mounted pages)', () => {
+  it('capability matrix matches the kind (enemies carry no jump/special pages)', () => {
     const melee = meleeProfile('soldier')
-    expect(melee.capabilities).toEqual({ jump: false, special: false, mounted: false, grabs: false })
+    expect(melee.capabilities).toEqual({ jump: false, special: false, grabs: false })
     expect(melee.pages.actions, 'enemies need no action page').toBe(false)
     expect(melee.requiredClips).not.toContain('jumpattack')
     expect(melee.requiredClips).not.toContain('special')
-    expect(melee.requiredClips).not.toContain('mounted')
     const boss = bossProfile('xuchu')
     expect(boss.capabilities.jump).toBe(false)
     const hero = heroProfile('zhaoyun')
     expect(hero.pages.actions).toBe(true)
-    expect(hero.requiredClips).toContain('mountedsweep')
+    expect(hero.requiredClips).toContain('special')
   })
 
   it('generated clips satisfy the profile required set', () => {
@@ -117,8 +116,8 @@ describe('two simultaneous actors cannot steal each other cues or history', () =
   it('per-entity playback histories stay separate and idempotent per tick', () => {
     const clips = clipsForProfile(heroProfile('guanyu'))
     const art = { clips } as never as Parameters<typeof advance>[0]
-    const one: MotionEntity = { state: 'attack', stateTick: 8, attackId: 'gy.jab1', mountedOn: null, airTicks: 0, z: 0 }
-    const two: MotionEntity = { state: 'walk', stateTick: 3, attackId: null, mountedOn: null, airTicks: 0, z: 0 }
+    const one: MotionEntity = { state: 'attack', stateTick: 8, attackId: 'gy.jab1', airTicks: 0, z: 0 }
+    const two: MotionEntity = { state: 'walk', stateTick: 3, attackId: null, airTicks: 0, z: 0 }
     const a1 = advance(art, one, 10)
     const b1 = advance(art, two, 10)
     // Render batching / extra sampling at the same tick cannot advance either.

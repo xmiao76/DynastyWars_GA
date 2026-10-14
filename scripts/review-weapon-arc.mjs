@@ -7,7 +7,6 @@ const regular = await loadImage('src/game/assets/motion/guanyu-motion-sheet.png'
 const actions = await loadImage('src/game/assets/motion/guanyu-actions-sheet.png')
 const clips = {
   special: ['walk:0', 'special:7', 'special:2', 'special:3', 'special:4', 'special:5', 'special:3', 'special:6', 'special:7', 'walk:0'],
-  mounted: ['rider:0', 'rider:5', 'rider:4', 'rider:5', 'rider:6'],
 }
 for (const [name, ids] of Object.entries(clips)) {
   const c = createCanvas(448 * 5, 320 * Math.ceil(ids.length / 5)), g = c.getContext('2d')

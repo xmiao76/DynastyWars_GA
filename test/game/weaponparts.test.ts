@@ -21,7 +21,7 @@ import { MIN_WEAPON_REACH_PX } from '../../vision/thresholds'
  */
 type Ctx = CanvasRenderingContext2D
 const SCALE = 2
-const ARMED_KINDS = vectorKinds().filter((k) => !isVectorProp(k) && k !== 'horse')
+const ARMED_KINDS = vectorKinds().filter((k) => !isVectorProp(k))
 const KINDS = Object.keys(WEAPON_SPECS)
 const napiFactory = (w: number, h: number): Ctx | null => {
   const canvas = createCanvas(w, h)

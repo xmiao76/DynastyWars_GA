@@ -27,7 +27,7 @@ const art: MotionArt = {
   clips: spearmanClips(),
   attackBindings: { 'spear.thrust': 'thrust' },
 }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null }
 
 describe('spearman pack registration', () => {
   it('the prepared record validates as a spearman pack', () => {
@@ -177,14 +177,14 @@ describe('spearman state dispatch (every state, key ticks)', () => {
     // must reach the spearman dispatch, never the hero clip names.
     const routed: MotionArt = { ...art, frameDispatch: motionFrameForSpearman }
     for (const e of [
-      { state: 'idle', stateTick: 0, attackId: null, mountedOn: null },
-      { state: 'attack', stateTick: 21, attackId: 'spear.thrust', mountedOn: null },
-      { state: 'knockdown', stateTick: 4, attackId: null, mountedOn: null },
-      { state: 'dead', stateTick: 0, attackId: null, mountedOn: null },
+      { state: 'idle', stateTick: 0, attackId: null },
+      { state: 'attack', stateTick: 21, attackId: 'spear.thrust' },
+      { state: 'knockdown', stateTick: 4, attackId: null },
+      { state: 'dead', stateTick: 0, attackId: null },
     ] as MotionEntity[]) {
       const frame = motionFrameForEntity(routed, e)
       expect(allFrames.has(frame), `${e.state} -> ${frame} must be a pack frame`).toBe(true)
     }
-    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null, mountedOn: null })).toBe('locomotion:0')
+    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null })).toBe('locomotion:0')
   })
 })

@@ -23,13 +23,11 @@ export const ROLE_CAPABILITIES = {
   shooter: ['isolated', 'mixed', 'projectile', 'held', 'thrown', 'recovery', 'ko', 'coop', 'interruptions'],
   boss: ['isolated', 'mixed', 'charge', 'enrage', 'held', 'thrown', 'recovery', 'ko', 'interruptions'],
   mook: ['isolated', 'mixed', 'held', 'thrown', 'recovery', 'ko', 'interruptions'],
-  horse: ['isolated', 'mixed', 'saddle', 'rider'],
 }
 
 export const HERO_ACTIONS = [
   'idle', 'walk', 'stop', 'jab1', 'jab2', 'finisher', 'jump', 'jumpkick', 'hurt',
-  'knockdown', 'getup', 'special', 'grab', 'release', 'mount', 'mountedsweep',
-  'dismount', 'dying', 'dead', 'revive',
+  'knockdown', 'getup', 'special', 'grab', 'release', 'dying', 'dead', 'revive',
 ]
 
 export const ENEMY_ACTIONS = [
@@ -37,11 +35,8 @@ export const ENEMY_ACTIONS = [
   'held', 'thrown', 'dying', 'dead',
 ]
 
-export const HORSE_ACTIONS = ['idle', 'trot', 'run', 'fleeing', 'saddle']
-
 export function actionsForRole(role) {
   if (role === 'hero') return [...HERO_ACTIONS]
-  if (role === 'horse') return [...HORSE_ACTIONS]
   return [...ENEMY_ACTIONS]
 }
 

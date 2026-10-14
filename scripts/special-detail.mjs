@@ -3,7 +3,7 @@ import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { components } from './prepare-motion.mjs'
 mkdirSync('art/motion/guanyu/details', { recursive: true })
-for (const [name, index] of [['special', 1], ['rider', 3]]) {
+for (const [name, index] of [['special', 1]]) {
   const img = await loadImage(`art/motion/guanyu/${name}-candidate-1.png`)
   const cv = createCanvas(img.width, img.height), g = cv.getContext('2d'); g.drawImage(img, 0, 0)
   const im = g.getImageData(0, 0, cv.width, cv.height)

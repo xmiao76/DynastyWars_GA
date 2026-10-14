@@ -7,14 +7,14 @@
 // missing image capability is a blocker, never permission to substitute.
 //
 // Contract caps (docs/CAST_MOTION_ROLLOUT.md):
-//   hero 16, boss 12, mook 8, horse 4 per character; 200 total;
+//   hero 16, boss 12, mook 8 per character; 200 total;
 //   at most 2 whole-sheet candidates per sequence;
 //   Guan Yu generation is grandfathered and CLOSED (cap 0).
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 
-export const ROLE_CAPS = { hero: 16, boss: 12, mook: 8, horse: 4 }
+export const ROLE_CAPS = { hero: 16, boss: 12, mook: 8 }
 export const TOTAL_CAP = 200
 export const SHEET_CANDIDATES_PER_SEQUENCE = 2
 

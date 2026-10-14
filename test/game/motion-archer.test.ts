@@ -30,7 +30,7 @@ const art: MotionArt = {
   clips: archerClips(),
   attackBindings: {},
 }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null }
 
 describe('archer pack registration', () => {
   it('the prepared record validates as an archer pack', () => {
@@ -201,14 +201,14 @@ describe('archer state dispatch (every state, key ticks)', () => {
     // must reach the archer dispatch, never the hero clip names.
     const routed: MotionArt = { ...art, frameDispatch: motionFrameForArcher }
     for (const e of [
-      { state: 'idle', stateTick: 0, attackId: null, mountedOn: null, thinkTick: 90 },
-      { state: 'idle', stateTick: 0, attackId: null, mountedOn: null },
-      { state: 'knockdown', stateTick: 4, attackId: null, mountedOn: null },
-      { state: 'dead', stateTick: 0, attackId: null, mountedOn: null },
+      { state: 'idle', stateTick: 0, attackId: null, thinkTick: 90 },
+      { state: 'idle', stateTick: 0, attackId: null },
+      { state: 'knockdown', stateTick: 4, attackId: null },
+      { state: 'dead', stateTick: 0, attackId: null },
     ] as MotionEntity[]) {
       const frame = motionFrameForEntity(routed, e)
       expect(allFrames.has(frame), `${e.state} -> ${frame} must be a pack frame`).toBe(true)
     }
-    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null, mountedOn: null })).toBe('locomotion:0')
+    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null })).toBe('locomotion:0')
   })
 })

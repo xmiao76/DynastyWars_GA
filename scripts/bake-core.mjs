@@ -184,8 +184,7 @@ export const FRAME_BOXES = {
   lidian: { w: 96, h: 128, poses: ['idle', 'walk0', 'walk1', 'attack', 'jump', 'down'] },
   xiahoudun: { w: 96, h: 128, poses: ['idle', 'walk0', 'walk1', 'attack', 'jump', 'down'] },
   xuchu: { w: 96, h: 128, poses: ['idle', 'walk0', 'walk1', 'attack', 'jump', 'down'] },
-  // Horse + props
-  horse: { w: 96, h: 64, poses: ['idle', 'walk0', 'walk1'] },
+  // Props
   crate: { w: 52, h: 44, poses: ['idle'] },
   meat: { w: 36, h: 28, poses: ['idle'] },
   sword: { w: 44, h: 20, poses: ['idle'] },

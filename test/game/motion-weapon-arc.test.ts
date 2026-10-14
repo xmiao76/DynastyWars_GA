@@ -15,15 +15,14 @@ function directionDelta(a: Landmark, b: Landmark): number {
 }
 const peakStep = (ids: string[]): number => Math.max(...ids.slice(1).map((id, i) => directionDelta(landmarks[ids[i]!]!, landmarks[id]!)))
 
-describe('Guan Yu special/mounted weapon direction continuity', () => {
+describe('Guan Yu special weapon direction continuity', () => {
   it('current displayed adjacent poses avoid abrupt backwards-to-forwards reversals', () => {
-    for (const action of ['special', 'mountedsweep'] as const) {
+    for (const action of ['special'] as const) {
       const ids = guanyuClips()[action]!.keys.map((k) => k.frame)
       expect(peakStep(ids), action).toBeLessThanOrEqual(60)
     }
   })
-  it('negative control rejects original mounted windup and special recovery jump', () => {
-    expect(peakStep(['rider:0', 'rider:3', 'rider:4'])).toBeGreaterThan(60)
+  it('negative control rejects original special recovery jump', () => {
     expect(peakStep(['special:4', 'special:5', 'special:6'])).toBeGreaterThan(60)
   })
   it('landmark endpoints are actually supported by drawn sprite pixels', async () => {

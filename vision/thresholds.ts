@@ -45,7 +45,7 @@ export const THRESHOLDS: Record<string, Partial<MetricThresholds>> = {
  * minColorCount cannot: anti-aliasing alone pushes colorCount into the hundreds,
  * so that floor stops being able to fail. A band must hold 2% of the drawn area,
  * so an anti-aliased ring cannot manufacture one. Measured over the 108 current
- * character sprites: 4-10, and the whole population except the horse sits at
+ * character sprites: 4-10, and nearly the whole population sits at
  * 6-10 (histogram 4:6, 6:6, 7:29, 8:27, 9:29, 10:11). The floor is placed just
  * ABOVE the failure mode rather than just below the population - a flat fill
  * scores 1 and a flat fill with an ink outline scores 2 - which is the same way

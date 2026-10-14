@@ -30,7 +30,7 @@ const png = readFileSync('src/game/assets/motion/xuchu-motion-sheet.png')
 const hash = (bytes: Uint8Array): string => createHash('sha256').update(bytes).digest('hex')
 const art: MotionArt = { ...meta, sheet: {} as CanvasImageSource, actionSheet: {} as CanvasImageSource,
   clips: xuchuClips(), frameDispatch: motionFrameForXuchu, collapseTail: XUCHU_COLLAPSE_TAIL }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null }
 const frameAt = (e: Partial<MotionEntity>): string => motionFrameForEntity(art, { ...base, ...e })
 const fresh = (): MotionPrepared => structuredClone(meta)
 const keys = motionTextureKeys('xuchu')

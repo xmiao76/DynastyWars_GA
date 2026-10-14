@@ -12,7 +12,7 @@ import prepared from '../../src/game/assets/motion/prepared.json'
 
 const meta = motionPreparedRecord()
 const art: MotionArt = { ...meta, sheet: {} as CanvasImageSource, actionSheet: {} as CanvasImageSource, clips: guanyuClips() }
-const entity = { state: 'idle' as const, stateTick: 0, attackId: null, mountedOn: null }
+const entity = { state: 'idle' as const, stateTick: 0, attackId: null }
 
 describe('Guan Yu motion pilot technical gates (not aesthetic acceptance)', () => {
   it('requires explicit flag, never accidentally matches another flag value', () => {
@@ -69,16 +69,14 @@ describe('Guan Yu motion pilot technical gates (not aesthetic acceptance)', () =
     }
   })
 
-  it('covers every Guan Yu state including mounted and defensive unknown attacks', () => {
+  it('covers every Guan Yu state and defensive unknown attacks', () => {
     for (const state of ['idle', 'walk', 'attack', 'jump', 'jumpattack', 'special', 'hitstun', 'knockdown', 'getup', 'grab', 'grabbed', 'thrown', 'fleeing', 'dying', 'dead'] as const) {
       for (let stateTick = 0; stateTick < 100; stateTick++) {
         const frame = motionFrameForEntity(art, { ...entity, state, stateTick, airTicks: stateTick % 36 })
         expect(art.frames[frame], `${state}:${stateTick}`).toBeDefined()
-        const mounted = motionFrameForEntity(art, { ...entity, state, stateTick, mountedOn: 12 })
-        expect(art.frames[mounted]).toBeDefined()
       }
     }
-    expect(motionFrameForEntity(art, { ...entity, state: 'attack', attackId: 'mounted.sweep' })).toBe('walk:0')
+    expect(motionFrameForEntity(art, { ...entity, state: 'attack', attackId: 'gy.nope' })).toBe('walk:0')
   })
 
   it('sheet bytes, signature, density and clear padded edges match preparation', async () => {

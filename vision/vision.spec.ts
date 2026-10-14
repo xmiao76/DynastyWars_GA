@@ -22,10 +22,10 @@ import {
 // colors in its body window (armor, skin/helm, weapon, trim) - not a 1-color
 // flat blob, and not 95% one dominant color.
 export /**
- * Sprites the whole cast comes to: 12 posed characters x 14 poses, plus 4
+ * Sprites the whole cast comes to: 11 posed characters x 14 poses, plus 4
  * pose-less props. Exact on purpose - see the note at the call site.
  */
-const EXPECTED_SPRITES = 12 * 14 + 4
+const EXPECTED_SPRITES = 11 * 14 + 4
 const MIN_CHARACTER_COLORS = 4
 export const MAX_CHARACTER_DOMINANCE = 0.9
 
@@ -350,7 +350,7 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
   await page.setViewportSize({ width: 960, height: 540 })
   await page.goto('/?renderer=canvas&autopilot=1&vision=1', { waitUntil: 'networkidle' })
   // Entering a stage registers every kind that can appear (all enemies, all
-  // heroes, horse and props), so one startGame exposes the whole cast.
+  // heroes and props), so one startGame exposes the whole cast.
   await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
   await waitForPlayer(page)
   // Register the WHOLE cast, not just what this stage spawns. GameScene
@@ -417,8 +417,6 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
         return [assessWeaponReach(idle, img, `${kind}:${strike}`, MIN_WEAPON_REACH_PX * RENDER_SCALE)]
       })
     })
-    // The horse carries no weapon; its attack poses alias idle by design.
-    .filter((r) => !r.label.startsWith('horse:'))
   // The anti-static check, mirroring the unit retract gate: the withdrawn
   // phases sit narrower than EACH strike by the same threshold reach demands
   // the other way, or consecutive hits read as one held pose.
@@ -440,11 +438,10 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
         ),
       )
     })
-    .filter((r) => !r.label.startsWith('horse:'))
   // Exact counts, same reasoning as EXPECTED_SPRITES above: an emptied list
-  // would otherwise pass over zero comparisons. Minus the horse in both.
-  expect(reach.length, 'strike reach comparisons').toBe((12 - 1) * 5)
-  expect(retract.length, 'retract comparisons').toBe((12 - 1) * 5 * 2)
+  // would otherwise pass over zero comparisons.
+  expect(reach.length, 'strike reach comparisons').toBe(11 * 5)
+  expect(retract.length, 'retract comparisons').toBe(11 * 5 * 2)
 
   writeFileSync(
     join(OUT_DIR, 'sprite-report.json'),

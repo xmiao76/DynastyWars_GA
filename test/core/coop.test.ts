@@ -164,23 +164,6 @@ describe('co-op: things the world has only one of', () => {
     expect(p2.hp, 'player two walked over food and nothing happened').toBeGreaterThan(10)
   })
 
-  it('two players cannot ride the same horse', () => {
-    const sim = createSim(42, { charId: 'zhaoyun', stageId: 'stage2', lives: 3, score: 0 })
-    joinPlayer2(sim, 'guanyu')
-    const horse = sim.entities.find((e) => e.kind === 'horse')
-    expect(horse, 'stage 2 should have a horse').toBeDefined()
-    // Both players walk onto the horse together. The state has to come from
-    // real input: stepPlayer runs first and would reset a hand-set 'walk'.
-    for (const p of playersOf(sim)) {
-      p.x = horse!.x - 2
-      p.y = horse!.y
-      p.z = 0
-    }
-    stepSim(sim, walk('right'), walk('right'))
-    const riders = playersOf(sim).filter((p) => p.mountedOn === horse!.id)
-    expect(riders, 'both players climbed onto the same horse').toHaveLength(1)
-  })
-
   it('two players cannot grab the same enemy', () => {
     const sim = createSim(42, { charId: 'zhaoyun', stageId: 'stage1', lives: 3, score: 0 })
     joinPlayer2(sim, 'guanyu')
@@ -196,24 +179,5 @@ describe('co-op: things the world has only one of', () => {
     const holders = playersOf(sim).filter((p) => enemy!.grabbedBy === p.id)
     expect(holders.length, 'an enemy should be held by at most one player').toBeLessThanOrEqual(1)
     expect(playersOf(sim).filter((p) => p.state === 'grab').length).toBeLessThanOrEqual(1)
-  })
-
-  it('a fleeing horse runs at the same speed however many players there are', () => {
-    const solo = createSim(42, { charId: 'zhaoyun', stageId: 'stage2', lives: 3, score: 0 })
-    const duo = createSim(42, { charId: 'zhaoyun', stageId: 'stage2', lives: 3, score: 0 })
-    joinPlayer2(duo, 'guanyu')
-    for (const sim of [solo, duo]) {
-      const horse = sim.entities.find((e) => e.kind === 'horse')!
-      horse.state = 'fleeing'
-      horse.x = 200
-    }
-    for (let i = 0; i < 10; i += 1) {
-      stepSim(solo, neutralInput())
-      stepSim(duo, neutralInput(), neutralInput())
-    }
-    const soloX = solo.entities.find((e) => e.kind === 'horse')?.x
-    const duoX = duo.entities.find((e) => e.kind === 'horse')?.x
-    // Per-player looping made the horse advance once for EACH player.
-    expect(duoX).toBe(soloX)
   })
 })

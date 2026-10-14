@@ -58,7 +58,6 @@ const kneel = modify(crouch, {
   chest: { x: 47, y: 47 }, neck: { x: 48, y: 42 }, head: { x: 49, y: 30 },
 })
 const grab = modify(idle, { handN: { x: 72, y: 38 }, elbowN: { x: 65, y: 37 }, handF: { x: 57, y: 55 } })
-const rider = modify(idle, { hip: { x: 48, y: 59 }, hipN: { x: 53, y: 60 }, hipF: { x: 43, y: 60 }, kneeN: { x: 64, y: 72 }, kneeF: { x: 36, y: 72 }, footN: { x: 61, y: 91 }, footF: { x: 38, y: 91 } })
 const sweep = built('special')
 const wind = built('windup')
 const recover = built('recover')
@@ -68,7 +67,6 @@ export const ACTION_GUIDES = {
   getup: [down, lerpSkeleton(down, seated, 0.5), seated, lerpSkeleton(seated, kneel, 0.5), kneel, lerpSkeleton(kneel, crouch, 0.5), crouch, lerpSkeleton(crouch, idle, 0.5), idle],
   misc: [idle, lerpSkeleton(idle, hurt, 0.5), hurt, lerpSkeleton(hurt, idle, 0.6), idle, grab, grab, lerpSkeleton(grab, idle, 0.5), idle],
   special: [idle, lerpSkeleton(idle, wind, 0.5), wind, lerpSkeleton(wind, sweep, 0.5), sweep, modify(sweep, { weaponRot: 0.6 }), recover, lerpSkeleton(recover, idle, 0.5), idle],
-  rider: [rider, modify(rider, { chest: { x: 48, y: 32 }, head: { x: 49, y: 17 } }), rider, lerpSkeleton(rider, wind, 0.4), modify(built('attack'), { hipN: rider.hipN, hipF: rider.hipF, kneeN: rider.kneeN, kneeF: rider.kneeF, footN: rider.footN, footF: rider.footF }), rider, rider, lerpSkeleton(rider, idle, 0.5), idle],
 }
 
 describe.runIf(process.env.ACTION_GUIDES === '1')('Guan Yu remaining action guides', () => {

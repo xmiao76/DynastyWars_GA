@@ -32,7 +32,7 @@ const png = readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')
 const hash = (bytes: Uint8Array): string => createHash('sha256').update(bytes).digest('hex')
 const art: MotionArt = { ...meta, sheet: {} as CanvasImageSource, actionSheet: {} as CanvasImageSource,
   clips: xiahoudunClips(), frameDispatch: motionFrameForXiahoudun, collapseTail: XIAHOUDUN_COLLAPSE_TAIL }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null }
 const frameAt = (e: Partial<MotionEntity>): string => motionFrameForEntity(art, { ...base, ...e })
 const fresh = (): MotionPrepared => structuredClone(meta)
 const keys = motionTextureKeys('xiahoudun')
@@ -342,7 +342,7 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
     const req = motionStageRequest('stage2', 'guanyu', partner)
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xiahoudun', 'soldier'])
-    expect(req.stageKinds).toEqual(['xiahoudun', 'soldier', 'spearman', 'archer', 'crate', 'horse', 'arrow', 'meat', 'sword'])
+    expect(req.stageKinds).toEqual(['xiahoudun', 'soldier', 'spearman', 'archer', 'crate', 'arrow', 'meat', 'sword'])
     expect(scope.plannedBytes).toBe(12372346)
     expect(CONTRACT_CAPS.stageDownloads).toBe(12582912)
     expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)

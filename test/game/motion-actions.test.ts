@@ -10,7 +10,7 @@ import actions from '../../src/game/assets/motion/actions-prepared.json'
 import { imageSignature, signatureMatches } from '../../src/game/art/image-signature'
 const meta = motionPreparedRecord()
 const art: MotionArt = { ...meta, sheet: {} as CanvasImageSource, actionSheet: {} as CanvasImageSource, clips: guanyuClips() }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null, airTicks: 0, z: 0 }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, airTicks: 0, z: 0 }
 
 describe('all-action Guan Yu coverage and continuity', () => {
   it('rejects a missing action cell or wrong atlas assignment', () => {
@@ -56,11 +56,11 @@ describe('all-action Guan Yu coverage and continuity', () => {
     expect(motionFrameForEntity(art, { ...base, state: 'getup', stateTick: 23 })).toBe('walk:0')
     expect(advanceMotion(art, { ...base, state: 'dying' }, 36, down.playback).frame).toBe('fall:6')
   })
-  it('special and mounted attacks show strike on exact active tick', () => {
-    for (const [id, state, mountedOn, expected] of [['gy.special', 'special', null, 'special:4'], ['mounted.sweep', 'attack', 3, 'rider:4']] as const) {
+  it('special attacks show strike on exact active tick', () => {
+    for (const [id, state, expected] of [['gy.special', 'special', 'special:4']] as const) {
       const a = attackById(id)
-      expect(motionFrameForEntity(art, { ...base, state, mountedOn, attackId: id, stateTick: a.startup })).toBe(expected)
-      expect(motionFrameForEntity(art, { ...base, state, mountedOn, attackId: id, stateTick: a.startup - 1 })).not.toBe(expected)
+      expect(motionFrameForEntity(art, { ...base, state, attackId: id, stateTick: a.startup })).toBe(expected)
+      expect(motionFrameForEntity(art, { ...base, state, attackId: id, stateTick: a.startup - 1 })).not.toBe(expected)
     }
   })
   it('action atlas hash signature and every cell have clear padded edges', async () => {

@@ -140,7 +140,7 @@ test.afterAll(async () => {
   console.log(`ui-review: ${n} screens in artifacts/review/latest`)
 })
 
-test('flow: menus, stage 1 beats, end screens, co-op and horse', async ({ page }) => {
+test('flow: menus, stage 1 beats, end screens and co-op', async ({ page }) => {
   test.setTimeout(600_000)
   await boot(page)
   await settle(page, 1500)
@@ -240,9 +240,8 @@ test('flow: menus, stage 1 beats, end screens, co-op and horse', async ({ page }
 
   await start(page, 'zhaoyun', 'stage2')
   await dismissIntro(page)
-  for (let i = 0; i < 10 && !(await sim(page)).player.mounted; i += 1) await run(page, walk(12))
   await run(page, walk(20))
-  await snap(page, 'stage2-horse', { group: 'flow', focus: 'mounted rider: seat, scale, gallop', crops: { hero: await heroBox(page), plate: CROPS.plate } })
+  await snap(page, 'stage2', { group: 'flow', focus: 'stage 2 play: hero in the field', crops: { hero: await heroBox(page), plate: CROPS.plate } })
 
   expect(errors.get(page)).toEqual([])
 })

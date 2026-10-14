@@ -369,7 +369,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
           g.sim.entities.push(t as never)
           p = g.sim.entities.find((e) => e.id === 900001)
         }
-        Object.assign(p!, { hp: p!.maxHp, airTicks: 0, z: 0, attackId: null, mountedOn: null, invulnerableTicks: 999999 }, f)
+        Object.assign(p!, { hp: p!.maxHp, airTicks: 0, z: 0, attackId: null, invulnerableTicks: 999999 }, f)
       }, { t: fresh as never, f: fields })
       return
     }
@@ -379,7 +379,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       const p = enemyKind
         ? g.sim.entities.find((e) => e.id === 900001)!
         : g.sim.entities.find((e) => e.id === g.sim.playerId)!
-      Object.assign(p, { hp: p.maxHp, airTicks: 0, z: 0, attackId: null, mountedOn: null }, f)
+      Object.assign(p, { hp: p.maxHp, airTicks: 0, z: 0, attackId: null }, f)
     }, fields)
   }
 
@@ -432,8 +432,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   // (strike extensions, apex kick, impact, DOWN); Guan Yu keeps its
   // original 7-action list byte-identical. Zhao Yun mirrors Zhang Fei's
   // list with zy.* ids, except the finisher samples tick 8 (zy.finisher
-  // strikes 7-10; tick 12 would show the follow instead). Mounted samples ride a
-  // stand-in horse id (the sim/display never dereference it). Attack-like
+  // strikes 7-10; tick 12 would show the follow instead). Attack-like
   // states carry their real attackIds: the sim fail-fasts otherwise
   // (requireAttackId), which wedges snapshotting for the rest of the run.
   // Adjacent actions never share a sim state: the trace clock check reads
@@ -454,8 +453,6 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['grab', { state: 'grab', stateTick: 5 }],
     ['grabbed', { state: 'grabbed', stateTick: 0 }],
     ['thrown', { state: 'thrown', stateTick: 6, z: 10 }],
-    ['mount', { mountedOn: 7, state: 'idle', stateTick: 0 }],
-    ['mountedsweep', { mountedOn: 7, state: 'attack', attackId: 'mounted.sweep', stateTick: 10 }],
     ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
@@ -473,12 +470,10 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['grab', { state: 'grab', stateTick: 5 }],
     ['grabbed', { state: 'grabbed', stateTick: 0 }],
     ['thrown', { state: 'thrown', stateTick: 6, z: 10 }],
-    ['mount', { mountedOn: 7, state: 'idle', stateTick: 0 }],
-    ['mountedsweep', { mountedOn: 7, state: 'attack', attackId: 'mounted.sweep', stateTick: 10 }],
     ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
-  // Wei Yan mirrors the Zhang Fei/Zhao Yun 17-action list with wy.* ids;
+  // Wei Yan mirrors the Zhang Fei/Zhao Yun 15-action list with wy.* ids;
   // sample ticks sit mid-active-window of his slower dao windings (jab1/2
   // strike 9-13 -> tick 11; finisher strikes 13-18 -> tick 15; special
   // strikes 6-17 -> tick 10; jumpkick active 4-23 -> tick 8 airborne).
@@ -496,12 +491,10 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['grab', { state: 'grab', stateTick: 5 }],
     ['grabbed', { state: 'grabbed', stateTick: 0 }],
     ['thrown', { state: 'thrown', stateTick: 6, z: 10 }],
-    ['mount', { mountedOn: 7, state: 'idle', stateTick: 0 }],
-    ['mountedsweep', { mountedOn: 7, state: 'attack', attackId: 'mounted.sweep', stateTick: 10 }],
     ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
-  // Huang Zhong mirrors the 17-action list with hz.* ids; sample ticks sit
+  // Huang Zhong mirrors the 15-action list with hz.* ids; sample ticks sit
   // mid-active-window of his compact bow windings (jab1/2 strike 6-9 ->
   // tick 8; finisher strikes 8-12 -> tick 10; special is inert with the
   // release AT spawn -> tick 1; jumpkick active 4-23 -> tick 8 airborne).
@@ -519,8 +512,6 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['grab', { state: 'grab', stateTick: 5 }],
     ['grabbed', { state: 'grabbed', stateTick: 0 }],
     ['thrown', { state: 'thrown', stateTick: 6, z: 10 }],
-    ['mount', { mountedOn: 7, state: 'idle', stateTick: 0 }],
-    ['mountedsweep', { mountedOn: 7, state: 'attack', attackId: 'mounted.sweep', stateTick: 10 }],
     ['dying', { state: 'dying', stateTick: 12, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]

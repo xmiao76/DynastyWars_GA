@@ -301,7 +301,7 @@ describe('stage-scoped motion runtime', () => {
     // never half-loaded. Neither path re-downloads (boss cached, unknown skipped).
     const boss = await rt.loadKind(scene, 'lidian')
     expect(boss).toEqual({ ok: true })
-    const unknown = await rt.loadKind(scene, 'horse') // Xu Chu is catalogued by CMR-15B; the horse remains unsupported.
+    const unknown = await rt.loadKind(scene, 'crate') // Xu Chu is catalogued by CMR-15B; props remain unsupported.
     expect(unknown).toEqual({ ok: false, failure: 'unsupported' })
     expect(io.calls).toHaveLength(5)
   }, 60_000)

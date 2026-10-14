@@ -3,7 +3,7 @@ import { decideBotScript } from '../selfplay/bot'
 
 /**
  * BODY-3 look spec: all five heroes' paper-doll bodies live in the real UI -
- * select cards, HUD medallions, gameplay poses, combat motion, mounted,
+ * select cards, HUD medallions, gameplay poses, combat motion,
  * co-op, desktop + phone. Captures land in artifacts/look/body3-*.png for
  * the owner review the acceptance criteria demand.
  */
@@ -26,16 +26,15 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
     const game = window.__DW_GAME__
     const scene = game?.scene.getScene('boot')
     const res = scene?.registry.get('paintedHeroArt') as
-      | { bodies?: Record<string, unknown>; horse?: unknown }
+      | { bodies?: Record<string, unknown> }
       | undefined
-    return { bodies: Object.keys(res?.bodies ?? {}).sort(), horse: res?.horse !== undefined }
+    return { bodies: Object.keys(res?.bodies ?? {}).sort() }
   })
   expect(published.bodies).toEqual([
     'archer', 'guanyu', 'huangzhong', 'lidian',
     'soldier', 'spearman', 'weiyan', 'xiahoudun', 'xuchu',
     'zhangfei', 'zhaoyun',
   ])
-  expect(published.horse, 'painted horse published at boot').toBe(true)
 
   // Select screen: every card shows the painted figure (portrait zoom over
   // the new body art would fail loudly if a sheet were blank).
@@ -90,7 +89,7 @@ test('all five painted bodies load at boot and render in gameplay', async ({ pag
   expect(pageErrors).toEqual([])
 })
 
-test('mounted and co-op states keep the painted bodies seated', async ({ page }) => {
+test('co-op state keeps the painted bodies seated', async ({ page }) => {
   test.setTimeout(90_000)
   const pageErrors: string[] = []
   page.on('pageerror', (err) => pageErrors.push(String(err)))
@@ -99,24 +98,6 @@ test('mounted and co-op states keep the painted bodies seated', async ({ page })
   await expect
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
     .toBe('title')
-
-  // Mounted: stage 2's horse, walk right until mounted.
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage2'))
-  await expect
-    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene))
-    .toBe('game')
-  await page.evaluate(
-    (inputs) => window.__DW__?.run(inputs),
-    Array.from({ length: 140 }, () => ({
-      up: false, down: false, left: false, right: true,
-      attackPressed: false, jumpPressed: false, specialPressed: false,
-    })),
-  )
-  await expect
-    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.player.mounted), { timeout: 10_000 })
-    .toBe(true)
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: `${LOOK}/body3-mounted.png` })
 
   // Co-op: join P2, both painted.
   await page.evaluate(() => window.__DW__?.startGame('zhangfei', 42, 'stage2'))

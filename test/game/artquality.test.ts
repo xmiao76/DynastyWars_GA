@@ -87,8 +87,8 @@ const MIN_FACE_PAIR_DIFFERENCE = 18
  * discriminate; and the rendered result is judged by eye.
  */
 
-/** The horse carries no weapon, and its attack pose aliases idle by design. */
-const ARMED_KINDS = CHARACTER_KINDS.filter((k) => k !== 'horse')
+/** Every character kind carries a weapon. */
+const ARMED_KINDS = CHARACTER_KINDS
 
 /**
  * NON-VACUITY GUARD.
@@ -102,11 +102,11 @@ const ARMED_KINDS = CHARACTER_KINDS.filter((k) => k !== 'horse')
  */
 describe('the art gate has art to judge', () => {
   it('covers the whole cast', () => {
-    expect(CHARACTER_KINDS.length, 'characters including the horse').toBe(12)
+    expect(CHARACTER_KINDS.length, 'characters').toBe(11)
     expect(PROP_KINDS.length, 'props').toBe(4)
     expect(POSES.length, 'poses per character').toBe(14)
     // Every kind the game can spawn must be drawable, or it renders nothing.
-    for (const kind of [...CHARACTER_ORDER, ...Object.keys(ENEMIES), 'horse']) {
+    for (const kind of [...CHARACTER_ORDER, ...Object.keys(ENEMIES)]) {
       expect(ALL_KINDS, `no art for ${kind}`).toContain(kind)
     }
   })
@@ -477,9 +477,9 @@ describe('character art reads as characters', () => {
   })
 
   it('legs never merge into a single mass during a walk cycle', () => {
-    // The horse's walk1 frame once placed its paired legs two pixels apart and
-    // the outline pass closed the gap, so four legs rendered as two blobs for
-    // one frame of every cycle.
+    // A walk frame once placed paired legs two pixels apart and the outline
+    // pass closed the gap, so the legs rendered as one blob for one frame of
+    // every cycle.
     //
     // The original form of this test compared the leg count against idle. That
     // worked while every foot was planted, and stopped meaning anything once
@@ -500,9 +500,8 @@ describe('character art reads as characters', () => {
       return best
     }
     for (const kind of CHARACTER_KINDS) {
-      // A horse has four legs in two pairs, so at some row it shows at least
-      // three masses unless a pair has merged. A biped shows two.
-      const floor = kind === 'horse' ? 3 : 2
+      // A biped shows two leg masses at some row unless they have merged.
+      const floor = 2
       for (const pose of ['idle', 'walk0', 'walk1'] as const) {
         expect(maxRuns(raster(kind, pose)), `${kind}:${pose} legs have merged`).toBeGreaterThanOrEqual(floor)
       }

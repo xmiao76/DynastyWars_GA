@@ -463,7 +463,6 @@ export function buildReport(fighter, frames, pages, extra = {}) {
     box: { ...fighter.box },
     camera: extra.camera ?? 'unverified',
     ground: extra.groundErrorU ?? 'unverified',
-    saddle: fighter.saddleY === undefined ? 'unverified' : fighter.saddleY,
     pivot: frames[0] ? { ...frames[0].pivot } : 'unverified',
     identity: frames.map((f) => ({ name: f.name, restoredSha256: f.restoredSha256, pinned: f.identityPinned === true })),
     landmarks: extra.landmarks ?? 'unverified',

@@ -49,7 +49,6 @@ export interface CaptureIndex {
 export declare const ROLE_CAPABILITIES: Record<string, string[]>
 export declare const HERO_ACTIONS: string[]
 export declare const ENEMY_ACTIONS: string[]
-export declare const HORSE_ACTIONS: string[]
 export declare function actionsForRole(role: string): string[]
 
 export declare function validateTrace(

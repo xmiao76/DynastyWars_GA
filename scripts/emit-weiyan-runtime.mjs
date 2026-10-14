@@ -98,7 +98,6 @@ const prepared = {
     'wy.jab2': 'jab2',
     'wy.finisher': 'finisher',
     'wy.special': 'special',
-    'mounted.sweep': 'dismountedsweep',
   },
   sha256: {
     sheet: createHash('sha256').update(png1).digest('hex'),

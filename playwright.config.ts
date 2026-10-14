@@ -28,7 +28,7 @@ export default defineConfig({
    * enough for the one thing almost every spec waits on first: the game
    * booting to its title screen, which generates the whole cast's art on the
    * way. Measured by over-subscribing the machine to six workers - `game`,
-   * `finalstage`, `horse` and `coop` all failed with
+   * `finalstage` and `coop` all failed with
    * "Timeout 5000ms exceeded while waiting on the predicate" on
    * `.toBe('title')`, which reads like a game defect and is a budget.
    *

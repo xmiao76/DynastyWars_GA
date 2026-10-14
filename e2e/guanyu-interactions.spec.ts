@@ -23,7 +23,7 @@ test('Guan Yu receives real hits and reaches a real grab through the unchanged s
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
       const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
       Object.assign(p, { state: 'idle', stateTick: 0, airTicks: 0, attackId: null, z: 0, vx: 0, x: 230, y: 216,
-        facing: 'right', hp: 130, invulnerableTicks: 0, mountedOn: null, bufferedAttack: false, struck: [] })
+        facing: 'right', hp: 130, invulnerableTicks: 0, bufferedAttack: false, struck: [] })
       g.sim.phase = 'fight'; g.sim.freezeTicks = 0; g.sim.cameraLocked = false; g.sim.waveIndex = 0
       const e = structuredClone(p) as Entity
       Object.assign(e, { id: 95, kind: name === 'heavy-fall' ? 'spearman' : 'soldier', side: 'enemy', hp: 500, maxHp: 500,

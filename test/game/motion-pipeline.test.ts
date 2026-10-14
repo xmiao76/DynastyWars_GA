@@ -455,7 +455,6 @@ describe('reports measure pixels and separate budgets', () => {
     expect(pack.report.ground).toBe('unverified')
     expect(pack.report.camera).toBe('unverified')
     expect(pack.report.landmarks).toBe('unverified')
-    expect(pack.report.saddle).toBe('unverified')
     expect(pack.report.pivot).toEqual({ x: 24, y: 92 })
     const measured = buildReport(f, pack.frames, pack.pages, {
       groundErrorU: 0.6,

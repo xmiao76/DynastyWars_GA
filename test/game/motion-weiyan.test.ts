@@ -22,7 +22,7 @@ import { validateClipExposures, validateMotionProfile, heroProfile } from '../..
  * pack - an unknown frame would break the shared-atlas display.
  *
  * The pack uses compact positions (walk:0-8, jab1/jab2/finisher:0-4,
- * jump:0-5, fall:0-4, getup:0-4, misc:0-4, special:0-4, rider:0-5); the
+ * jump:0-5, fall:0-4, getup:0-4, misc:0-4, special:0-4); the
  * dispatch maps the hero states onto these names. Bookends hold by clip
  * convention (no alias records in the culled layout): every guard point
  * IS walk:0 and every down point IS fall:4 - the same pattern as Guan
@@ -40,7 +40,7 @@ const art: MotionArt = {
   frameDispatch: motionFrameForWeiyan,
   collapseTail: WEIYAN_COLLAPSE_TAIL,
 }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null }
 
 describe('weiyan pack registration', () => {
   it('the prepared record validates as a weiyan pack', () => {
@@ -55,7 +55,7 @@ describe('weiyan pack registration', () => {
     expect(meta.decodedCapBytes).toBeUndefined()
     expect(MOTION_PACKS['weiyan']).toBeDefined()
     expect(MOTION_PACKS['weiyan']!.pages).toHaveLength(2)
-    expect(Object.values(WEIYAN_FRAMES).reduce((a, b) => a + b, 0)).toBe(56)
+    expect(Object.values(WEIYAN_FRAMES).reduce((a, b) => a + b, 0)).toBe(50)
   })
 
   it('negative controls: missing frame / wrong cell / overlap / bad sheet fail the pack', () => {
@@ -103,8 +103,6 @@ describe('weiyan clips follow core timing', () => {
     expect(art.clips.jab2!.duration).toBe(ATTACKS['wy.jab2']!.startup + ATTACKS['wy.jab2']!.active + ATTACKS['wy.jab2']!.recover)
     expect(art.clips.finisher!.duration).toBe(ATTACKS['wy.finisher']!.startup + ATTACKS['wy.finisher']!.active + ATTACKS['wy.finisher']!.recover)
     expect(art.clips.special!.duration).toBe(ATTACKS['wy.special']!.startup + ATTACKS['wy.special']!.active + ATTACKS['wy.special']!.recover)
-    expect(art.clips.mountedsweep!.duration).toBe(ATTACKS['mounted.sweep']!.startup + ATTACKS['mounted.sweep']!.active + ATTACKS['mounted.sweep']!.recover)
-    expect(art.clips.dismountedsweep!.duration).toBe(ATTACKS['mounted.sweep']!.startup + ATTACKS['mounted.sweep']!.active + ATTACKS['mounted.sweep']!.recover)
     expect(art.clips.hurt!.duration).toBe(PLAYER_HITSTUN_TICKS)
     expect(art.clips.fall!.duration).toBe(KNOCKDOWN_TICKS)
     expect(art.clips.getup!.duration).toBe(GETUP_TICKS)
@@ -113,7 +111,7 @@ describe('weiyan clips follow core timing', () => {
 
   it('the manifest advertises the hero clips and both pages under the contract cap', () => {
     const manifest = motionPackManifest('weiyan')
-    expect(manifest?.requiredClips.sort()).toEqual(['dismount', 'dismountedsweep', 'fall', 'finisher', 'getup', 'grab', 'hurt', 'idle', 'jab1', 'jab2', 'jump', 'jumpattack', 'kicklanding', 'landing', 'mounted', 'mountedsweep', 'mountedwalk', 'release', 'special', 'walk'].sort())
+    expect(manifest?.requiredClips.sort()).toEqual(['fall', 'finisher', 'getup', 'grab', 'hurt', 'idle', 'jab1', 'jab2', 'jump', 'jumpattack', 'kicklanding', 'landing', 'release', 'special', 'walk'].sort())
     expect(manifest?.pages).toHaveLength(2)
     expect(manifest?.display).toBe('shared-atlas')
     expect(manifest?.decodedCap, 'no per-pack exception: contract 16MB applies').toBeUndefined()
@@ -136,15 +134,10 @@ describe('weiyan strike windows (visible strike matches every active tick)', () 
     expect(frameAt({ state: 'attack', attackId, stateTick: a.startup + a.active + a.recover - 1 })).toBe('walk:0')
   })
 
-  it('special, mounted sweep and dismounted sweep show the strike on every active tick', () => {
+  it('special shows the strike on every active tick', () => {
     const special = ATTACKS['wy.special']!
     for (let t = special.startup; t < special.startup + special.active; t++) {
       expect(frameAt({ state: 'special', stateTick: t }), `special@${t}`).toBe('special:3')
-    }
-    const sweep = ATTACKS['mounted.sweep']!
-    for (let t = sweep.startup; t < sweep.startup + sweep.active; t++) {
-      expect(frameAt({ state: 'attack', attackId: 'mounted.sweep', stateTick: t, mountedOn: 7 }), `mounted@${t}`).toBe('rider:4')
-      expect(frameAt({ state: 'attack', attackId: 'mounted.sweep', stateTick: t }), `dismounted@${t}`).toBe('jab1:2')
     }
   })
 })
@@ -220,50 +213,34 @@ describe('weiyan state dispatch (every state, key ticks)', () => {
     expect(frameAt({ state: 'dead', stateTick: 900 })).toBe('fall:4')
   })
 
-  it('mounted states ride; only the attack swings', () => {
-    expect(frameAt({ state: 'idle', mountedOn: 7 })).toBe('rider:0')
-    expect(frameAt({ state: 'walk', stateTick: 0, mountedOn: 7 })).toBe('rider:0')
-    expect(frameAt({ state: 'walk', stateTick: 12, mountedOn: 7 })).toBe('rider:1')
-    expect(frameAt({ state: 'walk', stateTick: 24, mountedOn: 7 }), 'trot loops').toBe('rider:0')
-    expect(frameAt({ state: 'attack', attackId: 'mounted.sweep', stateTick: 0, mountedOn: 7 })).toBe('rider:0')
-    expect(frameAt({ state: 'attack', attackId: 'mounted.sweep', stateTick: 10, mountedOn: 7 })).toBe('rider:4')
-    expect(frameAt({ state: 'hitstun', stateTick: 5, mountedOn: 7 }), 'mounted non-attack states stay seated').toBe('rider:0')
-  })
-
-  it('every dispatched frame exists in the pack; every drawing is reachable except the mount pose', () => {
+  it('every dispatched frame exists in the pack; every drawing is reachable except undisplayed poses', () => {
     const seen = new Set<string>()
     const push = (e: Partial<MotionEntity>) => seen.add(frameAt(e))
     const ticks = [0, 1, 3, 4, 5, 6, 7, 8, 12, 14, 16, 20, 24, 28, 40]
     for (const state of ['idle', 'walk', 'fleeing', 'hitstun', 'knockdown', 'getup', 'grab', 'grabbed', 'thrown', 'dying', 'dead'] as const) {
-      for (const t of ticks) {
-        push({ state, stateTick: t })
-        push({ state, stateTick: t, mountedOn: 7 })
-      }
+      for (const t of ticks) push({ state, stateTick: t })
     }
-    for (const attackId of ['wy.jab1', 'wy.jab2', 'wy.finisher', 'mounted.sweep', null, 'wy.nope']) {
-      for (const t of ticks) {
-        push({ state: 'attack', attackId, stateTick: t })
-        push({ state: 'attack', attackId, stateTick: t, mountedOn: 7 })
-      }
+    for (const attackId of ['wy.jab1', 'wy.jab2', 'wy.finisher', null, 'wy.nope']) {
+      for (const t of ticks) push({ state: 'attack', attackId, stateTick: t })
     }
     for (const t of ticks) for (const airTicks of [undefined, 0, 10, 35]) {
       push({ state: 'jump', stateTick: t, airTicks })
       push({ state: 'jumpattack', stateTick: t, airTicks })
     }
     for (const t of ticks) push({ state: 'special', stateTick: t })
-    // Player-sampled transition clips (landing/kicklanding/release/dismount)
+    // Player-sampled transition clips (landing/kicklanding/release)
     // are not sim states; sample them directly like the runtime player does.
-    for (const action of ['landing', 'kicklanding', 'release', 'dismount', 'mountedwalk']) {
+    for (const action of ['landing', 'kicklanding', 'release']) {
       for (const t of ticks) seen.add(sampleClip(art, action, t))
     }
     for (const frame of seen) expect(allFrames.has(frame), `frame ${frame} must exist in the pack`).toBe(true)
-    // The mount pose (climbing on) has no sim state - mounting is instant -
-    // so it is the only drawing no clip references (Guan Yu's rider:3 same).
-    expect([...allFrames].filter((f) => !seen.has(f)).sort()).toEqual(['rider:2'])
+    // The rider:* frames are unreachable leftovers in the prepared JSON,
+    // removed by a separate prepared-data cleanup.
+    expect([...allFrames].filter((f) => !seen.has(f)).sort()).toEqual(['rider:0', 'rider:1', 'rider:2', 'rider:3', 'rider:4', 'rider:5'])
   })
 
   it('sampleClip clamps out-of-range ticks without ever returning an unknown frame', () => {
-    for (const action of ['idle', 'walk', 'jump', 'jumpattack', 'landing', 'kicklanding', 'hurt', 'fall', 'getup', 'grab', 'release', 'mounted', 'mountedwalk', 'dismount', 'jab1', 'jab2', 'finisher', 'special', 'mountedsweep', 'dismountedsweep']) {
+    for (const action of ['idle', 'walk', 'jump', 'jumpattack', 'landing', 'kicklanding', 'hurt', 'fall', 'getup', 'grab', 'release', 'jab1', 'jab2', 'finisher', 'special']) {
       for (const t of [-5, 0, 17, 500]) {
         const frame = sampleClip(art, action, t)
         expect(allFrames.has(frame), `${action}@${t} -> ${frame}`).toBe(true)
@@ -276,16 +253,16 @@ describe('weiyan state dispatch (every state, key ticks)', () => {
     // must reach the weiyan dispatch, never the guanyu clip names.
     const routed: MotionArt = { ...art, frameDispatch: motionFrameForWeiyan }
     for (const e of [
-      { state: 'idle', stateTick: 0, attackId: null, mountedOn: null },
-      { state: 'walk', stateTick: 8, attackId: null, mountedOn: null },
-      { state: 'attack', stateTick: 8, attackId: 'wy.jab1', mountedOn: null },
-      { state: 'knockdown', stateTick: 4, attackId: null, mountedOn: null },
-      { state: 'dead', stateTick: 0, attackId: null, mountedOn: null },
+      { state: 'idle', stateTick: 0, attackId: null },
+      { state: 'walk', stateTick: 8, attackId: null },
+      { state: 'attack', stateTick: 8, attackId: 'wy.jab1' },
+      { state: 'knockdown', stateTick: 4, attackId: null },
+      { state: 'dead', stateTick: 0, attackId: null },
     ] as MotionEntity[]) {
       const frame = motionFrameForEntity(routed, e)
       expect(allFrames.has(frame), `${e.state} -> ${frame} must be a pack frame`).toBe(true)
     }
-    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null, mountedOn: null })).toBe('walk:0')
+    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null })).toBe('walk:0')
   })
 })
 

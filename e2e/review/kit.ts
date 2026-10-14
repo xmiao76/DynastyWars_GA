@@ -169,7 +169,7 @@ export async function shoot(page: Page, id: string, opts: ShotOpts): Promise<voi
       renderer: window.__DW_GAME__?.renderer.type === 1 ? 'canvas' : 'webgl',
       sim: sim ? {
         stage: sim.stageId, hero: sim.charId, hero2: sim.char2Id, phase: sim.phase, lives: sim.lives,
-        hp: sim.player.hp, maxHp: sim.player.maxHp, playerState: sim.player.state, mounted: sim.player.mounted,
+        hp: sim.player.hp, maxHp: sim.player.maxHp, playerState: sim.player.state,
         cameraLocked: sim.cameraLocked, wave: sim.waveIndex, enemies: sim.enemies.length, score: sim.stats.score,
       } : null,
     }

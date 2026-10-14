@@ -19,8 +19,6 @@ const ALL_EVENTS: SimEvent[] = [
   { type: 'gameover' },
   { type: 'revive', id: 1 },
   { type: 'extralife' },
-  { type: 'mount', id: 6 },
-  { type: 'dismount', id: 1 },
 ]
 
 describe('sfx mapping', () => {

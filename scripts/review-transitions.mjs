@@ -2,7 +2,7 @@
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { readdirSync, writeFileSync } from 'node:fs'
 const OUT = 'artifacts/wholeframe/actions/transitions'
-for (const name of ['late-kick', 'air-hit', 'landing-walk', 'landing-mount', 'mount-break-strike', 'thrown-impact', 'getup-defeat']) {
+for (const name of ['late-kick', 'air-hit', 'landing-walk', 'thrown-impact', 'getup-defeat']) {
   const files = readdirSync(OUT).filter((p) => p.startsWith(`canvas-${name}-`) && p.endsWith('.png')).sort()
   const cv = createCanvas(400 * Math.min(4, files.length), 350 * Math.ceil(files.length / 4)), g = cv.getContext('2d')
   g.fillStyle = '#191820'; g.fillRect(0, 0, cv.width, cv.height)

@@ -1,7 +1,7 @@
 /** Typings for the CMR-04 durable generation budget ledger. */
 
 export interface FighterBudget {
-  role: 'hero' | 'mook' | 'boss' | 'shooter' | 'horse'
+  role: 'hero' | 'mook' | 'boss' | 'shooter'
   /** Per-character cap; 0 means the character's generation is closed. */
   cap: number
   used: number

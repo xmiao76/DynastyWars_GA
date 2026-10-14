@@ -193,16 +193,15 @@ test('no label is buried behind something drawn over it', async ({ page }) => {
 })
 
 /**
- * A label placed inside a panel has to fit inside it. The mounted-play HUD had
- * "Horse: 20/20" running from x=120 to x=166 inside a panel that ends at 156,
- * so the horse's health spilled out over the battlefield. The occlusion check
- * above cannot see this - nothing covers the text, it simply overflows its
- * frame - and no pixel metric can either.
+ * A label placed inside a panel has to fit inside it: a HUD label once ran
+ * past the edge of its panel and spilled out over the battlefield. The
+ * occlusion check above cannot see this - nothing covers the text, it simply
+ * overflows its frame - and no pixel metric can either.
  */
 test('labels fit inside the panel they sit in', async ({ page }) => {
   await page.goto('/?renderer=canvas&autopilot=1')
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
-  // Stage 2 so the horse chip is present; mount to populate it.
+  // Stage 2 in play so the HUD labels are populated.
   await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage2'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   await page.evaluate(() => {
@@ -212,9 +211,6 @@ test('labels fit inside the panel they sit in', async ({ page }) => {
     }
     window.__DW__?.run(Array.from({ length: 140 }, () => ({ ...neutral, right: true })))
   })
-  await expect
-    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.player.mounted), { timeout: 10_000 })
-    .toBe(true)
   await page.waitForTimeout(250)
 
   const overflows = await page.evaluate(() => {

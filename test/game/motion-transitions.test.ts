@@ -4,7 +4,7 @@ import { guanyuClips, motionFrameForEntity, type MotionArt, type MotionEntity } 
 import { advanceMotion } from '../../src/game/art/motion-player'
 
 const art: MotionArt = { ...motionPreparedRecord(), sheet: {} as CanvasImageSource, actionSheet: {} as CanvasImageSource, clips: guanyuClips() }
-const idle: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null, airTicks: 0, z: 0 }
+const idle: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, airTicks: 0, z: 0 }
 const airborne = (): ReturnType<typeof advanceMotion> => advanceMotion(art, { ...idle, state: 'jump', stateTick: 35, airTicks: 35, z: 5 }, 35)
 
 describe('Guan Yu action boundary negative controls', () => {
@@ -23,20 +23,6 @@ describe('Guan Yu action boundary negative controls', () => {
     const land = advanceMotion(art, idle, 36, airborne().playback)
     const directionChanged = advanceMotion(art, { ...idle, state: 'walk' }, 36, land.playback)
     expect(directionChanged.frame).toBe('jump:7')
-  })
-
-  it('mounting interrupts grounded landing rather than drawing a crouching rider', () => {
-    const land = advanceMotion(art, idle, 36, airborne().playback)
-    const mounted = advanceMotion(art, { ...idle, state: 'walk', stateTick: 1, mountedOn: 91 }, 37, land.playback)
-    expect(mounted.frame).toBe('rider:0')
-    expect(mounted.playback.transition).toBeUndefined()
-  })
-
-  it('mounting interrupts grab release instead of showing a standing reach on horseback', () => {
-    const held = advanceMotion(art, { ...idle, state: 'grab', stateTick: 16 }, 16)
-    const release = advanceMotion(art, idle, 17, held.playback)
-    const mounted = advanceMotion(art, { ...idle, mountedOn: 91, stateTick: 1 }, 18, release.playback)
-    expect(mounted.frame).toBe('rider:0')
   })
 
   it('late aerial input keeps the descent pose during startup, not a sudden apex tuck', () => {
@@ -84,21 +70,6 @@ describe('Guan Yu action boundary negative controls', () => {
     const later = advanceMotion(art, { ...idle, state: 'knockdown', stateTick: 14 }, 33, air.playback)
     expect(later.frame).toBe('fall:6')
     expect(later.lift).toBe(0)
-  })
-
-  it('dismount uses the freeze-safe presentation clock, not delayed world time', () => {
-    const rider = advanceMotion(art, { ...idle, mountedOn: 91, stateTick: 20 }, 20)
-    const frozen = advanceMotion(art, { ...idle, mountedOn: 91, stateTick: 20 }, 30, rider.playback)
-    const dropped = advanceMotion(art, { ...idle, stateTick: 21 }, 31, frozen.playback)
-    expect(dropped.frame).toBe('rider:7')
-    expect(advanceMotion(art, { ...idle, stateTick: 25 }, 35, dropped.playback).frame).toBe('jump:1')
-    expect(advanceMotion(art, { ...idle, stateTick: 29 }, 39, dropped.playback).frame).toBe('walk:0')
-  })
-
-  it('a broken mount keeps the mounted attack hit window rather than shortening it to jab1', () => {
-    const dropped = { ...idle, state: 'attack' as const, attackId: 'mounted.sweep', stateTick: 13 }
-    expect(motionFrameForEntity(art, dropped)).toBe('jab1:4') // mounted active is ticks 8..13 inclusive
-    expect(motionFrameForEntity(art, { ...dropped, stateTick: 14 })).toBe('jab1:5')
   })
 
   it('thrown body impact cannot restart an upright fall', () => {

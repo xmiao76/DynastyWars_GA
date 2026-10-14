@@ -185,7 +185,6 @@ describe('BODY-18 art-materials audit', () => {
       expect(existsSync(`art/${faceDir}/${id}-heads-master.${ext}`), `${id} heads master`).toBe(true)
       expect(existsSync(`art/${faceDir}/${id}-portrait-master.${ext}`), `${id} portrait master`).toBe(true)
     }
-    expect(existsSync('art/fighter-bodies/horse-master.jpg'), 'horse master').toBe(true)
   })
 
   it('art/raw holds only legacy sample-pipeline placeholders the shipping build never reads', () => {

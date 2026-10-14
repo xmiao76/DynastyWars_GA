@@ -116,8 +116,7 @@ describe('sprite key conventions', () => {
     // Distinct across heroes: no two ordered triples agree.
     const seen = new Set(Object.values(TRIPLES).map((t) => t.join(',')))
     expect(seen.size, 'two heroes share a combo triple').toBe(5)
-    // Enemies and the mounted sweep keep the standard strike pose.
-    expect(poseForEntity({ state: 'attack', stateTick: 8, attackId: 'mounted.sweep' })).toBe('attack')
+    // Enemies keep the standard strike pose.
     expect(poseForEntity({ state: 'attack', stateTick: 14, attackId: 'soldier.swing' })).toBe('attack')
     expect(poseForEntity({ state: 'attack', stateTick: 20, attackId: 'spear.thrust' })).toBe('attack')
   })
@@ -185,7 +184,7 @@ describe('sprite key conventions', () => {
     // Counted rather than merely iterated: an emptied registry would otherwise
     // make this loop over nothing and pass.
     const kinds = vectorKinds()
-    expect(kinds.length).toBeGreaterThanOrEqual(16)
+    expect(kinds.length).toBeGreaterThanOrEqual(15)
     for (const kind of kinds) {
       expect(artBoxFor(kind), `${kind} has no art box`).toBeDefined()
       expect(isPropKind(kind)).toBe(isVectorProp(kind))

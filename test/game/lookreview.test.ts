@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest'
 import { artBoxFor, drawKindPose } from '../../src/game/art/registry'
 import type { ArtResources, HeroArt } from '../../src/game/art/hero-resources'
 import type { BodyArt } from '../../src/game/art/body-parts'
-import type { HorseArt } from '../../src/game/art/horse-frames'
 import type { PoseName } from '../../src/game/art/poses'
 
 /** Owner objection review sheets (BODY-8..13 evidence): full figures at
@@ -14,7 +13,7 @@ const GROUPS = [
   ['zhangfei', 'zhaoyun', 'guanyu'],
   ['huangzhong', 'weiyan', 'soldier'],
   ['spearman', 'archer', 'xiahoudun'],
-  ['xuchu', 'lidian', 'horse'],
+  ['xuchu', 'lidian'],
 ] as const
 
 async function loadResources(): Promise<ArtResources> {
@@ -54,14 +53,6 @@ async function loadResources(): Promise<ArtResources> {
       id, revision: meta.revision, sheet, density: meta.density, parts: meta.parts,
       skin: parseInt(meta.skin.slice(1), 16),
     }
-  }
-  const hm = (await import('../../src/game/assets/horse/prepared.json')).default as Record<string, {
-    revision: string; density: number; frames: HorseArt['frames']
-  }>
-  const horse = hm['horse']
-  if (horse) {
-    const sheet = (await loadImage('src/game/assets/horse/horse-sheet.png')) as unknown as CanvasImageSource
-    resources.horse = { id: 'horse', revision: horse.revision, sheet, density: horse.density, frames: horse.frames }
   }
   return resources
 }

@@ -82,7 +82,6 @@ const prepared = {
     'hz.jab2': 'jab2',
     'hz.finisher': 'finisher',
     'hz.special': 'special',
-    'mounted.sweep': 'dismountedsweep',
   },
   sha256: createHash('sha256').update(png).digest('hex'),
 }

@@ -31,8 +31,8 @@ afterAll(() => {
 })
 
 describe('generation budget caps', () => {
-  it('caps per role: hero 16, boss 12, mook 8, horse 4, total 200', () => {
-    expect(ROLE_CAPS).toEqual({ hero: 16, boss: 12, mook: 8, horse: 4 })
+  it('caps per role: hero 16, boss 12, mook 8, total 200', () => {
+    expect(ROLE_CAPS).toEqual({ hero: 16, boss: 12, mook: 8 })
     expect(TOTAL_CAP).toBe(200)
     expect(SHEET_CANDIDATES_PER_SEQUENCE).toBe(2)
     for (const [role, cap] of Object.entries(ROLE_CAPS)) {
@@ -103,7 +103,7 @@ describe('generation budget caps', () => {
     expect(wy?.note).toMatch(/NOT reset/)
     // Every sequence already holds its v1 candidate: a v2 whole sheet is the
     // last one allowed, so the per-sequence rule still bites.
-    for (const seq of ['walk', 'jab1', 'jab2', 'finisher', 'jump', 'fall', 'getup', 'misc', 'special', 'rider']) {
+    for (const seq of ['walk', 'jab1', 'jab2', 'finisher', 'jump', 'fall', 'getup', 'misc', 'special']) {
       expect(wy?.sheetCandidates[seq], seq).toBeGreaterThanOrEqual(1)
       expect(wy?.sheetCandidates[seq], seq).toBeLessThanOrEqual(2)
     }

@@ -40,11 +40,11 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const p = g.sim.entities[0]!; p.facing = f; p.x = 230
       }, facing)
-      for (const action of ['jump', 'jumpkick', 'hurt', 'knockdown', 'special', 'grab', 'mounted', 'dismount', 'airfall', 'ko'] as const) {
+      for (const action of ['jump', 'jumpkick', 'hurt', 'knockdown', 'special', 'grab', 'airfall', 'ko'] as const) {
         await page.evaluate((name) => {
           const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
           const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
-          p.state = 'idle'; p.stateTick = 0; p.airTicks = 0; p.z = 0; p.attackId = null; p.mountedOn = null; p.invulnerableTicks = 0; p.hp = p.maxHp
+          p.state = 'idle'; p.stateTick = 0; p.airTicks = 0; p.z = 0; p.attackId = null; p.invulnerableTicks = 0; p.hp = p.maxHp
           g.sim.entities = [p]
           g.sim.player2Id = null; g.sim.char2Id = null; g.sim.phase = 'fight'
           if (name === 'hurt') p.state = 'hitstun'
@@ -63,13 +63,9 @@ for (const renderer of ['canvas', 'webgl'] as const) {
             const enemy = { ...structuredClone(p), id: 90, kind: 'soldier', side: 'enemy', x: p.x + (p.facing === 'right' ? 16 : -16), grabbedBy: p.id, state: 'grabbed' } as Entity
             g.sim.entities.push(enemy); p.state = 'grab'
           }
-          if (name === 'mounted' || name === 'dismount') {
-            const horse = { ...structuredClone(p), id: 91, kind: 'horse', side: 'neutral', state: 'idle' } as Entity
-            g.sim.entities.push(horse); p.mountedOn = horse.id
-          }
           g.syncSprites()
         }, action)
-        const frameCount = action === 'knockdown' || action === 'airfall' ? 40 : action === 'mounted' ? 28 : 26
+        const frameCount = action === 'knockdown' || action === 'airfall' ? 40 : 26
         const trace = await page.evaluate(async ({ action, frameCount }) => {
           const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
           const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
@@ -80,9 +76,6 @@ for (const renderer of ['canvas', 'webgl'] as const) {
             if (action === 'jumpkick' && i === 4) input.attackPressed = true
             if (action === 'special' && i === 0) input.specialPressed = true
             if (action === 'grab' && i === 8) input.attackPressed = true
-            if (action === 'mounted' && i < 8) input[p.facing] = true
-            if (action === 'mounted' && i === 9) input.attackPressed = true
-            if (action === 'dismount' && i === 4) { p.mountedOn = null; g.sim.entities = [p] }
             next += 2
             window.__DW__!.run([input, { ...input, jumpPressed: false, attackPressed: false, specialPressed: false }])
             while (g.sim.tick < next) await new Promise<void>((r) => requestAnimationFrame(() => r()))
@@ -109,7 +102,6 @@ for (const renderer of ['canvas', 'webgl'] as const) {
     const stress = await page.evaluate(() => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
       const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
-      p.mountedOn = null
       const out = []
       for (const state of ['grabbed', 'thrown', 'fleeing', 'dying', 'dead'] as const) for (const stateTick of [0, 4, 8, 14, 23, 35]) {
         p.state = state; p.stateTick = stateTick; g.sim.tick++; g.syncSprites()

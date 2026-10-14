@@ -39,7 +39,7 @@ const art: MotionArt = {
   frameDispatch: motionFrameForLidian,
   collapseTail: LIDIAN_COLLAPSE_TAIL,
 }
-const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null, mountedOn: null }
+const base: MotionEntity = { state: 'idle', stateTick: 0, attackId: null }
 
 describe('lidian pack registration', () => {
   it('the prepared record validates as a lidian pack', () => {
@@ -240,16 +240,16 @@ describe('lidian state dispatch (every state, key ticks)', () => {
     // must reach the lidian dispatch, never the guanyu clip names.
     const routed: MotionArt = { ...art, frameDispatch: motionFrameForLidian }
     for (const e of [
-      { state: 'idle', stateTick: 0, attackId: null, mountedOn: null },
-      { state: 'walk', stateTick: 8, attackId: null, mountedOn: null },
-      { state: 'attack', stateTick: 8, attackId: 'sword.combo', mountedOn: null },
-      { state: 'knockdown', stateTick: 4, attackId: null, mountedOn: null },
-      { state: 'dead', stateTick: 0, attackId: null, mountedOn: null },
+      { state: 'idle', stateTick: 0, attackId: null },
+      { state: 'walk', stateTick: 8, attackId: null },
+      { state: 'attack', stateTick: 8, attackId: 'sword.combo' },
+      { state: 'knockdown', stateTick: 4, attackId: null },
+      { state: 'dead', stateTick: 0, attackId: null },
     ] as MotionEntity[]) {
       const frame = motionFrameForEntity(routed, e)
       expect(allFrames.has(frame), `${e.state} -> ${frame} must be a pack frame`).toBe(true)
     }
-    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null, mountedOn: null })).toBe('walk:0')
+    expect(motionFrameForEntity(routed, { state: 'idle', stateTick: 0, attackId: null })).toBe('walk:0')
   })
 })
 

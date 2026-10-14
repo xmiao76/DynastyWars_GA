@@ -188,14 +188,12 @@ describe('role capability observability (ready before first integration)', () =>
     }
     expect(ROLE_CAPABILITIES['hero']).toContain('revive')
     expect(ROLE_CAPABILITIES['hero']).toContain('coop')
-    expect(ROLE_CAPABILITIES['horse']).toEqual(expect.arrayContaining(['saddle', 'rider']))
   })
 
   it('derives per-role action lists from the inventory shape', () => {
     expect(actionsForRole('hero')).toEqual(HERO_ACTIONS)
     expect(actionsForRole('soldier')).toEqual(ENEMY_ACTIONS)
     expect(actionsForRole('archer')).toContain('approach')
-    expect(actionsForRole('horse')).toContain('saddle')
   })
 })
 
