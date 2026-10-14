@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import type Phaser from 'phaser'
+import { STAGES } from '../../src/core/stage'
 import { CONTRACT_CAPS, type BudgetCaps } from '../../src/game/adapters/motion-catalog'
 import type { MotionArt } from '../../src/game/art/motion-clips'
 import {
@@ -33,6 +34,7 @@ const ZHANGFEI_ACTION_BYTES = readFileSync('src/game/assets/motion/zhangfei-acti
 const HUANGZHONG_BYTES = readFileSync('src/game/assets/motion/huangzhong-motion-sheet.png')
 const LIDIAN_BYTES = readFileSync('src/game/assets/motion/lidian-motion-sheet.png')
 const XIAHOUDUN_BYTES = readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')
+const XUCHU_BYTES = readFileSync('src/game/assets/motion/xuchu-motion-sheet.png')
 const meta = motionPreparedRecord()
 const keys = motionTextureKeys('guanyu')
 
@@ -132,7 +134,7 @@ function makeIo(
       if (opts.gate) await opts.gate
       if (behavior.kind === 'missing') return new Uint8Array(0)
       if (behavior.kind === 'garbage') return new Uint8Array([1, 2, 3, 4])
-      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('huangzhong') ? HUANGZHONG_BYTES : url.includes('lidian') ? LIDIAN_BYTES : url.includes('xiahoudun') ? XIAHOUDUN_BYTES : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
+      return new Uint8Array(url.includes('zhangfei') ? (url.includes('actions-sheet') ? ZHANGFEI_ACTION_BYTES : ZHANGFEI_SHEET_BYTES) : url.includes('huangzhong') ? HUANGZHONG_BYTES : url.includes('lidian') ? LIDIAN_BYTES : url.includes('xiahoudun') ? XIAHOUDUN_BYTES : url.includes('xuchu') ? XUCHU_BYTES : url.includes('archer') ? ARCHER_BYTES : url.includes('spearman') ? SPEARMAN_BYTES : url.includes('soldier') ? SOLDIER_BYTES : url.includes('actions-sheet') ? ACTION_BYTES : SHEET_BYTES)
     },
     sha256: async (bytes) => {
       if (opts.shaThrows) throw new Error(opts.shaThrows)
@@ -151,6 +153,36 @@ function makeIo(
 
 const okPages = { sheet: { kind: 'ok' } as PageBehavior, actions: { kind: 'ok' } as PageBehavior }
 
+// Wave partition derived from the core stage data + the real catalog (the
+// same derivation the exhaustive scope tests pin): immediate = heroes +
+// opening-wave kinds, deferred = later kinds in first-spawn order, boss last.
+const packBytes = (kind: string): number => MOTION_PACKS[kind]!.pages.reduce((n, p) => n + p.bytes, 0)
+const packPages = (kind: string): number => MOTION_PACKS[kind]!.pages.length
+const packDecoded = (kind: string): number => MOTION_PACKS[kind]!.pages.reduce((n, p) => n + p.width * p.height * 4, 0)
+const sumBy = (kinds: readonly string[], f: (kind: string) => number): number => kinds.reduce((n, k) => n + f(k), 0)
+function spawnPartition(stageId: string, heroes: string[]): { immediate: string[]; deferred: string[] } {
+  const stage = STAGES[stageId]!
+  const first = new Map<string, { tick: number; seq: number }>()
+  let seq = 0
+  stage.waves.forEach((wave, tick) => {
+    for (const spawn of wave.spawns) {
+      if (!first.has(spawn.kind)) first.set(spawn.kind, { tick, seq })
+      seq += 1
+    }
+  })
+  if (!first.has(stage.bossKind)) first.set(stage.bossKind, { tick: stage.waves.length, seq })
+  const spawnable = [...first.keys()]
+    .filter((kind) => MOTION_PACKS[kind])
+    .sort((a, b) => first.get(a)!.tick - first.get(b)!.tick || first.get(a)!.seq - first.get(b)!.seq)
+  const opening = [...new Set(stage.waves[0]!.spawns.map((s) => s.kind))].filter((kind) => MOTION_PACKS[kind])
+  const immediate = [...new Set([...heroes, ...opening])]
+  return { immediate, deferred: spawnable.filter((kind) => !immediate.includes(kind)) }
+}
+/** Kind sequence of the recorded page fetches (one entry per fetched page). */
+const fetchedKinds = (calls: string[]): string[] =>
+  calls.map((url) => Object.keys(MOTION_PACKS).find((kind) => url.includes(kind)) ?? url)
+const pageSequence = (kinds: readonly string[]): string[] => kinds.flatMap((kind) => Array<string>(packPages(kind)).fill(kind))
+
 // ---------------------------------------------------------------------------
 
 describe('stage-scoped motion runtime', () => {
@@ -158,16 +190,26 @@ describe('stage-scoped motion runtime', () => {
     const { scene, textures, motions } = makeScene()
     const io = makeIo(okPages)
     const rt = new MotionRuntime(io)
+    const { immediate, deferred } = spawnPartition('stage1', ['guanyu'])
     const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'guanyu', null))
-    // Request order varies run to run (fetch settlement); membership is exact.
-    expect([...report.requested].sort()).toEqual(['archer', 'guanyu', 'lidian', 'soldier', 'spearman'])
-    expect([...report.published].sort(), JSON.stringify(report.legacy)).toEqual(['archer', 'guanyu', 'lidian', 'soldier', 'spearman'])
+    // The entry gate awaits ONLY the opening set (hero + opening wave);
+    // later waves and the boss are scheduled behind it in spawn order.
+    expect(report.requested).toEqual(immediate)
+    expect(report.published, JSON.stringify(report.legacy)).toEqual(immediate)
+    expect(report.deferred).toEqual(deferred)
     expect(report.legacy, JSON.stringify(report.legacy)).toEqual([])
-    // Exactly the catalogued packs' pages (hero + the stage's soldier,
-    // spearman and archer packs + the stage boss lidian): no all-cast, no
-    // stage-adjacent extras.
-    expect(io.calls).toHaveLength(6)
-    expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'lidian', 'soldier', 'spearman'])
+    expect(report.scope.immediateBytes, 'entry downloads are the new immediate bytes').toBe(sumBy(immediate, packBytes))
+    expect(report.scope.immediateBytes).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
+    expect(rt.dueKinds(scene, 0)).toEqual(immediate)
+    expect(rt.kindsReady(scene, immediate)).toBe(true)
+    // Background loads then land deferred kinds in first-spawn order, then
+    // the budget-admitted future-stage prefetch - no all-cast extras.
+    await rt.settle()
+    const settled = [...immediate, ...deferred, ...report.scope.prefetch]
+    expect(Object.keys(motions()).sort()).toEqual([...settled].sort())
+    expect(io.calls).toHaveLength(sumBy(settled, packPages))
+    expect(fetchedKinds(io.calls), 'pages fetch in immediate, deferred, prefetch order').toEqual(pageSequence(settled))
+    expect(rt.kindsReady(scene, deferred)).toBe(true)
     // One texture per atlas page; every frame is a shared atlas frame.
     expect(textures.get(keys.sheet)!.frames.size).toBe(36)
     expect(textures.get(keys.actions)!.frames.size).toBe(45)
@@ -179,29 +221,33 @@ describe('stage-scoped motion runtime', () => {
       // inside the FULL 448x288 cell - exactly the old clone placement.
       expect(frame.trimArgs, name).toEqual([cell.srcW, cell.srcH, cell.trimX ?? 0, cell.trimY ?? 0, cell.w, cell.h])
     }
-    // Budgets, kept separate and never raised.
+    // Budgets, kept separate and never raised. After settle the cache holds
+    // every settled pack, so network/decoded totals derive from the catalog;
+    // the 12 MiB cap itself charges only the entry (immediate) downloads.
     const rep = rt.budget()
-    expect(rep.networkBytes).toBe(3_908_521 + 1_786_372 + 1_352_663 + 1_830_948 + 2_102_566)
-    expect(rep.sourceBytes).toBe(3_908_521 + 1_786_372 + 1_352_663 + 1_830_948 + 2_102_566)
-    expect(rep.perFighterDecoded['guanyu']).toBe(1935 * 903 * 4 + 2027 * 1055 * 4)
-    expect(rep.perFighterDecoded['soldier']).toBe(1984 * 1142 * 4)
-    expect(rep.perFighterDecoded['spearman']).toBe(1835 * 866 * 4)
-    expect(rep.perFighterDecoded['archer']).toBe(2045 * 924 * 4)
-    expect(rep.perFighterDecoded['lidian']).toBe(2011 * 1646 * 4)
-    expect(rep.perFighterDecoded['guanyu']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
-    expect(rep.perFighterDecoded['soldier']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
-    expect(rep.perFighterDecoded['spearman']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
-    expect(rep.perFighterDecoded['archer']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
-    expect(rep.perFighterDecoded['lidian']).toBeLessThanOrEqual(CONTRACT_CAPS.decodedPerFighter)
-    expect(rep.gpuBytes, 'one GPU upload per page, no display clones').toBe(rep.perFighterDecoded['guanyu']! + rep.perFighterDecoded['soldier']! + rep.perFighterDecoded['spearman']! + rep.perFighterDecoded['archer']! + rep.perFighterDecoded['lidian']!)
+    expect(rep.networkBytes).toBe(sumBy(settled, packBytes))
+    expect(rep.sourceBytes).toBe(sumBy(settled, packBytes))
+    for (const kind of settled) {
+      expect(rep.perFighterDecoded[kind], kind).toBe(packDecoded(kind))
+      const cap = MOTION_PACKS[kind]!.meta().decodedCapBytes ?? CONTRACT_CAPS.decodedPerFighter
+      expect(rep.perFighterDecoded[kind], kind).toBeLessThanOrEqual(cap)
+    }
+    expect(rep.gpuBytes, 'one GPU upload per page, no display clones').toBe(sumBy(settled, packDecoded))
     expect(rep.clonedCanvasBytes).toBe(0)
     expect(rep.retainedBytes).toBeLessThanOrEqual(CONTRACT_CAPS.retainedCache)
-    expect(rep.networkBytes, 'stage-entry downloads fit the 12 MiB cap').toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
+    expect(report.scope.plannedBytes, 'planned entry downloads fit the 12 MiB cap').toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
     // The per-cell clone display this replaced would hold one full-cell canvas
     // per frame (and upload each): far past the per-fighter decode cap.
     const cloneBytes = Object.keys(meta.frames).length * 448 * 288 * 4
     expect(cloneBytes).toBeGreaterThan(CONTRACT_CAPS.decodedPerFighter)
     expect(cloneBytes, 'guanyu clones alone exceed his shared-atlas upload').toBeGreaterThan(rep.perFighterDecoded['guanyu']!)
+    // A late co-op hero who was never in the solo scope still loads on
+    // demand through the scheduled-set query path.
+    const callsBefore = io.calls.length
+    expect(rt.kindReady(scene, 'zhangfei')).toBe(false)
+    expect(await rt.prepareKinds(scene, ['zhangfei'])).toEqual([{ kind: 'zhangfei', outcome: { ok: true } }])
+    expect(rt.kindReady(scene, 'zhangfei')).toBe(true)
+    expect(io.calls).toHaveLength(callsBefore + packPages('zhangfei'))
   }, 60_000)
 
   it('co-op: the default/cached 2P hero is ready at stage entry, dedupe and restart never re-download, eviction uninstalls', async () => {
@@ -216,35 +262,54 @@ describe('stage-scoped motion runtime', () => {
     gate()
     const report = await pending
     await rt.settle()
-    expect([...report.requested].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
-    expect([...report.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
-    // The two heroes (3.52 + 3.91 MB) plus soldier, spearman and archer
-    // reach 12.40 MB, inside the 12 MiB cap; the lidian boss pack
-    // (2.10 MB) would push past it, so the scope policy defers it to
-    // legacy art - the designed priority order (hero, 2P, stage kinds),
-    // never raised ceilings.
-    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(7)
-    expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
+    const part1 = spawnPartition('stage1', ['zhangfei', 'guanyu'])
+    // Entry awaited only heroes + opening wave; every later kind (the
+    // lidian boss included) was scheduled, not dropped to legacy by the cap.
+    expect(report.requested).toEqual(part1.immediate)
+    expect(report.published).toEqual(part1.immediate)
+    expect(report.deferred).toEqual(part1.deferred)
+    const settled1 = [...part1.immediate, ...part1.deferred, ...report.scope.prefetch]
+    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(sumBy(settled1, packPages))
+    // The concurrent join load may interleave its pages with the hero's, so
+    // pin the exact page multiset (dedupe), not fetch order, here.
+    expect([...fetchedKinds(io.calls)].sort()).toEqual([...pageSequence(settled1)].sort())
+    expect(Object.keys(motions()).sort()).toEqual([...settled1].sort())
     const rep = rt.budget()
-    expect(rep.perFighterDecoded['zhangfei']).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
-    expect(rep.perFighterDecoded['zhangfei']).toBeLessThanOrEqual(22 * 1024 * 1024)
+    expect(rep.perFighterDecoded['zhangfei']).toBe(packDecoded('zhangfei'))
+    expect(rep.perFighterDecoded['zhangfei']).toBeLessThanOrEqual(MOTION_PACKS['zhangfei']!.meta().decodedCapBytes ?? CONTRACT_CAPS.decodedPerFighter)
     expect((motions()['zhangfei'] as MotionArt).collapseTail, 'published art carries the per-kind collapse tail').toEqual(['fall:3', 'fall:4'])
-    // Same-stage restart reuses every held page with ZERO downloads.
+    // Same-stage restart reuses every held page (never re-downloads one),
+    // and the cached opening set charges ZERO new entry bytes. The freed
+    // entry budget may admit one more FUTURE prefetch than the cold entry
+    // did; that is new optional work, not a re-download.
     rt.cancelLoads()
     rt.releaseScene(scene)
     const restart = await rt.prepareStage(scene, req)
-    expect([...restart.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
-    expect(io.calls, 'restart re-downloads nothing').toHaveLength(7)
-    // Stage2 requests its new boss before mooks. Warm stage1 spear stays
-    // published, but is not counted as a newly planned stage2 download.
+    expect(restart.published).toEqual(part1.immediate)
+    expect(restart.scope.immediateBytes, 'fully cached immediate set is free at the gate').toBe(0)
+    expect(restart.scope.cachedBytes).toBe(sumBy(part1.immediate, packBytes))
+    await rt.settle()
+    const settledRestart = [...new Set([...settled1, ...restart.scope.prefetch])]
+    expect(io.calls, 'restart re-downloads no held page').toHaveLength(sumBy(settledRestart, packPages))
+    expect([...fetchedKinds(io.calls)].sort()).toEqual([...pageSequence(settledRestart)].sort())
+    // Stage2: its opening set is already warm and its deferred kinds
+    // (mooks, then the xiahoudun boss stage1 already prefetched) need no
+    // new download; only newly admitted future prefetch may fetch.
     rt.cancelLoads()
     rt.releaseScene(scene)
+    const part2 = spawnPartition('stage2', ['zhangfei', 'guanyu'])
     const again = await rt.prepareStage(scene, motionStageRequest('stage2', 'zhangfei', 'guanyu'))
-    expect(again.requested).toEqual(['zhangfei', 'guanyu', 'xiahoudun', 'soldier'])
-    expect([...again.published].sort()).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
-    expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'xiahoudun', 'zhangfei'])
-    expect(io.calls, 'only the newly needed boss downloads').toHaveLength(8)
-    expect(rt.budget().networkBytes - rep.networkBytes).toBe(2220630)
+    expect(again.requested).toEqual(part2.immediate)
+    expect(again.published).toEqual(part2.immediate)
+    expect(again.deferred).toEqual(part2.deferred)
+    expect(again.scope.immediateBytes).toBe(0)
+    await rt.settle()
+    expect(rt.kindsReady(scene, [...part2.immediate, ...part2.deferred])).toBe(true)
+    const settled2 = [...new Set([...settledRestart, ...part2.immediate, ...part2.deferred, ...again.scope.prefetch])]
+    expect(Object.keys(motions()).sort()).toEqual([...settled2].sort())
+    expect(io.calls, 'warm roster kinds never re-download').toHaveLength(sumBy(settled2, packPages))
+    expect([...fetchedKinds(io.calls)].sort()).toEqual([...pageSequence(settled2)].sort())
+    expect(rt.budget().networkBytes).toBe(sumBy(settled2, packBytes))
     expect(rt.budget().clonedCanvasBytes).toBe(0)
     rt.cancelLoads()
     rt.releaseScene(scene)
@@ -258,30 +323,42 @@ describe('stage-scoped motion runtime', () => {
     // by the prior runtime simply because that runtime is not under test here.
     const evictScene = makeScene()
     const report2 = await evicting.prepareStage(evictScene.scene, motionStageRequest('stage1', 'zhangfei', 'guanyu'))
-    expect([...report2.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect(report2.published).toEqual(part1.immediate)
+    await evicting.settle()
+    const evictSettled = [...part1.immediate, ...part1.deferred, ...report2.scope.prefetch]
+    expect(Object.keys(evictScene.motions()).sort()).toEqual([...evictSettled].sort())
     evicting.releaseScene(evictScene.scene)
     expect(evictScene.motions(), 'evicted pack leaves the registry').toEqual({})
     expect(evictScene.textures.has(keys.sheet), 'evicted pack removes its textures').toBe(false)
     expect(evictScene.textures.has(keys.actions)).toBe(false)
     expect(motions().xiahoudun, 'other runtime retains its valid boss').toBeDefined()
     expect(textures.has(motionTextureKeys('xiahoudun').sheet)).toBe(true)
-    expect(evictIo.calls).toHaveLength(7)
+    expect(evictIo.calls).toHaveLength(sumBy(evictSettled, packPages))
   }, 60_000)
 
-  it('fresh GU/default ZF stage2 prepares its boss before budget-deferred mooks with real catalog PNGs', async () => {
+  it('fresh GU/default ZF stage2 awaits heroes + opening wave, then prefetches later mooks and the boss in spawn order', async () => {
     const { scene, textures, motions } = makeScene(), io = makeIo(okPages), rt = new MotionRuntime(io)
+    const { immediate, deferred } = spawnPartition('stage2', ['guanyu', 'zhangfei'])
     const report = await rt.prepareStage(scene, motionStageRequest('stage2', 'guanyu', 'zhangfei'))
-    expect(report.requested).toEqual(['guanyu', 'zhangfei', 'xiahoudun', 'soldier'])
-    expect(report.published).toEqual(report.requested)
+    expect(report.requested).toEqual(immediate)
+    expect(report.published).toEqual(immediate)
+    expect(report.deferred, 'later-wave mooks first, boss last').toEqual(deferred)
     expect(report.legacy).toEqual([])
-    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
-    expect(io.calls).toHaveLength(6)
-    expect(io.calls[4]).toContain('xiahoudun-motion-sheet')
-    expect(io.calls[5]).toContain('soldier-motion-sheet')
-    expect(io.calls.some((url) => url.includes('spearman') || url.includes('archer'))).toBe(false)
+    expect(report.scope.immediateBytes).toBe(sumBy(immediate, packBytes))
+    expect(report.scope.immediateBytes, 'entry downloads fit the unchanged cap').toBeLessThan(CONTRACT_CAPS.stageDownloads)
+    expect(report.scope.entryOverBudget).toBe(false)
+    await rt.settle()
+    const settled = [...immediate, ...deferred, ...report.scope.prefetch]
+    expect(Object.keys(motions()).sort()).toEqual([...settled].sort())
+    expect(fetchedKinds(io.calls), 'background pages fetch in first-spawn order').toEqual(pageSequence(settled))
+    expect(rt.kindReady(scene, 'xiahoudun')).toBe(true)
     expect(textures.get(motionTextureKeys('xiahoudun').sheet)!.frames.size).toBe(39)
-    expect(rt.budget()).toMatchObject({ networkBytes: 11440295, sourceBytes: 11440295, clonedCanvasBytes: 0, perFighterDecoded: { xiahoudun: 12991664 } })
-    expect(rt.budget().sourceBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
+    expect(rt.budget()).toMatchObject({
+      networkBytes: sumBy(settled, packBytes),
+      sourceBytes: sumBy(settled, packBytes),
+      clonedCanvasBytes: 0,
+      perFighterDecoded: { xiahoudun: packDecoded('xiahoudun') },
+    })
     rt.cancelLoads(); rt.releaseScene(scene); await rt.settle()
   }, 60000)
 
@@ -289,22 +366,27 @@ describe('stage-scoped motion runtime', () => {
     const { scene, motions } = makeScene()
     const io = makeIo(okPages)
     const rt = new MotionRuntime(io)
-    // Huang Zhong (CMR-12B) is now a catalogued single-page hero pack, so
-    // the stage-1 hero request includes him alongside the stage mooks.
-    // Li Dian (CMR-13B) is now the catalogued stage-1 boss pack, so he
-    // joins the request too (budget still fits).
+    // Huang Zhong (CMR-12B) is a catalogued single-page hero pack: entry
+    // awaits him plus the opening wave. Li Dian (CMR-13B), the stage-1
+    // boss, is scheduled last behind the later-wave mooks.
+    const { immediate, deferred } = spawnPartition('stage1', ['huangzhong'])
     const report = await rt.prepareStage(scene, motionStageRequest('stage1', 'huangzhong', null))
-    expect([...report.requested].sort()).toEqual(['archer', 'huangzhong', 'lidian', 'soldier', 'spearman'])
-    expect([...report.published].sort()).toEqual(['archer', 'huangzhong', 'lidian', 'soldier', 'spearman'])
-    expect(io.calls, 'only the catalogued pack pages download').toHaveLength(5)
-    expect(Object.keys(motions()).sort()).toEqual(['archer', 'huangzhong', 'lidian', 'soldier', 'spearman'])
+    expect(report.requested).toEqual(immediate)
+    expect(report.published).toEqual(immediate)
+    expect(report.deferred).toEqual(deferred)
+    expect(deferred[deferred.length - 1]).toBe('lidian')
+    await rt.settle()
+    const settled = [...immediate, ...deferred, ...report.scope.prefetch]
+    expect(io.calls, 'only the catalogued pack pages download').toHaveLength(sumBy(settled, packPages))
+    expect(fetchedKinds(io.calls)).toEqual(pageSequence(settled))
+    expect(Object.keys(motions()).sort()).toEqual([...settled].sort())
     // The stage boss pack loads whole; kinds without packs are unsupported,
     // never half-loaded. Neither path re-downloads (boss cached, unknown skipped).
     const boss = await rt.loadKind(scene, 'lidian')
     expect(boss).toEqual({ ok: true })
     const unknown = await rt.loadKind(scene, 'crate') // Xu Chu is catalogued by CMR-15B; props remain unsupported.
     expect(unknown).toEqual({ ok: false, failure: 'unsupported' })
-    expect(io.calls).toHaveLength(5)
+    expect(io.calls).toHaveLength(sumBy(settled, packPages))
   }, 60_000)
 
   it('stage request derives hero/2P/stage kinds and disjoint future kinds', () => {
@@ -315,6 +397,16 @@ describe('stage-scoped motion runtime', () => {
     expect(req.stageKinds).toContain('crate')
     expect(req.stageKinds.length).toBeGreaterThan(4)
     for (const kind of req.futureKinds) expect(req.stageKinds).not.toContain(kind)
+    // The spawn schedule's first tick per kind derives from the stage's
+    // waves (boss after the final wave), matching the core spawn order.
+    const firstTick = new Map<string, number>()
+    for (const entry of req.spawnSchedule ?? []) if (!firstTick.has(entry.kind)) firstTick.set(entry.kind, entry.tick)
+    const stage = STAGES['stage1']!
+    stage.waves.forEach((wave, tick) => {
+      for (const spawn of wave.spawns) expect(firstTick.get(spawn.kind)).toBeLessThanOrEqual(tick)
+    })
+    for (const spawn of stage.waves[0]!.spawns) expect(firstTick.get(spawn.kind)).toBe(0)
+    expect(firstTick.get(stage.bossKind)).toBe(stage.waves.length)
     expect(motionPackManifest('guanyu')?.display).toBe('shared-atlas')
     expect(MOTION_PACKS['zhangfei'], 'CMR-09B registers the hero pack').toBeDefined()
   })
@@ -383,8 +475,13 @@ describe('negative controls reject the whole fighter, never other valid art', ()
     const { fake, io, rt } = setup({ sheet: { kind: 'hang' }, actions: { kind: 'hang' } }, { pageTimeoutMs: 5_000, stageTimeoutMs: 60 })
     const report = await rt.prepareStage(fake.scene, motionStageRequest('stage1', 'guanyu', null))
     expect(report.published).toEqual([])
-    expect(report.legacy).toEqual([{ kind: 'guanyu', failure: 'timeout' }, { kind: 'soldier', failure: 'timeout' }, { kind: 'spearman', failure: 'timeout' }, { kind: 'archer', failure: 'timeout' }, { kind: 'lidian', failure: 'timeout' }])
+    // Only the awaited opening set reports legacy at the deadline; the
+    // deferred kinds were never blocking the stage in the first place.
+    const { immediate, deferred } = spawnPartition('stage1', ['guanyu'])
+    expect(report.legacy).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout' })))
+    expect(report.deferred).toEqual(deferred)
     expect(fake.motions()['guanyu']).toBeUndefined()
+    rt.cancelLoads() // stop the background queue's hung pages
     await rt.settle()
     void io
   })

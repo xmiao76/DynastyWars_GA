@@ -335,55 +335,69 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
       await rt.settle()
     }
   })
-  it('real GU/default ZF stage2 prioritizes the boss after both heroes within the unchanged cap', () => {
+  it('real GU/default ZF stage2 awaits heroes + opening wave within the cap and schedules the boss last (wave scope)', () => {
     const packs = Object.fromEntries(Object.entries(MOTION_PACKS).map(([id, d]) => [id, { sourceBytes: d.pages.reduce((n, p) => n + p.bytes, 0) }]))
     const partner = secondPlayerCharacter('guanyu')
     expect(partner).toBe('zhangfei')
     const req = motionStageRequest('stage2', 'guanyu', partner)
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xiahoudun', 'soldier'])
-    expect(req.stageKinds).toEqual(['xiahoudun', 'soldier', 'spearman', 'archer', 'crate', 'arrow', 'meat', 'sword'])
-    expect(scope.plannedBytes).toBe(scope.immediate.reduce((n, kind) => n + packs[kind]!.sourceBytes, 0))
+    // Derived from core stage data: roster in encounter order (no boss-first
+    // hoist), immediate = heroes + opening-wave kinds, boss last in deferred.
+    const stage = STAGES['stage2']!
+    const opening = [...new Set(stage.waves[0]!.spawns.map((s) => s.kind))].filter((k) => packs[k])
+    expect(req.stageKinds).toEqual([...new Set([
+      ...stage.waves.flatMap((w) => w.spawns.map((s) => s.kind)),
+      ...stage.props.map((p) => p.kind), stage.bossKind, 'arrow', 'meat', 'sword', 'crate',
+    ])])
+    expect(scope.immediate).toEqual(['guanyu', 'zhangfei', ...opening])
+    expect(scope.immediateBytes).toBe(scope.immediate.reduce((n, kind) => n + packs[kind]!.sourceBytes, 0))
     expect(CONTRACT_CAPS.stageDownloads).toBe(12 * 1024 * 1024)
-    expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
-    expect(scope.deferred).toEqual(expect.arrayContaining(['spearman', 'archer']))
-    expect(scope.prefetch).toEqual([])
-    // Negative control: the actual pure policy on the old encounter-order
-    // roster still defers the boss. No source-text/regex fixture stands in for it.
-    const old = stageMotionScope({ ...req, stageKinds: [...req.stageKinds.slice(1), 'xiahoudun'], packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    // Post-rider-strip the mooks all fit on the old order; the boss still does not.
-    expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'spearman', 'archer'])
-    expect(old.deferred).toContain('xiahoudun')
+    expect(scope.immediateBytes).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
+    expect(scope.entryOverBudget).toBe(false)
+    expect(scope.deferred[scope.deferred.length - 1], 'boss is scheduled, not dropped').toBe('xiahoudun')
+    // Negative control: the legacy all-opening policy (no schedule) cannot
+    // fit heroes + every mook + the boss under the same cap - that whole-
+    // roster charge is exactly what wave scheduling removes.
+    const old = stageMotionScope({ ...req, spawnSchedule: undefined, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
+    expect(old.immediate).not.toContain('xiahoudun')
+    expect(old.overBudget).toContain('xiahoudun')
     expect(['soldier', 'spearman', 'archer', 'xiahoudun'].reduce((sum, kind) => sum + packs[kind]!.sourceBytes, packs.guanyu!.sourceBytes + packs.zhangfei!.sourceBytes)).toBeGreaterThan(CONTRACT_CAPS.stageDownloads)
-    // A selected hero pair that cannot also afford Xiahou still falls back;
-    // no boss-first policy is permitted to outrank either hero or raise caps.
+    // Heroes still outrank every enemy; the boss never displaces them or
+    // raises caps even under a tighter budget.
     const expensive = stageMotionScope({ ...motionStageRequest('stage2', 'zhaoyun', 'zhangfei'), packs, budgetBytes: 9000000 })
     expect(expensive.immediate.slice(0, 2)).toEqual(['zhaoyun', 'zhangfei'])
     expect(expensive.deferred).toContain('xiahoudun')
     expect(expensive.plannedBytes).toBeLessThanOrEqual(9000000)
   })
-  it('non-Xiahou stage1 request roster and future-kind order remain unchanged (stage3 is Xu Chu boss-first since CMR-15B)', () => {
+  it('stage1 request roster, future kinds and spawn schedule all derive from core stage data', () => {
     const kinds = (id: string): string[] => [...new Set([
       ...STAGES[id]!.waves.flatMap((wave) => wave.spawns.map((spawn) => spawn.kind)),
       ...STAGES[id]!.props.map((prop) => prop.kind), STAGES[id]!.bossKind, 'arrow', 'meat', 'sword', 'crate',
     ])]
+    const scheduleOf = (id: string) => [
+      ...STAGES[id]!.waves.flatMap((wave, tick) => wave.spawns.map((spawn) => ({ kind: spawn.kind, tick }))),
+      ...STAGES[id]!.props.map((prop) => ({ kind: prop.kind, tick: 0 })),
+      { kind: STAGES[id]!.bossKind, tick: STAGES[id]!.waves.length },
+      ...['arrow', 'meat', 'sword', 'crate'].map((kind) => ({ kind, tick: 0 })),
+    ]
     for (const id of ['stage1']) {
       const stageKinds = kinds(id)
       const futureKinds = [...new Set(STAGE_ORDER.slice(STAGE_ORDER.indexOf(id as 'stage1') + 1).flatMap(kinds))].filter((kind) => !stageKinds.includes(kind))
-      expect(motionStageRequest(id, 'guanyu', 'zhangfei')).toEqual({ hero: 'guanyu', secondPlayer: 'zhangfei', stageKinds, futureKinds })
+      expect(motionStageRequest(id, 'guanyu', 'zhangfei')).toEqual({ hero: 'guanyu', secondPlayer: 'zhangfei', stageKinds, futureKinds, spawnSchedule: scheduleOf(id) })
     }
   })
-  it('stage2 includes its boss dynamically; stage1 prefetches only needed future catalog packs', () => {
+  it('stage2 schedules its boss after the waves; stage1 keeps Xiahou out of its stage partition', () => {
     const req = motionStageRequest('stage2', 'guanyu')
     expect(req.stageKinds).toContain('xiahoudun')
     const packs = Object.fromEntries(Object.entries(MOTION_PACKS).map(([id, d]) => [id, { sourceBytes: d.pages.reduce((n, p) => n + p.bytes, 0) }]))
     const scope2 = stageMotionScope({ ...req, secondPlayer: null, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(scope2.immediate).toContain('xiahoudun')
+    expect(scope2.immediate).not.toContain('xiahoudun')
+    expect(scope2.deferred[scope2.deferred.length - 1]).toBe('xiahoudun')
     const scope1 = stageMotionScope({ ...motionStageRequest('stage1', 'guanyu'), secondPlayer: null, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope1.immediate).not.toContain('xiahoudun')
-    expect(scope1.deferred, 'stage1 total would exceed 12 MiB; no cap bypass').toContain('xiahoudun')
-    expect(scope1.prefetch).not.toContain('xiahoudun')
-    expect(scope1.prefetch).not.toContain('xuchu')
+    expect(scope1.deferred, 'a future-stage boss is not stage1-spawnable').not.toContain('xiahoudun')
+    // As future prefetch he may only ride inside the leftover entry budget.
+    expect(scope1.plannedBytes, 'no cap bypass').toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
     const futureScope = stageMotionScope({ hero: 'xiahoudun', stageKinds: [], futureKinds: ['lidian', 'xuchu'], secondPlayer: null, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(futureScope.prefetch).toEqual(['lidian', 'xuchu']) // Xu Chu catalogued by CMR-15B
   })

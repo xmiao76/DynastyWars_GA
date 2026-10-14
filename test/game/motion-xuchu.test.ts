@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { attackById } from '../../src/core/attacks'
 import { DYING_TICKS, GETUP_TICKS, KNOCKDOWN_TICKS } from '../../src/core/constants'
 import { ENEMIES } from '../../src/core/enemies'
+import { STAGES } from '../../src/core/stage'
 import { secondPlayerCharacter } from '../../src/game/players'
 import { makeCombatant } from '../../src/core/entities'
 import {
@@ -297,32 +298,41 @@ describe('Xu Chu real PNG atomic publication, routing and resource limits', () =
       await rt.settle()
     }
   })
-  it('real GU/default ZF stage3 prioritizes the boss after both heroes within the unchanged cap', () => {
+  it('real GU/default ZF stage3 awaits heroes + opening wave within the cap and schedules the boss last (wave scope)', () => {
     const packs = Object.fromEntries(Object.entries(MOTION_PACKS).map(([id, d]) => [id, { sourceBytes: d.pages.reduce((n, p) => n + p.bytes, 0) }]))
     const partner = secondPlayerCharacter('guanyu')
     expect(partner).toBe('zhangfei')
     const req = motionStageRequest('stage3', 'guanyu', partner)
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xuchu', 'soldier'])
-    expect(req.stageKinds).toEqual(['xuchu', 'soldier', 'archer', 'spearman', 'crate', 'arrow', 'meat', 'sword'])
-    expect(scope.plannedBytes).toBe(scope.immediate.reduce((n, kind) => n + packs[kind]!.sourceBytes, 0))
+    // Derived from core stage data: roster in encounter order (no boss-first
+    // hoist), immediate = heroes + opening-wave kinds, boss last in deferred.
+    const stage = STAGES['stage3']!
+    const opening = [...new Set(stage.waves[0]!.spawns.map((s) => s.kind))].filter((k) => packs[k])
+    expect(req.stageKinds).toEqual([...new Set([
+      ...stage.waves.flatMap((w) => w.spawns.map((s) => s.kind)),
+      ...stage.props.map((p) => p.kind), stage.bossKind, 'arrow', 'meat', 'sword', 'crate',
+    ])])
+    expect(scope.immediate).toEqual(['guanyu', 'zhangfei', ...opening])
+    expect(scope.immediateBytes).toBe(scope.immediate.reduce((n, kind) => n + packs[kind]!.sourceBytes, 0))
     expect(CONTRACT_CAPS.stageDownloads).toBe(12 * 1024 * 1024)
-    expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
-    expect(scope.deferred).toEqual(expect.arrayContaining(['archer', 'spearman']))
-    // Negative control: the pure policy on the old encounter-order roster
-    // still defers the boss; no cap is raised to fit it.
-    const old = stageMotionScope({ ...req, stageKinds: [...req.stageKinds.slice(1), 'xuchu'], packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    // Post-rider-strip spearman fits on the old order too; the boss still does not.
-    expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'archer', 'spearman'])
-    expect(old.deferred).toContain('xuchu')
+    expect(scope.plannedBytes).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
+    expect(scope.entryOverBudget).toBe(false)
+    expect(scope.deferred[scope.deferred.length - 1], 'boss is scheduled, not dropped').toBe('xuchu')
+    // Negative control: the legacy all-opening policy (no schedule) still
+    // cannot fit the whole roster plus boss; no cap is raised to fit it.
+    const old = stageMotionScope({ ...req, spawnSchedule: undefined, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
+    expect(old.immediate).not.toContain('xuchu')
+    expect(old.overBudget).toContain('xuchu')
   })
-  it('stage3 includes its boss dynamically and stage1 does not publish Xu Chu', () => {
+  it('stage3 schedules its boss after the waves and stage1 keeps Xu Chu out of its stage partition', () => {
     const req = motionStageRequest('stage3', 'guanyu')
     expect(req.stageKinds).toContain('xuchu')
     const packs = Object.fromEntries(Object.entries(MOTION_PACKS).map(([id, d]) => [id, { sourceBytes: d.pages.reduce((n, p) => n + p.bytes, 0) }]))
     const scope3 = stageMotionScope({ ...req, secondPlayer: null, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-    expect(scope3.immediate).toContain('xuchu')
+    expect(scope3.immediate).not.toContain('xuchu')
+    expect(scope3.deferred[scope3.deferred.length - 1]).toBe('xuchu')
     const scope1 = stageMotionScope({ ...motionStageRequest('stage1', 'guanyu'), secondPlayer: null, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope1.immediate).not.toContain('xuchu')
+    expect(scope1.deferred).not.toContain('xuchu')
   })
 })

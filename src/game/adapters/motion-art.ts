@@ -26,7 +26,7 @@ import {
   type PackPage,
   type PageLoader,
 } from './motion-catalog'
-import { stageMotionScope } from './motion-scope'
+import { kindsDueByTick, stageMotionScope, type SpawnScheduleEntry, type StageMotionScope } from './motion-scope'
 import prepared from '../assets/motion/prepared.json'
 import actions from '../assets/motion/actions-prepared.json'
 import sheetUrl from '../assets/motion/guanyu-motion-sheet.png'
@@ -390,6 +390,14 @@ export interface MotionStageRequest {
   secondPlayer?: string | null
   stageKinds: string[]
   futureKinds: string[]
+  /**
+   * First-spawn schedule (wave boundary tick per kind) partitioning the
+   * stage roster into the awaited opening set and spawn-ordered deferred
+   * kinds. Omit only for legacy all-opening requests.
+   */
+  spawnSchedule?: SpawnScheduleEntry[]
+  /** Opening window tick; defaults to the opening wave (0). */
+  openingTick?: number
 }
 
 export interface MotionStageReport {
@@ -399,8 +407,15 @@ export interface MotionStageReport {
   published: string[]
   /** Kinds that fell back to legacy art, with the failure class. */
   legacy: Array<{ kind: string; failure: LoadFailure }>
-  /** Best-effort prefetch kicked off after the stage entered simulation. */
+  /**
+   * Best-effort background loads kicked off after the stage entered, in
+   * load order: spawn-ordered deferred stage kinds, then future prefetch.
+   */
   prefetch: string[]
+  /** Later-spawning stage kinds queued behind the entry gate (spawn order). */
+  deferred: string[]
+  /** The full wave-aware scope this entry planned (spawn gates read it). */
+  scope: StageMotionScope
 }
 
 export type MotionLoadOutcome = { ok: true } | { ok: false; failure: LoadFailure }
@@ -412,6 +427,7 @@ export class MotionRuntime {
   private pendingBytes = new Map<string, Uint8Array>()
   private inflight = new Set<Promise<unknown>>()
   private installing = new Map<string, Promise<MotionLoadOutcome>>()
+  private scopes = new WeakMap<Phaser.Scene, StageMotionScope>()
 
   constructor(private io: MotionIo = browserMotionIo(), caps?: BudgetCaps) {
     this.cache = new MotionAtlasCache(caps)
@@ -425,6 +441,42 @@ export class MotionRuntime {
     return this.cache.state(kind)
   }
 
+  /** The wave-aware scope planned for this scene's current stage entry. */
+  stageScope(scene: Phaser.Scene): StageMotionScope | undefined {
+    return this.scopes.get(scene)
+  }
+
+  /** Whether a kind's verified pack is published AND cache-ready here. */
+  kindReady(scene: Phaser.Scene, kind: string): boolean {
+    return motionKindReady(scene, kind) && this.cache.state(kind) === 'ready'
+  }
+
+  /** Whether every kind in a scheduled set is published and ready. */
+  kindsReady(scene: Phaser.Scene, kinds: readonly string[]): boolean {
+    return kinds.every((kind) => this.kindReady(scene, kind))
+  }
+
+  /**
+   * Catalogued kinds whose first spawn falls at or before `tick` in this
+   * scene's planned scope - the set a spawn gate awaits before that tick.
+   */
+  dueKinds(scene: Phaser.Scene, tick: number): string[] {
+    const scope = this.scopes.get(scene)
+    return scope ? kindsDueByTick(scope, tick) : []
+  }
+
+  /**
+   * Await a scheduled set (e.g. the kinds due by the next spawn tick, or a
+   * late co-op hero). Loads share the entry/prefetch dedupe, run in the
+   * given order, and report per kind; a failure leaves that kind on legacy
+   * art for now (the sole-mode error path lands in a later package).
+   */
+  async prepareKinds(scene: Phaser.Scene, kinds: readonly string[]): Promise<Array<{ kind: string; outcome: MotionLoadOutcome }>> {
+    const results: Array<{ kind: string; outcome: MotionLoadOutcome }> = []
+    for (const kind of kinds) results.push({ kind, outcome: await this.loadKind(scene, kind) })
+    return results
+  }
+
   /** Await every tracked load (including fire-and-forget prefetch). */
   async settle(): Promise<void> {
     while (this.inflight.size > 0) await Promise.allSettled([...this.inflight])
@@ -436,6 +488,10 @@ export class MotionRuntime {
    * the stage continues with legacy art - ceilings are never raised.
    */
   async prepareStage(scene: Phaser.Scene, req: MotionStageRequest): Promise<MotionStageReport> {
+    // Entry budget charges only NEW downloads: kinds this cache already
+    // holds ready (previous stage / restart) are free at the gate.
+    const candidates = [req.hero, req.secondPlayer ?? '', ...req.stageKinds, ...req.futureKinds]
+    const cachedKinds = candidates.filter((kind) => kind && this.cache.state(kind) === 'ready')
     const scope = stageMotionScope({
       hero: req.hero,
       secondPlayer: req.secondPlayer ?? null,
@@ -443,8 +499,20 @@ export class MotionRuntime {
       futureKinds: req.futureKinds,
       packs: motionPackSourceBytes(),
       budgetBytes: CONTRACT_CAPS.stageDownloads,
+      spawnSchedule: req.spawnSchedule,
+      openingTick: req.openingTick,
+      cachedKinds,
     })
-    const report: MotionStageReport = { requested: [...scope.immediate], published: [], legacy: [], prefetch: [...scope.prefetch] }
+    this.scopes.set(scene, scope)
+    const background = [...scope.deferred, ...scope.prefetch]
+    const report: MotionStageReport = {
+      requested: [...scope.immediate],
+      published: [],
+      legacy: [],
+      prefetch: background,
+      deferred: [...scope.deferred],
+      scope,
+    }
     let aborted = false
     const work = (async (): Promise<void> => {
       for (const kind of scope.immediate) {
@@ -464,10 +532,22 @@ export class MotionRuntime {
         }
       }
     }
-    // Prefetch is best effort: it never blocks the stage and its failure is
-    // invisible to the stage (that kind simply renders legacy when it appears).
-    for (const kind of scope.prefetch) {
-      void this.track(this.loadKind(scene, kind)).catch(() => undefined)
+    // Deferred stage kinds, then future prefetch, load in the background in
+    // first-spawn order (sequential, so the next wave's packs land before
+    // later ones compete for bandwidth). Best effort for now: it never
+    // blocks the stage and a failure leaves that kind on legacy art when it
+    // appears; `prepareKinds`/`dueKinds` let a spawn gate await them.
+    if (background.length > 0) {
+      const queueEpoch = this.cache.epoch('stage')
+      const queue = (async (): Promise<void> => {
+        for (const kind of background) {
+          // A scene exit/restart cancels the scope epoch: stop queueing
+          // further kinds into a dead scene instead of loading on.
+          if (this.cache.epoch('stage') !== queueEpoch) break
+          await this.loadKind(scene, kind)
+        }
+      })()
+      void this.track(queue).catch(() => undefined)
     }
     return report
   }
@@ -627,17 +707,27 @@ function stageSpawnKinds(stageId: string): string[] {
   return kinds
 }
 
+/**
+ * First-spawn schedule derived from the core stage data. The tick is the
+ * wave boundary index - the core spawns wave 0 at sim creation, each later
+ * wave when the previous one clears, props beside wave 0, and the boss only
+ * after every wave - so tick order is first-possible-spawn order.
+ */
+export function stageSpawnSchedule(stageId: string): SpawnScheduleEntry[] {
+  const stage = STAGES[stageId]
+  if (!stage) return []
+  const schedule: SpawnScheduleEntry[] = []
+  stage.waves.forEach((wave, tick) => {
+    for (const spawn of wave.spawns) schedule.push({ kind: spawn.kind, tick })
+  })
+  for (const prop of stage.props) schedule.push({ kind: prop.kind, tick: 0 })
+  schedule.push({ kind: stage.bossKind, tick: stage.waves.length })
+  for (const kind of ['arrow', 'meat', 'sword', 'crate']) schedule.push({ kind, tick: 0 })
+  return schedule
+}
+
 export function motionStageRequest(stageId: string, hero: string, secondPlayer?: string | null): MotionStageRequest {
   const stageKinds = stageSpawnKinds(stageId)
-  // Xiahou's and Xu Chu's stages must prepare their boss before
-  // encounter-order mooks consume the remaining cap (CMR-14B/15B). The
-  // shared policy still keeps hero/default 2P first; retain every mook
-  // and leave all other stage/future-kind ordering unchanged.
-  const bossKind = STAGES[stageId]?.bossKind
-  if (bossKind === 'xiahoudun' || bossKind === 'xuchu') {
-    const bossAt = stageKinds.indexOf(bossKind)
-    if (bossAt > 0) stageKinds.unshift(...stageKinds.splice(bossAt, 1))
-  }
   const futureKinds: string[] = []
   const order = STAGE_ORDER as readonly string[]
   const at = order.indexOf(stageId)
@@ -646,7 +736,7 @@ export function motionStageRequest(stageId: string, hero: string, secondPlayer?:
       if (!stageKinds.includes(kind) && !futureKinds.includes(kind)) futureKinds.push(kind)
     }
   }
-  return { hero, secondPlayer: secondPlayer ?? null, stageKinds, futureKinds }
+  return { hero, secondPlayer: secondPlayer ?? null, stageKinds, futureKinds, spawnSchedule: stageSpawnSchedule(stageId) }
 }
 
 // ---------------------------------------------------------------------------
