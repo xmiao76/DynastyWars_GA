@@ -2,7 +2,7 @@
 
 Statuses: TODO, IN_PROGRESS, BLOCKED, DONE. One writer/one ready task per iteration.
 
-Owner-approved bounded autonomy: read [execution policy](docs/LOOP_AUTONOMY.md), `.loop/tick.md` and runner `--preflight`. Due review first; real Requires control readiness, not preferred order. Task-local owner waits do not freeze independent tasks. No BLOCKED reset, spending-cap change, automatic waiver, push/deploy or unsafe lock recovery. Current roster is 11 humanoids plus horse, opt-in until owner activation.
+Owner-approved bounded autonomy: read [execution policy](docs/LOOP_AUTONOMY.md), `.loop/tick.md` and runner `--preflight`. Due review first; real Requires control readiness, not preferred order. Task-local owner waits do not freeze independent tasks. No BLOCKED reset, spending-cap change, automatic waiver, push/deploy or unsafe lock recovery. Current roster is 11 humanoids, opt-in until owner activation. Horse/saddle feature descoped by owner (2026-10): runtime/assets already removed, CMR-22 deleted from this queue; spent generation-budget history retained as record only.
 
 This compact live index preserves original status/attempt evidence in linked exact historical records. Read only the selected record when needed. Done milestone stubs remain for dependency resolution; detailed completed history need not be loaded every tick.
 
@@ -263,22 +263,11 @@ This compact live index preserves original status/attempt evidence in linked exa
 - Specification: [CMR-15B](docs/motion-tasks/CMR-15B.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Envelope: [Standing bounded authority](docs/LOOP_AUTONOMY.md); existing narrower owner exclusions in record still apply.
 
-### CMR-22 - Shared horse locomotion/rider composition
-
-- Status: BLOCKED (2026-10-10 guided locomotion candidate2 fails complete alternating gait; WAITING_FOR_OWNER, failed consumers3 TOTAL exhausted: prior presentation co-op verification failure1 retained after successful recovery; candidate1 repeated leading-leg/contact failure2; materially changed master+connected-leg-guide candidate2 failure3. Cells1–3 do not preserve one readable support diagonal through compression/toeoff,5–7 do not demonstrate coherent opposite half; hidden roots/contact unknowns preserved, promising flight/identity not acceptance. Horse2/4, locomotion2/2 CLOSED, global147/200, repair0/3 untouched. No third locomotion, fourth failed consumer, run/flee generation, reset/refund/waiver or pack/runtime activation. Owner must explicitly decide rescope/reset with corrected original gait source or demonstrated controlled workflow/lawful allocation, or documented descope/waiver; no decision implied.)
-- Candidate2 evidence: [exact source criterion review](art/motion/horse/locomotion-candidate-2-review.md), [provenance/reservation audit](art/motion/horse/locomotion-candidate-2-audit.json), [nine-cell connected traces and unknowns](art/motion/horse/locomotion-candidate-2-contact.json), [payload/protected hash index](art/motion/horse/LOCOMOTION2_FILE_HASHES.json).
-- Foundation (2026-10-10, zero requests): [exact identity/gait/landmark/load plan](art/motion/horse/FOUNDATION_PLAN.md), [source/accepted-hero/budget manifest](art/motion/horse/FOUNDATION_MANIFEST.json), [offline current-code probes](art/motion/horse/check-foundation.mjs). All real Requires DONE; historical/runtime failures0, no narrower selected-record exclusion. Reproduced p1-only horse pose association and fleeing stateTick0 despite +4u/unfrozen step; no runtime fix/new pack activation yet. Four-request cap untouched (horse0/4, global145/200); next scoped selector/history red→green plus required captures/gates, then complete authoring/integration.
-- Requires: CMR-05, CMR-09B, CMR-10B, CMR-11B, CMR-12B
-- Acceptance: Shared horse gait and correct rider ownership, preserving accepted hero pixels/gameplay.
-- Record: [CMR-22 exact prior evidence](docs/loop-task-records/CMR-22.md) (original SHA-256 0f7741c38968e3eca7659863bc6dbf4578bfcbe306c92a493d9c633c21591a43).
-- Specification: [CMR-22](docs/motion-tasks/CMR-22.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
-- Envelope: [Standing bounded authority](docs/LOOP_AUTONOMY.md); existing narrower owner exclusions in record still apply.
-
-### CMR-23 - Paired grabs/throws and saddle integration
+### CMR-23 - Paired grabs/throws (on foot)
 
 - Status: TODO
-- Requires: CMR-06B, CMR-07B, CMR-08B, CMR-09B, CMR-10B, CMR-11B, CMR-12B, CMR-13B, CMR-14B, CMR-15B, CMR-22
-- Acceptance: All 11 current humanoids and horse required: paired grab/throw/contact evidence; no core physics changes.
+- Requires: CMR-06B, CMR-07B, CMR-08B, CMR-09B, CMR-10B, CMR-11B, CMR-12B, CMR-13B, CMR-14B, CMR-15B
+- Acceptance: All 11 current humanoids required: on-foot paired grab/throw/contact evidence; no core physics changes.
 - Record: [CMR-23 exact prior evidence](docs/loop-task-records/CMR-23.md) (original SHA-256 d660ecbe7428235229d1fce92162817e88e0032593111e12f5593ebc58f7b1b2).
 - Specification: [CMR-23](docs/motion-tasks/CMR-23.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Envelope: [Standing bounded authority](docs/LOOP_AUTONOMY.md); existing narrower owner exclusions in record still apply.
@@ -287,7 +276,7 @@ This compact live index preserves original status/attempt evidence in linked exa
 
 - Status: TODO
 - Requires: CMR-23
-- Acceptance: Full current cast final gates/resource/independent review and owner handoff; remains opt-in until owner activation.
+- Acceptance: All 11 humanoids (solo + co-op) final gates/resource/independent review and owner handoff; remains opt-in until owner activation.
 - Record: [CMR-24 exact prior evidence](docs/loop-task-records/CMR-24.md) (original SHA-256 7f8d4422a35d14462d33965873e66037cb87f3aa83b2f6258f3d0b735666e3c3).
 - Specification: [CMR-24](docs/motion-tasks/CMR-24.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Envelope: [Standing bounded authority](docs/LOOP_AUTONOMY.md); existing narrower owner exclusions in record still apply.

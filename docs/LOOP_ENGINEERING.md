@@ -188,8 +188,9 @@ First separate an invalid measurement from a real drawing defect. For a located
 art defect, reserve one focused image request before generation, redraw no more
 than nine named drawings, preserve originals, rebuild only affected preparation,
 and remeasure the entire pack at fixed scale. Up to three rounds per remaining
-fighter/horse (51 requests across 17, separate from the original 200 authoring
-requests; combined 251), no new Guan Yu generation. The durable repair ledger
+fighter (51 requests across 17, separate from the original 200 authoring
+requests; combined 251; horse role descoped with spent history retained and caps
+unchanged), no new Guan Yu generation. The durable repair ledger
 rejects an unaccounted pending request and prevents a fourth request. Failed
 measurement methods inside a single diagnostic iteration do not count as three
 separate unsuccessful **consumer iterations**. Existing three-iteration task
@@ -232,7 +233,7 @@ A nonzero transport exit cannot be overridden by a report claiming COMPLETED.
 Read [standing envelope/outcome contract](LOOP_AUTONOMY.md). `--preflight` is a
 read-only pause/lock/cadence/dependency/wait check. Enabled `.loop/autonomy.json`
 uses explicit Requires; after due review select earliest ready IN_PROGRESS/TODO,
-not blocked ordering-only branches. Current CMR-15A authoring and horse work are
+not blocked ordering-only branches. Current CMR-15A authoring is
 independent of CMR-14A; final pair/cast still need all prerequisite packs DONE.
 
 `--checkpoint-wait` persists only a changed input fingerprint in ignored runtime
@@ -298,7 +299,7 @@ Automated gates prove the game renders; they cannot say whether it looks good.
 The visual review closes that gap with a lead-artist cycle:
 
 1. `npm run review:capture` takes 59 screens covering the menus, HUD beats,
-   overlays, the three stages, the end screens, co-op, the horse, the phone and
+   overlays, the three stages, the end screens, co-op, the phone and
    WebGL.
 2. The reviewer does a blind first look at the contact sheets, then a rubric
    pass (R1–R9) over screens and crops.

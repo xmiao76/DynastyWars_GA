@@ -36,7 +36,7 @@ rounded cap extending ~20% past each joint so rotation never opens a gap.
 - Pauldron trim oval + fitted shoulder cap: small trim-colored shapes
   already matched to sleeves.
 - Armor skirt: folded INTO the torso sheet (rigid with hips), not separate.
-- Weapons, hands' grip point, horse: unchanged procedural.
+- Weapons, hands' grip point: unchanged procedural.
 
 ## Draw order (slots in the existing `figureShapes` list)
 

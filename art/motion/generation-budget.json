@@ -183,7 +183,8 @@
       "used": 2,
       "sheetCandidates": {
         "locomotion": 2
-      }
+      },
+      "note": "CLOSED/DESCOPED by owner (2026-10): horse feature removed and CMR-22 deleted. The 2 spent locomotion requests are retained as history; no further horse generation. Cap, used counts and global sums unchanged."
     }
   }
 }

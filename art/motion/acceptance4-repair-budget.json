@@ -2,6 +2,7 @@
   "version": 1,
   "perFighterCap": 3,
   "combinedCap": 233,
+  "note": "Horse role CLOSED/DESCOPED by owner (2026-10): no horse repair rounds were ever spent and none may be newly reserved; all recorded rounds, caps and combined sums are retained unchanged as history.",
   "fighters": {
     "spearman": {
       "rounds": [

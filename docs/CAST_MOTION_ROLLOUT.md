@@ -17,7 +17,7 @@ Planning baseline: `540501c`, following Guan Yu implementation/review commits `d
 - Use existing [continuation selection](../.loop/continue.md) and [consumer procedure](../.loop/loop.md). Due producer visual reviews still precede a consumer; do not bypass cadence to accelerate rollout.
 - Every CMR entry links its detailed specification. Load this shared contract and **only the selected specification** plus its listed local code. Avoid reading all 40 specifications in every iteration. Specification headers record initial status/attempts; the live queue and newest progress are authoritative after work begins.
 - Each consumer works on exactly one task. Continue IN_PROGRESS before choosing the first TODO. Implement no dependent task until prerequisites are DONE with evidence.
-- Owner-approved bounded autonomy supersedes ordering-only sequential edges: explicit Requires in the compact queue models actual prerequisite artifacts. Park a local incomplete fighter, never publish it or reset its BLOCKED status; select another ready independent task sequentially under the same sole-writer rule. Xu Chu source authoring needs completed foundations, not Xiahou Dun integration. Horse needs completed hero riders, not unfinished bosses. Pair/full-cast tasks still require every current cast integration DONE. See [execution envelope and classified outcomes](LOOP_AUTONOMY.md).
+- Owner-approved bounded autonomy supersedes ordering-only sequential edges: explicit Requires in the compact queue models actual prerequisite artifacts. Park a local incomplete fighter, never publish it or reset its BLOCKED status; select another ready independent task sequentially under the same sole-writer rule. Xu Chu source authoring needs completed foundations, not Xiahou Dun integration. Pair/full-cast tasks still require every current cast integration DONE. See [execution envelope and classified outcomes](LOOP_AUTONOMY.md).
 - GYM-1, BODY-7, ENH-12 and UIR-19 are explicitly owner-deferred as BLOCKED, preserving evidence and attempt counts. UIR-16 remains blocked as before. Unrelated TODOs follow the CMR queue. No loop policy or runner changes are required.
 - A task is not DONE because artwork was generated or the loader boots. Task-specific acceptance and relevant checks must pass. Producers independently verify fresh visual evidence; consumers never grade their own ledger findings as verified.
 - Existing three-unsuccessful-CONSUMER-iteration rule applies **per task**, with iteration records preserved across threads/models; three failed formulas within one diagnostic iteration are not three task iterations. For a selected CMR-A task's Acceptance 4, use the [bounded diagnosis and focused-redraw recovery](MOTION_ACCEPTANCE4_RECOVERY.md) without lowering the quality gate, reopening a blocked task or starting a second writer. Generation limits are additional caps, not permission to retry indefinitely.
@@ -25,7 +25,7 @@ Planning baseline: `540501c`, following Guan Yu implementation/review commits `d
 
 ## Scope and non-goals
 
-**Roster:** 11 humanoid fighters: Guan Yu plus four remaining heroes, three regular enemies, three bosses. The shared horse gets a locomotion task because it is an animated character and must compose with all riders.
+**Roster:** 11 humanoid fighters: Guan Yu plus four remaining heroes, three regular enemies, three bosses. (Horse/saddle feature descoped by owner, 2026-10: runtime/assets removed and CMR-22 deleted; spent budget rows retained as history only.)
 
 Guan Yu remains the locked accepted reference. Do not regenerate his displayed walk/combo art or change its exposure timing. Infrastructure repacking may move pixels into pages but must prove each displayed RGBA frame is unchanged.
 
@@ -50,8 +50,7 @@ No new gameplay states, weapons, shields, attacks, damage, timing, range, speed,
 | [CMR-13A](motion-tasks/CMR-13A.md) / [13B](motion-tasks/CMR-13B.md) | Li Dian | 12B → 13A → 13B |
 | [CMR-14A](motion-tasks/CMR-14A.md) / [14B](motion-tasks/CMR-14B.md) | Xiahou Dun | 13B → 14A → 14B |
 | [CMR-15A](motion-tasks/CMR-15A.md) / [15B](motion-tasks/CMR-15B.md) | Xu Chu | CMR-05 → 15A → 15B (independent source pack) |
-| [CMR-22](motion-tasks/CMR-22.md) | Horse locomotion/rider composition | CMR-05 + 09B + 10B + 11B + 12B |
-| [CMR-23](motion-tasks/CMR-23.md) | Paired grab/throw and saddle integration | All current cast B packs + CMR-22 |
+| [CMR-23](motion-tasks/CMR-23.md) | Paired grab/throw (on foot) | All current cast B packs |
 | [CMR-24](motion-tasks/CMR-24.md) | Full-cast verification/owner presentation | CMR-23 |
 
 Each A authors/prepares a complete applicable pack without runtime activation. Each B integrates/reviews its own accepted A. Historical completed chains remain evidence; current explicit Requires controls ready selection and removes ordering-only links approved above. Pair/final work still waits for all actual prerequisite packs. Sequential sole-writer execution remains; independent readiness is not parallel writing.
@@ -65,12 +64,12 @@ Generalize the existing [motion sampler](../src/game/art/motion-clips.ts), [hist
 A pack has:
 - Fighter ID, version, source/identity hashes, named pages with dimensions/signatures/SHA-256.
 - Frames containing page ID, rectangle, untrimmed source size, trim offset and pivot.
-- Semantic clips and explicit tick exposures; applicable states/capabilities; exact attack-ID bindings; ground/saddle/contact landmarks and scale reference.
+- Semantic clips and explicit tick exposures; applicable states/capabilities; exact attack-ID bindings; ground/contact landmarks and scale reference.
 - Fixed character scale preserving hero/mook/boss screen hierarchy. No pose-wise normalization to standing height.
 
 Flow: existing rig/action guides → original coherent whole-character drawings → deterministic prepared pack → atomic per-fighter verification → sim-timed sampling → shared atlas-frame display.
 
-No fixed requirement to use two pages, nine cells/action or 90 frames/fighter. Page packing and action counts follow actual capabilities and budgets. No hero-only `gy.` names, uniform enemy hitstun or mandatory mounted/jump pages for enemies.
+No fixed requirement to use two pages, nine cells/action or 90 frames/fighter. Page packing and action counts follow actual capabilities and budgets. No hero-only `gy.` names, uniform enemy hitstun or mandatory jump pages for enemies.
 
 Use existing [hero data](../src/core/characters.ts), [enemy data](../src/core/enemies.ts), [attack windows](../src/core/attacks.ts), [AI](../src/core/ai.ts) and [event types](../src/core/events.ts) read-only. Keep core schemas unchanged.
 
@@ -78,7 +77,7 @@ Special cases:
 - Huang Zhong's `hz.special` has zero melee active ticks; release tracks actual projectile creation at its existing tick. Do not invent an active melee frame or delay the arrow.
 - Enemy archers fire in their walk/idle AI path. Observe cadence reset/owned projectile creation at individual sim steps from the presentation adapter; never drive it from guessed attack timing or change core AI.
 - Boss attack IDs can say sword/axe/shield while current figure art uses another weapon. Preserve current figure identity and bind actual timing; no unauthorized weapon redesign.
-- Ground-state clocks, airTicks, paused/hit-stop ticks, render skips, multiple simultaneous actors, interrupted falling/getup, mounted attack break and solo/co-op defeat/revive must retain the Guan Yu boundary fixes.
+- Ground-state clocks, airTicks, paused/hit-stop ticks, render skips, multiple simultaneous actors, interrupted falling/getup and solo/co-op defeat/revive must retain the Guan Yu boundary fixes.
 
 ### Loading and memory
 
@@ -99,7 +98,7 @@ If limits are not achievable, report measurements and block the selected task fo
 
 ### Heroes (all five, Guan Yu retained)
 
-Idle; complete walk; all three existing combo attacks; takeoff/ascent/apex/descent; aerial kick and retraction/contact/landing; hurt; backward fall/impact/down; seated/kneeling/getup; character-specific special; grab/hold/release/throw boundaries; mounted idle/move/sweep/mount/dismount; defeat/dead/revive; facing changes and mixed action interruptions. Use the existing input/gameplay clock rather than wall-clock action timers.
+Idle; complete walk; all three existing combo attacks; takeoff/ascent/apex/descent; aerial kick and retraction/contact/landing; hurt; backward fall/impact/down; seated/kneeling/getup; character-specific special; grab/hold/release/throw boundaries; defeat/dead/revive; facing changes and mixed action interruptions. Use the existing input/gameplay clock rather than wall-clock action timers.
 
 ### Enemies and bosses
 
@@ -107,9 +106,9 @@ Idle/approach/retreat/walk/stop; their actual melee/shoot/charge/flurry/heavy ac
 
 Enemy states may reset `stateTick` differently and thrown AI clocks can stop. Derive presentation progress from observed unfrozen physics/event progression where necessary; do not assume a hero clock works for enemies.
 
-### Horse and paired actions
+### Paired actions
 
-Horse idle/trot/run/fleeing and saddle contact across phases. Correct rider association in co-op. Paired review: 5 heroes×6 enemies×2 facings, contact/depth/ground plus release/throw/impact. Presentation-only contact offsets and semantic poses, no core range/position/physics changes.
+Paired review: 5 heroes×6 enemies×2 facings, contact/depth/ground plus release/throw/impact. Presentation-only contact offsets and semantic poses, no core range/position/physics changes.
 
 ## Quality and evidence requirements
 
@@ -133,7 +132,7 @@ Existing `review:capture`, ledger and producer cadence remain authoritative. Fou
 
 ## Generation budget and durable provenance
 
-Initial authoring caps: 16 requests/remaining hero (4×16), 12/boss (3×12), 8/mook (3×8), 4/horse: **200 authoring requests maximum**. Owner exception (2026-10-04, `Do A`): Wei Yan alone gets +10 requests to re-brief his incorrectly drawn weapon; his durable ledger cap is 26, original ten requests remain spent, and the **200 global cap remains unchanged**. No new Guan Yu generation authorized. At most two whole-sheet candidates per sequence. Standard focused edits count against the character's authoring cap across A/B tasks and rounds. The owner additionally authorizes an **Acceptance-4-only reserve of three focused one-request repair rounds per remaining fighter/horse**: 11×3=33 additional requests, **233 combined maximum**, tracked independently by [the repair ledger](../art/motion/acceptance4-repair-budget.json) and [the recovery protocol](MOTION_ACCEPTANCE4_RECOVERY.md). This is not a general generation-cap increase or a task retry reset. Historical soldier repairs stay counted in authoring only; the reserve starts unspent. No whole-sheet retries use this reserve.
+Initial authoring caps: 16 requests/remaining hero (4×16), 12/boss (3×12), 8/mook (3×8): **200 authoring requests maximum** (the former 4-request horse role is closed/descoped; its 2 spent requests stay counted in the ledger history and the 200 global cap is unchanged). Owner exception (2026-10-04, `Do A`): Wei Yan alone gets +10 requests to re-brief his incorrectly drawn weapon; his durable ledger cap is 26, original ten requests remain spent, and the **200 global cap remains unchanged**. No new Guan Yu generation authorized. At most two whole-sheet candidates per sequence. Standard focused edits count against the character's authoring cap across A/B tasks and rounds. The owner additionally authorizes an **Acceptance-4-only reserve of three focused one-request repair rounds per remaining fighter**: 11×3=33 additional requests, **233 combined maximum** (horse role closed with no repair rounds spent; combined cap unchanged), tracked independently by [the repair ledger](../art/motion/acceptance4-repair-budget.json) and [the recovery protocol](MOTION_ACCEPTANCE4_RECOVERY.md). This is not a general generation-cap increase or a task retry reset. Historical soldier repairs stay counted in authoring only; the reserve starts unspent. No whole-sheet retries use this reserve.
 
 Per fighter keep attempted images, exact prompts, ordered reference hashes, original outputs, provider preference versus actual known provider, scale/pivot overrides, exposure decisions and remaining allowance. Preserve existing original portrait/body sources. Reject a technically convenient but inconsistent image; targeted repair beats blind full-sheet retries. Quota recovery follows existing policy; unavailable image tools/authentication/access are explicit blockers, not silent substitutions, new plugins, credential access or unsafe permission changes.
 

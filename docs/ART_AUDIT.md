@@ -27,7 +27,6 @@ not from the numbers alone.
 | Weapon (haft, head, tassel, ferrule, butt) | painted shared sheet `weapons-sheet.png`, 7 kinds + tassel | all 17 | wood/steel/brass/cloth, no ink; same length/grip/rotation | G4 resolved by BODY-21 |
 | Boots | ground-contact shadow + lit sole welt/toe glint (BODY-23) over the painted shin boots | all 17 | painted boots show; welt keeps dark toes readable | G8 resolved by BODY-23 |
 | Neck | **procedural** flat skin tube (`limbPath(neck, chest)`) | code for all | a flat skin wedge over the painted collar (Lu Bu, Xiahou Dun, Xu Chu, soldier) | G7 -> BODY-19 |
-| Horse (mount) | painted `horse/horse-sheet.png` from `horse-master.jpg` | 1 shared | fine (ART-era review) | - |
 
 ## 2. Gaps (each traced to its fixing task)
 
@@ -74,7 +73,7 @@ not from the numbers alone.
 
 | Directory | Files | Consumer | Disposition |
 |---|---|---|---|
-| `art/fighter-bodies/` | 17 `<id>-body-master.jpg` + `horse-master.jpg` + PROVENANCE | `scripts/prepare-body-parts.mjs` (17), `scripts/prepare-horse.mjs` (horse) | live |
+| `art/fighter-bodies/` | 17 `<id>-body-master.jpg` + PROVENANCE | `scripts/prepare-body-parts.mjs` (17) | live |
 | `art/hero-faces/` | 5 x heads + portrait masters (png), preparation.json, PROVENANCE | `scripts/prepare-hero-faces.mjs` (walks the directory) | live |
 | `art/mook-faces/` | 3 x heads + portrait masters | `scripts/prepare-mook-faces.mjs` | live |
 | `art/boss-faces/` | 9 x heads + portrait masters | `scripts/prepare-boss-faces.mjs` | live |

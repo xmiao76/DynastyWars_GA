@@ -75,7 +75,7 @@ shading metrics catch it.
 Metrics cannot judge taste, so the loop also runs an art-director review:
 `npm run review:capture` drives the real game to every screen a player sees:
 menus, every HUD beat and overlay, all three stages, the end screens, co-op,
-the horse, phone portrait and landscape, and the shipped WebGL renderer. It
+phone portrait and landscape, and the shipped WebGL renderer. It
 writes screens, zoomed crops, scene inventories and contact sheets to
 `artifacts/review/latest/`. A reviewer judges them with the image tool against
 the rubric in `docs/VISUAL_REVIEW.md`, finds each root cause, and files UIR

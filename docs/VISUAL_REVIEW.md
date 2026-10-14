@@ -26,7 +26,7 @@ This review covers the whole game as a player sees it.
   screens, no rubric, no severity and no root-cause step. So a review could
   pass on "the flag is green". Nothing tied a seen defect to a filed task.
 - Only seven core screens were captured. The intro cards, banners, overlays,
-  the phone and WebGL builds, co-op, mounted play and the nine stage
+  the phone and WebGL builds, co-op play and the nine stage
   backdrops were never looked at together.
 - Visual defects filed as "proactive" ideas were capped at one per pass. A
   real human review produces a batch of findings.
@@ -136,7 +136,7 @@ The screens are listed by id in the manifest. Coverage is:
   - boss WARNING banner and boss fight with rail;
   - CONTINUE? overlay, stage-clear beat, result.
 - **End screens:** game over; the final result and game complete.
-- **Co-op:** two plates; mounted horse play on stage 2.
+- **Co-op:** two plates on stage 2.
 - **All three stages:** each stage's banner crop, intro-card crop and play frame.
 - **Phone, touch device:** portrait title, select and game, plus landscape game.
 - **WebGL, the shipped renderer:** title, select, combat, boss and result.

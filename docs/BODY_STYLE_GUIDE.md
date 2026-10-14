@@ -3,7 +3,7 @@
 ## Authority and limits
 
 Owner approved paper-doll raster bodies matching the ART-18 semi-realistic
-painted heads (2026-09-24). Scope: 5 heroes + 3 mooks + horse (BODY-3/4/5);
+painted heads (2026-09-24). Scope: 5 heroes + 3 mooks (BODY-3/4/5);
 boss bodies stay procedural (BODY-6 heads only). Original artwork only; no
 copied Capcom sprites, TV actors, or modern costumes.
 
@@ -15,7 +15,7 @@ Bodies are painted to sit under ART-18 heads without a visible join:
   light from upper left, no cel-band edges, no outline heavier than the
   heads' own ink.
 - Skin matches each fighter's established complexion (`SKIN_*` for heroes,
-  `ENEMY_FIGURES` skin for mooks, horse coat 0x8a5432) within half a shade
+  `ENEMY_FIGURES` skin for mooks) within half a shade
   at the neck, wrists and any bare limb — the neck seam is the first thing
   the review checks.
 - Armor, robe and trim colors reuse `HERO_FIGURES` / `ENEMY_FIGURES`
@@ -41,7 +41,7 @@ Bodies are painted to sit under ART-18 heads without a visible join:
 
 ## Per-hero body notes
 
-- Guan Yu (TALL): long green robe with skirt split for the riding pose;
+- Guan Yu (TALL): long green robe with skirt split for the stride;
   gold trim at collar and cuffs; arms mostly sleeved, hands weathered.
 - Zhang Fei (HEAVY): bare massive arms, dark ruddy skin; short dark vest,
   rope belt; legs thick, stance wide.
@@ -59,10 +59,3 @@ Bodies are painted to sit under ART-18 heads without a visible join:
   (red-brown lamellar), spearman (blue-grey mail), archer (green cloth +
   leather). Heads stay procedural vector — necks recolored to the torso
   skin so the join reads as one fighter.
-
-## Horse
-
-- Full-frame painted horse per distinct pose in the 112x76 box: bay coat,
-  black mane/tail, gold-tacked saddle tack matching HORSE_PLAN; legs in
-  the same stride positions as the procedural frames so riders seat
-  identically. Procedural fallback retained.
