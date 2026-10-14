@@ -7,9 +7,11 @@ Formal per-criterion review of the CMR-15B runtime on the
 [Xu Chu action review](../XUCHU_ACTION_REVIEW.md) (commit `bcffcee`)
 covered the `artifacts/motion-review/` captures; this one judges the
 integration captures only and does not re-claim its evidence. All
-verdicts below are consumer self-check, fixed-unverified — spec step 6
-(independent producer verification on fresh captures) is still open,
-so CMR-15B stays **IN_PROGRESS**, not DONE.
+verdicts below are consumer self-check, fixed-unverified. After the
+independent-review evidence fixes (#2 crit-4 package, #3 mobile
+actual-viewport recapture, work `cmr15b-crit4-mobile-evidence`),
+the only remaining DONE item is a clean `npm run prodbuild` rerun
+(see Remaining), so CMR-15B stays **IN_PROGRESS**, not DONE.
 
 ## Runtime identity
 
@@ -35,7 +37,7 @@ so CMR-15B stays **IN_PROGRESS**, not DONE.
 |---|---|---|---|---|---|---|
 | Canvas | `integration/captures/canvas/` | 2026-10-14T07:33:00Z | `bcffcee`, dirty=true | 478 | 96 | 36/36 both facings, missing `[]` |
 | WebGL | `integration/captures/webgl/` | 2026-10-14T07:36:12Z | `bcffcee`, dirty=true | 478 | 96 | 36/36 both facings, missing `[]` |
-| Mobile (Canvas) | `integration/captures/canvas-mobile/` | 2026-10-14T07:37:22Z | `bcffcee`, dirty=true | 478 | 96 | 36/36 both facings, missing `[]` |
+| Mobile (Canvas) | `integration/captures/canvas-mobile/` | 2026-10-14T08:05:26Z (viewport recapture) | `7d89e8d`, dirty=true | 478 | 96 | 36/36 both facings, missing `[]`; actual viewport 844×390 |
 
 - Every run: 0 validation errors, 0 hard integrity issues, 0 blanks,
   478/478 motion rows, **0 legacy rows**; 3 standing OPEN landmarks
@@ -59,17 +61,28 @@ so CMR-15B stays **IN_PROGRESS**, not DONE.
   **not** the exercised Xu Chu art, but it does poison shared
   budget/signature checks (see Checks). Those files were left
   untouched and unstaged by this review.
-- **Mobile viewport caveat:** the mobile run was requested as
-  844×390 landscape (`MOTION_VIEWPORT=844x390`), but `index.json`
-  carries **no `capture.viewport` field** (verified: capture keys are
-  commit/dirty/capturedAt/rows/facings/renderers/runtime only), and
-  the frames are box-relative 1040×576 crops — the mobile
-  `all-36-right.png` is byte-identical to canvas' (`584871ce…`).
-  Mobile therefore proves a complete third run (trace/coverage/video
-  `xuchu-canvas.webm` 3,577,894 B), not independently viewport-distinct
-  rendering. Recorded as requested-not-proven, same honesty rule as 14B.
+- **Mobile viewport (fixed, work `cmr15b-crit4-mobile-evidence`):**
+  the original mobile run requested 844×390 but its `index.json`
+  carried no `capture.viewport` (requested-not-proven). The wrapper
+  `scripts/motion-capture.mjs` now carries the e2e spec's **actual**
+  `page.viewportSize()` record (`e2e/motion-capture.spec.ts:711`)
+  through its `buildIndex` overwrite into `index.json`
+  `capture.viewport` (never faked from the request when the spec
+  record is absent). Canvas-mobile ONLY was then recaptured at
+  `MOTION_VIEWPORT=844x390` (`7d89e8d`-dirty, dirty-source hash of the
+  patched script recorded in its provenance): fresh
+  `index.json` `capture.viewport` = **{width: 844, height: 390}**,
+  478 rows, 0 trace errors / 0 hard integrity / 0 blanks / 0 legacy,
+  `page-errors.json` `[]`, published `[soldier, xuchu, zhangfei]`,
+  36/36 both facings, Canvas≡mobile trace 0/478 mismatches. The
+  prior mobile dir is preserved verbatim at
+  `integration/captures/previous/canvas-mobile-pre-viewport-rerun/`
+  (14B precedent). Frames remain box-relative 1040×576 crops, so the
+  fresh mobile `all-36-right.png` is again byte-identical to canvas'
+  (`584871ce…`) — the recapture proves the actual page viewport, not
+  viewport-distinct crop pixels, same honesty rule as 14B.
 - Footage present per run (`xuchu-canvas.webm` 4,484,888 B canvas /
-  3,577,894 B mobile; `xuchu-webgl.webm` 10,250,396 B). This review
+  3,450,688 B mobile recapture; `xuchu-webgl.webm` 10,250,396 B). This review
   judged stills only; pace files state "manual bridge step + renderer;
   not normal speed" (180 mixed ticks in 16.8–62.6 s wall). No
   native-speed playback was reviewed — a stated limitation, not a pass.
@@ -168,8 +181,8 @@ blanket/transfer beyond these exact images integrated as-is:
 | 1 | All frames/bindings live; no legacy inside published fighter; bad-pack controls keep whole legacy fighter | **PASS** | 478/478 motion rows, 0 legacy, 36/36 both facings ×3 runs; forged/missing-pack negative controls in `motion-xuchu.test.ts` (40/41 pass on rerun, sole fail = crit-8 budget pin) |
 | 2 | Exact hit/projectile windows + movement/AI unchanged; strike matches sim | **PASS** (recorded) | Clips derived from core `attackById` windows; `1ec8478` touches no `src/core`; profiles/actions/transitions suites recorded green at integration; rerun: actions 7/7, transitions 11/11, profiles 13/14 (sole fail = dirty Guan Yu clips hash, not Xu Chu) |
 | 3 | Stable scale/pivots/identity; smooth boundaries; shared guard/down; no standing insertion into low collapse | **PASS with note** | Constant 520×288 box, pivot (260,272), registrationErrorU 0 (metadata); identity stable on all 6 sheets; `getup:0` distinct; stills only — boundary smoothness at native speed NOT reviewed |
-| 4 | Gait/ground contacts + head/weapon landmarks from A still pass after registration | **PARTIAL — transferred waivers** | Gait reads genuine in stills; ground/contact/weapon-tip landmarks remain **unverified OPENs** in every index; head UNVERIFIED_OWNER_ACCEPTED and exact-hash weapon FAILs carried from 15A (above). Honestly not a landmark PASS |
-| 5 | Actual footage + before/after contact/crop evidence every action/facing; capture commit/hash/dirty known | **PASS with caveats** | Contact sheets + enlarged crops + webm per run; commit `bcffcee` + dirty state + dirty hashes recorded; caveats: no legacy pair sheets (0 legacy rows — 12B/14B practice), mobile viewport requested-not-proven, footage not played at native speed |
+| 4 | Gait/ground contacts + head/weapon landmarks from A still pass after registration | **PASS WITH TRANSFERRED WAIVERS** (construction argument, post-registration package added) | `integration/crit4/` (builder + `crit4-registration.json` + `CRIT4-SUMMARY.md`, mirroring 14B): runtime sheet buffer-equal byte copy of the accepted page (`6e49fd27…`, 2,177,184 B, `emit-xuchu-runtime.mjs:69` copyFileSync, no rescale), prepared frames verbatim, uniform 520×288 cell / box 260×144 groundY 136 / pivot (260,272), one pack scale 0.483278 at factor 1; pack ground max +1.04u (`fall:4`, 0 over 1.5u); weapon unwaived n27 all in band, spread 9.19%, 9 exact-hash waivers FAIL-retained; head UNVERIFIED_OWNER_ACCEPTED transferred. `contactU`/`weaponTipU` (and the index `groundErrorU` landmark) stay **unverified OPENs — explicitly NOT closed** by the package |
+| 5 | Actual footage + before/after contact/crop evidence every action/facing; capture commit/hash/dirty known | **PASS with caveats** | Contact sheets + enlarged crops + webm per run; commit/dirty/dirty hashes recorded (`bcffcee` canvas/webgl, `7d89e8d` mobile recapture); mobile viewport now **proven actual 844×390** in its index (see caveat above); remaining caveats: no legacy pair sheets (0 legacy rows — 12B/14B practice), footage not played at native speed |
 | 6 | Load/decode/cache within CMR-03; restart/cancel/evict as relevant | **PASS** | Decoded 9,388,376 ≤ 16 MiB; stage network 7,488,328 B, retained 39,892,600 ≤ 128 MiB, cloned canvas 0 (runtime.json); catalog/scope/budget suites recorded green, rerun catalog 14/14, scope 6/6, budget 9/9 |
 | 7 | Earlier fighters / Guan Yu reference unchanged; opt-in, default legacy | **PASS for 15B commits** | `1ec8478`+`bcffcee` touch no other fighter's pack; `?motion=1` only. Caveat: unrelated dirty packs sit in the working tree (not in these commits), left unstaged |
 | 8 | All applicable checks pass with documented baseline-only exceptions | **NOT YET** | See Checks: prodbuild on the integration tree is red for a documented dirty-Guan-Yu root cause; a clean rerun after that work is reconciled is still owed. Keeps the task IN_PROGRESS |
@@ -200,19 +213,23 @@ blanket/transfer beyond these exact images integrated as-is:
   was recorded for the earlier `bcffcee` capture package, but **for
   the integration state a prodbuild rerun after the dirty Guan Yu
   work is reconciled (committed or reverted by its owner) is still
-  owed** and is a DONE gate, together with step 6 below.
+  owed** and is now the sole remaining DONE gate (see Remaining).
+  It was deliberately not rerun on the still-dirty tree in the
+  crit-4/mobile evidence package.
 - No `signal` rerun claimed here (no timing/AI/observer change in
   15B); G6/UIR-19 baselines untouched by this review.
 
 ## Remaining for DONE
 
-1. **Independent producer verification on fresh captures** (spec
-   step 6) — this document is consumer self-check only.
-2. **`npm run prodbuild` rerun** once the dirty Guan Yu (and sibling)
-   pack work is reconciled, to close criterion 8 on a clean tree.
-3. Standing OPEN landmarks (`groundErrorU`/`contactU`/`weaponTipU`)
-   and the carried 15A head/weapon limitations pass to the producer
-   exactly as recorded — they are not closed by this review.
+1. **`npm run prodbuild` clean rerun only** — once the dirty Guan Yu
+   (and sibling) pack work is reconciled, to close criterion 8 on a
+   clean tree. (Independent-review evidence fixes #2/#3 are applied
+   above: the crit-4 post-registration package in `integration/crit4/`
+   and the mobile actual-viewport recapture. Standing OPEN landmarks
+   `contactU`/`weaponTipU` and the carried 15A head/weapon limitations
+   remain transferred exactly as recorded in the crit-4 package —
+   they are not closed by this review and are not separate remaining
+   work items, same shape as 12B/13B/14B.)
 
 ## Artifacts
 
@@ -221,6 +238,11 @@ blanket/transfer beyond these exact images integrated as-is:
   `contact-sheet.png` (96 crops, 1280×7680), `all-36-{right,left}.png`,
   `frames/*.png` (96), `crops/enlarged-*.png` (9, built this review),
   one `.webm` per run.
+- `artifacts/motion/xuchu/integration/captures/previous/canvas-mobile-pre-viewport-rerun/`:
+  the original requested-not-proven mobile run, preserved verbatim.
+- `artifacts/motion/xuchu/integration/crit4/{build-crit4.mjs,
+  crit4-registration.json,CRIT4-SUMMARY.md}`: crit-4 post-registration
+  package (deterministic builder, double-run identical).
 - `artifacts/motion/xuchu/integration/{vision.log,prodbuild.log,
   review-stats.json,build-review-crops.mjs}`.
 - Harness: `scripts/motion-capture.mjs` + `e2e/motion-capture.spec.ts`

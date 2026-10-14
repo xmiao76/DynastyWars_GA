@@ -304,6 +304,14 @@ if (bossPath) {
   const mismatch = rows.filter((r) => r.snapshotKey && r.snapshotKey !== r.key)
   if (mismatch.length) verdict.errors.push(`${fighter} snapshot key drift in ${mismatch.length} rows`)
 }
+// The e2e spec records the ACTUAL page.viewportSize() in its own index.json
+// (e2e/motion-capture.spec.ts capture.viewport); carry it through this
+// wrapper's buildIndex overwrite instead of dropping it, so a requested
+// MOTION_VIEWPORT (e.g. 844x390 mobile) is proven, not merely requested.
+try {
+  const specIndex = JSON.parse(readFileSync(`${run}/index.json`, 'utf8'))
+  if (specIndex.capture?.viewport) index.capture.viewport = specIndex.capture.viewport
+} catch { /* no spec index: viewport stays unrecorded, never faked from the request */ }
 const integrity = assertIndexIntegrity(index)
 // Unverified landmarks are OPEN items (consumer self-check, producer later);
 // mislabelled poses are hard defects.
