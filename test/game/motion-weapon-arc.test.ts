@@ -28,7 +28,8 @@ describe('Guan Yu special weapon direction continuity', () => {
   it('landmark endpoints are actually supported by drawn sprite pixels', async () => {
     const sheets = [await loadImage('src/game/assets/motion/guanyu-motion-sheet.png'), await loadImage('src/game/assets/motion/guanyu-actions-sheet.png')]
     const frames = { ...regular.guanyu.frames, ...actions.frames } as Record<string, { x: number; y: number; w: number; h: number; sheet?: string; trimX?: number; trimY?: number; srcW?: number; srcH?: number }>
-    for (const [id, mark] of Object.entries(landmarks)) {
+    // rider:* landmarks describe frames stripped from the pack with the horse.
+    for (const [id, mark] of Object.entries(landmarks).filter(([id]) => !id.startsWith('rider:'))) {
       const c = frames[id]!, image = sheets[c.sheet ? 1 : 0]!
       // CMR-03 repack: restore the trimmed content at (trimX, trimY) inside
       // the full cell, exactly as the display blit does - landmarks live in

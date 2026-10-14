@@ -170,7 +170,7 @@ describe('stage-scoped motion runtime', () => {
     expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'lidian', 'soldier', 'spearman'])
     // One texture per atlas page; every frame is a shared atlas frame.
     expect(textures.get(keys.sheet)!.frames.size).toBe(36)
-    expect(textures.get(keys.actions)!.frames.size).toBe(54)
+    expect(textures.get(keys.actions)!.frames.size).toBe(45)
     for (const [name, cell] of Object.entries(meta.frames)) {
       const tex = textures.get(cell.sheet === 'actions' ? keys.actions : keys.sheet)!
       const frame = tex.frames.get(motionFrameId('guanyu', name))!
@@ -181,8 +181,8 @@ describe('stage-scoped motion runtime', () => {
     }
     // Budgets, kept separate and never raised.
     const rep = rt.budget()
-    expect(rep.networkBytes).toBe(4_328_499 + 1_786_372 + 1_352_663 + 1_830_948 + 2_102_566)
-    expect(rep.sourceBytes).toBe(4_328_499 + 1_786_372 + 1_352_663 + 1_830_948 + 2_102_566)
+    expect(rep.networkBytes).toBe(3_908_521 + 1_786_372 + 1_352_663 + 1_830_948 + 2_102_566)
+    expect(rep.sourceBytes).toBe(3_908_521 + 1_786_372 + 1_352_663 + 1_830_948 + 2_102_566)
     expect(rep.perFighterDecoded['guanyu']).toBe(1935 * 903 * 4 + 2027 * 1055 * 4)
     expect(rep.perFighterDecoded['soldier']).toBe(1984 * 1142 * 4)
     expect(rep.perFighterDecoded['spearman']).toBe(1835 * 866 * 4)
@@ -216,14 +216,15 @@ describe('stage-scoped motion runtime', () => {
     gate()
     const report = await pending
     await rt.settle()
-    expect([...report.requested].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
-    expect([...report.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
-    // The two heroes (4.04 + 4.33 MB) plus soldier and spearman reach 11.50
-    // MB: the archer pack (1.83 MB) would push stage-entry downloads past
-    // the 12 MiB cap, so the scope policy defers it to legacy art - the
-    // designed priority order (hero, 2P, stage kinds), never raised ceilings.
-    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(6)
-    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect([...report.requested].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect([...report.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
+    // The two heroes (3.52 + 3.91 MB) plus soldier, spearman and archer
+    // reach 12.40 MB, inside the 12 MiB cap; the lidian boss pack
+    // (2.10 MB) would push past it, so the scope policy defers it to
+    // legacy art - the designed priority order (hero, 2P, stage kinds),
+    // never raised ceilings.
+    expect(io.calls, 'concurrent requests share one page load each').toHaveLength(7)
+    expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
     const rep = rt.budget()
     expect(rep.perFighterDecoded['zhangfei']).toBe(2004 * 2026 * 4 + 1693 * 768 * 4)
     expect(rep.perFighterDecoded['zhangfei']).toBeLessThanOrEqual(22 * 1024 * 1024)
@@ -232,8 +233,8 @@ describe('stage-scoped motion runtime', () => {
     rt.cancelLoads()
     rt.releaseScene(scene)
     const restart = await rt.prepareStage(scene, req)
-    expect([...restart.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
-    expect(io.calls, 'restart re-downloads nothing').toHaveLength(6)
+    expect([...restart.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect(io.calls, 'restart re-downloads nothing').toHaveLength(7)
     // Stage2 requests its new boss before mooks. Warm stage1 spear stays
     // published, but is not counted as a newly planned stage2 download.
     rt.cancelLoads()
@@ -241,8 +242,8 @@ describe('stage-scoped motion runtime', () => {
     const again = await rt.prepareStage(scene, motionStageRequest('stage2', 'zhangfei', 'guanyu'))
     expect(again.requested).toEqual(['zhangfei', 'guanyu', 'xiahoudun', 'soldier'])
     expect([...again.published].sort()).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
-    expect(Object.keys(motions()).sort()).toEqual(['guanyu', 'soldier', 'spearman', 'xiahoudun', 'zhangfei'])
-    expect(io.calls, 'only the newly needed boss downloads').toHaveLength(7)
+    expect(Object.keys(motions()).sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'xiahoudun', 'zhangfei'])
+    expect(io.calls, 'only the newly needed boss downloads').toHaveLength(8)
     expect(rt.budget().networkBytes - rep.networkBytes).toBe(2220630)
     expect(rt.budget().clonedCanvasBytes).toBe(0)
     rt.cancelLoads()
@@ -257,14 +258,14 @@ describe('stage-scoped motion runtime', () => {
     // by the prior runtime simply because that runtime is not under test here.
     const evictScene = makeScene()
     const report2 = await evicting.prepareStage(evictScene.scene, motionStageRequest('stage1', 'zhangfei', 'guanyu'))
-    expect([...report2.published].sort()).toEqual(['guanyu', 'soldier', 'spearman', 'zhangfei'])
+    expect([...report2.published].sort()).toEqual(['archer', 'guanyu', 'soldier', 'spearman', 'zhangfei'])
     evicting.releaseScene(evictScene.scene)
     expect(evictScene.motions(), 'evicted pack leaves the registry').toEqual({})
     expect(evictScene.textures.has(keys.sheet), 'evicted pack removes its textures').toBe(false)
     expect(evictScene.textures.has(keys.actions)).toBe(false)
     expect(motions().xiahoudun, 'other runtime retains its valid boss').toBeDefined()
     expect(textures.has(motionTextureKeys('xiahoudun').sheet)).toBe(true)
-    expect(evictIo.calls).toHaveLength(6)
+    expect(evictIo.calls).toHaveLength(7)
   }, 60_000)
 
   it('fresh GU/default ZF stage2 prepares its boss before budget-deferred mooks with real catalog PNGs', async () => {
@@ -279,7 +280,7 @@ describe('stage-scoped motion runtime', () => {
     expect(io.calls[5]).toContain('soldier-motion-sheet')
     expect(io.calls.some((url) => url.includes('spearman') || url.includes('archer'))).toBe(false)
     expect(textures.get(motionTextureKeys('xiahoudun').sheet)!.frames.size).toBe(39)
-    expect(rt.budget()).toMatchObject({ networkBytes: 12372346, sourceBytes: 12372346, clonedCanvasBytes: 0, perFighterDecoded: { xiahoudun: 12991664 } })
+    expect(rt.budget()).toMatchObject({ networkBytes: 11440295, sourceBytes: 11440295, clonedCanvasBytes: 0, perFighterDecoded: { xiahoudun: 12991664 } })
     expect(rt.budget().sourceBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
     rt.cancelLoads(); rt.releaseScene(scene); await rt.settle()
   }, 60000)

@@ -64,6 +64,9 @@ describe('all-action Guan Yu coverage and continuity', () => {
     }
   })
   it('action atlas hash signature and every cell have clear padded edges', async () => {
+    // No rider frames: the horse was removed, so the pack carries no rider:* entries.
+    expect(Object.keys(actions.frames).filter((f) => f.startsWith('rider:'))).toEqual([])
+    expect(Object.keys(actions.frames)).toHaveLength(45)
     const buf = readFileSync('src/game/assets/motion/guanyu-actions-sheet.png')
     expect(createHash('sha256').update(buf).digest('hex')).toBe(actions.sha256.sheet)
     const img = await loadImage(buf), cv = createCanvas(img.width, img.height), g = cv.getContext('2d'); g.drawImage(img, 0, 0)

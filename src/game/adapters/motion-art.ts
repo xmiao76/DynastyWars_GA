@@ -155,7 +155,7 @@ export interface MotionPackDef {
 
 const GUANYU_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: MOTION_SOURCE_KEY, bytes: 1782790, sha256: 'f15e3ac757eaa4ade2b2a0afca1a7e891f5272f58d3c82ee281eb50531bad3b2', width: 1935, height: 903 },
-  { name: 'actions', sourceKey: ACTION_SOURCE_KEY, bytes: 2545709, sha256: 'ce7f7ca0c5157715c7c8a75d71ba13837d1cb96e65ebf7da933e8df4fbbe2cbd', width: 2027, height: 1055 },
+  { name: 'actions', sourceKey: ACTION_SOURCE_KEY, bytes: 2125731, sha256: '43e8d08ff1378a5d1e1481cf97bab40f2758504bb809ff473e453bfe433c2038', width: 2027, height: 1055 },
 ]
 
 /** Wei Soldier single atlas page (CMR-06B; scripts/emit-soldier-runtime.mjs). */
