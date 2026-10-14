@@ -4,7 +4,7 @@
 //   node scripts/landmarks-final-zhangfei.mjs
 //
 // Head: face-cluster sqrt-area x registered sheet scale (displayed px) for
-// every kept cell (rider from the round-1 source override, 3x2 grid).
+// every kept cell.
 // Reported under several VALUE-INDEPENDENT subset definitions so the
 // sensitivity of the verdict to the definition is on the record:
 //   D0 all kept cells (full disclosure)
@@ -25,7 +25,6 @@ const files = {
   walk: 'walk-candidate-2.png', jab1: 'jab1-candidate-2.png', jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png', jump: 'jump-candidate-1.png', fall: 'fall-candidate-1.png',
   getup: 'getup-candidate-1.png', misc: 'misc-candidate-1.png', special: 'special-candidate-1.png',
-  rider: 'acceptance4-round1-candidate-1.png',
 }
 const isSkin = (d, k) => { const r = d[k], g = d[k + 1], b = d[k + 2], a = d[k + 3]; return a >= 200 && r > 105 && r > g + 12 && g > b && b < 170 }
 function faceOf(im, box) {
@@ -71,7 +70,7 @@ async function load(f) {
 const cells = []
 for (const [seq, file] of Object.entries(files)) {
   const im = await load(file)
-  const rows = seq === 'rider' ? 2 : 3, cols = 3
+  const rows = 3, cols = 3
   const cw = Math.floor(im.width / cols), ch = Math.floor(im.height / rows)
   const byCell = new Map()
   for (const c of alphaComponents(im, 96)) {
@@ -109,7 +108,7 @@ const head = {
 }
 
 // Weapon: pike-lines.json (displayed tip-to-butt) over the adjudicator FULL set.
-const lines = JSON.parse(readFileSync(`${SRC}/pike-lines.json`, 'utf8'))
+const lines = JSON.parse(readFileSync(`${SRC}/pike-lines.json`, 'utf8')).filter((r) => r.seq in files)
 const byId = new Map(lines.map((r) => [r.id, r]))
 const { execSync } = await import('node:child_process')
 const out = execSync('node scripts/pike-adjudicate-zhangfei.mjs', { encoding: 'utf8' })
@@ -130,7 +129,7 @@ const weapon = {
   walk_family: spread(full.filter((id) => id.startsWith('walk:')).map((id) => byId.get(id).displayed)),
   measured_cells: `${lines.filter((r) => r.length !== null).length}/${lines.length}`,
 }
-const result = { generatedFrom: 'registration.json scales + kept-cell source drawings (rider = round-1 override)', head, weapon, cells }
+const result = { generatedFrom: 'registration.json scales + kept-cell source drawings', head, weapon, cells }
 writeFileSync(`${SRC}/landmarks-final.json`, `${JSON.stringify(result, null, 2)}\n`)
 console.log('HEAD (displayed px = sqrt(face-cluster area) x sheet scale):')
 for (const [k, v] of Object.entries(head)) console.log(' ', k.padEnd(24), JSON.stringify({ n: v.n, min: v.min, max: v.max, spreadPct: v.spreadPct }))

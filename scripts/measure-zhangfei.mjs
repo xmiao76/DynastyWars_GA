@@ -27,7 +27,6 @@ const SHEETS = {
   getup: 'getup-candidate-1.png',
   misc: 'misc-candidate-1.png',
   special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
 }
 // Rows aliased to a canonical drawing (kept in the sheet, skipped by medians).
 const ALIASES = {
@@ -40,10 +39,9 @@ const ALIASES = {
   getup: { 0: 'fall:6', 8: 'walk:0' },
   misc: { 0: 'walk:0', 8: 'walk:0' },
   special: { 0: 'walk:0', 8: 'walk:0' },
-  rider: { 8: 'rider:0' },
 }
 // Sheets whose pos-0 cell is a standing guard (scale evidence). fall:0 is a
-// guard; getup:0 is DOWN (use pos 8 instead); rider:0 is mounted (excluded).
+// guard; getup:0 is DOWN (use pos 8 instead).
 const GUARD_SHEETS = ['walk', 'jab1', 'jab2', 'finisher', 'jump', 'fall', 'misc', 'special']
 
 async function pixelsOf(path) {
@@ -183,8 +181,7 @@ writeFileSync(`${SRC}/measurements-raw.json`, `${JSON.stringify(raw, null, 2)}\n
 
 // ---- controlled guard-cell height ratios (the 2nd geometric proxy) ----
 // Guard figure bbox height of each sheet over walk's, same stance - feeds
-// scale-compare.json for prepare's two-proxy rule. Rider has no standing
-// guard (mounted), so it stays absent = UNVERIFIED there.
+// scale-compare.json for prepare's two-proxy rule.
 const heightRatios = {}
 if (guardBy.walk) {
   for (const g of guards) {
@@ -192,7 +189,7 @@ if (guardBy.walk) {
   }
 }
 writeFileSync(`${SRC}/scale-compare.json`, `${JSON.stringify({
-  method: 'guard figure bbox height ratio vs walk (same standing-guard pose); rider has no standing guard',
+  method: 'guard figure bbox height ratio vs walk (same standing-guard pose)',
   ratios: heightRatios,
 }, null, 2)}\n`)
 console.log('GUARD-CELL HEIGHT RATIOS (vs walk):', JSON.stringify(heightRatios))

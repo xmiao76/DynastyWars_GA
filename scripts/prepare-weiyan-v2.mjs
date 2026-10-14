@@ -51,7 +51,6 @@ const SHEETS = {
   getup: 'getup-v2-normalized-source.png',
   misc: 'misc-v2-prepared-source.png',
   special: 'special-v2-normalized-source.png',
-  rider: 'rider-v2-normalized-source.png',
 }
 
 // Kept source cells per sequence (row-major 0..8), IN PLAY ORDER.
@@ -66,7 +65,6 @@ const KEEP = {
   getup: [6, 1, 8, 3, 4], // elbow-push, kneel, crouch, half-rise, stand (spare remap)
   misc: [0, 1, 2, 7, 4], // hurt-recoil, hurt-fold, grab-clamp, grab-hold (spare), release
   special: [0, 1, 8, 3, 4], // raise, coil, pre-spin (spare), strike, follow
-  rider: [0, 1, 2, 3, 4, 5], // idle, trot, mount, windup, sweep (spliced), dismount (spliced+retouched)
 }
 
 async function pixelsOf(path) {
@@ -314,7 +312,6 @@ const LABELS = {
   getup: ['elbow', 'kneel', 'crouch', 'half-rise', 'stand'],
   misc: ['hurt-recoil', 'hurt-fold', 'grab-clamp', 'grab-hold', 'release'],
   special: ['raise', 'coil', 'pre-spin', 'strike', 'follow'],
-  rider: ['idle', 'trot', 'mount', 'sweep-windup', 'sweep', 'dismount'],
 }
 mkdirSync(SRC, { recursive: true })
 writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// CMR-11A acceptance-4: normalize 14 out-of-band dao lengths to the pack
-// band (deterministic rigid-axis retouch; jump/fall/rider method).
+// CMR-11A acceptance-4: normalize 12 out-of-band dao lengths to the pack
+// band (deterministic rigid-axis retouch; jump/fall method).
 //
 //   node scripts/retouch-weiyan-acceptance4.mjs
 //
-// 6 rear-shaft EXTENDS (cap slides back, median wood fill) + 8 cap-forward
-// SHORTENS (overlap, no fill). The 15th cell (getup elbow) was fixed by
+// 6 rear-shaft EXTENDS (cap slides back, median wood fill) + 6 cap-forward
+// SHORTENS (overlap, no fill). One further cell (getup elbow) was fixed by
 // repair round R1 instead: its deterministic paths all failed (c6 rear:
 // sheet edge; c6 forward: hand/tassel tangle; c0 rear: boot adjacency
 // proven by a safely-aborted flood run). Poses untouched. All inputs
@@ -46,11 +46,6 @@ const JOBS = [
   { out: 'jump-v2-normalized-source.png', base: { file: 'jump-v2-retouched-source.png', sha: '0f3dc6318e66622d615187ae5cf7e9551c928fbbbe4e870e52387a51576d4385' }, expectCells: [0, 1, 2, 3, 4, 5, 6, 7, 8],
     ops: [
       { cell: 6, mode: 'shorten', cap: [39.2, 791.9], angle: 9.47, t0: 20, band: [-14, 24], shift: [6, 1], predicted: 500 },
-    ] },
-  { out: 'rider-v2-normalized-source.png', base: { file: 'rider-v2-retouched-source.png', sha: '5c5cba35cdaaa171cd24a745fff342703c0f33d6265ce31a5bcf2160d3c20975' }, expectCells: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-    ops: [
-      { cell: 0, mode: 'shorten', cap: [48.3, 178.9], angle: -1.26, t0: 20, band: [-14, 24], shift: [10, 0], predicted: 502 },
-      { cell: 3, mode: 'shorten', cap: [29.5, 467.9], angle: -6.24, t0: 20, band: [-14, 24], shift: [14, -2], predicted: 502 },
     ] },
   { out: 'special-v2-normalized-source.png', base: { file: 'special-v2-prepared-source.png', sha: '5040f1ea5c4b7c37b2482b1d302f14a05bfc66b8f40de6f0bc46dcbc58a339ce' }, expectCells: [0, 1, 3, 4, 8],
     ops: [

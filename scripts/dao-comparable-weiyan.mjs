@@ -29,9 +29,8 @@ const SHEETS = {
   walk: 'walk-candidate-1.png', jab1: 'jab1-candidate-1.png', jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png', jump: 'jump-candidate-1.png', fall: 'fall-candidate-1.png',
   getup: 'getup-candidate-1.png', misc: 'misc-candidate-1.png', special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
 }
-const rows = JSON.parse(readFileSync(`${SRC}dao-true.json`, 'utf8'))
+const rows = JSON.parse(readFileSync(`${SRC}dao-true.json`, 'utf8')).filter((r) => r.seq in SHEETS)
 
 const hsv = (r, g, b) => {
   const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn

@@ -343,7 +343,7 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xiahoudun', 'soldier'])
     expect(req.stageKinds).toEqual(['xiahoudun', 'soldier', 'spearman', 'archer', 'crate', 'arrow', 'meat', 'sword'])
-    expect(scope.plannedBytes).toBe(12372346)
+    expect(scope.plannedBytes).toBe(11860273)
     expect(CONTRACT_CAPS.stageDownloads).toBe(12582912)
     expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
     expect(scope.deferred).toEqual(expect.arrayContaining(['spearman', 'archer']))
@@ -353,13 +353,13 @@ describe('Xiahou Dun real PNG atomic publication, routing and resource limits', 
     const old = stageMotionScope({ ...req, stageKinds: [...req.stageKinds.slice(1), 'xiahoudun'], packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(old.immediate).toEqual(['guanyu', 'zhangfei', 'soldier', 'spearman'])
     expect(old.deferred).toContain('xiahoudun')
-    expect(['soldier', 'spearman', 'archer', 'xiahoudun'].reduce((sum, kind) => sum + packs[kind]!.sourceBytes, packs.guanyu!.sourceBytes + packs.zhangfei!.sourceBytes)).toBe(15555957)
+    expect(['soldier', 'spearman', 'archer', 'xiahoudun'].reduce((sum, kind) => sum + packs[kind]!.sourceBytes, packs.guanyu!.sourceBytes + packs.zhangfei!.sourceBytes)).toBe(15043884)
     // A selected hero pair that cannot also afford Xiahou still falls back;
     // no boss-first policy is permitted to outrank either hero or raise caps.
-    const expensive = stageMotionScope({ ...motionStageRequest('stage2', 'zhaoyun', 'zhangfei'), packs, budgetBytes: 10000000 })
+    const expensive = stageMotionScope({ ...motionStageRequest('stage2', 'zhaoyun', 'zhangfei'), packs, budgetBytes: 9000000 })
     expect(expensive.immediate.slice(0, 2)).toEqual(['zhaoyun', 'zhangfei'])
     expect(expensive.deferred).toContain('xiahoudun')
-    expect(expensive.plannedBytes).toBeLessThanOrEqual(10000000)
+    expect(expensive.plannedBytes).toBeLessThanOrEqual(9000000)
   })
   it('non-Xiahou stage1 request roster and future-kind order remain unchanged (stage3 is Xu Chu boss-first since CMR-15B)', () => {
     const kinds = (id: string): string[] => [...new Set([

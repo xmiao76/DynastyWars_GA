@@ -305,7 +305,7 @@ describe('Xu Chu real PNG atomic publication, routing and resource limits', () =
     const scope = stageMotionScope({ ...req, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
     expect(scope.immediate).toEqual(['guanyu', 'zhangfei', 'xuchu', 'soldier'])
     expect(req.stageKinds).toEqual(['xuchu', 'soldier', 'archer', 'spearman', 'crate', 'arrow', 'meat', 'sword'])
-    expect(scope.plannedBytes).toBe(12328900)
+    expect(scope.plannedBytes).toBe(11816827)
     expect(CONTRACT_CAPS.stageDownloads).toBe(12582912)
     expect(scope.plannedBytes).toBeLessThan(CONTRACT_CAPS.stageDownloads)
     expect(scope.deferred).toEqual(expect.arrayContaining(['archer', 'spearman']))

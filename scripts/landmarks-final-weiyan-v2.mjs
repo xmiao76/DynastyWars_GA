@@ -27,14 +27,14 @@ const FILES = {
   jab2: 'jab2-v2-normalized-source.png', finisher: 'finisher-v2-normalized-source.png',
   jump: 'jump-v2-normalized-source.png', fall: 'fall-v2-retouched-source.png',
   getup: 'getup-v2-normalized-source.png', misc: 'misc-v2-prepared-source.png',
-  special: 'special-v2-normalized-source.png', rider: 'rider-v2-normalized-source.png',
+  special: 'special-v2-normalized-source.png',
 }
 // Campaign-achieved raw tip-to-pommel per kept POSITION (play order).
 // (Pre-campaign record: walk 471,477,459,480,495,476,495,497,477;
 // jab1 469,479,469,495,463; jab2 491,468,498,453,451; finisher
 // 522,510,543,506,494; jump 477,491,475,506,485,483; fall
 // 502,470,485,500,490; getup 500,469,500,515,485; misc 488,461,479,
-// 484,501; special 483,495,482,503,510; rider 512,491,485,516,481,480.)
+// 484,501; special 483,495,482,503,510.)
 const RECORDED = {
   walk: [471, 477, 459, 480, 495, 476, 495, 497, 477],
   jab1: [469, 479, 469, 495, 463],
@@ -45,7 +45,6 @@ const RECORDED = {
   getup: [554, 574, 574, 565, 574],
   misc: [488, 461, 479, 484, 501],
   special: [483, 495, 482, 503, 501],
-  rider: [502, 491, 485, 502, 481, 480],
 }
 
 const hsv = (r, g, b) => {

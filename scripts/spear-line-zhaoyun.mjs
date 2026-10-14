@@ -28,7 +28,6 @@ const SHEETS = {
   getup: 'getup-candidate-2-r1.png',
   misc: 'misc-candidate-2-r1.png',
   special: 'special-candidate-1-r1.png',
-  rider: 'rider-candidate-1.png',
 }
 // Kept cells (prepare layout): position -> source cell (play order).
 const KEEP = {
@@ -41,7 +40,6 @@ const KEEP = {
   getup: [0, 1, 2, 8, 4],
   misc: [0, 1, 7, 3, 4],
   special: [0, 1, 2, 3, 4],
-  rider: [1, 6, 2, 3, 4, 5],
 }
 const LABELS = {
   walk: ['guard', 'walk1', 'walk2', 'walk3', 'walk4', 'walk5', 'walk6', 'walk7', 'walk8'],
@@ -53,7 +51,6 @@ const LABELS = {
   getup: ['elbow', 'kneel', 'crouch', 'half-rise', 'stand'],
   misc: ['hurt-recoil', 'hurt-fold', 'grab-clamp', 'grab-hold', 'release'],
   special: ['raise', 'coil', 'pre-spin', 'strike', 'follow'],
-  rider: ['idle', 'trot', 'mount', 'sweep-windup', 'sweep', 'dismount'],
 }
 const registration = JSON.parse(readFileSync(`${SRC}/registration.json`, 'utf8'))
 
@@ -72,7 +69,7 @@ const hsv = (r, g, b) => {
 // The serpent pike's shaft is a very DARK red-brown (rgb ~23,5,3 to
 // 70,30,12; hue 0-22, s 0.5-0.95, v 0.02-0.45) - much darker than the
 // spearman's wood, and the first gate missed it entirely in the
-// getup/misc/special/rider sheets. Hair/beard are near-black low-hue-wrap
+// getup/misc/special sheets. Hair/beard are near-black low-hue-wrap
 // (hue ~340) and the tassel is bright red (v ~0.98): both excluded. Boots
 // share the family but are short blobs the RANSAC pair-distance rejects.
 const isWood = (r, g, b) => {

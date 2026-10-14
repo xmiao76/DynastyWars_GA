@@ -28,7 +28,6 @@ const SHEETS = {
   getup: 'getup-candidate-2-r1.png',
   misc: 'misc-candidate-2-r1.png',
   special: 'special-candidate-1-r1.png',
-  rider: 'rider-candidate-1.png',
 }
 // Standing-guard-like cells usable as scale evidence (pos varies).
 const GUARD_CELLS = { walk: 0, getup: 4, special: 8, misc: 8 }

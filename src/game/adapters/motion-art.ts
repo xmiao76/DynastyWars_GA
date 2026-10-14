@@ -176,24 +176,24 @@ const ARCHER_PAGES: PackPage[] = [
 /** Zhang Fei regular + action atlas pages (CMR-09B; scripts/emit-zhangfei-runtime.mjs). */
 const ZHANGFEI_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: motionTextureKeys('zhangfei').sheet, bytes: 3007913, sha256: 'e296de06d6ca9f1b7d6615aaf267e3e16adf8b3f8d43625f833c11521bed92e3', width: 2004, height: 2026 },
-  { name: 'actions', sourceKey: motionTextureKeys('zhangfei').actions, bytes: 1028932, sha256: 'ca8104eb1bdf977ace396d309053de2e881d92a12cf5b4faaf04a49de2ad114a', width: 1693, height: 768 },
+  { name: 'actions', sourceKey: motionTextureKeys('zhangfei').actions, bytes: 516859, sha256: 'dcbbd34d8a4ce2d8631ab80ee1cf371ce1d2f3bdb52f5409703a6fbe38682181', width: 1693, height: 768 },
 ]
 
 /** Zhao Yun regular + action atlas pages (CMR-10B; scripts/emit-zhaoyun-runtime.mjs). */
 const ZHAOYUN_PAGES: PackPage[] = [
   { name: 'sheet', sourceKey: motionTextureKeys('zhaoyun').sheet, bytes: 3241974, sha256: 'b4f2f4666b29cae2ea35573a20bbff6c0e4742fbcb8fe457eddb951bae52e651', width: 2030, height: 1847 },
-  { name: 'actions', sourceKey: motionTextureKeys('zhaoyun').actions, bytes: 1092445, sha256: 'd3569980ad56922f4e76ac18bbecd9f17fa0fbd3c0a105cbcd3e640225077d4e', width: 1845, height: 699 },
+  { name: 'actions', sourceKey: motionTextureKeys('zhaoyun').actions, bytes: 593671, sha256: 'd8da062436189ff23b087b239d331304a7a369e58078a455bcba7ab823ce9bbc', width: 1845, height: 699 },
 ]
 
 /** Wei Yan regular + action atlas pages (CMR-11B; scripts/emit-weiyan-runtime.mjs). */
 const WEIYAN_PAGES: PackPage[] = [
-  { name: 'sheet', sourceKey: motionTextureKeys('weiyan').sheet, bytes: 3173250, sha256: '636c522290ae97d99631fac12fa387a306b7d60643bfb21c82da38dd47792a86', width: 1948, height: 1877 },
-  { name: 'actions', sourceKey: motionTextureKeys('weiyan').actions, bytes: 146166, sha256: '5c841688f2977468e0d10ae19d57a72ce18db15a008aaa83ac0b3697781b4577', width: 618, height: 199 },
+  { name: 'sheet', sourceKey: motionTextureKeys('weiyan').sheet, bytes: 2892771, sha256: 'b99fd67e99acb27214a10fdd58b3f7f5300b0b0c03614cd22de98f8d6f31ddf1', width: 1948, height: 1877 },
+  { name: 'actions', sourceKey: motionTextureKeys('weiyan').actions, bytes: 556, sha256: '7eba7c25188be144167d986a113adb244f38faa146e95c36f03f8098da73b47c', width: 618, height: 199 },
 ]
 
 /** Huang Zhong single atlas page (CMR-12B; scripts/emit-huangzhong-runtime.mjs). */
 const HUANGZHONG_PAGES: PackPage[] = [
-  { name: 'sheet', sourceKey: motionTextureKeys('huangzhong').sheet, bytes: 3643905, sha256: '0087d9689cf80ccca2f2d723f48106b7af8d1b5b7ccff1884b9c7ed1c87c3cfb', width: 1988, height: 1594 },
+  { name: 'sheet', sourceKey: motionTextureKeys('huangzhong').sheet, bytes: 3156764, sha256: 'e4b2a58cf7dab05b633d428ece05d9d589be1008d41919da5c4caba25bfdb979', width: 1988, height: 1594 },
 ]
 
 /** Li Dian single atlas page (CMR-13B; scripts/emit-lidian-runtime.mjs). */

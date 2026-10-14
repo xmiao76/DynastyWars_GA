@@ -18,9 +18,8 @@ const SHEETS = {
   walk: 'walk-candidate-2.png', jab1: 'jab1-candidate-2.png', jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png', jump: 'jump-candidate-1.png', fall: 'fall-candidate-1.png',
   getup: 'getup-candidate-1.png', misc: 'misc-candidate-1.png', special: 'special-candidate-1.png',
-  rider: 'acceptance4-round1-candidate-1.png',
 }
-const lines = JSON.parse(readFileSync(`${SRC}/pike-lines.json`, 'utf8'))
+const lines = JSON.parse(readFileSync(`${SRC}/pike-lines.json`, 'utf8')).filter((r) => r.seq in SHEETS)
 
 const hsv = (r, g, b) => {
   const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn
@@ -66,7 +65,7 @@ for (const r of lines) {
   if (!loaded[r.seq]) loaded[r.seq] = await load(`${SRC}/${SHEETS[r.seq]}`)
   const im = loaded[r.seq]
   const comps = alphaComponents(im, 96)
-  const rows = r.seq === 'rider' ? 2 : 3, cols = 3
+  const rows = 3, cols = 3
   const cellW = Math.floor(im.width / cols), cellH = Math.floor(im.height / rows)
   const comp = comps.find((c) => {
     const cx = Math.min(cols - 1, Math.floor((c.x0 + c.x1 + 1) / 2 / cellW))

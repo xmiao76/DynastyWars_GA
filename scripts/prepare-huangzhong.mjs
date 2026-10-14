@@ -52,7 +52,6 @@ const SHEETS = {
   getup: 'getup-prepared-source.png',
   misc: 'misc-candidate-1.png',
   special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
 }
 
 // Kept source cells per sequence (row-major 0..8), IN PLAY ORDER.
@@ -67,7 +66,6 @@ const KEEP = {
   getup: [0, 1, 2, 3, 4, 5], // DOWN, push-up, kneel, crouch, rise, guard
   misc: [0, 1, 2, 3, 8], // hurt-recoil, hurt-fold, grab-clamp, grab-hold, release (spare; orig detached)
   special: [0, 1, 2, 3, 4], // raise, coil, release, follow, recover
-  rider: [0, 1, 2, 3, 4, 5], // mount, move, move-alt, sweep-windup, sweep, follow
 }
 
 async function pixelsOf(path) {
@@ -313,7 +311,6 @@ const LABELS = {
   getup: ['DOWN', 'push-up', 'kneel', 'crouch', 'rise', 'guard'],
   misc: ['hurt-recoil', 'hurt-fold', 'grab-clamp', 'grab-hold', 'release'],
   special: ['raise', 'coil', 'release', 'follow', 'recover'],
-  rider: ['mount', 'move', 'move-alt', 'sweep-windup', 'sweep', 'follow'],
 }
 mkdirSync(SRC, { recursive: true })
 writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({

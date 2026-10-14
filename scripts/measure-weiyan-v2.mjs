@@ -8,7 +8,7 @@
 //   of the upright guard drawings - the per-sheet scale evidence. Wei Yan
 //   has NO aliased bookend duplicates (every kept cell is a unique drawing;
 //   culled cells are just culled). Guard-like cells: walk:0 + getup:4 only
-//   (no standing-guard spares elsewhere; rider mounted, excluded). Face
+//   (no standing-guard spares elsewhere). Face
 //   gates widened vs Zhang Fei (25..70 wide, 20..64 tall): the turban
 //   crops the forehead and the beard crops the jaw, leaving only the
 //   eyes/nose/cheeks band visible.
@@ -29,7 +29,6 @@ const SHEETS = {
   getup: 'getup-v2-prepared-source.png',
   misc: 'misc-v2-prepared-source.png',
   special: 'special-v2-prepared-source.png',
-  rider: 'rider-v2-retouched-source.png',
 }
 // Standing-guard-like cells usable as scale evidence (SOURCE cell index).
 // V2 getup stand sits at source cell 4 (play position 4); same as v1.

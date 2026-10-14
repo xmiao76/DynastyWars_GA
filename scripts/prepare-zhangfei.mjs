@@ -50,30 +50,14 @@ const SHEETS = {
   getup: 'getup-candidate-1.png',
   misc: 'misc-candidate-1.png',
   special: 'special-candidate-1.png',
-  // Acceptance-4 repair round 1 (2026-10-03) is the rider SOURCE OVERRIDE:
-  // the round-1 sheet replaces rider-candidate-1.png (preserved as the
-  // immutable before) because splicing its 442-602px-wide drawings into
-  // adjacent 512px cells would make neighbours touch. Its 3x2 grid holds
-  // exactly the six kept cells in label order.
-  rider: 'acceptance4-round1-candidate-1.png',
 }
 
-// Grid per sequence (the repair sheet is 3x2; everything else 3x3).
-const GRID = {
-  rider: { rows: 2, cols: 3 },
-}
+// Grid per sequence (everything is 3x3 unless a sheet overrides here).
+const GRID = {}
 
 // Witness-calibrated factor overrides (the accepted "per-sheet uniform
-// factor" mechanism): the repair sheet is drawn ~8% over pack scale
-// (content-height budget witness: 416px tallest drawing vs the 383px
-// cap at base 0.699), so factor 0.92 normalizes it and keeps the
-// global fit/base untouched. Never per-cell.
-const FACTOR_OVERRIDE = {
-  rider: {
-    factor: 0.92,
-    evidence: 'witness: repair sheet drawn 8% over pack scale (content-height budget 383/416); uniform per-sheet factor normalizes the sheet-level offset',
-  },
-}
+// factor" mechanism): none currently. Never per-cell.
+const FACTOR_OVERRIDE = {}
 
 // Kept source cells per sequence (row-major 0..8), in clip order. Everything
 // else on the sheet is culled from the prepare input. The walk cycle keeps
@@ -90,7 +74,6 @@ const KEEP = {
   getup: [1, 2, 3, 4, 5], // elbow, kneel, crouch, half-rise, stand
   misc: [1, 2, 5, 6, 7], // hurt recoil, hurt fold (=grabbed), clamp, hold, release
   special: [1, 2, 3, 4, 5], // raise, coil, pre-spin, strike, follow
-  rider: [0, 1, 2, 3, 4, 5], // repair sheet 3x2 row-major: idle, trot, mount, sweep, windup, dismount
 }
 
 async function pixelsOf(path) {
@@ -316,7 +299,6 @@ const LABELS = {
   getup: ['elbow', 'kneel', 'crouch', 'half-rise', 'stand'],
   misc: ['hurt-recoil', 'hurt-fold', 'grab-clamp', 'grab-hold', 'release'],
   special: ['raise', 'coil', 'pre-spin', 'strike', 'follow'],
-  rider: ['idle', 'trot', 'mount', 'sweep', 'sweep-windup', 'dismount'],
 }
 mkdirSync(SRC, { recursive: true })
 writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({

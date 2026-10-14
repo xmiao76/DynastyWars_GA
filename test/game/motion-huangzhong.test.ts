@@ -46,7 +46,7 @@ describe('huangzhong pack registration', () => {
   it('the prepared record validates as a huangzhong pack', () => {
     expect(validHuangzhongPack(meta)).toBe(true)
     expect(meta.singlePage).toBe(true)
-    expect(Object.keys(meta.frames)).toHaveLength(57)
+    expect(Object.keys(meta.frames)).toHaveLength(51)
     expect(meta.revision).toBe('huangzhong-1')
     expect(meta.sheet).toEqual({ width: 1988, height: 1594 })
     expect(meta.actionSheet).toEqual({ width: 1988, height: 1594 })
@@ -241,12 +241,13 @@ describe('huangzhong state dispatch (every state, key ticks)', () => {
       for (const t of ticks) seen.add(sampleClip(art, action, t))
     }
     for (const frame of seen) expect(allFrames.has(frame), `frame ${frame} must exist in the pack`).toBe(true)
+    // No rider frames: the horse was removed, so the pack carries no
+    // rider:* entries at all.
+    expect([...allFrames].filter((f) => f.startsWith('rider:'))).toEqual([])
     // The special raise/coil drawings are undisplayed by design: hz.special
     // fires at tick 0, so showing a windup after the loose would read
-    // backwards (see the motion-clips-huangzhong header). The rider:*
-    // frames are unreachable leftovers in the prepared JSON, removed by a
-    // separate prepared-data cleanup.
-    expect([...allFrames].filter((f) => !seen.has(f)).sort()).toEqual(['rider:0', 'rider:1', 'rider:2', 'rider:3', 'rider:4', 'rider:5', 'special:0', 'special:1'])
+    // backwards (see the motion-clips-huangzhong header).
+    expect([...allFrames].filter((f) => !seen.has(f)).sort()).toEqual(['special:0', 'special:1'])
   })
 
   it('sampleClip clamps out-of-range ticks without ever returning an unknown frame', () => {

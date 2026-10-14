@@ -46,7 +46,7 @@ describe('weiyan pack registration', () => {
   it('the prepared record validates as a weiyan pack', () => {
     expect(validWeiyanPack(meta)).toBe(true)
     expect(meta.singlePage).toBeFalsy()
-    expect(Object.keys(meta.frames)).toHaveLength(56)
+    expect(Object.keys(meta.frames)).toHaveLength(50)
     expect(meta.revision).toBe('weiyan-2')
     expect(meta.sheet).toEqual({ width: 1948, height: 1877 })
     expect(meta.actionSheet).toEqual({ width: 618, height: 199 })
@@ -234,9 +234,10 @@ describe('weiyan state dispatch (every state, key ticks)', () => {
       for (const t of ticks) seen.add(sampleClip(art, action, t))
     }
     for (const frame of seen) expect(allFrames.has(frame), `frame ${frame} must exist in the pack`).toBe(true)
-    // The rider:* frames are unreachable leftovers in the prepared JSON,
-    // removed by a separate prepared-data cleanup.
-    expect([...allFrames].filter((f) => !seen.has(f)).sort()).toEqual(['rider:0', 'rider:1', 'rider:2', 'rider:3', 'rider:4', 'rider:5'])
+    // No rider frames: the horse was removed, so the pack carries no
+    // rider:* entries at all and every remaining drawing is reachable.
+    expect([...allFrames].filter((f) => f.startsWith('rider:'))).toEqual([])
+    expect([...allFrames].filter((f) => !seen.has(f)).sort()).toEqual([])
   })
 
   it('sampleClip clamps out-of-range ticks without ever returning an unknown frame', () => {

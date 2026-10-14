@@ -4,7 +4,7 @@
 //   node scripts/prepare-zhaoyun.mjs
 //
 // Keep maps come from PROVENANCE.md (remaps finalized at prepare time):
-// finisher/jump/getup/misc/rider keep NON-ROW-MAJOR cells in PLAY ORDER
+// finisher/jump/getup/misc keep NON-ROW-MAJOR cells in PLAY ORDER
 // (the spares that read best in sequence); culling happens IN MEMORY,
 // sources stay untouched. Positions map via the pipeline's explicit
 // `order`, frame names seq:0..count-1.
@@ -52,7 +52,6 @@ const SHEETS = {
   getup: 'getup-candidate-2-r1.png',
   misc: 'misc-candidate-2-r1.png',
   special: 'special-candidate-1-r1.png',
-  rider: 'rider-candidate-1.png',
 }
 
 // Kept source cells per sequence (row-major 0..8), IN PLAY ORDER (the
@@ -67,7 +66,6 @@ const KEEP = {
   getup: [0, 1, 2, 8, 4], // elbow, kneel, crouch, half-rise, stand
   misc: [0, 1, 7, 3, 4], // hurt-recoil, hurt-fold, grab-clamp, grab-hold, release
   special: [0, 1, 2, 3, 4], // raise, coil, pre-spin, strike, follow
-  rider: [1, 6, 2, 3, 4, 5], // idle, trot, mount, sweep-windup, sweep, dismount
 }
 
 async function pixelsOf(path) {
@@ -319,7 +317,6 @@ const LABELS = {
   getup: ['elbow', 'kneel', 'crouch', 'half-rise', 'stand'],
   misc: ['hurt-recoil', 'hurt-fold', 'grab-clamp', 'grab-hold', 'release'],
   special: ['raise', 'coil', 'pre-spin', 'strike', 'follow'],
-  rider: ['idle', 'trot', 'mount', 'sweep-windup', 'sweep', 'dismount'],
 }
 mkdirSync(SRC, { recursive: true })
 writeFileSync(`${SRC}/registration.json`, `${JSON.stringify({

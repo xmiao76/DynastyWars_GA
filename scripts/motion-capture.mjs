@@ -339,25 +339,25 @@ const report = {
           ? { networkBytes: 1830948, sourceBytes: 1830948, decodedBytes: 2045 * 924 * 4, gpuBytes: 2045 * 924 * 4 }
           : fighter === 'zhangfei'
             ? {
-              networkBytes: 3007913 + 1028932, sourceBytes: 3007913 + 1028932,
+              networkBytes: 3007913 + 516859, sourceBytes: 3007913 + 516859,
               decodedBytes: 2004 * 2026 * 4 + 1693 * 768 * 4, gpuBytes: 2004 * 2026 * 4 + 1693 * 768 * 4,
               caps: { pageLimit: 2048, decodedPerFighter: 22 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
             }
             : fighter === 'zhaoyun'
               ? {
-                networkBytes: 3241974 + 1092445, sourceBytes: 3241974 + 1092445,
+                networkBytes: 3241974 + 593671, sourceBytes: 3241974 + 593671,
                 decodedBytes: 2030 * 1847 * 4 + 1845 * 699 * 4, gpuBytes: 2030 * 1847 * 4 + 1845 * 699 * 4,
                 caps: { pageLimit: 2048, decodedPerFighter: 21 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
               }
               : fighter === 'weiyan'
                 ? {
-                  networkBytes: 3173250 + 146166, sourceBytes: 3173250 + 146166,
+                  networkBytes: 2892771 + 556, sourceBytes: 2892771 + 556,
                   decodedBytes: 1948 * 1877 * 4 + 618 * 199 * 4, gpuBytes: 1948 * 1877 * 4 + 618 * 199 * 4,
                   caps: { pageLimit: 2048, decodedPerFighter: 16 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
                 }
                 : fighter === 'huangzhong'
                   ? {
-                    networkBytes: 3643905, sourceBytes: 3643905,
+                    networkBytes: 3156764, sourceBytes: 3156764,
                     decodedBytes: 1988 * 1594 * 4, gpuBytes: 1988 * 1594 * 4,
                     caps: { pageLimit: 2048, decodedPerFighter: 16 * 1024 * 1024, retainedCache: 128 * 1024 * 1024, stageDownloads: 12 * 1024 * 1024 },
                   }

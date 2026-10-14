@@ -17,12 +17,11 @@ const SHEETS = {
   walk: 'walk-candidate-1.png', jab1: 'jab1-candidate-1.png', jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png', jump: 'jump-candidate-1.png', fall: 'fall-candidate-1.png',
   getup: 'getup-candidate-1.png', misc: 'misc-candidate-1.png', special: 'special-candidate-1.png',
-  rider: 'rider-candidate-1.png',
 }
 const KEEP = {
   walk: [0, 1, 2, 3, 4, 5, 6, 7, 8], jab1: [0, 1, 2, 3, 4], jab2: [0, 1, 2, 3, 4],
   finisher: [0, 1, 2, 3, 4], jump: [0, 1, 6, 3, 5, 7], fall: [0, 1, 2, 3, 4],
-  getup: [0, 1, 2, 3, 4], misc: [0, 1, 2, 3, 4], special: [0, 1, 2, 3, 4], rider: [0, 1, 2, 3, 4, 5],
+  getup: [0, 1, 2, 3, 4], misc: [0, 1, 2, 3, 4], special: [0, 1, 2, 3, 4],
 }
 const SCALE = JSON.parse(readFileSync('art/motion/weiyan/registration.json', 'utf8')).sheets
 

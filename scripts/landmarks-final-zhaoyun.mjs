@@ -25,7 +25,6 @@ const files = {
   walk: 'walk-candidate-1.png', jab1: 'jab1-candidate-1.png', jab2: 'jab2-candidate-1.png',
   finisher: 'finisher-candidate-1.png', jump: 'jump-candidate-1b.png', fall: 'fall-candidate-1b.png',
   getup: 'getup-candidate-2-r1.png', misc: 'misc-candidate-2-r1.png', special: 'special-candidate-1-r1.png',
-  rider: 'rider-candidate-1.png',
 }
 const isSkin = (d, k) => { const r = d[k], g = d[k + 1], b = d[k + 2], a = d[k + 3]; return a >= 200 && r > 105 && r > g + 12 && g > b && b < 170 }
 function faceOf(im, box) {
@@ -109,7 +108,7 @@ const head = {
 }
 
 // Weapon: spear-lines.json (displayed tip-to-butt) over the adjudicator FULL set.
-const lines = JSON.parse(readFileSync(`${SRC}/spear-lines.json`, 'utf8'))
+const lines = JSON.parse(readFileSync(`${SRC}/spear-lines.json`, 'utf8')).filter((r) => r.seq in files)
 const byId = new Map(lines.map((r) => [r.id, r]))
 const { execSync } = await import('node:child_process')
 const out = execSync('node scripts/spear-adjudicate-zhaoyun.mjs', { encoding: 'utf8' })
