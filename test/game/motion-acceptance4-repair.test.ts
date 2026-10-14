@@ -29,13 +29,13 @@ afterAll(() => { for (const dir of temps) rmSync(dir, { recursive: true, force: 
 function path(): string { const dir = mkdtempSync(join(tmpdir(), 'a4-repair-')); temps.push(dir); return join(dir, 'ledger.json') }
 
 describe('owner-approved Acceptance-4 repair reserve', () => {
-  it('caps 11 remaining characters at three focused rounds = 33 extra requests; Guan Yu stays locked', () => {
-    expect(ELIGIBLE_FIGHTERS).toHaveLength(11)
-    expect(new Set(ELIGIBLE_FIGHTERS).size).toBe(11)
+  it('caps 10 remaining characters at three focused rounds (30 usable; historical 33 reserve retained); Guan Yu and horse stay locked', () => {
+    expect(ELIGIBLE_FIGHTERS).toHaveLength(10)
+    expect(new Set(ELIGIBLE_FIGHTERS).size).toBe(10)
     expect(REPAIR_RESERVE).toBe(33)
     expect(COMBINED_CAP).toBe(233)
-    expect(remainingRepairRounds(emptyRepairLedger(), 'guanyu')).toBe(0)
-    expect(() => reserveRepairRound(emptyRepairLedger(), emptyLedger(), 'guanyu', issue)).toThrow(/not in/)
+    for (const locked of ['guanyu', 'horse']) expect(remainingRepairRounds(emptyRepairLedger(), locked)).toBe(0)
+    for (const locked of ['guanyu', 'horse']) expect(() => reserveRepairRound(emptyRepairLedger(), emptyLedger(), locked, issue)).toThrow(/not in/)
   })
 
   it('permits measurement method correction without spending an image request or lowering the gate', () => {
@@ -100,9 +100,9 @@ describe('owner-approved Acceptance-4 repair reserve', () => {
     for (const fighter of ELIGIBLE_FIGHTERS) {
       tooMany.fighters[fighter] = { rounds: Array.from({ length: 3 }, (_, i) => ({ number: i + 1, status: 'rejected' as const, cells: ['walk:0'], failure: 'Measured bad geometry', sourceSha256: digest })) }
     }
-    expect(repairUsed(tooMany)).toBe(33)
+    expect(repairUsed(tooMany)).toBe(30)
     expect(() => reserveRepairRound(tooMany, authoring, id, issue)).toThrow(/exhausted/)
-    expect(COMBINED_CAP - totalUsed(authoring) - repairUsed(tooMany)).toBe(0)
+    expect(COMBINED_CAP - totalUsed(authoring) - repairUsed(tooMany)).toBe(3)
   })
 
   it('grants exactly one fighter-scoped owner round without changing original history or authoring', () => {
@@ -180,14 +180,14 @@ describe('owner-approved Acceptance-4 repair reserve', () => {
     expect(remainingRepairRounds(readRepairLedger(file), 'xiahoudun')).toBe(0)
   })
 
-  it('allows exactly 234 combined requests only with the explicit extension, without rollover', () => {
+  it('allows exactly 231 usable combined requests only with the explicit extension, without rollover', () => {
     const full = emptyRepairLedger(), authoring = emptyLedger()
     authoring.fighters['filled'] = { role: 'hero', cap: 200, used: 200, sheetCandidates: {} }
     for (const fighter of ELIGIBLE_FIGHTERS) full.fighters[fighter] = exhausted(fighter).fighters[fighter]!
     const granted = grantOwnerRepairExtension(full, 'xiahoudun', extension)
-    expect(totalUsed(authoring) + repairUsed(granted)).toBe(233)
+    expect(totalUsed(authoring) + repairUsed(granted)).toBe(230)
     const fourth = reserveRepairRound(granted, authoring, 'xiahoudun', { ...issue, cells: extension.cells })
-    expect(totalUsed(authoring) + repairUsed(fourth)).toBe(234)
+    expect(totalUsed(authoring) + repairUsed(fourth)).toBe(231)
     expect(fourth.combinedCap).toBe(233)
     expect(() => reserveRepairRound(fourth, authoring, id, issue)).toThrow(/exhausted 3/)
     const failed = settleRepairRound(fourth, 'xiahoudun', 4, { status: 'rejected', evidence: 'Extra clean redraw failed unchanged acceptance; stop' })
