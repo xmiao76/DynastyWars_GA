@@ -3,7 +3,6 @@ import { RENDER_SCALE } from '../render'
 import { FX_BURST, FX_DUST, FX_SPARK, paintBurst, paintDust, paintSpark } from '../art/fx'
 import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
 import { publishBodyArt, queueBodyArt } from '../adapters/body-art'
-import { publishHorseArt, queueHorseArt } from '../adapters/horse-art'
 import { publishWeaponArt, queueWeaponArt } from '../adapters/weapon-art'
 import { framesEnabled, publishFrameArt, queueFrameArt } from '../adapters/frame-art'
 import { motionEnabled } from '../adapters/motion-art'
@@ -51,7 +50,6 @@ export class BootScene extends Phaser.Scene {
   preload(): void {
     queueHeroArt(this)
     queueBodyArt(this)
-    queueHorseArt(this)
     queueWeaponArt(this)
     // Whole-frame pilot: only behind ?frames=1, so normal play never loads it.
     // Motion packs (?motion=1) are stage-scoped (CMR-03): NOTHING downloads at
@@ -65,7 +63,6 @@ export class BootScene extends Phaser.Scene {
   create(): void {
     publishHeroArt(this)
     publishBodyArt(this)
-    publishHorseArt(this)
     publishWeaponArt(this)
     if (framesEnabled() && !motionEnabled()) publishFrameArt(this)
     this.generateFxTextures()

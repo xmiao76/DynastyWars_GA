@@ -8,9 +8,7 @@
  * (takeoff/ascent/apex/kick/descent/landing), fall:0-4 (topple through
  * DOWN), getup:0-5 (DOWN/push-up/kneel/crouch/rise/guard), misc:0-4
  * (hurt-recoil/hurt-fold/grab-clamp/grab-hold/release), special:0-4
- * (raise/coil/release/follow/recover), rider:0-5
- * (mount/move/move-alt/sweep-windup/sweep/follow) - windup sits at rider:3
- * and sweep at rider:4, same as Zhao Yun, so the mountedsweep keys match.
+ * (raise/coil/release/follow/recover).
  *
  * Two deliberate deviations from the Wei Yan shape: (1) the getup clip
  * carries six poses (getup:5 is the standing guard); (2) the special clip
@@ -44,7 +42,6 @@ export const HUANGZHONG_ATTACK_BINDINGS: Record<string, string> = {
   'hz.jab2': 'jab2',
   'hz.finisher': 'finisher',
   'hz.special': 'special',
-  'mounted.sweep': 'dismountedsweep',
 }
 
 /**
@@ -68,18 +65,11 @@ export function huangzhongClips(): MotionArt['clips'] {
     getup: clip(GETUP_TICKS, [[0, DOWN], [2, 'getup:0'], [6, 'getup:1'], [10, 'getup:2'], [14, 'getup:3'], [17, 'getup:4'], [20, 'getup:5'], [22, IDLE]]),
     grab: clip(8, [[0, 'misc:2'], [4, 'misc:3']]),
     release: clip(6, [[0, 'misc:4'], [4, IDLE]]),
-    mounted: clip(1, [[0, 'rider:0']], true),
-    mountedwalk: clip(24, [[0, 'rider:0'], [12, 'rider:1']], true),
-    dismount: clip(8, [[0, 'rider:5'], [4, 'jump:0'], [7, IDLE]]),
   } as MotionArt['clips']
   for (const action of [
-    'jab1', 'jab2', 'finisher', 'special', 'mountedsweep', 'dismountedsweep',
+    'jab1', 'jab2', 'finisher', 'special',
   ] as const) {
-    if (action === 'mountedsweep') {
-      const a = attackById('mounted.sweep')
-      const endActive = a.startup + a.active, duration = endActive + a.recover
-      clips[action] = clip(duration, [[0, 'rider:0'], [2, 'rider:3'], [a.startup, 'rider:4'], [endActive, 'rider:3'], [duration - 4, 'rider:0']])
-    } else if (action === 'special') {
+    if (action === 'special') {
       // hz.special is inert (startup 4, active 0, recover 14): the arrow
       // spawns at special start, so the release snap shows AT tick 0 and
       // the coil drawings stay undisplayed (see header).
@@ -87,9 +77,9 @@ export function huangzhongClips(): MotionArt['clips'] {
       const duration = a.startup + a.active + a.recover
       clips[action] = clip(duration, [[0, 'special:2'], [2, 'special:3'], [6, 'special:4'], [duration - 3, IDLE]])
     } else {
-      const a = attackById(action === 'dismountedsweep' ? 'mounted.sweep' : `hz.${action}`)
+      const a = attackById(`hz.${action}`)
       const endActive = a.startup + a.active, duration = endActive + a.recover
-      const drawings = action === 'dismountedsweep' ? 'jab1' : action
+      const drawings = action
       clips[action] = clip(duration, [
         [0, IDLE], [Math.max(1, Math.floor(a.startup * 0.25)), `${drawings}:0`],
         [Math.floor(a.startup * 0.5), `${drawings}:1`], [a.startup, `${drawings}:2`],
@@ -104,16 +94,11 @@ export function huangzhongClips(): MotionArt['clips'] {
 /** Hero state dispatch over Huang Zhong's frame inventory (mirrors the generic hero branches). */
 export function motionFrameForHuangzhong(art: MotionArt, entity: MotionEntity): string {
   const t = entity.stateTick
-  if (entity.mountedOn !== null) {
-    if (entity.state === 'attack') return sampleClip(art, 'mountedsweep', t)
-    return sampleClip(art, entity.state === 'walk' ? 'mountedwalk' : 'mounted', t)
-  }
   switch (entity.state) {
     case 'idle': return IDLE
     case 'walk': case 'fleeing': return sampleClip(art, 'walk', t)
     case 'attack': {
       const id = entity.attackId
-      if (id === 'mounted.sweep') return sampleClip(art, 'dismountedsweep', t) // retain original hit window after losing horse
       const action = (id ? art.attackBindings?.[id] : undefined) ?? id?.slice(3)
       if (action && art.clips[action]) return sampleClip(art, action, t)
       return IDLE // Defensive unknown attack remains new art, not broken rig.
@@ -141,7 +126,7 @@ export function motionFrameForHuangzhong(art: MotionArt, entity: MotionEntity): 
 
 /** Frame-name groups (prefixes before ':') the Huang Zhong pack must provide, with compact position counts. */
 export const HUANGZHONG_FRAMES: Record<string, number> = {
-  walk: 9, jab1: 5, jab2: 5, finisher: 5, jump: 6, fall: 5, getup: 6, misc: 5, special: 5, rider: 6,
+  walk: 9, jab1: 5, jab2: 5, finisher: 5, jump: 6, fall: 5, getup: 6, misc: 5, special: 5,
 }
 
 /** All Huang Zhong states must have a complete pack on the single atlas page. */
@@ -165,7 +150,7 @@ export function validHuangzhongPack(meta: MotionPackGeometry): boolean {
       const image = c.sheet === 'actions' ? meta.actionSheet : meta.sheet
       if (c.x + c.w > image.width || c.y + c.h > image.height) return false
       if ((c.trimX ?? 0) < 0 || (c.trimY ?? 0) < 0 || (c.trimX ?? 0) + c.w > sw || (c.trimY ?? 0) + c.h > sh) return false
-      // All 57 rects are unique drawings (the culled layout carries no
+      // All 51 rects are unique drawings (the culled layout carries no
       // aliases), so any overlap within a page fails; pages differ, never overlap.
       const page = c.sheet === 'actions' ? 'actions' : 'sheet'
       if (cells[page]!.some((b) => c.x < b.x + b.w && c.x + c.w > b.x && c.y < b.y + b.h && c.y + c.h > b.y)) return false

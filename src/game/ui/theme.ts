@@ -17,7 +17,7 @@ export const DISPLAY_FAMILY = 'DynastyDisplay'
 export const LIVE_STACK = `"${DISPLAY_FAMILY}", sans-serif`
 
 /** Plain system stack, for 7px micro-labels where a heavy display face would
- * hurt legibility more than it helps identity (weapon/lives/horse/stat lines). */
+ * hurt legibility more than it helps identity (weapon/lives/stat lines). */
 export const BODY_STACK = 'sans-serif'
 
 /** Sizes at or above this use the display face; below it, the body stack. */

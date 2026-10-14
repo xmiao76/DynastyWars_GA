@@ -4,9 +4,9 @@ import type { EntityState } from '../../core/types'
 import type { WholeFrameCell } from './whole-frames'
 
 export const MOTION_ACTIONS = ['walk', 'jab1', 'jab2', 'finisher'] as const
-export const ACTION_SHEETS = ['jump', 'fall', 'getup', 'misc', 'special', 'rider'] as const
+export const ACTION_SHEETS = ['jump', 'fall', 'getup', 'misc', 'special'] as const
 export type MotionAction = (typeof MOTION_ACTIONS)[number]
-export type ActionClip = 'jump' | 'jumpattack' | 'landing' | 'kicklanding' | 'hurt' | 'fall' | 'getup' | 'special' | 'grab' | 'release' | 'mounted' | 'mountedwalk' | 'mountedsweep' | 'dismountedsweep' | 'dismount'
+export type ActionClip = 'jump' | 'jumpattack' | 'landing' | 'kicklanding' | 'hurt' | 'fall' | 'getup' | 'special' | 'grab' | 'release'
 export interface MotionClip {
   loop: boolean
   /** Inclusive simulation tick at which a drawing starts. */
@@ -62,23 +62,18 @@ export function guanyuClips(): MotionArt['clips'] {
     getup: clip(GETUP_TICKS, [[0, DOWN], [2, 'getup:1'], [5, 'getup:2'], [8, 'getup:3'], [11, 'getup:4'], [14, 'getup:5'], [17, 'getup:6'], [20, 'getup:7'], [23, IDLE]]),
     grab: clip(8, [[0, 'misc:5'], [4, 'misc:6']]),
     release: clip(6, [[0, 'misc:7'], [4, IDLE]]),
-    mounted: clip(1, [[0, 'rider:0']], true),
-    mountedwalk: clip(24, [[0, 'rider:0'], [6, 'rider:1'], [12, 'rider:2'], [18, 'rider:1']], true),
-    dismount: clip(8, [[0, 'rider:7'], [4, 'jump:1'], [7, IDLE]]),
   } as MotionArt['clips']
-  for (const action of ['jab1', 'jab2', 'finisher', 'special', 'mountedsweep', 'dismountedsweep'] as const) {
-    const a = attackById(action === 'mountedsweep' || action === 'dismountedsweep' ? 'mounted.sweep' : `gy.${action}`)
+  for (const action of ['jab1', 'jab2', 'finisher', 'special'] as const) {
+    const a = attackById(`gy.${action}`)
     const endActive = a.startup + a.active, duration = endActive + a.recover
-    if (action === 'mountedsweep') {
-      clips[action] = clip(duration, [[0, 'rider:0'], [2, 'rider:5'], [a.startup, 'rider:4'], [endActive, 'rider:5'], [duration - 4, 'rider:6']])
-    } else if (action === 'special') {
+    if (action === 'special') {
       // Existing forward poses avoid the painted backward-blade windup and
       // bridge the down-cut recovery without new character-design drift.
       clips[action] = clip(duration, [[0, IDLE], [1, 'special:7'], [3, 'special:2'], [4, 'special:3'],
         [a.startup, 'special:4'], [endActive, 'special:5'], [endActive + 2, 'special:3'],
         [endActive + 4, 'special:6'], [endActive + 7, 'special:7'], [duration - 3, IDLE]])
     } else {
-      const drawings = action === 'dismountedsweep' ? 'jab1' : action
+      const drawings = action
       clips[action] = clip(duration, [
         [0, IDLE], [Math.max(1, Math.floor(a.startup * 0.25)), `${drawings}:1`],
         [Math.floor(a.startup * 0.5), `${drawings}:2`], [a.startup - 2, `${drawings}:3`],
@@ -126,7 +121,6 @@ export interface MotionEntity {
   state: EntityState
   stateTick: number
   attackId: string | null
-  mountedOn: number | null
   airTicks?: number
   z?: number
   /** AI think countdown (enemy shooters phase their firing cycle off it). */
@@ -144,16 +138,11 @@ export function sampleClip(art: MotionArt, action: string, tick: number): string
 export function motionFrameForEntity(art: MotionArt, entity: MotionEntity): string {
   if (art.frameDispatch) return art.frameDispatch(art, entity)
   const t = entity.stateTick
-  if (entity.mountedOn !== null) {
-    if (entity.state === 'attack') return sampleClip(art, 'mountedsweep', t)
-    return sampleClip(art, entity.state === 'walk' ? 'mountedwalk' : 'mounted', t)
-  }
   switch (entity.state) {
     case 'idle': return IDLE
     case 'walk': case 'fleeing': return sampleClip(art, 'walk', t)
     case 'attack': {
       const id = entity.attackId
-      if (id === 'mounted.sweep') return sampleClip(art, 'dismountedsweep', t) // retain original hit window after losing horse
       const action = (id ? art.attackBindings?.[id] : undefined) ?? id?.slice(3)
       if (action && art.clips[action]) return sampleClip(art, action, t)
       return IDLE // Defensive unknown attack remains new art, not broken rig.

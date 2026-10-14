@@ -21,9 +21,6 @@ export interface PlayerSnapshot {
   facing: Facing
   invulnerable: boolean
   weapon: string | null
-  /** Riding a horse, and its remaining HP. */
-  mounted: boolean
-  horseHp: number | null
 }
 
 export interface EnemySnapshot {
@@ -77,7 +74,6 @@ export interface SimSnapshot {
 export function snapshotSim(sim: Sim): SimSnapshot {
   const player = playerOf(sim)
   const snapPlayer = (p: Entity): PlayerSnapshot => {
-    const mount = p.mountedOn !== null ? sim.entities.find((e) => e.id === p.mountedOn) : undefined
     return {
       x: p.x,
       y: p.y,
@@ -88,8 +84,6 @@ export function snapshotSim(sim: Sim): SimSnapshot {
       facing: p.facing,
       invulnerable: p.invulnerableTicks > 0,
       weapon: p.weapon,
-      mounted: p.mountedOn !== null,
-      horseHp: mount ? mount.hp : null,
     }
   }
   const player2Entity =

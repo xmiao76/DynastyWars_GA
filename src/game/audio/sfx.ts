@@ -57,10 +57,6 @@ export function sfxForEvent(event: SimEvent): SfxParams | null {
       return { name: 'revive', type: 'sine', freq: 330, freqEnd: 660, duration: 0.2, gain: 0.15 }
     case 'extralife':
       return { name: 'extralife', type: 'sine', freq: 660, freqEnd: 990, duration: 0.25, gain: 0.2 }
-    case 'mount':
-      return { name: 'mount', type: 'triangle', freq: 240, freqEnd: 480, duration: 0.18, gain: 0.15 }
-    case 'dismount':
-      return { name: 'dismount', type: 'sawtooth', freq: 300, freqEnd: 90, duration: 0.2, gain: 0.18 }
     case 'spawn':
       return null
   }

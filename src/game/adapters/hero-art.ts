@@ -126,7 +126,7 @@ export function publishHeroArt(scene: Phaser.Scene): void {
     }
   }
   const prev = scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined
-  scene.registry.set(ART_RESOURCE_KEY, { heroes, bodies: prev?.bodies, horse: prev?.horse } satisfies ArtResources)
+  scene.registry.set(ART_RESOURCE_KEY, { heroes, bodies: prev?.bodies } satisfies ArtResources)
 }
 
 export function heroArtResources(scene: Phaser.Scene): ArtResources | undefined {

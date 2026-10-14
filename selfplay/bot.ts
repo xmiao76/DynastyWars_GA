@@ -12,11 +12,10 @@ import type { GameSnapshot } from '../src/game/debug/bridge'
 export const BOT_STEP_BATCH = 12
 
 /**
- * Spacing def for the bot's swings: mounted riders use the long spear sweep,
- * on foot the DRIVEN hero's own opening combo hit (ENH-4: per-hero reach).
+ * Spacing def for the bot's swings: the DRIVEN hero's own opening combo hit
+ * (ENH-4: per-hero reach).
  */
-function spacingDef(charId: string, mounted: boolean): AttackDef {
-  if (mounted) return attackById('mounted.sweep')
+function spacingDef(charId: string): AttackDef {
   return attackById(characterById(charId).combo[0] ?? 'zy.jab1')
 }
 
@@ -56,20 +55,6 @@ export function decideBotScript(snapshot: GameSnapshot): InputState[] {
     const press = script[0]
     if (press) press.attackPressed = true
     return script
-  }
-
-  // A free horse is a force multiplier: mount it before fighting.
-  if (!player.mounted) {
-    for (const item of sim.items) {
-      if (item.kind !== 'horse' || item.state !== 'idle') continue
-      for (const entry of script) {
-        entry.up = item.y < player.y - 2
-        entry.down = item.y > player.y + 2
-        entry.left = item.x < player.x - 2
-        entry.right = item.x > player.x + 2
-      }
-      return script
-    }
   }
 
   // An unarmed fighter picks up a sword within reach.
@@ -162,7 +147,7 @@ export function decideBotScript(snapshot: GameSnapshot): InputState[] {
     if (crate) {
       const cdx = crate.x - player.x
       const cdy = crate.y - player.y
-      const reachDef = spacingDef(sim.charId, player.mounted)
+      const reachDef = spacingDef(sim.charId)
       if (Math.abs(cdx) <= reachDef.reach - 4 && Math.abs(cdy) <= reachDef.arc - 2) {
         const face = script[0]
         if (face) {
@@ -194,18 +179,16 @@ export function decideBotScript(snapshot: GameSnapshot): InputState[] {
 
   const dx = goal.x - player.x
   const dy = goal.y - player.y
-  // Mounted riders swing the long spear sweep; on foot it's the driven
-  // hero's own jab.
-  const reachDef = spacingDef(sim.charId, player.mounted)
+  // Spacing comes from the driven hero's own jab.
+  const reachDef = spacingDef(sim.charId)
   const dist = Math.abs(dx) + Math.abs(dy)
   const aligned = Math.abs(dy) <= 12
 
   // Bosses outrange the jab and combo fast, so never trade jabs with them:
   // jump-kick instead (the kick knocks them down and the jump arc dodges
-  // their ground swings). Mounted riders can't jump - the sweep outranges
-  // every boss weapon, so just swing. Checked BEFORE the jab rule: a boss
+  // their ground swings). Checked BEFORE the jab rule: a boss
   // that closes in must still be kicked.
-  if (target && target.boss && !player.mounted && aligned && dist <= 70 && dist > 4) {
+  if (target && target.boss && aligned && dist <= 70 && dist > 4) {
     for (const entry of script) {
       entry.left = dx < -2
       entry.right = dx > 2
@@ -236,7 +219,7 @@ export function decideBotScript(snapshot: GameSnapshot): InputState[] {
     return script
   }
 
-  if (target && !player.mounted && aligned && dist <= 90 && dist > 10) {
+  if (target && aligned && dist <= 90 && dist > 10) {
     for (const entry of script) {
       entry.left = dx < -2
       entry.right = dx > 2

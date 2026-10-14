@@ -18,7 +18,7 @@ export const NAME = { x: 41, y: 4 } as const
 export const HP = { x: 41, y: 17, w: 127, h: 8 } as const
 export const PEARL = { cx: 180, cy: 21, d: 10 } as const
 export const PIP_ROW = { x0: 41, y: 27, d: 8, gap: 2, max: 8 } as const
-/** Plate meta line (the HORSE row). UIR-4 (V-4): 9, not 7 - below
+/** Plate meta line (the weapon row). UIR-4 (V-4): 9, not 7 - below
  * DISPLAY_MIN_SIZE the display family drops to a generic sans that is
  * ~6 CSS px on a Pixel 7 (the ledger measured it); 9 logical clears
  * 7 CSS px there and keeps the display family. */

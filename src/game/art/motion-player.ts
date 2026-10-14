@@ -4,12 +4,11 @@ import { motionFrameForEntity, sampleClip } from './motion-clips'
 /** Per-entity presentation history. Core simulation is never mutated. */
 export interface MotionPlayback {
   state: MotionEntity['state']
-  mountedOn: number | null
   tick: number
   stateTick: number
   frame: string
   z: number
-  transition?: { action: 'landing' | 'kicklanding' | 'release' | 'dismount'; since: number }
+  transition?: { action: 'landing' | 'kicklanding' | 'release'; since: number }
   fallLift?: { height: number; sinceStateTick: number }
   airborneFall?: { frame: string; sinceStateTick: number }
   lowCollapse?: { frames: string[] }
@@ -25,18 +24,16 @@ export function advanceMotion(art: MotionArt, entity: MotionEntity, tick: number
   const clock = sharedClock
     ? prev.tick + Math.max(0, entity.stateTick - prev.stateTick)
     : tick
-  const out: MotionPlayback = { state: entity.state, mountedOn: entity.mountedOn, tick: clock, stateTick: entity.stateTick, frame: natural, z: entity.z ?? 0 }
+  const out: MotionPlayback = { state: entity.state, tick: clock, stateTick: entity.stateTick, frame: natural, z: entity.z ?? 0 }
   if (prev) {
     out.transition = prev.transition
     out.fallLift = prev.fallLift
     out.airborneFall = prev.airborneFall
     out.lowCollapse = prev.lowCollapse
     out.alreadyDown = prev.alreadyDown
-    const grounded = groundState(entity.state) && entity.mountedOn === null
-    if (entity.mountedOn !== null) out.transition = undefined
+    const grounded = groundState(entity.state)
     if (grounded && (prev.state === 'jump' || prev.state === 'jumpattack')) out.transition = { action: prev.frame === 'jump:4' ? 'kicklanding' : 'landing', since: tick - entity.stateTick }
     else if (grounded && prev.state === 'grab') out.transition = { action: 'release', since: tick - entity.stateTick }
-    if (prev.mountedOn !== null && entity.mountedOn === null) out.transition = { action: 'dismount', since: clock }
     if (entity.state === 'dying' && prev.state !== 'dying') {
       out.alreadyDown = (prev.state === 'knockdown' && prev.frame === 'fall:6') || prev.state === 'dead'
     }

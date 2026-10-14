@@ -1,7 +1,6 @@
 import type { PoseName } from './poses'
 import type { Skeleton } from './rig'
 import type { BodyArt } from './body-parts'
-import type { HorseArt } from './horse-frames'
 import type { WeaponArt } from './weapon-parts'
 import type { WholeFrameArt } from './whole-frames'
 import type { MotionArt } from './motion-clips'
@@ -24,9 +23,6 @@ export interface ArtResources {
   /** Paper-doll bodies (BODY-2), keyed by fighter id like heads. Absent
    * entries render fully procedural - the atomic fallback is per fighter. */
   bodies?: Readonly<Partial<Record<string, BodyArt>>>
-  /** Painted horse frames (BODY-5). Absent (or missing a frame) renders
-   * the procedural horse. */
-  horse?: HorseArt
   /** Painted weapon cells (BODY-21), one shared pack. Absent renders the
    * procedural weapons. */
   weapons?: WeaponArt

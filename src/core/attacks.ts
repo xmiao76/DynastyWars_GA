@@ -142,10 +142,6 @@ export const ATTACKS: Record<string, AttackDef> = {
     kickDamage: 10, kickReach: 28, kickArc: 14, specialDamage: 20,
   }),
 
-  // Mounted spear sweep: long reach, knockdown; replaces the ground combo
-  // on horseback (every press swings once - no chain).
-  'mounted.sweep': { id: 'mounted.sweep', damage: 14, reach: 38, arc: 12, startup: 8, active: 6, recover: 14, knockback: 3, knockdown: true, aerial: false, aoe: false },
-
   // Enemy attacks.
   'soldier.swing': { id: 'soldier.swing', damage: 6, reach: 24, arc: 10, startup: 14, active: 4, recover: 20, knockback: 2, knockdown: false, aerial: false, aoe: false },
   'spear.thrust': { id: 'spear.thrust', damage: 10, reach: 36, arc: 8, startup: 20, active: 5, recover: 26, knockback: 3, knockdown: true, aerial: false, aoe: false },

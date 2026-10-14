@@ -105,7 +105,7 @@ export function paintedWeaponFirst(body: BodyArt | undefined, pose: Skeleton): b
  * and a per-shape pass cannot see it.
  *
  * The splits are fractions of the width so the same light falls across a
- * fighter, a horse and a crate alike.
+ * fighter and a crate alike.
  */
 export const SHADOW_SPLIT = [0.625, 0.375] as const
 export const LIT_SPLIT = [0.458, 0.229] as const

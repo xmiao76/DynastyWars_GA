@@ -18,7 +18,6 @@ import {
 import { enemyByKind, ENEMIES } from '../../core/enemies'
 import { STAGE_ORDER } from '../../core/stage'
 import { secondPlayerCharacter } from '../players'
-import { HorsePresentation } from '../horse-presentation'
 import { audio, sfxForEvent } from '../audio/sfx'
 import { GAME_THEME } from '../audio/music'
 import type { SimEvent } from '../../core/events'
@@ -138,7 +137,6 @@ export interface GameSceneData {
  */
 export class GameScene extends Phaser.Scene {
   private sim!: Sim
-  private horsePresentation = new HorsePresentation()
   private bridge!: BridgeState
   private keyboardAdapter!: KeyboardAdapter
   private keyboard2Adapter!: KeyboardAdapter
@@ -221,12 +219,10 @@ export class GameScene extends Phaser.Scene {
     this.shadows.clear()
     clearMotionPlayback(this)
     this.motionDefeat.clear()
-    this.horsePresentation.clear()
     // Scene exit/restart cancels in-flight pack loads (late callbacks reject
     // as stale) and releases this scene's pack references for eviction.
     this.events.once('shutdown', () => {
       this.runToken += 1
-      this.horsePresentation.clear()
       this.built = false
       this.joinPending = false
       motionRuntime().cancelLoads()
@@ -260,7 +256,6 @@ export class GameScene extends Phaser.Scene {
       lives: data.lives ?? 3,
       score: data.score ?? 0,
     })
-    this.horsePresentation.observe(this.sim)
     this.bridge.sim = this.sim
 
     const stage = this.sim.stage
@@ -565,14 +560,12 @@ export class GameScene extends Phaser.Scene {
           // and an empty queue yields undefined, which stepSim treats exactly
           // as "no second player input" - so solo harness runs are unchanged.
           stepSim(this.sim, queued, this.bridge.pendingInputs2.shift())
-          this.horsePresentation.observe(this.sim)
           steps += 1
           continue
         }
         if (this.bridge.pendingSteps > 0) {
           this.bridge.pendingSteps -= 1
           stepSim(this.sim, this.bridge.currentInput, this.bridge.pendingInputs2.shift())
-          this.horsePresentation.observe(this.sim)
           steps += 1
           continue
         }
@@ -593,7 +586,6 @@ export class GameScene extends Phaser.Scene {
           ),
           mergeInputs(this.keyboard2Adapter.read(first), this.gamepad2Adapter.read(first)),
         )
-        this.horsePresentation.observe(this.sim)
       }
     }
     const events = drainSimEvents(this.sim)
@@ -658,7 +650,7 @@ export class GameScene extends Phaser.Scene {
     }
     sprite.setOrigin(0.5, 1)
     const isBoss = ENEMIES[kind]?.boss !== undefined
-    const onScreenH = kind === 'horse' ? 70 : isBoss ? 124 : kind === 'crate' ? 52 : 92
+    const onScreenH = isBoss ? 124 : kind === 'crate' ? 52 : 92
     // An art-engine box is deliberately larger than the subject in it - margin
     // for a thrust weapon, headroom for a crest - so fitting the BOX to the
     // fighter's height would scale the margins in and leave the fighter short.
@@ -691,13 +683,9 @@ export class GameScene extends Phaser.Scene {
         this.sprites.set(entity.id, sprite)
       }
       // Pose binding: combatants get a pose texture per state; props keep
-      // their single static texture. The horse animates from its rider's
-      // state while mounted (or runs when fleeing).
+      // their single static texture.
       if (!isPropKind(entity.kind)) {
-        const pose =
-          entity.kind === 'horse'
-            ? this.horsePresentation.pose(entity, this.sim.entities)
-            : poseForEntity(entity)
+        const pose = poseForEntity(entity)
         const motionFrame = ensureMotionFrame(this, renderEntity)
         if (motionFrame) {
           this.blendQ.delete(entity.id)
@@ -718,7 +706,7 @@ export class GameScene extends Phaser.Scene {
             // motion frames above never visit this render-callback queue.
             const from = this.lastPose.get(entity.id)
             const steps =
-              entity.kind !== 'horse' && entity.state !== 'dying' && from && from !== pose
+              entity.state !== 'dying' && from && from !== pose
                 ? [
                     ensureBlendKey(this, entity.kind, from, pose, 1),
                     ensureBlendKey(this, entity.kind, from, pose, 2),
@@ -744,9 +732,7 @@ export class GameScene extends Phaser.Scene {
           }
         }
       }
-      // The rider sits on the horse: raised sprite offset while mounted.
-      const riderLift = entity.mountedOn !== null ? 18 : 0
-      sprite.setPosition(entity.x, entity.y - entity.z - riderLift - motionVisualLift(this, renderEntity))
+      sprite.setPosition(entity.x, entity.y - entity.z - motionVisualLift(this, renderEntity))
       sprite.setDepth(entity.y)
       sprite.setFlipX(entity.facing === 'left')
       if (entity.state === 'hitstun') sprite.setTint(0xff6666)
@@ -767,8 +753,8 @@ export class GameScene extends Phaser.Scene {
       let shadow = this.shadows.get(entity.id)
       if (!shadow) {
         const isBoss = ENEMIES[entity.kind]?.boss !== undefined
-        const [sw, sh] =
-          entity.kind === 'horse' ? [34, 10] : isBoss ? [34, 9] : [26, 8]
+        const [sw, sh]: [number, number] =
+          isBoss ? [34, 9] : [26, 8]
         shadow = this.add.ellipse(entity.x, entity.y, sw, sh, 0x000000, 0.35)
         this.shadows.set(entity.id, shadow)
       }

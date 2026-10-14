@@ -1,5 +1,5 @@
 import { attackById, type AttackDef } from './attacks'
-import { DISMOUNT_IFRAMES, GROUND_ATTACK_MAX_Z } from './constants'
+import { GROUND_ATTACK_MAX_Z } from './constants'
 import type { SimEvent } from './events'
 import { ITEMS } from './items'
 import type { Entity, EntityId } from './types'
@@ -61,9 +61,8 @@ function isActiveWindow(entity: Entity, atk: AttackDef): boolean {
 }
 
 export function canBeHit(entity: Entity): boolean {
-  // Only crates are hittable among neutral entities: pickups and horses must
-  // not be destroyed by swings, arrows, or thrown bodies. A mounted horse
-  // takes its rider's damage via the redirect in applyHitWithAttack.
+  // Only crates are hittable among neutral entities: pickups must
+  // not be destroyed by swings, arrows, or thrown bodies.
   if (entity.side === 'neutral' && entity.kind !== 'crate') return false
   // Dying, downed, held, flying, fleeing, and mercy i-frames are unhittable.
   return entity.state !== 'dying' && entity.state !== 'dead'
@@ -84,22 +83,7 @@ export function applyHitWithAttack(
   events: SimEvent[],
   entities?: Entity[],
 ): void {
-  // A mounted rider's horse takes the hit instead.
-  if (target.mountedOn !== null && entities) {
-    const horse = entities.find((e) => e.id === target.mountedOn)
-    if (horse) {
-      horse.hp = Math.max(0, horse.hp - atk.damage)
-      events.push({ type: 'hit', attackerId: attacker.id, targetId: horse.id, damage: atk.damage })
-      if (horse.hp === 0) {
-        horse.state = 'fleeing'
-        horse.stateTick = 0
-        target.mountedOn = null
-        target.invulnerableTicks = DISMOUNT_IFRAMES
-        events.push({ type: 'dismount', id: target.id })
-      }
-      return
-    }
-  }
+  void entities
   attacker.struck.push(target.id)
   target.hp = Math.max(0, target.hp - atk.damage)
   events.push({ type: 'hit', attackerId: attacker.id, targetId: target.id, damage: atk.damage })

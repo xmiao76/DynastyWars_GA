@@ -54,7 +54,7 @@ export function textureKeyForPose(kind: string, pose: Pose): string {
 /**
  * Strike-pose selection, keyed by full attack id. Every hero's combo reads as
  * its weapon (ENH-5): three distinct poses per (jab1, jab2, finisher), and no
- * two heroes share the same ordered triple. Enemies, the mounted sweep and
+ * two heroes share the same ordered triple. Enemies and
  * unknown ids fall through to the standard strike pose.
  *
  *   guanyu glaive:     sweep -> attack -> chop    (wide cuts, chop finisher)
@@ -157,7 +157,6 @@ export function isPropKind(kind: string): boolean {
 export function paletteColorFor(kind: string): number {
   const entry = vectorArtFor(kind)
   if (entry?.type === 'figure') return entry.plan.body
-  if (entry?.type === 'horse') return entry.plan.coat
   return 0x666666
 }
 

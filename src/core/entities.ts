@@ -40,7 +40,6 @@ export function makeCombatant(
     weaponTicks: 0,
     lootRolled: false,
     enraged: false,
-    mountedOn: null,
   }
 }
 

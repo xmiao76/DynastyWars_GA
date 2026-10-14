@@ -55,7 +55,6 @@ export interface MotionProfile {
   capabilities: {
     jump: boolean
     special: boolean
-    mounted: boolean
     grabs: boolean
   }
   cues: MotionCues
@@ -64,17 +63,15 @@ export interface MotionProfile {
 const GROUND_CLIPS = ['idle', 'walk', 'hurt', 'fall', 'getup']
 const HERO_CLIPS = [
   ...GROUND_CLIPS, 'jump', 'jumpattack', 'landing', 'kicklanding', 'special',
-  'grab', 'release', 'mounted', 'mountedwalk', 'mountedsweep',
-  'dismountedsweep', 'dismount',
+  'grab', 'release',
 ]
 const ALL_CLIPS = new Set<string>([
   ...MOTION_ACTIONS, 'idle', 'jump', 'jumpattack', 'landing', 'kicklanding',
-  'hurt', 'fall', 'getup', 'special', 'grab', 'release', 'mounted',
-  'mountedwalk', 'mountedsweep', 'dismountedsweep', 'dismount',
+  'hurt', 'fall', 'getup', 'special', 'grab', 'release',
 ])
 /** Clips that may serve as an ATTACK binding (not locomotion/hurt/fall). */
 const ATTACK_CLIPS = new Set<string>([
-  ...MOTION_ACTIONS, 'special', 'mountedsweep', 'dismountedsweep', 'jumpattack',
+  ...MOTION_ACTIONS, 'special', 'jumpattack',
 ])
 
 const comboIds = (c: { combo: string[] | string }): string[] =>
@@ -95,7 +92,6 @@ export function heroProfile(id: CharacterId): MotionProfile {
     map[a] = a.endsWith('.jab2') ? 'jab2' : a.endsWith('.finisher') ? 'finisher' : 'jab1'
   }
   map[c.specialAttack] = 'special'
-  map['mounted.sweep'] = 'dismountedsweep'
   const special = attackById(c.specialAttack as AttackName)
   return {
     id,
@@ -106,7 +102,7 @@ export function heroProfile(id: CharacterId): MotionProfile {
     requiredFrameGroups: [...MOTION_ACTIONS, ...ACTION_SHEETS],
     pages: { regular: true, actions: true },
     hitstunTicks: PLAYER_HITSTUN_TICKS,
-    capabilities: { jump: true, special: true, mounted: true, grabs: true },
+    capabilities: { jump: true, special: true, grabs: true },
     cues: c.specialFiresProjectile
       ? { releaseFollowsProjectileSpawn: true, zeroActiveSpecial: special.active === 0 }
       : {},
@@ -124,7 +120,7 @@ export function meleeProfile(kind: EnemyKind): MotionProfile {
     requiredFrameGroups: [...MOTION_ACTIONS],
     pages: { regular: true, actions: false },
     hitstunTicks: def.hitstunTicks,
-    capabilities: { jump: false, special: false, mounted: false, grabs: false },
+    capabilities: { jump: false, special: false, grabs: false },
     cues: {},
   }
 }
@@ -146,7 +142,7 @@ export function bossProfile(kind: EnemyKind): MotionProfile {
     requiredFrameGroups: [...MOTION_ACTIONS],
     pages: { regular: true, actions: false },
     hitstunTicks: def.hitstunTicks,
-    capabilities: { jump: false, special: false, mounted: false, grabs: true },
+    capabilities: { jump: false, special: false, grabs: true },
     cues: {},
   }
 }
@@ -166,7 +162,7 @@ export function shooterProfile(kind: EnemyKind): MotionProfile {
     requiredFrameGroups: [...MOTION_ACTIONS],
     pages: { regular: true, actions: false },
     hitstunTicks: def.hitstunTicks,
-    capabilities: { jump: false, special: false, mounted: false, grabs: false },
+    capabilities: { jump: false, special: false, grabs: false },
     cues: { fireInterval: def.fireInterval, releaseFollowsProjectileSpawn: true },
   }
 }
@@ -191,7 +187,7 @@ export function validateMotionProfile(p: MotionProfile): string[] {
   if (p.role === 'hero') {
     if (!p.jumpAttackId) errors.push(`hero ${p.id} lacks a jump attack binding`)
     if (p.jumpAttackId && !knownAttacks.has(p.jumpAttackId)) errors.push(`hero ${p.id} unknown jump attack id: ${p.jumpAttackId}`)
-    if (!p.capabilities.jump || !p.capabilities.special || !p.capabilities.mounted) errors.push(`hero ${p.id} capability matrix incomplete`)
+    if (!p.capabilities.jump || !p.capabilities.special) errors.push(`hero ${p.id} capability matrix incomplete`)
     if (!p.requiredClips.includes('jumpattack') || !p.requiredClips.includes('special')) errors.push(`hero ${p.id} missing hero clips`)
     if (p.cues.fireInterval) errors.push(`hero ${p.id} must not carry a shooter fire cadence`)
     if (p.cues.zeroActiveSpecial && !p.cues.releaseFollowsProjectileSpawn) errors.push(`hero ${p.id} zero-active special must release on projectile spawn`)
@@ -266,32 +262,12 @@ export function clipsForProfile(p: MotionProfile): MotionArt['clips'] {
     clips.grab = clip(8, [[0, 'misc:5'], [4, 'misc:6']])
     clips.release = clip(6, [[0, 'misc:7'], [4, IDLE]])
   }
-  if (p.capabilities.mounted) {
-    clips.mounted = clip(1, [[0, 'rider:0']], true)
-    clips.mountedwalk = clip(24, [[0, 'rider:0'], [6, 'rider:1'], [12, 'rider:2'], [18, 'rider:1']], true)
-    clips.dismount = clip(8, [[0, 'rider:7'], [4, 'jump:1'], [7, IDLE]])
-    // The mounted sweep (while ON the horse) shares mounted.sweep's window
-    // with the dismounted variant; both must exist (guanyuClips parity).
-    const a = attackById('mounted.sweep' as AttackName)
-    const endActive = a.startup + a.active
-    const duration = endActive + a.recover
-    clips.mountedsweep = clip(duration, [[0, 'rider:0'], [2, 'rider:5'], [a.startup, 'rider:4'], [endActive, 'rider:5'], [duration - 4, 'rider:6']])
-  }
   // Attack clips: every key step derived from the bound attack's real window.
   for (const [attackId, name] of Object.entries(p.attackBindings)) {
     const a = attackById(attackId as AttackName)
     const endActive = a.startup + a.active
     const duration = endActive + a.recover
-    if (name === 'dismountedsweep' || name === 'mountedsweep') {
-      const drawings = 'jab1'
-      clips[name as keyof MotionArt['clips']] = clip(duration, [
-        [0, IDLE], [Math.max(1, Math.floor(a.startup * 0.25)), `${drawings}:1`],
-        [Math.floor(a.startup * 0.5), `${drawings}:2`], [a.startup - 2, `${drawings}:3`],
-        [a.startup, `${drawings}:4`], [endActive, `${drawings}:5`],
-        [endActive + Math.floor(a.recover * 0.25), `${drawings}:6`],
-        [endActive + Math.floor(a.recover * 0.55), `${drawings}:7`], [duration - 3, IDLE],
-      ])
-    } else if (name === 'special') {
+    if (name === 'special') {
       // Existing forward poses avoid the painted backward-blade windup and
       // bridge the down-cut recovery without new character-design drift.
       clips[name as keyof MotionArt['clips']] = clip(duration, [[0, IDLE], [1, 'special:7'], [3, 'special:2'], [4, 'special:3'],

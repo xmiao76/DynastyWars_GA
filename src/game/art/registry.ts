@@ -1,9 +1,7 @@
-import { HORSE_H, HORSE_W, HORSE_PLAN, drawHorse, type HorsePlan } from './beasts'
 import { drawFigure } from './draw'
 import type { ArtResources, HeroArt } from './hero-resources'
 import type { BodyArt } from './body-parts'
 import type { WeaponArt } from './weapon-parts'
-import { horseFrameFor, paintHorseFrame } from './horse-frames'
 import { paintWholeFrame } from './whole-frames'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
@@ -14,9 +12,9 @@ import { BODY_X, FIG_H, FIG_W, applyBuild, type Skeleton } from './rig'
 /**
  * Every kind the game draws, and how.
  *
- * Three art types rather than one, because a quadruped and a crate are not
- * badly-posed people: forcing them through the humanoid rig would give a
- * structure that describes none of the three well. What they DO share is the
+ * Two art types rather than one, because a crate is not
+ * a badly-posed person: forcing it through the humanoid rig would give a
+ * structure that describes neither well. What they DO share is the
  * cel pipeline in `draw.ts`, so a crate is lit from the same direction as the
  * fighter standing next to it - which is most of what makes a cast look like
  * one cast rather than three sets of assets.
@@ -24,7 +22,6 @@ import { BODY_X, FIG_H, FIG_W, applyBuild, type Skeleton } from './rig'
 
 export type ArtEntry =
   | { type: 'figure'; plan: FigurePlan }
-  | { type: 'horse'; plan: HorsePlan }
   | { type: 'prop'; plan: PropPlan }
 
 /**
@@ -127,19 +124,11 @@ export function blendMarginFor(from: PoseName, to: PoseName): number {
 }
 
 /**
- * Headroom for the horse's ears and pricked mane, and a small pad on every
- * side of a prop. Both were found by the clipping check rather than reasoned
- * about: the ear, the drumstick's bone, the sword's pommel and the arrow's
- * fletching were each sitting on their own border.
+ * A small pad on every side of a prop. Found by the clipping check rather
+ * than reasoned about: the drumstick's bone, the sword's pommel and the
+ * arrow's fletching were each sitting on their own border.
  */
-const HORSE_HEADROOM = 8
 const PROP_PAD = 4
-
-const HORSE_BOX: ArtBox = {
-  width: HORSE_W,
-  height: HORSE_H + HORSE_HEADROOM,
-  standH: HORSE_H,
-}
 
 /** Kept for callers that only ever deal with humanoids. */
 export const FIGURE_BOX = figureBoxFor('idle')
@@ -152,7 +141,6 @@ export const VECTOR_ART: Record<string, ArtEntry> = {
       { type: 'figure', plan },
     ]),
   ),
-  horse: { type: 'horse', plan: HORSE_PLAN },
   ...Object.fromEntries(
     Object.entries(PROPS).map(([kind, plan]): [string, ArtEntry] => [kind, { type: 'prop', plan }]),
   ),
@@ -183,7 +171,7 @@ export function artBoxFor(kind: string, pose: PoseName = 'idle'): ArtBox | undef
       standH: entry.plan.height,
     }
   }
-  return entry.type === 'horse' ? HORSE_BOX : figureBoxFor(pose)
+  return figureBoxFor(pose)
 }
 
 /**
@@ -371,14 +359,6 @@ export function drawKindPose(
       } else {
         drawFigure(ctx, entry.plan, POSE_TABLE[pose])
       }
-      break
-    }
-    case 'horse': {
-      ctx.translate(0, HORSE_HEADROOM)
-      const horse = resources?.horse
-      const frame = horseFrameFor(pose)
-      if (horse && paintHorseFrame(ctx, horse, frame, HORSE_W, HORSE_H)) break
-      drawHorse(ctx, entry.plan, pose)
       break
     }
     case 'prop':

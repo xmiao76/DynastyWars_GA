@@ -16,12 +16,10 @@ import {
   GRAB_HOLD_TICKS,
   GRAB_RANGE_X,
   GRAB_RANGE_Y,
-  HORSE_HP,
   ITEM_LIFETIME_TICKS,
   JUMP_DURATION,
   JUMP_HEIGHT,
   KNOCKDOWN_TICKS,
-  MOUNTED_SPEED,
   PLAYER_HITSTUN_TICKS,
   PLAYER_MERCY_TICKS,
   SCORE_PER_EXTRA_LIFE,
@@ -80,21 +78,6 @@ function spawnWave(sim: Sim, wave: WaveDef | undefined): void {
 
 function spawnProps(sim: Sim): void {
   for (const prop of sim.stage.props) {
-    if (prop.kind === 'horse') {
-      // Horses stand mid-band waiting for a rider.
-      const horse = makeCombatant(
-        sim.nextEntityId,
-        'horse',
-        'neutral',
-        prop.x,
-        Math.round((sim.stage.walkBandTop + sim.stage.walkBandBottom) / 2),
-        HORSE_HP,
-        0,
-        'left',
-      )
-      spawnEntity(sim, horse)
-      continue
-    }
     const crate = makeCombatant(sim.nextEntityId, prop.kind, 'neutral', prop.x, sim.stage.walkBandBottom - 8, 6, 0, 'left')
     spawnEntity(sim, crate)
   }
@@ -340,8 +323,7 @@ function stepPlayer(sim: Sim, player: Entity, input: InputState): void {
     }
     case 'idle':
     case 'walk': {
-      const mounted = player.mountedOn !== null
-      if (input.specialPressed && !mounted && player.hp > character.specialCost) {
+      if (input.specialPressed && player.hp > character.specialCost) {
         // Desperation special: costs HP, i-frames for the move's duration.
         player.hp -= character.specialCost
         startAttack(sim, player, character.specialAttack, 'special')
@@ -367,19 +349,17 @@ function stepPlayer(sim: Sim, player: Entity, input: InputState): void {
         break
       }
       if (input.attackPressed) {
-        // Mounted riders swing the spear sweep; on foot, the combo starts.
-        const attackId = mounted ? 'mounted.sweep' : character.combo[0]
+        const attackId = character.combo[0]
         if (attackId) {
           startAttack(sim, player, attackId)
           break
         }
       }
-      if (input.jumpPressed && !mounted) {
+      if (input.jumpPressed) {
         startJump(sim, player)
         break
       }
-      const speed = mounted ? MOUNTED_SPEED : character.walkSpeed
-      player.state = moveWithInput(player, input, speed) ? 'walk' : 'idle'
+      player.state = moveWithInput(player, input, character.walkSpeed) ? 'walk' : 'idle'
       break
     }
     case 'grabbed':
@@ -463,50 +443,12 @@ function stepThrown(sim: Sim): void {
   }
 }
 
-/** Mount lifecycle: pin the horse under its rider, mount on contact, run
- * fleeing horses off the stage. */
-function stepMounts(sim: Sim): void {
-  const players = playersOf(sim)
-
-  // World update, once per HORSE. Running this inside a per-player loop made a
-  // fleeing horse advance once for each player, so in co-op it bolted at
-  // double speed - invisible with one player, which is why the suite missed it.
-  for (const entity of sim.entities) {
-    if (entity.kind !== 'horse') continue
-    const rider = players.find((p) => p.mountedOn === entity.id)
-    if (rider) {
-      entity.x = rider.x
-      entity.y = rider.y
-    }
-    if (entity.state === 'fleeing') {
-      entity.x += 4
-      if (entity.x > sim.stage.length + 40) entity.state = 'dead'
-    }
-  }
-
-  // Mount on contact while walking on the ground.
-  for (const player of players) {
-    if (player.state !== 'walk' || player.z > 0 || player.mountedOn !== null) continue
-    for (const entity of sim.entities) {
-      if (entity.kind !== 'horse' || entity.state !== 'idle') continue
-      // A horse already carrying someone is not up for grabs; without this both
-      // players could ride the same animal and fight over where it stands.
-      if (players.some((p) => p.mountedOn === entity.id)) continue
-      if (Math.abs(entity.x - player.x) > 12 || Math.abs(entity.y - player.y) > 8) continue
-      player.mountedOn = entity.id
-      sim.events.push({ type: 'mount', id: entity.id })
-      break
-    }
-  }
-}
-
 /** Grab lifecycle: pin the held enemy, expire the hold, start new grabs. */
 function stepGrab(sim: Sim): void {
   for (const player of playersOf(sim)) stepGrabFor(sim, player)
 }
 
 function stepGrabFor(sim: Sim, player: Entity): void {
-  if (player.mountedOn !== null) return // no grabs on horseback
   for (const entity of sim.entities) {
     if (entity.grabbedBy !== player.id) continue
     if (player.state !== 'grab') {
@@ -633,7 +575,7 @@ function applyPhysics(sim: Sim): void {
       const maxX = Math.min(sim.scrollX + SCREEN_WIDTH - EDGE_MARGIN, sim.stage.length - EDGE_MARGIN)
       entity.x = clamp(entity.x, minX, maxX)
     } else if (!isProjectile(entity) && entity.state !== 'fleeing') {
-      // Fleeing horses leave the stage; everyone else stays in bounds.
+      // Fleeing entities leave the stage; everyone else stays in bounds.
       entity.x = clamp(entity.x, 0, sim.stage.length)
     }
   }
@@ -744,7 +686,6 @@ export function stepSim(sim: Sim, input: InputState, input2?: InputState): void 
   stepThrown(sim)
   resolveAttacks(sim.entities, sim.events)
   applyPhysics(sim)
-  stepMounts(sim)
   stepGrab(sim)
   stepLoot(sim)
   stepItems(sim)

@@ -789,7 +789,7 @@ export function ensureMotionFrame(scene: Phaser.Scene, entity: Entity): MotionFr
   // Throws, death and attacks retain their current binding and clocks.
   const releasePrev = OBSERVED_THROWN_KINDS.has(entity.kind) && prev?.state === 'grabbed'
     && (entity.state === 'idle' || entity.state === 'walk') && entity.grabbedBy === null
-    && entity.z === 0 && entity.mountedOn === null ? { ...prev, state: 'grab' as const } : prev
+    && entity.z === 0 ? { ...prev, state: 'grab' as const } : prev
   const sample = advanceMotion(art, observed, tick, releasePrev)
   state.set(entity.id, { ...sample.playback, ...(thrownAge !== undefined ? { thrownX: entity.x, thrownAge } : {}) })
   const cell = art.frames[sample.frame]

@@ -103,6 +103,4 @@ export interface Entity {
   lootRolled: boolean
   /** Boss enrage flag: set once below the HP threshold (ai.ts). */
   enraged: boolean
-  /** Player-only: id of the horse currently being ridden, if any. */
-  mountedOn: EntityId | null
 }

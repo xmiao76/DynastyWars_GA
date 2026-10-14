@@ -53,8 +53,8 @@ export function spearmanClips(): MotionArt['clips'] {
 export const SPEARMAN_ATTACK_BINDINGS: Record<string, string> = { 'spear.thrust': 'thrust' }
 
 /**
- * State dispatch for the spearman. Unreachable hero states (jump/special/
- * mounted) never occur for this kind; the defensive default stays on new
+ * State dispatch for the spearman. Unreachable hero states (jump/special)
+ * never occur for this kind; the defensive default stays on new
  * art (guard), never the legacy rig.
  */
 export function motionFrameForSpearman(art: MotionArt, entity: MotionEntity): string {
@@ -76,7 +76,7 @@ export function motionFrameForSpearman(art: MotionArt, entity: MotionEntity): st
     case 'dying': return t < DYING_TICKS / 3 ? 'getup-death:4' : t < (DYING_TICKS * 2) / 3 ? 'getup-death:5' : 'getup-death:6'
     case 'dead': return 'getup-death:7'
   }
-  // Unreachable hero states (jump/special/mounted) stay on new art.
+  // Unreachable hero states (jump/special) stay on new art.
   return IDLE
 }
 

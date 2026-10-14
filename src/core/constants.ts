@@ -86,8 +86,3 @@ export const SCORE_PER_EXTRA_LIFE = 2000
 
 /** Combo window: a player hit within this many ticks keeps the chain. */
 export const COMBO_WINDOW_TICKS = 45
-
-/** Horseback: mount speed and durability, and the dismount protection. */
-export const MOUNTED_SPEED = 2.2
-export const HORSE_HP = 20
-export const DISMOUNT_IFRAMES = 60

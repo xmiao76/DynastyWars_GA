@@ -8,8 +8,7 @@
  * (takeoff/ascent/apex/kick/descent/landing), fall:0-4 (topple through
  * DOWN), getup:0-4 (elbow through stand), misc:0-4
  * (hurt-recoil/hurt-fold/grab-clamp/grab-hold/release), special:0-4
- * (raise/coil/pre-spin/strike/follow), rider:0-5
- * (idle/trot/mount/sweep/sweep-windup/dismount).
+ * (raise/coil/pre-spin/strike/follow).
  *
  * Bookends hold by clip convention (no alias records in the culled layout):
  * every guard point IS walk:0 and every down point IS fall:4 - the same
@@ -35,7 +34,6 @@ export const ZHANGFEI_ATTACK_BINDINGS: Record<string, string> = {
   'zf.jab2': 'jab2',
   'zf.finisher': 'finisher',
   'zf.special': 'special',
-  'mounted.sweep': 'dismountedsweep',
 }
 
 /**
@@ -59,24 +57,17 @@ export function zhangfeiClips(): MotionArt['clips'] {
     getup: clip(GETUP_TICKS, [[0, DOWN], [2, 'getup:0'], [6, 'getup:1'], [10, 'getup:2'], [14, 'getup:3'], [18, 'getup:4'], [22, IDLE]]),
     grab: clip(8, [[0, 'misc:2'], [4, 'misc:3']]),
     release: clip(6, [[0, 'misc:4'], [4, IDLE]]),
-    mounted: clip(1, [[0, 'rider:0']], true),
-    mountedwalk: clip(24, [[0, 'rider:0'], [12, 'rider:1']], true),
-    dismount: clip(8, [[0, 'rider:5'], [4, 'jump:0'], [7, IDLE]]),
   } as MotionArt['clips']
-  for (const action of ['jab1', 'jab2', 'finisher', 'special', 'mountedsweep', 'dismountedsweep'] as const) {
-    if (action === 'mountedsweep') {
-      const a = attackById('mounted.sweep')
-      const endActive = a.startup + a.active, duration = endActive + a.recover
-      clips[action] = clip(duration, [[0, 'rider:0'], [2, 'rider:4'], [a.startup, 'rider:3'], [endActive, 'rider:4'], [duration - 4, 'rider:0']])
-    } else if (action === 'special') {
+  for (const action of ['jab1', 'jab2', 'finisher', 'special'] as const) {
+    if (action === 'special') {
       const a = attackById('zf.special')
       const endActive = a.startup + a.active, duration = endActive + a.recover
       clips[action] = clip(duration, [[0, IDLE], [1, 'special:0'], [3, 'special:1'], [4, 'special:2'],
         [a.startup, 'special:3'], [endActive, 'special:4'], [duration - 3, IDLE]])
     } else {
-      const a = attackById(action === 'dismountedsweep' ? 'mounted.sweep' : `zf.${action}`)
+      const a = attackById(`zf.${action}`)
       const endActive = a.startup + a.active, duration = endActive + a.recover
-      const drawings = action === 'dismountedsweep' ? 'jab1' : action
+      const drawings = action
       clips[action] = clip(duration, [
         [0, IDLE], [Math.max(1, Math.floor(a.startup * 0.25)), `${drawings}:0`],
         [Math.floor(a.startup * 0.5), `${drawings}:1`], [a.startup, `${drawings}:2`],
@@ -91,16 +82,11 @@ export function zhangfeiClips(): MotionArt['clips'] {
 /** Hero state dispatch over Zhang Fei's frame inventory (mirrors the generic hero branches). */
 export function motionFrameForZhangfei(art: MotionArt, entity: MotionEntity): string {
   const t = entity.stateTick
-  if (entity.mountedOn !== null) {
-    if (entity.state === 'attack') return sampleClip(art, 'mountedsweep', t)
-    return sampleClip(art, entity.state === 'walk' ? 'mountedwalk' : 'mounted', t)
-  }
   switch (entity.state) {
     case 'idle': return IDLE
     case 'walk': case 'fleeing': return sampleClip(art, 'walk', t)
     case 'attack': {
       const id = entity.attackId
-      if (id === 'mounted.sweep') return sampleClip(art, 'dismountedsweep', t) // retain original hit window after losing horse
       const action = (id ? art.attackBindings?.[id] : undefined) ?? id?.slice(3)
       if (action && art.clips[action]) return sampleClip(art, action, t)
       return IDLE // Defensive unknown attack remains new art, not broken rig.
@@ -128,7 +114,7 @@ export function motionFrameForZhangfei(art: MotionArt, entity: MotionEntity): st
 
 /** Frame-name groups (prefixes before ':') the Zhang Fei pack must provide, with compact position counts. */
 export const ZHANGFEI_FRAMES: Record<string, number> = {
-  walk: 9, jab1: 5, jab2: 5, finisher: 5, jump: 6, fall: 5, getup: 5, misc: 5, special: 5, rider: 6,
+  walk: 9, jab1: 5, jab2: 5, finisher: 5, jump: 6, fall: 5, getup: 5, misc: 5, special: 5,
 }
 
 /** All Zhang Fei states must have a complete pack across both atlas pages. */

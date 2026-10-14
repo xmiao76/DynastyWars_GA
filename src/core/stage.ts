@@ -130,7 +130,6 @@ export const STAGE_2: StageDef = {
   props: [
     { kind: 'crate', x: 350 },
     { kind: 'crate', x: 700 },
-    { kind: 'horse', x: 200 },
   ],
   bossKind: 'xiahoudun',
   wallColor: 0x12241a,

@@ -818,17 +818,13 @@ export class HudScene extends Phaser.Scene {
   }
 
   /**
-   * The plate's third row: held weapon and mount health, kept compact
-   * ('SWORD HORSE 20') so the longest line still fits inside the plate -
-   * the containment gate fails a label that spills past its panel edge.
+   * The plate's third row: held weapon, kept compact so the longest line
+   * still fits inside the plate - the containment gate fails a label that
+   * spills past its panel edge.
    */
-  private metaFor(sim: Sim, entity: { weapon: string | null; mountedOn: number | null }): string {
+  private metaFor(_sim: Sim, entity: { weapon: string | null }): string {
     const parts: string[] = []
     if (entity.weapon) parts.push(entity.weapon.toUpperCase())
-    if (entity.mountedOn !== null) {
-      const horse = sim.entities.find((e) => e.id === entity.mountedOn)
-      if (horse) parts.push(`HORSE ${horse.hp}`)
-    }
     return parts.join(' ')
   }
 

@@ -22,5 +22,3 @@ export type SimEvent =
   | { type: 'gameover' }
   | { type: 'revive'; id: EntityId }
   | { type: 'extralife' }
-  | { type: 'mount'; id: EntityId }
-  | { type: 'dismount'; id: EntityId }

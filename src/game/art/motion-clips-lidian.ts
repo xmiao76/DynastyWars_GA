@@ -95,7 +95,7 @@ export function lidianClips(): MotionArt['clips'] {
   } as MotionArt['clips']
 }
 
-/** Boss state dispatch over Li Dian's frame inventory (enemy-shaped: no jump/special/mounted). */
+/** Boss state dispatch over Li Dian's frame inventory (enemy-shaped: no jump/special). */
 export function motionFrameForLidian(art: MotionArt, entity: MotionEntity): string {
   const t = entity.stateTick
   switch (entity.state) {
@@ -114,7 +114,7 @@ export function motionFrameForLidian(art: MotionArt, entity: MotionEntity): stri
     case 'dying': return sampleClip(art, 'fall', Math.min(t, DYING_TICKS))
     case 'dead': return DOWN
   }
-  // Unreachable hero states (jump/special/mounted) stay on new art.
+  // Unreachable hero states (jump/special) stay on new art.
   return IDLE
 }
 

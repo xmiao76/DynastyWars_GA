@@ -124,7 +124,7 @@ export function applyBuild(pose: Skeleton, build: Build): Skeleton {
  * leaves the pen at a - n*wA/2. From the first commit until ART-16 they ran to
  * b PLUS the normal instead, so each limb was a bow-tie: the two sides crossed
  * in the middle and the nonzero fill left the crossing empty. That hollowed
- * every torso, limb, sash, belt, haft and the horse, and it turned every
+ * every torso, limb, sash, belt and haft, and it turned every
  * in-play brow, mouth and nose - all limb paths - into a broken comma.
  * `rig.test.ts` fills one and counts its middle.
  */
