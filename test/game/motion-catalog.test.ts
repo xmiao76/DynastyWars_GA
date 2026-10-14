@@ -97,6 +97,25 @@ describe('atomic publication and negative controls', () => {
     expect(net.failure).toBe('missing')
   })
 
+  it('a failed slot exposes its failure class and a retry request may succeed', async () => {
+    const cache = new MotionAtlasCache()
+    const m = manifest('soldier', [page('regular')])
+    let calls = 0
+    const flaky = async (p: PackPage): Promise<{ bytes: Uint8Array; sha256: string }> => {
+      calls += 1
+      if (calls === 1) throw new Error('missing: network error')
+      return { bytes: new Uint8Array([1]), sha256: p.sha256 }
+    }
+    expect((await cache.request(m, flaky)).failure).toBe('missing')
+    expect(cache.state('soldier')).toBe('failed')
+    expect(cache.failure('soldier'), 'structured failure class of the failed attempt').toBe('missing')
+    // The runtime's single retry is a second request: a failed slot reloads.
+    expect((await cache.request(m, flaky)).ok).toBe(true)
+    expect(calls).toBe(2)
+    expect(cache.failure('soldier'), 'a ready pack has no failure class').toBeUndefined()
+    expect(cache.failure('never-loaded')).toBeUndefined()
+  })
+
   it('invalidate drops a ready slot so a later request may reload it', async () => {
     const cache = new MotionAtlasCache()
     const m = manifest('soldier', [page('regular')])

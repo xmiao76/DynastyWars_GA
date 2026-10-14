@@ -3,6 +3,7 @@ import { characterById } from '../../core/characters'
 import {
   MAX_CATCHUP_STEPS,
   SCREEN_HEIGHT,
+  SCREEN_WIDTH,
   TICK_MS,
   DYING_TICKS,
 } from '../../core/constants'
@@ -26,15 +27,18 @@ import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gam
 import { NO_TOUCH } from '../adapters/touch'
 import { ensureBlendKey, ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
 import {
+  canRenderLegacyFrame,
   clearMotionPlayback,
   ensureMotionFrame,
   forgetMotionEntity,
+  isMotionPackKind,
   motionEnabled,
   motionKindReady,
   motionRuntime,
   motionStageRequest,
   motionVisualLift,
   MOTION_PACKS,
+  type MotionFailureState,
 } from '../adapters/motion-art'
 import { heroArtResources } from '../adapters/hero-art'
 import { rotateBlocked } from '../ui/orientation'
@@ -193,6 +197,14 @@ export class GameScene extends Phaser.Scene {
   private runToken = 0
   /** A co-op join waiting on an uncached optional hero's pack (bounded). */
   private joinPending = false
+  /** Motion mode latched at create (legacy mode off = `motionEnabled()`). */
+  private motionOn = false
+  /** A due-kinds spawn gate prepare is in flight; sim stepping halts. */
+  private motionGatePending = false
+  /** Final motion failure: sim halts behind the reload/error overlay. */
+  private motionError: MotionFailureState | null = null
+  /** Settable reload hook (tests may stub); defaults to a page reload. */
+  static reloadPage: () => void = () => window.location.reload()
 
   constructor() {
     super('game')
@@ -205,6 +217,9 @@ export class GameScene extends Phaser.Scene {
     // bounded prepare settles. Off by default the gate is synchronous.
     this.built = false
     this.joinPending = false
+    this.motionOn = motionEnabled()
+    this.motionGatePending = false
+    this.motionError = null
     this.runToken += 1
     this.bridge.sim = null
     this.accumulator = 0
@@ -225,10 +240,13 @@ export class GameScene extends Phaser.Scene {
       this.runToken += 1
       this.built = false
       this.joinPending = false
+      this.motionGatePending = false
+      // Shutdown cancellation is not an error: no overlay, no failure state.
+      this.motionError = null
       motionRuntime().cancelLoads()
       motionRuntime().releaseScene(this)
     })
-    if (!motionEnabled()) {
+    if (!this.motionOn) {
       this.beginStage(data)
       return
     }
@@ -239,10 +257,46 @@ export class GameScene extends Phaser.Scene {
     const req = motionStageRequest(data.stageId ?? 'stage1', heroId, data.char2Id ?? secondPlayerCharacter(heroId))
     void motionRuntime()
       .prepareStage(this, req)
-      .then(() => {
+      .then(async (report) => {
         // Stale-callback rejection: the scene exited or restarted mid-prepare.
         if (token !== this.runToken) return
+        // Sole-motion: the stage must not begin while a required opening
+        // kind final-failed or is still unpublished - error overlay, no sim.
+        const failed = report.failed[0] ?? motionRuntime().gateForTick(this, 0).failure
+        if (failed) {
+          this.showMotionError(failed)
+          return
+        }
+        // An opening kind bumped past the entry cap is still due at tick 0:
+        // halt (no sim yet) until its required load - one retry included -
+        // settles, rather than erroring while it is legitimately loading.
+        let gate = motionRuntime().gateForTick(this, 0)
+        if (gate.blocked && !gate.failure) {
+          await motionRuntime().prepareKinds(this, gate.missing)
+          if (token !== this.runToken) return
+          gate = motionRuntime().gateForTick(this, 0)
+        }
+        if (gate.failure) {
+          this.showMotionError(gate.failure)
+          return
+        }
+        if (gate.blocked) {
+          this.showMotionError({
+            kind: gate.missing[0] ?? 'unknown',
+            failure: 'timeout',
+            attempts: 2,
+            final: true,
+          })
+          return
+        }
         this.beginStage(data)
+      })
+      .catch(() => {
+        // Failures arrive as report/outcome values; a rejection is an
+        // unexpected throw - show the reload overlay, never a hung stage.
+        if (token !== this.runToken) return
+        const failed = motionRuntime().gateForTick(this, 0).failure
+        this.showMotionError(failed ?? { kind: heroId, failure: 'corrupt', attempts: 2, final: true })
       })
   }
 
@@ -365,7 +419,12 @@ export class GameScene extends Phaser.Scene {
     ground.setTileScale(0.5, 0.5)
     ground.setName('bgGround')
 
-    ensureEntityTextures(this, stageArtKinds(this.sim))
+    // Sole-motion: never even generate legacy textures for motion kinds
+    // while motion is on, so an unpublished kind cannot render legacy.
+    ensureEntityTextures(
+      this,
+      stageArtKinds(this.sim).filter((kind) => !(this.motionOn && isMotionPackKind(kind))),
+    )
 
     this.keyboardAdapter = new KeyboardAdapter(this)
     this.keyboard2Adapter = new KeyboardAdapter(this, PLAYER_TWO_KEYS)
@@ -472,6 +531,8 @@ export class GameScene extends Phaser.Scene {
     // Build gate (CMR-03): while stage-entry packs are preparing there is no
     // sim yet - nothing steps, joins or transitions until beginStage ran.
     if (!this.built) return
+    // Final motion failure: everything halts behind the reload overlay.
+    if (this.motionOn && this.motionError) return
     // UIR-7 (V-9): a portrait phone shows the rotate overlay and gameplay
     // pauses behind it - no sim ticks while it is up.
     if (rotateBlocked()) return
@@ -549,11 +610,19 @@ export class GameScene extends Phaser.Scene {
       return
     }
 
+    // Spawn gate: while a kind due by the next spawn tick is still loading
+    // (or final-failed), sim stepping halts - a step could clear the wave
+    // and spawn that kind unpublished.
+    if (this.motionStepBlocked()) {
+      this.syncSprites()
+      return
+    }
     if (this.bridge.autopilot) {
       // Drain exact per-tick inputs first, then plain step() ticks fed by the
       // current input. Cap per frame so a huge queued batch can't stall rAF.
       let steps = 0
       while (steps < 600) {
+        if (this.motionStepBlocked()) break
         const queued = this.bridge.pendingInputs.shift()
         if (queued !== undefined) {
           // Player two's queue is drained in lockstep. It is normally empty,
@@ -577,6 +646,7 @@ export class GameScene extends Phaser.Scene {
       const steps = Math.min(Math.floor(this.accumulator / TICK_MS), MAX_CATCHUP_STEPS)
       this.accumulator -= steps * TICK_MS
       for (let i = 0; i < steps; i += 1) {
+        if (this.motionStepBlocked()) break
         const first = i === 0
         stepSim(
           this.sim,
@@ -670,14 +740,31 @@ export class GameScene extends Phaser.Scene {
       const renderEntity = defeat ? { ...entity, stateTick: defeat.tick } : entity
       if (entity.state !== 'dying') this.motionDefeat.delete(entity.id)
       seen.add(entity.id)
+      const motionFrame = isPropKind(entity.kind) ? undefined : ensureMotionFrame(this, renderEntity)
+      // Sole-motion: an unpublished motion kind renders NOTHING - never a
+      // legacy pose or placeholder frame - until its pack publishes. A
+      // published pack with a missing frame keeps the legacy pose fallback.
+      if (!motionFrame && !canRenderLegacyFrame(this.motionOn, entity.kind, motionKindReady(this, entity.kind))) {
+        this.sprites.get(entity.id)?.destroy()
+        this.sprites.delete(entity.id)
+        this.shadows.get(entity.id)?.destroy()
+        this.shadows.delete(entity.id)
+        this.blendQ.delete(entity.id)
+        this.lastPose.delete(entity.id)
+        continue
+      }
       let sprite = this.sprites.get(entity.id)
       if (!sprite) {
-        // Belt and braces for the narrowed registration above: anything that
-        // reaches the screen without art gets it here rather than rendering
-        // blank. `ensureEntityTextures` is idempotent, so the cost is one map
-        // lookup per spawn once a kind is known.
-        if (!hasArtFor(this, entity.kind)) ensureEntityTextures(this, [entity.kind])
-        sprite = this.add.sprite(entity.x, entity.y, textureKeyFor(entity.kind))
+        if (motionFrame) {
+          sprite = this.add.sprite(entity.x, entity.y, motionFrame.texture, motionFrame.frame)
+        } else {
+          // Belt and braces for the narrowed registration above: anything
+          // that reaches the screen without art gets it here rather than
+          // rendering blank. `ensureEntityTextures` is idempotent, so the
+          // cost is one map lookup per spawn once a kind is known.
+          if (!hasArtFor(this, entity.kind)) ensureEntityTextures(this, [entity.kind])
+          sprite = this.add.sprite(entity.x, entity.y, textureKeyFor(entity.kind))
+        }
         sprite.setOrigin(0.5, 1)
         this.fitSprite(sprite, entity.kind)
         this.sprites.set(entity.id, sprite)
@@ -686,7 +773,6 @@ export class GameScene extends Phaser.Scene {
       // their single static texture.
       if (!isPropKind(entity.kind)) {
         const pose = poseForEntity(entity)
-        const motionFrame = ensureMotionFrame(this, renderEntity)
         if (motionFrame) {
           this.blendQ.delete(entity.id)
           this.lastPose.delete(entity.id)
@@ -698,6 +784,9 @@ export class GameScene extends Phaser.Scene {
           }
         } else {
           const key = textureKeyForPose(entity.kind, pose)
+          // Motion kinds no longer pre-generate legacy textures at stage
+          // build; the published-pack frame fallback generates them lazily.
+          if (!this.textures.exists(key)) ensureEntityTextures(this, [entity.kind])
           const q = this.blendQ.get(entity.id)
           if (q && q.to !== pose) this.blendQ.delete(entity.id) // re-target mid-blend
           const blending = this.blendQ.has(entity.id)
@@ -883,26 +972,161 @@ export class GameScene extends Phaser.Scene {
    * without them and their continues sat unspent, because the continue overlay
    * only appears once EVERYONE is down.
    */
+  /** Current final motion failure behind the overlay, if any. */
+  motionErrorState(): MotionFailureState | null {
+    return this.motionError ? { ...this.motionError } : null
+  }
+
+  /**
+   * Schedule tick of the next possible spawn: the next wave (boss tick =
+   * wave count once the last wave is fighting/spawned). Kinds due by then
+   * must be published before ANY step, since a step can clear the current
+   * wave and spawn the next one in the same tick.
+   */
+  private nextSpawnTick(): number {
+    const waves = this.sim.stage.waves.length
+    return this.sim.bossSpawned ? waves : Math.min(waves, this.sim.waveIndex + 1)
+  }
+
+  /** True while sim stepping must halt for motion loading/failure. */
+  private motionStepBlocked(): boolean {
+    if (!this.motionOn) return false
+    if (this.motionError) return true
+    if (this.motionGatePending || this.joinPending) return true
+    const gate = motionRuntime().gateForTick(this, this.nextSpawnTick())
+    if (gate.failure) {
+      this.showMotionError(gate.failure)
+      return true
+    }
+    if (!gate.blocked) return false
+    this.startMotionGate(gate.missing)
+    return true
+  }
+
+  private startMotionGate(missing: string[]): void {
+    if (this.motionGatePending || this.motionError || missing.length === 0) return
+    this.motionGatePending = true
+    const token = this.runToken
+    void motionRuntime()
+      .prepareKinds(this, missing)
+      .then((results) => {
+        this.motionGatePending = false
+        // Stale (scene exit/restart) or already failed: show nothing more.
+        // A 'cancelled' outcome is shutdown, never an error.
+        if (token !== this.runToken || this.motionError) return
+        for (const { kind, outcome } of results) {
+          if (!outcome.ok && outcome.failure !== 'cancelled') {
+            this.showMotionError(
+              motionRuntime().finalFailure(kind) ?? { kind, failure: outcome.failure, attempts: 2, final: true },
+            )
+            return
+          }
+        }
+        // Success: the next update re-evaluates the gate and resumes.
+      })
+      .catch(() => {
+        // prepareKinds reports failures as outcomes; a rejection here is an
+        // unexpected throw - surface the overlay instead of halting forever.
+        this.motionGatePending = false
+        if (token !== this.runToken || this.motionError) return
+        const kind = missing[0] ?? 'unknown'
+        this.showMotionError(motionRuntime().finalFailure(kind) ?? { kind, failure: 'corrupt', attempts: 2, final: true })
+      })
+  }
+
+  /**
+   * Reload/error overlay for a final motion failure. The sim has not begun
+   * (stage entry) or is halted (mid-stage gate/co-op join); no legacy or
+   * placeholder frame is ever shown for the failed kind.
+   */
+  private showMotionError(failure: MotionFailureState): void {
+    if (this.motionError) return
+    this.motionError = failure
+    this.motionGatePending = false
+    this.cameras.main.setOrigin(0, 0)
+    this.cameras.main.setZoom(RENDER_SCALE)
+    const bg = this.add
+      .rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0x14080a, 0.9)
+      .setOrigin(0, 0)
+      .setScrollFactor(0)
+      .setDepth(10000)
+    bg.setName('motionErrorOverlay')
+    const cx = SCREEN_WIDTH / 2
+    const title = this.add
+      .text(cx, 92, 'MOTION ART FAILED TO LOAD', {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '18px',
+        color: '#ff6b6b',
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(10001)
+    title.setName('motionErrorTitle')
+    const detail = this.add
+      .text(cx, 122, `${failure.kind}: ${failure.failure} (after one retry)\nReload to try again.`, {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '12px',
+        color: '#ffffff',
+        align: 'center',
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(10001)
+    detail.setName('motionErrorDetail')
+    const reload = this.add
+      .text(cx, 168, '[ RELOAD ]', {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '16px',
+        color: '#ffd75e',
+      })
+      .setOrigin(0.5)
+      .setScrollFactor(0)
+      .setDepth(10001)
+      .setInteractive({ useHandCursor: true })
+    reload.setName('motionErrorReload')
+    reload.on('pointerdown', () => GameScene.reloadPage())
+  }
+
   /** Bridge entry point: drop player two in from the harness. */
   joinSecondPlayer(charId?: string): boolean {
     if (this.sim.player2Id !== null) return false
     const id = charId ?? secondPlayerCharacter(this.sim.charId)
-    // Cached/default heroes join immediately; an uncached optional hero is
-    // prepared (bounded) BEFORE the core join, and a bounded failure joins
-    // whole-legacy: publication is atomic per fighter, never half a fighter.
-    if (!motionEnabled() || !MOTION_PACKS[id] || motionKindReady(this, id)) {
+    // Cached/default heroes join immediately; an uncached hero is prepared
+    // (required: one retry) BEFORE the core join. Sole-motion: a final
+    // failure does NOT join on legacy art - the reload overlay halts play.
+    if (!this.motionOn || !MOTION_PACKS[id] || motionKindReady(this, id)) {
       return joinPlayer2(this.sim, id)
+    }
+    const failed = motionRuntime().finalFailure(id)
+    if (failed) {
+      this.showMotionError(failed)
+      return false
     }
     if (this.joinPending) return true
     this.joinPending = true
     const token = this.runToken
     void motionRuntime()
-      .loadKind(this, id)
-      .then(() => {
+      .prepareKinds(this, [id])
+      .then((results) => {
         this.joinPending = false
         // Stale if the stage exited/restarted, or someone already joined.
         if (token !== this.runToken || this.sim.player2Id !== null) return
+        const outcome = results[0]?.outcome
+        if (!outcome?.ok) {
+          // Shutdown cancellation shows no error; a real final failure does.
+          if (outcome && outcome.failure !== 'cancelled') {
+            this.showMotionError(
+              motionRuntime().finalFailure(id) ?? { kind: id, failure: outcome.failure, attempts: 2, final: true },
+            )
+          }
+          return
+        }
         joinPlayer2(this.sim, id)
+      })
+      .catch(() => {
+        this.joinPending = false
+        if (token !== this.runToken || this.sim.player2Id !== null || this.motionError) return
+        this.showMotionError(motionRuntime().finalFailure(id) ?? { kind: id, failure: 'corrupt', attempts: 2, final: true })
       })
     return true
   }

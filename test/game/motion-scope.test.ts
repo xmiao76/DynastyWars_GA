@@ -61,6 +61,11 @@ describe('stage motion scope (fixtures)', () => {
     expect(kindsDueByTick(s, 0)).toEqual(s.immediate)
     expect(kindsDueByTick(s, 1)).toEqual([...s.immediate, 'spearman'])
     expect(kindsDueByTick(s, 3)).toEqual([...s.immediate, 'spearman', 'xuchu'])
+    // Spawn-gate contract: a deferred kind is NOT due (its prefetch failure
+    // is non-fatal) until its first-spawn tick, and an unsupported kind is
+    // never due at any tick.
+    expect(kindsDueByTick(s, 0)).not.toContain('spearman')
+    expect(kindsDueByTick(s, 99)).not.toContain('archer')
   })
 
   it('never requests kinds outside the stage roster (no all-cast)', () => {

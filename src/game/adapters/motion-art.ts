@@ -407,6 +407,8 @@ export interface MotionStageReport {
   published: string[]
   /** Kinds that fell back to legacy art, with the failure class. */
   legacy: Array<{ kind: string; failure: LoadFailure }>
+  /** Structured FINAL failures (retry exhausted) among the immediate set. */
+  failed: MotionFailureState[]
   /**
    * Best-effort background loads kicked off after the stage entered, in
    * load order: spawn-ordered deferred stage kinds, then future prefetch.
@@ -420,6 +422,50 @@ export interface MotionStageReport {
 
 export type MotionLoadOutcome = { ok: true } | { ok: false; failure: LoadFailure }
 
+/**
+ * Structured failure state for one pack. `final` is true only once a
+ * REQUIRED load (stage-entry immediate, a due deferred kind, or a co-op
+ * join) has exhausted its single retry; a prefetch failure is recorded
+ * with `final: false` and stays non-fatal until the kind becomes due.
+ * Cancellation (scene shutdown) is never recorded here.
+ */
+export interface MotionFailureState {
+  kind: string
+  failure: LoadFailure
+  /** Load attempts made so far (required loads stop at 2: try + one retry). */
+  attempts: number
+  final: boolean
+}
+
+/** Decision a spawn gate makes for the kinds due by a schedule tick. */
+export interface MotionGateDecision {
+  /** True while any due kind is unpublished (loading) or final-failed. */
+  blocked: boolean
+  /** Due catalogued kinds not yet published. */
+  missing: string[]
+  /** First final failure among the due kinds, if any. */
+  failure?: MotionFailureState
+}
+
+/** Whether `kind` has a catalogued motion pack (a "motion kind"). */
+export function isMotionPackKind(kind: string): boolean {
+  return MOTION_PACKS[kind] !== undefined
+}
+
+/**
+ * Sole-motion render rule, consulted only when no motion frame resolved:
+ * while motion is enabled, an UNPUBLISHED motion kind must NEVER fall back
+ * to a legacy/placeholder frame (it renders nothing instead). Legacy poses
+ * remain allowed with motion off, for non-motion kinds, and as the
+ * per-frame fallback for a PUBLISHED pack whose current frame is missing
+ * (`ensureMotionFrame`'s documented contract).
+ */
+export function canRenderLegacyFrame(motionOn: boolean, kind: string, kindPublished: boolean): boolean {
+  if (!motionOn) return true
+  if (!isMotionPackKind(kind)) return true
+  return kindPublished
+}
+
 export class MotionRuntime {
   private cache: MotionAtlasCache
   private aborts = new Map<string, AbortController>()
@@ -428,6 +474,10 @@ export class MotionRuntime {
   private inflight = new Set<Promise<unknown>>()
   private installing = new Map<string, Promise<MotionLoadOutcome>>()
   private scopes = new WeakMap<Phaser.Scene, StageMotionScope>()
+  /** Attempts per kind since the last stage entry / success. */
+  private attempts = new Map<string, number>()
+  /** Last recorded failure per kind (never for cancellation). */
+  private failures = new Map<string, MotionFailureState>()
 
   constructor(private io: MotionIo = browserMotionIo(), caps?: BudgetCaps) {
     this.cache = new MotionAtlasCache(caps)
@@ -439,6 +489,53 @@ export class MotionRuntime {
 
   state(kind: string): 'idle' | 'loading' | 'ready' | 'failed' | 'absent' {
     return this.cache.state(kind)
+  }
+
+  /** Structured failure state for a kind (a copy), if any attempt failed. */
+  failureState(kind: string): MotionFailureState | undefined {
+    const f = this.failures.get(kind)
+    return f ? { ...f } : undefined
+  }
+
+  /** The kind's failure state only once its required retry is exhausted. */
+  finalFailure(kind: string): MotionFailureState | undefined {
+    const f = this.failures.get(kind)
+    return f?.final ? { ...f } : undefined
+  }
+
+  /**
+   * Spawn-gate decision for the kinds due by `tick`: blocked while a due
+   * kind is still loading/unpublished or has final-failed. Prefetch-only
+   * failures (not yet due, `final: false`) never appear here as failures.
+   */
+  gateForTick(scene: Phaser.Scene, tick: number): MotionGateDecision {
+    const due = this.dueKinds(scene, tick)
+    const missing = due.filter((kind) => !this.kindReady(scene, kind))
+    const decision: MotionGateDecision = { blocked: missing.length > 0, missing }
+    for (const kind of due) {
+      const failure = this.finalFailure(kind)
+      if (failure) { decision.failure = failure; break }
+    }
+    return decision
+  }
+
+  /** Forget a kind's failure/attempt history (a fresh stage entry retries). */
+  private resetFailure(kind: string): void {
+    this.attempts.delete(kind)
+    this.failures.delete(kind)
+  }
+
+  /** Mark a kind final-failed (e.g. the stage deadline fired mid-load). */
+  private markFinalFailure(kind: string, failure: LoadFailure): MotionFailureState {
+    const state: MotionFailureState = {
+      kind,
+      failure,
+      attempts: Math.max(this.attempts.get(kind) ?? 0, 1),
+      final: true,
+    }
+    this.attempts.set(kind, state.attempts)
+    this.failures.set(kind, state)
+    return state
   }
 
   /** The wave-aware scope planned for this scene's current stage entry. */
@@ -467,13 +564,13 @@ export class MotionRuntime {
 
   /**
    * Await a scheduled set (e.g. the kinds due by the next spawn tick, or a
-   * late co-op hero). Loads share the entry/prefetch dedupe, run in the
-   * given order, and report per kind; a failure leaves that kind on legacy
-   * art for now (the sole-mode error path lands in a later package).
+   * late co-op hero). These are REQUIRED loads: each kind gets exactly one
+   * retry after its first failure (a prior prefetch failure counts as that
+   * first attempt), then a structured final failure - never a cancellation.
    */
   async prepareKinds(scene: Phaser.Scene, kinds: readonly string[]): Promise<Array<{ kind: string; outcome: MotionLoadOutcome }>> {
     const results: Array<{ kind: string; outcome: MotionLoadOutcome }> = []
-    for (const kind of kinds) results.push({ kind, outcome: await this.loadKind(scene, kind) })
+    for (const kind of kinds) results.push({ kind, outcome: await this.loadKind(scene, kind, { required: true }) })
     return results
   }
 
@@ -504,11 +601,16 @@ export class MotionRuntime {
       cachedKinds,
     })
     this.scopes.set(scene, scope)
+    // A fresh stage entry is a fresh requirement episode: a kind that
+    // final-failed in an earlier stage may be attempted (try + one retry)
+    // again here. Within THIS entry the retry budget is exactly one.
+    for (const kind of [...scope.immediate, ...scope.deferred, ...scope.prefetch]) this.resetFailure(kind)
     const background = [...scope.deferred, ...scope.prefetch]
     const report: MotionStageReport = {
       requested: [...scope.immediate],
       published: [],
       legacy: [],
+      failed: [],
       prefetch: background,
       deferred: [...scope.deferred],
       scope,
@@ -516,10 +618,16 @@ export class MotionRuntime {
     let aborted = false
     const work = (async (): Promise<void> => {
       for (const kind of scope.immediate) {
-        const outcome = await this.loadKind(scene, kind)
+        // Required: exactly one retry, inside the SAME stage deadline
+        // (the race below bounds the retry as well as the first attempt).
+        const outcome = await this.loadKind(scene, kind, { required: true })
         if (aborted) return // the stage deadline fired: caller already reported
         if (outcome.ok) report.published.push(kind)
-        else report.legacy.push({ kind, failure: outcome.failure })
+        else {
+          report.legacy.push({ kind, failure: outcome.failure })
+          const failed = this.finalFailure(kind)
+          if (failed) report.failed.push(failed)
+        }
       }
     })()
     const finished = await raceTimeout(this.track(work), this.io.stageTimeoutMs)
@@ -528,15 +636,19 @@ export class MotionRuntime {
       this.cancelLoads()
       for (const kind of scope.immediate) {
         if (!report.published.includes(kind) && !report.legacy.some((l) => l.kind === kind)) {
+          // The deadline, not shutdown, cut this load (possibly its retry):
+          // that is a final timeout, never a silent cancellation.
           report.legacy.push({ kind, failure: 'timeout' })
+          report.failed.push(this.markFinalFailure(kind, 'timeout'))
         }
       }
     }
     // Deferred stage kinds, then future prefetch, load in the background in
     // first-spawn order (sequential, so the next wave's packs land before
-    // later ones compete for bandwidth). Best effort for now: it never
-    // blocks the stage and a failure leaves that kind on legacy art when it
-    // appears; `prepareKinds`/`dueKinds` let a spawn gate await them.
+    // later ones compete for bandwidth). These are PREFETCH attempts: one
+    // try, non-fatal on failure. When a kind becomes due, the spawn gate's
+    // required `prepareKinds` spends the single retry and only then can
+    // the kind final-fail.
     if (background.length > 0) {
       const queueEpoch = this.cache.epoch('stage')
       const queue = (async (): Promise<void> => {
@@ -544,7 +656,7 @@ export class MotionRuntime {
           // A scene exit/restart cancels the scope epoch: stop queueing
           // further kinds into a dead scene instead of loading on.
           if (this.cache.epoch('stage') !== queueEpoch) break
-          await this.loadKind(scene, kind)
+          await this.loadKind(scene, kind, { required: false })
         }
       })()
       void this.track(queue).catch(() => undefined)
@@ -553,19 +665,65 @@ export class MotionRuntime {
   }
 
   /**
-   * Load + publish one kind's pack atomically. Any failure leaves that kind on
-   * legacy art and never touches other fighters' published art. Concurrent
-   * callers (stage entry + co-op join) share one install.
+   * Load + publish one kind's pack atomically; a failure never touches other
+   * fighters' published art. Concurrent callers share one install attempt.
+   *
+   * Retry semantics (sole-motion): a REQUIRED load (the default - stage
+   * entry, due kinds, co-op joins) gets exactly ONE retry after its first
+   * failure, then a structured final failure (`finalFailure(kind)`). A
+   * non-required prefetch makes a single attempt and stays non-final. A
+   * prior prefetch failure counts as the first attempt, so a kind becoming
+   * due spends its one retry in the required load. Cancellation (scene
+   * shutdown) is never retried and never recorded as a failure.
    */
-  async loadKind(scene: Phaser.Scene, kind: string): Promise<MotionLoadOutcome> {
+  async loadKind(
+    scene: Phaser.Scene,
+    kind: string,
+    opts: { required?: boolean } = {},
+  ): Promise<MotionLoadOutcome> {
+    if (!MOTION_PACKS[kind]) return { ok: false, failure: 'unsupported' } // not a motion kind: no state
+    const required = opts.required ?? true
+    for (;;) {
+      const prior = this.failures.get(kind)
+      if (prior?.final) return { ok: false, failure: prior.failure }
+      // A prefetch never consumes the retry of a kind that already failed
+      // once; only the required (due) load may spend it.
+      if (!required && prior && !this.installing.has(kind)) return { ok: false, failure: prior.failure }
+      const outcome = await this.attemptKind(scene, kind)
+      if (outcome.ok) return outcome
+      if (outcome.failure === 'cancelled') return outcome // shutdown: no retry, no error state
+      if (!required) return outcome
+      const attempts = this.attempts.get(kind) ?? 1
+      if (attempts >= 2) {
+        this.markFinalFailure(kind, outcome.failure)
+        return outcome
+      }
+      // attempts === 1: loop for the single retry (deduped for joiners).
+    }
+  }
+
+  /** One deduped install attempt; records its outcome (except cancelled). */
+  private async attemptKind(scene: Phaser.Scene, kind: string): Promise<MotionLoadOutcome> {
     const existing = this.installing.get(kind)
     if (existing) return existing
-    const run = this.loadKindInner(scene, kind)
+    const run = (async (): Promise<MotionLoadOutcome> => {
+      const outcome = await this.loadKindInner(scene, kind)
+      if (outcome.ok) {
+        this.resetFailure(kind)
+      } else if (outcome.failure !== 'cancelled') {
+        const attempts = (this.attempts.get(kind) ?? 0) + 1
+        this.attempts.set(kind, attempts)
+        // Preserve a final flag set concurrently (stage-deadline timeout).
+        const final = this.failures.get(kind)?.final ?? false
+        this.failures.set(kind, { kind, failure: outcome.failure, attempts, final })
+      }
+      return outcome
+    })()
     this.installing.set(kind, run)
     try {
       return await run
     } finally {
-      this.installing.delete(kind)
+      if (this.installing.get(kind) === run) this.installing.delete(kind)
     }
   }
 

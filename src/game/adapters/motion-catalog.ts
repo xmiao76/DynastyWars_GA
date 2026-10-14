@@ -351,6 +351,12 @@ export class MotionAtlasCache {
     return this.find(id)?.state ?? 'absent'
   }
 
+  /** Failure class of a failed pack's last attempt (undefined otherwise). */
+  failure(id: string): LoadFailure | undefined {
+    const slot = this.find(id)
+    return slot?.state === 'failed' ? slot.failure : undefined
+  }
+
   record(id: string): PackRecord | undefined {
     return this.find(id)?.record
   }

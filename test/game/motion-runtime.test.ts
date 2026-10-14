@@ -9,6 +9,8 @@ import type { MotionArt } from '../../src/game/art/motion-clips'
 import {
   MotionRuntime,
   MOTION_PACKS,
+  canRenderLegacyFrame,
+  isMotionPackKind,
   motionFrameId,
   motionPackManifest,
   motionPreparedRecord,
@@ -476,15 +478,155 @@ describe('negative controls reject the whole fighter, never other valid art', ()
     const report = await rt.prepareStage(fake.scene, motionStageRequest('stage1', 'guanyu', null))
     expect(report.published).toEqual([])
     // Only the awaited opening set reports legacy at the deadline; the
-    // deferred kinds were never blocking the stage in the first place.
+    // deferred kinds were never blocking the stage in the first place. The
+    // retry lives inside the same deadline, so a deadline cut is a FINAL
+    // timeout for every unpublished immediate kind (overlay, not a stage).
     const { immediate, deferred } = spawnPartition('stage1', ['guanyu'])
     expect(report.legacy).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout' })))
+    expect(report.failed).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout', attempts: 1, final: true })))
+    expect(rt.finalFailure('guanyu')).toEqual({ kind: 'guanyu', failure: 'timeout', attempts: 1, final: true })
     expect(report.deferred).toEqual(deferred)
     expect(fake.motions()['guanyu']).toBeUndefined()
     rt.cancelLoads() // stop the background queue's hung pages
     await rt.settle()
     void io
   })
+})
+
+describe('sole-motion retry-once failure semantics', () => {
+  const setup = (pages: { sheet: PageBehavior; actions: PageBehavior }, opts: Parameters<typeof makeIo>[1] = {}) => {
+    const fake = makeScene()
+    fake.seedMotions({ zhangfei: { id: 'zhangfei', revision: 'kept' } })
+    const io = makeIo(pages, opts)
+    return { fake, io, rt: new MotionRuntime(io) }
+  }
+
+  it('retry success: one transient failure, then the single retry publishes', async () => {
+    const { fake, io, rt } = setup(okPages)
+    let decodes = 0
+    const decode = io.decode
+    io.decode = async (bytes) => {
+      decodes += 1
+      if (decodes === 1) throw new Error('corrupt: transient decode')
+      return decode(bytes)
+    }
+    const out = await rt.loadKind(fake.scene, 'guanyu')
+    expect(out).toEqual({ ok: true })
+    expect(decodes, 'first attempt dies on decode #1; the retry decodes both pages').toBe(3)
+    expect(io.calls, 'the retry re-fetches both pages exactly once').toHaveLength(4)
+    expect(fake.motions()['guanyu']).toBeDefined()
+    expect(rt.failureState('guanyu'), 'success clears the failure state').toBeUndefined()
+    expect(rt.finalFailure('guanyu')).toBeUndefined()
+    expect(rt.kindReady(fake.scene, 'guanyu')).toBe(true)
+  })
+
+  // Retry exhausted per failure class: exactly two attempts, a structured
+  // final failure, and no third attempt on a later required load.
+  const exhausted: Array<{
+    name: string
+    pages: { sheet: PageBehavior; actions: PageBehavior }
+    opts: Parameters<typeof makeIo>[1]
+    failure: string
+    fetches: number
+  }> = [
+    { name: 'missing', pages: { sheet: { kind: 'ok' }, actions: { kind: 'missing' } }, opts: {}, failure: 'missing', fetches: 4 },
+    { name: 'wrong-signature', pages: { sheet: { kind: 'garbage' }, actions: { kind: 'ok' } }, opts: {}, failure: 'wrong-signature', fetches: 2 },
+    { name: 'corrupt', pages: okPages, opts: { decodeThrows: 'corrupt: bad png' }, failure: 'corrupt', fetches: 4 },
+    { name: 'unsupported crypto', pages: okPages, opts: { shaThrows: 'unsupported: SHA-256 requires a secure context' }, failure: 'unsupported', fetches: 2 },
+    { name: 'timeout', pages: { sheet: { kind: 'hang' }, actions: { kind: 'ok' } }, opts: { pageTimeoutMs: 40 }, failure: 'timeout', fetches: 2 },
+  ]
+  for (const c of exhausted) {
+    it(`retry exhausted: ${c.name} final-fails after exactly one retry`, async () => {
+      const { fake, io, rt } = setup(c.pages, c.opts)
+      const out = await rt.loadKind(fake.scene, 'guanyu')
+      expect(out).toEqual({ ok: false, failure: c.failure })
+      expect(io.calls, `${c.name}: try + one retry, no more`).toHaveLength(c.fetches)
+      expect(rt.failureState('guanyu')).toEqual({ kind: 'guanyu', failure: c.failure, attempts: 2, final: true })
+      expect(rt.finalFailure('guanyu')).toEqual({ kind: 'guanyu', failure: c.failure, attempts: 2, final: true })
+      expect(fake.motions()['guanyu'], 'no legacy/placeholder publication on failure').toBeUndefined()
+      expect(fake.motions()['zhangfei'], 'other valid art survives').toEqual({ id: 'zhangfei', revision: 'kept' })
+      expect(fake.textures.has(keys.sheet)).toBe(false)
+      expect(fake.textures.has(keys.actions)).toBe(false)
+      // A later required load reports the final failure without a 3rd attempt.
+      expect(await rt.loadKind(fake.scene, 'guanyu')).toEqual({ ok: false, failure: c.failure })
+      expect(io.calls).toHaveLength(c.fetches)
+    })
+  }
+
+  it('no legacy frame rule: motion on + unpublished motion kind renders nothing', () => {
+    expect(isMotionPackKind('guanyu')).toBe(true)
+    expect(isMotionPackKind('crate')).toBe(false)
+    expect(canRenderLegacyFrame(true, 'guanyu', false), 'sole-motion: never legacy for an UNPUBLISHED motion kind').toBe(false)
+    expect(canRenderLegacyFrame(true, 'guanyu', true), 'a published pack keeps the per-frame legacy fallback').toBe(true)
+    expect(canRenderLegacyFrame(true, 'crate', false), 'non-motion props keep their art').toBe(true)
+    expect(canRenderLegacyFrame(false, 'guanyu', false), 'legacy mode (motion off) is unchanged').toBe(true)
+  })
+
+  it('deferred due gating: a prefetch failure is non-fatal until due, then the retry can publish', async () => {
+    const fake = makeScene()
+    const io = makeIo(okPages)
+    const { immediate, deferred } = spawnPartition('stage1', ['guanyu'])
+    const dueKind = deferred[0]!
+    // Poison ONLY the first (prefetch) fetch of the first deferred kind.
+    let poisoned = false
+    const fetchBytes = io.fetchBytes
+    io.fetchBytes = async (url, signal) => {
+      if (!poisoned && url.includes(dueKind)) {
+        poisoned = true
+        io.calls.push(url)
+        return new Uint8Array([1, 2, 3, 4]) // -> wrong-signature
+      }
+      return fetchBytes(url, signal)
+    }
+    const rt = new MotionRuntime(io)
+    const report = await rt.prepareStage(fake.scene, motionStageRequest('stage1', 'guanyu', null))
+    expect(report.published).toEqual(immediate)
+    expect(report.failed, 'a background prefetch failure never fails stage entry').toEqual([])
+    await rt.settle()
+    expect(rt.failureState(dueKind)).toEqual({ kind: dueKind, failure: 'wrong-signature', attempts: 1, final: false })
+    expect(rt.finalFailure(dueKind), 'not due yet: non-fatal').toBeUndefined()
+    expect(rt.gateForTick(fake.scene, 0), 'opening gate stays open').toEqual({ blocked: false, missing: [] })
+    const tick = report.scope.schedule.find((e) => e.kind === dueKind)!.firstSpawnTick
+    const gate = rt.gateForTick(fake.scene, tick)
+    expect(gate.blocked, 'due now: the spawn gate halts').toBe(true)
+    expect(gate.missing).toContain(dueKind)
+    expect(gate.failure, 'the retry has not been spent yet').toBeUndefined()
+    // Becoming due spends the single retry; here it succeeds and unblocks.
+    expect(await rt.prepareKinds(fake.scene, gate.missing)).toEqual(gate.missing.map((kind) => ({ kind, outcome: { ok: true } })))
+    expect(rt.kindReady(fake.scene, dueKind)).toBe(true)
+    expect(rt.failureState(dueKind)).toBeUndefined()
+    expect(rt.gateForTick(fake.scene, tick).blocked).toBe(false)
+  }, 60_000)
+
+  it('deferred due gating: when the due retry also fails the kind final-fails at the gate', async () => {
+    const fake = makeScene()
+    const io = makeIo(okPages)
+    const { deferred } = spawnPartition('stage1', ['guanyu'])
+    const dueKind = deferred[0]!
+    const fetchBytes = io.fetchBytes
+    io.fetchBytes = async (url, signal) => {
+      if (url.includes(dueKind)) {
+        io.calls.push(url)
+        return new Uint8Array([1, 2, 3, 4])
+      }
+      return fetchBytes(url, signal)
+    }
+    const rt = new MotionRuntime(io)
+    const report = await rt.prepareStage(fake.scene, motionStageRequest('stage1', 'guanyu', null))
+    await rt.settle()
+    expect(rt.failureState(dueKind)).toEqual({ kind: dueKind, failure: 'wrong-signature', attempts: 1, final: false })
+    const tick = report.scope.schedule.find((e) => e.kind === dueKind)!.firstSpawnTick
+    const before = io.calls.filter((u) => u.includes(dueKind)).length
+    const results = await rt.prepareKinds(fake.scene, [dueKind])
+    expect(results).toEqual([{ kind: dueKind, outcome: { ok: false, failure: 'wrong-signature' } }])
+    expect(io.calls.filter((u) => u.includes(dueKind)).length, 'due load = the one retry only').toBe(before + 1)
+    const failed = { kind: dueKind, failure: 'wrong-signature', attempts: 2, final: true }
+    expect(rt.finalFailure(dueKind)).toEqual(failed)
+    const gate = rt.gateForTick(fake.scene, tick)
+    expect(gate.blocked).toBe(true)
+    expect(gate.failure, 'the gate now reports the structured final failure (overlay)').toEqual(failed)
+    expect(fake.motions()[dueKind]).toBeUndefined()
+  }, 60_000)
 })
 
 describe('cancellation, stale callbacks and late joins', () => {
@@ -501,21 +643,29 @@ describe('cancellation, stale callbacks and late joins', () => {
     expect(out).toEqual({ ok: false, failure: 'cancelled' })
     expect(fake.motions()).toEqual({})
     expect(fake.textures.has(keys.sheet)).toBe(false)
+    // Shutdown cancellation is not an error and consumes no retry.
+    expect(rt.failureState('guanyu')).toBeUndefined()
+    expect(rt.finalFailure('guanyu')).toBeUndefined()
+    expect(io.calls, 'a cancelled load is never retried').toHaveLength(1)
   })
 
-  it('an uncached optional co-op hero joins whole-legacy on bounded failure', async () => {
+  it('co-op join failure: the required prepare final-fails after one retry and publishes nothing', async () => {
     const fake = makeScene()
     const io = makeIo({ sheet: { kind: 'missing' }, actions: { kind: 'ok' } })
     const rt = new MotionRuntime(io)
-    // The join-side prepare path is loadKind; on failure the hero joins with
-    // legacy art (atomic per fighter - never half a fighter).
-    const out = await rt.loadKind(fake.scene, 'guanyu')
-    expect(out).toEqual({ ok: false, failure: 'missing' })
+    // GameScene's join path is prepareKinds([hero]): sole-motion joins only
+    // on success - a final failure shows the overlay instead of joining on
+    // legacy art, so nothing may be published for the hero here.
+    const results = await rt.prepareKinds(fake.scene, ['guanyu'])
+    expect(results).toEqual([{ kind: 'guanyu', outcome: { ok: false, failure: 'missing' } }])
+    expect(io.calls, 'sheet fetched on the try and on the one retry').toHaveLength(2)
+    expect(rt.finalFailure('guanyu')).toEqual({ kind: 'guanyu', failure: 'missing', attempts: 2, final: true })
     expect(fake.motions()).toEqual({})
-    // A retry after a transient failure may reload (failed slots are retried).
+    expect(fake.textures.has(keys.sheet)).toBe(false)
     const io2 = makeIo(okPages, { decodeThrows: 'corrupt: still bad' })
     const rt2 = new MotionRuntime(io2)
     expect(await rt2.loadKind(fake.scene, 'guanyu')).toEqual({ ok: false, failure: 'corrupt' })
     expect(rt2.state('guanyu'), 'a failed pack is not stuck ready').not.toBe('ready')
+    expect(rt2.finalFailure('guanyu')?.attempts).toBe(2)
   })
 })
