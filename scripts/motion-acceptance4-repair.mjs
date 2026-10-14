@@ -1,6 +1,6 @@
 // Owner-authorized Acceptance-4 repair reserve. This is separate from the
 // existing 200-request authoring ledger; it NEVER resets or edits that ledger.
-// One request per round, up to three rounds per remaining fighter/horse.
+// One request per round, up to three rounds per remaining fighter.
 // A separately recorded owner extension can authorize exactly one focused round.
 // Model/image tools are not invoked here: the consumer must reserve first,
 // inspect the actual source art, and settle every request with evidence.
@@ -11,9 +11,11 @@ import { totalUsed } from './motion-budget.mjs'
 export const REPAIR_ROUNDS = 3
 export const ELIGIBLE_FIGHTERS = [
   'soldier', 'spearman', 'archer', 'zhangfei', 'zhaoyun', 'weiyan',
-  'huangzhong', 'lidian', 'xiahoudun', 'xuchu', 'horse',
+  'huangzhong', 'lidian', 'xiahoudun', 'xuchu',
 ]
-export const REPAIR_RESERVE = ELIGIBLE_FIGHTERS.length * REPAIR_ROUNDS
+// +1 is the closed/descoped role: its cap is retained unchanged as history
+// (reserve 33, combined 233) and its unspent rounds are not reallocated.
+export const REPAIR_RESERVE = (ELIGIBLE_FIGHTERS.length + 1) * REPAIR_ROUNDS
 export const COMBINED_CAP = 200 + REPAIR_RESERVE
 export const DEFAULT_REPAIR_PATH = 'art/motion/acceptance4-repair-budget.json'
 const ids = new Set(ELIGIBLE_FIGHTERS)
