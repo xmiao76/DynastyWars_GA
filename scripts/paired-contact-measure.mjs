@@ -24,6 +24,7 @@
 //   wy = display.y + (py - displayOriginY) * scaleY        (z = 0 in holds)
 // 1 world unit u = 1 game px = 2 source-cell px at the traced 0.5 scale.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import { createCanvas } from '@napi-rs/canvas'
 import { PNG } from 'pngjs'
 
@@ -92,7 +93,7 @@ export function restoreCell(kind, frameName) {
   return { kind, frame: frameName, cell, srcW, srcH, data, density: p.density, box: p.box }
 }
 
-function cellCanvas(restored) {
+export function cellCanvas(restored) {
   const cv = createCanvas(restored.srcW, restored.srcH)
   const g = cv.getContext('2d')
   const im = g.createImageData(restored.srcW, restored.srcH)
@@ -102,7 +103,7 @@ function cellCanvas(restored) {
 }
 
 /** Trace frame id `entity:<kind>:motion:<clip>:<idx>` -> prepared frame name. */
-function frameNameOf(traceFrame) {
+export function frameNameOf(traceFrame) {
   const parts = traceFrame.split(':')
   return parts.slice(3).join(':')
 }
@@ -208,7 +209,7 @@ function stripRender(restoredList, scale) {
 // ---------------------------------------------------------------------------
 
 /** Alpha>=ALPHA_MIN pixel coords of `roi` (cell px), optionally of whole cell. */
-function alphaPoints(restored, roi = null) {
+export function alphaPoints(restored, roi = null) {
   const pts = []
   const x0 = roi?.x ?? 0, y0 = roi?.y ?? 0
   const x1 = roi ? Math.min(restored.srcW, roi.x + roi.w) : restored.srcW
@@ -220,7 +221,7 @@ function alphaPoints(restored, roi = null) {
 }
 
 /** Cell px -> world units via the trace display record (flip mirrors x). */
-function toWorld(pts, display, srcW) {
+export function toWorld(pts, display, srcW) {
   return pts.map(([x, y]) => {
     const mx = display.flipX ? srcW - 1 - x : x
     return [display.x + (mx - display.displayOriginX) * display.scaleX,
@@ -229,7 +230,7 @@ function toWorld(pts, display, srcW) {
 }
 
 /** Min distance between two world point sets (grid-hashed; sets are small). */
-function minDistance(a, b) {
+export function minDistance(a, b) {
   if (!a.length || !b.length) return { distU: null, pair: null }
   const bucket = new Map()
   const key = (x, y) => `${Math.round(x)},${Math.round(y)}`
@@ -266,7 +267,7 @@ function brute(a, b) {
 }
 
 /** Count world-space alpha collisions between two point sets (0.5u cells). */
-function overlapCount(a, b) {
+export function overlapCount(a, b) {
   const cells = new Set(b.map(([x, y]) => `${Math.round(x * 2)},${Math.round(y * 2)}`))
   let n = 0
   for (const [x, y] of a) if (cells.has(`${Math.round(x * 2)},${Math.round(y * 2)}`)) n++
@@ -278,7 +279,7 @@ function overlapCount(a, b) {
  * spear/polearm butt reaching the floor is not). Raw lowest alpha is kept
  * alongside so a weapon tip below the sole stays visible in the report.
  */
-function bootGround(restored, display) {
+export function bootGround(restored, display) {
   let solePx = -1, soleWidth = 0, rawLowest = -1
   for (let y = restored.srcH - 1; y >= 0; y--) {
     let width = 0
@@ -350,7 +351,7 @@ function cropSurvival(sample, frontKey, cells, camera = { zoom: 2, scrollX: 0, s
   }
 }
 
-function centroid(pts) {
+export function centroid(pts) {
   return [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length]
 }
 
@@ -559,13 +560,17 @@ function measure() {
   }, null, 2))
 }
 
-const args = process.argv.slice(2)
-if (args.includes('--render-input')) {
-  const crops = []
-  for (let i = 0; i < args.length; i++) if (args[i] === '--crop') crops.push(args[++i])
-  renderInput(crops)
-} else if (args.includes('--validate-landmarks')) {
-  validateLandmarks()
-} else {
-  measure()
+// CLI only when invoked directly; paired-offset-diagnostic.mjs imports the
+// restoration/transform helpers above without re-running a measurement.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const args = process.argv.slice(2)
+  if (args.includes('--render-input')) {
+    const crops = []
+    for (let i = 0; i < args.length; i++) if (args[i] === '--crop') crops.push(args[++i])
+    renderInput(crops)
+  } else if (args.includes('--validate-landmarks')) {
+    validateLandmarks()
+  } else {
+    measure()
+  }
 }
