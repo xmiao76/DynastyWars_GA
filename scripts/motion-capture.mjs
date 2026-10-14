@@ -38,7 +38,9 @@ const arg = (name, fallback) => {
 const strict = argv.includes('--strict')
 const fighter = arg('--fighter', 'guanyu')
 const role = arg('--role', 'hero')
-const enemy = arg('--enemy', fighter === 'xiahoudun' ? 'xiahoudun' : '')
+// Xu Chu (CMR-15B) shares the Xiahou single-page boss capture path.
+const bossPath = fighter === 'xiahoudun' || fighter === 'xuchu'
+const enemy = arg('--enemy', bossPath ? fighter : '')
 const renderer = arg('--renderer', 'canvas')
 const out = arg('--out', 'artifacts/motion-review')
 const run = `${out}/${fighter}-${renderer}`
@@ -60,7 +62,7 @@ let sourceHashes = {
 let packRevision = 'motion-2'
 let pivot = { x: prepared.guanyu.box.width, y: prepared.guanyu.box.groundY * prepared.guanyu.density }
 let singlePrepared = null
-if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer' || fighter === 'huangzhong' || fighter === 'lidian' || fighter === 'xiahoudun') {
+if (fighter === 'soldier' || fighter === 'spearman' || fighter === 'archer' || fighter === 'huangzhong' || fighter === 'lidian' || bossPath) {
   // Single-page cast packs: provenance comes from their own prepared record
   // (the guanyu literals above stay exactly as they were for guanyu runs).
   singlePrepared = JSON.parse(readFileSync(`src/game/assets/motion/${fighter}-prepared.json`, 'utf8'))
@@ -105,25 +107,25 @@ if (fighter === 'weiyan') {
 // Xiahou provenance is verified against actual dirty working-tree bytes, not
 // metadata assertions or the Guan Yu resource literals. No image processing.
 let xiahouProvenance = null
-if (fighter === 'xiahoudun') {
-  if (enemy !== fighter || role !== 'boss') throw new Error('Xiahou capture requires role boss and enemy xiahoudun')
+if (bossPath) {
+  if (enemy !== fighter || role !== 'boss') throw new Error(`${fighter} capture requires role boss and enemy ${fighter}`)
   const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-  const png = readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')
+  const png = readFileSync(`src/game/assets/motion/${fighter}-motion-sheet.png`)
   const image = await loadImage(png)
   const manifest = readFileSync(singlePrepared.source.manifestPath)
-  if (hash(png) !== singlePrepared.sha256 || hash(manifest) !== singlePrepared.source.manifestSha256) throw new Error('Xiahou source PNG/manifest mismatch')
-  if (image.width !== singlePrepared.sheet.width || image.height !== singlePrepared.sheet.height) throw new Error('Xiahou decoded dimensions mismatch')
+  if (hash(png) !== singlePrepared.sha256 || hash(manifest) !== singlePrepared.source.manifestSha256) throw new Error(`${fighter} source PNG/manifest mismatch`)
+  if (image.width !== singlePrepared.sheet.width || image.height !== singlePrepared.sheet.height) throw new Error(`${fighter} decoded dimensions mismatch`)
   xiahouProvenance = {
     manifestSha256: hash(manifest), pngSha256: hash(png),
     width: image.width, height: image.height, sourceBytes: png.length,
     decodedBytes: image.width * image.height * 4,
     dirtySourceHashes: Object.fromEntries([
       'scripts/motion-capture.mjs', 'e2e/motion-capture.spec.ts',
-      'src/game/adapters/motion-art.ts', 'src/game/art/motion-clips-xiahoudun.ts',
-      'src/game/assets/motion/xiahoudun-prepared.json',
+      'src/game/adapters/motion-art.ts', `src/game/art/motion-clips-${fighter}.ts`,
+      `src/game/assets/motion/${fighter}-prepared.json`,
     ].map((path) => [path, hash(readFileSync(path))])),
   }
-  console.log(`Xiahou actual provenance ${JSON.stringify(xiahouProvenance)}`)
+  console.log(`${fighter} actual provenance ${JSON.stringify(xiahouProvenance)}`)
 }
 
 // Validate absolute move/delete targets BEFORE touching an existing run.
@@ -134,7 +136,7 @@ const assertInsideRepo = (path) => {
   console.log(`verified capture target: ${absolute}`)
   return absolute
 }
-if (fighter === 'xiahoudun') {
+if (bossPath) {
   assertInsideRepo(run)
   assertInsideRepo(`${out}/previous/${fighter}-${renderer}`)
 }
@@ -142,7 +144,7 @@ if (fighter === 'xiahoudun') {
 // ---- rotate the previous capture (before/after pairs across rotations) ----
 if (existsSync(run)) {
   mkdirSync(`${out}/previous`, { recursive: true })
-  if (fighter === 'xiahoudun') {
+  if (bossPath) {
     // Never delete a failed Xiahou run on correction: retain every version.
     const destination = `${out}/previous/${fighter}-${renderer}-${Date.now()}`
     renameSync(assertInsideRepo(run), assertInsideRepo(destination))
@@ -198,7 +200,7 @@ const rows = trace.rows
 // The pack frame inventory and attack bindings are per fighter: the review
 // core rejects any captured key that is not in the fighter's own pack.
 const packFrames = singlePrepared ? singlePrepared.frames : { ...prepared.guanyu.frames, ...actions.frames }
-const bindings = fighter === 'xiahoudun'
+const bindings = bossPath
   ? singlePrepared.attackBindings
   : fighter === 'soldier'
   ? { 'soldier.swing': 'swing' }
@@ -242,7 +244,7 @@ const verdict = validateTrace(rows, {
   removedResiduePx: 0,
   residueTolerancePx: 0,
 })
-const injectedActions = fighter === 'xiahoudun'
+const injectedActions = bossPath
   ? ['idle', 'charge', 'hurt', 'combo', 'knockdown', 'heavy', 'getup', 'grabbed', 'thrown', 'dying', 'dead', 'all-keys']
   : fighter === 'soldier'
   ? ['idle', 'swing', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
@@ -262,7 +264,7 @@ const injectedActions = fighter === 'xiahoudun'
                 ? ['idle', 'charge', 'hurt', 'combo', 'knockdown', 'heavy', 'getup', 'grabbed', 'thrown', 'dying', 'dead']
                 : ['idle', 'jab1', 'hurt', 'knockdown', 'getup', 'dying', 'dead', 'grabbed']
 const coverage = coverageMatrix(rows, {
-  actions: fighter === 'xiahoudun'
+  actions: bossPath
     ? ['idle', 'walk', 'charge', 'combo', 'heavy', 'hurt', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying', 'dead', 'mixed', 'enrage', 'approach', 'retreat', 'stop']
     : actionsForRole(role).filter((a) => a !== 'revive'),
   facings: ['right', 'left'],
@@ -277,8 +279,8 @@ const index = buildIndex({
   packRevision,
   sourceHashes,
   landmarks: {
-    groundErrorU: fighter === 'xiahoudun' ? 'unverified' : 0,
-    ...(fighter === 'xiahoudun' ? { registrationErrorU: 0, groundMethod: 'metadata registration only; actual foot contact unverified' } : {}),
+    groundErrorU: bossPath ? 'unverified' : 0,
+    ...(bossPath ? { registrationErrorU: 0, groundMethod: 'metadata registration only; actual foot contact unverified' } : {}),
     pivotU: pivot,
     contactU: 'unverified',
     weaponTipU: 'unverified',
@@ -291,16 +293,16 @@ const index = buildIndex({
   videoPath: `${run}/${fighter}-${renderer}.webm`,
   contactSheet: `${run}/contact-sheet.png`,
 })
-if (fighter === 'xiahoudun') {
+if (bossPath) {
   index.pack.actualProvenance = xiahouProvenance
   index.capture.runtime = trace.runtime
   index.frameCoverage = Object.fromEntries(['right', 'left'].map((facing) => {
-    const observed = new Set(rows.filter((r) => r.facing === facing).map((r) => r.key.replace('entity:xiahoudun:motion:', '')))
+    const observed = new Set(rows.filter((r) => r.facing === facing).map((r) => r.key.replace(`entity:${fighter}:motion:`, '')))
     return [facing, { expected: Object.keys(packFrames).length, observed: observed.size, missing: Object.keys(packFrames).filter((key) => !observed.has(key)) }]
   }))
-  if (Object.values(index.frameCoverage).some((c) => c.missing.length)) verdict.errors.push('Xiahou all-frame runtime coverage incomplete')
+  if (Object.values(index.frameCoverage).some((c) => c.missing.length)) verdict.errors.push(`${fighter} all-frame runtime coverage incomplete`)
   const mismatch = rows.filter((r) => r.snapshotKey && r.snapshotKey !== r.key)
-  if (mismatch.length) verdict.errors.push(`Xiahou snapshot key drift in ${mismatch.length} rows`)
+  if (mismatch.length) verdict.errors.push(`${fighter} snapshot key drift in ${mismatch.length} rows`)
 }
 const integrity = assertIndexIntegrity(index)
 // Unverified landmarks are OPEN items (consumer self-check, producer later);
@@ -319,7 +321,7 @@ const report = {
   pacing: pacingReport(rows),
   blanks,
   resources: resourceReport({
-    ...(fighter === 'xiahoudun'
+    ...(bossPath
       ? { networkBytes: xiahouProvenance.sourceBytes, sourceBytes: xiahouProvenance.sourceBytes, decodedBytes: xiahouProvenance.decodedBytes, gpuBytes: xiahouProvenance.decodedBytes }
       : fighter === 'soldier'
       ? { networkBytes: 1786372, sourceBytes: 1786372, decodedBytes: 1984 * 1142 * 4, gpuBytes: 1984 * 1142 * 4 }
@@ -384,7 +386,7 @@ if (frameFiles.length > 0) {
   }
   writeFileSync(`${run}/contact-sheet.png`, sheet.toBuffer('image/png'))
 }
-if (fighter === 'xiahoudun') {
+if (bossPath) {
   // Native logical-size scene crops, not stretched square thumbnails. Every
   // record in its own cell; labels are outside the actual rendered pixels.
   for (const facing of ['right', 'left']) {
@@ -402,7 +404,7 @@ if (fighter === 'xiahoudun') {
       g.font = '12px sans-serif'
       g.fillText(file.replace('.png', ''), x + 4, y + 14)
     }
-    writeFileSync(`${run}/all-39-${facing}.png`, sheet.toBuffer('image/png'))
+    writeFileSync(`${run}/all-${Object.keys(packFrames).length}-${facing}.png`, sheet.toBuffer('image/png'))
   }
 }
 const previousFrames = `${out}/previous/${fighter}-${renderer}/frames`

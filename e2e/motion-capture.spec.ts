@@ -5,6 +5,7 @@ import { makeCombatant } from '../src/core/entities'
 import { ENEMIES } from '../src/core/enemies'
 import { attackById } from '../src/core/attacks'
 import { xiahoudunClips } from '../src/game/art/motion-clips-xiahoudun'
+import { xuchuClips } from '../src/game/art/motion-clips-xuchu'
 
 /**
  * CMR-05 capture harness for the ACTUAL whole-character motion path
@@ -22,8 +23,15 @@ test.use({ video: 'on' })
 
 const FIGHTER = process.env.MOTION_FIGHTER ?? 'guanyu'
 /** Enemy-kind captures drive a spawned enemy target instead of the player. */
-const XIAHOU = FIGHTER === 'xiahoudun'
-const ENEMY_KIND = process.env.MOTION_ENEMY_KIND || (XIAHOU ? 'xiahoudun' : '')
+// Xu Chu (CMR-15B) reuses the Xiahou single-page boss path: actual stage boss
+// preparation, every frame selected by real clip dispatch, AI mixed run.
+const XUCHU = FIGHTER === 'xuchu'
+const XIAHOU = FIGHTER === 'xiahoudun' || XUCHU
+const BOSS = XUCHU ? 'xuchu' : 'xiahoudun'
+const BOSS_STAGE = XUCHU ? 'stage3' : 'stage2'
+const BOSS_CHARGE = XUCHU ? 'charge.crush' : 'charge.dash.long'
+const BOSS_FRAMES = XUCHU ? 36 : 39
+const ENEMY_KIND = process.env.MOTION_ENEMY_KIND || (XIAHOU ? BOSS : '')
 const RENDERER = (process.env.MOTION_RENDERER ?? 'canvas') as 'canvas' | 'webgl'
 const OUT = process.env.MOTION_OUT ?? 'artifacts/motion-review'
 const COMMIT = process.env.MOTION_COMMIT ?? 'unknown'
@@ -87,7 +95,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
   if (XIAHOU) {
     // Ordinary solo start prepares the actual default ZF drop-in partner.
-    await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage2'))
+    await page.evaluate((stage) => window.__DW__!.startGame('guanyu', 42, stage), BOSS_STAGE)
   } else await page.evaluate((fighter) => window.__DW__!.startGame(fighter, 42, 'stage1'), FIGHTER)
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 30_000 }).toBe('game')
   const introUp = (): Promise<boolean> => page.evaluate(() => !!window.__DW_GAME__?.scene.getScene('hud').children.list.some((o) => o.name === 'introCard'))
@@ -96,7 +104,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   await expect.poll(introUp).toBe(false)
 
   if (XIAHOU) {
-    await expect.poll(() => page.evaluate(() => !!window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions?.xiahoudun), { timeout: 30_000 }).toBe(true)
+    await expect.poll(() => page.evaluate((boss) => !!window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions?.[boss], BOSS), { timeout: 30_000 }).toBe(true)
   }
 
   // Isolate the subject on the real stage (test-page sim only).
@@ -140,19 +148,19 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
 
   let runtime: unknown = null
   if (XIAHOU) {
-    await expect.poll(() => page.evaluate(() => {
+    await expect.poll(() => page.evaluate((boss) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
       g.syncSprites()
-      return g.sprites.get(900001)?.frame.name.startsWith('entity:xiahoudun:motion:')
-    })).toBe(true)
-    runtime = await page.evaluate(async () => {
+      return g.sprites.get(900001)?.frame.name.startsWith(`entity:${boss}:motion:`)
+    }, BOSS)).toBe(true)
+    runtime = await page.evaluate(async (stage) => {
       const path = '/src/game/adapters/motion-art.ts'
       const mod = await import(/* @vite-ignore */ path) as typeof import('../src/game/adapters/motion-art')
       const engine = mod.motionRuntime()
       await engine.settle()
       const scene = window.__DW_GAME__!.scene.getScene('game')
-      return { stage: 'stage2', hero: 'guanyu', requestedPartner: 'zhangfei', fixture: 'ordinary solo start; actual default GU+ZF preparation', published: Object.keys(scene.registry.get('paintedHeroArt')?.motions ?? {}).sort(), budget: engine.budget() }
-    })
+      return { stage, hero: 'guanyu', requestedPartner: 'zhangfei', fixture: 'ordinary solo start; actual default GU+ZF preparation', published: Object.keys(scene.registry.get('paintedHeroArt')?.motions ?? {}).sort(), budget: engine.budget() }
+    }, BOSS_STAGE)
     writeFileSync(`${RUN}/runtime.json`, `${JSON.stringify(runtime, null, 2)}\n`)
   }
 
@@ -163,7 +171,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
   // optionally keep a 4x-of-logical crop of that box (camera-scroll aware).
   const sample = async (action: string, facing: string, origin: 'gameplay' | 'injected', source: Row['source'], shot?: string): Promise<void> => {
     if (XIAHOU) {
-      const captured = await page.evaluate(async ({ action, origin, source, shot, commit, renderer, elapsed }) => {
+      const captured = await page.evaluate(async ({ action, origin, source, shot, commit, renderer, elapsed, boss }) => {
         const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const previousPause = g.paused
         g.paused = true // TEST PAGE ONLY: no AI step during async snapshot/decode.
@@ -177,11 +185,11 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
         }
         try {
           const p = g.sim.entities.find((e) => e.id === 900001)!
-          if (!p) throw new Error('Xiahou target missing before capture')
+          if (!p) throw new Error(`${boss} target missing before capture`)
           g.syncSprites()
           const sprite = g.sprites.get(p.id)!
           const key = sprite.frame.name
-          if (!key.startsWith('entity:xiahoudun:motion:')) throw new Error(`legacy Xiahou capture: ${key}`)
+          if (!key.startsWith(`entity:${boss}:motion:`)) throw new Error(`legacy ${boss} capture: ${key}`)
           const camera = (g as unknown as { cameras: { main: { zoom: number; scrollX: number; scrollY: number } } }).cameras.main
           const sx = Math.abs(sprite.scaleX), sy = Math.abs(sprite.scaleY)
           const box = {
@@ -221,7 +229,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
           g.paused = previousPause
           if (shot && hudWasActive) hud.scene.resume()
         }
-      }, { action, origin, source, shot, commit: COMMIT, renderer: RENDERER, elapsed: Date.now() - began })
+      }, { action, origin, source, shot, commit: COMMIT, renderer: RENDERER, elapsed: Date.now() - began, boss: BOSS })
       rows.push(captured.row as Row)
       if (shot && captured.crop) writeFileSync(`${RUN}/frames/${shot}.png`, Buffer.from(captured.crop.split(',')[1]!, 'base64'))
       if (errors.length) throw new Error(`capture page errors: ${errors.join('; ')}`)
@@ -344,7 +352,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     if (XIAHOU) {
       // Fresh actor + removed sprite resets presentation history honestly; do
       // not carry low-collapse or release history across independent poses.
-      const fresh = makeCombatant(900001, 'xiahoudun', 'enemy', 230, 232, ENEMIES.xiahoudun!.maxHp, ENEMIES.xiahoudun!.speed, 'right')
+      const fresh = makeCombatant(900001, BOSS as never, 'enemy', 230, 232, ENEMIES[BOSS]!.maxHp, ENEMIES[BOSS]!.speed, 'right')
       await page.evaluate(({ fresh, fields }) => {
         const g = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         g.sim.entities = g.sim.entities.filter((e) => e.id !== 900001)
@@ -392,6 +400,7 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     spearman: ['thrust', 'spear.thrust'],
     lidian: ['charge', 'charge.dash'],
     xiahoudun: ['charge', 'charge.dash.long'],
+    xuchu: ['charge', 'charge.crush'],
   }
   const [attackAction, attackId] = ENEMY_KIND
     ? (FIGHTER === 'archer'
@@ -532,11 +541,13 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
     ['dying', { state: 'dying', stateTick: 25, hp: 0 }],
     ['dead', { state: 'dead', stateTick: 0, hp: 0 }],
   ]
-  const charge = attackById('charge.dash.long')
+  const charge = attackById(BOSS_CHARGE)
+  // Shared Xiahou/Xu Chu boss list: every sample tick derives from that boss's
+  // actual attack data (mid-active charge, first/third active combo/heavy).
   const xiahoudunIsolated: Array<[string, Record<string, unknown>]> = [
     ['idle', { state: 'idle', stateTick: 0 }],
-    ['charge', { state: 'attack', attackId: 'charge.dash.long', stateTick: charge.startup + Math.floor(charge.active / 2) }],
-    ['hurt', { state: 'hitstun', stateTick: Math.floor(ENEMIES.xiahoudun!.hitstunTicks / 2) }],
+    ['charge', { state: 'attack', attackId: BOSS_CHARGE, stateTick: charge.startup + Math.floor(charge.active / 2) }],
+    ['hurt', { state: 'hitstun', stateTick: Math.floor(ENEMIES[BOSS]!.hitstunTicks / 2) }],
     ['combo', { state: 'attack', attackId: 'sword.combo', stateTick: attackById('sword.combo').startup + 1 }],
     ['knockdown', { state: 'knockdown', stateTick: 21 }],
     ['heavy', { state: 'attack', attackId: 'sword.heavy', stateTick: attackById('sword.heavy').startup + 2 }],
@@ -573,12 +584,12 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
       // Every frame record is selected by actual state/clip dispatch, never by
       // forcing sprite.setFrame or drawing raw PNG cells. All are injected.
       const visited = new Set<string>()
-      for (const [clip, data] of Object.entries(xiahoudunClips())) {
+      for (const [clip, data] of Object.entries(XUCHU ? xuchuClips() : xiahoudunClips())) {
         for (const key of data.keys) {
           if (visited.has(key.frame)) continue
           visited.add(key.frame)
           const fields: Record<string, unknown> = { stateTick: key.tick }
-          if (['charge', 'combo', 'heavy'].includes(clip)) Object.assign(fields, { state: 'attack', attackId: clip === 'charge' ? 'charge.dash.long' : `sword.${clip}` })
+          if (['charge', 'combo', 'heavy'].includes(clip)) Object.assign(fields, { state: 'attack', attackId: clip === 'charge' ? BOSS_CHARGE : `sword.${clip}` })
           else fields.state = ({ idle: 'idle', walk: 'walk', hurt: 'hitstun', fall: 'knockdown', getup: 'getup', grab: 'grab', release: 'idle' } as Record<string, string>)[clip]
           if (clip === 'release') {
             await setPlayer({ facing, state: 'grab', stateTick: 0 })
@@ -589,10 +600,10 @@ test(`motion capture: ${FIGHTER} (${RENDERER})`, async ({ page }) => {
             })
           } else await setPlayer({ facing, ...fields })
           await sample('all-keys', facing, 'injected', 'injected', `key-${key.frame.replace(':', '-')}-${facing}`)
-          expect(rows.at(-1)!.key, `dispatch ${clip}@${key.tick}`).toBe(`entity:xiahoudun:motion:${key.frame}`)
+          expect(rows.at(-1)!.key, `dispatch ${clip}@${key.tick}`).toBe(`entity:${BOSS}:motion:${key.frame}`)
         }
       }
-      expect(visited.size).toBe(39)
+      expect(visited.size).toBe(BOSS_FRAMES)
     }
     for (const [action, fields] of isolated) {
       await setPlayer({ facing, ...fields })

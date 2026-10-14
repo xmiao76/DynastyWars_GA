@@ -4,6 +4,16 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-14 — CMR-15B captures + review: Xu Chu all 36 frames live both facings on Canvas/WebGL/mobile; vision 5/5, clean-HEAD prodbuild 14/14 (IN_PROGRESS, awaits independent producer verification)
+
+- Consumer iteration (runner run `2026-10-14T06-22-36-187Z…`), attempt counted as successful progress, failed recoveries 0. Loop runner fix `867f708` (review-ledger `-dirty` anchor) let Auto reach this task.
+- Harness: `scripts/motion-capture.mjs` + `e2e/motion-capture.spec.ts` now route Xu Chu through the Xiahou single-page boss path (stage3, `charge.crush`, 36 frames, boss kind parameterized; Xiahou behaviour unchanged). Clip table verified to reach all 36 frames by real dispatch.
+- Captures `artifacts/motion-review/{xuchu-canvas,xuchu-webgl}` + `mobile/xuchu-canvas` (844×390) at `867f708`-dirty: 478 rows each, 0 trace errors, 0 hard integrity, 0 blanks, 36/36 frames both facings, 0 legacy keys, all 3 boss attack IDs both facings, Canvas≡WebGL row by row. Page/manifest bytes verified (`6e49fd27…`/`d0545e85…`); resources within caps (decoded 9,388,376 B). 3 standing OPEN landmarks; unseen-8 dispositioned per precedent.
+- Reviewed with the image tool: all-36 sheets both facings canvas+webgl; enlarged charge/heavy/walk/knockdown/getup/dying (canvas), combo (mobile). Per-action PASS self-check in [Xu Chu action review](docs/XUCHU_ACTION_REVIEW.md). WebGL hurt keys show the existing hitstun tint (renderer behaviour, Canvas ignores tint). Dead crop empty by design (alpha 0), same as 13B/14B. No native-speed playback reviewed.
+- Checks: typecheck PASS, lint PASS, vision 5/5 PASS. Targeted units 116 pass/2 fail = stage budget pins off by exactly 512,073 B = the pre-existing uncommitted Zhang Fei actions-sheet shrink; prodbuild on the working tree fails 6 GU-pilot/Xiahou specs because the uncommitted Guan Yu sheet no longer matches its pin (GU falls back to legacy). **Clean HEAD + this package only: prodbuild 14/14 PASS.** Pre-existing uncommitted pack edits (rider-frame strip after horse removal) left untouched and unstaged.
+- Infrastructure incident: removing a scratch worktree's node_modules junction partly emptied the real `node_modules`; restored with `npm ci` from the committed lockfile (package.json/lock unchanged), then all checks above were rerun after the restore.
+- Remaining for DONE: independent producer verification on fresh captures (spec step 6). Next: producer pass verifies the Xu Chu path; consumer evidence is self-check only.
+
 ### 2026-10-14 — Producer FULL review completed at `1ec8478-dirty`: signals green, fresh capture fully reviewed incl. 154-cell anatomy grid, no new findings/proposals (docs only)
 
 - Commands/results: `npm run signal` selfplay **13/13 pass**; `npm run vision` **5/5 pass**, both negative controls failing correctly; `npm run review:capture` fresh capture **41 shots / 326 files** at HEAD/capture commit `1ec8478-dirty`. Signal snapshot unchanged vs last recorded (13/13 + 5/5, controls correct) — no regression.
