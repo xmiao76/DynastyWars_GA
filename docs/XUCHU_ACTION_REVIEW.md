@@ -1,4 +1,4 @@
-# Xu Chu action review (CMR-15B, self-check — producer verifies fresh)
+# Xu Chu action review (CMR-15B, self-check; DONE closeout 2026-10-14 — independent review of existing captures, see Remaining)
 
 - Captures (all through the actual `?motion=1` runtime, stage3 ordinary
   solo start with the default GU+ZF preparation; Xu Chu published as the
@@ -110,6 +110,15 @@
   the uncommitted Guan Yu sheet (1,827,406 B, `6a71c30b…`) no longer
   matches its pinned page record (1,782,790 B, `f15e3ac7…`), so the
   Guan Yu pack correctly falls back to legacy. Not this package.
+- `npm run prodbuild` **clean closeout rerun (2026-10-14, work
+  `cmr15b-done-closeout`)**: exactly one run on the current committed
+  tree `f5a381d` (git status porcelain empty before the run; only
+  ignored build/test outputs after) — **14 passed (59.9s), exit 0**.
+  Log: `artifacts/motion/xuchu/integration/prodbuild-clean.log`
+  (git-ignored on-disk evidence). The rider-strip/Guan Yu sibling work
+  that poisoned the earlier dirty-tree run was reconciled by its own
+  commits (`d5f8ccd`/`f6212c5`/`c6ca6ff`/`f5a381d`) before this rerun.
+  **This closes criterion 8.**
 
 ## Not this package (pre-existing uncommitted work, left untouched)
 
@@ -121,8 +130,36 @@ other fighters' packs and are outside CMR-15B's scope.
 
 ## Remaining for DONE
 
-- Independent producer verification on fresh captures (spec step 6).
-  Consumer evidence is self-check only.
+- **None for CMR-15B — DONE closeout 2026-10-14 (work
+  `cmr15b-done-closeout`), zero generation, no recapture.**
+  Specification step 6 (independent producer verification) is
+  explicitly satisfied by independent review receipt `call_01a13bdb…`
+  accepting criteria 1–7 on the **existing** captures — integration
+  `bcffcee` (Canvas/WebGL) plus the `7d89e8d` canvas-mobile
+  actual-viewport recapture — under the owner's no-recapture
+  instruction. No fresh captures were taken for closeout and none are
+  claimed; "producer verifies fresh" (the original self-check wording)
+  is superseded by this existing-capture satisfaction exactly as
+  recorded here. Criterion 8 is closed by the clean-tree
+  `npm run prodbuild` **14/14 at `f5a381d`** above (log
+  `artifacts/motion/xuchu/integration/prodbuild-clean.log`). All
+  CMR-15B acceptance criteria are therefore closed as recorded.
+  (The formal per-criterion table in
+  [CMR-15B-ACTION-REVIEW](motion-tasks/CMR-15B-ACTION-REVIEW.md) is
+  outside this closeout package's write scope and still reads
+  criterion 8 "NOT YET"; reconcile that table in a follow-up docs
+  package — the closure evidence recorded here/in TASKS/PROGRESS is
+  the same run.)
+- **Transferred limitations are NOT closed or passed by DONE** —
+  carried verbatim from CMR-15A, no DONE overclaim: head-size gate
+  **UNVERIFIED_OWNER_ACCEPTED** (not a measurement pass); 9 exact-hash
+  weapon waivers FAIL-retained (charge +8.54/−5.71u, combo
+  +3.46/+5.98u, heavy +3.64/+7.72u, fall +0.69u, getup −3.06/−4.12u;
+  walk/misc none; no blanket/transfer beyond those exact images);
+  `groundErrorU`/`contactU`/`weaponTipU` landmarks stay unverified
+  OPEN (criterion 4 = PASS WITH TRANSFERRED WAIVERS by construction);
+  still frames only — no native-speed playback reviewed; unseen-8
+  stay UNSEEN. CMR-23 not started by this closeout.
 
 ## Artifacts
 
@@ -131,6 +168,8 @@ other fighters' packs and are outside CMR-15B's scope.
   `{runtime,report,index,trace,page-errors,pace-left,pace-right}.json`,
   `contact-sheet.png`, `all-36-{right,left}.png`, `frames/*.png` (96),
   one `.webm` per run.
+- `artifacts/motion/xuchu/integration/prodbuild-clean.log`: the single
+  clean-tree DONE-closeout `npm run prodbuild` (14/14, `f5a381d`).
 - Harness: `scripts/motion-capture.mjs` + `e2e/motion-capture.spec.ts`
   (Xu Chu now shares the Xiahou single-page boss path:
   stage, charge id, frame count and boss kind parameterized; Xiahou
