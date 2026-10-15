@@ -106,8 +106,11 @@ describe('Xiahou Dun immutable runtime pack', () => {
     expect(originalDef.url.sheet).toBe(originalDef.url.actions)
     expect(meta.signatures.sheet).toBe(meta.signatures.actions)
     expect(meta.signatures.sheet).toHaveLength(48 * 32 * 8)
-    expect(motionEnabled('')).toBe(false)
+    expect(motionEnabled('')).toBe(true)
+    expect(motionEnabled('?motion=0')).toBe(false)
     expect(motionEnabled('?motion=1')).toBe(true)
+    expect(motionEnabled('?motion=')).toBe(true)
+    expect(motionEnabled('?motion=00')).toBe(true)
   })
 
   it('uses one identical DOWN rectangle and full-cell registration, with only one alias declaration', () => {

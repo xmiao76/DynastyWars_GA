@@ -1,8 +1,13 @@
 import { devices, expect, test } from '@playwright/test'
 import { readFile, readdir } from 'node:fs/promises'
+import { readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { join } from 'node:path'
+import { PNG } from 'pngjs'
 import type Phaser from 'phaser'
-import { assessWeaponReach, drawnWidth, type SpriteImage } from '../vision/sprite-metrics'
+import type { Sim } from '../src/core/sim'
+import { attackById } from '../src/core/attacks'
+import zhaoyun from '../src/game/assets/motion/zhaoyun-prepared.json' with { type: 'json' }
 import { MIN_WEAPON_REACH_PX } from '../vision/thresholds'
 
 /**
@@ -41,52 +46,110 @@ test('the production build boots and renders the shipped art', async ({ page }) 
   expect(failedRequests, 'the built bundle failed to load something').toEqual([])
   expect(pageErrors).toEqual([])
 
-  // Characters render, and the weapon reaches: the attack pose extends further
-  // sideways than idle. The placeholder art that used to ship had an attack
-  // frame NARROWER than its idle frame, which is what "the spear does not move"
-  // looked like on the deployed site.
-  //
-  // This measures the DRAWN silhouette, not the frame box. The two are the same
-  // thing only while every pose is cropped tight; the moment a pose is drawn
-  // into a uniform box - the normal shape for a fighting-game sprite set - the
-  // frame widths go equal and a frame-box comparison fails a build that is
-  // perfectly fine, while empty padding could just as easily pass one that is
-  // not. `assessWeaponReach` is imported rather than reimplemented so this gate
-  // and the vision gate cannot drift apart.
-  const shots = await page.evaluate(() => {
-    const game = window.__DW_GAME__ as Phaser.Game | undefined
-    if (!game) return null
-    const read = (key: string): { width: number; height: number; data: number[] } | null => {
-      const src = game.textures.get(key).getSourceImage() as CanvasImageSource & {
-        width: number
-        height: number
-      }
-      const cv = document.createElement('canvas')
-      cv.width = src.width
-      cv.height = src.height
-      const ctx = cv.getContext('2d')
-      if (!ctx) return null
-      ctx.drawImage(src, 0, 0)
-      const d = ctx.getImageData(0, 0, cv.width, cv.height).data
-      return { width: cv.width, height: cv.height, data: Array.from(d) }
+  expect(new URL(page.url()).searchParams.has('motion')).toBe(false)
+  // Scene activation precedes asynchronous stage construction. Require both
+  // the stage and Zhao Yun's published pack/sprite, not just bridge.scene.
+  await expect.poll(() => page.evaluate(() => {
+    const engine = window.__DW_GAME__!
+    const live = engine.scene.getScene('game') as unknown as {
+      built: boolean; sim?: Sim; sprites: Map<number, Phaser.GameObjects.Sprite>
     }
-    return { idle: read('entity:zhaoyun:idle'), attack: read('entity:zhaoyun:attack') }
-  })
-  expect(shots?.idle, 'the built bundle rendered no idle texture').toBeTruthy()
-  expect(shots?.attack, 'the built bundle rendered no attack texture').toBeTruthy()
-  if (!shots?.idle || !shots.attack) return
+    return !!(live.built && live.sim && engine.registry.get('paintedHeroArt')?.motions?.zhaoyun &&
+      live.sprites.get(live.sim.playerId)?.frame.name.includes(':zhaoyun:motion:'))
+  })).toBe(true)
 
-  const toImage = (s: { width: number; height: number; data: number[] }): SpriteImage => ({
-    width: s.width,
-    height: s.height,
-    data: Uint8Array.from(s.data),
+  // zy.jab1's first active tick is 5; clip mapping commits jab1:2 for
+  // [startup, startup+active). Legacy attack textures/ticks are NOT its oracle.
+  // Read the actual sprite's selected atlas rect, then compare alpha bytes,
+  // opaque colours and bounds with the independent PNG + full-cell metadata.
+  const attackDef = attackById('zy.jab1')
+  expect({ startup: attackDef.startup, active: attackDef.active }).toEqual({ startup: 5, active: 3 })
+  const shots = await page.evaluate(({ startup, active }) => {
+    const live = window.__DW_GAME__!.scene.getScene('game') as unknown as {
+      sim: Sim; syncSprites(): void; sprites: Map<number, Phaser.GameObjects.Sprite>
+    }
+    const p = live.sim.entities.find((e) => e.id === live.sim.playerId)!
+    const saved = { ...p }
+    const capture = (state: 'idle' | 'attack', tick: number) => {
+      Object.assign(p, { state, stateTick: tick, attackId: state === 'attack' ? 'zy.jab1' : null,
+        facing: 'right', z: 0, invulnerableTicks: 0 })
+      const before = JSON.stringify(live.sim)
+      live.syncSprites()
+      const s = live.sprites.get(p.id)!, f = s.frame
+      const cv = document.createElement('canvas')
+      cv.width = f.cutWidth; cv.height = f.cutHeight
+      const ctx = cv.getContext('2d')!
+      ctx.drawImage(s.texture.getSourceImage() as CanvasImageSource,
+        f.cutX, f.cutY, f.cutWidth, f.cutHeight, 0, 0, cv.width, cv.height)
+      return { name: f.name, texture: s.texture.key, cut: [f.cutX, f.cutY, f.cutWidth, f.cutHeight],
+        trim: [f.x, f.y], full: [f.realWidth, f.realHeight],
+        scale: [s.scaleX, s.scaleY], origin: [s.displayOriginX, s.displayOriginY],
+        ground: [s.x - p.x, s.y - p.y], visible: s.visible, alpha: s.alpha, flip: s.flipX,
+        coreUnchanged: before === JSON.stringify(live.sim),
+        data: Array.from(ctx.getImageData(0, 0, cv.width, cv.height).data) }
+    }
+    try {
+      return [capture('idle', 0), capture('attack', 1), capture('attack', startup), capture('attack', startup + active - 1)]
+    } finally { Object.assign(p, saved); live.syncSprites() }
+  }, { startup: attackDef.startup, active: attackDef.active })
+  const ids = ['walk:0', 'jab1:0', 'jab1:2', 'jab1:2'] as const
+  const atlas = PNG.sync.read(readFileSync('src/game/assets/motion/zhaoyun-motion-sheet.png'))
+  // Canvas unpremultiplication may round RGB at translucent edges. Preserve
+  // every alpha byte and all opaque RGB; do not mistake that rounding for art.
+  const hash = (data: Uint8Array) => {
+    const canonical = Uint8Array.from(data)
+    for (let i = 0; i < canonical.length; i += 4) {
+      if (canonical[i + 3] !== 255) canonical.fill(0, i, i + 3)
+    }
+    return createHash('sha256').update(canonical).digest('hex')
+  }
+  const bounds = (data: Uint8Array, w: number, trimX: number, trimY: number) => {
+    let left = Infinity, right = -Infinity, bottom = -Infinity, opaque = 0
+    for (let i = 3; i < data.length; i += 4) {
+      if (data[i]! < 16) continue
+      const pixel = (i - 3) / 4, x = pixel % w + trimX, y = Math.floor(pixel / w) + trimY
+      left = Math.min(left, x); right = Math.max(right, x); bottom = Math.max(bottom, y); opaque++
+    }
+    return { left, right, bottom, opaque, width: (right - left + 1) / zhaoyun.density,
+      forward: (right - zhaoyun.box.width * zhaoyun.density / 2) / zhaoyun.density }
+  }
+  const measured = shots.map((shot, i) => {
+    const id = ids[i]!, cell = zhaoyun.frames[id]
+    const expected = Buffer.alloc(cell.w * cell.h * 4)
+    for (let y = 0; y < cell.h; y++) {
+      atlas.data.copy(expected, y * cell.w * 4,
+        ((cell.y + y) * atlas.width + cell.x) * 4,
+        ((cell.y + y) * atlas.width + cell.x + cell.w) * 4)
+    }
+    expect(shot.name).toBe(`entity:zhaoyun:motion:${id}`)
+    expect(shot.texture).toBe('motion-source:zhaoyun')
+    expect(shot.cut).toEqual([cell.x, cell.y, cell.w, cell.h])
+    expect(shot.trim).toEqual([cell.trimX, cell.trimY])
+    expect(shot.full).toEqual([cell.srcW, cell.srcH])
+    expect(shot.scale).toEqual([1 / zhaoyun.density, 1 / zhaoyun.density])
+    expect(shot.origin).toEqual([cell.srcW / 2, zhaoyun.box.groundY * zhaoyun.density])
+    expect(shot.ground).toEqual([0, 0])
+    expect([shot.visible, shot.alpha, shot.flip, shot.coreUnchanged]).toEqual([true, 1, false, true])
+    // Exact source identity rejects blanks, placeholders and idle substitution.
+    const actual = Uint8Array.from(shot.data)
+    expect(hash(actual)).toBe(hash(expected))
+    const observed = bounds(actual, cell.w, shot.trim[0]!, shot.trim[1]!)
+    const independent = bounds(expected, cell.w, cell.trimX, cell.trimY)
+    expect(observed).toEqual(independent)
+    expect(observed.opaque).toBeGreaterThan(1000)
+    expect(Math.abs((observed.bottom + 1) / zhaoyun.density - zhaoyun.box.groundY)).toBeLessThanOrEqual(1.5)
+    return { ...observed, hash: hash(actual) }
   })
-  const idle = toImage(shots.idle)
-  const attack = toImage(shots.attack)
-  expect(drawnWidth(idle), 'the shipped idle sprite draws nothing').toBeGreaterThan(0)
-
-  const reach = assessWeaponReach(idle, attack, 'zhaoyun', MIN_WEAPON_REACH_PX)
-  expect(reach.failures, `the shipped art shows no weapon: ${JSON.stringify(reach)}`).toEqual([])
+  expect(new Set(measured.slice(0, 3).map((m) => m.hash)).size, 'guard, windup and active must change drawings').toBe(3)
+  expect(measured[3]).toEqual(measured[2]) // same active exposure, not a later legacy attack tick
+  // This jab actually extends horizontally, so KEEP the strict original >4px
+  // floor, in logical gameplay units, for both silhouette width and forward tip.
+  // The exact extension is independently derived from source alpha + pivot;
+  // full-cell padding alone cannot manufacture reach.
+  expect(measured[2]!.width - measured[0]!.width).toBeGreaterThan(MIN_WEAPON_REACH_PX)
+  expect(measured[2]!.forward - measured[0]!.forward).toBeGreaterThan(MIN_WEAPON_REACH_PX)
+  expect(failedRequests, 'including asynchronous stage art requests').toEqual([])
+  expect(pageErrors).toEqual([])
 })
 
 test('the production build never asks a server for baked art it does not ship', async ({ page }) => {
