@@ -6,7 +6,7 @@ import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
 import { CHARACTER_ORDER } from '../../core/characters'
-import { ensureEntityTextures } from '../adapters/sprites'
+import { ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
 import { addVignette } from '../ui/panels'
 import { liveStyle } from '../ui/theme'
 import { VICTORY_TEX, ensureFlowArt } from '../art/flowart'
@@ -42,22 +42,27 @@ export class GameCompleteScene extends Phaser.Scene {
     // The ending was the one screen that never got the framed treatment the
     // rest of the game uses: plain text on a near-black field. It is the last
     // thing a player who finishes all three stages sees, so it now gets the
-    // victory panel and the five heroes lined up beneath it.
+    // victory panel and the five hero portraits lined up beneath it.
     this.add.rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, 0x241a0a)
     this.add.rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 52, SCREEN_WIDTH, 104, 0x3a2a12)
     addVignette(this, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0.7)
 
-    // The victorious five, standing on the lower band.
-    ensureEntityTextures(this, [...CHARACTER_ORDER])
+    // The victorious five: shared painted portraits in lacquer/gold frames.
+    // Keep the existing lower-band centres/spacing; fit each framed portrait
+    // inside the former 62px figure slot without overlapping its neighbour.
+    ensurePortraitTextures(this, [...CHARACTER_ORDER])
     const spacing = 54
     const startX = SCREEN_WIDTH / 2 - (spacing * (CHARACTER_ORDER.length - 1)) / 2
     CHARACTER_ORDER.forEach((charId, i) => {
-      const key = `entity:${charId}:idle`
+      const key = portraitKeyFor(charId)
       if (!this.textures.exists(key)) return
-      const figure = this.add.sprite(startX + i * spacing, SCREEN_HEIGHT - 16, key).setOrigin(0.5, 1)
-      const frame = figure.texture.get()
-      const h = 62
-      figure.setDisplaySize((frame.width / frame.height) * h, h)
+      const frame = this.textures.get(key).get()
+      const h = Math.min(62, ((spacing - 8) * frame.height) / frame.width)
+      const w = (frame.width / frame.height) * h
+      const x = startX + i * spacing
+      const y = SCREEN_HEIGHT - 16
+      this.add.rectangle(x, y + 2, w + 4, h + 4, 0x241a0a).setOrigin(0.5, 1).setStrokeStyle(1, 0xa87818)
+      this.add.image(x, y, key).setOrigin(0.5, 1).setDisplaySize(w, h)
     })
 
     ensureFlowArt(this)

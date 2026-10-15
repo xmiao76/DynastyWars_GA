@@ -3,7 +3,7 @@ import { CHARACTER_ORDER, characterById } from '../../core/characters'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../core/constants'
 import { audio } from '../audio/sfx'
 import { TITLE_THEME } from '../audio/music'
-import { ensureEntityTextures, ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
+import { ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
 import { watchConfirmButton } from '../adapters/gamepad'
 import { hasTouch } from '../adapters/touch'
 import {
@@ -79,7 +79,6 @@ export class SelectScene extends Phaser.Scene {
     this.cards = []
     audio.startMusic(TITLE_THEME)
 
-    ensureEntityTextures(this, [...CHARACTER_ORDER])
     ensurePortraitTextures(this, [...CHARACTER_ORDER])
 
     // Backdrop: parchment, ink-wash ranges, the roster frame and the command

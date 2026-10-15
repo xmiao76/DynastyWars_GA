@@ -1,6 +1,7 @@
 # Legacy deletion inventory — exact file-level lists (CMR-24 Phase 5 prep)
 
-Status: **partial portrait isolation implemented; NOT Slice 1 full DONE.**
+Status: **partial portrait isolation + B12 select/ending migration implemented;
+NOT Slice 1 or Slice 2 full DONE.**
 This document grants no deletion authority. Original inventory/review findings
 below are historical at their cited commits; the current bounded work order
 reports independent Part A pre-delete ACCEPT. Remaining renderer deletion still
@@ -271,20 +272,40 @@ font (:72), FX `generateFxTextures` (:130–134; the local `bake()` helper :27 i
 canvas texture baking for FX, **not** the baked-art pipeline — keep, maybe
 rename to avoid confusion).
 
-### B12. Menu/result scenes with one legacy call each
+### B12. Menu/result dependencies — select/ending sub-slice implemented
 
-- [SelectScene.ts](../src/game/scenes/SelectScene.ts): delete
-  `ensureEntityTextures(this,[...CHARACTER_ORDER])` ([:82](../src/game/scenes/SelectScene.ts#L82))
-  — the scene displays only portraits (`portraitKeyFor` image :138–141) and
-  select chrome; the call is legacy pre-warm. Keep `ensurePortraitTextures` (:83).
-- [GameCompleteScene.ts](../src/game/scenes/GameCompleteScene.ts): **rewrite
-  before A deletion** — victory figure is a legacy texture:
-  `ensureEntityTextures` ([:51](../src/game/scenes/GameCompleteScene.ts#L51)) +
-  `` `entity:${charId}:idle` `` ([:55](../src/game/scenes/GameCompleteScene.ts#L55)).
-  Replace with the portrait texture (`ensurePortraitTextures`/`portraitKeyFor`,
-  the HudScene/SelectScene path) or a published motion frame. This is the only
-  menu/result consumer of legacy figure textures (Result/GameOver/Title use
-  flowart/keyart only, §C).
+**2026-10-15, `cmr24-menu-legacy-dependency-removal`, bounded attempt 1:**
+- [SelectScene.ts](../src/game/scenes/SelectScene.ts): removed ONLY the unused
+  `ensureEntityTextures(this,[...CHARACTER_ORDER])` call/import. Retained
+  `ensurePortraitTextures` and the existing painted roster cards, labels,
+  sizing/cursors and confirmation path.
+- [GameCompleteScene.ts](../src/game/scenes/GameCompleteScene.ts): replaced
+  legacy figure generation + `entity:<char>:idle` sprites with shared
+  `ensurePortraitTextures`/`portraitKeyFor` images. The five portraits stay on
+  the original lower-band centres (54px spacing, bottom y254) with small
+  lacquer/gold frames; the 432×480 aspect fits each slot at 46×51.11 logical px
+  (within the old 62px height). Existing victory panel, text and navigation
+  unchanged. Missing portraits are omitted, never procedurally substituted;
+  no motion-frame/all-cast network preload was added.
+- **Inventory correction, not a scope expansion:** [ResultScene:67–83](../src/game/scenes/ResultScene.ts#L67-L83)
+  still conditionally consumes a cached `entity:<char>:idle` texture, otherwise
+  displays its existing emblem rectangles. It does not generate textures.
+  The original claim that Result used flowart only / GameComplete was the sole
+  menu/result figure consumer was inaccurate. Result is untouched in this
+  bounded package; its residual conditional branch must be resolved with the
+  renderer/switch slice. [GameOverScene.ts](../src/game/scenes/GameOverScene.ts)
+  and [TitleScene.ts](../src/game/scenes/TitleScene.ts) have no figure imports
+  and remain untouched.
+- This is **B12 only, not full Slice 2**: registry/sprites prop surgery and the
+  rollback fighter/head resources remain live and unchanged. Head/metadata/
+  script deletion is still deferred to joint renderer + switch **Slice 6**.
+- Focused [shared-screen spec](../e2e/motion-shared-screens.spec.ts) covers
+  Canvas/WebGL × default/`motion=0`, selected Wei Yan portrait/key/nonblank
+  rendered interiors/bounds, empty entity texture cache before stage, no
+  menu motion PNG requests, real select confirm, stage3 `forceResult()` →
+  Enter → gamecomplete → title. This is a final-stage transition fixture, not
+  a new combat-clear claim. Check results and personally inspected screenshots
+  are recorded in [PROGRESS](../PROGRESS.md).
 
 ### B13. [debug/bridge.ts](../src/game/debug/bridge.ts) — replace `registerAllArt`
 
@@ -327,7 +348,8 @@ Runtime `src/game` (every file not in A/B):
 | [art/motion-profiles.ts](../src/game/art/motion-profiles.ts), [art/motion-quality.ts](../src/game/art/motion-quality.ts) | motion profile/quality gates; imported by per-kind motion unit tests (§E keep) |
 | [adapters/motion-scope.ts](../src/game/adapters/motion-scope.ts) | [motion-art:29](../src/game/adapters/motion-art.ts#L29) `stageMotionScope/kindsDueByTick` |
 | [adapters/keyboard.ts](../src/game/adapters/keyboard.ts), [adapters/gamepad.ts](../src/game/adapters/gamepad.ts), [adapters/touch.ts](../src/game/adapters/touch.ts) | GameScene/HudScene input (GameScene imports :25–27 area; touch uses hudart) |
-| [scenes/TitleScene.ts](../src/game/scenes/TitleScene.ts), [scenes/ResultScene.ts](../src/game/scenes/ResultScene.ts), [scenes/GameOverScene.ts](../src/game/scenes/GameOverScene.ts) | no legacy imports (flowart/keyart/panels only) |
+| [scenes/TitleScene.ts](../src/game/scenes/TitleScene.ts), [scenes/GameOverScene.ts](../src/game/scenes/GameOverScene.ts) | no legacy figure imports (flowart/keyart/panels only) |
+| [scenes/ResultScene.ts](../src/game/scenes/ResultScene.ts) | keep shared flowart/chips/navigation; residual conditional cached legacy idle-key consumer at :67–83 (B12 correction), resolve with renderer/switch slice |
 | [scenes/HudScene.ts](../src/game/scenes/HudScene.ts) | portrait dependency only: imports sprites portrait helpers [:10](../src/game/scenes/HudScene.ts#L10), calls :268/:646 — preserved by B3/B7 |
 | [data/stagebackdrop.ts](../src/game/data/stagebackdrop.ts), [data/stagelore.ts](../src/game/data/stagelore.ts), [audio/music.ts](../src/game/audio/music.ts), [audio/sfx.ts](../src/game/audio/sfx.ts), [ui/display.ts](../src/game/ui/display.ts), [ui/hiscore.ts](../src/game/ui/hiscore.ts), [ui/hudlayout.ts](../src/game/ui/hudlayout.ts), [ui/orientation.ts](../src/game/ui/orientation.ts), [ui/panels.ts](../src/game/ui/panels.ts), [ui/roster.ts](../src/game/ui/roster.ts), [ui/theme.ts](../src/game/ui/theme.ts), [ui/type.ts](../src/game/ui/type.ts), [ui/viewport.ts](../src/game/ui/viewport.ts), [main.ts](../src/game/main.ts), [players.ts](../src/game/players.ts), [render.ts](../src/game/render.ts) | no legacy-art imports (scan: core/ui/audio only) |
 | `src/core/*` (16 files: ai, attacks, characters, combat, constants, enemies, entities, events, items, players, rng, sim, simtypes, snapshot, stage, types — each `src/core/<stem>.ts`) | simulation; untouched by definition of legacy |
@@ -554,11 +576,11 @@ revert that slice's commit; `?motion=0` stays functional through Slice 5.
 |---|---|---|
 | 0 | **Extractions only, zero behaviour change**: B1 cel, B2 paths, B4 cell type; repoint props/portrait/motion-clips imports. Record D0 decision. | `npm run lint`, `npm run typecheck`, full `npm run test` (rig/artquality/portrait/weapons tests repointed only), `git diff` shows moves only |
 | 1 | **Partial portrait isolation, NOT full slim DONE**: B5 painted-only module/procedural portrait deletion; B6 narrow portrait types, B7 independent portrait publication; preserve all rollback head resources/assets/metadata. Retire only procedural portrait tests; retain pose/head/rig tests. | all-11 portrait bytes/dimensions/identity/bounds units + existing face/rig units; e2e `hero-faces`, `select`, `hud`, `hud-look`, default + rollback; lint/typecheck. Head requests remain intentional until Slice 6; zero-head-network is NOT a criterion here. Vision remains a separate required gate, not implied by focused smoke. |
-| 2 | **Prop-only registry/sprites**: B3, B5 prop path, B10 prop sizing, B12 (SelectScene call removal + GameComplete portrait rewrite) | `sprites.test` rewrite; e2e `artscale` (motion branch), `game`, `select`, `stageclear`-path result/complete screens screenshot-checked; props render in `arrows`/`game` specs |
+| 2 | **Prop-only registry/sprites (NOT DONE)**: B3, B5 prop path, B10 prop sizing remain deferred while rollback is live. B12 select pre-warm removal + GameComplete portrait rewrite implemented as a separate small sub-slice; no registry/sprites deletion here. Result cached-idle consumer corrected in B12 and deferred to Slice 6. | `sprites.test` rewrite; e2e `artscale` (motion branch), `game`, `select`, `stageclear`-path result/complete screens screenshot-checked; props render in `arrows`/`game` specs |
 | 3 | **Whole-frame pilot out**: frame-art.ts, whole-frames.ts remainder, `frames=1`, D whole-frames assets, prepare-whole-frames scripts, wholeframe* tests + wholeframe-look spec | lint/typecheck/full unit; e2e `boot`; grep `framesEnabled\|WholeFrameArt\|paintWholeFrame` = 0 in src |
 | 4 | **Baked-art out**: B11 manifest path, vite define, build-flags.d.ts, e2e/art.spec, bake scripts + bake.test | `npm run prodbuild` (rewritten exclusivity case), e2e `boot`; bundle grep `assets/manifest.json\|bakedart` = 0 |
 | 5 | **Fallback hardening (motion=0 still alive)**: B8, B9, B10 published-missing-frame branch, E motion-loader/loading-errors/motion-look rewrites | `motion-runtime/catalog/scope/clips` units; e2e `motion-loading-errors`, `motion-loader`, `motion-default-coverage`; missing/corrupt pack → visible blocking error, zero legacy frames |
-| 6 | **Renderer + switch deletion (the Phase 5 commit)**: jointly remove B6 head fields/helpers, B7 head imports/loader parts, 33 head/front/rear PNGs; slim all 3 face metadata files + prepare-*-faces scripts ONLY now; all A files, draw/rig/registry/sprites remainders, B10/B11/B13 remainders, `motionEnabled`, D-delete assets, E1 test deletions, E vision sprite-gate rewrite + bridge replacement, E4 script deletions | full serial: lint, typecheck, `npm run test`, `npm run e2e`, `npm run vision`, `npm run signal` — retired gates recorded retired-by-deletion, incl. arm-chain G6 |
+| 6 | **Renderer + switch deletion (the Phase 5 commit)**: jointly remove B6 head fields/helpers, B7 head imports/loader parts, 33 head/front/rear PNGs; slim all 3 face metadata files + prepare-*-faces scripts ONLY now; all A files, draw/rig/registry/sprites remainders, B10/B11/B13 remainders + B12 Result cached-idle branch, `motionEnabled`, D-delete assets, E1 test deletions, E vision sprite-gate rewrite + bridge replacement, E4 script deletions | full serial: lint, typecheck, `npm run test`, `npm run e2e`, `npm run vision`, `npm run signal` — retired gates recorded retired-by-deletion, incl. arm-chain G6 |
 | 7 | **Part B proof**: prodbuild/coverage `motion=0`-no-effect rewrites, source + built-bundle + network exclusivity search (no legacy texture keys, no head/body/weapon-sheet requests), docs/live-wording sweep | `npm run prodbuild`; repeat essential Part A coverage/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL on the exact post-delete tree; fresh independent review (CMR-24 Part B) |
 
 ## G. Appendix — exact literals behind every brace/glob shorthand above
