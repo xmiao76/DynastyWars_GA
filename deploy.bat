@@ -12,9 +12,14 @@ REM Fixed target: never inherit the original project's Wrangler cache or branch.
 set "PAGES_PROJECT=dynasty-wars-ga"
 set "PAGES_BRANCH=main"
 
-echo [1/5] Installing the locked dependencies...
+echo [1/5] Checking dependencies...
+REM Install the locked dependencies only when they are missing; an existing
+REM node_modules is reused. Delete node_modules to force a clean npm ci.
+if exist "node_modules" goto :deps_ready
+echo node_modules not found - installing the locked dependencies...
 call npm ci
 if errorlevel 1 goto :fail
+:deps_ready
 
 echo [2/5] Linting...
 call npm run lint
@@ -45,7 +50,6 @@ call npx wrangler@4 pages deploy dist --project-name=%PAGES_PROJECT% --branch=%P
 if errorlevel 1 goto :deployfail
 
 echo Deployed. Intended URL: https://dynasty-wars-ga.pages.dev/
-pause
 exit /b 0
 
 :usage
@@ -57,11 +61,9 @@ exit /b 1
 echo Deployment failed. Review the Wrangler output before retrying.
 echo If the project does not exist, create a Pages Direct Upload project named
 echo dynasty-wars-ga with production branch main, then run deploy.bat again.
-pause
 exit /b 1
 
 :fail
 echo A local verification step failed. Nothing was deployed.
 echo For a missing browser, run: npx playwright install chromium
-pause
 exit /b 1
