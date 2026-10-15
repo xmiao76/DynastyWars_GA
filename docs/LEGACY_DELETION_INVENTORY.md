@@ -1,7 +1,40 @@
 # Legacy deletion inventory — exact file-level lists (CMR-24 Phase 5 prep)
 
-Status: **partial portrait isolation + B12 select/result/ending migration implemented;
-NOT Slice 1 or Slice 2 full DONE.**
+Status: **partial portrait isolation + B12 select/result/ending migration + independent
+Slice 3 whole-frame pilot removal implemented; NOT Slice 1 or Slice 2 full DONE.**
+
+**2026-10-15 independent Slice 3 order revision:** after the pending Result vision
+passed once on clean `0d298a3` (5/5, exit0), the optional whole-frame pilot is
+removed before prop-only registry/sprites. This is dependency-safe: the B4
+`MotionCellRect` extraction already landed in `2aaa2cc`; the pilot's only
+runtime ingress was BootScene's `framesEnabled() && !motionEnabled()` branch.
+Removing that ingress, `ArtResources.frames`, registry blit and blend bypass
+leaves ordinary figure/body/weapon/head/procedural rendering and `?motion=0`
+intact. It needs neither prop-only registry nor later head deletion. Slice 2
+and joint renderer/switch Slice 6 remain outstanding, as does full Part B.
+
+Deleted literal paths (all resolved before removal):
+- `src/game/adapters/frame-art.ts`, `src/game/art/whole-frames.ts`;
+- `src/game/assets/whole-frames/guanyu-sheet.png` (427540 B),
+  `src/game/assets/whole-frames/prepared.json` (14402 B);
+- `scripts/prepare-whole-frames.mjs`, `scripts/prepare-whole-frames.d.mts`;
+- `test/game/wholeframe.test.ts`, `test/game/wholeframe-compare.test.ts`,
+  `test/game/wholeframe-guides.test.ts`, `e2e/wholeframe-look.spec.ts`.
+
+The pilot's byte/signature/cell/fit/blit gates and guide/comparison/browser
+capture generators are **RETIRED-BY-DELETION, NOT PASS**. The former gated-skip
+browser ledger is history, not a new pass. [WHOLE_FRAME_TEST](WHOLE_FRAME_TEST.md)
+is now explicitly historical; source masters/provenance remain untouched.
+[Retirement regression](../e2e/wholeframe-retired.spec.ts) passes Canvas/WebGL ×
+default/rollback (4/4): `frames=1` makes zero pilot module/JSON/PNG requests,
+no `frame-source:` keys or resource `frames` field, and actual visible default
+motion/rollback legacy Guan Yu remains. Lint/typecheck exit0; retained focused
+motion-clips/portrait/bodyparts/sprites/artquality units 85/85 exit0; production
+build gate 14/14 exit0. Source import/symbol search is clean. Full units,
+post-delete full vision and signal were NOT RUN in this bounded slice.
+Evidence/exact commands/exits: local ignored
+`artifacts/motion/wholeframe-removal/`; the original inventory below is a
+historical deletion map, superseded by this disposition for these ten paths.
 This document grants no deletion authority. Original inventory/review findings
 below are historical at their cited commits; the current bounded work order
 reports independent Part A pre-delete ACCEPT. Remaining renderer deletion still
@@ -586,7 +619,7 @@ revert that slice's commit; `?motion=0` stays functional through Slice 5.
 | 0 | **Extractions only, zero behaviour change**: B1 cel, B2 paths, B4 cell type; repoint props/portrait/motion-clips imports. Record D0 decision. | `npm run lint`, `npm run typecheck`, full `npm run test` (rig/artquality/portrait/weapons tests repointed only), `git diff` shows moves only |
 | 1 | **Partial portrait isolation, NOT full slim DONE**: B5 painted-only module/procedural portrait deletion; B6 narrow portrait types, B7 independent portrait publication; preserve all rollback head resources/assets/metadata. Retire only procedural portrait tests; retain pose/head/rig tests. | all-11 portrait bytes/dimensions/identity/bounds units + existing face/rig units; e2e `hero-faces`, `select`, `hud`, `hud-look`, default + rollback; lint/typecheck. Head requests remain intentional until Slice 6; zero-head-network is NOT a criterion here. Vision remains a separate required gate, not implied by focused smoke. |
 | 2 | **Prop-only registry/sprites (NOT DONE)**: B3, B5 prop path, B10 prop sizing remain deferred while rollback is live. B12 select pre-warm removal + GameComplete portrait rewrite implemented as a separate small sub-slice; no registry/sprites deletion here. Result cached-idle consumer corrected in B12 and deferred to Slice 6. | `sprites.test` rewrite; e2e `artscale` (motion branch), `game`, `select`, `stageclear`-path result/complete screens screenshot-checked; props render in `arrows`/`game` specs |
-| 3 | **Whole-frame pilot out**: frame-art.ts, whole-frames.ts remainder, `frames=1`, D whole-frames assets, prepare-whole-frames scripts, wholeframe* tests + wholeframe-look spec | lint/typecheck/full unit; e2e `boot`; grep `framesEnabled\|WholeFrameArt\|paintWholeFrame` = 0 in src |
+| 3 | **Independent whole-frame pilot out — implemented before Slice 2**, per dependency-order revision above: frame-art.ts, whole-frames.ts, `frames=1` handling, D whole-frames assets, prepare-whole-frames scripts, sole-purpose wholeframe tests/capture spec. Rollback renderer untouched. | Actual: lint/typecheck + focused retained units 85/85; retirement browser title/game boot × Canvas/WebGL/default/rollback 4/4; prodbuild14/14; src pilot symbol/import search clean. Full units/post-delete full vision/signal not run, not implied. |
 | 4 | **Baked-art out**: B11 manifest path, vite define, build-flags.d.ts, e2e/art.spec, bake scripts + bake.test | `npm run prodbuild` (rewritten exclusivity case), e2e `boot`; bundle grep `assets/manifest.json\|bakedart` = 0 |
 | 5 | **Fallback hardening (motion=0 still alive)**: B8, B9, B10 published-missing-frame branch, E motion-loader/loading-errors/motion-look rewrites | `motion-runtime/catalog/scope/clips` units; e2e `motion-loading-errors`, `motion-loader`, `motion-default-coverage`; missing/corrupt pack → visible blocking error, zero legacy frames |
 | 6 | **Renderer + switch deletion (the Phase 5 commit)**: jointly remove B6 head fields/helpers, B7 head imports/loader parts, 33 head/front/rear PNGs; slim all 3 face metadata files + prepare-*-faces scripts ONLY now; all A files, draw/rig/registry/sprites remainders, B10/B11/B13 remainders + B12 Result cached-idle branch, `motionEnabled`, D-delete assets, E1 test deletions, E vision sprite-gate rewrite + bridge replacement, E4 script deletions | full serial: lint, typecheck, `npm run test`, `npm run e2e`, `npm run vision`, `npm run signal` — retired gates recorded retired-by-deletion, incl. arm-chain G6 |

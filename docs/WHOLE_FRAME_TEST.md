@@ -1,4 +1,22 @@
-# Whole-frame painting pilot: Guan Yu idle / attack / down
+# Whole-frame painting pilot: Guan Yu idle / attack / down — RETIRED
+
+**2026-10-15 retirement / historical record only.** CMR-24's bounded
+`cmr24-remove-whole-frame-pilot` slice removes the optional pilot runtime,
+shipping sheet/metadata, preparation script and sole-purpose unit/capture tests.
+`?frames=1` now has no effect in either default motion or `?motion=0` rollback.
+The paper-doll rollback, shared portraits/props and all motion-pack pixels remain.
+This is not full Slice 2, final renderer deletion or Part B acceptance.
+
+The methods, numbers, recommendations and commands below describe the original
+pilot, **not live requirements or runnable instructions**. Its sheet hash/fit/
+blit tests, guide/comparison generators and gated browser capture are
+**RETIRED-BY-DELETION, NOT PASS** in this slice. Historical source art and
+[provenance](../art/whole-frames/PROVENANCE.md) are retained unchanged; historical
+implementation is available in Git at `0d298a3`. No new image generation or
+retrospective visual acceptance is implied. Current retirement regression:
+[wholeframe-retired.spec.ts](../e2e/wholeframe-retired.spec.ts).
+
+---
 
 **Question.** Does painting each pose as ONE whole figure, guided by the rig,
 fix the joint and consistency problems of the paper-doll approach (painted

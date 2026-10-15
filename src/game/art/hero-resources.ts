@@ -2,7 +2,6 @@ import type { PoseName } from './poses'
 import type { Skeleton } from './rig'
 import type { BodyArt } from './body-parts'
 import type { WeaponArt } from './weapon-parts'
-import type { WholeFrameArt } from './whole-frames'
 import type { MotionArt } from './motion-clips'
 
 /** Shared painted portrait identity; no rig/body resources are needed. */
@@ -34,9 +33,6 @@ export interface ArtResources extends PortraitResources {
   /** Painted weapon cells (BODY-21), one shared pack. Absent renders the
    * procedural weapons. */
   weapons?: WeaponArt
-  /** Whole-frame pilot (`?frames=1` only): per-fighter painted whole poses.
-   * A pose without a frame renders the fighter's existing art. */
-  frames?: Readonly<Partial<Record<string, WholeFrameArt>>>
   /** Optional simulation-timed whole-character motion experiment. */
   motions?: Readonly<Partial<Record<string, MotionArt>>>
 }

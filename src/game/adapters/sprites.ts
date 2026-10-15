@@ -12,7 +12,6 @@ import type { PoseName } from '../art/poses'
 import { POSE_TABLE } from '../art/poses'
 import { blendEase, leanEnvelope, lerpSkeleton, torsoLean } from '../art/interpolate'
 import { blendBoxFor, blendMarginFor, drawKindSkeleton } from '../art/registry'
-import { hasWholeFrame } from '../art/whole-frames'
 import { RENDER_SCALE } from '../render'
 import { heroArtResources } from './hero-art'
 
@@ -227,9 +226,6 @@ export function ensureBlendKey(
 ): string | undefined {
   const entry = vectorArtFor(kind)
   if (!entry || entry.type !== 'figure') return undefined
-  // Whole-frame pilot: rig in-betweens of a painted whole pose would show
-  // paper-doll art between two painted frames - cut straight to the key.
-  if (hasWholeFrame(heroArtResources(scene)?.frames?.[kind], from as PoseName, to as PoseName)) return undefined
   const a = POSE_TABLE[from as PoseName]
   const b = POSE_TABLE[to as PoseName]
   if (!a || !b) return undefined

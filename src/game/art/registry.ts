@@ -2,7 +2,6 @@ import { drawFigure } from './draw'
 import type { ArtResources, HeroArt } from './hero-resources'
 import type { BodyArt } from './body-parts'
 import type { WeaponArt } from './weapon-parts'
-import { paintWholeFrame } from './whole-frames'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
 import { PROPS, drawProp, type PropPlan } from './props'
@@ -242,12 +241,6 @@ export function drawKindPose(
   let drawn = true
   switch (entry.type) {
     case 'figure': {
-      // Whole-frame pilot: a painted whole pose fills the entire art box.
-      const whole = resources?.frames?.[kind]
-      if (whole) {
-        const box = figureBoxFor(pose)
-        if (paintWholeFrame(ctx, whole, pose, box.width, box.height)) break
-      }
       ctx.translate(marginFor(pose), HEADROOM)
       const head = resources?.heroes[kind]
       const body = resources?.bodies?.[kind]
