@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { CHARACTER_ORDER } from '../src/core/characters'
+import { cardCenterX } from '../src/game/ui/roster'
 
 /**
  * UI-3 roster select: the screen is built from the baked kit, the cursors
@@ -71,18 +72,27 @@ test('UI-3 roster select renders through the baked kit and the cursors track', a
   // to card 0.
   const start = await page.evaluate(readMarks)
   expect(start.cards.length).toBe(5)
+  // Live card centres must equal the scene's own geometry source:
+  // cardCenterX(i, 5) = 480/2 - 92*2 + i*92, i.e. [56, 148, 240, 332, 424].
+  expect(start.cards).toEqual(CHARACTER_ORDER.map((_, i) => cardCenterX(i, CHARACTER_ORDER.length)))
   expect(start.p1).toBe(start.cards[0])
   expect(start.p2).toBe(start.cards[1])
   await page.screenshot({ path: 'artifacts/look/ui3-select-desktop.png' })
 
   await page.keyboard.press('ArrowLeft')
   await expect.poll(() => page.evaluate(readMarks)).toMatchObject({ p1: start.cards[4], p2: start.cards[0] })
-  await page.keyboard.press('ArrowRight')
-  await page.waitForTimeout(90)
-  await page.keyboard.press('ArrowRight')
-  await page.waitForTimeout(90)
-  await page.keyboard.press('ArrowRight')
-  await expect.poll(() => page.evaluate(readMarks)).toMatchObject({ p1: start.cards[2], p2: start.cards[0] })
+  // Step right to Zhao Yun (index 2), navigating by the observed card rather
+  // than counting presses: SelectScene listens for 'keydown-RIGHT' without
+  // registering a Key object, so Phaser does not suppress OS auto-repeat
+  // keydowns, and under batch load a delayed keyup can add an extra step
+  // (that lands on card 3 and a blind-count poll can never recover).
+  const targetX = cardCenterX(2, CHARACTER_ORDER.length)
+  for (let step = 0; step < 10 && (await page.evaluate(readMarks)).p1 !== targetX; step += 1) {
+    const before = (await page.evaluate(readMarks)).p1
+    await page.keyboard.press('ArrowRight')
+    await expect.poll(async () => (await page.evaluate(readMarks)).p1).not.toBe(before)
+  }
+  await expect.poll(() => page.evaluate(readMarks)).toMatchObject({ p1: targetX, p2: start.cards[0] })
   await page.screenshot({ path: 'artifacts/look/ui3-select-zhaoyun.png' })
   expect(errors).toEqual([])
 
