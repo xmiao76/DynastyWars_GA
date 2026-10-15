@@ -1,54 +1,41 @@
-# CMR-24 — Sole-motion final gate (default-flip evidence + post-delete verification)
+# CMR-24 — Practical sole-motion final gate (pre-delete + post-delete)
 
-- Initial queue status: TODO; attempts start at zero. Live status is authoritative in [TASKS.md](../../TASKS.md).
-- Dependencies: CMR-23 DONE (the pre-flip validation gate) and every foundation/character task transitively.
-- **Rewritten 2026-10-14** under the owner-approved [sole-motion migration](../MOTION_SOLE_MODE_MIGRATION.md). This task supersedes its former "full-cast verification and owner presentation; MUST NOT make motion default" form: that prohibition belonged to the opt-in era and is replaced by the staged sequence below. The former verification/presentation content is preserved inside Parts A and B; nothing is deleted early and no gate is weakened.
+- Initial queue status: TODO; live status/attempt history is authoritative in [TASKS.md](../../TASKS.md).
+- Dependencies: CMR-23 terminal DONE (DEFERRED_BY_OWNER / SUPERSEDED gate), with all B packs transitively DONE. No unresolved strict-art dependency.
+- **Owner practical amendment (2026-10-14, work `owner-practical-motion-contract-amendment`):** supersedes the earlier strict paired-art pre-flip prerequisite. Owner accepts/defer-repair of existing contact/occlusion flaws as migration visual debt, no additional image generation, mechanics unchanged. CMR-23's **2/60 passes, 58/60 failures** stay FAIL/deferred, not PASS. Its closure automatically passes **none** of this task's mechanical/coverage/resource checks.
 
-## Role and ordering
+## Authority and history
 
-CMR-24 is the sole-motion final gate and carries migration Phases 2–6 as bounded, separately committed slices, in this exact order. One slice per consumer iteration; a slice starts only on the previous slice's recorded exit evidence.
+Read the authoritative [migration plan](../MOTION_SOLE_MODE_MIGRATION.md), [shared contract](../CAST_MOTION_ROLLOUT.md), [CMR-23 disposition/history](CMR-23.md), [durable checkpoint](CMR-23-STATUS-20261014.md), live queue/progress, provenance/budget/performance reports and individual review limitations. Preserve original attempts, failed runs, source hashes and ledger **197/200**; no reset, new spend or generation.
 
-1. **Phase 2 slice — wave-split loading + retry-then-error (still opt-in).** Per-spawn-wave stage scope under the unchanged ≤12 MiB cap (heroes + first-wave kinds ready before entry; later-wave/boss kinds published before their first spawn; pending co-op join waits for its pack). Missing/corrupt/timed-out/over-budget required packs get bounded retries then a visible blocking error — never silent legacy, partial packs or old poses in a new pack. Convert the opt-in fallback tests to error-path negative controls (missing, corrupt, forged, hung, over-budget wave). The default legacy URL is behaviorally unchanged by this slice.
-2. **Phase 3 slice — default flip.** Motion on for the normal URL; temporary `?motion=0` is the only escape to the still-present legacy renderer, for diagnosis/rollback only. Re-point off-by-default expectations. No legacy deletion in this slice.
-3. **Part A gate (Phase 4) — default-flip evidence, before any deletion.** Full verification at the exact Phase 3 commit (below). Legacy deletion is forbidden until Part A acceptance is fully checked; on failure retain IN_PROGRESS/BLOCKED and roll back via `?motion=0` or reverting the flip slice.
-4. **Phase 5 slice — legacy deletion (final slice).** Only after Part A passes: delete the legacy paper-doll/rig renderer and its exclusive assets/tests, the whole-fighter fallback paths, `?motion=0` and the mode switch. Core simulation, gameplay timing and pack pixels do not change. Every retired legacy-only gate (e.g. G6 arm-chain, UIR-19 hand test) is listed as retired-by-deletion, never reported as newly green.
-5. **Part B gate (Phase 6) — post-delete verification.** Full serial gates and fresh whole-cast review on the post-delete tree; prove the built bundle is sole-motion only. CMR-24 is DONE only after Part B.
+Wave/retry and epoch/decode fixes **pre-existed gated review** (`2fb279a`, `77d6d3e`, runtime `523684c`, production correction through `4bc0cdd`). Recorded targeted units 140, browser 8, vision 5 and production 14 passing are opt-in/implemented-code evidence, **not default-URL verification**. Do not retroactively phase-order that work or count it as this task's acceptance.
 
-## Read first
+## Ordered bounded slices
 
-[Sole-motion migration plan](../MOTION_SOLE_MODE_MIGRATION.md) (authoritative for this task), [shared contract](../CAST_MOTION_ROLLOUT.md), CMR-23's DONE evidence including its per-wave ≤12 MiB feasibility report, live queue/progress, inventory/provenance/budget/performance reports, all individual review statuses and independent producer findings. Existing visual-review rubric/cadence remains authoritative. One good hero is not whole-cast acceptance.
+1. **Phase 2: review existing loading work.** Verify per-wave ≤12 MiB scheduling, heroes/first-wave before entry, future kinds before spawn and join hero before core join. Review existing wave/retry/error implementation; fill only proven gaps under separately bounded scope. Required missing/corrupt/forged/hung/over-budget packs must retry boundedly then show a blocking error, never legacy or partial-pack substitution. Preserve atomic publication, cancellation and sibling/new-episode isolation.
+2. **Phase 3: default flip, temporary rollback.** Normal URL uses motion; temporary `?motion=0` reaches complete legacy only for diagnosis/rollback. Verify exact-commit actual default and escape paths in the built bundle. No legacy deletion yet.
+3. **Part A / Phase 4: practical pre-delete verification and independent review.** All checkboxes below green before deletion; known owner-deferred contact/occlusion debt remains transparent, not a strict-art pass prerequisite.
+4. **Phase 5: legacy-only deletion.** Only after green Part A and independent review: inventory/remove legacy-only code, art, config, tests, scripts, switches/fallbacks and live requirements; preserve all assets/tools/config/tests shared with motion or other supported behavior. Record every retired gate as retired-by-deletion, not newly green. No pack-pixel or core/mechanics change; no archive/history/ledger rewrite.
+5. **Part B / Phase 6: repeat essential checks and bundle exclusivity.** CMR-24 DONE only after post-delete evidence and independent review. Each slice is separately scoped/locally committed; no false implementation order for pre-existing fixes.
 
-## Bounded work — Part A (at the Phase 3 flip commit)
+## Part A acceptance — all required before any deletion
 
-- Final serial verification: lint, typecheck, units, e2e, signal, vision, build, prodbuild and fresh full motion-aware visual review — on the **default URL** (no `motion` parameter), plus one explicit `?motion=0` pass proving the temporary escape still works pre-deletion.
-- Review all 11 humanoids in actual game: applicable actions/attacks/states/transitions, both facings, three stages, co-op, desktop/mobile landscape, Canvas/WebGL and important before/after pairs. No old parts/rig in-betweens in any published pack; no unmigrated cast.
-- Prove failure semantics on the default path: each negative control (missing/corrupt/forged/hung/over-budget-wave pack) ends in bounded retry then the visible blocking error, with zero legacy frames rendered and other fighters' packs uncorrupted.
-- Check resource budgets as wave-split: per-stage/per-hero wave-0 and later-wave bytes ≤12 MiB, decoded/cache ceilings, prefetch-before-spawn, late join, restart/eviction, clocks, projectile/charge/enrage/KO/revive, pause and frozen simulation. Use normal-paced real-input/AI clips, not only injected pose grids.
-- Publish `docs/CAST_MOTION_REVIEW.md` and an indexed owner review page with videos/crops, coverage, provenance, exact commits, independent review status, quality measures and per-wave download/decode/frame-time costs. Label all unchecked/unaccepted areas.
+- [ ] CMR-23 explicit terminal disposition recorded (not original acceptance); practical checks below independently evidenced at exact commits, no partial packs/placeholders.
+- [ ] Actual **default URL, no motion parameter**, loads/publishes motion in production; explicit temporary `?motion=0` rollback works. Existing opt-in success is not substituted.
+- [ ] All 11 fighters' applicable actions/states/transitions/ticks and both facings covered by loaded/published frame/texture traces and actual-game captures: no blank/missing frames, old rig leakage or mixed packs. Paired hold/release/throw/impact/getup, timeout, hit break, target death, co-op/multiple grabbers mechanically covered without demanding deferred contact-art repair.
+- [ ] Title/select/menus/overlays/results/game-over, all three stages, solo/co-op/late join, KO/revive, pause/hit-stop/restart/exit, mobile portrait/landscape and Canvas/WebGL work. Timing, range, damage, speed, physics, grab pin and deterministic core unchanged.
+- [ ] Every stage/hero/co-op wave split meets ≤12 MiB; decoded pixels ≤16 MiB/humanoid, retained cache ≤128 MiB, pages ≤2048²/density2. PNG/network/decode/GPU/cache and frame-time/performance evidence meet existing thresholds; no full-cast title preload, frame-canvas duplication, cache leak or silent required-kind omission. Prefetch/spawn/join/cancellation/eviction checks pass.
+- [ ] Default-path negative controls (missing/corrupt/forged/hung/over-budget wave) demonstrate bounded retry then visible blocking error, zero legacy frames, no sibling corruption or stale-episode publication.
+- [ ] Full serial lint, typecheck, unit, e2e, signal, vision, build, prodbuild pass or report exact existing owner-accepted baseline exceptions; no new failures hidden. Known contact/occlusion debt is specifically deferred, not permission to waive other visual or mechanical regressions.
+- [ ] Fresh **independent pre-delete review** confirms practical gates and deletion inventory. Indexed owner review and `docs/CAST_MOTION_REVIEW.md` carry exact commits, coverage, provenance, resources/performance, captures and normal-paced real-input/AI clips; native video inspection or its absence explicit. Historical head/weapon/contact limitations and 58/60 strict contact failures remain visible. No new unrelated blocking defects.
 
-## Bounded work — Part B (on the post-delete tree)
+## Part B acceptance — all required for DONE
 
-- Repeat the full serial gate set and a fresh whole-cast motion review after the Phase 5 deletion slice, at its exact commit.
-- Prove sole-mode exclusivity: no legacy renderer/fallback code path remains (grep + runtime evidence), URL mode parameters have no rendering effect, `?motion=0` is gone, the built bundle downloads no legacy fighter art, and the retry-then-error controls still fire.
-- Reconcile historical pilot/legacy findings carefully. List every gate/test retired by deletion and every documented baseline exception it replaced; never claim the old G6/UIR-19 failures "became green". Update `docs/CAST_MOTION_REVIEW.md` and the indexed review with pre/post-delete results.
+- [ ] Separate Phase 5 deletion commit follows green Part A and independent review; legacy-only code/art/config/tests/scripts/live requirements, fallback and mode switch are absent; shared material preserved; mechanics/pack content unchanged.
+- [ ] Repeat full serial gates and essential Part A coverage/loaded frames/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL/performance on the exact post-delete tree, with fresh independent review and the same baseline honesty. List retired gates (including applicable G6/UIR-19/rig grids), never claim their old failures became green.
+- [ ] Source/reference search **and actual built-bundle/network/runtime evidence** prove sole-motion exclusivity: no legacy renderer/fallback/legacy-only downloads; old URL mode parameters including `?motion=0` have no rendering effect; required-pack error semantics intact.
+- [ ] Indexed owner review updated with pre/post-delete results, retirement inventory and remaining owner-deferred visual debt/inspection limits.
 
-## Acceptance
+## Stop / rollback / completion
 
-Part A (all required before Phase 5 may start):
-
-- [ ] CMR-23 DONE with evidence; Phases 2–3 slices committed in order with their exit evidence; no partial packs/placeholders.
-- [ ] Every required cast action/facing/transition and the paired matrix reviewed on the default URL; no open new S1/S2 motion defects. Fresh producer review confirms results.
-- [ ] Identity/weapon/head/body/foot/pivot criteria unchanged. Guan Yu reference preserved and historical limitations transparent.
-- [ ] All serial gates pass or are exact documented owner-accepted baseline exceptions; no new failures or false full-green report.
-- [ ] Wave-split budgets measured and met; no full-cast boot downloads, frame-canvas duplication or cache leaks. Retry-then-error negative controls pass with zero legacy frames.
-- [ ] Owner can open the complete indexed review/videos and understand limits; native video inspection or its absence documented.
-
-Part B (all required for DONE):
-
-- [ ] Phase 5 deletion slice committed after Part A; legacy renderer, fallback paths, `?motion=0` and the mode switch verifiably absent; core/pack content unchanged by that slice.
-- [ ] Full serial gates + fresh whole-cast review pass on the post-delete tree (same baseline honesty; retired gates listed, not hidden).
-- [ ] Built bundle proven sole-motion only; error path intact; indexed review updated with post-delete evidence and remaining limitations.
-
-## Completion / stop
-
-If any acceptance item fails, retain IN_PROGRESS or concrete BLOCKED evidence at the exact phase reached — never skip ahead (in particular, never delete legacy on a failed or partial Part A). Do not start another full-cast generation batch, invent tasks, reset budgets, raise caps or weaken a gate to pass. Rollback per the migration plan: `?motion=0`/revert of the flip slice pre-deletion, revert of the deletion slice after it. When Part B verifies, make the scoped local report/verification commit and hand off to the owner; deployment remains owner-manual. No push/deploy or scheduling changes.
+Any unpassed practical gate keeps IN_PROGRESS or concrete BLOCKED evidence; never delete on partial/failed Part A. Known CMR-23 contact/occlusion art is not re-opened or silently repaired. No additional image generation, budget/cap/attempt reset, core change, push/deploy, runner/lock/scheduling change. Before deletion use `?motion=0` or revert the flip slice; after deletion revert the separate deletion commit. After Part B verifies, scoped local report/verification commit and owner handoff only; deployment stays owner-manual.

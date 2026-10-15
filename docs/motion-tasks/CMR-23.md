@@ -1,5 +1,18 @@
 # CMR-23 — Paired grabs/throws (on foot); sole-motion pre-flip validation gate
 
+## Owner terminal disposition — 2026-10-14
+
+Work `owner-practical-motion-contract-amendment`, exact owner direction:
+
+> Owner accepts CMR23 contact/occlusion flaws as known migration visual debt, defers their repair, no additional image generation, mechanics unchanged; removes strict paired art pass as migration prerequisite.
+
+**DONE (DEFERRED_BY_OWNER / SUPERSEDED gate)** is terminal closure only, **NOT original criterion PASS**. Original strict visual criteria remain **FAIL/deferred: 2/60 ≤3u passes, 58/60 failures**; stricter ≤2u diagnostic 0/60 and 60/60 negative-control rows fail as designed. The prior BLOCKED WAITING_FOR_OWNER verdict was valid then and is retained in the [checkpoint](CMR-23-STATUS-20261014.md). Never reset to TODO, erase/recount attempts, repair claims or history. Historical diagnostics, rejected pilot, source/provenance gaps and budget **197/200** remain untouched; no additional image generation.
+
+The pre-flip strict-art requirement below is now historical/superseded, not an active dependency. **All practical mechanical/coverage/resource checks transfer to [CMR-24](CMR-24.md) and remain required, not automatically passed by closure.** Mechanics/core/pixels unchanged. Default-URL rollback, practical pre-delete independent review, legacy-only removal and post-delete exclusivity are governed by the [amended plan](../MOTION_SOLE_MODE_MIGRATION.md). No flip/deletion is implemented here; no push/deploy/control/budget change.
+
+## Original specification (history retained; superseded as a migration gate)
+
+
 - Initial queue status: TODO; attempts start at zero. Live status is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: all per-character B tasks DONE (see live Requires in TASKS.md).
 - Scope explicitly includes both participants' presentation in paired actions; no core changes.

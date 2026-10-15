@@ -12,3 +12,9 @@
 
 ## Owner-directed motion experiment
 
+## Practical gate supersession (2026-10-14)
+
+Work `owner-practical-motion-contract-amendment`: owner accepts CMR-23 contact/occlusion flaws as migration visual debt and defers repair, with no additional image generation and mechanics unchanged. CMR-23 closes terminal **DONE (DEFERRED_BY_OWNER / SUPERSEDED gate)**, NOT original criterion PASS; **2/60 pass / 58/60 fail** strict evidence/history/budgets/provenance remain. Thus `Requires: CMR-23` is satisfied by disposition, with no unresolved strict-art prerequisite. CMR-24 stays **TODO, ready**; none of its practical gates is automatically passed.
+
+The [live specification](../motion-tasks/CMR-24.md) and [amended plan](../MOTION_SOLE_MODE_MIGRATION.md) require actual default URL with temporary `?motion=0` rollback, whole-cast loaded-frame/coverage/resources/error semantics/menus/co-op/stages/mobile/Canvas-WebGL/performance checks and independent pre-delete review; only after green remove legacy-only code/art/config/tests/scripts/live requirements preserving shared assets, then repeat essential gates and prove bundle exclusivity. Wave/retry/queue/decode fixes pre-existed gated review; historical 140 units/8 browser/5 vision/14 production passing are not default-URL acceptance or retroactively ordered phases. No generation, ledger/attempt reset, push/deploy or control change.
+
