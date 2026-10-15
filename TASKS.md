@@ -265,7 +265,8 @@ This compact live index preserves original status/attempt evidence in linked exa
 
 ### CMR-23 - Paired grabs/throws (on foot); sole-motion pre-flip validation gate
 
-- Status: TODO
+- Status: BLOCKED WAITING_FOR_OWNER (2026-10-14 checkpoint: contact matrix fails 58/60 combinations at the ≤3u specification; no demonstrated fully funded repair path — Guan Yu generation closed, Huang Zhong 20/20 exhausted, global 197/200. Prior: TODO. Existing consumer attempts/history preserved; no reset or recount inferred.)
+- Checkpoint: [CMR-23 durable evidence/status](docs/motion-tasks/CMR-23-STATUS-20261014.md). CMR-23 must not be marked DONE or waived absent an explicit owner decision. Wave/retry work pre-existed its gated acceptance; implemented loader verification is not CMR-23/CMR-24 acceptance, and default flip/legacy deletion remain forbidden. B-task and CMR-24 statuses unchanged.
 - Requires: CMR-06B, CMR-07B, CMR-08B, CMR-09B, CMR-10B, CMR-11B, CMR-12B, CMR-13B, CMR-14B, CMR-15B
 - Acceptance: All 11 current humanoids required: on-foot paired grab/throw/contact evidence; no core physics changes. Migration Phase 1 gate ([plan](docs/MOTION_SOLE_MODE_MIGRATION.md)): validation on the current opt-in path plus per-wave ≤12 MiB feasibility report; must be DONE before any default flip — this task itself flips/deletes nothing.
 - Record: [CMR-23 exact prior evidence](docs/loop-task-records/CMR-23.md) (original SHA-256 d660ecbe7428235229d1fce92162817e88e0032593111e12f5593ebc58f7b1b2).

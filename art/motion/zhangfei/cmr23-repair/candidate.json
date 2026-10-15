@@ -1,7 +1,14 @@
 {
   "work": "cmr23-zhangfei-pilot-generate",
   "task": "CMR-23 Zhang Fei settled-grab pilot (settled misc:3 ONLY, isolated single-pose edit; no pack/gates in this package)",
-  "status": "UNREVIEWED",
+  "status": "UNACCEPTED_GATE_FAIL",
+  "gateReview": {
+    "path": "art/motion/zhangfei/cmr23-repair/gate.json",
+    "sha256": "fc271c5432cd6d79d81fbb808a6959ea3fadf0c5beffb69f49b6ed9b06d9e256",
+    "commit": "be24ef9",
+    "verdict": "PILOT FAIL - do NOT proceed to cluster bake",
+    "note": "Existing gate result only; no new measurements. Original generation metadata and gatesRun-at-generation record retained; banked remains false."
+  },
   "provider": {
     "requested": "gpt",
     "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"

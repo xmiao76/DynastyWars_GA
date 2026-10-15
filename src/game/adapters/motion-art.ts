@@ -582,7 +582,8 @@ export class MotionRuntime {
   /**
    * Stage entry: prepare the immediate scope before the stage/actor enters
    * simulation, bounded by the stage deadline. A timeout cancels the loads and
-   * the stage continues with legacy art - ceilings are never raised.
+   * returns a structured final timeout; required-stage entry displays an error.
+   * Ceilings are never raised.
    */
   async prepareStage(scene: Phaser.Scene, req: MotionStageRequest): Promise<MotionStageReport> {
     // All continuations belong to this entry's originating epoch, including

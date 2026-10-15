@@ -2110,7 +2110,11 @@ function main() {
     gapPassU: GAP_PASS_U, specGapPassU: SPEC_GAP_PASS_U,
     method: 'Offsets are presentation-only sprite translations in world units (entity x/y, depth and shadows stay at the traced values). sepU increases holder<->victim separation along the pin axis (the traced hand overshoots the collar, so closing the gap separates the sprites); dyRelU in [-2,2] is the relative lane shift distributed with the same shares as sepU (victim +share*dy, holder -share*dy). Gap/ROI-overlap/body-overlap depend only on the relative shift and were searched once per combo (coarse sep 0..40x1u, dy -2..2x1u; refine +-1u x0.25u around the scored best). Search gap is exact when <=3u (3u-bucket search) and null/gapOverCap above 3u; every reported strategy gap was recomputed exactly with per-actor offsets via minDistance from paired-contact-measure.mjs. ROI/body overlap count coincident 0.5u world cells (same grid as overlapCount). Body overlap is an interpenetration PROXY: the front actor occludes in projection, so only its CHANGE vs baseline is meaningful. Sole displacement is the sprite offset itself (rigid translation) measured from the unmoved entity ground point where the shadow renders; groundErrU adds the dy share to the baseline boot error. Score = gap*2 + |roiOverlap-40|*0.04 + max(0,bodyOverlapDelta)*0.002 + |dy|*0.4 + sep*0.03. lidian excluded: baseline gap 2.5u already passes the 3u spec gate.',
     tradeoffs: 'foot/shadow: the shadow and depth (y-sort) stay at the entity point, so any strategy reads as feet sliding away from the shadow by up to maxSoleDisplacementU, and a dy share also floats/sinks the sole vs the ground line (groundErrU) while depth ordering still sorts by unmoved entity y - keep |dy|<=2 so a lane-shifted sprite never crosses a neighbour lane\'s sort band. holder-only preserves the victim (and its pin) exactly but pops the PLAYER hero sepU from its input position; victim-only preserves the hero but the grabbed victim visibly slides from where the grab connected; split halves both pops and is the least noticeable per sprite at large sep, at the cost of BOTH sprites leaving their shadows.',
-    combos: combos.map(({ ctx, ...res }) => res),
+    combos: combos.map((combo) => {
+      const res = { ...combo }
+      delete res.ctx
+      return res
+    }),
     recommendations: Object.fromEntries(KINDS.map((kind) => {
       const r = combos.find((c) => c.kind === kind && c.facing === 'right')
       const rep = r.strategies.find((s) => s.strategy === r.recommendation.strategy)
