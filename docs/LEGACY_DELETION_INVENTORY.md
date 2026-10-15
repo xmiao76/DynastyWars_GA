@@ -770,3 +770,96 @@ motion packs, not a new magic number; (3) test helpers `cast-art.ts` /
 Slice 6 to keep intermediate states compiling; (4) `prepare-*-faces` scripts
 can regenerate deleted layers if run post-Slice-6 — their rewrite/freeze is
 part of Slice 6, not optional cleanup; scripts remain unchanged while rollback heads are live.
+
+## 2026-10-15 Slice 5 cutover verification addendum
+
+Work `cmr24-hardening-cutover-gate`, bounded verification attempt1 on clean
+committed **`0f3291944727d31fc45f5cf9b55389cd987bb7d5`** (tree
+`dae42b024470936898a73f40622d2cc11cd50714`), no implementation edits:
+
+1. `npx vitest run test/game/motion-runtime.test.ts test/game/motion-catalog.test.ts test/game/motion-scope.test.ts test/game/motion-clips.test.ts`
+   **169/169 PASS, 4/4 files, 105.78s, native exit0**. Runtime28/catalog16/
+   scope98/clips27 is final-source focused evidence, not full repository units.
+2. `npm run vision` ran **ONCE**. Owned wrapper `pwsh-1014` collected **exit1**:
+   PowerShell Stop preference made npm's `NO_COLOR` warning a terminating
+   `NativeCommandError`. Native vision exit and full test-list log were not
+   captured. Fresh last-run says passed, frame report9/9 pass, parity7/7 no
+   failures, findings empty; these do NOT replace exact native-exit evidence.
+   This is a verification-wrapper failure, not a proven assertion regression.
+3. `npm run prodbuild` **NOT RUN**, sequence stopped; no retry or assertion/
+   threshold/timeout changes. Exact-exit gate therefore **NOT GREEN**.
+
+[Explicit results](../artifacts/motion/frame-error-hardening/cutover-gate/exits.json),
+[wrapper error](../artifacts/motion/frame-error-hardening/cutover-gate/wrapper-failure.utf8.log),
+[UTF-8 summary](../artifacts/motion/frame-error-hardening/cutover-gate/summary.utf8.md)
+and before/after source SHA256 receipts are local ignored evidence. No owned
+verifier remains; pre-existing dev server untouched. Prior browser13/13 exit0
+and Canvas8,650 rows/464 frames/zero blank/failures remain unchanged-input
+previous evidence, NOT rerun; runtime/GameScene/frame-error-spec fingerprints
+match recovery, other browser spec commits/timestamps precede it.
+
+Personally inspected fresh
+[Canvas vision idle](../artifacts/motion/frame-error-hardening/cutover-gate/vision-canvas-game_idle.png),
+unchanged copy of the actual current parity shot (17:46:54Z,
+SHA256 `b52159d0225da4f28d18565cf73d1d4bf2c767b63580718f01a85cb96cee8e0c`):
+nonblank painted Zhao Yun/soldiers/crate, legible HUD + stage intro, no error
+overlay. Still only; no native-speed/art acceptance.
+
+**Slice5 remains partial**, not renderer/switch cutover or PartB/CMR24 DONE.
+All legacy renderer/rig/head/layer/full-face-metadata/test/script dependencies
+and explicit `motion=0` stay live. Next dependency: manager review plus separately
+scoped exact-exit vision/production verification BEFORE joint renderer+switch
+Slice6 removal; Slice6's own full gates and PartB repeat/exclusivity/independent
+review remain owed. Earlier known legacy arm-chain failure outside focus was
+not run/fixed/retired. Full repo units/e2e/signal/lint/typecheck not rerun here.
+No source/pixels/core/clips/budget/default/generation/control changes, no actual
+cutover and no commit because this exact-exit gate is incomplete.
+
+## 2026-10-15 native-exit verification follow-up
+
+Distinct work `cmr24-frame-hardening-native-exit-verification` supplies ONLY the
+missing native-exit checks handed off by the closed summary above. Its warning,
+missing vision exit and production NOT RUN statements remain exact history of
+that earlier package; they are not rewritten as passes or reopened.
+
+On stable **`0f3291944727d31fc45f5cf9b55389cd987bb7d5`**, tree
+`dae42b024470936898a73f40622d2cc11cd50714`, only these two inherited docs dirty:
+
+1. Exactly one `npm run vision`: **5/5 PASS, 2.7m, actual native exit0**,
+   17:54:20–17:57:04Z. Frame9/9, parity7/7 zero failures, legacy sprite158/158,
+   reach55/55/retract110/110, both negative controls reject, HUD1/1, empty findings.
+   This sprite inventory is NOT all-11 sole-motion coverage proof.
+2. Sequentially exactly one `npm run prodbuild`: **18/18 PASS, 1.6m, actual
+   native exit0**, 17:57:04–17:58:40Z. Actual dist default/no-motion-parameter and
+   `motion=0` Canvas/WebGL, baked-art retirement guards, HUD/mobile and Xiahou
+   default/rollback + missing/corrupt retry controls pass.
+
+Known Node binary invokes the existing npm CLI using `Start-Process -Wait
+-PassThru` with separate UTF-8 stdout/stderr redirects and actual `.ExitCode`.
+Existing NO_COLOR and large-chunk warnings remain logged, not suppressed or
+turned into PowerShell pipeline termination. No env/config/runtime/test/assertion/
+threshold/timeout changes or reruns. Prior **169/169 focused units/native exit0**
+are retained **NOT repeated**; prior browser13/13 and Canvas8,650 rows/464 frames
+also remain unchanged evidence. [Native exit receipts](../artifacts/motion/frame-error-hardening/native-verification/exits.json),
+[vision stdout](../artifacts/motion/frame-error-hardening/native-verification/vision.stdout.utf8.log)/[stderr](../artifacts/motion/frame-error-hardening/native-verification/vision.stderr.utf8.log),
+[production stdout](../artifacts/motion/frame-error-hardening/native-verification/prodbuild.stdout.utf8.log)/[stderr](../artifacts/motion/frame-error-hardening/native-verification/prodbuild.stderr.utf8.log),
+[before](../artifacts/motion/frame-error-hardening/native-verification/source-before.json)/[after fingerprints](../artifacts/motion/frame-error-hardening/native-verification/source-after.json).
+All 17 source/test/config/package hashes and original summary/wrapper-failure
+hashes match; motion-art SHA256 `d533d51e8573ef309d8e3382144b1d44d15385fb24c97a50280a8c0a87fc3dc8`,
+GameScene `ba93476693abeca43c0e65b4983d5002692d1eaf95307bf4701e7d8cc6101d57`.
+
+Personally inspected new actual [vision Canvas idle](../artifacts/motion/frame-error-hardening/native-verification/vision-canvas-game_idle.png)
+(17:54:39Z, pixels deterministically equal earlier shot) and production Canvas
+[default](../artifacts/motion/frame-error-hardening/native-verification/production-canvas-default.png)/[rollback](../artifacts/motion/frame-error-hardening/native-verification/production-canvas-rollback.png)
+(17:57:17Z/17:57:12Z): visible motion versus legacy rig, soldiers/crate, legible
+HUD/intro and no blank/error overlay. Stills only, no native-speed/art acceptance
+or new WebGL screenshot inspection claim. Owned job `pwsh-1022` collected exit0;
+npm PIDs6904/6148 exited, pre/post Node PID+start-time sets identical, no kills.
+
+**The two missing native-exit checks pass; this is NOT final joint cutover,
+PartB, full Slice5 or CMR24 acceptance.** Legacy renderer/rig/heads/layers/full
+metadata/tests/scripts and explicit `motion=0` remain live. Slice6's own gates,
+PartB repeat/exclusivity and independent review remain owed. Full repository
+units/e2e/signal/lint/typecheck not rerun; known legacy arm-chain failure unchanged.
+Docs-only local commit after checks; no evidence/dist/logs staged, source/pixels/
+core/clips/default/budgets/generation/deletion/control changes or push/deploy.
