@@ -585,6 +585,9 @@ export class MotionRuntime {
    * the stage continues with legacy art - ceilings are never raised.
    */
   async prepareStage(scene: Phaser.Scene, req: MotionStageRequest): Promise<MotionStageReport> {
+    // All continuations belong to this entry's originating epoch, including
+    // background work that has not started when shutdown/deadline cancels it.
+    const stageEpoch = this.cache.epoch('stage')
     // Entry budget charges only NEW downloads: kinds this cache already
     // holds ready (previous stage / restart) are free at the gate.
     const candidates = [req.hero, req.secondPlayer ?? '', ...req.stageKinds, ...req.futureKinds]
@@ -621,7 +624,7 @@ export class MotionRuntime {
         // Required: exactly one retry, inside the SAME stage deadline
         // (the race below bounds the retry as well as the first attempt).
         const outcome = await this.loadKind(scene, kind, { required: true })
-        if (aborted) return // the stage deadline fired: caller already reported
+        if (aborted || this.cache.epoch('stage') !== stageEpoch) return // deadline/shutdown: no continuation
         if (outcome.ok) report.published.push(kind)
         else {
           report.legacy.push({ kind, failure: outcome.failure })
@@ -631,6 +634,7 @@ export class MotionRuntime {
       }
     })()
     const finished = await raceTimeout(this.track(work), this.io.stageTimeoutMs)
+    if (this.cache.epoch('stage') !== stageEpoch) return report // shutdown stays silent, even at the deadline
     if (!finished) {
       aborted = true
       this.cancelLoads()
@@ -649,13 +653,12 @@ export class MotionRuntime {
     // try, non-fatal on failure. When a kind becomes due, the spawn gate's
     // required `prepareKinds` spends the single retry and only then can
     // the kind final-fail.
-    if (background.length > 0) {
-      const queueEpoch = this.cache.epoch('stage')
+    if (!aborted && background.length > 0) {
       const queue = (async (): Promise<void> => {
         for (const kind of background) {
-          // A scene exit/restart cancels the scope epoch: stop queueing
-          // further kinds into a dead scene instead of loading on.
-          if (this.cache.epoch('stage') !== queueEpoch) break
+          // A scene exit/restart cancels the originating scope epoch: stop
+          // queueing further kinds into a dead scene instead of loading on.
+          if (this.cache.epoch('stage') !== stageEpoch) break
           await this.loadKind(scene, kind, { required: false })
         }
       })()

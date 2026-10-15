@@ -473,8 +473,20 @@ describe('negative controls reject the whole fighter, never other valid art', ()
     expectLegacyOnly(fake, io) // unsupported
   })
 
-  it('stage deadline falls back to legacy without hanging the stage', async () => {
-    const { fake, io, rt } = setup({ sheet: { kind: 'hang' }, actions: { kind: 'hang' } }, { pageTimeoutMs: 5_000, stageTimeoutMs: 60 })
+  it('stage deadline final-fails the opening set without scheduling deferred or future loads', async () => {
+    const { fake, io, rt } = setup(okPages, { pageTimeoutMs: 5_000, stageTimeoutMs: 60 })
+    const fetchBytes = io.fetchBytes
+    io.fetchBytes = async (url, signal) => {
+      // Only the immediate hero hangs. Background pages would succeed if
+      // the expired stage incorrectly started a fresh queue after cancelling.
+      if (url.includes('guanyu')) {
+        io.calls.push(url)
+        await new Promise<void>((_resolve, reject) => {
+          signal.addEventListener('abort', () => reject(new Error(`timeout: ${url}`)))
+        })
+      }
+      return fetchBytes(url, signal)
+    }
     const report = await rt.prepareStage(fake.scene, motionStageRequest('stage1', 'guanyu', null))
     expect(report.published).toEqual([])
     // Only the awaited opening set reports legacy at the deadline; the
@@ -486,11 +498,16 @@ describe('negative controls reject the whole fighter, never other valid art', ()
     expect(report.failed).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout', attempts: 1, final: true })))
     expect(rt.finalFailure('guanyu')).toEqual({ kind: 'guanyu', failure: 'timeout', attempts: 1, final: true })
     expect(report.deferred).toEqual(deferred)
-    expect(fake.motions()['guanyu']).toBeUndefined()
-    rt.cancelLoads() // stop the background queue's hung pages
+    expect(report.scope.prefetch.length, 'the cancelled entry had future work to queue').toBeGreaterThan(0)
     await rt.settle()
-    void io
-  })
+    expect(fetchedKinds(io.calls), 'deadline cancellation starts no later immediate or background load').toEqual(['guanyu'])
+    expect(fake.motions(), 'unrelated published art survives, but no timed-out stage pack publishes').toEqual({ zhangfei: { id: 'zhangfei', revision: 'kept' } })
+    for (const kind of [...deferred, ...report.scope.prefetch]) {
+      expect(rt.state(kind), kind).toBe('absent')
+      expect(rt.failureState(kind), 'background work was never attempted').toBeUndefined()
+      expect(fake.textures.has(motionTextureKeys(kind).sheet), kind).toBe(false)
+    }
+  }, 60_000)
 })
 
 describe('sole-motion retry-once failure semantics', () => {
@@ -630,6 +647,61 @@ describe('sole-motion retry-once failure semantics', () => {
 })
 
 describe('cancellation, stale callbacks and late joins', () => {
+  it('shutdown during an immediate load stops its continuation and deferred plus future queue', async () => {
+    const fake = makeScene()
+    const io = makeIo(okPages)
+    const rt = new MotionRuntime(io)
+    // Keep a genuinely published pack through shutdown; cancellation must not
+    // discard warm art while rejecting the cancelled entry's later work.
+    expect(await rt.loadKind(fake.scene, 'guanyu')).toEqual({ ok: true })
+    let release: () => void = () => {}
+    let started: () => void = () => {}
+    const held = new Promise<void>((resolve) => { release = resolve })
+    const loading = new Promise<void>((resolve) => { started = resolve })
+    const fetchBytes = io.fetchBytes
+    io.fetchBytes = async (url, signal) => {
+      if (url.includes('soldier')) {
+        // Deliberately deliver valid bytes even after abort, just like a late
+        // network callback: the originating epoch must still reject them.
+        const bytes = fetchBytes(url, signal)
+        started()
+        await held
+        return bytes
+      }
+      return fetchBytes(url, signal)
+    }
+    const pending = rt.prepareStage(fake.scene, {
+      hero: 'guanyu',
+      stageKinds: ['soldier', 'archer', 'spearman'],
+      futureKinds: ['lidian'],
+      spawnSchedule: [{ kind: 'soldier', tick: 0 }, { kind: 'archer', tick: 0 }, { kind: 'spearman', tick: 1 }],
+    })
+    await loading
+    expect(rt.state('soldier')).toBe('loading')
+    rt.cancelLoads()
+    rt.releaseScene(fake.scene)
+    const publishedAtShutdown = Object.keys(fake.motions())
+    expect(publishedAtShutdown).toEqual(['guanyu'])
+    release()
+    const report = await pending
+    await rt.settle()
+    expect(report.requested).toEqual(['guanyu', 'soldier', 'archer'])
+    expect(report.deferred).toEqual(['spearman'])
+    expect(report.scope.prefetch).toEqual(['lidian'])
+    expect(report.published).toEqual(['guanyu'])
+    expect(report.legacy, 'shutdown cancellation stays silent').toEqual([])
+    expect(report.failed).toEqual([])
+    expect(Object.keys(fake.motions()), 'no publication after shutdown').toEqual(publishedAtShutdown)
+    expect(fetchedKinds(io.calls), 'neither remaining immediate nor background work may start').toEqual(['guanyu', 'guanyu', 'soldier'])
+    expect(rt.state('soldier')).toBe('idle')
+    for (const kind of ['soldier', 'archer', 'spearman', 'lidian']) {
+      expect(rt.failureState(kind), 'shutdown consumes no retry and records no failure').toBeUndefined()
+      expect(fake.textures.has(motionTextureKeys(kind).sheet), kind).toBe(false)
+    }
+    for (const kind of ['archer', 'spearman', 'lidian']) expect(rt.state(kind), kind).toBe('absent')
+    expect(rt.kindReady(fake.scene, 'guanyu'), 'unrelated warm pack remains ready').toBe(true)
+  }, 60_000)
+
   it('a late callback after scene exit cancels and cannot publish', async () => {
     const fake = makeScene()
     let gate: () => void = () => {}
