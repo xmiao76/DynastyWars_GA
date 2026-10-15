@@ -1,4 +1,5 @@
-// Paired grab-contact measurement (CMR-23, Guan Yu batch).
+// Paired grab-contact measurement (CMR-23; hero via --hero=<kind> or
+// PAIRED_HERO, default guanyu — Guan Yu paths/outputs are unchanged).
 //
 // Restores FULL source cells (trim undone) for holder grab frames and victim
 // grabbed frames from the prepared motion JSON + atlas sheets, then:
@@ -10,7 +11,7 @@
 //   --validate-landmarks  load the landmarks JSON, check the schema the
 //                    measurement uses, and print per-ROI alpha pixel counts
 //                    (no trace/matrix run).
-//   (default)        measure the Guan Yu 12-combo hold samples of the canvas
+//   (default)        measure the hero's 12-combo hold samples of the canvas
 //                    trace: min gripping-hand <-> collar/neck distance in
 //                    world units (u), hand/collar alpha overlap (reported
 //                    separately), boot ground error, front/occlusion order,
@@ -29,12 +30,29 @@ import { createCanvas } from '@napi-rs/canvas'
 import { PNG } from 'pngjs'
 
 const ASSETS = 'src/game/assets/motion'
-const TRACE_PATH = 'artifacts/motion/paired/guanyu/canvas/trace.json'
-const CROP_DIR = 'artifacts/motion/paired/guanyu/canvas'
+// Hero selection: --hero=<kind> / --hero <kind> / PAIRED_HERO, default guanyu.
+// Holder grab frames are the holder cells the trace holds actually show
+// (hold0 first, then the settled hold4/hold8 cell); miscStrip covers every
+// misc cell of the hero pack for wrong-pose control candidates.
+const HERO_CONFIG = {
+  guanyu: { holderFrames: ['misc:5', 'misc:6'], miscStrip: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+  zhangfei: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
+}
+const heroArg = () => {
+  const a = process.argv.slice(2)
+  const eq = a.find((x) => x.startsWith('--hero='))
+  if (eq) return eq.slice('--hero='.length)
+  const i = a.indexOf('--hero')
+  return i >= 0 ? a[i + 1] : process.env.PAIRED_HERO
+}
+const HERO = heroArg() ?? 'guanyu'
+if (!HERO_CONFIG[HERO]) throw new Error(`unknown hero ${HERO} (want ${Object.keys(HERO_CONFIG).join('|')})`)
+const TRACE_PATH = `artifacts/motion/paired/${HERO}/canvas/trace.json`
+const CROP_DIR = `artifacts/motion/paired/${HERO}/canvas`
 const LANDMARKS_PATH = 'art/motion/paired-contact-landmarks.json'
-const INPUT_DIR = 'artifacts/motion/paired/measure-input'
+// Guan Yu keeps its original (unprefixed) input dir; other heroes nest under it.
+const INPUT_DIR = HERO === 'guanyu' ? 'artifacts/motion/paired/measure-input' : `artifacts/motion/paired/measure-input/${HERO}`
 const OUT_DIR = 'artifacts/motion/paired/measure'
-const HERO = 'guanyu'
 const KINDS = ['soldier', 'spearman', 'archer', 'lidian', 'xiahoudun', 'xuchu']
 const HOLD_PHASES = ['hold0', 'hold4', 'hold8']
 /** Gap gate: a real grip reads as touching/overlapping alpha, well under 2u. */
@@ -61,7 +79,11 @@ function loadPack(kind) {
   }
   const rec = JSON.parse(readFileSync(`${ASSETS}/${kind}-prepared.json`, 'utf8'))
   const page = `${ASSETS}/${kind}-motion-sheet.png`
-  return { kind, density: rec.density, box: rec.box, frames: rec.frames, sheets: { sheet: page, actions: page } }
+  // Enemy packs are singlePage (actions frames live on the same sheet);
+  // two-page heroes (zhangfei, ...) put `sheet:"actions"` cells on their
+  // own actions sheet.
+  const actionsPage = rec.singlePage ? page : `${ASSETS}/${kind}-actions-sheet.png`
+  return { kind, density: rec.density, box: rec.box, frames: rec.frames, sheets: { sheet: page, actions: actionsPage } }
 }
 
 const packCache = new Map()
@@ -143,10 +165,7 @@ function gridRender(restored, { scale = 2, crop = null, minor = 10, majorEvery =
 
 function primaryFrames() {
   // Holder grab frames + grabbed victim frames, as used by the trace holds.
-  const out = [
-    { kind: HERO, frame: 'misc:5', role: 'holder-hand' },
-    { kind: HERO, frame: 'misc:6', role: 'holder-hand' },
-  ]
+  const out = HERO_CONFIG[HERO].holderFrames.map((frame) => ({ kind: HERO, frame, role: 'holder-hand' }))
   for (const kind of KINDS) {
     out.push({ kind, frame: ['soldier', 'spearman', 'archer'].includes(kind) ? 'hitstun-held:5' : 'misc:2', role: 'victim-collar' })
   }
@@ -167,11 +186,10 @@ function renderInput(extraCrops) {
     // Upper-body zoom: hands, heads and collars live in the top ~62%.
     save('zoom', name, gridRender(r, { scale: 3, minor: 10, crop: { x: 0, y: 0, w: r.srcW, h: Math.ceil(r.srcH * 0.62) } }))
   }
-  // Context strips: every Guan Yu misc cell (wrong-pose control candidates)
+  // Context strips: every hero misc cell (wrong-pose control candidates)
   // and each victim's first non-grabbed held/hitstun cell.
-  const guanyuStrip = []
-  for (let i = 0; i <= 8; i++) guanyuStrip.push(restoreCell(HERO, `misc:${i}`))
-  save('grid', 'guanyu-misc-strip', stripRender(guanyuStrip, 1))
+  const heroStrip = HERO_CONFIG[HERO].miscStrip.map((i) => restoreCell(HERO, `misc:${i}`))
+  save('grid', `${HERO}-misc-strip`, stripRender(heroStrip, 1))
   for (const kind of KINDS) {
     const frame = ['soldier', 'spearman', 'archer'].includes(kind) ? 'hitstun-held:0' : 'misc:0'
     const r = restoreCell(kind, frame)
@@ -351,6 +369,12 @@ function cropSurvival(sample, frontKey, cells, camera = { zoom: 2, scrollX: 0, s
   }
 }
 
+/** Wrong-pose holder frame for the selected hero (per-hero control, with
+ * the legacy flat controls.wrongPoseHolderFrame as the guanyu fallback). */
+function wrongPoseFrame(landmarks) {
+  return landmarks.controls?.byHero?.[HERO]?.wrongPoseHolderFrame ?? landmarks.controls?.wrongPoseHolderFrame
+}
+
 export function centroid(pts) {
   return [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length]
 }
@@ -361,7 +385,7 @@ function measureSample(sample, landmarks, { victimShiftLaneU = 0, victimShiftPin
   const handLm = landmarks.frames[`${HERO}:${holderFrame}`]
   const collarLm = landmarks.frames[`${sample.kind}:${victimFrame}`]
   if (!handLm || !collarLm) throw new Error(`missing landmark for ${HERO}:${holderFrame} or ${sample.kind}:${victimFrame}`)
-  const holderCell = restoreCell(HERO, wrongPose ? landmarks.controls.wrongPoseHolderFrame : holderFrame)
+  const holderCell = restoreCell(HERO, wrongPose ? wrongPoseFrame(landmarks) : holderFrame)
   const victimCell = restoreCell(sample.kind, victimFrame)
   const hDisp = sample.holder.sprite.display
   const vDisp = { ...sample.victim.sprite.display }
@@ -473,8 +497,8 @@ function contactSheet(rows, landmarks, trace) {
 function validateLandmarks() {
   const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
   if (!landmarks.frames || typeof landmarks.frames !== 'object') throw new Error('landmarks: missing frames object')
-  if (typeof landmarks.controls?.wrongPoseHolderFrame !== 'string') throw new Error('landmarks: missing controls.wrongPoseHolderFrame')
-  restoreCell(HERO, landmarks.controls.wrongPoseHolderFrame) // must resolve
+  if (typeof wrongPoseFrame(landmarks) !== 'string') throw new Error(`landmarks: missing wrongPoseHolderFrame for hero ${HERO}`)
+  restoreCell(HERO, wrongPoseFrame(landmarks)) // must resolve
   const rows = []
   for (const { kind, frame, role } of primaryFrames()) {
     const key = `${kind}:${frame}`
@@ -533,7 +557,7 @@ function measure() {
     controls.push({
       kind: s.kind, facing: s.facing,
       plus6uVictimShift: { axis: 'lane/depth away from hand', appliedDyU: lane.appliedShiftU.laneDyU, gapU: lane.gapU, overlapPx: lane.overlapPx, gapPass: lane.gapPass, failsAsDesigned: !lane.gapPass },
-      wrongPoseHolder: { frame: landmarks.controls.wrongPoseHolderFrame, gapU: wrong.gapU, handAlphaPx: wrong.handAlphaPx, gapPass: wrong.gapPass, failsAsDesigned: !wrong.gapPass },
+      wrongPoseHolder: { frame: wrongPoseFrame(landmarks), gapU: wrong.gapU, handAlphaPx: wrong.handAlphaPx, gapPass: wrong.gapPass, failsAsDesigned: !wrong.gapPass },
       diagnosticPinAxisPlus6u: { gapU: pinDiag.gapU, gapPass: pinDiag.gapPass, note: 'non-gated: collar moves into the overshooting hand' },
     })
   }
@@ -551,8 +575,8 @@ function measure() {
       controlsTotal: controls.length,
     },
   }
-  writeFileSync(`${OUT_DIR}/guanyu-12combo-matrix.json`, `${JSON.stringify(matrix, null, 2)}\n`)
-  writeFileSync(`${OUT_DIR}/guanyu-hold4-contact-sheet.png`, contactSheet(hold4, landmarks, trace).toBuffer('image/png'))
+  writeFileSync(`${OUT_DIR}/${HERO}-12combo-matrix.json`, `${JSON.stringify(matrix, null, 2)}\n`)
+  writeFileSync(`${OUT_DIR}/${HERO}-hold4-contact-sheet.png`, contactSheet(hold4, landmarks, trace).toBuffer('image/png'))
   console.log(JSON.stringify({
     summary: matrix.summary,
     combos: combos.map((c) => `${c.kind}-${c.facing}: worstGap=${c.worstGapU}u overlap=${c.totalOverlapPx} front=${c.front} boots h=${c.holderBootErrU} v=${c.victimBootErrU} pass=${c.gapPassAll}`),

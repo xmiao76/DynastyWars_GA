@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "batch": "guanyu-grab-12combo",
+  "batch": "guanyu+zhangfei-grab-12combo (frames keyed by kind, so heroes share one file; victim collar rois are hero-independent)",
   "units": "roi = {x, y, w, h} in restored full source-cell pixels (density-2 px; cell = prepared frame srcW x srcH), authored by eye from the gridded 6x inspection crops in artifacts/motion/paired/measure-input/zoom/. Alpha >= 128 inside the roi is the measured point set. Left-facing samples reuse these rois mirrored via the trace flipX transform; no mirrored roi is authored.",
-  "inspectionCrops": "artifacts/motion/paired/measure-input/ (full/ restored cells, grid/ 2x, zoom/ 3x and 6x targeted crops; regenerate with: node scripts/paired-contact-measure.mjs --render-input --crop guanyu:misc:5:270:70:100:80:6 --crop guanyu:misc:6:270:70:100:80:6 --crop soldier:hitstun-held:5:210:20:100:80:6 --crop spearman:hitstun-held:5:205:55:95:75:6 --crop archer:hitstun-held:5:205:25:100:70:6 --crop lidian:misc:2:190:50:110:80:6 --crop xiahoudun:misc:2:215:240:100:75:6 --crop xuchu:misc:2:190:45:110:80:6)",
+  "inspectionCrops": "artifacts/motion/paired/measure-input/ (full/ restored cells, grid/ 2x, zoom/ 3x and 6x targeted crops; regenerate with: node scripts/paired-contact-measure.mjs --render-input --crop guanyu:misc:5:270:70:100:80:6 --crop guanyu:misc:6:270:70:100:80:6 --crop soldier:hitstun-held:5:210:20:100:80:6 --crop spearman:hitstun-held:5:205:55:95:75:6 --crop archer:hitstun-held:5:205:25:100:70:6 --crop lidian:misc:2:190:50:110:80:6 --crop xiahoudun:misc:2:215:240:100:75:6 --crop xuchu:misc:2:190:45:110:80:6 ; zhangfei crops under measure-input/zhangfei/ via: node scripts/paired-contact-measure.mjs --hero=zhangfei --render-input --crop zhangfei:misc:2:300:90:110:70:6 --crop zhangfei:misc:3:180:80:120:95:6)",
   "frames": {
     "guanyu:misc:5": {
       "kind": "guanyu",
@@ -17,6 +17,20 @@
       "role": "holder-hand",
       "roi": { "x": 300, "y": 101, "w": 39, "h": 23 },
       "note": "Same extended gripping hand, settled pose: wrist skin from ~x300, fingertips to ~x338, fingers y102..118, thumb underside ~y122. White cuff west/south-west of the wrist is excluded."
+    },
+    "zhangfei:misc:2": {
+      "kind": "zhangfei",
+      "frame": "misc:2",
+      "role": "holder-hand",
+      "roi": { "x": 312, "y": 102, "w": 44, "h": 41 },
+      "note": "Extended open gripping hand only (hold0 reach cell), eye-checked on the 6x crop x300..410/y90..160: palm from the wrist cut at x312 (bare forearm west of it and the thumb tip at ~x305 are cut), spread fingers to ~x354, top fingertip ~y103, little finger underside ~y142. The spear-grip fist low on the shaft (~x230,y160) is outside the roi."
+    },
+    "zhangfei:misc:3": {
+      "kind": "zhangfei",
+      "frame": "misc:3",
+      "role": "holder-hand",
+      "roi": { "x": 206, "y": 112, "w": 36, "h": 23 },
+      "note": "Settled hold cell (hold4/hold8): no extended hand - the lead arm is retracted across the chest, so the roi is its clenched fist pulled back to the shaft, eye-checked on the 6x crop x180..300/y80..175: fist mass x206..241 y112..134, curled knuckles along the bottom edge, merging into the forearm at the east edge; the spear shaft (entering ~y135 at the east side) and the second, lower shaft hand (~y140+) are outside the roi. Because the fist rests on the torso, this rect contains body alpha in every misc pose - see controls.byHero.zhangfei for the wrong-pose consequence."
     },
     "soldier:hitstun-held:5": {
       "kind": "soldier",
@@ -64,6 +78,16 @@
   "controls": {
     "plus6uVictimShift": "victim displaced 6u along the lane/depth axis (display.y) AWAY from the gripping hand: dy = sign(collarRoiCentroidY - handRoiCentroidY) * 6u, computed mechanically per sample and recorded in the result. Gap must fail. A fixed +y shift is NOT a valid control for this batch (for lidian/xuchu the collar sits above the hand, so +y moves it INTO the hand), and a pin-axis (x) shift away from the holder is not valid either (the traced hand overshoots past the collar along x; kept as non-gated diagnosticPinAxisPlus6u).",
     "wrongPoseHolderFrame": "misc:4",
-    "wrongPoseNote": "guanyu misc:4 is the pre-grab pose (both hands on the polearm). The misc:5/6 hand roi falls on empty air there, so the gap must fail (null or > gate)."
+    "wrongPoseNote": "guanyu misc:4 is the pre-grab pose (both hands on the polearm). The misc:5/6 hand roi falls on empty air there, so the gap must fail (null or > gate). This flat field is the legacy guanyu default; per-hero controls live in controls.byHero and take precedence in scripts/paired-contact-measure.mjs (wrongPoseFrame()).",
+    "byHero": {
+      "guanyu": {
+        "wrongPoseHolderFrame": "misc:4",
+        "wrongPoseNote": "Same as the legacy flat field above (kept in both places so older consumers still validate)."
+      },
+      "zhangfei": {
+        "wrongPoseHolderFrame": "getup:0",
+        "wrongPoseNote": "zhangfei's settled-hold fist roi (misc:3) rests on his torso, so every misc cell (misc:0/1/4 included, alpha-probed 828/828 px) fills the rect identically and no misc pose can serve as a discriminating wrong pose for it. The control therefore uses the prone getup:0 cell, where the misc:3 roi falls on empty air (0 alpha px, probed), so the gap must fail (null). The misc-pose indiscriminability of this roi is a recorded limitation, not hidden: the +6u lane-shift control remains the discriminating negative control for zhangfei."
+      }
+    }
   }
 }
