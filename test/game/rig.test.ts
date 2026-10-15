@@ -1,6 +1,7 @@
 import { createCanvas } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
-import { chainPath, limbPath } from '../../src/game/art/rig'
+import { limbPath } from '../../src/game/art/paths'
+import { chainPath } from '../../src/game/art/rig'
 
 /**
  * The two path primitives every figure is built from must FILL.

@@ -1,17 +1,16 @@
+import { DEFAULT_BANDS, paintCel, type CelBand } from './cel'
 import {
-  DEFAULT_BANDS,
   PLUME,
   figureShapes,
   headRadius,
-  paintCel,
   plumePolygon,
-  type CelBand,
   type HeadParts,
 } from './draw'
 import { CATCHLIGHT, EYE_BASE_W, FACES, IRIS, PUPIL, SCLERA } from './faces'
 import type { FigurePlan } from './figures'
 import { INK, SKIN, css, materials, shade, tint, type Materials } from './palette'
-import { FIG_W, GROUND, applyBuild, limbPath, ovalPath, polyPath, type Pt, type Skeleton } from './rig'
+import { limbPath, ovalPath, polyPath, type Pt } from './paths'
+import { FIG_W, GROUND, applyBuild, type Skeleton } from './rig'
 
 /**
  * The portrait's own head.

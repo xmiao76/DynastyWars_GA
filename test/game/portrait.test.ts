@@ -1,6 +1,6 @@
 import { createCanvas } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
-import { INK_W } from '../../src/game/art/draw'
+import { INK_W } from '../../src/game/art/cel'
 import { EYE_BASE_W, FACES, SCLERA } from '../../src/game/art/faces'
 import { ENEMY_FIGURES, HERO_FIGURES } from '../../src/game/art/figures'
 import {

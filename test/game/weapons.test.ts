@@ -1,5 +1,6 @@
 import { HERO_FIGURES, ENEMY_FIGURES } from '../../src/game/art/figures'
-import { headRadius, paintCel, type Shape } from '../../src/game/art/draw'
+import { paintCel, type Shape } from '../../src/game/art/cel'
+import { headRadius } from '../../src/game/art/draw'
 import { materials } from '../../src/game/art/palette'
 import { POSE_TABLE } from '../../src/game/art/poses'
 import { applyBuild, FIG_W, FIG_H } from '../../src/game/art/rig'

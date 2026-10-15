@@ -1,6 +1,6 @@
 import { INK, css, shade, tint } from './palette'
-import { limbPath, ovalPath, polyPath, type Pt } from './rig'
-import { paintCel, type Shape } from './draw'
+import { limbPath, ovalPath, polyPath, type Pt } from './paths'
+import { paintCel, type Shape } from './cel'
 
 /**
  * The four pickups: crate, meat, weapon drop, arrow.

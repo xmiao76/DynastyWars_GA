@@ -1,6 +1,6 @@
 import { createCanvas, type Canvas, type SKRSContext2D } from '@napi-rs/canvas'
 import { BODY_PART_DEFS, bodyPainter, type BodyArt, type BodyPartName } from '../../src/game/art/body-parts'
-import { DEFAULT_BANDS } from '../../src/game/art/draw'
+import { DEFAULT_BANDS } from '../../src/game/art/cel'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from '../../src/game/art/figures'
 import type { ArtResources, HeroArt } from '../../src/game/art/hero-resources'
 import { POSE_TABLE, type PoseName } from '../../src/game/art/poses'

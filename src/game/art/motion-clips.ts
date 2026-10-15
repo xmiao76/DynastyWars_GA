@@ -1,7 +1,15 @@
 import { attackById } from '../../core/attacks'
 import { DYING_TICKS, GETUP_TICKS, JUMP_DURATION, KNOCKDOWN_TICKS, PLAYER_HITSTUN_TICKS } from '../../core/constants'
 import type { EntityState } from '../../core/types'
-import type { WholeFrameCell } from './whole-frames'
+/** Device-px rect of one frame's cell within its sheet. Extracted from
+ * `whole-frames.ts` `WholeFrameCell` (B4) so motion clips no longer depend
+ * on the whole-frame pilot module. */
+export interface MotionCellRect {
+  x: number
+  y: number
+  w: number
+  h: number
+}
 
 export const MOTION_ACTIONS = ['walk', 'jab1', 'jab2', 'finisher'] as const
 export const ACTION_SHEETS = ['jump', 'fall', 'getup', 'misc', 'special'] as const
@@ -13,7 +21,7 @@ export interface MotionClip {
   keys: Array<{ tick: number; frame: string }>
   duration: number
 }
-export interface MotionFrameCell extends WholeFrameCell {
+export interface MotionFrameCell extends MotionCellRect {
   sheet?: 'actions'
   /** CMR-03 repack: trimmed content rect inside the full cell; the display
    *  restores it at (trimX, trimY) inside a srcW x srcH canvas so every
@@ -99,7 +107,7 @@ export function validMotionPack(meta: MotionPackGeometry): boolean {
   if (![width, height, groundY, meta.sheet.width, meta.sheet.height, meta.actionSheet.width, meta.actionSheet.height].every(Number.isFinite)) return false
   if (width <= 0 || height <= 0 || groundY <= 0 || groundY >= height) return false
   for (const [groups, image, sheet] of [[MOTION_ACTIONS, meta.sheet, undefined], [ACTION_SHEETS, meta.actionSheet, 'actions']] as const) {
-    const cells: WholeFrameCell[] = []
+    const cells: MotionCellRect[] = []
     for (const action of groups) for (let i = 0; i < 9; i += 1) {
       const c = meta.frames[`${action}:${i}`]
       if (!c || c.sheet !== sheet || ![c.x, c.y, c.w, c.h].every(Number.isFinite)) return false
