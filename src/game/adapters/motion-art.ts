@@ -79,7 +79,8 @@ export const MOTION_REVISION = 'motion-2'
 export const MOTION_CLIPS_HASH = '513e9ff07266556d02db8a8213c2c07e989547575400fd1423dc5f8b811765a7'
 
 export function motionEnabled(search = typeof window === 'undefined' ? '' : window.location.search): boolean {
-  return new URLSearchParams(search).get('motion') === '1'
+  // Temporary pre-deletion rollback: only the exact value 0 selects legacy.
+  return new URLSearchParams(search).get('motion') !== '0'
 }
 
 export function motionPreparedRecord(): MotionPrepared {

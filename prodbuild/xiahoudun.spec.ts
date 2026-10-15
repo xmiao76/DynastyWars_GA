@@ -78,7 +78,8 @@ add('grabbed', 0, 'misc:2'); add('grab', 4, 'misc:3')
 const fixture = makeCombatant(900001, 'xiahoudun', 'enemy', 250, 232, ENEMIES.xiahoudun!.maxHp, ENEMIES.xiahoudun!.speed, 'right')
 
 async function start(page: Page, renderer: string, enabled: boolean): Promise<void> {
-  await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${enabled ? '&motion=1' : ''}`)
+  await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${enabled ? '' : '&motion=0'}`)
+  expect(new URL(page.url()).searchParams.get('motion')).toBe(enabled ? null : '0')
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
 }
 async function stage(page: Page): Promise<void> {
@@ -140,7 +141,7 @@ function assertNoBoss(state: Awaited<ReturnType<typeof inspect>>): void {
 }
 
 for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [false, true]) {
-  test(`built Xiahou stage2 ${renderer}: ${enabled ? 'complete motion and real PNG budget' : 'default legacy, zero roster motion resources'}`, async ({ page }, info) => {
+  test(`built Xiahou stage2 ${renderer}: ${enabled ? 'default motion (no motion parameter) and real PNG budget' : 'motion=0 rollback, zero roster motion resources'}`, async ({ page }, info) => {
     assertPartitions()
     const requests: string[] = [], errors: string[] = [], sourceRequests: string[] = []
     const deferred = barrier(); let heldRequests = 0, completedDownloads = 0
@@ -166,7 +167,7 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
     await page.setViewportSize({ width: 960, height: 540 })
     await start(page, renderer, enabled)
     expect(await published(page)).toEqual([])
-    expect(requests, 'no all-cast motion preload, even opted in').toEqual([])
+    expect(requests, 'no all-cast motion preload on default URL').toEqual([])
     await stage(page)
     let opening: unknown = null
     if (enabled) {

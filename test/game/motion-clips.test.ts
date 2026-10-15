@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { attackById, totalFrames } from '../../src/core/attacks'
 import { imageSignature, signatureMatches } from '../../src/game/art/image-signature'
 import { motionLandmarkFailures } from '../../src/game/art/motion-quality'
@@ -15,12 +15,25 @@ const art: MotionArt = { ...meta, sheet: {} as CanvasImageSource, actionSheet: {
 const entity = { state: 'idle' as const, stateTick: 0, attackId: null }
 
 describe('Guan Yu motion pilot technical gates (not aesthetic acceptance)', () => {
-  it('requires explicit flag, never accidentally matches another flag value', () => {
-    expect(motionEnabled('')).toBe(false)
-    expect(motionEnabled('?frames=1')).toBe(false)
-    expect(motionEnabled('?motion=0')).toBe(false)
-    expect(motionEnabled('?motion=10')).toBe(false)
-    expect(motionEnabled('?motion=1')).toBe(true)
+  it.each(['', '?', '?motion', '?motion=', '?frames=1', '?renderer=canvas&autopilot=1', '?motion=1', '?motion=10', '?motion=00', '?motion=false', '?motion=off', '?motion=null', '?motion=NaN', '?motion=%200', '?motion=0%20', '?Motion=0'])('enables motion by default or for a nonzero value: %s', (search) => {
+    expect(motionEnabled(search)).toBe(true)
+  })
+
+  it.each(['?motion=0', '?renderer=canvas&motion=0&autopilot=1'])('only exact motion=0 rolls back: %s', (search) => {
+    expect(motionEnabled(search)).toBe(false)
+  })
+
+  it('reads the default browser search and enables motion without window', () => {
+    try {
+      vi.stubGlobal('window', undefined)
+      expect(motionEnabled()).toBe(true)
+      for (const search of ['', '?frames=1', '?motion=1', '?motion=0']) {
+        vi.stubGlobal('window', { location: { search } })
+        expect(motionEnabled()).toBe(search !== '?motion=0')
+      }
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('rejects incomplete and malformed packs atomically (negative controls)', () => {

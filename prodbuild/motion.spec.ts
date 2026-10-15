@@ -39,7 +39,7 @@ const EXPECTED_PUBLISHED = [...OPENING, ...DEFERRED, ...FUTURE].sort()
 const fileForURL = (url: string) => new URL(url).pathname.split('/').at(-1)!.replace(/(-sheet)-[\w-]+\.png$/, '$1.png')
 const isMotionPNG = (r: Request) => r.resourceType() !== 'script' && /\/(?:[\w]+)-(?:motion|actions)-sheet(?:-[\w-]+)?\.png(?:\?|$)/.test(r.url())
 const hash = (body: Uint8Array) => createHash('sha256').update(body).digest('hex')
-const EVIDENCE = 'artifacts/motion/sole-mode-load-gates/production-pilot'
+const EVIDENCE = 'artifacts/motion/default-flip/production'
 function assertPartitions(): void {
   expect(OPENING).toEqual(['guanyu', 'zhangfei', 'soldier'])
   expect(DEFERRED).toEqual(['spearman', 'archer', 'lidian'])
@@ -70,14 +70,14 @@ const PREVIEW = 'http://localhost:4321'
 
 /**
  * CMR-03 acceptance 6 against the ACTUAL dist build (extended by CMR-06B,
- * CMR-07B, CMR-09B): the runtime stays opt-in, nothing downloads or publishes at
+ * CMR-07B, CMR-09B): motion is default with explicit rollback; nothing downloads or publishes at
  * boot, entry completes the opening pages, then deferred and bounded future
  * pages complete (only opening + future count against 12 MiB), and both renderers display
  * shared atlas frames whose trim/pivot restores the old per-cell registration.
  */
 for (const renderer of ['canvas', 'webgl'] as const) {
   for (const enabled of [false, true]) {
-    test(`built motion pilot is ${enabled ? 'opted in' : 'off by default'} (${renderer})`, async ({ page }) => {
+    test(`built motion pilot is ${enabled ? 'default motion (no motion parameter)' : 'explicit motion=0 rollback'} (${renderer})`, async ({ page }) => {
       assertPartitions()
       mkdirSync(EVIDENCE, { recursive: true })
       const requests: string[] = [], errors: string[] = [], sourceRequests: string[] = []
@@ -104,10 +104,11 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         if (new URL(r.url()).pathname.startsWith('/src/')) sourceRequests.push(r.url())
       })
       page.on('pageerror', (e) => errors.push(String(e)))
-      await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${enabled ? '&motion=1' : ''}`)
+      await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${enabled ? '' : '&motion=0'}`)
+      expect(new URL(page.url()).searchParams.get('motion')).toBe(enabled ? null : '0')
       await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
       // Stage-scoped packs: at title there is NO motion download and NO
-      // published motion art - even opted in.
+      // published motion art - even on the default motion path.
       expect(await page.evaluate(() => Object.keys(window.__DW_GAME__?.scene.getScene('boot').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
       expect(requests, 'no all-cast boot downloads').toEqual([])
       await page.evaluate(() => window.__DW__?.startGame('guanyu', 42, 'stage1'))
@@ -201,8 +202,8 @@ for (const renderer of ['canvas', 'webgl'] as const) {
       expect(await page.evaluate(() => window.__DW_GAME__!.renderer.type)).toBe(renderer === 'canvas' ? 1 : 2)
       expect(sourceRequests, 'browser uses dist, never /src imports').toEqual([])
       expect(errors).toEqual([])
-      await page.screenshot({ path: `${EVIDENCE}/${renderer}-${enabled ? 'enabled' : 'disabled'}-final.png` })
-      writeFileSync(`${EVIDENCE}/${renderer}-${enabled ? 'enabled' : 'disabled'}.json`, JSON.stringify({ opening: OPENING, deferred: DEFERRED, futureCandidates: FUTURE_CANDIDATES, future: FUTURE, entryBytes, eventualBytes: bytesFor(EXPECTED_FILES), requests: requests.map(fileForURL), entry, observed, published: await published(), keys, sourceRequests, errors }, null, 2))
+      await page.screenshot({ path: `${EVIDENCE}/${renderer}-${enabled ? 'default' : 'rollback'}-final.png` })
+      writeFileSync(`${EVIDENCE}/${renderer}-${enabled ? 'default' : 'rollback'}.json`, JSON.stringify({ opening: OPENING, deferred: DEFERRED, futureCandidates: FUTURE_CANDIDATES, future: FUTURE, entryBytes, eventualBytes: bytesFor(EXPECTED_FILES), requests: requests.map(fileForURL), entry, observed, published: await published(), keys, sourceRequests, errors }, null, 2))
     })
   }
 }

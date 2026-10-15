@@ -1,6 +1,6 @@
 # CMR-24 — Practical sole-motion final gate (pre-delete + post-delete)
 
-- Initial queue status: TODO; live status/attempt history is authoritative in [TASKS.md](../../TASKS.md).
+- Current queue status: IN_PROGRESS (2026-10-14, owner-amended Phase 3 default-flip slice only); live status/attempt history is authoritative in [TASKS.md](../../TASKS.md).
 - Dependencies: CMR-23 terminal DONE (DEFERRED_BY_OWNER / SUPERSEDED gate), with all B packs transitively DONE. No unresolved strict-art dependency.
 - **Owner practical amendment (2026-10-14, work `owner-practical-motion-contract-amendment`):** supersedes the earlier strict paired-art pre-flip prerequisite. Owner accepts/defer-repair of existing contact/occlusion flaws as migration visual debt, no additional image generation, mechanics unchanged. CMR-23's **2/60 passes, 58/60 failures** stay FAIL/deferred, not PASS. Its closure automatically passes **none** of this task's mechanical/coverage/resource checks.
 
@@ -35,6 +35,12 @@ Wave/retry and epoch/decode fixes **pre-existed gated review** (`2fb279a`, `77d6
 - [ ] Repeat full serial gates and essential Part A coverage/loaded frames/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL/performance on the exact post-delete tree, with fresh independent review and the same baseline honesty. List retired gates (including applicable G6/UIR-19/rig grids), never claim their old failures became green.
 - [ ] Source/reference search **and actual built-bundle/network/runtime evidence** prove sole-motion exclusivity: no legacy renderer/fallback/legacy-only downloads; old URL mode parameters including `?motion=0` have no rendering effect; required-pack error semantics intact.
 - [ ] Indexed owner review updated with pre/post-delete results, retirement inventory and remaining owner-deferred visual debt/inspection limits.
+
+## Phase 3 default-flip slice (2026-10-14)
+
+Work `motion-default-flip-with-rollback`, contract baseline `689ef71`: changes only `motionEnabled` to default ON unless the parsed `motion` value is exactly `0`. Absent/empty/unrelated/malformed values and compatible `motion=1` remain ON; `?motion=0` temporarily selects complete legacy. Production positive loops now use actual no-motion-parameter URLs; rollback loops explicitly use `motion=0`. Exact staged partitions, byte/hash/renderer/state/geometry/frame/asset/error/sibling-identity assertions are retained. Default-path loading checks use no motion parameter. No loader algorithm/budget, core/mechanic or pack-pixel change; no legacy deletion.
+
+Focused verification/results and inspected production screenshots are recorded in [the slice record](../loop-task-records/CMR-24.md#phase-3-default-flip-slice--2026-10-14), with local logs/captures under `artifacts/motion/default-flip/`. This is only Phase 3 evidence, not full gameplay, practical Part A or Part B acceptance. **All acceptance checkboxes above deliberately remain unchecked.** Pre-delete per-frame fallback and legacy menus/art remain for later gated work. No native-speed video review or independent acceptance is claimed here.
 
 ## Stop / rollback / completion
 

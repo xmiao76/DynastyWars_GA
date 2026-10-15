@@ -4,9 +4,9 @@ import { expect, test, type Page, type Route } from '@playwright/test'
 import type { Sim } from '../src/core/sim'
 import type { MotionFailureState } from '../src/game/adapters/motion-art'
 
-// Verification of the existing retry/error implementation, not the default flip.
+// Default-URL verification of the existing retry/error implementation.
 // Network interception affects only fetch bytes, never Vite's PNG import modules.
-const OUT = 'artifacts/motion/sole-mode-load-gates'
+const OUT = 'artifacts/motion/default-flip/loading-errors'
 const SOLDIER = '**/*soldier-motion-sheet.png*'
 const ARCHER = '**/*archer-motion-sheet.png*'
 const SOLDIER_SHA = '55f3300dcb8acfcf602d08dd57d63d8d048c45b7beb5e96dbb4aa2cf369fd2f1'
@@ -32,7 +32,7 @@ function track(page: Page) {
 }
 
 async function boot(page: Page, renderer = 'canvas') {
-  await page.goto(`/?renderer=${renderer}&autopilot=1&motion=1`)
+  await page.goto(`/?renderer=${renderer}&autopilot=1`)
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
 }
 async function start(page: Page) {
