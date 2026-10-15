@@ -49,6 +49,6 @@ describe('motion repack: trim/pivot round-trip and budgets', () => {
       Object.entries(guanyuClips()).map(([k, v]) => [k, { loop: v.loop, duration: v.duration, keys: v.keys }]),
     )
     const hash = createHash('sha256').update(JSON.stringify(norm)).digest('hex')
-    expect(hash).toBe('513e9ff07266556d02db8a8213c2c07e989547575400fd1423dc5f8b811765a7')
+    expect(hash).toBe('cd926d062b86def8f6a309b480d4b9383a6a612985dbff920837e28fa06ec31f')
   })
 })

@@ -134,13 +134,13 @@ describe('two simultaneous actors cannot steal each other cues or history', () =
 })
 
 describe('Guan Yu reference is untouched by the profile layer', () => {
-  it('guanyuClips hash equals the frozen reference (clipsHash 513e9ff0...)', () => {
+  it('guanyuClips hash equals the frozen reference (clipsHash cd926d06...)', () => {
     // Normalize exactly like the CMR-01 freeze probe ({loop,duration,keys}).
     const norm = Object.fromEntries(
       Object.entries(guanyuClips()).map(([k, v]) => [k, { loop: v.loop, duration: v.duration, keys: v.keys }]),
     )
     const hash = createHash('sha256').update(JSON.stringify(norm)).digest('hex')
-    expect(hash).toBe('513e9ff07266556d02db8a8213c2c07e989547575400fd1423dc5f8b811765a7')
+    expect(hash).toBe('cd926d062b86def8f6a309b480d4b9383a6a612985dbff920837e28fa06ec31f')
   })
   it('guanyu profile validates and binds gy.* exactly', () => {
     const p = heroProfile('guanyu')

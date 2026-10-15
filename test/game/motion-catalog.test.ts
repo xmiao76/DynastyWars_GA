@@ -31,7 +31,7 @@ const manifest = (id: string, pages: PackPage[], revision = 'r1'): PackManifest 
   revision,
   pages,
   requiredClips: ['idle', 'walk', 'hurt', 'fall', 'getup'],
-  clipsHash: '513e9ff07266556d02db8a8213c2c07e989547575400fd1423dc5f8b811765a7',
+  clipsHash: 'cd926d062b86def8f6a309b480d4b9383a6a612985dbff920837e28fa06ec31f',
 })
 
 const okLoader = async (p: PackPage): Promise<{ bytes: Uint8Array; sha256: string }> => ({

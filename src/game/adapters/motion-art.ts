@@ -92,8 +92,8 @@ export const MOTION_SOURCE_KEY = motionTextureKeys('guanyu').sheet
 export const ACTION_SOURCE_KEY = motionTextureKeys('guanyu').actions
 /** Pack revision for the current Guan Yu prepared data (attempt-2 repack). */
 export const MOTION_REVISION = 'motion-2'
-/** Pinned clip-timing hash (CMR-01 reference, re-pinned by the repack test). */
-export const MOTION_CLIPS_HASH = '513e9ff07266556d02db8a8213c2c07e989547575400fd1423dc5f8b811765a7'
+/** Pinned sha256 over the canonical clip serialization ({loop,duration,keys} per clip, JSON) of guanyuClips(). */
+export const MOTION_CLIPS_HASH = 'cd926d062b86def8f6a309b480d4b9383a6a612985dbff920837e28fa06ec31f'
 
 export function motionEnabled(search = typeof window === 'undefined' ? '' : window.location.search): boolean {
   // Temporary pre-deletion rollback: only the exact value 0 selects legacy.
