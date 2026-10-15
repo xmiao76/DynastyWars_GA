@@ -1,19 +1,14 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import type { Entity } from '../src/core/types'
 import type { Sim } from '../src/core/sim'
-import { neutralInput, type InputState } from '../src/core/types'
 
 test.skip(process.env.GUANYU_ACTIONS !== '1', 'set GUANYU_ACTIONS=1 for action review')
 test.describe.configure({ mode: 'serial' })
 test.use({ video: 'on' })
 const OUT = 'artifacts/wholeframe/actions'
-interface LiveGame { sim: Sim; syncSprites(): void; sprites: Map<number, { texture: { key: string }; frame: { name: string }; y: number; displayHeight: number; alpha: number }> }
-async function ticks(page: Page, inputs: InputState[]): Promise<void> {
-  const before = await page.evaluate(() => window.__DW__!.getSnapshot().tick)
-  await page.evaluate((i) => window.__DW__!.run(i), inputs)
-  await expect.poll(() => page.evaluate(() => window.__DW__!.getSnapshot().tick)).toBeGreaterThanOrEqual(before + inputs.length)
-}
+interface LiveGame { sim: Sim; syncSprites(): void; motionErrorState(): { kind: string; failure: string; attempts: number; final: boolean } | null; sprites: Map<number, { texture: { key: string }; frame: { name: string }; y: number; displayHeight: number; alpha: number; visible: boolean }> }
+
 for (const renderer of ['canvas', 'webgl'] as const) {
   test(`Guan Yu all normal actions and boundaries: ${renderer}`, async ({ page }) => {
     test.setTimeout(240_000); mkdirSync(OUT, { recursive: true }); mkdirSync(`${OUT}/frames`, { recursive: true })
@@ -117,23 +112,40 @@ for (const renderer of ['canvas', 'webgl'] as const) {
   })
 }
 
-test('missing additional action atlas rejects both packs rather than mixing models', async ({ page }) => {
+test('missing additional action atlas halts Guan Yu entry on the reload error, no legacy hero', async ({ page }) => {
+  test.setTimeout(120_000)
+  const errors: string[] = []; page.on('pageerror', (e) => errors.push(String(e)))
+  let actionFetches = 0
+  page.on('request', (r) => { if (r.resourceType() === 'fetch' && r.url().includes('guanyu-actions-sheet.png')) actionFetches++ })
   await page.route('**/assets/motion/guanyu-actions-sheet.png*', (r) => new URL(r.request().url()).searchParams.has('import') ? r.continue() : r.abort())
   await page.goto('/?motion=1&renderer=canvas&autopilot=1')
-  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
+  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
   expect(await page.evaluate(() => Object.keys(window.__DW_GAME__?.scene.getScene('boot').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
-  await page.evaluate(() => window.__DW__!.startGame('guanyu', 42))
-  await expect.poll(() => page.evaluate(() => window.__DW__!.getSnapshot().scene)).toBe('game')
-  // Whole-fighter rejection: one missing page means guanyu publishes
-  // NOTHING, and the hero renders legacy art rather than a mixed/partial
-  // model - while catalogued siblings still publish (archer deferred by
-  // the cap as usual).
-  await expect.poll(async () => Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort(), { timeout: 15_000 }).toEqual(['soldier', 'spearman', 'zhangfei'])
-  const legacyKey = await page.evaluate(() => {
-    const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
-    game.syncSprites()
-    return game.sprites.get(game.sim.playerId)!.texture.key
+  // Sole-motion: one missing Guan Yu page rejects both packs whole. Entry
+  // halts on the reload overlay (one retry, then final) instead of starting
+  // the sim on legacy/partial art; siblings still publish.
+  await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage1'))
+  await expect.poll(() => page.evaluate(() => (window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame).motionErrorState()), { timeout: 30_000 }).toEqual({ kind: 'guanyu', failure: 'missing', attempts: 2, final: true })
+  expect(await page.evaluate(() => window.__DW__!.getSnapshot().sim), 'no sim ever builds on a failed required kind').toBeNull()
+  expect(actionFetches, 'initial attempt + exactly one retry, no third').toBe(2)
+  const halted = await page.evaluate(() => {
+    const scene = window.__DW_GAME__!.scene.getScene('game')
+    const game = scene as unknown as LiveGame
+    const objects = scene.children.list as unknown as Array<{ name: string; visible: boolean; text?: string; input?: { enabled: boolean } }>
+    return {
+      ui: objects.filter((o) => o.name.startsWith('motionError')).map((o) => ({ name: o.name, visible: o.visible, text: o.text, interactive: o.input?.enabled })),
+      sprites: [...game.sprites.values()].filter((s) => s.visible).map((s) => s.frame.name === '__BASE' ? s.texture.key : s.frame.name),
+      motions: Object.keys(scene.registry.get('paintedHeroArt')?.motions ?? {}),
+      guanyuTexture: window.__DW_GAME__!.textures.exists('motion-source:guanyu'),
+    }
   })
-  expect(legacyKey.includes(':motion:')).toBe(false)
-  await ticks(page, [neutralInput()])
+  expect(halted.ui.find((o) => o.name === 'motionErrorTitle')).toMatchObject({ visible: true, text: 'MOTION ART FAILED TO LOAD' })
+  expect(halted.ui.find((o) => o.name === 'motionErrorDetail')?.text).toContain('guanyu: missing (after one retry)')
+  expect(halted.ui.find((o) => o.name === 'motionErrorReload')).toMatchObject({ visible: true, text: '[ RELOAD ]', interactive: true })
+  expect(halted.sprites, 'no legacy (or any) hero rendered while halted').toEqual([])
+  expect(halted.motions).not.toContain('guanyu')
+  expect(halted.guanyuTexture, 'no guanyu texture is ever published').toBe(false)
+  await expect.poll(async () => Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort(), { timeout: 30_000 }).toEqual(expect.arrayContaining(['soldier', 'zhangfei']))
+  expect((await page.evaluate(() => Object.keys(window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})))).not.toContain('guanyu')
+  expect(errors).toEqual([])
 })
