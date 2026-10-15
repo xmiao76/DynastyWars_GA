@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "batch": "guanyu+zhangfei+zhaoyun-grab-12combo (frames keyed by kind, so heroes share one file; victim collar rois are hero-independent)",
+  "batch": "guanyu+zhangfei+zhaoyun+weiyan-grab-12combo (frames keyed by kind, so heroes share one file; victim collar rois are hero-independent)",
   "units": "roi = {x, y, w, h} in restored full source-cell pixels (density-2 px; cell = prepared frame srcW x srcH), authored by eye from the gridded 6x inspection crops in artifacts/motion/paired/measure-input/zoom/. Alpha >= 128 inside the roi is the measured point set. Left-facing samples reuse these rois mirrored via the trace flipX transform; no mirrored roi is authored.",
-  "inspectionCrops": "artifacts/motion/paired/measure-input/ (full/ restored cells, grid/ 2x, zoom/ 3x and 6x targeted crops; regenerate with: node scripts/paired-contact-measure.mjs --render-input --crop guanyu:misc:5:270:70:100:80:6 --crop guanyu:misc:6:270:70:100:80:6 --crop soldier:hitstun-held:5:210:20:100:80:6 --crop spearman:hitstun-held:5:205:55:95:75:6 --crop archer:hitstun-held:5:205:25:100:70:6 --crop lidian:misc:2:190:50:110:80:6 --crop xiahoudun:misc:2:215:240:100:75:6 --crop xuchu:misc:2:190:45:110:80:6 ; zhangfei crops under measure-input/zhangfei/ via: node scripts/paired-contact-measure.mjs --hero=zhangfei --render-input --crop zhangfei:misc:2:300:90:110:70:6 --crop zhangfei:misc:3:180:80:120:95:6 ; zhaoyun crops under measure-input/zhaoyun/ via: node scripts/paired-contact-measure.mjs --hero=zhaoyun --render-input --crop zhaoyun:misc:2:380:90:110:70:6 --crop zhaoyun:misc:3:180:120:130:95:6)",
+  "inspectionCrops": "artifacts/motion/paired/measure-input/ (full/ restored cells, grid/ 2x, zoom/ 3x and 6x targeted crops; regenerate with: node scripts/paired-contact-measure.mjs --render-input --crop guanyu:misc:5:270:70:100:80:6 --crop guanyu:misc:6:270:70:100:80:6 --crop soldier:hitstun-held:5:210:20:100:80:6 --crop spearman:hitstun-held:5:205:55:95:75:6 --crop archer:hitstun-held:5:205:25:100:70:6 --crop lidian:misc:2:190:50:110:80:6 --crop xiahoudun:misc:2:215:240:100:75:6 --crop xuchu:misc:2:190:45:110:80:6 ; zhangfei crops under measure-input/zhangfei/ via: node scripts/paired-contact-measure.mjs --hero=zhangfei --render-input --crop zhangfei:misc:2:300:90:110:70:6 --crop zhangfei:misc:3:180:80:120:95:6 ; zhaoyun crops under measure-input/zhaoyun/ via: node scripts/paired-contact-measure.mjs --hero=zhaoyun --render-input --crop zhaoyun:misc:2:380:90:110:70:6 --crop zhaoyun:misc:3:180:120:130:95:6 ; weiyan crops under measure-input/weiyan/ via: node scripts/paired-contact-measure.mjs --hero=weiyan --render-input --crop weiyan:misc:2:230:140:90:60:6 --crop weiyan:misc:3:220:120:90:60:6)",
   "frames": {
     "guanyu:misc:5": {
       "kind": "guanyu",
@@ -45,6 +45,20 @@
       "role": "holder-hand",
       "roi": { "x": 226, "y": 158, "w": 34, "h": 23 },
       "note": "Settled hold cell (hold4/hold8): no extended hand - the lead arm is retracted, so the roi is its clenched fist on the spear shaft, eye-checked on the 6x crop x180..310/y120..215: fist skin x228..257 y159..179, fingers curling under the shaft (the shaft strip crossing the fist at ~y170-178 is inside the rect), merging into the forearm guard at the east edge and cut from the rear forearm at the west edge. Because the fist rests against the torso, this rect is fully alpha-filled (782/782 px probed) in every misc pose - see controls.byHero.zhaoyun for the wrong-pose consequence."
+    },
+    "weiyan:misc:2": {
+      "kind": "weiyan",
+      "frame": "misc:2",
+      "role": "holder-hand",
+      "roi": { "x": 286, "y": 163, "w": 22, "h": 20 },
+      "note": "Hold0 cell has NO extended open hand (unlike zhangfei/zhaoyun misc:2): both hands grip the level polearm, so the gripping hand is the front/east fist on the shaft, eye-checked on the 6x crop x230..320/y140..200: fist skin x286..307 y163..182, knuckles over the shaft, fingers curling under it (the shaft strip crossing at ~y168-178 is inside the rect), cut from the armored forearm guard at the west edge. The rear shaft fist (~x190-215,y165-185) is outside the roi."
+    },
+    "weiyan:misc:3": {
+      "kind": "weiyan",
+      "frame": "misc:3",
+      "role": "holder-hand",
+      "roi": { "x": 275, "y": 146, "w": 22, "h": 19 },
+      "note": "Settled hold cell (hold4/hold8), lean-back pose, likewise no extended hand: the gripping hand is the front/east fist on the rising shaft, eye-checked on the 6x crop x220..310/y120..180: fist skin x275..296 y146..164 (shaft strip crossing at ~y150-160 inside the rect), cut from the forearm guard at the west edge; the rear shaft fist (~x185-215,y160-180) is outside. Because the fist sits against the sleeve/torso mass, this rect carries body alpha in several standing poses (misc:0 probed 400/418 px) - see controls.byHero.weiyan for the wrong-pose consequence."
     },
     "soldier:hitstun-held:5": {
       "kind": "soldier",
@@ -105,6 +119,10 @@
       "zhaoyun": {
         "wrongPoseHolderFrame": "getup:0",
         "wrongPoseNote": "Same settled-fist limitation as zhangfei: zhaoyun's misc:3 fist roi rests against his torso and is fully alpha-filled (782/782 px probed) in every misc pose (and in fall/getup:1-4/jump/special cells), so no standing pose discriminates it. The control uses the prone getup:0 cell, where only a 110-px bottom strip (y174..180 of the rect) carries alpha, so the measured point set sits well below the real fist and the gap must fail. Recorded limitation, not hidden: the +6u lane-shift control remains the discriminating negative control for zhaoyun."
+      },
+      "weiyan": {
+        "wrongPoseHolderFrame": "getup:0",
+        "wrongPoseNote": "Same shaft-fist limitation: weiyan's misc:3 fist roi sits against sleeve/torso mass and carries heavy alpha in standing poses (misc:0 probed 400/418 px, misc:1 204, misc:4 95), so no standing misc pose cleanly discriminates it. The control uses the prone getup:0 cell, where only a 113-px bottom strip (y156..164 of the rect) carries alpha, so the measured point set sits below the real fist and the gap must fail. Recorded limitation, not hidden: the +6u lane-shift control remains the discriminating negative control for weiyan."
       }
     }
   }
