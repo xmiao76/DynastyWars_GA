@@ -37,11 +37,7 @@ for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]
       if (!sprite?.visible || sprite.alpha <= 0) return ''
       return sprite.frame.name === '__BASE' ? sprite.texture.key : String(sprite.frame.name)
     })
-    if (rollback) {
-      await expect.poll(heroKey).toBe('entity:guanyu:idle')
-    } else {
-      await expect.poll(heroKey).toMatch(/^entity:guanyu:motion:/)
-    }
+    await expect.poll(heroKey).toMatch(/^entity:guanyu:motion:/)
     expect(await retiredState()).toEqual({ framesField: false, sourceKeys: [] })
     expect(pilotRequests).toEqual([])
     expect(errors).toEqual([])

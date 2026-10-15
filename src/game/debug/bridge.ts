@@ -1,6 +1,6 @@
 import { neutralInput, type InputState } from '../../core/types'
-import { ensureEntityTextures } from '../adapters/sprites'
-import { vectorKinds } from '../art/registry'
+import { ensurePropTextures } from '../adapters/sprites'
+import { propKinds } from '../art/registry'
 import type { Sim, SimSnapshot } from '../../core/sim'
 import { snapshotSim, spawnBossNow, stepSim } from '../../core/sim'
 
@@ -147,7 +147,7 @@ export function installBridge(state: BridgeState): void {
     registerAllArt: (): number => {
       const scene = window.__DW_GAME__?.scene.getScene('game')
       if (!scene) return 0
-      ensureEntityTextures(scene, vectorKinds())
+      ensurePropTextures(scene, propKinds())
       return scene.textures.getTextureKeys().filter((k) => k.startsWith('entity:')).length
     },
     forceBoss: () => {

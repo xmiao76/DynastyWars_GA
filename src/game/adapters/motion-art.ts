@@ -95,11 +95,6 @@ export const MOTION_REVISION = 'motion-2'
 /** Pinned sha256 over the canonical clip serialization ({loop,duration,keys} per clip, JSON) of guanyuClips(). */
 export const MOTION_CLIPS_HASH = 'cd926d062b86def8f6a309b480d4b9383a6a612985dbff920837e28fa06ec31f'
 
-export function motionEnabled(search = typeof window === 'undefined' ? '' : window.location.search): boolean {
-  // Temporary pre-deletion rollback: only the exact value 0 selects legacy.
-  return new URLSearchParams(search).get('motion') !== '0'
-}
-
 export function motionPreparedRecord(): MotionPrepared {
   return { ...prepared.guanyu, id: 'guanyu', revision: MOTION_REVISION, actionSheet: actions.sheet,
     frames: { ...prepared.guanyu.frames, ...actions.frames } as MotionArt['frames'],
@@ -357,7 +352,7 @@ export interface MotionIo {
   makeCtx?: (w: number, h: number) => CanvasRenderingContext2D | null
   /** Per-page deadline (contract: bounded). */
   pageTimeoutMs: number
-  /** Whole stage-entry deadline; on expiry the stage continues on legacy. */
+  /** Whole stage-entry deadline; on expiry required kinds block the stage. */
   stageTimeoutMs: number
 }
 
@@ -423,8 +418,8 @@ export interface MotionStageReport {
   requested: string[]
   /** Kinds published with fully verified motion art. */
   published: string[]
-  /** Kinds that fell back to legacy art, with the failure class. */
-  legacy: Array<{ kind: string; failure: LoadFailure }>
+  /** Kinds unavailable after preparation, with the failure class. */
+  unavailable: Array<{ kind: string; failure: LoadFailure }>
   /** Structured FINAL failures (retry exhausted) among the immediate set. */
   failed: MotionFailureState[]
   /**
@@ -470,13 +465,6 @@ export interface MotionGateDecision {
 /** Whether `kind` has a catalogued motion pack (a "motion kind"). */
 export function isMotionPackKind(kind: string): boolean {
   return MOTION_PACKS[kind] !== undefined
-}
-
-/** Only explicit rollback and shared props may use legacy textures.
- * Publication/catalog membership never authorizes a humanoid fallback.
- */
-export function canRenderLegacyFrame(motionOn: boolean, prop: boolean): boolean {
-  return !motionOn || prop
 }
 
 export class MotionRuntime {
@@ -626,7 +614,7 @@ export class MotionRuntime {
     const report: MotionStageReport = {
       requested: [...scope.immediate],
       published: [],
-      legacy: [],
+      unavailable: [],
       failed: [],
       prefetch: background,
       deferred: [...scope.deferred],
@@ -641,7 +629,7 @@ export class MotionRuntime {
         if (aborted || this.cache.epoch('stage') !== stageEpoch) return // deadline/shutdown: no continuation
         if (outcome.ok) report.published.push(kind)
         else {
-          report.legacy.push({ kind, failure: outcome.failure })
+          report.unavailable.push({ kind, failure: outcome.failure })
           const failed = this.finalFailure(kind)
           if (failed) report.failed.push(failed)
         }
@@ -653,10 +641,10 @@ export class MotionRuntime {
       aborted = true
       this.cancelLoads()
       for (const kind of scope.immediate) {
-        if (!report.published.includes(kind) && !report.legacy.some((l) => l.kind === kind)) {
+        if (!report.published.includes(kind) && !report.unavailable.some((l) => l.kind === kind)) {
           // The deadline, not shutdown, cut this load (possibly its retry):
           // that is a final timeout, never a silent cancellation.
-          report.legacy.push({ kind, failure: 'timeout' })
+          report.unavailable.push({ kind, failure: 'timeout' })
           report.failed.push(this.markFinalFailure(kind, 'timeout'))
         }
       }
@@ -982,7 +970,7 @@ export function publishMotionArtRecord(
   makeCtx: (w: number, h: number) => CanvasRenderingContext2D | null = defaultCtx,
   clips?: MotionArt['clips'],
 ): MotionArt | undefined {
-  const prev = (scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined) ?? { heroes: {} }
+  const prev = (scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined) ?? {}
   // A rejection drops ONLY this fighter's motion art: other fighters' valid
   // art (and the hero/body art) must survive untouched.
   const reject = (): undefined => {

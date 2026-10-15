@@ -42,11 +42,11 @@ async function waitForVisualScene(page: import('@playwright/test').Page, scene: 
     if (!game || window.__DW__?.getSnapshot().scene !== scene || !game.scene.isActive(scene)) return false
     if (scene !== 'game') return true
     const live = game.scene.getScene('game') as unknown as {
-      built: boolean; motionOn: boolean; motionError: unknown; runToken: number;
+      built: boolean; motionError: unknown; runToken: number;
       sim?: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite>;
       nextSpawnTick(): number
     }
-    if (!live.built || !live.motionOn || live.motionError || live.runToken <= afterToken ||
+    if (!live.built || live.motionError || live.runToken <= afterToken ||
       !live.sim || live.sim.charId !== hero || live.sim.stage.id !== stage) return false
     // @ts-expect-error Vite browser URL, evaluated in the page rather than Node.
     const { motionRuntime } = await import('/src/game/adapters/motion-art.ts')

@@ -10,7 +10,6 @@ import type { MotionArt } from '../../src/game/art/motion-clips'
 import {
   MotionRuntime,
   MOTION_PACKS,
-  canRenderLegacyFrame,
   ensureMotionFrame,
   isMotionPackKind,
   motionFrameId,
@@ -203,9 +202,9 @@ describe('stage-scoped motion runtime', () => {
     // The entry gate awaits ONLY the opening set (hero + opening wave);
     // later waves and the boss are scheduled behind it in spawn order.
     expect(report.requested).toEqual(immediate)
-    expect(report.published, JSON.stringify(report.legacy)).toEqual(immediate)
+    expect(report.published, JSON.stringify(report.unavailable)).toEqual(immediate)
     expect(report.deferred).toEqual(deferred)
-    expect(report.legacy, JSON.stringify(report.legacy)).toEqual([])
+    expect(report.unavailable, JSON.stringify(report.unavailable)).toEqual([])
     expect(report.scope.immediateBytes, 'entry downloads are the new immediate bytes').toBe(sumBy(immediate, packBytes))
     expect(report.scope.immediateBytes).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
     expect(rt.dueKinds(scene, 0)).toEqual(immediate)
@@ -351,7 +350,7 @@ describe('stage-scoped motion runtime', () => {
     expect(report.requested).toEqual(immediate)
     expect(report.published).toEqual(immediate)
     expect(report.deferred, 'later-wave mooks first, boss last').toEqual(deferred)
-    expect(report.legacy).toEqual([])
+    expect(report.unavailable).toEqual([])
     expect(report.scope.immediateBytes).toBe(sumBy(immediate, packBytes))
     expect(report.scope.immediateBytes, 'entry downloads fit the unchanged cap').toBeLessThan(CONTRACT_CAPS.stageDownloads)
     expect(report.scope.entryOverBudget).toBe(false)
@@ -500,7 +499,7 @@ describe('negative controls reject the whole fighter, never other valid art', ()
     // retry lives inside the same deadline, so a deadline cut is a FINAL
     // timeout for every unpublished immediate kind (overlay, not a stage).
     const { immediate, deferred } = spawnPartition('stage1', ['guanyu'])
-    expect(report.legacy).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout' })))
+    expect(report.unavailable).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout' })))
     expect(report.failed).toEqual(immediate.map((kind) => ({ kind, failure: 'timeout', attempts: 1, final: true })))
     expect(rt.finalFailure('guanyu')).toEqual({ kind: 'guanyu', failure: 'timeout', attempts: 1, final: true })
     expect(report.deferred).toEqual(deferred)
@@ -576,12 +575,9 @@ describe('sole-motion retry-once failure semantics', () => {
     })
   }
 
-  it('legacy authorization depends only on explicit rollback or shared props, never publication/catalog', () => {
+  it('catalog distinguishes humanoid motion packs from shared props', () => {
     expect(isMotionPackKind('guanyu')).toBe(true)
     expect(isMotionPackKind('crate')).toBe(false)
-    expect(canRenderLegacyFrame(true, false), 'all humanoids: unpublished, corrupt published or uncatalogued').toBe(false)
-    expect(canRenderLegacyFrame(true, true), 'shared props keep their art').toBe(true)
-    expect(canRenderLegacyFrame(false, false), 'explicit rollback is unchanged').toBe(true)
   })
 
   it('published frame loss/corruption reports the exact failure, keeps warm sibling and never refetches', async () => {
@@ -617,7 +613,6 @@ describe('sole-motion retry-once failure semantics', () => {
     expect(fake.motions()['zhangfei']).toBe(sibling)
     expect(io.calls).toHaveLength(calls)
     expect(rt.failureState('guanyu')).toBeUndefined()
-    expect(canRenderLegacyFrame(true, false)).toBe(false)
   })
 
   it('deferred due gating: a prefetch failure is non-fatal until due, then the retry can publish', async () => {
@@ -742,7 +737,7 @@ describe('cancellation, stale callbacks and late joins', () => {
         expect.soft(io.calls, 'cancellation is never retried').toHaveLength(3)
         expect.soft(report.published).toEqual([])
         if (cancellation === 'shutdown') {
-          expect.soft(report.legacy).toEqual([])
+          expect.soft(report.unavailable).toEqual([])
           expect.soft(report.failed).toEqual([])
           expect.soft(rt.failureState('guanyu')).toBeUndefined()
         } else {
@@ -846,7 +841,7 @@ describe('cancellation, stale callbacks and late joins', () => {
     expect(report.deferred).toEqual(['spearman'])
     expect(report.scope.prefetch).toEqual(['lidian'])
     expect(report.published).toEqual(['guanyu'])
-    expect(report.legacy, 'shutdown cancellation stays silent').toEqual([])
+    expect(report.unavailable, 'shutdown cancellation stays silent').toEqual([])
     expect(report.failed).toEqual([])
     expect(Object.keys(fake.motions()), 'no publication after shutdown').toEqual(publishedAtShutdown)
     expect(fetchedKinds(io.calls), 'neither remaining immediate nor background work may start').toEqual(['guanyu', 'guanyu', 'soldier'])

@@ -936,7 +936,7 @@ test('default motion coverage: mobile landscape viewport smoke (frame ids identi
   expect(failures, failures.slice(0, 80).join('\n')).toEqual([])
 })
 
-test('default motion coverage: ?motion=0 discrimination sample expects legacy frame', async ({ page }) => {
+test('default motion coverage: ?motion=0 has no effect on visible motion frame', async ({ page }) => {
   test.setTimeout(120_000)
   const errors = await bootGame(page, '/?renderer=canvas&autopilot=1&motion=0', { width: 960, height: 540 })
   const sampleRec = await page.evaluate(() => {
@@ -955,5 +955,5 @@ test('default motion coverage: ?motion=0 discrimination sample expects legacy fr
   expect(sampleRec!.visible).toBe(true)
   expect(sampleRec!.alpha).toBeGreaterThan(0)
   expect(sampleRec!.frame).toBeTruthy()
-  expect(sampleRec!.frame).not.toContain(':motion:') // legacy path, discriminates from default-ON motion
+  expect(sampleRec!.frame).toBe('entity:guanyu:motion:walk:0')
 })

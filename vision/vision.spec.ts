@@ -1,21 +1,18 @@
 import { expect, test } from '@playwright/test'
-import { mkdirSync, appendFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, appendFileSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../src/core/constants'
 import { PNG } from 'pngjs'
 import zhaoyun from '../src/game/assets/motion/zhaoyun-prepared.json' with { type: 'json' }
-import { RENDER_SCALE } from '../src/game/render'
 import { decideBotScript } from '../selfplay/bot'
 import { assessFrame, regionLegibility, type FrameImage, type MetricResult } from './metrics'
 import {
   assessSprite,
-  assessWeaponReach,
   type SpriteImage,
   type SpriteResult,
 } from './sprite-metrics'
 import {
   CHARACTER_SPRITE_THRESHOLDS,
-  MIN_WEAPON_REACH_PX,
   PROP_SPRITE_THRESHOLDS,
   thresholdsFor,
 } from './thresholds'
@@ -23,11 +20,22 @@ import {
 // Character-legibility floor: a real hero should render with several distinct
 // colors in its body window (armor, skin/helm, weapon, trim) - not a 1-color
 // flat blob, and not 95% one dominant color.
-export /**
- * Sprites the whole cast comes to: 11 posed characters x 14 poses, plus 4
- * pose-less props. Exact on purpose - see the note at the call site.
- */
-const EXPECTED_SPRITES = 11 * 14 + 4
+// Exact expected inventory comes from source metadata, never the live registry.
+const MOTION_KINDS = ['guanyu', 'soldier', 'spearman', 'archer', 'zhangfei', 'zhaoyun',
+  'weiyan', 'huangzhong', 'lidian', 'xiahoudun', 'xuchu'] as const
+const PROP_KINDS = ['arrow', 'crate', 'meat', 'sword'] as const
+type ExpectedMotion = import('../src/game/adapters/motion-art').MotionPrepared
+const expectedMotion = Object.fromEntries(MOTION_KINDS.map(kind => {
+  const json = (name: string): ExpectedMotion => JSON.parse(readFileSync(
+    new URL('../src/game/assets/motion/' + name, import.meta.url), 'utf8')) as ExpectedMotion
+  if (kind !== 'guanyu') return [kind, json(kind + '-prepared.json')]
+  const base = JSON.parse(readFileSync(new URL('../src/game/assets/motion/prepared.json', import.meta.url), 'utf8')) as { guanyu: ExpectedMotion }
+  const actions = json('actions-prepared.json')
+  return [kind, { ...base.guanyu, id: kind, revision: 'motion-2', actionSheet: actions.sheet,
+    frames: { ...base.guanyu.frames, ...actions.frames },
+    signatures: { sheet: base.guanyu.signatures.sheet, actions: actions.signatures.sheet } }]
+})) as Record<string, ExpectedMotion>
+export const EXPECTED_SPRITES = Object.values(expectedMotion).reduce((n, m) => n + Object.keys(m.frames).length, 0) + PROP_KINDS.length
 const MIN_CHARACTER_COLORS = 4
 export const MAX_CHARACTER_DOMINANCE = 0.9
 
@@ -48,11 +56,11 @@ async function waitForVisualScene(page: import('@playwright/test').Page, scene: 
     if (!game || window.__DW__?.getSnapshot().scene !== scene || !game.scene.isActive(scene)) return false
     if (scene !== 'game') return true
     const live = game.scene.getScene('game') as unknown as {
-      built: boolean; motionOn: boolean; motionError: unknown; runToken: number;
+      built: boolean; motionError: unknown; runToken: number;
       sim?: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite>;
       nextSpawnTick(): number
     }
-    if (!live.built || !live.motionOn || live.motionError || live.runToken <= afterToken ||
+    if (!live.built || live.motionError || live.runToken <= afterToken ||
       !live.sim || live.sim.charId !== hero || live.sim.stage.id !== stage) return false
     // @ts-expect-error Vite browser URL, evaluated in the page rather than Node.
     const { motionRuntime } = await import('/src/game/adapters/motion-art.ts')
@@ -340,128 +348,133 @@ test('visual-health gate: every core screen renders acceptably', async ({ page }
  * its silhouette change down its height, does anything stand clear of the
  * torso, does it carry more than a couple of tones, is it outlined?
  */
-test('sprite gate: every rendered character and prop reads as a shape', async ({ page }) => {
+test('sprite gate: all published motion frames and shared props', async ({ page }) => {
   test.setTimeout(180_000)
+  const pageErrors: string[] = []
+  page.on('pageerror', e => pageErrors.push(String(e)))
   await page.setViewportSize({ width: 960, height: 540 })
   await page.goto('/?renderer=canvas&autopilot=1&vision=1', { waitUntil: 'networkidle' })
-  // Entering a stage registers every kind that can appear (all enemies, all
-  // heroes and props), so one startGame exposes the whole cast.
   await startReady(page)
-  // Legacy inventory only: this is NOT whole-motion frame coverage.
-  // Register the WHOLE cast, not just what this stage spawns. GameScene
-  // deliberately generates only the kinds a stage can use - it cut 52MB of
-  // textures - and that quietly took this gate from 148 sprites to 76 without
-  // anything going red. The count below is exact for the same reason: a floor
-  // of "more than 20" is what let a halving go unnoticed.
   await page.evaluate(() => window.__DW__?.registerAllArt())
-
-  const keys = await entityTextureKeys(page)
-  expect(keys.length, `expected the whole cast, got ${keys.length} textures`).toBe(EXPECTED_SPRITES)
-
-  // Texture-key convention: props register pose-less as `entity:<kind>`, while
-  // combatants register `entity:<kind>:<pose>`. Derive prop-ness from the kind,
-  // not from the key shape - a prop that also has baked pose keys is still a
-  // prop, and holding it to the character bar would demand limbs of a crate.
-  const propKinds = new Set(
-    keys.filter((k) => k.split(':').length === 2).map((k) => k.split(':')[1] ?? ''),
-  )
-
-  const results: SpriteResult[] = []
-  const byKindPose = new Map<string, SpriteImage>()
-  for (const key of keys) {
-    const img = await readTexture(page, key)
-    if (!img) {
-      results.push({
-        label: key,
-        silhouetteComplexity: 0,
-        appendageRatio: 0,
-        colorCount: 0,
-        dominantFraction: 1,
-        outlineRatio: 0,
-        tonalBands: 0,
-        pass: false,
-        failures: ['texture missing from the running game'],
-      })
-      continue
-    }
-    byKindPose.set(key, img)
-    const isProp = propKinds.has(key.split(':')[1] ?? '')
-    results.push(assessSprite(img, key, isProp ? PROP_SPRITE_THRESHOLDS : CHARACTER_SPRITE_THRESHOLDS))
+  expect(await entityTextureKeys(page)).toEqual(PROP_KINDS.map(k => 'entity:' + k))
+  const props: SpriteResult[] = []
+  for (const kind of PROP_KINDS) {
+    const key = 'entity:' + kind, image = await readTexture(page, key)
+    expect(image, key).not.toBeNull()
+    if (image) props.push(assessSprite(image, key, PROP_SPRITE_THRESHOLDS))
   }
 
-  // Weapons have to be visible as reach: swinging extends the silhouette.
-  //
-  // Scaled by RENDER_SCALE, because these are the LIVE textures and the game
-  // rasterizes them at device density. The threshold is expressed in logical
-  // pixels - as it is in the unit gate, which measures source art - so applying
-  // it raw here would have quietly made the browser check half as strict as the
-  // one it is meant to back up.
-  const combatantKinds = [
-    ...new Set(keys.filter((k) => k.endsWith(':idle')).map((k) => k.split(':')[1] ?? '')),
-  ].filter((kind) => kind !== '' && !propKinds.has(kind) && byKindPose.has(`entity:${kind}:attack`))
-  // All five strike poses reach: the historical attack/attack2 plus the ENH-5
-  // thrust, chop and sweep. Mirrors the unit reach gate.
-  const STRIKE_POSES = ['attack', 'attack2', 'thrust', 'chop', 'sweep'] as const
-  const reach = combatantKinds
-    .flatMap((kind) => {
-      const idle = byKindPose.get(`entity:${kind}:idle`)
-      if (!idle) return []
-      return STRIKE_POSES.flatMap((strike) => {
-        const img = byKindPose.get(`entity:${kind}:${strike}`)
-        if (!img) return []
-        return [assessWeaponReach(idle, img, `${kind}:${strike}`, MIN_WEAPON_REACH_PX * RENDER_SCALE)]
-      })
-    })
-  // The anti-static check, mirroring the unit retract gate: the withdrawn
-  // phases sit narrower than EACH strike by the same threshold reach demands
-  // the other way, or consecutive hits read as one held pose.
-  const WITHDRAWN_POSES = ['windup', 'recover'] as const
-  const retract = combatantKinds
-    .flatMap((kind) => {
-      const withdrawn = WITHDRAWN_POSES.map((pose) => byKindPose.get(`entity:${kind}:${pose}`))
-      const strikes = STRIKE_POSES.map((pose) => byKindPose.get(`entity:${kind}:${pose}`))
-      if (withdrawn.some((img) => !img) || strikes.some((img) => !img)) return []
-      return STRIKE_POSES.flatMap((strike, si) =>
-        WITHDRAWN_POSES.map(
-          (pose, wi) =>
-            assessWeaponReach(
-              withdrawn[wi]!,
-              strikes[si]!,
-              `${kind}:${pose}-vs-${strike}`,
-              MIN_WEAPON_REACH_PX * RENDER_SCALE,
-            ),
-        ),
-      )
-    })
-  // Exact counts, same reasoning as EXPECTED_SPRITES above: an emptied list
-  // would otherwise pass over zero comparisons.
-  expect(reach.length, 'strike reach comparisons').toBe(11 * 5)
-  expect(retract.length, 'retract comparisons').toBe(11 * 5 * 2)
-
-  writeFileSync(
-    join(OUT_DIR, 'sprite-report.json'),
-    JSON.stringify({ sprites: results, weaponReach: reach, retract }, null, 2),
-  )
-  const badSprites = results.filter((r) => !r.pass)
-  const badReach = reach.filter((r) => !r.pass)
-  const badRetract = retract.filter((r) => !r.pass)
-  for (const r of badSprites) fileFinding('sprite', r)
-  for (const r of badReach) fileFinding('weapon', r)
-  for (const r of badRetract) fileFinding('weapon', r)
-  console.log(`SPRITE GATE: ${results.length - badSprites.length}/${results.length} sprites, ${reach.length - badReach.length}/${reach.length} weapons, ${retract.length - badRetract.length}/${retract.length} retracts`)
-
-  expect(
-    badSprites.map((r) => `${r.label}: ${r.failures.join('; ')}`),
-    'sprites do not read as characters',
-  ).toEqual([])
-  expect(
-    badReach.map((r) => `${r.label}: ${r.failures.join('; ')}`),
-    'weapons are not visible in the attack pose',
-  ).toEqual([])
-  expect(
-    badRetract.map((r) => `${r.label}: ${r.failures.join('; ')}`),
-    'windup and recover are not narrower than the strikes',
-  ).toEqual([])
+  // Inspect immediately after each bounded required load: no all-cast cache
+  // assumption, no synthetic textures, no legacy fallback/pose inventory.
+  const inventories = []
+  for (const kind of MOTION_KINDS) {
+    const result = await page.evaluate(async ({ kind, expected, standingThresholds, kinds }) => {
+      // @ts-expect-error Vite browser modules, not Node imports.
+      const adapter: typeof import('../src/game/adapters/motion-art') = await import('/src/game/adapters/motion-art.ts')
+      // @ts-expect-error Vite browser modules, not Node imports.
+      const metrics: typeof import('./sprite-metrics') = await import('/vision/sprite-metrics.ts')
+      // @ts-expect-error Vite browser modules, not Node imports.
+      const signature: typeof import('../src/game/art/image-signature') = await import('/src/game/art/image-signature.ts')
+      // @ts-expect-error Vite browser modules, not Node imports.
+      const player: typeof import('../src/game/art/motion-clips') = await import('/src/game/art/motion-clips.ts')
+      const game = window.__DW_GAME__!, scene = game.scene.getScene('game')
+      const failures: string[] = []
+      const check = (ok: boolean, key: string, metric: string): void => {
+        if (!ok) failures.push('FAIL ' + kind + '/' + key + '/' + metric)
+      }
+      check(JSON.stringify(Object.keys(adapter.MOTION_PACKS).sort()) === JSON.stringify([...kinds].sort()), 'pack', 'stable-11-kind-catalog')
+      const runtime = adapter.motionRuntime()
+      const loaded = await runtime.prepareKinds(scene, [kind])
+      check(loaded.length === 1 && loaded[0]!.outcome.ok && runtime.kindReady(scene, kind), 'pack', 'required-publication')
+      const art = (game.registry.get('paintedHeroArt') as import('../src/game/art/hero-resources').ArtResources).motions?.[kind]
+      if (!art) return { kind, failures, frames: [], standing: [], clipRefs: 0, clips: 0 }
+      check(art.id === kind && art.revision === expected.revision, 'pack', 'identity-revision')
+      check(JSON.stringify(Object.keys(art.frames).sort()) === JSON.stringify(Object.keys(expected.frames).sort()), 'pack', 'exact-manifest-keys')
+      const canonicalClips = adapter.MOTION_PACKS[kind]!.clips()
+      check(JSON.stringify(art.clips) === JSON.stringify(canonicalClips), 'pack', 'canonical-clip-timing-framekeys')
+      let clipRefs = 0
+      for (const [name, clip] of Object.entries(canonicalClips)) {
+        check(clip.duration > 0 && clip.keys.length > 0 && clip.keys[0]!.tick === 0, name, 'clip-duration-first-key')
+        let previous = -1
+        for (const key of clip.keys) {
+          clipRefs++
+          check(Number.isInteger(key.tick) && key.tick > previous && key.tick < clip.duration, name, 'phase-tick-' + key.tick)
+          check(!!expected.frames[key.frame] && !!art.frames[key.frame], key.frame, 'clip-reference-' + name)
+          check(player.sampleClip(art, name, key.tick) === key.frame, key.frame, 'phase-sample-' + name)
+          previous = key.tick
+        }
+      }
+      for (const p of adapter.MOTION_PACKS[kind]!.pages) {
+        const texture = game.textures.exists(p.sourceKey) ? game.textures.get(p.sourceKey) : undefined
+        const src = texture?.getSourceImage() as HTMLImageElement | undefined
+        check(!!src && src.width === p.width && src.height === p.height, p.name, 'live-page-geometry')
+        check(src === (p.name === 'actions' ? art.actionSheet : art.sheet), p.name, 'published-source-identity')
+        if (src) {
+          const cv = document.createElement('canvas'); cv.width = src.width; cv.height = src.height
+          const ctx = cv.getContext('2d')!; ctx.drawImage(src, 0, 0)
+          check(signature.signatureMatches(signature.imageSignature(ctx.getImageData(0, 0, cv.width, cv.height)),
+            expected.signatures[p.name === 'actions' ? 'actions' : 'sheet']), p.name, 'live-drawing-signature')
+        }
+      }
+      const standingKeys = new Set(canonicalClips.idle!.keys.map(k => k.frame))
+      const standing: import('./sprite-metrics').SpriteResult[] = []
+      const frames = []
+      for (const [key, cell] of Object.entries(expected.frames)) {
+        const actual = art.frames[key]
+        check(JSON.stringify(actual) === JSON.stringify(cell), key, 'exact-manifest-rect')
+        const textureKey = cell.sheet === 'actions' ? adapter.motionTextureKeys(kind).actions : adapter.motionTextureKeys(kind).sheet
+        const tex = game.textures.exists(textureKey) ? game.textures.get(textureKey) : undefined
+        const id = adapter.motionFrameId(kind, key), frame = tex?.has(id) ? tex.get(id) : undefined
+        const source = tex?.getSourceImage() as CanvasImageSource
+        const sw = cell.srcW ?? cell.w, sh = cell.srcH ?? cell.h, tx = cell.trimX ?? 0, ty = cell.trimY ?? 0
+        check(!!frame && frame.name === id && frame.cutX === cell.x && frame.cutY === cell.y &&
+          frame.cutWidth === cell.w && frame.cutHeight === cell.h && frame.realWidth === sw && frame.realHeight === sh &&
+          frame.x === tx && frame.y === ty, key, 'live-frame-cut-trim-fullcell')
+        check(source === (cell.sheet === 'actions' ? art.actionSheet : art.sheet), key, 'live-frame-source-identity')
+        check(sw === expected.box.width * expected.density && sh === expected.box.height * expected.density &&
+          tx >= 0 && ty >= 0 && tx + cell.w <= sw && ty + cell.h <= sh, key, 'fullcell-geometry')
+        if (!frame || !source) continue
+        const cv = document.createElement('canvas'); cv.width = sw; cv.height = sh
+        const ctx = cv.getContext('2d')!
+        // Restore the actual Phaser trim inside the full registration cell.
+        ctx.drawImage(source, frame.cutX, frame.cutY, frame.cutWidth, frame.cutHeight,
+          frame.x, frame.y, frame.cutWidth, frame.cutHeight)
+        const image = { width: sw, height: sh, data: new Uint8Array(ctx.getImageData(0, 0, sw, sh).data) }
+        const bounds = metrics.opaqueBounds(image), colors = metrics.opaqueColorStats(image), bands = metrics.tonalBands(image)
+        check(!!bounds && bounds.count > 0 && bounds.x1 > bounds.x0 && bounds.y1 > bounds.y0, key, 'nonempty-alpha-geometry')
+        // Orientation-independent drawing/shading checks for every cell,
+        // including prone/airborne drawings. No standing silhouette rubric there.
+        check(colors.colorCount >= standingThresholds.minColorCount, key, 'colorCount ' + colors.colorCount)
+        check(colors.dominantFraction <= standingThresholds.maxDominantFraction, key, 'dominantFraction ' + colors.dominantFraction)
+        check(bands >= standingThresholds.minTonalBands, key, 'tonalBands ' + bands)
+        if (standingKeys.has(key)) {
+          const verdict = metrics.assessSprite(image, kind + '/' + key, standingThresholds)
+          standing.push(verdict)
+          for (const metric of verdict.failures) check(false, key, metric)
+        }
+        frames.push({ key, bounds, ...colors, tonalBands: bands, cut: [frame.cutX, frame.cutY, frame.cutWidth, frame.cutHeight],
+          trim: [frame.x, frame.y], full: [sw, sh], texture: textureKey })
+      }
+      check(standing.length === standingKeys.size && standing.length > 0, 'idle', 'standing-guard-coverage')
+      return { kind, failures, frames, standing, clipRefs, clips: Object.keys(canonicalClips).length }
+    }, { kind, expected: expectedMotion[kind]!, standingThresholds: CHARACTER_SPRITE_THRESHOLDS, kinds: MOTION_KINDS })
+    inventories.push(result)
+    expect.soft(result.frames.length, kind + ' exact metadata frame count').toBe(Object.keys(expectedMotion[kind]!.frames).length)
+  }
+  const failures = [...inventories.flatMap(i => i.failures), ...props.flatMap(p => p.failures.map(f => 'FAIL ' + p.label + '/' + f))]
+  const retirement = { status: 'RETIRED-NOT-PASS', legacySprites: 158, legacyReach: 55, legacyRetract: 110,
+    reason: 'Deleted rig pose inventory; motion has per-kind clips, not five shared strike poses. Existing motion phase/frame-key/quality tests remain required; no timing or pixel changes.' }
+  writeFileSync(join(OUT_DIR, 'sprite-report.json'), JSON.stringify({ expectedFrames: EXPECTED_SPRITES - 4,
+    inventories, props, retirement, failures }, null, 2))
+  for (const detail of failures) { console.log(detail); fileFinding('sprite', { detail }) }
+  console.log('MOTION SPRITE GATE:', JSON.stringify({ kinds: inventories.length,
+    frames: inventories.reduce((n, i) => n + i.frames.length, 0), props: props.length,
+    clips: inventories.reduce((n, i) => n + i.clips, 0), clipRefs: inventories.reduce((n, i) => n + i.clipRefs, 0), failures }))
+  expect(inventories).toHaveLength(11)
+  expect(inventories.reduce((n, i) => n + i.frames.length, props.length)).toBe(EXPECTED_SPRITES)
+  expect(props).toHaveLength(4)
+  expect(pageErrors).toEqual([])
+  expect(failures, 'published motion/prop quality failures (not waived)').toEqual([])
 })
 
 /**

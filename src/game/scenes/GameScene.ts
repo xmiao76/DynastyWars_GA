@@ -25,14 +25,12 @@ import type { SimEvent } from '../../core/events'
 import { KeyboardAdapter, PLAYER_TWO_KEYS } from '../adapters/keyboard'
 import { GamepadAdapter, mergeInputs, watchConfirmButton } from '../adapters/gamepad'
 import { NO_TOUCH } from '../adapters/touch'
-import { ensureBlendKey, ensureEntityTextures, isPropKind, poseForEntity, textureKeyFor, textureKeyForPose, type Pose } from '../adapters/sprites'
+import { ensurePropTextures, isPropKind, textureKeyFor } from '../adapters/sprites'
 import {
-  canRenderLegacyFrame,
   clearMotionPlayback,
   ensureMotionFrame,
   forgetMotionEntity,
   isMotionPackKind,
-  motionEnabled,
   motionKindReady,
   motionRuntime,
   motionStageRequest,
@@ -114,14 +112,6 @@ export function stageArtKinds(sim: Sim): string[] {
   ]
 }
 
-/** Whether a kind already has art registered, for either art shape. */
-function hasArtFor(scene: Phaser.Scene, kind: string): boolean {
-  return (
-    scene.textures.exists(textureKeyFor(kind)) ||
-    scene.textures.exists(textureKeyForPose(kind, 'idle'))
-  )
-}
-
 export interface GameSceneData {
   seed?: number
   charId?: string
@@ -155,10 +145,6 @@ export class GameScene extends Phaser.Scene {
   } = NO_TOUCH
   private pollStartButton!: () => void
   private sprites = new Map<number, Phaser.GameObjects.Sprite>()
-  /** BODY-24: in-between frames queued per entity on a pose swap. */
-  private blendQ = new Map<number, { steps: string[]; to: Pose }>()
-  /** The last settled pose per entity - the blend's `from` side. */
-  private lastPose = new Map<number, Pose>()
   /** Continue phase freezes core ticks; optional Guan Yu defeat can still finish. */
   private motionDefeat = new Map<number, { tick: number; remainder: number }>()
   private shadows = new Map<number, Phaser.GameObjects.Ellipse>()
@@ -197,8 +183,6 @@ export class GameScene extends Phaser.Scene {
   private runToken = 0
   /** A co-op join waiting on an uncached optional hero's pack (bounded). */
   private joinPending = false
-  /** Motion mode latched at create (legacy mode off = `motionEnabled()`). */
-  private motionOn = false
   /** A due-kinds spawn gate prepare is in flight; sim stepping halts. */
   private motionGatePending = false
   /** Final motion failure: sim halts behind the reload/error overlay. */
@@ -214,10 +198,9 @@ export class GameScene extends Phaser.Scene {
     this.bridge = this.registry.get('bridge') as BridgeState
     // Build gate: motion packs load at stage entry (CMR-03, no boot-time
     // all-cast downloads), so the stage/actors enter simulation only after the
-    // bounded prepare settles. Off by default the gate is synchronous.
+    // bounded prepare settles. URL motion parameters are intentionally ignored.
     this.built = false
     this.joinPending = false
-    this.motionOn = motionEnabled()
     this.motionGatePending = false
     this.motionError = null
     this.runToken += 1
@@ -246,10 +229,6 @@ export class GameScene extends Phaser.Scene {
       motionRuntime().cancelLoads()
       motionRuntime().releaseScene(this)
     })
-    if (!this.motionOn) {
-      this.beginStage(data)
-      return
-    }
     const token = this.runToken
     // Scope: hero + the effective player two (co-op carry, else the default
     // drop-in partner - "default/cached heroes ready for immediate join").
@@ -419,12 +398,7 @@ export class GameScene extends Phaser.Scene {
     ground.setTileScale(0.5, 0.5)
     ground.setName('bgGround')
 
-    // Sole-motion: never even generate legacy textures for motion kinds
-    // while motion is on, so an unpublished kind cannot render legacy.
-    ensureEntityTextures(
-      this,
-      stageArtKinds(this.sim).filter((kind) => !this.motionOn || isPropKind(kind)),
-    )
+    ensurePropTextures(this, stageArtKinds(this.sim))
 
     this.keyboardAdapter = new KeyboardAdapter(this)
     this.keyboard2Adapter = new KeyboardAdapter(this, PLAYER_TWO_KEYS)
@@ -532,7 +506,7 @@ export class GameScene extends Phaser.Scene {
     // sim yet - nothing steps, joins or transitions until beginStage ran.
     if (!this.built) return
     // Final motion failure: everything halts behind the reload overlay.
-    if (this.motionOn && this.motionError) return
+    if (this.motionError) return
     // UIR-7 (V-9): a portrait phone shows the rotate overlay and gameplay
     // pauses behind it - no sim ticks while it is up.
     if (rotateBlocked()) return
@@ -719,14 +693,8 @@ export class GameScene extends Phaser.Scene {
       return
     }
     sprite.setOrigin(0.5, 1)
-    const isBoss = ENEMIES[kind]?.boss !== undefined
-    const onScreenH = isBoss ? 124 : kind === 'crate' ? 52 : 92
-    // An art-engine box is deliberately larger than the subject in it - margin
-    // for a thrust weapon, headroom for a crest - so fitting the BOX to the
-    // fighter's height would scale the margins in and leave the fighter short.
-    // Props carry their own on-screen size: a dropped sword is not 92px tall.
-    const standingH = artDisplayHeight(kind, onScreenH) ?? onScreenH
-    const idleKey = isPropKind(kind) ? textureKeyFor(kind) : textureKeyForPose(kind, 'idle')
+    const standingH = artDisplayHeight(kind) ?? 92
+    const idleKey = textureKeyFor(kind)
     const idleTex = this.textures.exists(idleKey) ? this.textures.get(idleKey).get() : sprite.texture.get()
     const scale = standingH / Math.max(1, idleTex.height)
     const tex = sprite.texture.get()
@@ -742,16 +710,14 @@ export class GameScene extends Phaser.Scene {
       seen.add(entity.id)
       const prop = isPropKind(entity.kind)
       let invalidFrame: string | undefined
-      const motionFrame = !this.motionOn || prop || !isMotionPackKind(entity.kind) ? undefined : ensureMotionFrame(this, renderEntity, (detail) => { invalidFrame = detail })
+      const motionFrame = prop || !isMotionPackKind(entity.kind) ? undefined : ensureMotionFrame(this, renderEntity, (detail) => { invalidFrame = detail })
       // No humanoid can substitute legacy art in motion mode, even if its
       // catalog entry is absent or a formerly valid published frame is lost.
-      if (!motionFrame && !canRenderLegacyFrame(this.motionOn, prop)) {
+      if (!motionFrame && !prop) {
         this.sprites.get(entity.id)?.destroy()
         this.sprites.delete(entity.id)
         this.shadows.get(entity.id)?.destroy()
         this.shadows.delete(entity.id)
-        this.blendQ.delete(entity.id)
-        this.lastPose.delete(entity.id)
         if (!isMotionPackKind(entity.kind)) {
           this.showMotionError({ kind: entity.kind, failure: 'unsupported', attempts: 0, final: true, detail: 'no motion pack catalog entry' })
         } else if (motionKindReady(this, entity.kind)) {
@@ -767,67 +733,16 @@ export class GameScene extends Phaser.Scene {
         if (motionFrame) {
           sprite = this.add.sprite(entity.x, entity.y, motionFrame.texture, motionFrame.frame)
         } else {
-          // Belt and braces for the narrowed registration above: anything
-          // that reaches the screen without art gets it here rather than
-          // rendering blank. `ensureEntityTextures` is idempotent, so the
-          // cost is one map lookup per spawn once a kind is known.
-          if (!hasArtFor(this, entity.kind)) ensureEntityTextures(this, [entity.kind])
+          ensurePropTextures(this, [entity.kind])
           sprite = this.add.sprite(entity.x, entity.y, textureKeyFor(entity.kind))
         }
         sprite.setOrigin(0.5, 1)
         this.fitSprite(sprite, entity.kind)
         this.sprites.set(entity.id, sprite)
       }
-      // Pose binding: combatants get a pose texture per state; props keep
-      // their single static texture.
-      if (!isPropKind(entity.kind)) {
-        const pose = poseForEntity(entity)
-        if (motionFrame) {
-          this.blendQ.delete(entity.id)
-          this.lastPose.delete(entity.id)
-          // Shared atlas frame (CMR-03): the trim/pivot restores registration,
-          // so no per-cell canvas clone is ever created.
-          if (sprite.frame.name !== motionFrame.frame) {
-            sprite.setTexture(motionFrame.texture, motionFrame.frame)
-            this.fitSprite(sprite, entity.kind)
-          }
-        } else {
-          const key = textureKeyForPose(entity.kind, pose)
-          // Explicit rollback only; motion-mode humanoids cannot reach here.
-          if (!this.textures.exists(key)) ensureEntityTextures(this, [entity.kind])
-          const q = this.blendQ.get(entity.id)
-          if (q && q.to !== pose) this.blendQ.delete(entity.id) // re-target mid-blend
-          const blending = this.blendQ.has(entity.id)
-          if (sprite.texture.key !== key && !blending) {
-            // BODY-24 is retained only for the original renderer. Authored
-            // motion frames above never visit this render-callback queue.
-            const from = this.lastPose.get(entity.id)
-            const steps =
-              entity.state !== 'dying' && from && from !== pose
-                ? [
-                    ensureBlendKey(this, entity.kind, from, pose, 1),
-                    ensureBlendKey(this, entity.kind, from, pose, 2),
-                  ].filter((k): k is string => k !== undefined)
-                : []
-            if (steps.length === 2) {
-              this.blendQ.set(entity.id, { steps: [...steps, key], to: pose })
-              sprite.setTexture(steps[0]!)
-            } else {
-              sprite.setTexture(key)
-            }
-            this.fitSprite(sprite, entity.kind)
-            this.lastPose.set(entity.id, pose)
-          } else if (blending) {
-            const qq = this.blendQ.get(entity.id)!
-            qq.steps.shift()
-            const show = qq.steps[0] ?? key
-            if (qq.steps.length <= 1) this.blendQ.delete(entity.id)
-            if (sprite.texture.key !== show) {
-              sprite.setTexture(show)
-              this.fitSprite(sprite, entity.kind)
-            }
-          }
-        }
+      if (motionFrame && sprite.frame.name !== motionFrame.frame) {
+        sprite.setTexture(motionFrame.texture, motionFrame.frame)
+        this.fitSprite(sprite, entity.kind)
       }
       sprite.setPosition(entity.x, entity.y - entity.z - motionVisualLift(this, renderEntity))
       sprite.setDepth(entity.y)
@@ -998,7 +913,6 @@ export class GameScene extends Phaser.Scene {
 
   /** True while sim stepping must halt for motion loading/failure. */
   private motionStepBlocked(): boolean {
-    if (!this.motionOn) return false
     if (this.motionError) return true
     if (this.motionGatePending || this.joinPending) return true
     const gate = motionRuntime().gateForTick(this, this.nextSpawnTick())
@@ -1103,7 +1017,11 @@ export class GameScene extends Phaser.Scene {
     // Cached/default heroes join immediately; an uncached hero is prepared
     // (required: one retry) BEFORE the core join. Sole-motion: a final
     // failure does NOT join on legacy art - the reload overlay halts play.
-    if (!this.motionOn || !MOTION_PACKS[id] || motionKindReady(this, id)) {
+    if (!MOTION_PACKS[id]) {
+      this.showMotionError({ kind: id, failure: 'unsupported', attempts: 0, final: true, detail: 'no motion pack catalog entry' })
+      return false
+    }
+    if (motionKindReady(this, id)) {
       return joinPlayer2(this.sim, id)
     }
     const failed = motionRuntime().finalFailure(id)

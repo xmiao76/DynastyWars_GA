@@ -1,70 +1,37 @@
 import type Phaser from 'phaser'
-import type { ArtResources, HeroArt, PortraitArt } from '../art/hero-resources'
+import type { ArtResources, PortraitArt } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import heroPrepared from '../assets/hero-faces/prepared.json'
 import bossPrepared from '../assets/boss-faces/prepared.json'
 import mookPrepared from '../assets/mook-faces/prepared.json'
 import gyPortrait from '../assets/hero-faces/guanyu-portrait.png'
-import gyHead from '../assets/hero-faces/guanyu-head.png'
-import gyFront from '../assets/hero-faces/guanyu-front.png'
-import gyRear from '../assets/hero-faces/guanyu-rear.png'
 import zyPortrait from '../assets/hero-faces/zhaoyun-portrait.png'
-import zyHead from '../assets/hero-faces/zhaoyun-head.png'
-import zyFront from '../assets/hero-faces/zhaoyun-front.png'
-import zyRear from '../assets/hero-faces/zhaoyun-rear.png'
 import zfPortrait from '../assets/hero-faces/zhangfei-portrait.png'
-import zfHead from '../assets/hero-faces/zhangfei-head.png'
-import zfFront from '../assets/hero-faces/zhangfei-front.png'
-import zfRear from '../assets/hero-faces/zhangfei-rear.png'
 import hzPortrait from '../assets/hero-faces/huangzhong-portrait.png'
-import hzHead from '../assets/hero-faces/huangzhong-head.png'
-import hzFront from '../assets/hero-faces/huangzhong-front.png'
-import hzRear from '../assets/hero-faces/huangzhong-rear.png'
 import wyPortrait from '../assets/hero-faces/weiyan-portrait.png'
-import wyHead from '../assets/hero-faces/weiyan-head.png'
-import wyFront from '../assets/hero-faces/weiyan-front.png'
-import wyRear from '../assets/hero-faces/weiyan-rear.png'
 import xhPortrait from '../assets/boss-faces/xiahoudun-portrait.png'
-import xhHead from '../assets/boss-faces/xiahoudun-head.png'
-import xhFront from '../assets/boss-faces/xiahoudun-front.png'
-import xhRear from '../assets/boss-faces/xiahoudun-rear.png'
 import xcPortrait from '../assets/boss-faces/xuchu-portrait.png'
-import xcHead from '../assets/boss-faces/xuchu-head.png'
-import xcFront from '../assets/boss-faces/xuchu-front.png'
-import xcRear from '../assets/boss-faces/xuchu-rear.png'
 import ldPortrait from '../assets/boss-faces/lidian-portrait.png'
-import ldHead from '../assets/boss-faces/lidian-head.png'
-import ldFront from '../assets/boss-faces/lidian-front.png'
-import ldRear from '../assets/boss-faces/lidian-rear.png'
 import soPortrait from '../assets/mook-faces/soldier-portrait.png'
-import soHead from '../assets/mook-faces/soldier-head.png'
-import soFront from '../assets/mook-faces/soldier-front.png'
-import soRear from '../assets/mook-faces/soldier-rear.png'
 import spPortrait from '../assets/mook-faces/spearman-portrait.png'
-import spHead from '../assets/mook-faces/spearman-head.png'
-import spFront from '../assets/mook-faces/spearman-front.png'
-import spRear from '../assets/mook-faces/spearman-rear.png'
 import arPortrait from '../assets/mook-faces/archer-portrait.png'
-import arHead from '../assets/mook-faces/archer-head.png'
-import arFront from '../assets/mook-faces/archer-front.png'
-import arRear from '../assets/mook-faces/archer-rear.png'
 
 /** These URL imports are content-hashed by Vite, never a legacy network manifest.
  * Heroes (ART-18) + bosses (BODY-6) + mooks (BODY-12) share the pipeline;
  * boss and mook ids are ordinary kinds, so the same publish path lights up
  * their heads. */
 export const HERO_ART_CATALOG = {
-  guanyu: { portrait: gyPortrait, head: gyHead, front: gyFront, rear: gyRear },
-  zhaoyun: { portrait: zyPortrait, head: zyHead, front: zyFront, rear: zyRear },
-  zhangfei: { portrait: zfPortrait, head: zfHead, front: zfFront, rear: zfRear },
-  huangzhong: { portrait: hzPortrait, head: hzHead, front: hzFront, rear: hzRear },
-  weiyan: { portrait: wyPortrait, head: wyHead, front: wyFront, rear: wyRear },
-  lidian: { portrait: ldPortrait, head: ldHead, front: ldFront, rear: ldRear },
-  xiahoudun: { portrait: xhPortrait, head: xhHead, front: xhFront, rear: xhRear },
-  xuchu: { portrait: xcPortrait, head: xcHead, front: xcFront, rear: xcRear },
-  soldier: { portrait: soPortrait, head: soHead, front: soFront, rear: soRear },
-  spearman: { portrait: spPortrait, head: spHead, front: spFront, rear: spRear },
-  archer: { portrait: arPortrait, head: arHead, front: arFront, rear: arRear },
+  guanyu: { portrait: gyPortrait },
+  zhaoyun: { portrait: zyPortrait },
+  zhangfei: { portrait: zfPortrait },
+  huangzhong: { portrait: hzPortrait },
+  weiyan: { portrait: wyPortrait },
+  lidian: { portrait: ldPortrait },
+  xiahoudun: { portrait: xhPortrait },
+  xuchu: { portrait: xcPortrait },
+  soldier: { portrait: soPortrait },
+  spearman: { portrait: spPortrait },
+  archer: { portrait: arPortrait },
 } as const
 
 /** Merged preparation records for every catalogued fighter. */
@@ -74,7 +41,7 @@ const preparedAll: Record<string, PreparedEntry> = {
   ...(bossPrepared as unknown as Record<string, PreparedEntry>),
   ...(mookPrepared as unknown as Record<string, PreparedEntry>),
 }
-const PARTS = ['portrait', 'head', 'front', 'rear'] as const
+const PARTS = ['portrait'] as const
 /** Registry key for painted art packs; shared with the body-art adapter so
  * heads and bodies publish into one record without wiping each other. */
 export const ART_RESOURCE_KEY = 'paintedHeroArt'
@@ -105,7 +72,6 @@ function decodedSignature(src: CanvasImageSource & { width: number; height: numb
  * remain atomic; all images must match their dimensions and content signature.
  * Head imports/metadata are removed jointly with the renderer and motion switch. */
 export function publishHeroArt(scene: Phaser.Scene): void {
-  const heroes: Record<string, HeroArt> = {}
   const portraits: Record<string, PortraitArt> = {}
   for (const id of Object.keys(HERO_ART_CATALOG) as Array<keyof typeof HERO_ART_CATALOG>) {
     const meta = preparedAll[id]
@@ -115,22 +81,16 @@ export function publishHeroArt(scene: Phaser.Scene): void {
       const key = keyFor(id, part)
       if (!scene.textures.exists(key)) continue
       const src = scene.textures.get(key).getSourceImage() as HTMLImageElement
-      const expected = part === 'portrait' ? [432, 480] : [meta.cell.width * 3, meta.cell.height]
+      const expected = [432, 480]
       if (src.width !== expected[0] || src.height !== expected[1]) continue
       const sig = decodedSignature(src)
       if (sig && signatureMatches(sig, meta.signatures[part])) images[part] = src
     }
-    // A failed rig layer must not suppress a valid shared portrait. Rig heads
-    // remain all-or-nothing for the temporary ?motion=0 rollback only.
+    // Publish only validated shared portraits; legacy rig layers are not loaded.
     if (images.portrait) portraits[id] = { id, revision: meta.revision, portrait: images.portrait }
-    if (images.portrait && images.head && images.front && images.rear) {
-      heroes[id] = { id, revision: meta.revision, portrait: images.portrait, head: images.head,
-        front: images.front, rear: images.rear, cell: meta.cell, bounds: meta.bounds,
-        skin: parseInt(meta.skin.slice(1), 16) }
-    }
   }
   const prev = scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined
-  scene.registry.set(ART_RESOURCE_KEY, { ...prev, heroes, portraits } satisfies ArtResources)
+  scene.registry.set(ART_RESOURCE_KEY, { ...prev, portraits } satisfies ArtResources)
 }
 
 export function heroArtResources(scene: Phaser.Scene): ArtResources | undefined {

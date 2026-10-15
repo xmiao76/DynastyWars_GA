@@ -10,7 +10,7 @@ import { STAGES } from '../../src/core/stage'
 import { secondPlayerCharacter } from '../../src/game/players'
 import { makeCombatant } from '../../src/core/entities'
 import {
-  clearMotionPlayback, ensureMotionFrame, motionEnabled, motionFrameId, motionPackManifest,
+  clearMotionPlayback, ensureMotionFrame, motionFrameId, motionPackManifest,
   motionStageRequest, motionTextureKeys, MOTION_PACKS, MotionRuntime,
   publishMotionArtRecord, xuchuPreparedRecord, type MotionIo, type MotionPrepared,
 } from '../../src/game/adapters/motion-art'
@@ -104,11 +104,6 @@ describe('Xu Chu immutable runtime pack', () => {
     expect(originalDef.url.sheet).toBe(originalDef.url.actions)
     expect(meta.signatures.sheet).toBe(meta.signatures.actions)
     expect(meta.signatures.sheet).toHaveLength(48 * 32 * 8)
-    expect(motionEnabled('')).toBe(true)
-    expect(motionEnabled('?motion=0')).toBe(false)
-    expect(motionEnabled('?motion=1')).toBe(true)
-    expect(motionEnabled('?motion=')).toBe(true)
-    expect(motionEnabled('?motion=00')).toBe(true)
   })
 
   it('keeps getup:0 a distinct DOWN drawing with no alias declaration anywhere', () => {

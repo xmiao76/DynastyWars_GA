@@ -1,7 +1,6 @@
 import { createCanvas } from '@napi-rs/canvas'
 import { describe, expect, it } from 'vitest'
 import { limbPath } from '../../src/game/art/paths'
-import { chainPath } from '../../src/game/art/rig'
 
 /**
  * The two path primitives every figure is built from must FILL.
@@ -53,13 +52,5 @@ describe('path primitives', () => {
     }
   })
 
-  it('chainPath fills both segments of a bent limb', () => {
-    // Shoulder, elbow, hand: a bent arm, 40 wide throughout. Probed in the
-    // middle of each segment and at the elbow.
-    const draw = (ctx: CanvasRenderingContext2D): void =>
-      chainPath(ctx, [{ x: 10, y: 30 }, { x: 60, y: 60 }, { x: 110, y: 30 }], [40, 40, 40])
-    for (const x of [35, 60, 85]) {
-      expect(column(draw, x), `the bent limb is hollow at x=${x}`).toBeGreaterThan(36)
-    }
-  })
+
 })

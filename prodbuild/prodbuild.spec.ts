@@ -185,16 +185,14 @@ for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]
       return {
         renderer: engine.renderer.type,
         portraits: Object.keys(resources.portraits).length,
-        heads: Object.keys(resources.heroes).length,
-        bodies: Object.keys(resources.bodies).length,
-        weapons: !!resources.weapons,
+        legacyFields: ['heroes', 'bodies', 'weapons'].filter(key => Object.hasOwn(resources, key)),
         textures: ['ui:keyart-photo', 'fx:spark', 'fx:burst', 'fx:dust'].map(key => engine.textures.exists(key)),
         font: document.fonts.check('16px DynastyDisplay'),
         motionKeys: engine.textures.getTextureKeys().filter(key => key.startsWith('motion-source:')),
       }
     })
-    expect(boot).toEqual({ renderer: renderer === 'canvas' ? 1 : 2, portraits: 11, heads: 11, bodies: 11,
-      weapons: true, textures: [true, true, true, true], font: true, motionKeys: [] })
+    expect(boot).toEqual({ renderer: renderer === 'canvas' ? 1 : 2, portraits: 11, legacyFields: [],
+      textures: [true, true, true, true], font: true, motionKeys: [] })
     await page.evaluate(() => window.__DW__!.startGame('zhaoyun', 42))
     await expect.poll(() => page.evaluate(() => {
       const live = window.__DW_GAME__!.scene.getScene('game') as Phaser.Scene & {
@@ -203,7 +201,7 @@ for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]
       const sprite = live.sim && live.sprites.get(live.sim.playerId)
       if (!live.built || !sprite?.visible || sprite.alpha <= 0) return ''
       return sprite.frame.name === '__BASE' ? sprite.texture.key : String(sprite.frame.name)
-    }), { timeout: 15_000 }).toMatch(rollback ? /^entity:zhaoyun:idle$/ : /^entity:zhaoyun:motion:/)
+    }), { timeout: 15_000 }).toMatch(/^entity:zhaoyun:motion:/)
     expect(artRequests, 'bakedart=1 must be inert even with an available stale manifest').toEqual([])
     expect(errors).toEqual([])
   })

@@ -1,12 +1,12 @@
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { attackById, totalFrames } from '../../src/core/attacks'
 import { imageSignature, signatureMatches } from '../../src/game/art/image-signature'
 import { motionLandmarkFailures } from '../../src/game/art/motion-quality'
 import { guanyuClips, motionFrameForEntity, validMotionPack, type MotionArt } from '../../src/game/art/motion-clips'
-import { ACTION_SOURCE_KEY, COLLAPSE_TAIL_BY_KIND, MOTION_PACKS, MOTION_SOURCE_KEY, motionEnabled, motionPreparedRecord, publishMotionArtRecord } from '../../src/game/adapters/motion-art'
+import { ACTION_SOURCE_KEY, COLLAPSE_TAIL_BY_KIND, MOTION_PACKS, MOTION_SOURCE_KEY, motionPreparedRecord, publishMotionArtRecord } from '../../src/game/adapters/motion-art'
 import type Phaser from 'phaser'
 import prepared from '../../src/game/assets/motion/prepared.json'
 
@@ -15,27 +15,6 @@ const art: MotionArt = { ...meta, sheet: {} as CanvasImageSource, actionSheet: {
 const entity = { state: 'idle' as const, stateTick: 0, attackId: null }
 
 describe('Guan Yu motion pilot technical gates (not aesthetic acceptance)', () => {
-  it.each(['', '?', '?motion', '?motion=', '?frames=1', '?renderer=canvas&autopilot=1', '?motion=1', '?motion=10', '?motion=00', '?motion=false', '?motion=off', '?motion=null', '?motion=NaN', '?motion=%200', '?motion=0%20', '?Motion=0'])('enables motion by default or for a nonzero value: %s', (search) => {
-    expect(motionEnabled(search)).toBe(true)
-  })
-
-  it.each(['?motion=0', '?renderer=canvas&motion=0&autopilot=1'])('only exact motion=0 rolls back: %s', (search) => {
-    expect(motionEnabled(search)).toBe(false)
-  })
-
-  it('reads the default browser search and enables motion without window', () => {
-    try {
-      vi.stubGlobal('window', undefined)
-      expect(motionEnabled()).toBe(true)
-      for (const search of ['', '?frames=1', '?motion=1', '?motion=0']) {
-        vi.stubGlobal('window', { location: { search } })
-        expect(motionEnabled()).toBe(search !== '?motion=0')
-      }
-    } finally {
-      vi.unstubAllGlobals()
-    }
-  })
-
   it('rejects incomplete and malformed packs atomically (negative controls)', () => {
     expect(validMotionPack(meta)).toBe(true)
     const missing = structuredClone(meta)

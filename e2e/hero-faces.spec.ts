@@ -12,9 +12,9 @@ for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
     const ready = await page.evaluate(() => {
       const r = window.__DW_GAME__!.registry.get('paintedHeroArt') as { portraits: Record<string, unknown>; heroes: Record<string, unknown> }
-      return { portraits: Object.keys(r.portraits).sort(), heads: Object.keys(r.heroes).sort() }
+      return { portraits: Object.keys(r.portraits).sort(), heads: Object.keys(r.heroes ?? {}).sort() }
     })
-    expect(ready).toEqual({ portraits: IDS, heads: IDS })
+    expect(ready).toEqual({ portraits: IDS, heads: [] })
     await page.keyboard.press('Enter')
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('select')
     const portraits = await page.evaluate(() => ['guanyu', 'zhaoyun'].map(id => {
@@ -34,29 +34,12 @@ for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]
           const key = sprite.frame?.name === '__BASE' ? sprite.texture?.key ?? '' : String(sprite.frame?.name ?? '')
           return key.startsWith(`entity:${hero}:`) && key.includes(':motion:') === motion
         })
-      }, { hero: id, motion: !rollback })).toBe(true)
+      }, { hero: id, motion: true })).toBe(true)
       await page.screenshot({ path: `artifacts/motion/portrait-slim/${suffix}-${id}.png` })
     }
     expect(errors).toEqual([])
   })
 }
-
-test('a missing rollback head layer does not suppress its painted portrait', async ({ page }) => {
-  await page.route('**/guanyu-front.png*', route =>
-    route.request().resourceType() === 'script' ? route.continue() : route.abort())
-  await page.goto('/?renderer=canvas&autopilot=1')
-  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
-  const ready = await page.evaluate(() => {
-    const r = window.__DW_GAME__!.registry.get('paintedHeroArt') as { heroes: Record<string, unknown>; portraits: Record<string, unknown> }
-    return { heads: Object.keys(r.heroes), portraits: Object.keys(r.portraits) }
-  })
-  expect(ready.heads).not.toContain('guanyu')
-  expect(ready.heads).toContain('zhaoyun')
-  expect(ready.portraits).toContain('guanyu')
-  await page.keyboard.press('Enter')
-  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('select')
-  expect(await page.evaluate(() => window.__DW_GAME__!.textures.get('portrait:guanyu').get().width)).toBe(432)
-})
 
 test('missing painted portrait creates no procedural substitute and keeps siblings', async ({ page }) => {
   await page.route('**/guanyu-portrait.png*', route =>

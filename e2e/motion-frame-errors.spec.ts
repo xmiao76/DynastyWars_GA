@@ -5,7 +5,7 @@ import type { Sim } from '../src/core/sim'
 import type { MotionArt } from '../src/game/art/motion-clips'
 import type { MotionFailureState } from '../src/game/adapters/motion-art'
 
-const OUT = 'artifacts/motion/frame-error-hardening'
+const OUT = 'artifacts/motion/legacy-cutover/browser'
 type Live = { sim: Sim; built: boolean; sprites: Map<number, Phaser.GameObjects.Sprite>; motionErrorState(): MotionFailureState | null }
 
 async function inspect(page: Page) {
@@ -81,18 +81,22 @@ for (const damage of ['texture-frame', 'manifest-frame', 'uncatalogued'] as cons
   })
 }
 
-test('explicit motion=0 still renders legacy Guan Yu and shared props', async ({ page }) => {
-  await page.goto('/?renderer=canvas&autopilot=1&motion=0')
+for (const query of ['', '&motion=0']) test(`sole motion${query || ' default'}: visible Guan Yu and shared props`, async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(String(error)))
+  await page.goto(`/?renderer=canvas&autopilot=1${query}`)
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
   await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage1'))
   await expect.poll(() => page.evaluate(() => (window.__DW_GAME__!.scene.getScene('game') as unknown as Live).built)).toBe(true)
   const state = await inspect(page)
   expect(state.error).toBeNull()
-  expect(state.sprites.find((s) => s.kind === 'guanyu')).toMatchObject({ texture: 'entity:guanyu:idle', visible: true })
+  expect(state.sprites.find((s) => s.kind === 'guanyu')).toMatchObject({ frame: 'entity:guanyu:motion:walk:0', visible: true })
   expect(state.sprites.some((s) => s.kind === 'crate' && s.texture === 'entity:crate' && s.visible)).toBe(true)
   await page.evaluate(() => window.__DW__!.step(1))
   await expect.poll(() => page.evaluate(() => window.__DW__!.getSnapshot().tick)).toBe(1)
   mkdirSync(OUT, { recursive: true })
-  writeFileSync(`${OUT}/rollback.json`, JSON.stringify(await inspect(page), null, 2))
-  await page.screenshot({ path: `${OUT}/rollback.png` })
+  expect(errors).toEqual([])
+  const label = query ? 'zero-query' : 'default'
+  writeFileSync(`${OUT}/${label}.json`, JSON.stringify(await inspect(page), null, 2))
+  await page.screenshot({ path: `${OUT}/${label}.png` })
 })

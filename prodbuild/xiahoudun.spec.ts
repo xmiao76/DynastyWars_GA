@@ -140,12 +140,12 @@ function assertNoBoss(state: Awaited<ReturnType<typeof inspect>>): void {
   }
 }
 
-for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [false, true]) {
-  test(`built Xiahou stage2 ${renderer}: ${enabled ? 'default motion (no motion parameter) and real PNG budget' : 'motion=0 rollback, zero roster motion resources'}`, async ({ page }, info) => {
+for (const renderer of ['canvas', 'webgl'] as const) for (const defaultURL of [false, true]) {
+  test(`built Xiahou stage2 ${renderer}: ${defaultURL ? 'default motion (no motion parameter) and real PNG budget' : 'motion=0 has no effect; same PNG budget'}`, async ({ page }, info) => {
     assertPartitions()
     const requests: string[] = [], errors: string[] = [], sourceRequests: string[] = []
     const deferred = barrier(); let heldRequests = 0, completedDownloads = 0
-    if (enabled) await page.route(/\/spearman-motion-sheet-[\w-]+\.png(?:\?|$)/, async (route) => {
+    await page.route(/\/spearman-motion-sheet-[\w-]+\.png(?:\?|$)/, async (route) => {
       if (!isMotionPNG(route.request())) return route.continue()
       heldRequests++
       if (heldRequests === 1) await deferred.held
@@ -165,12 +165,12 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
       })())
     })
     await page.setViewportSize({ width: 960, height: 540 })
-    await start(page, renderer, enabled)
+    await start(page, renderer, defaultURL)
     expect(await published(page)).toEqual([])
     expect(requests, 'no all-cast motion preload on default URL').toEqual([])
     await stage(page)
-    let opening: unknown = null
-    if (enabled) {
+    let opening: unknown
+    {
       await expect.poll(() => heldRequests).toBe(1)
       await expect.poll(() => completedDownloads).toBe(5)
       await expect.poll(() => published(page)).toEqual([...OPENING].sort())
@@ -186,10 +186,6 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
       await expect.poll(() => completedDownloads).toBe(9)
       await expect.poll(() => published(page)).toEqual(ALL_KINDS)
       expect(heldRequests).toBe(1)
-    } else {
-      await frames(page, 30)
-      expect(await published(page)).toEqual([])
-      expect(requests).toEqual([])
     }
     expect(await page.evaluate(() => window.__DW__!.joinP2())).toBe(true)
     expect(await page.evaluate(() => window.__DW__!.getSnapshot().sim?.char2Id)).toBe('zhangfei')
@@ -197,11 +193,10 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as Live; g.syncSprites()
       return g.sprites.get(g.sim.player2Id!)!.texture.key
     })
-    if (enabled) expect(partner).toBe('motion-source:zhangfei')
-    else expect(partner).not.toContain('motion-')
+    expect(partner).toBe('motion-source:zhangfei')
     const observed = await Promise.all(downloads)
-    let pack: unknown = null
-    if (enabled) {
+    let pack: unknown
+    {
       expect(observed).toHaveLength(STAGE2_FILES.length)
       expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(EXPECTED_BYTES)
       expect(requests.map(fileForURL)).toEqual(STAGE2_FILES)
@@ -246,7 +241,7 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
     }
     // Complete core fixtures are serialized from Node. syncSprites must leave
     // every core entity field and clock unchanged. Fresh IDs avoid stale history.
-    const result = await page.evaluate(async ({ fixture, rows, enabled, renderer }) => {
+    const result = await page.evaluate(async ({ fixture, rows, renderer }) => {
       const engine = window.__DW_GAME__!, g = engine.scene.getScene('game') as unknown as Live
       if (engine.renderer.type !== (renderer === 'canvas' ? 1 : 2)) throw new Error('wrong actual renderer')
       g.paused = true
@@ -260,9 +255,9 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
         if (JSON.stringify(g.sim.entities) !== before || tick !== g.sim.tick) throw new Error('syncSprites mutated core entity/clock')
         const b = g.sim.entities.at(-1)!, s = g.sprites.get(b.id)!, f = s.frame
         const key = `entity:xiahoudun:motion:${expected}`
-        if (enabled ? f.name !== key || s.texture.key !== 'motion-source:xiahoudun' : f.name.includes(':motion:') || s.texture.key.startsWith('motion-')) throw new Error(`wrong built sprite ${b.state}@${b.stateTick}: ${s.texture.key}/${f.name}, expected ${key}`)
+        if (f.name !== key || s.texture.key !== 'motion-source:xiahoudun') throw new Error(`wrong built sprite ${b.state}@${b.stateTick}: ${s.texture.key}/${f.name}, expected ${key}`)
         samples.push({ state: b.state, tick: b.stateTick, attackId: b.attackId, key: f.name, texture: s.texture.key })
-        if (!enabled || seen.has(f.name)) return
+        if (seen.has(f.name)) return
         seen.add(f.name)
         if (f.realWidth !== 520 || f.realHeight !== 436 || s.scaleX !== 0.5 || s.displayOriginX !== 260 || s.displayOriginY !== 420) throw new Error(`wrong full-cell registration: ${f.name}`)
         cuts[expected] = { x: f.cutX, y: f.cutY, w: f.cutWidth, h: f.cutHeight, trimX: f.x, trimY: f.y, srcW: f.realWidth, srcH: f.realHeight }
@@ -287,12 +282,12 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
       await read('misc:2'); b.state = 'idle'; b.stateTick = 0; b.grabbedBy = null; g.sim.tick++
       await read('misc:4')
       const art = engine.registry.get('paintedHeroArt')?.motions?.xiahoudun as MotionArt | undefined
-      if (enabled && [...seen].sort().join('|') !== Object.keys(art!.frames).map((f) => `entity:xiahoudun:motion:${f}`).sort().join('|')) throw new Error('not all 39 records drawn')
-      return { samples, cuts, drawn: seen.size, montage: enabled ? montage.toDataURL('image/png') : null,
+      if ([...seen].sort().join('|') !== Object.keys(art!.frames).map((f) => `entity:xiahoudun:motion:${f}`).sort().join('|')) throw new Error('not all 39 records drawn')
+      return { samples, cuts, drawn: seen.size, montage: montage.toDataURL('image/png'),
         resources: engine.textures.getTextureKeys().filter((k) => k.startsWith('motion-source:') || k.startsWith('motion-actions:')) }
-    }, { fixture, rows, enabled, renderer })
+    }, { fixture, rows, renderer })
     expect(result.samples).toHaveLength(rows.length + 2)
-    if (enabled) {
+    {
       expect(result.resources.sort()).toEqual(textureKeys(ALL_KINDS))
       const framebuffer = PNG.sync.read(Buffer.from(result.montage!.split(',')[1]!, 'base64'))
       expect([framebuffer.width, framebuffer.height]).toEqual([2080, 1090])
@@ -313,10 +308,10 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const enabled of [fals
       }
       expect(result.cuts['getup:0']).toEqual(result.cuts['fall:4'])
       writeFileSync(info.outputPath('actual-framebuffer-39.png'), Buffer.from(result.montage!.split(',')[1]!, 'base64'))
-    } else expect(result.resources).toEqual([])
+    }
     expect(sourceRequests, 'no browser source imports against production').toEqual([])
     expect(errors).toEqual([])
-    writeFileSync(info.outputPath('evidence.json'), JSON.stringify({ renderer, enabled, opening, partitions: { opening: OPENING_FILES, deferred: DEFERRED_FILES, future: FUTURE_FILES, capChargedBytes: 11_396_849, completedBytes: EXPECTED_BYTES }, requests, observed, pack, decodedAndGPUBytes: enabled ? 12991664 : 0, ...result, montage: undefined, errors, sourceRequests }, null, 2))
+    writeFileSync(info.outputPath('evidence.json'), JSON.stringify({ renderer, defaultURL, opening, partitions: { opening: OPENING_FILES, deferred: DEFERRED_FILES, future: FUTURE_FILES, capChargedBytes: 11_396_849, completedBytes: EXPECTED_BYTES }, requests, observed, pack, decodedAndGPUBytes: 12991664, ...result, montage: undefined, errors, sourceRequests }, null, 2))
   })
 }
 

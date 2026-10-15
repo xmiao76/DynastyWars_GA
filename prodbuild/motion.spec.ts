@@ -70,20 +70,20 @@ const PREVIEW = 'http://localhost:4321'
 
 /**
  * CMR-03 acceptance 6 against the ACTUAL dist build (extended by CMR-06B,
- * CMR-07B, CMR-09B): motion is default with explicit rollback; nothing downloads or publishes at
+ * CMR-07B, CMR-09B): motion is unconditional, including motion=0; nothing downloads or publishes at
  * boot, entry completes the opening pages, then deferred and bounded future
  * pages complete (only opening + future count against 12 MiB), and both renderers display
  * shared atlas frames whose trim/pivot restores the old per-cell registration.
  */
 for (const renderer of ['canvas', 'webgl'] as const) {
-  for (const enabled of [false, true]) {
-    test(`built motion pilot is ${enabled ? 'default motion (no motion parameter)' : 'explicit motion=0 rollback'} (${renderer})`, async ({ page }) => {
+  for (const defaultURL of [false, true]) {
+    test(`built motion pilot is ${defaultURL ? 'default motion (no motion parameter)' : 'motion=0 has no effect'} (${renderer})`, async ({ page }) => {
       assertPartitions()
       mkdirSync(EVIDENCE, { recursive: true })
       const requests: string[] = [], errors: string[] = [], sourceRequests: string[] = []
       let release!: () => void, heldRequests = 0, completedDownloads = 0
       const held = new Promise<void>((resolve) => { release = resolve })
-      if (enabled) await page.route(/\/spearman-motion-sheet-[\w-]+\.png(?:\?|$)/, async (route) => {
+      await page.route(/\/spearman-motion-sheet-[\w-]+\.png(?:\?|$)/, async (route) => {
         if (!isMotionPNG(route.request())) return route.continue()
         heldRequests++
         if (heldRequests === 1) await held
@@ -104,8 +104,8 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         if (new URL(r.url()).pathname.startsWith('/src/')) sourceRequests.push(r.url())
       })
       page.on('pageerror', (e) => errors.push(String(e)))
-      await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${enabled ? '' : '&motion=0'}`)
-      expect(new URL(page.url()).searchParams.get('motion')).toBe(enabled ? null : '0')
+      await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${defaultURL ? '' : '&motion=0'}`)
+      expect(new URL(page.url()).searchParams.get('motion')).toBe(defaultURL ? null : '0')
       await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
       // Stage-scoped packs: at title there is NO motion download and NO
       // published motion art - even on the default motion path.
@@ -114,8 +114,8 @@ for (const renderer of ['canvas', 'webgl'] as const) {
       await page.evaluate(() => window.__DW__?.startGame('guanyu', 42, 'stage1'))
       await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
       const published = () => page.evaluate(() => Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort())
-      let entry: Awaited<(typeof downloads)[number]>[] = []
-      if (enabled) {
+      let entry: Awaited<(typeof downloads)[number]>[]
+      {
         // Hold the first deferred response: game entry must be complete without
         // a later-wave page, and no intermediate final-count match can pass.
         await expect.poll(() => heldRequests).toBe(1)
@@ -134,12 +134,9 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         await expect.poll(() => completedDownloads, { timeout: 15_000 }).toBe(EXPECTED_FILES.length)
         await expect.poll(published, { timeout: 15_000 }).toEqual(EXPECTED_PUBLISHED)
         expect(heldRequests).toBe(1)
-      } else {
-        expect(requests).toEqual([])
-        expect(await published()).toEqual([])
       }
       const observed = await Promise.all(downloads)
-      if (enabled) {
+      {
         expect(requests.map(fileForURL)).toEqual(EXPECTED_FILES)
         expect(new Set(requests.map(fileForURL)).size, 'exactly one request per page').toBe(EXPECTED_FILES.length)
         expect(observed.map((r) => r.file).sort()).toEqual([...EXPECTED_FILES].sort())
@@ -151,7 +148,7 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         }
         expect(observed.filter((r) => [...OPENING_FILES, ...FUTURE_FILES].includes(r.file)).reduce((n, r) => n + r.bytes, 0)).toBe(entryBytes)
         expect(observed.filter((r) => DEFERRED_FILES.includes(r.file)).reduce((n, r) => n + r.bytes, 0)).toBe(5_286_177)
-      } else expect(observed).toEqual([])
+      }
       const keys = await page.evaluate(() => {
         const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const p = game.sim.entities.find((e) => e.id === game.sim.playerId)!
@@ -170,9 +167,8 @@ for (const renderer of ['canvas', 'webgl'] as const) {
         const getup = read()
         return { idle, walk, strike, jump, down, getup }
       })
-      if (enabled) expect(keys).toEqual({ idle: 'entity:guanyu:motion:walk:0', walk: 'entity:guanyu:motion:walk:2', strike: 'entity:guanyu:motion:jab1:4', jump: 'entity:guanyu:motion:jump:3', down: 'entity:guanyu:motion:fall:6', getup: 'entity:guanyu:motion:getup:4' })
-      else expect(Object.values(keys).every((k) => !k.includes(':motion:'))).toBe(true)
-      if (enabled) {
+      expect(keys).toEqual({ idle: 'entity:guanyu:motion:walk:0', walk: 'entity:guanyu:motion:walk:2', strike: 'entity:guanyu:motion:jab1:4', jump: 'entity:guanyu:motion:jump:3', down: 'entity:guanyu:motion:fall:6', getup: 'entity:guanyu:motion:getup:4' })
+      {
         // Shared atlas frame with trim restoration: the trimmed rect draws at
         // (trimX, trimY) inside the FULL 448x288 art cell (repaint of
         // walk:0), and display origin/scale equal the old per-cell clone's -
@@ -202,8 +198,8 @@ for (const renderer of ['canvas', 'webgl'] as const) {
       expect(await page.evaluate(() => window.__DW_GAME__!.renderer.type)).toBe(renderer === 'canvas' ? 1 : 2)
       expect(sourceRequests, 'browser uses dist, never /src imports').toEqual([])
       expect(errors).toEqual([])
-      await page.screenshot({ path: `${EVIDENCE}/${renderer}-${enabled ? 'default' : 'rollback'}-final.png` })
-      writeFileSync(`${EVIDENCE}/${renderer}-${enabled ? 'default' : 'rollback'}.json`, JSON.stringify({ opening: OPENING, deferred: DEFERRED, futureCandidates: FUTURE_CANDIDATES, future: FUTURE, entryBytes, eventualBytes: bytesFor(EXPECTED_FILES), requests: requests.map(fileForURL), entry, observed, published: await published(), keys, sourceRequests, errors }, null, 2))
+      await page.screenshot({ path: `${EVIDENCE}/${renderer}-${defaultURL ? 'default' : 'zero-query'}-final.png` })
+      writeFileSync(`${EVIDENCE}/${renderer}-${defaultURL ? 'default' : 'zero-query'}.json`, JSON.stringify({ opening: OPENING, deferred: DEFERRED, futureCandidates: FUTURE_CANDIDATES, future: FUTURE, entryBytes, eventualBytes: bytesFor(EXPECTED_FILES), requests: requests.map(fileForURL), entry, observed, published: await published(), keys, sourceRequests, errors }, null, 2))
     })
   }
 }

@@ -2,8 +2,6 @@ import Phaser from 'phaser'
 import { RENDER_SCALE } from '../render'
 import { FX_BURST, FX_DUST, FX_SPARK, paintBurst, paintDust, paintSpark } from '../art/fx'
 import { publishHeroArt, queueHeroArt } from '../adapters/hero-art'
-import { publishBodyArt, queueBodyArt } from '../adapters/body-art'
-import { publishWeaponArt, queueWeaponArt } from '../adapters/weapon-art'
 import { loadDisplayFont } from '../ui/type'
 import displayFontUrl from '../assets/fonts/zcool-qingke-huangyou-subset.woff2?url'
 import titleKeyartUrl from '../assets/title/keyart-backdrop.jpg?url'
@@ -34,8 +32,6 @@ export class BootScene extends Phaser.Scene {
 
   preload(): void {
     queueHeroArt(this)
-    queueBodyArt(this)
-    queueWeaponArt(this)
     // Motion packs are stage-scoped: nothing downloads at boot.
     // Title key art: a missing file only costs the photo backdrop - TitleScene
     // paints the procedural dusk battle instead (same atomic-art philosophy).
@@ -44,8 +40,6 @@ export class BootScene extends Phaser.Scene {
 
   create(): void {
     publishHeroArt(this)
-    publishBodyArt(this)
-    publishWeaponArt(this)
     this.generateFxTextures()
     // Display face before the first text-bearing scene. Bounded and silent on
     // failure: every live style already names the system fallback, so a

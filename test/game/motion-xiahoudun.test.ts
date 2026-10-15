@@ -10,7 +10,7 @@ import { STAGES, STAGE_ORDER } from '../../src/core/stage'
 import { secondPlayerCharacter } from '../../src/game/players'
 import { makeCombatant } from '../../src/core/entities'
 import {
-  clearMotionPlayback, ensureMotionFrame, forgetMotionEntity, motionEnabled, motionFrameId, motionPackManifest,
+  clearMotionPlayback, ensureMotionFrame, forgetMotionEntity, motionFrameId, motionPackManifest,
   motionPreparedRecord, motionStageRequest, motionTextureKeys, MOTION_PACKS, MotionRuntime,
   publishMotionArtRecord, xiahoudunPreparedRecord, type MotionIo, type MotionPrepared,
 } from '../../src/game/adapters/motion-art'
@@ -106,11 +106,6 @@ describe('Xiahou Dun immutable runtime pack', () => {
     expect(originalDef.url.sheet).toBe(originalDef.url.actions)
     expect(meta.signatures.sheet).toBe(meta.signatures.actions)
     expect(meta.signatures.sheet).toHaveLength(48 * 32 * 8)
-    expect(motionEnabled('')).toBe(true)
-    expect(motionEnabled('?motion=0')).toBe(false)
-    expect(motionEnabled('?motion=1')).toBe(true)
-    expect(motionEnabled('?motion=')).toBe(true)
-    expect(motionEnabled('?motion=00')).toBe(true)
   })
 
   it('uses one identical DOWN rectangle and full-cell registration, with only one alias declaration', () => {

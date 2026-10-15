@@ -1,5 +1,3 @@
-import type { BodyPartName } from './body-parts'
-import type { HeadLayer } from './hero-resources'
 import { INK } from './palette'
 import { polyPath } from './paths'
 
@@ -26,9 +24,7 @@ export interface Shape {
   /** Interior material facets must not acquire a second black outline. */
   outline?: boolean
   /** A paint boundary, not a shape: cel groups on either side shade once. */
-  headLayer?: HeadLayer
   /** A paper-doll body part marker: the raster painter draws here instead. */
-  bodyPart?: BodyPartName
   /** A painted weapon marker (BODY-21): the weapon painter draws here instead. */
   weaponPart?: string
   /** Painted-material overlay (BODY-10): runs inside this shape's clip, in

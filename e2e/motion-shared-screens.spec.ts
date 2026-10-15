@@ -160,7 +160,7 @@ for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]
         const key = sprite.frame?.name === '__BASE' ? sprite.texture?.key ?? '' : String(sprite.frame?.name ?? '')
         return sprite.visible && sprite.alpha > 0 && key.startsWith(`entity:${hero}:`) && key.includes(':motion:') === motion
       })
-    }, { hero: HERO, motion: !rollback })).toBe(true)
+    }, { hero: HERO, motion: true })).toBe(true)
     const beforeEnding = await page.evaluate(() => window.__DW_GAME__!.textures.getTextureKeys().filter(key => /^entity:[^:]+:idle$/.test(key)).sort())
     const final = await page.evaluate(() => window.__DW__!.getSnapshot().sim!)
     await page.evaluate(() => window.__DW__!.forceResult())
