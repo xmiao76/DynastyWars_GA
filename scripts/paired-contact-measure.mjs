@@ -37,6 +37,7 @@ const ASSETS = 'src/game/assets/motion'
 const HERO_CONFIG = {
   guanyu: { holderFrames: ['misc:5', 'misc:6'], miscStrip: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
   zhangfei: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
+  zhaoyun: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
 }
 const heroArg = () => {
   const a = process.argv.slice(2)
