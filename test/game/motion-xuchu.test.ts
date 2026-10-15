@@ -50,6 +50,10 @@ function makeScene() {
       get: (key: string) => ({
         getSourceImage: () => textures.get(key)!.image,
         has: (id: string) => textures.get(key)!.frames.has(id),
+        get: (id: string) => {
+          const cut = textures.get(key)!.frames.get(id)!.cut
+          return { cutX: cut[0], cutY: cut[1], cutWidth: cut[2], cutHeight: cut[3] }
+        },
         add: (id: string, _source: number, ...cut: number[]) => {
           const frame: { cut: number[]; trim?: number[] } = { cut }
           textures.get(key)!.frames.set(id, frame)

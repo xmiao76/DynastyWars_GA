@@ -51,6 +51,10 @@ function makeScene() {
       get: (key: string) => ({
         getSourceImage: () => textures.get(key)!.image,
         has: (id: string) => textures.get(key)!.frames.has(id),
+        get: (id: string) => {
+          const cut = textures.get(key)!.frames.get(id)!.cut
+          return { cutX: cut[0], cutY: cut[1], cutWidth: cut[2], cutHeight: cut[3] }
+        },
         add: (id: string, _source: number, ...cut: number[]) => {
           const frame: { cut: number[]; trim?: number[] } = { cut }
           textures.get(key)!.frames.set(id, frame)
@@ -226,7 +230,7 @@ describe('Xiahou Dun exact core windows and complete state inventory', () => {
     const fake = makeScene()
     fake.registry.set(ART_RESOURCE_KEY, { heroes: {}, motions: { xiahoudun: art } })
     fake.scene.textures.addImage(keys.sheet, {} as HTMLImageElement)
-    for (const name of Object.keys(meta.frames)) fake.scene.textures.get(keys.sheet).add(motionFrameId('xiahoudun', name), 0, 0, 0, 1, 1)
+    for (const [name, c] of Object.entries(meta.frames)) fake.scene.textures.get(keys.sheet).add(motionFrameId('xiahoudun', name), 0, c.x, c.y, c.w, c.h)
     const e = makeCombatant(77, 'xiahoudun', 'enemy', 230, 232, 210, 1.2, 'right')
     const read = (tick: number) => { fake.registry.set('bridge', { sim: { tick } }); return ensureMotionFrame(fake.scene, e)?.frame }
     Object.assign(e, { state: 'grabbed', stateTick: 5, grabbedBy: 1 })
