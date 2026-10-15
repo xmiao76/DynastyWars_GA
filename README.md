@@ -17,6 +17,14 @@ acceptance criteria, and the verification results all live in the
 repository as shared state that any capable model (or human) can pick up,
 instead of living in one chat session?
 
+The framework is intentionally generic and portable across capable code
+agents and agent hosts. Its contracts are the repository files, the
+bounded iterations, the editing and verification tools, and the
+verification gates — not a specific vendor, model, or host. (Which
+host and models were used to carry out *this* implementation is noted
+under [Implementation used for this version](#implementation-used-for-this-version)
+below; they are not requirements of the framework.)
+
 ## The game in brief
 
 A browser beat'em up inspired by classic Three Kingdoms arcade games.
@@ -98,15 +106,18 @@ failure follows the bounded takeover rules in
 [docs/ECONOMIC_TAKEOVER.md](docs/ECONOMIC_TAKEOVER.md). Delegation never
 resets task attempts or replaces independent producer verification.
 
-## Models
+## Implementation used for this version
 
-The primary models used during development were **Muse-Spark-1.3** and
-**Muse-Wonder-1.0**. They were the main models, not necessarily the only
-ones, and the framework itself is model-neutral: GA means a
+The framework above is generic by design; this section records only the
+stack used to carry out this particular implementation. That work was
+done in **DeepSeek Harness** as the agent environment (host/runtime),
+with **Muse Spark 1.3** and **Muse Wonder 1.0** as the primary models
+operating within it — the main models, not necessarily the only ones.
+Neither that host nor those models is required: GA means a
 general-purpose, provider-neutral template, not a promise that every
-model is equally capable. Any coding agent with repository-editing and
-verification tools can run an iteration; no specific account or CLI is
-required by the framework.
+model is equally capable, and any coding agent with repository-editing
+and verification tools can run an iteration without a specific account,
+CLI, or host.
 
 ## Play locally
 
