@@ -396,3 +396,92 @@ match `--list` totals per file); the 5 gated harness/look files have no
 enabled post-flip run. Nothing here claims a single-invocation full-suite
 green, closes §3 item 4 as originally worded, or authorizes deletion; it
 supplies the disjoint per-file ledger the reviewer accepted in its place.
+
+## Post-delete e2e ledger (2026-10-15, work `cmr24-postdelete-e2e-ledger`)
+
+Scope: every current `e2e/*.spec.ts` (52 files) accounted **exactly once**
+against its latest complete **post-delete** invocation (delete =
+`f46118c`/`527359e`, 2026-10-15 11:40–11:46 -0700). Post-flip ledger above
+is superseded for post-delete purposes; pre-delete passes are NOT counted.
+
+Invocations (all `--project=chromium`, `GUANYU_ACTIONS` unset unless noted):
+
+| ID | Invocation | Tree | Result | Log |
+| --- | --- | --- | --- | --- |
+| PD1 | batch b1 (a–m first part), 2026-10-15 ~12:09 | post-delete, pre-`bcf8610` | files below all-pass | `artifacts/motion/post-delete/e2e-b1-am.log` |
+| PD2 | batch b2 (a–m rest), 2026-10-15 ~12:1x | post-delete, pre-`bcf8610` | 51 passed / 1 failed (`motion-loader` wrong-signature, fixed by `bcf8610`) / 15 skipped | `artifacts/motion/post-delete/e2e-b2-am-rest.log` |
+| PD3 | batch3, 19 files `orientation`..`xiahoudun-transitions`, `--workers=1`, 2026-10-15 ~12:27 | post-delete, pre-`3fbee42` | 51 passed / 1 failed (`select-look`, fixed by `3fbee42`) / 3 skipped | `artifacts/motion/post-delete/batch3.log`, `batch3-summary.txt` |
+| PDL | targeted `motion-loader` rerun after fix | `bcf8610` | **5/5 passed** | `artifacts/motion/post-delete/motion-loader.log` |
+| PDB | full-suite attempt `--workers=2` (144 tests), 2026-10-15 ~13:08, stopped after test #63 (partial, no native exit) | `37e0a87` | reported 63: 60 ok / 1 x (`arrows:73`) / 2 gated-skip | `artifacts/motion/post-delete/final-b/e2e.log` |
+| PDC | the 26 files PDB never reported, ONE invocation `--workers=2`, `GUANYU_ACTIONS` unset (this work) | `37e0a87` | **54 passed / 2 failed / 16 skipped (5.9m), native exit 1** | `artifacts/motion/post-delete/final-c/e2e.log`, `final-c/exit.txt` |
+
+Per-file accounting (52/52, each once; counts = tests reported in that
+invocation; "latest complete post-delete" basis):
+
+| # | File | Basis | Result |
+| --- | --- | --- | --- |
+| 1 | anim.spec.ts | PDB | 3 ok |
+| 2 | arrows.spec.ts | PDB (latest) + PD1 | **PDB 2 ok / 1 x** (`:73` hero arrow); same test **passed post-delete in PD1 (3/3 ok)** → classified **FLAKY (timing-sensitive), unresolved, no fix attempted** |
+| 3 | artfx.spec.ts | PDB | 3 ok |
+| 4 | artscale.spec.ts | PDB | 1 ok |
+| 5 | audio.spec.ts | PDB | 1 ok |
+| 6 | backdrop-look.spec.ts | PDB | 1 ok |
+| 7 | background.spec.ts | PDB | 1 ok |
+| 8 | boot.spec.ts | PDB | 1 ok |
+| 9 | continue.spec.ts | PDB | 1 ok |
+| 10 | coop.spec.ts | PDB | 6 ok |
+| 11 | finalstage.spec.ts | PDB | 1 ok |
+| 12 | game.spec.ts | PDB | 1 ok |
+| 13 | gamepad.spec.ts | PDB | 5 ok |
+| 14 | guanyu-actions.spec.ts | PDC | **gated-skip** (3) — gate `GUANYU_ACTIONS=1`; no enabled post-delete run (enabled pass exists pre-delete only, GY above) |
+| 15 | guanyu-interactions.spec.ts | PDB | **gated-skip** (1) — same gate; no enabled post-delete run |
+| 16 | guanyu-mixed-motion.spec.ts | PDC | **gated-skip** (2) — same gate; no enabled post-delete run |
+| 17 | guanyu-solo-ko.spec.ts | PDB | **gated-skip** (1) — same gate; no enabled post-delete run |
+| 18 | guanyu-transitions.spec.ts | PDC | **gated-skip** (2) — same gate; no enabled post-delete run |
+| 19 | hero-faces.spec.ts | PDB | 5 ok |
+| 20 | hud.spec.ts | PDB | 1 ok |
+| 21 | hud-look.spec.ts | PDB | 4 ok |
+| 22 | hudpanels.spec.ts | PDB | 1 ok |
+| 23 | introcard.spec.ts | PDB | 5 ok |
+| 24 | juice.spec.ts | PDB | 1 ok |
+| 25 | layout.spec.ts | PDB | 3 ok |
+| 26 | motion-capture.spec.ts | PDC | **gated-skip** (1) — gate `MOTION_CAPTURE=1`; no enabled post-delete run |
+| 27 | motion-default-coverage.spec.ts | PDB | 4 ok |
+| 28 | motion-frame-errors.spec.ts | PDB | 5 ok |
+| 29 | motion-loader.spec.ts | PDL | 5 ok (PDB partial 3 ok before stop; PD2 failure fixed by `bcf8610`, superseded) |
+| 30 | motion-loading-errors.spec.ts | PD2 | 8 ok (PDB partial: only 1 test reported before stop) |
+| 31 | motion-look.spec.ts | PDC | **gated-skip** (4) — gate `MOTION_LOOK=1`; no enabled post-delete run |
+| 32 | motion-review.spec.ts | PDC | **gated-skip** (1) — gate `MOTION_REVIEW=1`; no enabled post-delete run |
+| 33 | motion-shared-screens.spec.ts | PDC | 4 ok |
+| 34 | orientation.spec.ts | PDC | 3 ok |
+| 35 | paired-grab-capture.spec.ts | PDC | 1 ok |
+| 36 | pause.spec.ts | PDC | 4 ok |
+| 37 | probe.spec.ts | PDC | 1 ok |
+| 38 | scenerestart.spec.ts | PDC | 1 ok |
+| 39 | select.spec.ts | PDC | 1 ok |
+| 40 | select-look.spec.ts | PDC | 1 ok (PD3 failure fixed by `3fbee42`, superseded) |
+| 41 | stage3.spec.ts | PDC | 1 ok |
+| 42 | stageclear.spec.ts | PDC | 1 ok |
+| 43 | title.spec.ts | PDC | 2 ok |
+| 44 | touch.spec.ts | PDC | 9 ok |
+| 45 | touchpause.spec.ts | PDC | 1 ok |
+| 46 | uifont.spec.ts | PDC | 4 ok |
+| 47 | ui-review.spec.ts | PDC | **gated-skip** (3) — gate `UI_REVIEW=1`; no enabled post-delete run |
+| 48 | wholeframe-retired.spec.ts | PDC | 4 ok |
+| 49 | xiahoudun-lifecycle.spec.ts | PDC | 6 ok |
+| 50 | xiahoudun-motion.spec.ts | PDC | 4 ok |
+| 51 | xiahoudun-paced-review.spec.ts | PDC (latest) + PD3 | **PDC 2 ok (canvas) / 2 x (webgl L+R)**; **all 4 passed post-delete in PD3 (`--workers=1`)** → classified **FLAKY-UNDER-PARALLEL-LOAD**: real-clock pacing ratios collapsed under `--workers=2` (webgl/left walk ratio 0.18, simDelta 11 vs 61; held-release `misc:4` row never appeared); same webgl flake seen pre-delete (SC). Not fixed (no code changes authorized) |
+| 52 | xiahoudun-transitions.spec.ts | PDC | 4 ok |
+
+Totals: **42 files pass** on latest complete post-delete invocation,
+**8 files gated-skip** (18 tests: 9 Guan Yu `GUANYU_ACTIONS` + 9 harness/look
+gates; no enabled post-delete run exists for any of them — recorded as
+gated-skips, NOT passes), **2 files with classified flaky failures**
+(`arrows` 1 test, `xiahoudun-paced-review` 2 webgl tests; both have complete
+post-delete passes in earlier invocations PD1/PD3).
+
+Residual honesty: PDB was stopped mid-run with no native exit (its fully
+reported files only are used; `motion-loader`/`motion-loading-errors` fall
+back to PDL/PD2 as noted). Nothing here claims a single-invocation
+full-suite green post-delete: the two flaky failures above are open, and
+the 8 gated files still owe enabled post-delete runs.

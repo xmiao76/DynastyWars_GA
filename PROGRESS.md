@@ -4,6 +4,12 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-15 — CMR-24 post-delete e2e completion + exact-once ledger (docs only)
+
+- Work `cmr24-postdelete-e2e-ledger` at HEAD `37e0a87`. Partial final-b full-suite log ([e2e.log](artifacts/motion/post-delete/final-b/e2e.log), stopped after test #63, no native exit) reported 26/52 spec files. Ran ONLY the 26 unreported files in ONE invocation, `--workers=2`, `GUANYU_ACTIONS` unset: **54 passed / 2 failed / 16 skipped (5.9m), native exit 1** ([log](artifacts/motion/post-delete/final-c/e2e.log), [exit](artifacts/motion/post-delete/final-c/exit.txt)). No code fixes attempted.
+- Appended post-delete e2e ledger to [CAST_MOTION_REVIEW](docs/CAST_MOTION_REVIEW.md): all 52 `e2e/*.spec.ts` accounted exactly once vs latest complete post-delete invocation (PD1/PD2/PD3/PDL/PDB/PDC, commits recorded). **42 files pass; 8 env-gated files gated-skip** (5×`GUANYU_ACTIONS`, `motion-capture`, `motion-look`, `motion-review`, `ui-review` — 18 tests, no enabled post-delete run exists; recorded as gated-skips, not passes).
+- Classified failures (open, unfixed): `arrows.spec.ts:73` failed in final-b but passed 3/3 post-delete in batch b1 → **FLAKY timing-sensitive**. `xiahoudun-paced-review` webgl L+R failed in final-c (real-clock ratios collapsed under `--workers=2`, e.g. walk 0.18) but passed 4/4 post-delete in batch3 `--workers=1` → **FLAKY-UNDER-PARALLEL-LOAD** (same webgl flake pre-delete). No single-invocation full-suite green claimed; gated enabled runs still owed.
+
 ### 2026-10-15 — CMR-24 motion vision inventory migration (bounded attempt 1, committed in joint cutover commit)
 
 - Work `cmr24-motion-vision-inventory-cutover`; verified HEAD `8f6136a` and inherited **87 tracked dirty paths** before edits, preserved joint cutover. Only this package's vision spec, inventory/progress and scoped evidence changed; no stage/commit/generation/core/art-pixel/clip/timing/budget/control edits.
