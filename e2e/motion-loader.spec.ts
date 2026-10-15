@@ -222,11 +222,16 @@ test('wrong-signature bytes reject the fighter (SHA-256 mismatch), other art unt
   await expect.poll(async () => (await motionsKeys(page)).sort(), { timeout: 30_000 }).toEqual(STAGE1_EVENTUAL.filter((k) => k !== 'guanyu'))
   await settle(page)
   expect(await page.evaluate(() => window.__DW_GAME__!.textures.exists('motion-source:guanyu')), 'no guanyu texture is ever published').toBe(false)
-  // Hero/body art (the fighter's other valid art) survives the rejection.
+  // Other valid art survives the rejection: portraits and sibling motions
+  // stay published, and the retired heroes/bodies fields never reappear.
   expect(await page.evaluate(() => {
-    const art = window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt') as { heroes?: Record<string, unknown>; bodies?: unknown }
-    return { heroes: Object.keys(art.heroes ?? {}).length > 0, bodies: art.bodies !== undefined }
-  })).toEqual({ heroes: true, bodies: true })
+    const art = window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt') as { portraits?: Record<string, unknown>; motions?: Record<string, unknown> }
+    return {
+      portraits: Object.keys(art.portraits ?? {}).length > 0,
+      motions: Object.keys(art.motions ?? {}).length > 0,
+      legacyFields: ['heroes', 'bodies'].filter((key) => Object.hasOwn(art, key)),
+    }
+  })).toEqual({ portraits: true, motions: true, legacyFields: [] })
   expect(errors).toEqual([])
 })
 
