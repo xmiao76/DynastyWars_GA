@@ -33,6 +33,57 @@ import {
 
 const OUT_DIR = 'artifacts/vision'
 
+/** Scene activation is not construction: motion packs publish asynchronously. */
+async function waitForVisualScene(page: import('@playwright/test').Page, scene: string,
+  hero = 'zhaoyun', stage = 'stage1', afterToken = -1): Promise<void> {
+  expect(new URL(page.url()).searchParams.has('motion')).toBe(false)
+  await expect.poll(() => page.evaluate(async ({ scene, hero, stage, afterToken }) => {
+    const game = window.__DW_GAME__
+    if (!game || window.__DW__?.getSnapshot().scene !== scene || !game.scene.isActive(scene)) return false
+    if (scene !== 'game') return true
+    const live = game.scene.getScene('game') as unknown as {
+      built: boolean; motionOn: boolean; motionError: unknown; runToken: number;
+      sim?: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite>;
+      nextSpawnTick(): number
+    }
+    if (!live.built || !live.motionOn || live.motionError || live.runToken <= afterToken ||
+      !live.sim || live.sim.charId !== hero || live.sim.stage.id !== stage) return false
+    // @ts-expect-error Vite browser URL, evaluated in the page rather than Node.
+    const { motionRuntime } = await import('/src/game/adapters/motion-art.ts')
+    const runtime = motionRuntime()
+    if (runtime.gateForTick(game.scene.getScene('game'), live.nextSpawnTick()).blocked) return false
+    const art = game.registry.get('paintedHeroArt') as import('../src/game/art/hero-resources').ArtResources
+    const verified = (id: number, kind: string): boolean => {
+      const pack = art?.motions?.[kind], sprite = live.sprites.get(id)
+      if (!pack || pack.id !== kind || !pack.revision || !runtime.kindReady(game.scene.getScene('game'), kind) ||
+        !sprite?.visible || sprite.alpha <= 0 || !sprite.frame.name.startsWith(`entity:${kind}:motion:`)) return false
+      const cell = pack.frames[sprite.frame.name.slice(`entity:${kind}:motion:`.length)]
+      const f = sprite.frame
+      return !!cell && sprite.texture.getSourceImage() === (cell.sheet === 'actions' ? pack.actionSheet : pack.sheet) &&
+        f.cutX === cell.x && f.cutY === cell.y && f.cutWidth === cell.w && f.cutHeight === cell.h
+    }
+    if (!verified(live.sim.playerId, hero)) return false
+    // Injected boss state must await its own pack, not merely the opening hero.
+    return live.sim.entities.filter(e => !['crate', 'meat', 'sword', 'arrow'].includes(e.kind) &&
+      e.state !== 'dead').every(e => verified(e.id, e.kind))
+  }, { scene, hero, stage, afterToken }), { timeout: 15_000 }).toBe(true)
+  await page.evaluate(() => new Promise<void>(resolve => {
+    window.__DW_GAME__!.events.once('postrender', () => requestAnimationFrame(() => resolve()))
+  }))
+}
+
+async function startReady(page: import('@playwright/test').Page, hero = 'zhaoyun', seed = 42,
+  stage = 'stage1'): Promise<void> {
+  const token = await page.evaluate(({ hero, seed, stage }) => {
+    const live = window.__DW_GAME__?.scene.getScene('game') as unknown as { runToken?: number } | undefined
+    const token = live?.runToken ?? -1
+    window.__DW__!.startGame(hero, seed, stage)
+    return token
+  }, { hero, seed, stage })
+  await waitForVisualScene(page, 'game', hero, stage, token)
+}
+
+
 /** How far the two renderers may drift before it counts as a real difference. */
 export const PARITY_TOLERANCE = {
   coverage: 0.1,
@@ -61,7 +112,7 @@ function measure(img: FrameImage): Shot {
   }
 }
 
-async function snapshot(page: import('@playwright/test').Page): Promise<FrameImage | null> {
+async function snapshot(page: import('@playwright/test').Page, name: string, renderer: string): Promise<FrameImage | null> {
   // Resampled to the logical screen size; see vision.spec.ts's snapshotFrame
   // for why the ruler must not scale with the canvas.
   const raw = (await page.evaluate(
@@ -70,7 +121,7 @@ async function snapshot(page: import('@playwright/test').Page): Promise<FrameIma
         __DW_GAME__?: { renderer?: { snapshot: (cb: (img: HTMLImageElement) => void) => void } }
       }).__DW_GAME__
       if (!game?.renderer?.snapshot) return null
-      return new Promise<{ width: number; height: number; data: number[] } | null>((resolve) => {
+      return new Promise<{ width: number; height: number; data: number[]; png: string; evidence: unknown } | null>((resolve) => {
         game.renderer?.snapshot?.((img) => {
           const cv = document.createElement('canvas')
           cv.width = w
@@ -80,12 +131,20 @@ async function snapshot(page: import('@playwright/test').Page): Promise<FrameIma
           ctx.imageSmoothingEnabled = false
           ctx.drawImage(img, 0, 0, w, h)
           const d = ctx.getImageData(0, 0, cv.width, cv.height).data
-          resolve({ width: cv.width, height: cv.height, data: Array.from(d) })
+          resolve({ width: cv.width, height: cv.height, data: Array.from(d), png: img.src, evidence: (() => {
+            const live = window.__DW_GAME__?.scene.getScene('game') as unknown as { built: boolean; sim?: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite> }
+            const sprite = live?.sim ? live.sprites.get(live.sim.playerId) : undefined
+            return { snapshot: window.__DW__?.getSnapshot(), built: live?.built, frame: sprite?.frame.name, texture: sprite?.texture.key, visible: sprite?.visible, alpha: sprite?.alpha }
+          })() })
         })
       })
     },
     { w: SCREEN_WIDTH, h: SCREEN_HEIGHT },
-  )) as { width: number; height: number; data: number[] } | null
+  )) as { width: number; height: number; data: number[]; png: string; evidence: unknown } | null
+  if (raw) {
+    writeFileSync(join(OUT_DIR, `parity-${renderer}-${name}.png`), Buffer.from(raw.png.split(',')[1]!, 'base64'))
+    writeFileSync(join(OUT_DIR, `parity-${renderer}-${name}-state.json`), JSON.stringify(raw.evidence, null, 2))
+  }
   return raw ? { width: raw.width, height: raw.height, data: new Uint8Array(raw.data) } : null
 }
 
@@ -97,8 +156,9 @@ async function captureScreens(
   const query = renderer === 'canvas' ? '?renderer=canvas&autopilot=1&vision=1' : '?autopilot=1&vision=1'
   await page.setViewportSize({ width: 960, height: 540 })
   await page.goto(`/${query}`, { waitUntil: 'networkidle' })
-  await page.waitForTimeout(900)
+  await waitForVisualScene(page, 'title')
 
+  expect(new URL(page.url()).searchParams.has('motion')).toBe(false)
   const actual = await page.evaluate(() => {
     const g = (window as unknown as { __DW_GAME__?: { renderer: { type: number } } }).__DW_GAME__
     return g?.renderer.type === 1 ? 'canvas' : 'webgl'
@@ -107,39 +167,36 @@ async function captureScreens(
 
   const out: Record<string, Shot> = {}
   const shoot = async (name: string): Promise<void> => {
-    const frame = await snapshot(page)
+    const frame = await snapshot(page, name, renderer)
     expect(frame, `no frame for ${name} under ${renderer}`).not.toBeNull()
     if (frame) out[name] = measure(frame)
-    await page.screenshot({ path: join(OUT_DIR, `parity-${renderer}-${name}.png`) })
   }
 
   await shoot('title')
   await page.keyboard.press('Enter')
-  await page.waitForTimeout(600)
+  await waitForVisualScene(page, 'select')
   await shoot('select')
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await page.waitForTimeout(900)
+  await startReady(page)
   await shoot('game_idle')
   // The in-stage screens are where the HUD lives, and the HUD is the part
   // that manages depth by hand - exactly the thing that went wrong elsewhere.
   const walk = Array.from({ length: 120 }, () => ({ ...neutralInput(), right: true }))
+  const before = await page.evaluate(() => window.__DW__!.getSnapshot().tick)
   await page.evaluate((inputs) => window.__DW__?.run(inputs), walk)
-  await page.waitForTimeout(600)
+  await page.waitForFunction(t => window.__DW__!.getSnapshot().tick >= t, before + walk.length)
+  await waitForVisualScene(page, 'game')
   await shoot('game_combat')
-  await page.evaluate(() => window.__DW__?.startGame('zhangfei', 42, 'stage3'))
-  await page.waitForTimeout(800)
+  await startReady(page, 'zhangfei', 42, 'stage3')
   await page.evaluate(() => window.__DW__?.forceBoss())
-  await page.waitForTimeout(900)
+  await waitForVisualScene(page, 'game', 'zhangfei', 'stage3')
   await shoot('boss_fight')
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await page.waitForTimeout(700)
+  await startReady(page)
   await page.evaluate(() => window.__DW__?.forceResult())
-  await page.waitForTimeout(700)
+  await waitForVisualScene(page, 'result')
   await shoot('result')
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await page.waitForTimeout(700)
+  await startReady(page)
   await page.evaluate(() => window.__DW__?.forceGameOver())
-  await page.waitForTimeout(700)
+  await waitForVisualScene(page, 'gameover')
   await shoot('game_over')
   return out
 }

@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test'
 import { mkdirSync, appendFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../src/core/constants'
+import { PNG } from 'pngjs'
+import zhaoyun from '../src/game/assets/motion/zhaoyun-prepared.json' with { type: 'json' }
 import { RENDER_SCALE } from '../src/game/render'
 import { decideBotScript } from '../selfplay/bot'
 import { assessFrame, regionLegibility, type FrameImage, type MetricResult } from './metrics'
@@ -35,6 +37,58 @@ export const MAX_CHARACTER_DOMINANCE = 0.9
 // consumes findings.jsonl to file UI tasks when a render regresses.
 
 const OUT_DIR = 'artifacts/vision'
+
+/** Scene activation is not construction: motion packs publish asynchronously. */
+async function waitForVisualScene(page: import('@playwright/test').Page, scene: string,
+  hero = 'zhaoyun', stage = 'stage1', afterToken = -1): Promise<void> {
+  expect(new URL(page.url()).searchParams.has('motion')).toBe(false)
+  await expect.poll(() => page.evaluate(() => window.__DW_GAME__?.renderer.type)).toBe(1)
+  await expect.poll(() => page.evaluate(async ({ scene, hero, stage, afterToken }) => {
+    const game = window.__DW_GAME__
+    if (!game || window.__DW__?.getSnapshot().scene !== scene || !game.scene.isActive(scene)) return false
+    if (scene !== 'game') return true
+    const live = game.scene.getScene('game') as unknown as {
+      built: boolean; motionOn: boolean; motionError: unknown; runToken: number;
+      sim?: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite>;
+      nextSpawnTick(): number
+    }
+    if (!live.built || !live.motionOn || live.motionError || live.runToken <= afterToken ||
+      !live.sim || live.sim.charId !== hero || live.sim.stage.id !== stage) return false
+    // @ts-expect-error Vite browser URL, evaluated in the page rather than Node.
+    const { motionRuntime } = await import('/src/game/adapters/motion-art.ts')
+    const runtime = motionRuntime()
+    if (runtime.gateForTick(game.scene.getScene('game'), live.nextSpawnTick()).blocked) return false
+    const art = game.registry.get('paintedHeroArt') as import('../src/game/art/hero-resources').ArtResources
+    const verified = (id: number, kind: string): boolean => {
+      const pack = art?.motions?.[kind], sprite = live.sprites.get(id)
+      if (!pack || pack.id !== kind || !pack.revision || !runtime.kindReady(game.scene.getScene('game'), kind) ||
+        !sprite?.visible || sprite.alpha <= 0 || !sprite.frame.name.startsWith(`entity:${kind}:motion:`)) return false
+      const cell = pack.frames[sprite.frame.name.slice(`entity:${kind}:motion:`.length)]
+      const f = sprite.frame
+      return !!cell && sprite.texture.getSourceImage() === (cell.sheet === 'actions' ? pack.actionSheet : pack.sheet) &&
+        f.cutX === cell.x && f.cutY === cell.y && f.cutWidth === cell.w && f.cutHeight === cell.h
+    }
+    if (!verified(live.sim.playerId, hero)) return false
+    // Injected boss state must await its own pack, not merely the opening hero.
+    return live.sim.entities.filter(e => !['crate', 'meat', 'sword', 'arrow'].includes(e.kind) &&
+      e.state !== 'dead').every(e => verified(e.id, e.kind))
+  }, { scene, hero, stage, afterToken }), { timeout: 15_000 }).toBe(true)
+  await page.evaluate(() => new Promise<void>(resolve => {
+    window.__DW_GAME__!.events.once('postrender', () => requestAnimationFrame(() => resolve()))
+  }))
+}
+
+async function startReady(page: import('@playwright/test').Page, hero = 'zhaoyun', seed = 42,
+  stage = 'stage1'): Promise<void> {
+  const token = await page.evaluate(({ hero, seed, stage }) => {
+    const live = window.__DW_GAME__?.scene.getScene('game') as unknown as { runToken?: number } | undefined
+    const token = live?.runToken ?? -1
+    window.__DW__!.startGame(hero, seed, stage)
+    return token
+  }, { hero, seed, stage })
+  await waitForVisualScene(page, 'game', hero, stage, token)
+}
+
 
 let report: MetricResult[] = []
 
@@ -111,15 +165,15 @@ async function entityTextureKeys(page: import('@playwright/test').Page): Promise
  * never rendered and inflate colorRichness.
  */
 async function snapshotFrame(
-  page: import('@playwright/test').Page,
+  page: import('@playwright/test').Page, name?: string,
 ): Promise<{ width: number; height: number; data: number[] } | null> {
-  return (await page.evaluate(
+  const raw = (await page.evaluate(
     ({ w, h }) => {
       const game = (window as unknown as {
         __DW_GAME__?: { renderer?: { snapshot: (cb: (img: HTMLImageElement) => void) => void } }
       }).__DW_GAME__
       if (!game?.renderer?.snapshot) return null
-      return new Promise<{ width: number; height: number; data: number[] } | null>((resolve) => {
+      return new Promise<{ width: number; height: number; data: number[]; png: string; evidence: unknown } | null>((resolve) => {
         game.renderer?.snapshot?.((img) => {
           const cv = document.createElement('canvas')
           cv.width = w
@@ -129,12 +183,21 @@ async function snapshotFrame(
           ctx.imageSmoothingEnabled = false
           ctx.drawImage(img, 0, 0, w, h)
           const d = ctx.getImageData(0, 0, cv.width, cv.height).data
-          resolve({ width: cv.width, height: cv.height, data: Array.from(d) })
+          resolve({ width: cv.width, height: cv.height, data: Array.from(d), png: img.src, evidence: (() => {
+            const live = window.__DW_GAME__?.scene.getScene('game') as unknown as { built: boolean; sim?: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite> }
+            const sprite = live?.sim ? live.sprites.get(live.sim.playerId) : undefined
+            return { snapshot: window.__DW__?.getSnapshot(), built: live?.built, frame: sprite?.frame.name, texture: sprite?.texture.key, visible: sprite?.visible, alpha: sprite?.alpha }
+          })() })
         })
       })
     },
     { w: SCREEN_WIDTH, h: SCREEN_HEIGHT },
-  )) as { width: number; height: number; data: number[] } | null
+  )) as { width: number; height: number; data: number[]; png: string; evidence: unknown } | null
+  if (raw && name) {
+    writeFileSync(join(OUT_DIR, `${name}.png`), Buffer.from(raw.png.split(',')[1]!, 'base64'))
+    writeFileSync(join(OUT_DIR, `${name}-state.json`), JSON.stringify(raw.evidence, null, 2))
+  }
+  return raw
 }
 
 function toFrame(raw: { width: number; height: number; data: number[] }): FrameImage {
@@ -152,59 +215,6 @@ async function playerScreenPos(page: import('@playwright/test').Page): Promise<{
   return { x: Math.round(sim.player.x - sim.scrollX), y: Math.round(sim.player.y) }
 }
 
-/**
- * Wait until a game snapshot carries a live player (the scene settled past any
- * start/transition). Probes must never sample a mid-transition frame - that was
- * the source of a timing flake where the legibility guard saw sim=null and
- * reported 0 colors on an otherwise good render.
- */
-async function waitForPlayer(page: import('@playwright/test').Page, timeoutMs = 5_000): Promise<void> {
-  const ready = await page.evaluate(
-    (timeout) => new Promise<boolean>((resolve) => {
-      const t0 = Date.now()
-      const poll = (): void => {
-        const sim = (window as { __DW__?: { getSnapshot: () => { sim?: { player?: unknown } } } }).__DW__?.getSnapshot().sim
-        if (sim?.player) return resolve(true)
-        if (Date.now() - t0 >= timeout) return resolve(false)
-        setTimeout(poll, 50)
-      }
-      poll()
-    }),
-    timeoutMs,
-  )
-  if (!ready) {
-    const state = await page.evaluate(() => {
-      const sn = (window as { __DW__?: { getSnapshot: () => { scene?: string; sim?: unknown } } }).__DW__?.getSnapshot()
-      return { scene: sn?.scene, sim: sn?.sim ? 'present' : 'null' }
-    })
-    throw new Error(`game did not reach a playable state within timeout (scene=${state.scene}, sim=${state.sim})`)
-  }
-}
-
-/**
- * Sample player-region legibility, retrying over a bounded window so a single
- * mid-animation frame never decides the verdict. Returns the best (settled)
- * sample found; a truly empty region still reports 0 colors as desired.
- */
-async function regionLegibilityRace(
-  page: import('@playwright/test').Page,
-  windowMs = 3_000,
-): Promise<{ colorCount: number; dominantFraction: number }> {
-  const t0 = Date.now()
-  let best: { colorCount: number; dominantFraction: number } = { colorCount: 0, dominantFraction: 1 }
-  while (Date.now() - t0 < windowMs) {
-    const frame = await snapFrame(page)
-    if (frame) {
-      const pos = await playerScreenPos(page)
-      const leg = pos ? regionLegibility(frame, pos.x, pos.y, 26) : { colorCount: 0, dominantFraction: 1 }
-      if (leg.colorCount > 0) return leg // settled, non-empty sample
-      best = leg
-    }
-    await page.waitForTimeout(150)
-  }
-  return best
-}
-
 test('visual-health gate: every core screen renders acceptably', async ({ page }) => {
   test.setTimeout(180_000)
   const pageErrors: string[] = []
@@ -214,31 +224,27 @@ test('visual-health gate: every core screen renders acceptably', async ({ page }
   await page.goto('/?renderer=canvas&autopilot=1&vision=1', {
     waitUntil: 'networkidle',
   })
-  await page.waitForTimeout(700)
+  await waitForVisualScene(page, 'title')
 
   const screens: Array<{ name: string; frame: FrameImage | null }> = []
 
   // 1) Title
-  await page.waitForTimeout(300)
-  screens.push({ name: 'title', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'title.png') })
+  await waitForVisualScene(page, 'title')
+  screens.push({ name: 'title', frame: await snapFrame(page, 'title') })
 
   // 2) Select
   await page.keyboard.press('Enter')
-  await page.waitForTimeout(500)
-  screens.push({ name: 'select', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'select.png') })
+  await waitForVisualScene(page, 'select')
+  screens.push({ name: 'select', frame: await snapFrame(page, 'select') })
 
   // 3) Game idle
-  await page.keyboard.press('Enter') // confirm Zhao Yun
-  await page.waitForTimeout(500)
-  screens.push({ name: 'game_idle', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'game_idle.png') })
+  await page.keyboard.press('Enter') // confirm Guan Yu, the first roster entry
+  await waitForVisualScene(page, 'game', 'guanyu')
+  screens.push({ name: 'game_idle', frame: await snapFrame(page, 'game_idle') })
 
   // 4) Game combat (bot fights a bit; frozen effects are gated off, but the
   // scene is live with characters + HUD).
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await waitForPlayer(page)
+  await startReady(page)
   for (let i = 0; i < 5; i += 1) {
     const sn = await page.evaluate(() => window.__DW__?.getSnapshot())
     if (!sn?.sim) break
@@ -250,29 +256,25 @@ test('visual-health gate: every core screen renders acceptably', async ({ page }
       tb + script.length,
     )
   }
-  await page.waitForTimeout(250)
-  const combatFrame = await snapFrame(page)
+  await waitForVisualScene(page, 'game')
+  const combatFrame = await snapFrame(page, 'game_combat')
   screens.push({ name: 'game_combat', frame: combatFrame })
-  await page.screenshot({ path: join(OUT_DIR, 'game_combat.png') })
   // Character-legibility guard: the player must render as a multi-color figure
-  // (armor + skin + weapon), not a flat single-color blob. Sampled as a race so
-  // one mid-animation frame cannot cause a false failure.
-  const playerLeg = await regionLegibilityRace(page)
+  // (armor + skin + weapon), not a flat single-color blob, in this same ready frame.
+  const pos = await playerScreenPos(page)
+  const playerLeg = combatFrame && pos ? regionLegibility(combatFrame, pos.x, pos.y, 26) : { colorCount: 0, dominantFraction: 1 }
   console.log('PLAYER LEGIBILITY:', JSON.stringify(playerLeg))
   expect(playerLeg.colorCount).toBeGreaterThanOrEqual(MIN_CHARACTER_COLORS)
   expect(playerLeg.dominantFraction).toBeLessThanOrEqual(MAX_CHARACTER_DOMINANCE)
 
   // 5) Boss fight (forced via the bridge - fast and deterministic).
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage3'))
-  await waitForPlayer(page)
+  await startReady(page, 'zhaoyun', 42, 'stage3')
   await page.evaluate(() => window.__DW__?.forceBoss())
-  await page.waitForTimeout(250) // let the boss spawn + render
-  screens.push({ name: 'boss_fight', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'boss_fight.png') })
+  await waitForVisualScene(page, 'game', 'zhaoyun', 'stage3')
+  screens.push({ name: 'boss_fight', frame: await snapFrame(page, 'boss_fight') })
 
   // 6) Second hero (Zhang Fei) into combat - per-hero rendering is watched.
-  await page.evaluate(() => window.__DW__?.startGame('zhangfei', 99))
-  await waitForPlayer(page)
+  await startReady(page, 'zhangfei', 99)
   for (let i = 0; i < 5; i += 1) {
     const sn = await page.evaluate(() => window.__DW__?.getSnapshot())
     if (!sn?.sim) break
@@ -284,37 +286,30 @@ test('visual-health gate: every core screen renders acceptably', async ({ page }
       tb + script.length,
     )
   }
-  await page.waitForTimeout(250)
-  screens.push({ name: 'game_combat_zhangfei', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'game_combat_zhangfei.png') })
+  await waitForVisualScene(page, 'game', 'zhangfei')
+  screens.push({ name: 'game_combat_zhangfei', frame: await snapFrame(page, 'game_combat_zhangfei') })
 
   // 7) Result screen (forced via the bridge - deterministic, no marathon).
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await waitForPlayer(page)
+  await startReady(page)
   await page.evaluate(() => window.__DW__?.forceResult())
-  await page.waitForTimeout(500)
-  screens.push({ name: 'result', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'result.png') })
+  await waitForVisualScene(page, 'result')
+  screens.push({ name: 'result', frame: await snapFrame(page, 'result') })
 
   // 8) Game-over screen (forced via the bridge).
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await waitForPlayer(page)
+  await startReady(page)
   await page.evaluate(() => window.__DW__?.forceGameOver())
-  await page.waitForTimeout(500)
-  screens.push({ name: 'game_over', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'game_over.png') })
+  await waitForVisualScene(page, 'gameover')
+  screens.push({ name: 'game_over', frame: await snapFrame(page, 'game_over') })
 
   // 9) Game-complete screen - the ending. Reached by clearing the LAST stage,
   // so forcing the result from stage 3 and confirming lands on it. It is the
   // final thing a player who finishes the game sees and nothing watched it.
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage3'))
-  await waitForPlayer(page)
+  await startReady(page, 'zhaoyun', 42, 'stage3')
   await page.evaluate(() => window.__DW__?.forceResult())
-  await page.waitForTimeout(500)
+  await waitForVisualScene(page, 'result')
   await page.keyboard.press('Enter')
-  await page.waitForTimeout(700)
-  screens.push({ name: 'game_complete', frame: await snapFrame(page) })
-  await page.screenshot({ path: join(OUT_DIR, 'game_complete.png') })
+  await waitForVisualScene(page, 'gamecomplete')
+  screens.push({ name: 'game_complete', frame: await snapFrame(page, 'game_complete') })
 
   // Assess every screen.
   report = screens
@@ -351,8 +346,8 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
   await page.goto('/?renderer=canvas&autopilot=1&vision=1', { waitUntil: 'networkidle' })
   // Entering a stage registers every kind that can appear (all enemies, all
   // heroes and props), so one startGame exposes the whole cast.
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await waitForPlayer(page)
+  await startReady(page)
+  // Legacy inventory only: this is NOT whole-motion frame coverage.
   // Register the WHOLE cast, not just what this stage spawns. GameScene
   // deliberately generates only the kinds a stage can use - it cut 52MB of
   // textures - and that quietly took this gate from 148 sprites to 76 without
@@ -487,8 +482,7 @@ test('sprite gate: every rendered character and prop reads as a shape', async ({
 test('negative control: the character gate rejects an empty backdrop and a flat silhouette', async ({ page }) => {
   await page.setViewportSize({ width: 960, height: 540 })
   await page.goto('/?renderer=canvas&autopilot=1&vision=1', { waitUntil: 'networkidle' })
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await waitForPlayer(page)
+  await startReady(page)
   const frame = await snapFrame(page)
   expect(frame, 'no frame captured').not.toBeNull()
   if (!frame) return
@@ -514,7 +508,35 @@ test('negative control: the character gate rejects an empty backdrop and a flat 
   // Second control: the game's own hero, with every drawn pixel flattened to
   // one mid-tone. Shape metrics still pass - it is a real figure - so only the
   // shading metrics can catch it, which is exactly the job they were added for.
-  const hero = await readTexture(page, 'entity:zhaoyun:idle')
+  const selected = await page.evaluate(() => {
+    const game = window.__DW_GAME__!
+    const live = game.scene.getScene('game') as unknown as {
+      sim: import('../src/core/sim').Sim; sprites: Map<number, Phaser.GameObjects.Sprite>
+    }
+    const sprite = live.sprites.get(live.sim.playerId)!, f = sprite.frame
+    const pack = (game.registry.get('paintedHeroArt') as import('../src/game/art/hero-resources').ArtResources).motions!.zhaoyun!
+    const cv = document.createElement('canvas')
+    cv.width = f.realWidth; cv.height = f.realHeight
+    const ctx = cv.getContext('2d')!
+    ctx.drawImage(sprite.texture.getSourceImage() as CanvasImageSource,
+      f.cutX, f.cutY, f.cutWidth, f.cutHeight, f.x, f.y, f.cutWidth, f.cutHeight)
+    return { name: f.name, texture: sprite.texture.key, cut: [f.cutX, f.cutY, f.cutWidth, f.cutHeight],
+      trim: [f.x, f.y], full: [f.realWidth, f.realHeight], origin: [sprite.displayOriginX, sprite.displayOriginY],
+      revision: pack.revision, sourceMatches: sprite.texture.getSourceImage() === pack.sheet,
+      state: live.sim.entities.find(e => e.id === live.sim.playerId)!.state,
+      width: cv.width, height: cv.height, data: Array.from(ctx.getImageData(0, 0, cv.width, cv.height).data) }
+  })
+  const cell = zhaoyun.frames['walk:0']
+  expect(selected.name).toBe('entity:zhaoyun:motion:walk:0')
+  expect(selected.texture).toBe('motion-source:zhaoyun')
+  expect(selected.state).toBe('idle')
+  expect(selected.revision).toBe(zhaoyun.revision)
+  expect(selected.sourceMatches).toBe(true)
+  expect(selected.cut).toEqual([cell.x, cell.y, cell.w, cell.h])
+  expect(selected.trim).toEqual([cell.trimX, cell.trimY])
+  expect(selected.full).toEqual([cell.srcW, cell.srcH])
+  expect(selected.origin).toEqual([cell.srcW / 2, zhaoyun.box.groundY * zhaoyun.density])
+  const hero: SpriteImage = { width: selected.width, height: selected.height, data: Uint8Array.from(selected.data) }
   expect(hero, 'no hero texture to build the flat-silhouette control from').not.toBeNull()
   if (!hero) return
   const real = assessSprite(hero, 'zhaoyun:idle', CHARACTER_SPRITE_THRESHOLDS)
@@ -523,6 +545,14 @@ test('negative control: the character gate rejects an empty backdrop and a flat 
   const flat = flatten(hero, [96, 110, 150])
   const flatVerdict = assessSprite(flat, 'flat-silhouette', CHARACTER_SPRITE_THRESHOLDS)
   console.log('NEGATIVE CONTROL (flat silhouette):', JSON.stringify(flatVerdict))
+  for (const [name, image] of [['real-motion-idle', hero], ['flat-motion-idle', flat], ['empty-backdrop', patch]] as const) {
+    writeFileSync(join(OUT_DIR, name + '.png'), PNG.sync.write({ width: image.width, height: image.height, data: Buffer.from(image.data) } as PNG))
+  }
+  writeFileSync(join(OUT_DIR, 'negative-controls.json'), JSON.stringify({ selected: { ...selected, data: undefined }, real, flat: flatVerdict, empty: verdict }, null, 2))
+  expect(flatVerdict.silhouetteComplexity).toBe(real.silhouetteComplexity)
+  expect(flatVerdict.appendageRatio).toBe(real.appendageRatio)
+  expect(flatVerdict.outlineRatio).toBeGreaterThanOrEqual(CHARACTER_SPRITE_THRESHOLDS.minOutlineRatio)
+  expect(flatVerdict.failures.some(f => f.startsWith('colorCount'))).toBe(true)
   expect(
     flatVerdict.pass,
     `the character gate accepted an unshaded silhouette - it is vacuous: ${JSON.stringify(flatVerdict)}`,
@@ -538,6 +568,13 @@ function flatten(img: SpriteImage, rgb: [number, number, number]): SpriteImage {
   const data = new Uint8Array(img.data)
   for (let i = 0; i < data.length; i += 4) {
     if ((data[i + 3] ?? 0) === 0) continue
+    const x = (i / 4) % img.width, y = Math.floor(i / 4 / img.width)
+    const edge = [[-1, 0], [1, 0], [0, -1], [0, 1]].some(([dx, dy]) => {
+      const nx = x + dx!, ny = y + dy!
+      return nx < 0 || ny < 0 || nx >= img.width || ny >= img.height || (img.data[(ny * img.width + nx) * 4 + 3] ?? 0) < 32
+    })
+    const ink = edge && ((data[i]! + data[i + 1]! + data[i + 2]!) / 3 <= 110)
+    if (ink) { data[i] = 30; data[i + 1] = 30; data[i + 2] = 30; continue }
     data[i] = rgb[0]
     data[i + 1] = rgb[1]
     data[i + 2] = rgb[2]
@@ -556,8 +593,7 @@ function flatten(img: SpriteImage, rgb: [number, number, number]): SpriteImage {
 test('hud gate: every HUD bar actually paints colour on the screen', async ({ page }) => {
   await page.setViewportSize({ width: 960, height: 540 })
   await page.goto('/?renderer=canvas&autopilot=1&vision=1', { waitUntil: 'networkidle' })
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await waitForPlayer(page)
+  await startReady(page)
 
   // The bars are drawn with Graphics and record what they drew, so this can
   // sample the FRAME where a bar claims to be. The previous version asked
@@ -624,14 +660,10 @@ function cutout(frame: FrameImage, cx: number, cy: number, radius: number): Spri
   return { width: w, height: h, data }
 }
 
-/** Snapshot wrapper that tolerates the one-frame render delay. */
-async function snapFrame(page: import('@playwright/test').Page): Promise<FrameImage | null> {
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    const raw = await snapshotFrame(page)
-    if (raw && raw.width > 0) return toFrame(raw)
-    await page.waitForTimeout(120)
-  }
-  return null
+/** One snapshot only: readiness is semantic, never a retry-until-nonblank loop. */
+async function snapFrame(page: import('@playwright/test').Page, name?: string): Promise<FrameImage | null> {
+  const raw = await snapshotFrame(page, name)
+  return raw ? toFrame(raw) : null
 }
 
 function round3(v: number): number {
