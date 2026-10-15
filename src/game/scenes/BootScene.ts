@@ -8,19 +8,6 @@ import { loadDisplayFont } from '../ui/type'
 import displayFontUrl from '../assets/fonts/zcool-qingke-huangyou-subset.woff2?url'
 import titleKeyartUrl from '../assets/title/keyart-backdrop.jpg?url'
 
-interface ArtManifest {
-  sprites?: Record<string, string[]>
-  portraits?: string[]
-}
-
-/**
- * Boot scene: preloads baked art in the background but never blocks the app.
- * The manifest JSON is loaded in the preload phase (safe even if this scene is
- * later shut down); the image batch is queued here and started here. It only
- * transitions to title AFTER every batched image has completed or errored, so
- * the loader stays alive while it works. Any missing texture still gets the
- * pixel fallback in GameScene/SelectScene.
- */
 /** Bake a small FX texture at device density. */
 function bake(
   scene: Phaser.Scene,
@@ -63,57 +50,7 @@ export class BootScene extends Phaser.Scene {
     // Display face before the first text-bearing scene. Bounded and silent on
     // failure: every live style already names the system fallback, so a
     // blocked font only costs the letterforms, never the boot.
-    void loadDisplayFont(displayFontUrl, 2500).then(() => this.enterTitle())
-  }
-
-  private enterTitle(): void {
-    // A build that ships no baked art never asks the server for a manifest.
-    // This used to be decided by fetching and seeing what came back, which
-    // made the game's appearance depend on a file being ABSENT: after
-    // `public/assets` was deleted, Cloudflare's edge cache went on serving the
-    // old manifest and its placeholder sprites for days, so the deployed game
-    // loaded the old art over the new while the identical bundle looked
-    // correct locally. The build decides now, and the answer is in the bundle.
-    // `?bakedart=1` forces the lookup so e2e can still exercise the pipeline
-    // against a served fixture while no baked art ships. It is a debug switch
-    // in the same family as ?autopilot=1; nothing in normal play sets it.
-    const forced = new URLSearchParams(window.location.search).get('bakedart') === '1'
-    if (!__HAS_BAKED_ART__ && !forced) {
-      this.scene.start('title')
-      return
-    }
-    // Plain fetch, not this.load.json: a missing manifest is answered with an
-    // index.html fallback by both the dev server and Pages, and the JSON
-    // loader throws "Unexpected token '<'" as an uncaught page error.
-    void this.loadManifest().then((manifest) => this.startPreload(manifest))
-  }
-
-  private async loadManifest(): Promise<ArtManifest | null> {
-    try {
-      const res = await fetch('assets/manifest.json')
-      if (!res.ok) return null
-      if (!(res.headers.get('content-type') ?? '').includes('json')) return null
-      return (await res.json()) as ArtManifest
-    } catch {
-      return null
-    }
-  }
-
-  private startPreload(manifest: ArtManifest | null): void {
-    const toLoad: Array<[string, string]> = []
-    if (manifest) {
-      for (const [kind, poses] of Object.entries(manifest.sprites ?? {})) {
-        for (const pose of poses) toLoad.push([`entity:${kind}:${pose}`, `assets/sprites/${kind}/${pose}.png`])
-      }
-      for (const charId of manifest.portraits ?? []) toLoad.push([`portrait:${charId}`, `assets/portraits/${charId}.png`])
-    }
-    if (toLoad.length === 0) {
-      this.scene.start('title')
-      return
-    }
-    for (const [key, url] of toLoad) this.load.image(key, url)
-    this.load.once('complete', () => this.scene.start('title'))
-    this.load.start()
+    void loadDisplayFont(displayFontUrl, 2500).then(() => this.scene.start('title'))
   }
 
   /**

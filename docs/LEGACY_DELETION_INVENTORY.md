@@ -1,7 +1,42 @@
 # Legacy deletion inventory — exact file-level lists (CMR-24 Phase 5 prep)
 
 Status: **partial portrait isolation + B12 select/result/ending migration + independent
-Slice 3 whole-frame pilot removal implemented; NOT Slice 1 or Slice 2 full DONE.**
+Slice 3 whole-frame pilot and Slice 4 baked-art removal implemented; NOT Slice 1
+or Slice 2 full DONE.**
+
+**2026-10-15 independent Slice 4 (`cmr24-retire-baked-art-path`):** removed the
+obsolete manifest delivery ingress, not the main legacy renderer. BootScene now
+enters title directly after bounded display-font loading; its hero portrait/head,
+body and weapon queues/publication, title keyart and local FX canvas `bake()`
+helper remain unchanged. Vite loses only the filesystem probe and baked-art
+`define`; relative base, server/watch and build settings remain unchanged.
+
+Deleted literal paths (resolved absolute leaf paths verified before deletion):
+- `src/build-flags.d.ts` (sole baked-art declaration);
+- `scripts/bake-art.mjs`, `scripts/bake-core.mjs`, `scripts/bake-core.d.mts`;
+- `test/game/bake.test.ts` (exclusive import of bake-core; 7 old unit cases);
+- `e2e/art.spec.ts` (3 old baked-art fixture/fallback/cache cases).
+
+Those chroma-key/despill/trim/compose/atomic-manifest and fixture-override gates
+are **RETIRED-BY-DELETION, NOT PASS**. Shared facesheet, motion authoring, FX,
+font/title assets and all canonical masters are untouched. The remaining old
+script mentions in make-sample/artaudit comments are historical descriptions,
+not imports or execution entrypoints; their separate renderer slice is deferred.
+[Production guards](../prodbuild/prodbuild.spec.ts) replace the cached-manifest
+case with source + actual built-JavaScript exclusivity and Canvas/WebGL ×
+default/`motion=0` boot checks: even `bakedart=1` with an available stale manifest
+must request none of the exclusive manifest/sprites/portraits paths. Shared
+hashed portrait assets and ordinary Vite source module URLs are not forbidden.
+Actual stable-source gates: lint/typecheck **PASS exit0**; retained motion-clips,
+portrait, bodyparts, weaponparts, FX and display-type units **72/72 PASS exit0**;
+exactly one full production run **18/18 PASS exit0 (1.6m)**, including all five
+new retirement checks and unchanged reach/HUD/mobile/motion/Xiahou checks.
+Whole `src/` plus actual `dist/assets/index-Mms_QXLB.js` searches have zero
+exclusive path/flag/manifest-loader matches. No full units/general e2e/vision/
+signal rerun here; production title/game checks serve as the focused boot gate.
+Exact commands/exits are recorded in [PROGRESS](../PROGRESS.md) and local ignored
+`artifacts/motion/bakedart-removal/`. Remaining renderer/switch removal, full
+Part B and CMR-24 acceptance are still outstanding.
 
 **2026-10-15 independent Slice 3 order revision:** after the pending Result vision
 passed once on clean `0d298a3` (5/5, exit0), the optional whole-frame pilot is
@@ -293,6 +328,11 @@ except prop sizing via B5's `artDisplayHeight`, `canRenderLegacyFrame` gate
 props via `isPropKind/textureKeyFor` (:729/:743/:855), shadows/FX/HUD wiring.
 
 ### B11. [scenes/BootScene.ts](../src/game/scenes/BootScene.ts) — drop body/weapon/frame queues + baked manifest
+
+**Slice 4 disposition:** manifest interface/fetch/preload/forced-parameter/build-flag
+branch and `enterTitle` wrapper are removed. Font completion starts title directly.
+Keep all current hero/head/body/weapon queues and publication for normal rollback
+until Slice 6; FX, font and title keyart are shared. The historical map follows.
 
 Delete: imports/calls :5–7, `queueBodyArt/queueWeaponArt` (:52–53),
 `framesEnabled` queue (:57), publishes (:65–67), `ArtManifest` (:13–16),
@@ -620,7 +660,7 @@ revert that slice's commit; `?motion=0` stays functional through Slice 5.
 | 1 | **Partial portrait isolation, NOT full slim DONE**: B5 painted-only module/procedural portrait deletion; B6 narrow portrait types, B7 independent portrait publication; preserve all rollback head resources/assets/metadata. Retire only procedural portrait tests; retain pose/head/rig tests. | all-11 portrait bytes/dimensions/identity/bounds units + existing face/rig units; e2e `hero-faces`, `select`, `hud`, `hud-look`, default + rollback; lint/typecheck. Head requests remain intentional until Slice 6; zero-head-network is NOT a criterion here. Vision remains a separate required gate, not implied by focused smoke. |
 | 2 | **Prop-only registry/sprites (NOT DONE)**: B3, B5 prop path, B10 prop sizing remain deferred while rollback is live. B12 select pre-warm removal + GameComplete portrait rewrite implemented as a separate small sub-slice; no registry/sprites deletion here. Result cached-idle consumer corrected in B12 and deferred to Slice 6. | `sprites.test` rewrite; e2e `artscale` (motion branch), `game`, `select`, `stageclear`-path result/complete screens screenshot-checked; props render in `arrows`/`game` specs |
 | 3 | **Independent whole-frame pilot out — implemented before Slice 2**, per dependency-order revision above: frame-art.ts, whole-frames.ts, `frames=1` handling, D whole-frames assets, prepare-whole-frames scripts, sole-purpose wholeframe tests/capture spec. Rollback renderer untouched. | Actual: lint/typecheck + focused retained units 85/85; retirement browser title/game boot × Canvas/WebGL/default/rollback 4/4; prodbuild14/14; src pilot symbol/import search clean. Full units/post-delete full vision/signal not run, not implied. |
-| 4 | **Baked-art out**: B11 manifest path, vite define, build-flags.d.ts, e2e/art.spec, bake scripts + bake.test | `npm run prodbuild` (rewritten exclusivity case), e2e `boot`; bundle grep `assets/manifest.json\|bakedart` = 0 |
+| 4 | **Baked-art out — implemented**, per disposition above: B11 manifest path only (keep rollback queues), vite define/probe, sole build-flags declaration, e2e/art.spec, bake scripts + exclusive bake.test. | Single full `npm run prodbuild` includes source/actual bundle absence and 4 stale-manifest + forced-parameter default/rollback boots; lint/typecheck + retained motion/portrait/body/weapon/FX/font units. Actual results in PROGRESS, no retired gate counted green. |
 | 5 | **Fallback hardening (motion=0 still alive)**: B8, B9, B10 published-missing-frame branch, E motion-loader/loading-errors/motion-look rewrites | `motion-runtime/catalog/scope/clips` units; e2e `motion-loading-errors`, `motion-loader`, `motion-default-coverage`; missing/corrupt pack → visible blocking error, zero legacy frames |
 | 6 | **Renderer + switch deletion (the Phase 5 commit)**: jointly remove B6 head fields/helpers, B7 head imports/loader parts, 33 head/front/rear PNGs; slim all 3 face metadata files + prepare-*-faces scripts ONLY now; all A files, draw/rig/registry/sprites remainders, B10/B11/B13 remainders + B12 Result cached-idle branch, `motionEnabled`, D-delete assets, E1 test deletions, E vision sprite-gate rewrite + bridge replacement, E4 script deletions | full serial: lint, typecheck, `npm run test`, `npm run e2e`, `npm run vision`, `npm run signal` — retired gates recorded retired-by-deletion, incl. arm-chain G6 |
 | 7 | **Part B proof**: prodbuild/coverage `motion=0`-no-effect rewrites, source + built-bundle + network exclusivity search (no legacy texture keys, no head/body/weapon-sheet requests), docs/live-wording sweep | `npm run prodbuild`; repeat essential Part A coverage/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL on the exact post-delete tree; fresh independent review (CMR-24 Part B) |

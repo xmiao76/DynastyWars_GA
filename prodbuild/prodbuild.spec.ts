@@ -19,9 +19,9 @@ import { MIN_WEAPON_REACH_PX } from '../vision/thresholds'
  * bundle genuinely differ: minification, `define` substitution, the relative
  * `base`, and how static files are served.
  *
- * The bug this closes lived in exactly that gap. `__HAS_BAKED_ART__` is a
- * build-time constant, so whether the game asks a server for art is decided by
- * the BUILD, and no dev-server test can tell you what the built bundle does.
+ * The retired baked-art path once let a cached manifest replace shipped art.
+ * Check the actual bundle and requests: even the former debug parameter must
+ * be inert, regardless of what an old deployment or CDN can still serve.
  *
  * These tests run against `npm run preview`, serving the real `dist/`.
  */
@@ -152,28 +152,62 @@ test('the production build boots and renders the shipped art', async ({ page }) 
   expect(pageErrors).toEqual([])
 })
 
-test('the production build never asks a server for baked art it does not ship', async ({ page }) => {
-  const artRequests: string[] = []
-  page.on('request', (req) => {
-    if (/assets\/(manifest\.json|sprites\/|portraits\/)/.test(req.url())) artRequests.push(req.url())
-  })
-  // Serve a stale manifest, exactly as a CDN edge cache or an older
-  // deployment would. The built bundle must not go looking for it.
-  await page.route('**/assets/manifest.json', (route) =>
-    route.fulfill({
+test('retired baked-art ingress is absent from source and the actual dist bundle', async () => {
+  const forbidden = /assets\/(?:manifest\.json|sprites\/|portraits\/)|bakedart|__HAS_BAKED_ART__|hasBakedArt|ArtManifest|loadManifest|startPreload/
+  const source = await Promise.all(['src/game/scenes/BootScene.ts', 'vite.config.ts'].map(path => readFile(path, 'utf8')))
+  for (const text of source) expect(text).not.toMatch(forbidden)
+  const bundles = (await readdir(join('dist', 'assets'))).filter(file => file.endsWith('.js'))
+  expect(bundles.length, 'check built JavaScript, not Vite dev source URLs').toBeGreaterThan(0)
+  for (const file of bundles) expect(await readFile(join('dist', 'assets', file), 'utf8'), file).not.toMatch(forbidden)
+})
+
+for (const renderer of ['canvas', 'webgl']) for (const rollback of [false, true]) {
+  test(`retired bakedart parameter cannot revive cached art (${renderer}, ${rollback ? 'rollback' : 'default'})`, async ({ page }) => {
+    const artRequests: string[] = []
+    const errors: string[] = []
+    page.on('pageerror', error => errors.push(String(error)))
+    page.on('request', request => {
+      // Match only the exclusive old delivery paths, never shared portrait PNGs
+      // or ordinary /src/game/adapters/sprites.ts Vite development requests.
+      if (/\/assets\/(manifest\.json(?:[?#]|$)|sprites\/|portraits\/)/.test(new URL(request.url()).pathname)) artRequests.push(request.url())
+    })
+    await page.route('**/assets/manifest.json', route => route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ sprites: { zhaoyun: ['idle'] }, portraits: [] }),
-    }),
-  )
-
-  await page.goto(`${PREVIEW}/?renderer=canvas&autopilot=1`, { waitUntil: 'networkidle' })
-  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
-  await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42))
-  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
-
-  expect(artRequests, 'the built bundle went looking for baked art it does not ship').toEqual([])
-})
+      body: JSON.stringify({ sprites: { zhaoyun: ['idle', 'attack'] }, portraits: ['zhaoyun'] }),
+    }))
+    await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1&bakedart=1${rollback ? '&motion=0' : ''}`, { waitUntil: 'networkidle' })
+    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
+    expect(new URL(page.url()).searchParams.get('motion')).toBe(rollback ? '0' : null)
+    const boot = await page.evaluate(() => {
+      const engine = window.__DW_GAME__!
+      const resources = engine.registry.get('paintedHeroArt')
+      return {
+        renderer: engine.renderer.type,
+        portraits: Object.keys(resources.portraits).length,
+        heads: Object.keys(resources.heroes).length,
+        bodies: Object.keys(resources.bodies).length,
+        weapons: !!resources.weapons,
+        textures: ['ui:keyart-photo', 'fx:spark', 'fx:burst', 'fx:dust'].map(key => engine.textures.exists(key)),
+        font: document.fonts.check('16px DynastyDisplay'),
+        motionKeys: engine.textures.getTextureKeys().filter(key => key.startsWith('motion-source:')),
+      }
+    })
+    expect(boot).toEqual({ renderer: renderer === 'canvas' ? 1 : 2, portraits: 11, heads: 11, bodies: 11,
+      weapons: true, textures: [true, true, true, true], font: true, motionKeys: [] })
+    await page.evaluate(() => window.__DW__!.startGame('zhaoyun', 42))
+    await expect.poll(() => page.evaluate(() => {
+      const live = window.__DW_GAME__!.scene.getScene('game') as Phaser.Scene & {
+        built: boolean; sim?: Sim; sprites: Map<number, Phaser.GameObjects.Sprite>
+      }
+      const sprite = live.sim && live.sprites.get(live.sim.playerId)
+      if (!live.built || !sprite?.visible || sprite.alpha <= 0) return ''
+      return sprite.frame.name === '__BASE' ? sprite.texture.key : String(sprite.frame.name)
+    }), { timeout: 15_000 }).toMatch(rollback ? /^entity:zhaoyun:idle$/ : /^entity:zhaoyun:motion:/)
+    expect(artRequests, 'bakedart=1 must be inert even with an available stale manifest').toEqual([])
+    expect(errors).toEqual([])
+  })
+}
 
 test('the production build draws its HUD bars', async ({ page }) => {
   await page.goto(`${PREVIEW}/?renderer=canvas&autopilot=1`, { waitUntil: 'networkidle' })
