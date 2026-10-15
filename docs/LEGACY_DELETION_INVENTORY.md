@@ -21,6 +21,14 @@ must be re-verified at deletion time.
 
 ## Decision required before Slice 1 (D0 — procedural portrait fallback)
 
+**D0 DECISION RECORDED (Slice 0, 2026-10-15): D0 = painted-only.** The 11
+painted `*-portrait.png` files are preserved as shared assets (D-keep below);
+a missing/failed portrait renders no portrait texture (existing
+`ensurePortraitTextures` behaviour when `drawKindPortrait` returns false).
+The procedural-fallback alternative mapped in the last paragraph of this
+section is the rejected alternative and is retained only as the record of
+what would change if the decision were reversed.
+
 [drawKindPortrait](../src/game/art/registry.ts#L257-L290) has two branches:
 painted (`resources.heroes[kind].portrait` blit, :266–270) and procedural
 (`drawPortraitFigure`, :271–289). All 11 kinds ship a painted `*-portrait.png`
@@ -28,8 +36,8 @@ painted (`resources.heroes[kind].portrait` blit, :266–270) and procedural
 inventory assumes **D0 = painted-only** (a missing portrait renders no portrait
 texture, exactly as `ensurePortraitTextures` already behaves when
 `drawKindPortrait` returns false,
-[sprites.ts:192](../src/game/adapters/sprites.ts#L192)). If the manager instead
-keeps the procedural fallback, then `portrait.ts`, `faces.ts`, and from
+[sprites.ts:192](../src/game/adapters/sprites.ts#L192)). If the decision were
+instead to keep the procedural fallback, then `portrait.ts`, `faces.ts`, and from
 `draw.ts` the symbols `figureShapes/headRadius/plumePolygon/PLUME/HeadParts`
 move from A to C-keep, and `poses.ts`/`figures.ts` stay B. Everything else is
 unchanged.

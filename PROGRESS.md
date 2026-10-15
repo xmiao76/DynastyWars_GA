@@ -4,6 +4,10 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-15 — CMR-24 deletion Slice 0: D0 portrait decision recorded (docs only)
+
+- Work `cmr24-deletion-slice01`, Slice 0: **D0 = painted-only** recorded at the top of [LEGACY_DELETION_INVENTORY](docs/LEGACY_DELETION_INVENTORY.md) — the 11 painted `*-portrait.png` files are preserved as shared assets (inventory D-keep); a missing/failed portrait renders no portrait texture (existing `ensurePortraitTextures` behaviour). The procedural-fallback alternative (`portrait.ts`/`faces.ts` + `draw.ts` `figureShapes/headRadius/plumePolygon/PLUME/HeadParts` to C-keep) remains mapped in the same section as the rejected alternative. No code, asset or behaviour change in this slice; `?motion=0` untouched. Docs-only local commit. Next: Slice 1 extractions (B1 cel, B2 paths, B4 cell type) as a separate commit.
+
 ### 2026-10-15 — CMR-24 audited e2e batch ledger appended; sole gap (gamepad) run green (IN_PROGRESS, no deletion)
 
 - Work `cmr24-e2e-batch-ledger`: appended §5 to [CAST_MOTION_REVIEW](docs/CAST_MOTION_REVIEW.md) — all **52 `e2e/*.spec.ts` files / 137 tests** (glob + `playwright --list`) accounted exactly once (script-verified 52 rows = 52 files, 0 dup/missing) with post-flip (`da3cde9`+) passing invocations: SB serial `--workers=1` @`77035d7` 23 files/56 tests (killed after #64, counts match `--list`), SC remaining-files @`77035d7` 17 files/52 tests, PR paced solo @`168963e` 4/4 (`.last-run.json` passed, no summary log), GY Guan Yu enabled @`475fe4d` 5 files/9 tests, GP gamepad below. Arithmetic 117 non-gated passed + 9 GY + 11 gated-skip = 137 ✓. Five env-gated harness/look files (`motion-capture`/`motion-look`/`motion-review`/`ui-review`/`wholeframe-look`) recorded **gated-skip, enabled run NOT-RUN-POST-FLIP** — not passes.
