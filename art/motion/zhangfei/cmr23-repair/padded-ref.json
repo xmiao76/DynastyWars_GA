@@ -1,0 +1,286 @@
+{
+  "work": "cmr23-zhangfei-pilot-generate",
+  "zeroGeneration": true,
+  "sources": {
+    "prepared": {
+      "path": "src/game/assets/motion/zhangfei-prepared.json",
+      "sha256": "0d11487e8a1322b0a52bea05e17ebb5689ac33e8a24b089d4d25def045ad96e3"
+    },
+    "sheets": {
+      "sheet": {
+        "path": "src/game/assets/motion/zhangfei-motion-sheet.png",
+        "sha256": "e296de06d6ca9f1b7d6615aaf267e3e16adf8b3f8d43625f833c11521bed92e3"
+      },
+      "actions": {
+        "path": "src/game/assets/motion/zhangfei-actions-sheet.png",
+        "sha256": "dcbbd34d8a4ce2d8631ab80ee1cf371ce1d2f3bdb52f5409703a6fbe38682181"
+      }
+    },
+    "trace": {
+      "path": "artifacts/motion/paired/zhangfei/canvas/trace.json",
+      "sha256": "04cac93b58d7da018a7b2ef53ada9aac256cf00395aba70165c5368a2a130fe0"
+    },
+    "landmarks": {
+      "path": "art/motion/paired-contact-landmarks.json",
+      "sha256": "023432cb8e44a6142f5f820ff1bbcd15edcd88c8ae55841f23597ed390c5d1bb"
+    },
+    "walkSourceSheet": {
+      "path": "art/motion/zhangfei/walk-candidate-2.png",
+      "sha256": "981477d7ffed0ad0290f69197b2f8f82411cbb512013758978aea787190be383",
+      "note": "accepted/banked walk sheet; walk:0 guard is its pack cell restored above"
+    },
+    "restoreMethod": "scripts/paired-contact-measure.mjs restoreCell (trim undone, density-2 full source cell)"
+  },
+  "cells": {
+    "misc:3-settled": {
+      "frame": "misc:3",
+      "srcW": 520,
+      "srcH": 288,
+      "cell": {
+        "x": 0,
+        "y": 0,
+        "w": 324,
+        "h": 244,
+        "trimX": 98,
+        "trimY": 30,
+        "srcW": 520,
+        "srcH": 288,
+        "sheet": "actions"
+      },
+      "bbox": {
+        "alphaPx": 25955,
+        "x": [
+          99,
+          419
+        ],
+        "y": [
+          32,
+          272
+        ]
+      },
+      "boot": {
+        "soleRowPx": 271,
+        "soleRowWidthPx": 22,
+        "rawLowestAlphaRowPx": 272,
+        "groundErrU": -0.5
+      }
+    },
+    "misc:2-donor": {
+      "frame": "misc:2",
+      "srcW": 520,
+      "srcH": 288,
+      "cell": {
+        "x": 0,
+        "y": 1816,
+        "w": 322,
+        "h": 210,
+        "trimX": 99,
+        "trimY": 64,
+        "srcW": 520,
+        "srcH": 288
+      },
+      "bbox": {
+        "alphaPx": 26038,
+        "x": [
+          101,
+          418
+        ],
+        "y": [
+          66,
+          271
+        ]
+      },
+      "boot": {
+        "soleRowPx": 271,
+        "soleRowWidthPx": 21,
+        "rawLowestAlphaRowPx": 271,
+        "groundErrU": -0.5
+      }
+    },
+    "walk:0-guard": {
+      "frame": "walk:0",
+      "srcW": 520,
+      "srcH": 288,
+      "cell": {
+        "x": 0,
+        "y": 0,
+        "w": 353,
+        "h": 228,
+        "trimX": 84,
+        "trimY": 46,
+        "srcW": 520,
+        "srcH": 288
+      },
+      "bbox": {
+        "alphaPx": 21153,
+        "x": [
+          85,
+          434
+        ],
+        "y": [
+          47,
+          271
+        ]
+      },
+      "boot": {
+        "soleRowPx": 271,
+        "soleRowWidthPx": 21,
+        "rawLowestAlphaRowPx": 271,
+        "groundErrU": -0.5
+      }
+    }
+  },
+  "traceHolderTransform": {
+    "sample": "hold4 right-facing (also hold8; frame entity:zhangfei:motion:misc:3), uniform across all 6 victim kinds (asserted in this script)",
+    "display": {
+      "x": 229.3,
+      "y": 220,
+      "scaleX": 0.5,
+      "scaleY": 0.5,
+      "width": 260,
+      "height": 144,
+      "originX": 0.5,
+      "originY": 0.9444444444444444,
+      "displayOriginX": 260,
+      "displayOriginY": 272,
+      "flipX": false,
+      "alpha": 1,
+      "visible": true
+    },
+    "holderEntity": [
+      229.3,
+      220
+    ]
+  },
+  "targetMath": {
+    "worldTargetU": [
+      248,
+      140
+    ],
+    "formula": "cell = displayOrigin + (world - display.xy)/scale (flipX false); canvas = paddedOffset + cell (scale 1:1)",
+    "cellPx": [
+      297.4,
+      112
+    ],
+    "canvasPx": [
+      805.4,
+      480
+    ],
+    "canvasPxBriefed": [
+      805,
+      480
+    ],
+    "checkWorldFromCell": [
+      248,
+      140
+    ]
+  },
+  "existingHands": {
+    "misc:3-shaftFist": {
+      "roi": {
+        "x": 206,
+        "y": 112,
+        "w": 36,
+        "h": 23
+      },
+      "alphaPx": 828,
+      "centroidCellPx": [
+        223.5,
+        123
+      ],
+      "centroidWorldU": [
+        211.05,
+        145.5
+      ],
+      "centroidCanvasPx": [
+        731.5,
+        491
+      ]
+    },
+    "misc:2-donorClaw": {
+      "roi": {
+        "x": 312,
+        "y": 102,
+        "w": 44,
+        "h": 41
+      },
+      "alphaPx": 1106,
+      "centroidCellPx": [
+        331.81,
+        126.18
+      ],
+      "centroidWorldU": [
+        265.21,
+        147.09
+      ],
+      "centroidCanvasPx": [
+        839.81,
+        494.18
+      ]
+    }
+  },
+  "canvas": {
+    "size": [
+      1536,
+      1024
+    ],
+    "fill": "transparent (alpha 0)",
+    "placement": {
+      "offset": [
+        508,
+        368
+      ],
+      "scale": 1,
+      "note": "restored 520x288 cell centred 1:1, pixels unchanged; NO guide/ground/target marks in sent ref"
+    },
+    "groundCanvasY": 640,
+    "originCanvasPx": [
+      768,
+      640
+    ]
+  },
+  "references": {
+    "order1PaddedSettledMisc3": {
+      "path": "art/motion/zhangfei/cmr23-repair/misc3-padded-ref.png",
+      "sha256": "1426a0573608dca24fc807abb6f34b5a4ff9fc740ba983a900b4aee99e7150da",
+      "bytes": 81690,
+      "sent": true
+    },
+    "order2DonorMisc2Cell": {
+      "path": "art/motion/zhangfei/cmr23-repair/misc2-donor-cell.png",
+      "sha256": "ee2da78739a1285a41380be68762eabec947360e13aa277a8760d987b9f67980",
+      "bytes": 74224,
+      "size": [
+        520,
+        288
+      ],
+      "sent": true
+    },
+    "order3WalkGuardCell": {
+      "path": "art/motion/zhangfei/cmr23-repair/walk0-guard-cell.png",
+      "sha256": "a806d80885e51415be5aff78784e8ffd52b89f5ab6e10a4fccb75d21a5e1851f",
+      "bytes": 65310,
+      "size": [
+        520,
+        288
+      ],
+      "sent": true
+    },
+    "restoredMisc3Cell": {
+      "path": "art/motion/zhangfei/cmr23-repair/misc3-restored-cell.png",
+      "sha256": "744192d01cb80d65e97461c92f856be6b8ba7cbb327f04b580393b3cb271f259",
+      "bytes": 73447,
+      "size": [
+        520,
+        288
+      ],
+      "sent": false
+    },
+    "markedPreview": {
+      "path": "art/motion/zhangfei/cmr23-repair/misc3-padded-marked.png",
+      "sha256": "c57b4aac89893f70a9356a8f7a4c15383eeb492afbff80954121f119fc439ea7",
+      "bytes": 97530,
+      "sent": false
+    }
+  }
+}

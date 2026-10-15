@@ -1,0 +1,42 @@
+{
+  "work": "cmr23-zhangfei-pilot-generate",
+  "task": "CMR-23 Zhang Fei settled-grab pilot: exactly ONE isolated single-pose EDIT of the settled misc:3 cell; no pack/gates in this package",
+  "basis": {
+    "settledCell": "zhangfei misc:3 (trace hold4/hold8 grab-hold) is a retracted shaft fist (landmark roi x206 y112 w36 h23, centroid cell (223.5,123) = world (211.05,145.5)); misc:2 donor open claw (roi x312 y102 w44 h41, centroid cell (331.81,126.18) = world (265.21,147.09)) is too far east of the world target (248,140). Pilot redraws only the lead arm of misc:3 into that open gripping hand ending at the target.",
+    "paddedReference": "cmr23-repair/build-padded-ref.mjs (deterministic, double-run identical): restored misc:3 520x288 cell (scripts/paired-contact-measure.mjs restoreCell from the prepared pack) placed unchanged 1:1 centred at (508,368) on a 1536x1024 transparent canvas, no guide/target marks in the sent ref; padded-ref.json records all geometry (figure bbox canvas x607-927 y400-640, ground y640).",
+    "targetMath": {
+      "worldTargetU": [248, 140],
+      "traceHolderTransform": "artifacts/motion/paired/zhangfei/canvas/trace.json hold4 right-facing (frame entity:zhangfei:motion:misc:3, uniform across all 6 victim kinds, asserted by build script): display x229.3 y220 scaleX/Y 0.5 displayOrigin (260,272) flipX false",
+      "formula": "cellX = 260 + (248-229.3)/0.5 = 297.4; cellY = 272 + (140-220)/0.5 = 112.0; canvas = (508,368) + cell = (805.4,480.0), briefed as (805,480); forward check returns world (248,140) exactly",
+      "cellPx": [297.4, 112],
+      "canvasPx": [805.4, 480],
+      "canvasPxBriefed": [805, 480]
+    }
+  },
+  "spec": {
+    "promptFile": "art/motion/zhangfei/cmr23-repair/prompt.txt",
+    "promptSha256": "1978e223fcc990746830b4068d2b9e9229e42dac86efa5b79c1367fa32ad5082",
+    "promptNote": "image_generate prompt = prompt.txt exact text (edit first reference only; preserve body/head/legs/weapon hand/camera/scale/position exactly; redraw only the lead arm into an extended open gripping hand, centroid at canvas (805,480), fingers curling east around an unseen collar at that point, forearm continuous from the shoulder; no victim/collar drawn)"
+  },
+  "ledger": {
+    "path": "art/motion/generation-budget.json",
+    "before": { "globalSummed": 196, "sha256": "557d26d69138986400b9401123663df0963d325485b68766dfa2cd57cd63b8a7", "zhangfeiUsed": 12, "misc": 1 },
+    "after": { "globalSummed": 197, "sha256": "60872e911da6a963b19d46ecf57d8bab88823d08fe361d2d28311acaba5a8cb6", "zhangfeiUsed": 13, "misc": 2 },
+    "capsUnchanged": true,
+    "zhangfeiCap": 16,
+    "totalCap": 200
+  },
+  "provider": {
+    "requested": "gpt",
+    "preference": "gpt per work order; exactly one image_generate EDIT with referenceImages in order, size 1536x1024, no second call/reroll, no text-to-image substitution",
+    "size": "1536x1024",
+    "serving": "TO_BE_RECORDED_AFTER_CALL"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - padded restored settled misc:3 cell (deterministic, this package; pose/camera/scale/ground truth)", "path": "art/motion/zhangfei/cmr23-repair/misc3-padded-ref.png", "sha256": "1426a0573608dca24fc807abb6f34b5a4ff9fc740ba983a900b4aee99e7150da", "size": [1536, 1024] },
+    { "order": 2, "role": "misc:2 donor cell (restored 520x288) - the open gripping claw hand to reproduce, tucked west/up to the target", "path": "art/motion/zhangfei/cmr23-repair/misc2-donor-cell.png", "sha256": "ee2da78739a1285a41380be68762eabec947360e13aa277a8760d987b9f67980", "size": [520, 288] },
+    { "order": 3, "role": "banked Zhang Fei walk guard (walk:0 restored 520x288 cell from the accepted walk pack, walk-candidate-2.png 981477d7...) - identity reference", "path": "art/motion/zhangfei/cmr23-repair/walk0-guard-cell.png", "sha256": "a806d80885e51415be5aff78784e8ffd52b89f5ab6e10a4fccb75d21a5e1851f", "size": [520, 288] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3 (padded misc:3 -> misc:2 donor -> walk:0 guard) after this reserve commit and before the call; same order passed as referenceImages",
+  "status": "RESERVED - reserve-before-call; exactly one gpt isolated misc:3 EDIT in this package; no refunds; candidate lands UNREVIEWED in cmr23-repair/, no pack/gates here"
+}
