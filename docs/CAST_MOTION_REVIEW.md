@@ -290,3 +290,109 @@ vision/prodbuild at `2c3260a`, and full-cast Canvas/WebGL/mobile coverage at
 vision/prodbuild reruns, native-speed review and independent pre-delete
 review are **not** established. Part A is therefore **not green** and legacy
 deletion remains forbidden until those gaps close under CMR-24.
+
+## 5. Audited e2e batch ledger (appended 2026-10-15, work `cmr24-e2e-batch-ledger`)
+
+Every `e2e/*.spec.ts` file (52, enumerated by glob + `playwright test
+--project=chromium --list` = 137 tests) appears exactly once below with its
+post-flip passing invocation, or is marked gated-skip / NOT-RUN-POST-FLIP.
+Post-flip = at or after the default flip `da3cde9`. This disjoint batch
+ledger is the reviewer-accepted alternative to one full invocation; it does
+**not** retroactively make the §2 full run green, and §2/§3 statements about
+that run stand as written.
+
+**Batches (defined once; rows cite the batch id):**
+
+| id | invocation | commit | result | evidence |
+| --- | --- | --- | --- | --- |
+| SB | `playwright test --project=chromium --workers=1` (full suite attempt), 2026-10-15 02:11, killed ~8 min after test #64 | `77035d7767919529844580c8b7a0038c4d8c35c2` | reported 64: 61 ok / 1 x (gamepad #33) / 2 gated-skip; no exit code (killed) | `artifacts/motion/default-flip/final-serial-b/e2e.log` |
+| SC | remaining 26 files / 74 tests, `--workers=2`, 2026-10-15 02:20–02:26 | `77035d7767919529844580c8b7a0038c4d8c35c2` | 55 passed / 1 failed (paced webgl/right) / 18 skipped, exit 1 | `artifacts/motion/default-flip/final-serial-c/e2e-remaining.log` |
+| PR | `xiahoudun-paced-review` solo, 2026-10-15 02:37 | `168963eea57104e7cfc24c6f1b84d43f6754b5a5` | passed (4/4 result dirs, `.last-run.json` status passed, 0 failedTests); no summary log preserved | `test-results/` (local, ignored) |
+| GY | Guan Yu batch with `GUANYU_ACTIONS=1`, 2026-10-15 01:39–01:42 | `475fe4d6a64524c83aa1b2f498d8ece34c139a37` | passed (`.last-run.json` status passed, 0 failedTests; §2 row) — `test-results/` has since been overwritten by PR, so this rests on the §2 record made while the dirs existed | `test-results/` at the time (local, ignored) |
+| GP | `npx playwright test e2e/gamepad.spec.ts --project=chromium --workers=1`, 2026-10-15 03:14 (this work; the only not-run file, run once to close the gap) | `5830c8d7d6f6e419f703932096772ac3130089c7` | **5 passed (31.5s), exit 0** | `artifacts/motion/default-flip/e2e-ledger/gamepad.log` |
+
+Disjointness: SB and SC are disjoint by file except
+`motion-loading-errors` (SB reported only its first test before the kill;
+counted once here via SC's complete 8/8) and the five Guan Yu files
+(gated-skipped in SB/SC, counted once via GY). Earlier partial batches
+(full run at `5d0f511`, tail batch after `e16857a`, §2) are superseded
+history for every file they touched and are not double-counted. Per-file
+test totals are the `--list` counts at `5830c8d`; a row's `ok` count equals
+its total unless marked otherwise.
+
+| # | file | tests | batch | result |
+| ---: | --- | ---: | --- | --- |
+| 1 | anim.spec.ts | 3 | SB | 3 ok |
+| 2 | arrows.spec.ts | 3 | SB | 3 ok |
+| 3 | art.spec.ts | 3 | SB | 3 ok |
+| 4 | artfx.spec.ts | 3 | SB | 3 ok |
+| 5 | artscale.spec.ts | 1 | SB | 1 ok |
+| 6 | audio.spec.ts | 1 | SB | 1 ok |
+| 7 | backdrop-look.spec.ts | 1 | SB | 1 ok |
+| 8 | background.spec.ts | 1 | SB | 1 ok |
+| 9 | body-look.spec.ts | 3 | SB | 3 ok |
+| 10 | boot.spec.ts | 1 | SB | 1 ok |
+| 11 | continue.spec.ts | 1 | SB | 1 ok |
+| 12 | coop.spec.ts | 6 | SB | 6 ok |
+| 13 | finalstage.spec.ts | 1 | SB | 1 ok |
+| 14 | game.spec.ts | 1 | SB | 1 ok |
+| 15 | gamepad.spec.ts | 5 | GP | 5 ok at `5830c8d` after fix `168963e`; retained failures at `77035d7`: SB #33 + solo 4p/1f (`final-serial-c/gamepad.log`, player2.x 96 not >96) |
+| 16 | guanyu-actions.spec.ts | 3 | GY | gate `GUANYU_ACTIONS=1`: run enabled, passed; gated-skip in SC |
+| 17 | guanyu-interactions.spec.ts | 1 | GY | gate `GUANYU_ACTIONS=1`: run enabled, passed (GY batch); gated-skip in SB |
+| 18 | guanyu-mixed-motion.spec.ts | 2 | GY | gate `GUANYU_ACTIONS=1`: run enabled, passed; gated-skip in SC |
+| 19 | guanyu-solo-ko.spec.ts | 1 | GY | gate `GUANYU_ACTIONS=1`: run enabled, passed (GY batch); gated-skip in SB |
+| 20 | guanyu-transitions.spec.ts | 2 | GY | gate `GUANYU_ACTIONS=1`: run enabled, passed; gated-skip in SC |
+| 21 | hero-faces.spec.ts | 3 | SB | 3 ok |
+| 22 | hud.spec.ts | 1 | SB | 1 ok |
+| 23 | hud-look.spec.ts | 4 | SB | 4 ok |
+| 24 | hudpanels.spec.ts | 1 | SB | 1 ok |
+| 25 | introcard.spec.ts | 5 | SB | 5 ok |
+| 26 | juice.spec.ts | 1 | SB | 1 ok |
+| 27 | layout.spec.ts | 3 | SB | 3 ok |
+| 28 | motion-capture.spec.ts | 1 | SC | gate `MOTION_CAPTURE=1` (via `scripts/motion-capture.mjs`): **gated-skip, enabled run NOT-RUN-POST-FLIP** |
+| 29 | motion-default-coverage.spec.ts | 4 | SB | 4 ok |
+| 30 | motion-loader.spec.ts | 5 | SB | 5 ok |
+| 31 | motion-loading-errors.spec.ts | 8 | SC | 8 ok (SB partial 1 ok superseded) |
+| 32 | motion-look.spec.ts | 4 | SC | gate `MOTION_LOOK=1`: **gated-skip, enabled run NOT-RUN-POST-FLIP** |
+| 33 | motion-review.spec.ts | 1 | SC | gate `MOTION_REVIEW=1`: **gated-skip, enabled run NOT-RUN-POST-FLIP** |
+| 34 | orientation.spec.ts | 3 | SC | 3 ok |
+| 35 | paired-grab-capture.spec.ts | 1 | SC | 1 ok (env selects hero/kinds, no skip gate) |
+| 36 | pause.spec.ts | 4 | SC | 4 ok |
+| 37 | probe.spec.ts | 1 | SC | 1 ok |
+| 38 | scenerestart.spec.ts | 1 | SC | 1 ok |
+| 39 | select.spec.ts | 1 | SC | 1 ok |
+| 40 | select-look.spec.ts | 1 | SC | 1 ok |
+| 41 | stage3.spec.ts | 1 | SC | 1 ok |
+| 42 | stageclear.spec.ts | 1 | SC | 1 ok |
+| 43 | title.spec.ts | 2 | SC | 2 ok |
+| 44 | touch.spec.ts | 9 | SC | 9 ok |
+| 45 | touchpause.spec.ts | 1 | SC | 1 ok |
+| 46 | uifont.spec.ts | 4 | SC | 4 ok |
+| 47 | ui-review.spec.ts | 3 | SC | gate `UI_REVIEW=1`: **gated-skip, enabled run NOT-RUN-POST-FLIP** |
+| 48 | wholeframe-look.spec.ts | 2 | SC | gate `WHOLEFRAME_LOOK=1`: **gated-skip, enabled run NOT-RUN-POST-FLIP** |
+| 49 | xiahoudun-lifecycle.spec.ts | 6 | SC | 6 ok |
+| 50 | xiahoudun-motion.spec.ts | 4 | SC | 4 ok |
+| 51 | xiahoudun-paced-review.spec.ts | 4 | PR | 4 passed at `168963e`; retained SC failure at `77035d7`: 3 ok / 1 x (webgl/right) |
+| 52 | xiahoudun-transitions.spec.ts | 4 | SC | 4 ok |
+
+**Ledger tally:** 52 files / 137 tests accounted exactly once — 42
+non-gated files with a complete post-flip passing invocation (SB 23 files,
+SC 17 files, PR 1, GP 1), 5 Guan Yu files passed with their gate enabled
+(GY), and 5 env-gated harness/look files (`motion-capture`, `motion-look`,
+`motion-review`, `ui-review`, `wholeframe-look`) recorded as gated-skip
+with **no enabled post-flip run** — accepted as recorded gated-skips, not
+passes. Test-level arithmetic: non-gated passed = SB 56 + SC 52 (SC's
+55 minus paced's 3 ok, superseded by PR) + PR 4 + GP 5 = **117** = every
+non-gated test; GY enabled passed = **9**; gated-skip-only = 1+4+1+3+2 =
+**11**; 117 + 9 + 11 = **137** ✓. Cross-checks: SB's reported 61 ok =
+56 (its 23 passed files) + gamepad 4 ok + `motion-loading-errors` 1 ok
+(partial, superseded by SC); SC's 18 skipped = 7 Guan Yu tests in its file
+set + the 11 gated-skip-only tests.
+
+Residual honesty: two batch evidences rest on `test-results/.last-run.json`
+without a preserved summary log (GY, PR); SB was killed with no exit code
+(its 23 listed files were fully reported before the kill — counts above
+match `--list` totals per file); the 5 gated harness/look files have no
+enabled post-flip run. Nothing here claims a single-invocation full-suite
+green, closes §3 item 4 as originally worded, or authorizes deletion; it
+supplies the disjoint per-file ledger the reviewer accepted in its place.
