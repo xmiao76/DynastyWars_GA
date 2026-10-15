@@ -55,7 +55,7 @@ export const SPEARMAN_ATTACK_BINDINGS: Record<string, string> = { 'spear.thrust'
 /**
  * State dispatch for the spearman. Unreachable hero states (jump/special)
  * never occur for this kind; the defensive default stays on new
- * art (guard), never the legacy rig.
+ * art (guard), never substitute art.
  */
 export function motionFrameForSpearman(art: MotionArt, entity: MotionEntity): string {
   const t = entity.stateTick

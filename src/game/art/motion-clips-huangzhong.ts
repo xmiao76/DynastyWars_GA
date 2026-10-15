@@ -22,11 +22,9 @@
  * every guard point IS walk:0 and every down point IS fall:4 - the same
  * pattern as Guan Yu's clips.
  *
- * Known shared baseline (pre-existing, not this fighter's defect):
- * motion-player.ts lowCollapse/getup-interrupt paths use guanyu literals
- * ('fall:5/6', 'getup:N') that do not exist in this pack either, so a
- * Huang Zhong dying mid-throw falls back to legacy art for 2-4 ticks -
- * the documented mook behavior, not new here.
+ * The shared motion-player lowCollapse/getup-interrupt paths use this
+ * pack's collapseTail (below) plus its getup:N walkback, so a Huang Zhong
+ * dying mid-throw settles on pack frames; sole-motion has no substitute art.
  */
 import { attackById } from '../../core/attacks'
 import { DYING_TICKS, GETUP_TICKS, JUMP_DURATION, KNOCKDOWN_TICKS, PLAYER_HITSTUN_TICKS } from '../../core/constants'
@@ -47,7 +45,7 @@ export const HUANGZHONG_ATTACK_BINDINGS: Record<string, string> = {
 /**
  * Low-collapse tail (thrown/getup-interrupt continuity): impact then DOWN.
  * Without it the shared player emits guanyu 'fall:5/6' literals that do not
- * exist in this pack (legacy fallback instead of settling).
+ * exist in this pack (a blocking frame error instead of settling).
  */
 export const HUANGZHONG_COLLAPSE_TAIL: [string, string] = ['fall:3', 'fall:4']
 

@@ -2,10 +2,8 @@ import { INK } from './palette'
 import { polyPath } from './paths'
 
 /**
- * The shared cel pipeline, extracted verbatim from `draw.ts` (CMR-24 deletion
- * inventory B1) so shared drawing (props, portrait) no longer depends on the
- * legacy figure renderer. `draw.ts` re-exports these until its own deletion
- * slice; behaviour is unchanged.
+ * The shared cel pipeline (props, portrait drawing), standalone since the
+ * sole-motion cutover removed the figure-rig renderer it was extracted from.
  */
 
 /**

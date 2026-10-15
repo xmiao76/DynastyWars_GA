@@ -94,9 +94,9 @@ out.checks.pixelLandmarks = { contactU: 'TRANSFERRED (same standing OPEN as 12B/
 // 5. Precedent capture support (existing captures, NOT re-run).
 out.checks.captures = {
   rows: canvasReport.validation.checked, hardIntegrity: canvasReport.integrity.hard,
-  published: canvasIndex.capture.runtime.published, fallbackCost: canvasIndex.capture.runtime.legacyFallbackCost,
+  published: canvasIndex.capture.runtime.published,
   manifestMatch: canvasIndex.pack.actualProvenance.manifestSha256 === reg.manifestSha256,
-  verdict: 'SUPPORTS (484/0 motion/legacy rows, 0 hard, published not fallback, manifest match)',
+  verdict: 'SUPPORTS (484/0 motion/legacy rows, 0 hard, published, manifest match)',
 }
 
 out.verdicts = {

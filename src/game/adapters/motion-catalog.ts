@@ -7,8 +7,8 @@
  *
  * Guarantees:
  * - Publication is ATOMIC per fighter: all required pages load, verify and
- *   validate, or the whole fighter falls back to legacy rendering. A failure
- *   never clears other fighters' valid art.
+ *   validate, or the whole fighter fails to publish (sole-motion: the caller
+ *   surfaces a blocking error). A failure never clears other fighters' art.
  * - Concurrent requests for the same pack dedupe onto one in-flight load.
  * - Cancellation bumps a scope epoch; late callbacks from a cancelled scope
  *   are rejected as stale and cannot publish or mutate state.
@@ -17,7 +17,7 @@
  * - Budgets (contract caps, never raised here): pages <= 2048 on the long
  *   edge, decoded motion <= 16 MiB per humanoid, retained cache <= 128 MiB.
  *   The accounting separates network/source bytes, decoded RGBA, GPU and
- *   cloned-canvas estimates; legacy fallback cost is reported, not hidden.
+ *   cloned-canvas estimates.
  */
 
 export interface PackPage {
@@ -152,7 +152,6 @@ export interface BudgetReport {
   /** GPU texture memory retained: page uploads plus display clones. */
   gpuBytes: number
   sourceBytes: number
-  legacyFallbackCost: number
   caps: BudgetCaps
 }
 
@@ -163,7 +162,6 @@ export class MotionAtlasCache {
   private slots = new Map<string, Slot>()
   private epochs = new Map<string, number>()
   private clock = 0
-  private legacyFallbackBytes = 0
 
   constructor(private caps: BudgetCaps = CONTRACT_CAPS) {}
 
@@ -187,15 +185,10 @@ export class MotionAtlasCache {
     }
   }
 
-  /** Register the legacy fallback cost so reports do not hide it. */
-  noteLegacyFallback(sourceBytes: number): void {
-    this.legacyFallbackBytes += sourceBytes
-  }
-
   /**
    * Request a pack. Concurrent requests for the same id+revision share one
    * in-flight load (duplicate-safe). Publication is atomic: any page failure
-   * rejects the whole fighter as legacy, leaving other fighters untouched.
+   * rejects the whole fighter unpublished, leaving other fighters untouched.
    */
   request(manifest: PackManifest, load: PageLoader, scope = 'default'): Promise<LoadResult> {
     const key = `${manifest.id}@${manifest.revision}`
@@ -387,7 +380,6 @@ export class MotionAtlasCache {
       clonedCanvasBytes: cloned,
       gpuBytes: gpu,
       sourceBytes: source,
-      legacyFallbackCost: this.legacyFallbackBytes,
       caps: this.caps,
     }
   }

@@ -1,8 +1,6 @@
 /**
- * Canvas path helpers shared by the figure rig and by shared (non-legacy)
- * drawing such as props. Extracted verbatim from `rig.ts` (CMR-24 deletion
- * inventory B2) so shared code no longer depends on the legacy rig module;
- * `rig.ts` re-exports these until its own deletion slice.
+ * Canvas path helpers for shared drawing such as props, standalone since the
+ * sole-motion cutover removed the figure-rig module they were extracted from.
  */
 
 export interface Pt {

@@ -25,7 +25,7 @@ export interface MotionFrameCell extends MotionCellRect {
   sheet?: 'actions'
   /** CMR-03 repack: trimmed content rect inside the full cell; the display
    *  restores it at (trimX, trimY) inside a srcW x srcH canvas so every
-   *  displayed RGBA/registration is unchanged. Legacy cells omit these. */
+   *  displayed RGBA/registration is unchanged. Untrimmed cells omit these. */
   trimX?: number
   trimY?: number
   srcW?: number
@@ -48,7 +48,7 @@ export interface MotionArt {
    * Per-kind low-collapse tail (thrown/getup-interrupt continuity). Default
    * is Guan Yu's ['fall:5', 'fall:6']; packs whose inventory lacks those
    * frames MUST set their own impact-then-down pair, or the collapse shows
-   * missing frames (legacy fallback) instead of settling.
+   * missing frames (a blocking frame error) instead of settling.
    */
   collapseTail?: [string, string]
 }

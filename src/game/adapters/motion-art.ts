@@ -406,7 +406,7 @@ export interface MotionStageRequest {
   /**
    * First-spawn schedule (wave boundary tick per kind) partitioning the
    * stage roster into the awaited opening set and spawn-ordered deferred
-   * kinds. Omit only for legacy all-opening requests.
+   * kinds. Omit only for unscheduled all-opening requests.
    */
   spawnSchedule?: SpawnScheduleEntry[]
   /** Opening window tick; defaults to the opening wave (0). */

@@ -74,7 +74,7 @@ export function archerFiringPhase(entity: MotionEntity): number | null {
 /**
  * State dispatch for the archer. Unreachable hero states (jump/special)
  * never occur for this kind; the defensive default stays on new
- * art (guard), never the legacy rig.
+ * art (guard), never substitute art.
  */
 export function motionFrameForArcher(art: MotionArt, entity: MotionEntity): string {
   const t = entity.stateTick

@@ -131,19 +131,18 @@ loop stays inert.
   silently change with the texture density; `e2e/artscale.spec.ts` guards that.
   Camera BOUNDS are not used: Phaser's `clampX` assumes a centred origin.
 - The simulation must be deterministic: seeded RNG plus fixed 1/60s timestep; no `Math.random` or wall-clock time in core logic.
-- Character rendering is migrating to sole-motion under the owner-amended
+- Character rendering is sole-motion under the owner-amended
   `docs/MOTION_SOLE_MODE_MIGRATION.md`: CMR-23 is terminal DONE
   (DEFERRED_BY_OWNER / SUPERSEDED gate), NOT original visual PASS (2/60 pass,
   58/60 strict contact failures retained as owner-accepted/deferred visual debt).
-  No additional image generation; mechanics unchanged. CMR-24 remains ready
-  TODO and owes every practical default-URL/coverage/resource/loaded-frame/error/
-  menu/co-op/stage/mobile/Canvas-WebGL/performance gate and independent review
-  before deletion. Only after green remove legacy-only code/art/config/tests/
-  scripts/live requirements preserving shared assets, then repeat essential
-  gates and prove bundle exclusivity. Wave-split 12 MiB/retry-error fixes
-  pre-existed gated review, not retroactively phase-ordered or default-verified.
-  Until the flip lands motion is opt-in; temporary `?motion=0` rollback exists
-  only during default-on pre-deletion. No early deletion, push/deploy or new spend.
+  No additional image generation; mechanics unchanged. The CMR-24 joint
+  cutover has landed: motion is unconditional, the legacy renderer/switch is
+  deleted (shared assets preserved), and `?motion=0` is inert - there is no
+  rollback or substitute-art path; load/frame failures are blocking errors.
+  CMR-24 remains IN_PROGRESS and still owes the Part B repeat of the essential
+  coverage/resource/loaded-frame/error/menu/co-op/stage/mobile/Canvas-WebGL/
+  performance gates, bundle-exclusivity proof and independent review before
+  DONE. No push/deploy or new spend.
 - Automated browser runs (e2e, producer signals) default to the canvas
   renderer (`?renderer=canvas`) and the autopilot debug bridge
   (`?autopilot=1`) for stability. The visual signal ALSO checks WebGL,

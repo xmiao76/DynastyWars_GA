@@ -10,8 +10,8 @@
  * Core definitions (`src/core/*`) stay read-only and authoritative: windows,
  * hitstun and firing cadence below are DERIVED from them at construction, so
  * no profile can invent a capability the source does not have. Unknown
- * bindings fail validation - a kind without a pack falls back to normal-stage
- * rendering exactly as before (adapters keep that fallback).
+ * bindings fail validation - sole-motion has no substitute rendering, so a
+ * kind without a pack is a blocking error at the adapters.
  */
 import { CHARACTERS } from '../../core/characters'
 import { ENEMIES } from '../../core/enemies'

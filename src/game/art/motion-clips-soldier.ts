@@ -55,7 +55,7 @@ export const SOLDIER_ATTACK_BINDINGS: Record<string, string> = { 'soldier.swing'
 /**
  * State dispatch for the soldier. Unreachable hero states (jump/special)
  * never occur for this kind; the defensive default stays on new
- * art (guard), never the legacy rig.
+ * art (guard), never substitute art.
  */
 export function motionFrameForSoldier(art: MotionArt, entity: MotionEntity): string {
   const t = entity.stateTick

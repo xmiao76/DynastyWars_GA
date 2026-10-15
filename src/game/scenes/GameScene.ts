@@ -684,7 +684,7 @@ export class GameScene extends Phaser.Scene {
   private fitSprite(sprite: Phaser.GameObjects.Sprite, kind: string): void {
     const motion = heroArtResources(this)?.motions?.[kind]
     // Motion frames are shared atlas frames named `entity:<kind>:motion:*`;
-    // legacy pose textures keep their plain `__BASE` frame name.
+    // non-motion (prop) textures keep their plain `__BASE` frame name.
     if (motion && sprite.frame.name.includes(':motion:')) {
       // Motion boxes share a fixed art-unit scale; extra margins never resize
       // the fighter. Ground registration is inside the padded cell.
@@ -694,9 +694,9 @@ export class GameScene extends Phaser.Scene {
     }
     sprite.setOrigin(0.5, 1)
     const standingH = artDisplayHeight(kind) ?? 92
-    const idleKey = textureKeyFor(kind)
-    const idleTex = this.textures.exists(idleKey) ? this.textures.get(idleKey).get() : sprite.texture.get()
-    const scale = standingH / Math.max(1, idleTex.height)
+    const baseKey = textureKeyFor(kind)
+    const baseTex = this.textures.exists(baseKey) ? this.textures.get(baseKey).get() : sprite.texture.get()
+    const scale = standingH / Math.max(1, baseTex.height)
     const tex = sprite.texture.get()
     sprite.setDisplaySize(Math.max(1, tex.width * scale), Math.max(1, tex.height * scale))
   }
@@ -711,7 +711,7 @@ export class GameScene extends Phaser.Scene {
       const prop = isPropKind(entity.kind)
       let invalidFrame: string | undefined
       const motionFrame = prop || !isMotionPackKind(entity.kind) ? undefined : ensureMotionFrame(this, renderEntity, (detail) => { invalidFrame = detail })
-      // No humanoid can substitute legacy art in motion mode, even if its
+      // Sole-motion: no humanoid can substitute other art, even if its
       // catalog entry is absent or a formerly valid published frame is lost.
       if (!motionFrame && !prop) {
         this.sprites.get(entity.id)?.destroy()

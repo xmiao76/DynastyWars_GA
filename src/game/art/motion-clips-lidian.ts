@@ -45,7 +45,7 @@ export const LIDIAN_ATTACK_BINDINGS: Record<string, string> = {
 /**
  * Low-collapse tail (thrown/getup-interrupt continuity): impact then DOWN.
  * Without it the shared player emits guanyu 'fall:5/6' literals that do not
- * exist in this pack (legacy fallback instead of settling).
+ * exist in this pack (a blocking frame error instead of settling).
  */
 export const LIDIAN_COLLAPSE_TAIL: [string, string] = ['fall:3', 'fall:4']
 

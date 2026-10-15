@@ -13,7 +13,7 @@
  * - `prefetch`: optional future-stage kinds admitted only inside the
  *   remaining entry budget (best effort, never required here).
  * - `unsupported`: wanted kinds with no catalogued pack; never requested
- *   (legacy rendering today, a loud error in the sole-mode end state).
+ *   (sole-motion: the runtime surfaces a loud blocking error).
  *
  * The 12 MiB stage-entry cap now charges only NEW (uncached) immediate
  * bytes: a kind already published from a previous stage costs no entry
@@ -21,14 +21,14 @@
  * never counted against the entry cap; retained/decode/page caps live in
  * the atlas cache and are unchanged. An opening kind that cannot fit the
  * entry cap is bumped to the front of `deferred` and flagged
- * (`overBudget`/`entryOverBudget`) - ceilings are never raised, and for now
- * the runtime keeps its legacy fallback until that pack lands.
+ * (`overBudget`/`entryOverBudget`) - ceilings are never raised; sole-motion
+ * gates that kind's spawn until its pack lands (no substitute art).
  *
  * "Tick" is the spawn-schedule tick supplied by the caller (the core has no
  * fixed tick for later waves: a wave spawns when the previous one clears).
  * The stage adapter supplies the wave boundary index as the tick (opening
  * wave 0, boss = wave count), which orders kinds by first possible spawn.
- * Callers that supply no schedule keep the legacy all-opening behaviour:
+ * Callers that supply no schedule keep the unscheduled all-opening behaviour:
  * every stage kind is an opening candidate in roster order.
  */
 
@@ -57,7 +57,7 @@ export interface StageMotionScopeInput {
   budgetBytes: number
   /**
    * First-spawn schedule for stage kinds, in spawn order. Kinds may repeat
-   * (later waves); only the first entry counts. Omit for the legacy
+   * (later waves); only the first entry counts. Omit for the unscheduled
    * all-opening policy (every stage kind an opening candidate).
    */
   spawnSchedule?: ReadonlyArray<SpawnScheduleEntry>
@@ -72,7 +72,7 @@ export interface StageMotionScopeInput {
 
 export interface ScheduledKind {
   kind: string
-  /** First-spawn tick (heroes: 0; unscheduled legacy kinds: 0). */
+  /** First-spawn tick (heroes: 0; unscheduled kinds: 0). */
   firstSpawnTick: number
   /** Catalogued source bytes (0 when the kind has no pack). */
   sourceBytes: number
@@ -113,8 +113,8 @@ export function stageMotionScope(input: StageMotionScopeInput): StageMotionScope
   const scheduled = input.spawnSchedule !== undefined
 
   // First-spawn tick and sequence per kind. Scheduled kinds sort by tick,
-  // then by first appearance in the schedule; unscheduled kinds (legacy
-  // callers, or roster extras a schedule forgot) count as opening kinds in
+  // then by first appearance in the schedule; unscheduled kinds (callers
+  // without a schedule, or roster extras one forgot) count as opening kinds in
   // roster order so nothing required is silently dropped behind the boss.
   const firstTick = new Map<string, number>()
   const sequence = new Map<string, number>()
@@ -183,12 +183,12 @@ export function stageMotionScope(input: StageMotionScopeInput): StageMotionScope
   }
 
   // Priority order is hero, second player, then stage kinds in first-spawn
-  // order. Greedy like the legacy policy: a candidate that does not fit is
+  // order. Greedy like the all-opening policy: a candidate that does not fit is
   // bumped (not dropped) and smaller later candidates may still fit.
   for (const kind of heroes) place(kind, true)
   for (const kind of stageKinds) place(kind, tickOf(kind) <= openingTick)
 
-  // Optional future-stage prefetch keeps the legacy rule: only inside the
+  // Optional future-stage prefetch keeps the same rule: only inside the
   // entry budget left over after the (uncached) immediate set.
   const prefetch: string[] = []
   let plannedBytes = immediateBytes

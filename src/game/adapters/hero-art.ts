@@ -86,7 +86,7 @@ export function publishHeroArt(scene: Phaser.Scene): void {
       const sig = decodedSignature(src)
       if (sig && signatureMatches(sig, meta.signatures[part])) images[part] = src
     }
-    // Publish only validated shared portraits; legacy rig layers are not loaded.
+    // Publish only validated shared portraits.
     if (images.portrait) portraits[id] = { id, revision: meta.revision, portrait: images.portrait }
   }
   const prev = scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined

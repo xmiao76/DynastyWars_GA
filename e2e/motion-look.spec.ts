@@ -107,15 +107,25 @@ for (const [variant, query, renderer] of [
   })
 }
 
-test('missing sheet rejects motion pack and keeps original character art', async ({ page }) => {
-  await page.route('**/assets/motion/guanyu-motion-sheet.png*', (route) => new URL(route.request().url()).searchParams.has('import') ? route.continue() : route.abort())
-  await page.goto('/?renderer=canvas&autopilot=1&motion=1')
+// Sole-motion: a missing sheet is a blocking error, never substitute art
+// (converted from the pre-cutover "keeps original character art" expectation;
+// the same behaviour is covered in depth by e2e/motion-loading-errors.spec.ts).
+test('missing sheet rejects motion pack with a blocking error', async ({ page }) => {
+  await page.route('**/*guanyu-motion-sheet.png*', (route) => route.request().resourceType() === 'fetch' ? route.abort('failed') : route.continue())
+  await page.goto('/?renderer=canvas&autopilot=1')
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
   expect(await page.evaluate(() => Object.keys(window.__DW_GAME__?.scene.getScene('boot').registry.get('paintedHeroArt')?.motions ?? {}))).toEqual([])
   await page.evaluate(() => window.__DW__?.startGame('guanyu', 42, 'stage1'))
-  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+  const errorOf = (): Promise<{ kind: string; failure: string; final: boolean } | null> => page.evaluate(() => {
+    const game = window.__DW_GAME__!.scene.getScene('game') as unknown as { motionErrorState(): { kind: string; failure: string; final: boolean } | null }
+    return game.motionErrorState()
+  })
+  await expect.poll(async () => (await errorOf())?.kind, { timeout: 15_000 }).toBe('guanyu')
+  expect(await errorOf()).toMatchObject({ kind: 'guanyu', failure: 'missing', final: true })
   expect(await page.evaluate(() => {
-    const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
-    return game.sprites.get(game.sim.playerId)!.frame.name === '__BASE' ? game.sprites.get(game.sim.playerId)!.texture.key : game.sprites.get(game.sim.playerId)!.frame.name
-  })).toBe('entity:guanyu:idle')
+    const scene = window.__DW_GAME__!.scene.getScene('game')
+    const title = scene.children.list.find((o) => o.name === 'motionErrorTitle') as unknown as { visible: boolean; text: string } | undefined
+    const game = scene as unknown as LiveGame
+    return { titleVisible: title?.visible, titleText: title?.text, spriteCount: game.sprites.size }
+  })).toEqual({ titleVisible: true, titleText: 'MOTION ART FAILED TO LOAD', spriteCount: 0 })
 })
