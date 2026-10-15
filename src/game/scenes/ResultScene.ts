@@ -8,6 +8,7 @@ import { liveStyle } from '../ui/theme'
 import { RESULT_CHIP, resultChipRow } from '../ui/hudlayout'
 import { CHIP_PLATE_TEX, VICTORY_TEX, ensureFlowArt } from '../art/flowart'
 import { watchConfirmButton } from '../adapters/gamepad'
+import { ensurePortraitTextures, portraitKeyFor } from '../adapters/sprites'
 import { hasTouch } from '../adapters/touch'
 import { consumePendingStart, type BridgeState } from '../debug/bridge'
 import { useLogicalViewport } from '../ui/viewport'
@@ -62,25 +63,22 @@ export class ResultScene extends Phaser.Scene {
     glow.setBlendMode('ADD')
     addVignette(this, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0.6)
 
-    // Hero key art: the cleared hero stands proudly at screen left/right,
-    // flanking the dialog. Falls back to a framed emblem if art is missing.
-    const heroKey = `entity:${charId}:idle`
+    // Shared painted key art, independent of which fighter poses were cached.
+    // Keep the original flanking centres, bottom baseline and display height;
+    // the dialog stays in front, with the mirrored right portrait translucent.
+    ensurePortraitTextures(this, [charId])
+    const heroKey = portraitKeyFor(charId)
     if (this.textures.exists(heroKey)) {
-      // Sized by DISPLAY height, never by a raw scale factor. A raw scale is a
-      // multiplier on whatever the texture happens to measure, so the moment
-      // sprite textures were rasterized at device density these heroes doubled
-      // and swallowed the screen - while every metric stayed green, because a
-      // frame full of hero is not dark, flat or empty. Every other scene sizes
-      // its figures this way; this was the one place that did not.
       const frame = this.textures.get(heroKey).get()
       const w = (frame.width / Math.max(1, frame.height)) * HERO_ART_HEIGHT
-      const left = this.add.sprite(84, SCREEN_HEIGHT - 30, heroKey)
-      left.setOrigin(0.5, 1).setDisplaySize(w, HERO_ART_HEIGHT)
-      const right = this.add.sprite(SCREEN_WIDTH - 84, SCREEN_HEIGHT - 30, heroKey)
-      right.setOrigin(0.5, 1).setDisplaySize(w, HERO_ART_HEIGHT).setFlipX(true).setAlpha(0.6)
-    } else {
-      this.add.rectangle(84, SCREEN_HEIGHT - 50, 34, 60, 0xc8a828, 0.6).setOrigin(0.5, 1)
-      this.add.rectangle(SCREEN_WIDTH - 84, SCREEN_HEIGHT - 50, 34, 60, 0xc8a828, 0.6).setOrigin(0.5, 1)
+      for (const [x, mirrored] of [[84, false], [SCREEN_WIDTH - 84, true]] as const) {
+        const y = SCREEN_HEIGHT - 30
+        const alpha = mirrored ? 0.6 : 1
+        this.add.rectangle(x, y + 2, w + 4, HERO_ART_HEIGHT + 4, 0x241a0a)
+          .setOrigin(0.5, 1).setStrokeStyle(1, 0xa87818).setAlpha(alpha)
+        this.add.image(x, y, heroKey).setOrigin(0.5, 1)
+          .setDisplaySize(w, HERO_ART_HEIGHT).setFlipX(mirrored).setAlpha(alpha)
+      }
     }
 
     // The victory dialog: the parchment scroll on lacquer rails.

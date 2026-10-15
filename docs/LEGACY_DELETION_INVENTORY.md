@@ -1,6 +1,6 @@
 # Legacy deletion inventory — exact file-level lists (CMR-24 Phase 5 prep)
 
-Status: **partial portrait isolation + B12 select/ending migration implemented;
+Status: **partial portrait isolation + B12 select/result/ending migration implemented;
 NOT Slice 1 or Slice 2 full DONE.**
 This document grants no deletion authority. Original inventory/review findings
 below are historical at their cited commits; the current bounded work order
@@ -274,6 +274,8 @@ rename to avoid confusion).
 
 ### B12. Menu/result dependencies — select/ending sub-slice implemented
 
+**Result shared-portrait follow-up also implemented (2026-10-15); details below.**
+
 **2026-10-15, `cmr24-menu-legacy-dependency-removal`, bounded attempt 1:**
 - [SelectScene.ts](../src/game/scenes/SelectScene.ts): removed ONLY the unused
   `ensureEntityTextures(this,[...CHARACTER_ORDER])` call/import. Retained
@@ -287,24 +289,31 @@ rename to avoid confusion).
   (within the old 62px height). Existing victory panel, text and navigation
   unchanged. Missing portraits are omitted, never procedurally substituted;
   no motion-frame/all-cast network preload was added.
-- **Inventory correction, not a scope expansion:** [ResultScene:67–83](../src/game/scenes/ResultScene.ts#L67-L83)
-  still conditionally consumes a cached `entity:<char>:idle` texture, otherwise
-  displays its existing emblem rectangles. It does not generate textures.
-  The original claim that Result used flowart only / GameComplete was the sole
-  menu/result figure consumer was inaccurate. Result is untouched in this
-  bounded package; its residual conditional branch must be resolved with the
-  renderer/switch slice. [GameOverScene.ts](../src/game/scenes/GameOverScene.ts)
-  and [TitleScene.ts](../src/game/scenes/TitleScene.ts) have no figure imports
-  and remain untouched.
+- **Historical inventory correction:** Result conditionally consumed a cached
+  `entity:<char>:idle` texture or emblem rectangles; the original claim that it
+  used flowart only was inaccurate. That residual is now removed by the separate
+  `cmr24-result-shared-portrait` bounded attempt 1:
+  [ResultScene](../src/game/scenes/ResultScene.ts) ensures the actual `charId`'s
+  shared painted portrait, with no idle-cache read, figure generation or emblem/
+  procedural fallback. Both 116.1×129 logical-px images retain centres x84/x396
+  and bottom y240, lacquer/gold frames and the mirrored translucent right image.
+  The existing dialog stays in front; payload/labels/navigation are unchanged.
+  [GameOverScene.ts](../src/game/scenes/GameOverScene.ts) and
+  [TitleScene.ts](../src/game/scenes/TitleScene.ts) remain untouched.
 - This is **B12 only, not full Slice 2**: registry/sprites prop surgery and the
   rollback fighter/head resources remain live and unchanged. Head/metadata/
   script deletion is still deferred to joint renderer + switch **Slice 6**.
 - Focused [shared-screen spec](../e2e/motion-shared-screens.spec.ts) covers
   Canvas/WebGL × default/`motion=0`, selected Wei Yan portrait/key/nonblank
   rendered interiors/bounds, empty entity texture cache before stage, no
-  menu motion PNG requests, real select confirm, stage3 `forceResult()` →
-  Enter → gamecomplete → title. This is a final-stage transition fixture, not
-  a new combat-clear claim. Check results and personally inspected screenshots
+  menu motion PNG requests and real select confirm. Result coverage adds fresh
+  title → direct result with an empty fighter cache (both portrait images,
+  exposed rendered regions, exact centres/height/baseline/mirror/alpha and no
+  `entity:`-key scene images), nonzero score/time/lives, and Enter → stage2
+  carrying hero/co-op/score/lives/seed/totalTicks. Stage3 `forceResult()` → Enter
+  → gamecomplete → title remains a transition fixture, not a combat-clear claim;
+  [stageclear](../e2e/stageclear.spec.ts) separately verifies natural stage1 clear
+  with the cleared Zhao Yun portraits and score label. Actual checks/screenshots
   are recorded in [PROGRESS](../PROGRESS.md).
 
 ### B13. [debug/bridge.ts](../src/game/debug/bridge.ts) — replace `registerAllArt`
