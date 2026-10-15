@@ -710,8 +710,10 @@ export class MotionRuntime {
   private async attemptKind(scene: Phaser.Scene, kind: string): Promise<MotionLoadOutcome> {
     const existing = this.installing.get(kind)
     if (existing) return existing
+    const startEpoch = this.cache.epoch('stage')
     const run = (async (): Promise<MotionLoadOutcome> => {
       const outcome = await this.loadKindInner(scene, kind)
+      if (this.cache.epoch('stage') !== startEpoch) return { ok: false, failure: 'cancelled' }
       if (outcome.ok) {
         this.resetFailure(kind)
       } else if (outcome.failure !== 'cancelled') {
@@ -740,21 +742,31 @@ export class MotionRuntime {
       return { ok: true }
     }
     const startEpoch = this.cache.epoch('stage')
-    const res = await this.track(this.cache.request(manifest, this.pageLoader(kind, def), 'stage'))
+    const pendingBytes = this.pendingBytes // this episode owns its bytes and cleanup
+    const res = await this.track(this.cache.request(manifest, this.pageLoader(kind, def, pendingBytes, startEpoch), 'stage'))
     if (!res.ok) return { ok: false, failure: res.failure ?? 'corrupt' }
     if (this.cache.epoch('stage') !== startEpoch) return { ok: false, failure: 'cancelled' }
     try {
-      await this.install(scene, kind, def)
+      const decoded = await this.install(kind, def, pendingBytes, startEpoch)
+      if (!decoded || this.cache.epoch('stage') !== startEpoch) return { ok: false, failure: 'cancelled' }
+      // No await between the epoch check and the entire publication commit.
+      for (const { page, image } of decoded) {
+        if (scene.textures.exists(page.sourceKey)) scene.textures.remove(page.sourceKey)
+        scene.textures.addImage(page.sourceKey, image as unknown as HTMLImageElement)
+      }
+      installMotionFrames(scene, kind, def.meta())
       const art = publishMotionArtRecord(scene, def.meta(), this.io.makeCtx, def.clips())
       if (!art) throw new Error(`wrong-signature: pixel signature mismatch for ${kind}`)
       this.markHeld(scene, kind)
       return { ok: true }
     } catch (err) {
+      // A stale decode (including a rejection) owns no current textures or slot.
+      if (this.cache.epoch('stage') !== startEpoch) return { ok: false, failure: 'cancelled' }
       this.uninstall(scene, kind)
       this.cache.invalidate(kind)
       return { ok: false, failure: classifyError(err) }
     } finally {
-      for (const page of def.pages) this.pendingBytes.delete(byteKey(kind, page.name))
+      for (const page of def.pages) pendingBytes.delete(byteKey(kind, page.name))
     }
   }
 
@@ -772,7 +784,8 @@ export class MotionRuntime {
   cancelLoads(): void {
     for (const ac of this.aborts.values()) ac.abort()
     this.aborts.clear()
-    this.pendingBytes.clear()
+    this.pendingBytes = new Map()
+    this.installing.clear() // a new episode must not join an old held decode
     this.cache.cancelScope('stage')
   }
 
@@ -792,7 +805,7 @@ export class MotionRuntime {
     }
   }
 
-  private pageLoader(kind: string, def: MotionPackDef): PageLoader {
+  private pageLoader(kind: string, def: MotionPackDef, pendingBytes: Map<string, Uint8Array>, startEpoch: number): PageLoader {
     return async (page) => {
       const key = byteKey(kind, page.name)
       const ac = new AbortController()
@@ -801,27 +814,32 @@ export class MotionRuntime {
       try {
         const bytes = await this.io.fetchBytes(def.url[page.name] ?? '', ac.signal)
         const sha256 = await this.io.sha256(bytes)
-        if (bytes.length > 0) this.pendingBytes.set(key, bytes)
+        if (bytes.length > 0 && this.cache.epoch('stage') === startEpoch) pendingBytes.set(key, bytes)
         return { bytes, sha256 }
       } finally {
         clearTimeout(timer)
-        this.aborts.delete(key)
+        if (this.aborts.get(key) === ac) this.aborts.delete(key)
       }
     }
   }
 
-  private async install(scene: Phaser.Scene, kind: string, def: MotionPackDef): Promise<void> {
+  private async install(
+    kind: string, def: MotionPackDef, pendingBytes: Map<string, Uint8Array>, startEpoch: number,
+  ): Promise<Array<{ page: PackPage; image: CanvasImageSource }> | undefined> {
+    const decoded: Array<{ page: PackPage; image: CanvasImageSource }> = []
     for (const page of def.pages) {
-      const bytes = this.pendingBytes.get(byteKey(kind, page.name))
+      const bytes = pendingBytes.get(byteKey(kind, page.name))
       if (!bytes?.length) throw new Error(`missing: no bytes for ${page.name}`)
       const image = await this.io.decode(bytes)
+      if (this.cache.epoch('stage') !== startEpoch) return undefined
       if (image.width !== page.width || image.height !== page.height) {
         throw new Error(`corrupt: ${page.name} decoded ${image.width}x${image.height}, expected ${page.width}x${page.height}`)
       }
-      if (scene.textures.exists(page.sourceKey)) scene.textures.remove(page.sourceKey)
-      scene.textures.addImage(page.sourceKey, image as unknown as HTMLImageElement)
+      decoded.push({ page, image })
     }
-    installMotionFrames(scene, kind, def.meta())
+    // The caller rechecks after awaiting this staging operation, then commits
+    // every page/frame/registry/reference change without another await.
+    return decoded
   }
 
   private uninstall(scene: Phaser.Scene, kind: string): void {

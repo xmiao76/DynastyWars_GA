@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import type Phaser from 'phaser'
 import { STAGES } from '../../src/core/stage'
 import { CONTRACT_CAPS, type BudgetCaps } from '../../src/game/adapters/motion-catalog'
@@ -647,6 +647,122 @@ describe('sole-motion retry-once failure semantics', () => {
 })
 
 describe('cancellation, stale callbacks and late joins', () => {
+  for (const cancellation of ['shutdown', 'deadline'] as const) {
+    it(`held decode: ${cancellation} cannot mutate textures, frames, publication or references`, async () => {
+      const fake = makeScene()
+      const io = makeIo(okPages)
+      const rt = new MotionRuntime(io)
+      expect(await rt.loadKind(fake.scene, 'soldier')).toEqual({ ok: true })
+      const warmArt = fake.motions()['soldier']
+      const warmTexture = fake.textures.get(motionTextureKeys('soldier').sheet)
+      let release!: () => void
+      let started!: () => void
+      const held = new Promise<void>((resolve) => { release = resolve })
+      const decoding = new Promise<void>((resolve) => { started = resolve })
+      const decode = io.decode
+      io.decode = async (bytes) => {
+        const image = await decode(bytes)
+        // Hold the SECOND page, after all page hashes have been validated.
+        if (bytes.length === ACTION_BYTES.length) { started(); await held }
+        return image
+      }
+      vi.useFakeTimers()
+      try {
+        const pending = rt.prepareStage(fake.scene, { hero: 'guanyu', stageKinds: [], futureKinds: [] })
+        const joined = rt.loadKind(fake.scene, 'guanyu')
+        await decoding
+        expect(io.calls).toHaveLength(3) // warm soldier + both verified GU pages
+        if (cancellation === 'shutdown') {
+          rt.cancelLoads()
+          rt.releaseScene(fake.scene)
+        } else {
+          await vi.advanceTimersByTimeAsync(io.stageTimeoutMs)
+        }
+        const add = vi.spyOn(fake.scene.textures, 'addImage')
+        const remove = vi.spyOn(fake.scene.textures, 'remove')
+        const publish = vi.spyOn(fake.scene.registry, 'set')
+        const cache = (rt as unknown as { cache: { acquire(kind: string): void } }).cache
+        const acquire = vi.spyOn(cache, 'acquire')
+        release()
+        const report = await pending
+        const outcome = await joined
+        await rt.settle()
+        expect.soft(add, 'no late texture uploads').not.toHaveBeenCalled()
+        expect.soft(remove, 'stale cleanup must not uninstall art').not.toHaveBeenCalled()
+        expect.soft(publish, 'no late publication or unpublication').not.toHaveBeenCalled()
+        expect.soft(acquire, 'no reference acquisition after cancellation').not.toHaveBeenCalled()
+        expect.soft(outcome).toEqual({ ok: false, failure: 'cancelled' })
+        expect.soft(fake.textures.has(keys.sheet), 'no partial page or frames').toBe(false)
+        expect.soft(fake.textures.has(keys.actions)).toBe(false)
+        expect.soft(Object.keys(fake.motions())).toEqual(['soldier'])
+        expect.soft(fake.motions()['soldier']).toBe(warmArt)
+        expect.soft(fake.textures.get(motionTextureKeys('soldier').sheet)).toBe(warmTexture)
+        expect.soft(rt.kindReady(fake.scene, 'soldier')).toBe(true)
+        expect.soft(io.calls, 'cancellation is never retried').toHaveLength(3)
+        expect.soft(report.published).toEqual([])
+        if (cancellation === 'shutdown') {
+          expect.soft(report.legacy).toEqual([])
+          expect.soft(report.failed).toEqual([])
+          expect.soft(rt.failureState('guanyu')).toBeUndefined()
+        } else {
+          const failure = { kind: 'guanyu', failure: 'timeout', attempts: 1, final: true }
+          expect.soft(report.failed).toEqual([failure])
+          expect.soft(rt.finalFailure('guanyu'), 'late decode cannot clear deadline failure').toEqual(failure)
+        }
+      } finally {
+        release()
+        vi.useRealTimers()
+        vi.restoreAllMocks()
+      }
+    })
+  }
+
+  it('held decode: stale rejection preserves a newer episode pending bytes and warm publication', async () => {
+    const fake = makeScene()
+    const io = makeIo(okPages)
+    const rt = new MotionRuntime(io, { ...CONTRACT_CAPS, retainedCache: 1 })
+    expect(await rt.loadKind(fake.scene, 'soldier')).toEqual({ ok: true })
+    const warmArt = fake.motions()['soldier']
+    const warmTexture = fake.textures.get(motionTextureKeys('soldier').sheet)
+    let releaseOld!: () => void, releaseNew!: () => void
+    let startOld!: () => void, startNew!: () => void
+    const oldGate = new Promise<void>((r) => { releaseOld = r })
+    const newGate = new Promise<void>((r) => { releaseNew = r })
+    const oldStarted = new Promise<void>((r) => { startOld = r })
+    const newStarted = new Promise<void>((r) => { startNew = r })
+    const decode = io.decode
+    let sheets = 0
+    io.decode = async (bytes) => {
+      if (bytes.length === SHEET_BYTES.length) {
+        sheets += 1
+        if (sheets === 1) { startOld(); await oldGate; throw new Error('corrupt: stale decode rejection') }
+        if (sheets === 2) { startNew(); await newGate }
+      }
+      return decode(bytes)
+    }
+    const old = rt.loadKind(fake.scene, 'guanyu')
+    await oldStarted
+    rt.cancelLoads()
+    // Evict only unreferenced GU; the genuinely held soldier must survive.
+    rt.releaseScene(makeScene().scene)
+    const newer = rt.loadKind(fake.scene, 'guanyu')
+    await newStarted
+    const pendingBytes = (rt as unknown as { pendingBytes: Map<string, Uint8Array> }).pendingBytes
+    const newerActions = pendingBytes.get('guanyu:actions')
+    releaseOld()
+    expect(await old).toEqual({ ok: false, failure: 'cancelled' })
+    expect(pendingBytes.get('guanyu:actions'), 'stale finally cannot erase new bytes').toBe(newerActions)
+    expect(newerActions).toBeDefined()
+    expect(rt.state('guanyu'), 'stale catch cannot invalidate the newer ready slot').toBe('ready')
+    releaseNew()
+    expect(await newer).toEqual({ ok: true })
+    expect(io.calls, 'new episode needs exactly one fresh download, never a stale retry').toHaveLength(5)
+    expect(rt.kindReady(fake.scene, 'guanyu')).toBe(true)
+    expect(fake.motions()['soldier']).toBe(warmArt)
+    expect(fake.textures.get(motionTextureKeys('soldier').sheet)).toBe(warmTexture)
+    expect(rt.failureState('guanyu')).toBeUndefined()
+  })
+
   it('shutdown during an immediate load stops its continuation and deferred plus future queue', async () => {
     const fake = makeScene()
     const io = makeIo(okPages)
