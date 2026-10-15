@@ -7,8 +7,19 @@ import type { Entity } from '../src/core/types'
 
 test.use({ video: 'on' })
 const OUT = process.env.XIAHOU_TRANSITION_OUT ?? 'artifacts/CMR-14B/transitions-01/browser-final'
-// Stage2 GU/default-ZF source bytes, derived from the six committed pages.
-const STAGE2_BYTES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png'].reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+// Staged stage2 GU/default-ZF derivation (matches xiahoudun-lifecycle.spec.ts
+// partitions): opening = heroes + wave-0 soldier; deferred = later waves +
+// boss, queued behind entry and NOT charged to the 12 MiB entry cap; the one
+// admitted future kind (stage3 boss xuchu) IS entry-charged. This spec awaits
+// a full settle, so the published cast and budget().sourceBytes are the
+// EVENTUAL totals (opening+deferred+future), not the entry-charged part.
+const bytesOf = (files: string[]): number => files.reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+const OPENING_FILES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'soldier-motion-sheet.png']
+const DEFERRED_FILES = ['spearman-motion-sheet.png', 'archer-motion-sheet.png', 'xiahoudun-motion-sheet.png']
+const FUTURE_FILES = ['xuchu-motion-sheet.png']
+const ENTRY_BYTES = bytesOf([...OPENING_FILES, ...FUTURE_FILES])
+const EVENTUAL_BYTES = bytesOf([...OPENING_FILES, ...DEFERRED_FILES, ...FUTURE_FILES])
+const EVENTUAL_ROSTER = ['archer', 'guanyu', 'soldier', 'spearman', 'xiahoudun', 'xuchu', 'zhangfei']
 type Sprite = { frame: { name: string; realWidth: number; realHeight: number }; texture: { key: string }; x: number; y: number; scaleX: number; scaleY: number; originX: number; originY: number; displayOriginX: number; displayOriginY: number; flipX: boolean }
 type Live = { sim: Sim; paused: boolean; syncSprites(): void; sprites: Map<number, Sprite>; cameras: { main: { zoom: number; scrollX: number; scrollY: number } } }
 for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['right', 'left'] as const) {
@@ -20,6 +31,10 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['righ
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
     await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage2'))
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+    // settle() can resolve while the admitted-future prefetch is still queued
+    // behind the deferred set, so poll (exact equality, bounded) until the
+    // EVENTUAL roster is published before sampling it inside the evaluate.
+    await expect.poll(() => page.evaluate(() => Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort()), { timeout: 30_000 }).toEqual(EVENTUAL_ROSTER)
     await page.keyboard.press('Enter')
     const boss = makeCombatant(900101, 'xiahoudun', 'enemy', 230, 232, ENEMIES.xiahoudun!.maxHp, ENEMIES.xiahoudun!.speed, facing)
     const result = await page.evaluate(async ({ boss, facing }) => {
@@ -108,8 +123,13 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['righ
       }
       return { rows, walk, images, freezeCorrect, flightFrozen, runtime: { budget: motionRuntime().budget(), published: Object.keys(engine.registry.get('paintedHeroArt').motions).sort() }, camera: { zoom: g.cameras.main.zoom, scrollX: g.cameras.main.scrollX, scrollY: g.cameras.main.scrollY } }
     }, { boss, facing })
-    expect(result.runtime.published).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
-    expect(result.runtime.budget.sourceBytes).toBe(STAGE2_BYTES)
+    expect(result.runtime.published).toEqual(EVENTUAL_ROSTER)
+    // Full settle publishes the eventual total; only the entry-charged part
+    // (opening + admitted future) sits under the stage-download cap, and the
+    // eventual total exceeds it precisely by the deferred queue.
+    expect(result.runtime.budget.sourceBytes).toBe(EVENTUAL_BYTES)
+    expect(ENTRY_BYTES).toBeLessThanOrEqual(result.runtime.budget.caps.stageDownloads)
+    expect(EVENTUAL_BYTES - ENTRY_BYTES).toBe(bytesOf(DEFERRED_FILES))
     expect(result.freezeCorrect).toBe(true); expect(result.flightFrozen).toBe(true)
     expect(result.rows.filter((r) => r.phase === 'DOWN to dying').every((r) => r.key === 'fall:4')).toBe(true)
     for (const row of result.rows.filter((r) => r.phase.includes('interrupted'))) expect(row.key).toMatch(/^(getup:|fall:4)/)
