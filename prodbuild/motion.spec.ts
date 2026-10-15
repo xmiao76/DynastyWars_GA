@@ -1,15 +1,11 @@
-import { statSync } from 'node:fs'
-import { expect, test } from '@playwright/test'
+import { createHash } from 'node:crypto'
+import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { expect, test, type Request } from '@playwright/test'
 import { STAGES, STAGE_ORDER } from '../src/core/stage'
 import type { Sim } from '../src/core/sim'
 import { CONTRACT_CAPS } from '../src/game/adapters/motion-catalog'
-import { stageMotionScope } from '../src/game/adapters/motion-scope'
-import { secondPlayerCharacter } from '../src/game/players'
-
-// Expected stage1 scope, derived not pinned: motionPackSourceBytes() lives in
-// motion-art.ts (PNG asset imports, not Node-loadable here), so per-kind
-// sourceBytes are summed from the same committed page files the catalog
-// records (catalog page bytes == file sizes). Scope/cap use the real policy.
+// Independent Node oracle: stage tables and explicit committed PNG pages only;
+// neither the runtime scope nor its partner selector supplies expectations.
 const PACK_FILES: Record<string, string[]> = {
   guanyu: ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png'],
   soldier: ['soldier-motion-sheet.png'], spearman: ['spearman-motion-sheet.png'], archer: ['archer-motion-sheet.png'],
@@ -19,14 +15,49 @@ const PACK_FILES: Record<string, string[]> = {
   huangzhong: ['huangzhong-motion-sheet.png'], lidian: ['lidian-motion-sheet.png'],
   xiahoudun: ['xiahoudun-motion-sheet.png'], xuchu: ['xuchu-motion-sheet.png'],
 }
-const packs = Object.fromEntries(Object.entries(PACK_FILES).map(([kind, files]) => [kind, { sourceBytes: files.reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0) }]))
-const spawnKinds = (id: string): string[] => [...new Set([...STAGES[id]!.waves.flatMap((w) => w.spawns.map((s) => s.kind)), ...STAGES[id]!.props.map((p) => p.kind), STAGES[id]!.bossKind, 'arrow', 'meat', 'sword', 'crate'])]
-const stageKinds = spawnKinds('stage1')
-const futureKinds = STAGE_ORDER.slice(STAGE_ORDER.indexOf('stage1') + 1).flatMap(spawnKinds).filter((k, i, all) => !stageKinds.includes(k) && all.indexOf(k) === i)
-const scope = stageMotionScope({ hero: 'guanyu', secondPlayer: secondPlayerCharacter('guanyu'), stageKinds, futureKinds, packs, budgetBytes: CONTRACT_CAPS.stageDownloads })
-const EXPECTED_KINDS = [...scope.immediate, ...scope.prefetch]
-const EXPECTED_REQUESTS = EXPECTED_KINDS.reduce((n, k) => n + PACK_FILES[k]!.length, 0)
-const EXPECTED_PUBLISHED = [...EXPECTED_KINDS].sort()
+const unique = (kinds: string[]) => [...new Set(kinds)]
+const NON_MOTION = unique([...Object.values(STAGES).flatMap((s) => s.props.map((p) => p.kind)), 'arrow', 'meat', 'sword', 'crate', 'barrel'])
+const fighters = (kinds: string[]) => unique(kinds).filter((k) => !NON_MOTION.includes(k) && Object.hasOwn(PACK_FILES, k))
+const stageFighters = (id: string) => fighters([...STAGES[id]!.waves.flatMap((w) => w.spawns.map((s) => s.kind)), STAGES[id]!.bossKind])
+const OPENING = fighters(['guanyu', 'zhangfei', ...STAGES.stage1!.waves[0]!.spawns.map((s) => s.kind)])
+const STAGE_KINDS = stageFighters('stage1')
+const DEFERRED = STAGE_KINDS.filter((k) => !OPENING.includes(k))
+const FUTURE_CANDIDATES = fighters(STAGE_ORDER.slice(1).flatMap(stageFighters)).filter((k) => ![...OPENING, ...STAGE_KINDS].includes(k))
+const filesFor = (kinds: string[]) => kinds.flatMap((k) => PACK_FILES[k]!)
+const bytesFor = (files: string[]) => files.reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+const OPENING_FILES = filesFor(OPENING), DEFERRED_FILES = filesFor(DEFERRED)
+let entryBytes = bytesFor(OPENING_FILES)
+const FUTURE = FUTURE_CANDIDATES.filter((k) => {
+  const bytes = bytesFor(filesFor([k]))
+  if (entryBytes + bytes > 12 * 1024 * 1024) return false
+  entryBytes += bytes
+  return true
+})
+const FUTURE_FILES = filesFor(FUTURE)
+const EXPECTED_FILES = [...OPENING_FILES, ...DEFERRED_FILES, ...FUTURE_FILES]
+const EXPECTED_PUBLISHED = [...OPENING, ...DEFERRED, ...FUTURE].sort()
+const fileForURL = (url: string) => new URL(url).pathname.split('/').at(-1)!.replace(/(-sheet)-[\w-]+\.png$/, '$1.png')
+const isMotionPNG = (r: Request) => r.resourceType() !== 'script' && /\/(?:[\w]+)-(?:motion|actions)-sheet(?:-[\w-]+)?\.png(?:\?|$)/.test(r.url())
+const hash = (body: Uint8Array) => createHash('sha256').update(body).digest('hex')
+const EVIDENCE = 'artifacts/motion/sole-mode-load-gates/production-pilot'
+function assertPartitions(): void {
+  expect(OPENING).toEqual(['guanyu', 'zhangfei', 'soldier'])
+  expect(DEFERRED).toEqual(['spearman', 'archer', 'lidian'])
+  expect(FUTURE_CANDIDATES).toEqual(['xiahoudun', 'xuchu'])
+  expect(FUTURE).toEqual(['xiahoudun']) // remaining 3,363,247 B admits 2,220,630 B, not another 2,177,184 B
+  expect([OPENING_FILES.length, DEFERRED_FILES.length, FUTURE_FILES.length]).toEqual([5, 3, 1])
+  expect([bytesFor(OPENING_FILES), bytesFor(DEFERRED_FILES), bytesFor(FUTURE_FILES)]).toEqual([9_219_665, 5_286_177, 2_220_630])
+  expect(bytesFor(filesFor(FUTURE_CANDIDATES))).toBe(4_397_814)
+  expect(entryBytes).toBe(11_440_295)
+  expect(CONTRACT_CAPS.stageDownloads).toBe(12 * 1024 * 1024)
+  expect(entryBytes).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
+  // Five opening + three eventual deferred + one bounded future = nine pages.
+  // Eventual deferred network bytes are NOT charged to the stage-entry cap.
+  expect(EXPECTED_FILES).toHaveLength(9)
+  expect(bytesFor(EXPECTED_FILES)).toBe(16_726_472)
+  expect(EXPECTED_PUBLISHED).toEqual(['archer', 'guanyu', 'lidian', 'soldier', 'spearman', 'xiahoudun', 'zhangfei'])
+  expect(EXPECTED_PUBLISHED.some((k) => NON_MOTION.includes(k))).toBe(false)
+}
 
 type MotionSprite = {
   frame: { name: string; x: number; y: number; width: number; height: number; realWidth: number; realHeight: number }
@@ -35,25 +66,45 @@ type MotionSprite = {
   displayOriginY: number
 }
 type LiveGame = { sim: Sim; syncSprites(): void; sprites: Map<number, MotionSprite> }
-const URL = 'http://localhost:4321'
+const PREVIEW = 'http://localhost:4321'
 
 /**
  * CMR-03 acceptance 6 against the ACTUAL dist build (extended by CMR-06B,
  * CMR-07B, CMR-09B): the runtime stays opt-in, nothing downloads or publishes at
- * boot, stage entry fetches exactly the pages of the packs the stage-scope
- * policy admits under the 12 MiB cap (derived above from the committed page
- * files; after the rider strips archer fits too), and both renderers display
+ * boot, entry completes the opening pages, then deferred and bounded future
+ * pages complete (only opening + future count against 12 MiB), and both renderers display
  * shared atlas frames whose trim/pivot restores the old per-cell registration.
  */
 for (const renderer of ['canvas', 'webgl'] as const) {
   for (const enabled of [false, true]) {
     test(`built motion pilot is ${enabled ? 'opted in' : 'off by default'} (${renderer})`, async ({ page }) => {
-      const requests: string[] = [], errors: string[] = []
+      assertPartitions()
+      mkdirSync(EVIDENCE, { recursive: true })
+      const requests: string[] = [], errors: string[] = [], sourceRequests: string[] = []
+      let release!: () => void, heldRequests = 0, completedDownloads = 0
+      const held = new Promise<void>((resolve) => { release = resolve })
+      if (enabled) await page.route(/\/spearman-motion-sheet-[\w-]+\.png(?:\?|$)/, async (route) => {
+        if (!isMotionPNG(route.request())) return route.continue()
+        heldRequests++
+        if (heldRequests === 1) await held
+        await route.continue()
+      })
+      const downloads: Array<Promise<{ file: string; bytes: number; sha256: string }>> = []
+      page.on('response', (r) => {
+        if (!isMotionPNG(r.request())) return
+        downloads.push((async () => {
+          expect(r.status()).toBe(200)
+          const body = await r.body()
+          completedDownloads++
+          return { file: fileForURL(r.url()), bytes: body.length, sha256: hash(body) }
+        })())
+      })
       page.on('request', (r) => {
-        if (/\/(?:[\w]+)-(?:motion|actions)-sheet(?:-[\w-]+)?\.png(?:\?|$)/.test(r.url()) && r.resourceType() !== 'script') requests.push(r.url())
+        if (isMotionPNG(r)) requests.push(r.url())
+        if (new URL(r.url()).pathname.startsWith('/src/')) sourceRequests.push(r.url())
       })
       page.on('pageerror', (e) => errors.push(String(e)))
-      await page.goto(`${URL}/?renderer=${renderer}&autopilot=1${enabled ? '&motion=1' : ''}`)
+      await page.goto(`${PREVIEW}/?renderer=${renderer}&autopilot=1${enabled ? '&motion=1' : ''}`)
       await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 15_000 }).toBe('title')
       // Stage-scoped packs: at title there is NO motion download and NO
       // published motion art - even opted in.
@@ -61,15 +112,45 @@ for (const renderer of ['canvas', 'webgl'] as const) {
       expect(requests, 'no all-cast boot downloads').toEqual([])
       await page.evaluate(() => window.__DW__?.startGame('guanyu', 42, 'stage1'))
       await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+      const published = () => page.evaluate(() => Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort())
+      let entry: Awaited<(typeof downloads)[number]>[] = []
       if (enabled) {
-        expect(scope.plannedBytes).toBeLessThanOrEqual(CONTRACT_CAPS.stageDownloads)
-        await expect.poll(() => requests.length, { timeout: 15_000 }).toBe(EXPECTED_REQUESTS)
-        // Publication lags fetch-start (decode + verify + install), so poll
-        // for convergence rather than reading once.
-        await expect.poll(async () => Object.keys(await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').registry.get('paintedHeroArt')?.motions ?? {})).sort(), { timeout: 15_000 }).toEqual(EXPECTED_PUBLISHED)
+        // Hold the first deferred response: game entry must be complete without
+        // a later-wave page, and no intermediate final-count match can pass.
+        await expect.poll(() => heldRequests).toBe(1)
+        await expect.poll(() => completedDownloads).toBe(OPENING_FILES.length)
+        await expect.poll(published).toEqual([...OPENING].sort())
+        expect(requests.map(fileForURL)).toEqual([...OPENING_FILES, DEFERRED_FILES[0]])
+        entry = await Promise.all(downloads)
+        expect(entry.map((r) => r.file)).toEqual(OPENING_FILES)
+        expect(entry.reduce((n, r) => n + r.bytes, 0)).toBe(bytesFor(OPENING_FILES))
+        expect(await page.evaluate(() => {
+          const engine = window.__DW_GAME__!
+          return engine.textures.getTextureKeys().filter((k) => k.startsWith('motion-source:') || k.startsWith('motion-actions:')).sort()
+        })).toEqual(['motion-actions:guanyu', 'motion-actions:zhangfei', 'motion-source:guanyu', 'motion-source:soldier', 'motion-source:zhangfei'])
+        await page.screenshot({ path: `${EVIDENCE}/${renderer}-opening.png` })
+        release()
+        await expect.poll(() => completedDownloads, { timeout: 15_000 }).toBe(EXPECTED_FILES.length)
+        await expect.poll(published, { timeout: 15_000 }).toEqual(EXPECTED_PUBLISHED)
+        expect(heldRequests).toBe(1)
       } else {
         expect(requests).toEqual([])
+        expect(await published()).toEqual([])
       }
+      const observed = await Promise.all(downloads)
+      if (enabled) {
+        expect(requests.map(fileForURL)).toEqual(EXPECTED_FILES)
+        expect(new Set(requests.map(fileForURL)).size, 'exactly one request per page').toBe(EXPECTED_FILES.length)
+        expect(observed.map((r) => r.file).sort()).toEqual([...EXPECTED_FILES].sort())
+        expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(16_726_472)
+        for (const r of observed) {
+          const committed = readFileSync(`src/game/assets/motion/${r.file}`)
+          expect(r.bytes).toBe(committed.length)
+          expect(r.sha256).toBe(hash(committed))
+        }
+        expect(observed.filter((r) => [...OPENING_FILES, ...FUTURE_FILES].includes(r.file)).reduce((n, r) => n + r.bytes, 0)).toBe(entryBytes)
+        expect(observed.filter((r) => DEFERRED_FILES.includes(r.file)).reduce((n, r) => n + r.bytes, 0)).toBe(5_286_177)
+      } else expect(observed).toEqual([])
       const keys = await page.evaluate(() => {
         const game = window.__DW_GAME__!.scene.getScene('game') as unknown as LiveGame
         const p = game.sim.entities.find((e) => e.id === game.sim.playerId)!
@@ -117,7 +198,11 @@ for (const renderer of ['canvas', 'webgl'] as const) {
           scale: 0.5, ox: 224, oy: 272,
         })
       }
+      expect(await page.evaluate(() => window.__DW_GAME__!.renderer.type)).toBe(renderer === 'canvas' ? 1 : 2)
+      expect(sourceRequests, 'browser uses dist, never /src imports').toEqual([])
       expect(errors).toEqual([])
+      await page.screenshot({ path: `${EVIDENCE}/${renderer}-${enabled ? 'enabled' : 'disabled'}-final.png` })
+      writeFileSync(`${EVIDENCE}/${renderer}-${enabled ? 'enabled' : 'disabled'}.json`, JSON.stringify({ opening: OPENING, deferred: DEFERRED, futureCandidates: FUTURE_CANDIDATES, future: FUTURE, entryBytes, eventualBytes: bytesFor(EXPECTED_FILES), requests: requests.map(fileForURL), entry, observed, published: await published(), keys, sourceRequests, errors }, null, 2))
     })
   }
 }
