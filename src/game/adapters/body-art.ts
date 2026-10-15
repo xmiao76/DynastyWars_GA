@@ -137,7 +137,7 @@ export function publishBodyArtRecords(
     }
   }
   const prev = (scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined) ?? { heroes: {} }
-  scene.registry.set(ART_RESOURCE_KEY, { heroes: prev.heroes, bodies } satisfies ArtResources)
+  scene.registry.set(ART_RESOURCE_KEY, { ...prev, bodies } satisfies ArtResources)
   return bodies
 }
 

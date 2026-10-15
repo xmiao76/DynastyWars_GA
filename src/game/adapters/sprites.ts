@@ -1,11 +1,9 @@
 import type Phaser from 'phaser'
+import { PORTRAIT_SCALE, PORTRAIT_TEXTURE, drawKindPortrait } from '../art/painted-portraits'
 import { attackById, type AttackDef } from '../../core/attacks'
 import type { EntityState } from '../../core/types'
 import {
-  PORTRAIT_SCALE,
-  PORTRAIT_TEXTURE,
   artBoxFor,
-  drawKindPortrait,
   drawKindPose,
   isVectorProp,
   vectorArtFor,
@@ -184,12 +182,13 @@ export function ensurePortraitTextures(scene: Phaser.Scene, kinds: string[]): vo
     if (scene.textures.exists(key)) continue
     const canvas = document.createElement('canvas')
     const resources = heroArtResources(scene)
-    const scale = resources?.heroes[kind] ? PORTRAIT_SCALE * 2 : PORTRAIT_SCALE
+    if (!resources?.portraits?.[kind]) continue
+    const scale = PORTRAIT_SCALE * 2
     canvas.width = PORTRAIT_TEXTURE.width * (scale / PORTRAIT_SCALE)
     canvas.height = PORTRAIT_TEXTURE.height * (scale / PORTRAIT_SCALE)
     const ctx = canvas.getContext('2d')
     if (!ctx) continue
-    if (!drawKindPortrait(ctx, kind, scale, true, resources)) continue
+    if (!drawKindPortrait(ctx, kind, scale, resources)) continue
     scene.textures.addCanvas(key, canvas)
   }
 }

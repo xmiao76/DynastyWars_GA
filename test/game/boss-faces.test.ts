@@ -16,7 +16,7 @@ import prepared from '../../src/game/assets/boss-faces/prepared.json'
  * BODY-6 boss heads shipping suite - mirrors hero-faces.test.ts over the
  * three boss ids (the acceptance criterion), same negative controls.
  */
-const resources: ArtResources = { heroes: {} }
+const resources: ArtResources = { heroes: {}, portraits: {} }
 const IDS = ['xiahoudun', 'xuchu', 'lidian'] as const
 const root = 'src/game/assets/boss-faces'
 
@@ -29,6 +29,7 @@ beforeAll(async () => {
       front: await image('front'), rear: await image('rear'), cell: m.cell, bounds: m.bounds,
       skin: parseInt(m.skin.slice(1), 16),
     }
+    ;(resources.portraits as Record<string, HeroArt>)[id] = (resources.heroes as Record<string, HeroArt>)[id]!
   }
 })
 
@@ -118,7 +119,7 @@ describe('painted boss shipping resources', () => {
   it('paints portraits from the shipping image', () => {
     for (const id of IDS) {
       const cv = createCanvas(432, 480), c = cv.getContext('2d')
-      drawKindPortrait(c as unknown as CanvasRenderingContext2D, id, 12, true, resources)
+      drawKindPortrait(c as unknown as CanvasRenderingContext2D, id, 12, resources)
       const expected = createCanvas(432, 480)
       ;(expected.getContext('2d') as unknown as CanvasRenderingContext2D).drawImage(resources.heroes[id]!.portrait, 0, 0)
       expect(cv.toBuffer('image/png').equals(expected.toBuffer('image/png'))).toBe(true)

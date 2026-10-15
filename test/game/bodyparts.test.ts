@@ -341,7 +341,8 @@ describe('BODY-2 publish atomicity', () => {
         },
       },
     }
-    registry.set('paintedHeroArt', { heroes: { zhaoyun: { id: 'zhaoyun' } } })
+    const portraits = { zhaoyun: { id: 'zhaoyun', portrait: cv } }
+    registry.set('paintedHeroArt', { heroes: { zhaoyun: { id: 'zhaoyun' } }, portraits })
     const out = publishBodyArtRecords(
       scene as never,
       { fixture: { sheet: 'fixture-sheet.png' } },
@@ -351,7 +352,8 @@ describe('BODY-2 publish atomicity', () => {
     expect(Object.keys(out)).toEqual(['fixture'])
     expect(out.fixture?.revision).toBe('fixture-1')
     expect(out.fixture?.skin).toBe(parseInt('c08060', 16))
-    const stored = registry.get('paintedHeroArt') as { heroes: object; bodies: object }
+    const stored = registry.get('paintedHeroArt') as { heroes: object; bodies: object; portraits: object }
+    expect(stored.portraits, 'body publication must preserve shared portrait identity').toBe(portraits)
     expect(Object.keys(stored.heroes)).toEqual(['zhaoyun'])
     expect(Object.keys(stored.bodies)).toEqual(['fixture'])
   })

@@ -5,11 +5,19 @@ import type { WeaponArt } from './weapon-parts'
 import type { WholeFrameArt } from './whole-frames'
 import type { MotionArt } from './motion-clips'
 
-/** Decoded, complete per-hero art. Pure renderers receive this explicitly. */
-export interface HeroArt {
+/** Shared painted portrait identity; no rig/body resources are needed. */
+export interface PortraitArt {
   id: string
   revision: string
   portrait: CanvasImageSource
+}
+
+export interface PortraitResources {
+  portraits?: Readonly<Partial<Record<string, PortraitArt>>>
+}
+
+/** Temporary rollback rig resources: remove jointly with drawFigure/switch. */
+export interface HeroArt extends PortraitArt {
   head: CanvasImageSource
   front: CanvasImageSource
   rear: CanvasImageSource
@@ -18,7 +26,7 @@ export interface HeroArt {
   skin: number
 }
 
-export interface ArtResources {
+export interface ArtResources extends PortraitResources {
   heroes: Readonly<Partial<Record<string, HeroArt>>>
   /** Paper-doll bodies (BODY-2), keyed by fighter id like heads. Absent
    * entries render fully procedural - the atomic fallback is per fighter. */

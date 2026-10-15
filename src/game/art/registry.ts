@@ -5,9 +5,8 @@ import type { WeaponArt } from './weapon-parts'
 import { paintWholeFrame } from './whole-frames'
 import { ENEMY_FIGURES, HERO_FIGURES, type FigurePlan } from './figures'
 import { POSE_TABLE, type PoseName } from './poses'
-import { drawPortraitFigure } from './portrait'
 import { PROPS, drawProp, type PropPlan } from './props'
-import { BODY_X, FIG_H, FIG_W, applyBuild, type Skeleton } from './rig'
+import { FIG_H, FIG_W, type Skeleton } from './rig'
 
 /**
  * Every kind the game draws, and how.
@@ -190,104 +189,7 @@ export function artDisplayHeight(kind: string, defaultOnScreenH: number): number
   return (onScreenH * box.height) / box.standH
 }
 
-/**
- * A head-and-shoulders portrait box, for the HUD plate and the select screen.
- *
- * Drawn from the same figure as the fighter rather than as separate art, so a
- * portrait can never disagree with the character it is labelling - which is
- * exactly what the old select screen did, showing flat palette rectangles next
- * to the names of five distinct warriors.
- */
-export const PORTRAIT_BOX = { width: 36, height: 40 } as const
-
-/**
- * The portrait's own render scale, and the reason it is not RENDER_SCALE.
- *
- * A portrait was the in-play figure magnified - the same drawing at a bigger
- * scale - and at RENDER_SCALE 2 that meant a 72x80 texture whose whole face was
- * about 28x24 PIXELS. Raising the zoom did not help and could not: zoom
- * magnifies, it does not add resolution, so the face simply got bigger and
- * softer. Four marks is all that fits in 28x24, which is why the portraits read
- * as blobs with dots however carefully the marks were placed.
- *
- * 6 gives a 216x240 texture and a face of roughly 84x72 pixels - nine times the
- * area - which is a budget an eyelid, a nostril, a lip line and an ear can
- * actually be drawn into. `drawPortraitDetail` draws exactly those, and only
- * here: the in-play sprites keep the coarse face, so nothing about the fighters
- * or the art gates moves.
- */
-export const PORTRAIT_SCALE = 6
-
-/** The pixel size a portrait texture must be allocated at. */
-export const PORTRAIT_TEXTURE = {
-  width: PORTRAIT_BOX.width * PORTRAIT_SCALE,
-  height: PORTRAIT_BOX.height * PORTRAIT_SCALE,
-} as const
-
-/**
- * How much of the figure fills the portrait, and where its head sits.
- *
- * The first framing zoomed 1.45x and cropped to the face, which cut the top off
- * every helmet and turned the roster into a row of extreme close-ups - readable
- * as faces, useless as a way of telling five armoured warriors apart. Head AND
- * shoulders is what carries the headgear, the pauldron and the collar, which is
- * most of what distinguishes them.
- *
- * Raised from 1.02 to 1.3 when the faces were given real structure. At 1.02 the
- * portrait was almost exactly the play-scale head, so a face with a brow, two
- * eyes, a nose and a mouth had no more pixels here than it did in a fight - and
- * the portrait is where anyone actually looks at a character.
- *
- * 1.33 is the CEILING, not a preference: the tallest head-plus-headgear in the
- * cast is Zhang Fei's at 2.44 headR = 26.4 figure units, and 40 box units less
- * a top margin and the neck leaves room for no more. Above this a headgear bowl
- * starts being cropped, which is the mistake the earlier 1.45 made - that was
- * framing on the FACE and cutting helmets off, and it turned the roster into a
- * row of close-ups that could not be told apart. Cropping a plume CREST is a
- * different thing and is deliberate; the bowl is what carries the identity.
- *
- * `PORTRAIT_HEAD_Y` is where the head CENTRE lands, which in the portrait
- * layout is also the eye line. 21 clears the tallest bowl - including the
- * overshoot a smoothed crown curve adds beyond its own control points - and
- * still leaves a couple of units of neck below the chin.
- */
-export const PORTRAIT_ZOOM = 1.33
-export const PORTRAIT_HEAD_Y = 21
-
-export function drawKindPortrait(
-  ctx: CanvasRenderingContext2D,
-  kind: string,
-  scale: number,
-  detail = true,
-  resources?: ArtResources,
-): boolean {
-  const entry = VECTOR_ART[kind]
-  if (entry?.type !== 'figure') return false
-  const painted = resources?.heroes[kind]
-  if (painted) {
-    ctx.drawImage(painted.portrait, 0, 0, PORTRAIT_BOX.width * scale, PORTRAIT_BOX.height * scale)
-    return true
-  }
-  ctx.save()
-  ctx.scale(scale, scale)
-  // Frame on the head: scale up about the portrait's centre, then slide the
-  // figure so its head lands where the box wants it.
-  ctx.beginPath()
-  ctx.rect(0, 0, PORTRAIT_BOX.width, PORTRAIT_BOX.height)
-  ctx.clip()
-  ctx.translate(PORTRAIT_BOX.width / 2, PORTRAIT_HEAD_Y)
-  ctx.scale(PORTRAIT_ZOOM, PORTRAIT_ZOOM)
-  // Anchor on the head the figure is actually DRAWN with, not the raw pose.
-  // `applyBuild` scales joint positions about GROUND, so a taller hero's head
-  // sits higher: 12.69 for Guan Yu against 18.08 for Zhang Fei. Anchoring on
-  // the raw 15 therefore slid each portrait by its own build - a 42px spread in
-  // a 240px frame, with four of the five clipped at the top edge.
-  const posed = applyBuild(POSE_TABLE.idle, entry.plan.build)
-  ctx.translate(-BODY_X, -posed.head.y)
-  drawPortraitFigure(ctx, entry.plan, POSE_TABLE.idle, detail)
-  ctx.restore()
-  return true
-}
+export { PORTRAIT_BOX, PORTRAIT_SCALE, PORTRAIT_TEXTURE, drawKindPortrait } from './painted-portraits'
 
 /**
  * BODY-24: draw a PREPARED (possibly interpolated) skeleton for a kind.

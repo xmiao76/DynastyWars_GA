@@ -1,5 +1,5 @@
 import type Phaser from 'phaser'
-import type { ArtResources, HeroArt } from '../art/hero-resources'
+import type { ArtResources, HeroArt, PortraitArt } from '../art/hero-resources'
 import { imageSignature, signatureMatches } from '../art/image-signature'
 import heroPrepared from '../assets/hero-faces/prepared.json'
 import bossPrepared from '../assets/boss-faces/prepared.json'
@@ -101,11 +101,12 @@ function decodedSignature(src: CanvasImageSource & { width: number; height: numb
   }
 }
 
-/** Partial load never produces half-painted characters. Resources are only
- * published when every image has decoded at its expected dimensions AND its
- * content signature matches the committed preparation record. */
+/** Portraits publish independently of temporary rollback heads. Rig resources
+ * remain atomic; all images must match their dimensions and content signature.
+ * Head imports/metadata are removed jointly with the renderer and motion switch. */
 export function publishHeroArt(scene: Phaser.Scene): void {
   const heroes: Record<string, HeroArt> = {}
+  const portraits: Record<string, PortraitArt> = {}
   for (const id of Object.keys(HERO_ART_CATALOG) as Array<keyof typeof HERO_ART_CATALOG>) {
     const meta = preparedAll[id]
     if (!meta) continue
@@ -119,6 +120,9 @@ export function publishHeroArt(scene: Phaser.Scene): void {
       const sig = decodedSignature(src)
       if (sig && signatureMatches(sig, meta.signatures[part])) images[part] = src
     }
+    // A failed rig layer must not suppress a valid shared portrait. Rig heads
+    // remain all-or-nothing for the temporary ?motion=0 rollback only.
+    if (images.portrait) portraits[id] = { id, revision: meta.revision, portrait: images.portrait }
     if (images.portrait && images.head && images.front && images.rear) {
       heroes[id] = { id, revision: meta.revision, portrait: images.portrait, head: images.head,
         front: images.front, rear: images.rear, cell: meta.cell, bounds: meta.bounds,
@@ -126,7 +130,7 @@ export function publishHeroArt(scene: Phaser.Scene): void {
     }
   }
   const prev = scene.registry.get(ART_RESOURCE_KEY) as ArtResources | undefined
-  scene.registry.set(ART_RESOURCE_KEY, { heroes, bodies: prev?.bodies } satisfies ArtResources)
+  scene.registry.set(ART_RESOURCE_KEY, { ...prev, heroes, portraits } satisfies ArtResources)
 }
 
 export function heroArtResources(scene: Phaser.Scene): ArtResources | undefined {

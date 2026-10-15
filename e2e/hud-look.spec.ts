@@ -13,7 +13,7 @@ import { decideBotScript } from '../selfplay/bot'
  * WARNING banner, and P2's plate mirrors P1's on join.
  */
 
-const LOOK = 'artifacts/look'
+const LOOK = 'artifacts/motion/portrait-slim'
 
 test('combat HUD: plate kit, segmented bar, pearl and WAVE chip', async ({ page }) => {
   test.setTimeout(60_000)

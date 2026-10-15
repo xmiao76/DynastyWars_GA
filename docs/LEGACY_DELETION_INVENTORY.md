@@ -1,11 +1,20 @@
 # Legacy deletion inventory — exact file-level lists (CMR-24 Phase 5 prep)
 
-Status: **inventory only. Nothing is deleted by this document, and nothing here
-authorizes deletion.** CMR-24 Part A is not green (see
-[CAST_MOTION_REVIEW](CAST_MOTION_REVIEW.md) §3–4); Phase 5 deletion still
-requires green Part A + fresh independent pre-delete review per
-[MOTION_SOLE_MODE_MIGRATION](MOTION_SOLE_MODE_MIGRATION.md). This supersedes the
-category-level list in CAST_MOTION_REVIEW §4 with exact files.
+Status: **partial portrait isolation implemented; NOT Slice 1 full DONE.**
+This document grants no deletion authority. Original inventory/review findings
+below are historical at their cited commits; the current bounded work order
+reports independent Part A pre-delete ACCEPT. Remaining renderer deletion still
+requires its applicable gates/review under
+[MOTION_SOLE_MODE_MIGRATION](MOTION_SOLE_MODE_MIGRATION.md).
+
+**2026-10-15 dependency-order correction:** the original Slice 1 head deletion
+contradicted the promise of functional `?motion=0` through Slice 5. Preserve
+`HeroArt.head/front/rear/cell/bounds/skin`, `headPainter`, head loader imports,
+33 rig-layer PNGs and all three full face metadata files until **Slice 6**,
+jointly with the legacy renderer and switch. This is rollback preservation,
+not a waived gate. Current partial slice removes only procedural portrait
+production and separates shared portrait publication/consumption; no pixels
+are regenerated and no rig/pose test is retired.
 
 Method: import/call graph extracted from the tree at HEAD `943fc9d` on
 2026-10-15 (`git ls-files` + per-file import scan over `src/`, `test/`,
@@ -29,7 +38,7 @@ The procedural-fallback alternative mapped in the last paragraph of this
 section is the rejected alternative and is retained only as the record of
 what would change if the decision were reversed.
 
-[drawKindPortrait](../src/game/art/registry.ts#L257-L290) has two branches:
+Historical baseline [drawKindPortrait](../src/game/art/registry.ts) had two branches (procedural branch now removed):
 painted (`resources.heroes[kind].portrait` blit, :266–270) and procedural
 (`drawPortraitFigure`, :271–289). All 11 kinds ship a painted `*-portrait.png`
 (see D-keep), so the procedural branch is only a load-failure fallback. This
@@ -60,8 +69,8 @@ or loses the import in B surgery.
 | [art/interpolate.ts](../src/game/art/interpolate.ts) | [sprites.ts:15](../src/game/adapters/sprites.ts#L15) blend path only |
 | [art/poses.ts](../src/game/art/poses.ts) | legacy only: [registry:7](../src/game/art/registry.ts#L7), [sprites:13-14](../src/game/adapters/sprites.ts#L13), [frame-art:4](../src/game/adapters/frame-art.ts#L4), [hero-resources:1](../src/game/art/hero-resources.ts#L1), [whole-frames:11](../src/game/art/whole-frames.ts#L11), [armik:23](../src/game/art/armik.ts#L23), [weapons:6](../src/game/art/weapons.ts#L6), [draw:6](../src/game/art/draw.ts#L6) (motion clips never import `PoseName`) |
 | [art/figures.ts](../src/game/art/figures.ts) | after B-sprites tint decision: [registry:6](../src/game/art/registry.ts#L6), [draw:7-8](../src/game/art/draw.ts#L7), [portrait:12](../src/game/art/portrait.ts#L12), [weapons:3](../src/game/art/weapons.ts#L3), [faces:1](../src/game/art/faces.ts#L1) — all A/B-figure paths |
-| [art/faces.ts](../src/game/art/faces.ts) | D0-dependent: [draw:1](../src/game/art/draw.ts#L1) + [portrait:11](../src/game/art/portrait.ts#L11) only |
-| [art/portrait.ts](../src/game/art/portrait.ts) | D0-dependent: sole importer [registry:8](../src/game/art/registry.ts#L8) (`drawPortraitFigure`) |
+| [art/faces.ts](../src/game/art/faces.ts) | Retain through Slice 5: imported by draw.ts for rollback fighter faces; procedural portrait importer removed. Delete only with draw.ts in Slice 6. |
+| `art/portrait.ts` (deleted in partial Slice 1) | D0 procedural-only portrait generator retired; no remaining importer. `faces.ts` remains live for fighter drawing. |
 | [src/build-flags.d.ts](../src/build-flags.d.ts) | declares only `__HAS_BAKED_ART__` (:9); sole consumer [BootScene:87](../src/game/scenes/BootScene.ts#L87) |
 
 ## B. Mixed files — surgery: extract first, then delete the legacy remainder
@@ -140,6 +149,13 @@ sole scene caller [GameScene:728](../src/game/scenes/GameScene.ts#L728) in
 `fitSprite`, whose motion branch :714–720 does not use it — props do);
 `drawKindPose` prop case ([:364-367](../src/game/art/registry.ts#L364), calls
 `drawProp`).
+**Partial slice implemented:** shared `PORTRAIT_BOX/PORTRAIT_SCALE/PORTRAIT_TEXTURE`
+and `drawKindPortrait` now live in [painted-portraits.ts](../src/game/art/painted-portraits.ts),
+with registry re-exports for compatibility. Its input is `PortraitResources`
+(`portraits` only), never `VECTOR_ART`, body plans or head layers. Procedural
+`portrait.ts` and portrait zoom/head-Y constants are retired; `faces.ts` and
+`draw.ts` remain for rollback. Historical extraction mapping follows.
+
 Keep/extract portrait path: `PORTRAIT_BOX` (:201), `PORTRAIT_SCALE` (:219),
 `PORTRAIT_TEXTURE` (:222) — imported by [sprites:5-6,187-189](../src/game/adapters/sprites.ts#L187);
 `drawKindPortrait` painted branch only ([:266-270](../src/game/art/registry.ts#L266),
@@ -161,7 +177,18 @@ consumer registry :268), `HeroArt.id/revision` (:10–11; identity in
 `ArtResources.motions` ([:33](../src/game/art/hero-resources.ts#L33);
 [motion-art:1025,1047,1058](../src/game/adapters/motion-art.ts#L1025),
 [GameScene:601,711,832,854](../src/game/scenes/GameScene.ts#L601)).
-Delete fields: `head/front/rear` (:13–15), `cell` (:16), `bounds` (:17),
+**Do NOT delete in Slice 1.** `PortraitArt` + `PortraitResources` now expose
+only portrait identity/image; `HeroArt` extends that shape and retains the
+rollback fields. Exact live chain: `GameScene` legacy branch → sprites
+`ensureEntityTextures/ensureBlendKey` → registry `drawKindPose/drawKindSkeleton`
+→ `drawFigure` → `headPainter` → `art[layer]`, `cell`, `bounds`.
+`drawFigure` also directly reads `painted?.art?.skin` (current draw.ts:83) and
+uses `HEAD_PAINTED_SCALE` (draw.ts:106); weapons.ts imports `HEAD_CHIN_DROP`.
+Thus `headPainter`, expressions/scale constants and the following fields can
+only disappear jointly with renderer/switch removal in **Slice 6**. Existing
+hero/boss/mook face tests retain head clipping/expression/fallback gates.
+
+Delete fields in Slice 6: `head/front/rear` (:13–15), `cell` (:16), `bounds` (:17),
 `skin` (:18) — sole runtime consumers are `headPainter` in the same file
 ([:57-75](../src/game/art/hero-resources.ts#L57), uses `art[layer]/cell/bounds`)
 and painted-skin at [draw:204](../src/game/art/draw.ts#L204); `bodies` (:25),
@@ -170,7 +197,18 @@ and painted-skin at [draw:204](../src/game/art/draw.ts#L204); `bodies` (:25),
 [weapons:4](../src/game/art/weapons.ts#L4)), `expressionFor` (:49),
 `headPainter` (:57; sole importer [draw:2](../src/game/art/draw.ts#L2)).
 
-### B7. [adapters/hero-art.ts](../src/game/adapters/hero-art.ts) — queue portraits only
+### B7. [adapters/hero-art.ts](../src/game/adapters/hero-art.ts) — independent portraits now, queue portraits only in Slice 6
+
+**Partial slice implemented:** validate/publish `portraits[id]` independently
+of rig-head success, preserving every signature/dimension check. Continue
+queueing all four parts and publishing atomic `heroes[id]` for rollback.
+`sprite.ensurePortraitTextures` reads only `portraits` and keeps `portrait:<id>`
+432×480 textures; a missing/rejected portrait creates no substitute.
+`publishBodyArtRecords` must spread the prior shared resource record rather
+than reconstruct only `heroes/bodies`; its portrait-preservation regression
+is in bodyparts.test.ts. This live shared-record dependency is fixed here. A missing
+rig layer no longer suppresses an otherwise valid portrait. All 33 head imports
+and full `prepared.json` fields below stay live until Slice 6.
 
 Keep: the 11 `*-portrait.png` imports ([:7,11,15,19,23,27,31,35,39,43,47](../src/game/adapters/hero-art.ts#L7)),
 `ART_RESOURCE_KEY` ([:80](../src/game/adapters/hero-art.ts#L80); imported by
@@ -335,7 +373,7 @@ Selfplay (all keep; only bridge-type dependency, B13):
 - Portraits, 11 files: `hero-faces/{guanyu,huangzhong,weiyan,zhangfei,zhaoyun}-portrait.png`,
   `boss-faces/{lidian,xiahoudun,xuchu}-portrait.png`,
   `mook-faces/{archer,soldier,spearman}-portrait.png` (evidence B7/B5).
-- Mixed, slim in Slice 1: `hero-faces/prepared.json` 249830,
+- Mixed, **slim only in Slice 6** (rollback needs all fields until then): `hero-faces/prepared.json` 249830,
   `boss-faces/prepared.json` 149879, `mook-faces/prepared.json` 149883 — after
   B6/B7 the runtime needs only `revision` + portrait `signatures.portrait`
   ([hero-art:110-125](../src/game/adapters/hero-art.ts#L110)); head
@@ -400,8 +438,8 @@ registry/rig/weapons.)
 |---|---|---|
 | `artquality.test.ts` | sprite-metric gates over props/portraits (imports vision metrics :12 area) | figure/pose/draw gates (imports registry/draw/figures/poses/rig, mook-bodies prepared.json) → motion-frame + prop + portrait inventory |
 | `hero-faces.test.ts`, `boss-faces.test.ts`, `mook-faces.test.ts` | painted-portrait pixel asserts (e.g. [boss-faces:123](../test/game/boss-faces.test.ts#L123) `drawImage(…portrait)`) | `headPainter/expressionFor` rig-head asserts (:7 imports, e.g. hero-faces :46) |
-| `likeness.test.ts` | under D0-keep only | D0 painted-only: rewrite onto painted portrait pixels or delete |
-| `portrait.test.ts` | under D0-keep only (imports portrait/draw/faces) | D0 painted-only: DELETE with portrait.ts |
+| `likeness.test.ts` | three rig/plan likeness tests preserved | RETIRED only procedural portrait beard/lip/jaw comparisons; no fake-green replacement |
+| `portrait.test.ts` | new all-11 painted PNG hash/signature/dimension/exact-blit/bounds and absent-no-fallback gates | former 11 procedural portrait geometry/detail tests RETIRED with portrait.ts, not reported newly green |
 | `rig.test.ts` | `limbPath` asserts → repoint to B2 extraction | `chainPath` asserts (deleted helper) |
 | `sprites.test.ts` | prop single-texture + key convention ([ :19-22](../test/game/sprites.test.ts#L19) `entity:arrow`) | `STRIKE_POSE/poseForEntity/textureKeyForPose/vectorKinds` asserts |
 | `motion-clips.test.ts` | pack/clip asserts | `motionEnabled` cases ([ :18-38](../test/game/motion-clips.test.ts#L18)) → `motion=0` has no rendering effect |
@@ -483,7 +521,7 @@ body-fixtures, [ :102](../scripts/make-body-fixtures.mjs#L102)),
 `weapon-review.mjs` (imports draw/registry/poses/rig in-page,
 [ :40-43](../scripts/weapon-review.mjs#L40) — the only script importing legacy
 src modules).
-REWRITE (portrait-only outputs, Slice 1): `prepare-hero-faces.mjs`
+REWRITE (portrait-only outputs, **Slice 6**, not the partial portrait slice): `prepare-hero-faces.mjs`
 (out `assets/hero-faces` :8), `prepare-boss-faces.mjs` (:226),
 `prepare-mook-faces.mjs` (:226) — emit portrait PNG + slimmed prepared.json
 only; or freeze as-is and hand-slim the JSONs (manager call; they must not
@@ -515,12 +553,12 @@ revert that slice's commit; `?motion=0` stays functional through Slice 5.
 | # | Slice (files from § above) | Per-slice verification (all must pass before next) |
 |---|---|---|
 | 0 | **Extractions only, zero behaviour change**: B1 cel, B2 paths, B4 cell type; repoint props/portrait/motion-clips imports. Record D0 decision. | `npm run lint`, `npm run typecheck`, full `npm run test` (rig/artquality/portrait/weapons tests repointed only), `git diff` shows moves only |
-| 1 | **Portrait slim**: B6, B7, B5 portrait path (+D0 procedural-branch removal), D face head/front/rear PNGs + slim 3 faces `prepared.json`, E2 hero/boss/mook-faces + hero-faces.spec rewrites, E4 prepare-*-faces disposition | rewritten face units; e2e `hero-faces`, `select`, `hud`, `hud-look`; `npm run vision` (portrait/HUD gates); network log shows zero `*-head/front/rear` requests |
+| 1 | **Partial portrait isolation, NOT full slim DONE**: B5 painted-only module/procedural portrait deletion; B6 narrow portrait types, B7 independent portrait publication; preserve all rollback head resources/assets/metadata. Retire only procedural portrait tests; retain pose/head/rig tests. | all-11 portrait bytes/dimensions/identity/bounds units + existing face/rig units; e2e `hero-faces`, `select`, `hud`, `hud-look`, default + rollback; lint/typecheck. Head requests remain intentional until Slice 6; zero-head-network is NOT a criterion here. Vision remains a separate required gate, not implied by focused smoke. |
 | 2 | **Prop-only registry/sprites**: B3, B5 prop path, B10 prop sizing, B12 (SelectScene call removal + GameComplete portrait rewrite) | `sprites.test` rewrite; e2e `artscale` (motion branch), `game`, `select`, `stageclear`-path result/complete screens screenshot-checked; props render in `arrows`/`game` specs |
 | 3 | **Whole-frame pilot out**: frame-art.ts, whole-frames.ts remainder, `frames=1`, D whole-frames assets, prepare-whole-frames scripts, wholeframe* tests + wholeframe-look spec | lint/typecheck/full unit; e2e `boot`; grep `framesEnabled\|WholeFrameArt\|paintWholeFrame` = 0 in src |
 | 4 | **Baked-art out**: B11 manifest path, vite define, build-flags.d.ts, e2e/art.spec, bake scripts + bake.test | `npm run prodbuild` (rewritten exclusivity case), e2e `boot`; bundle grep `assets/manifest.json\|bakedart` = 0 |
 | 5 | **Fallback hardening (motion=0 still alive)**: B8, B9, B10 published-missing-frame branch, E motion-loader/loading-errors/motion-look rewrites | `motion-runtime/catalog/scope/clips` units; e2e `motion-loading-errors`, `motion-loader`, `motion-default-coverage`; missing/corrupt pack → visible blocking error, zero legacy frames |
-| 6 | **Renderer + switch deletion (the Phase 5 commit)**: all A files, draw/rig/registry/sprites remainders, B10/B11/B13 remainders, `motionEnabled`, D-delete assets, E1 test deletions, E vision sprite-gate rewrite + bridge replacement, E4 script deletions | full serial: lint, typecheck, `npm run test`, `npm run e2e`, `npm run vision`, `npm run signal` — retired gates recorded retired-by-deletion, incl. arm-chain G6 |
+| 6 | **Renderer + switch deletion (the Phase 5 commit)**: jointly remove B6 head fields/helpers, B7 head imports/loader parts, 33 head/front/rear PNGs; slim all 3 face metadata files + prepare-*-faces scripts ONLY now; all A files, draw/rig/registry/sprites remainders, B10/B11/B13 remainders, `motionEnabled`, D-delete assets, E1 test deletions, E vision sprite-gate rewrite + bridge replacement, E4 script deletions | full serial: lint, typecheck, `npm run test`, `npm run e2e`, `npm run vision`, `npm run signal` — retired gates recorded retired-by-deletion, incl. arm-chain G6 |
 | 7 | **Part B proof**: prodbuild/coverage `motion=0`-no-effect rewrites, source + built-bundle + network exclusivity search (no legacy texture keys, no head/body/weapon-sheet requests), docs/live-wording sweep | `npm run prodbuild`; repeat essential Part A coverage/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL on the exact post-delete tree; fresh independent review (CMR-24 Part B) |
 
 ## G. Appendix — exact literals behind every brace/glob shorthand above
@@ -592,5 +630,5 @@ legacy constant — the Slice 6 rewrite must derive its inventory from published
 motion packs, not a new magic number; (3) test helpers `cast-art.ts` /
 `arm-chain-lib.ts` are imported by several E1 files — delete them last within
 Slice 6 to keep intermediate states compiling; (4) `prepare-*-faces` scripts
-can regenerate deleted layers if run post-Slice-1 — their rewrite/freeze is
-part of Slice 1, not optional cleanup.
+can regenerate deleted layers if run post-Slice-6 — their rewrite/freeze is
+part of Slice 6, not optional cleanup; scripts remain unchanged while rollback heads are live.

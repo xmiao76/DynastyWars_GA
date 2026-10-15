@@ -12,7 +12,7 @@ import { POSES } from '../../src/game/adapters/sprites'
 import { imageSignature, signatureMatches } from '../../src/game/art/image-signature'
 import prepared from '../../src/game/assets/hero-faces/prepared.json'
 
-const resources: ArtResources = { heroes: {} }
+const resources: ArtResources = { heroes: {}, portraits: {} }
 const IDS = ['guanyu', 'zhangfei', 'zhaoyun', 'huangzhong', 'weiyan'] as const
 const root = 'src/game/assets/hero-faces'
 beforeAll(async () => {
@@ -24,6 +24,7 @@ beforeAll(async () => {
       front: await image('front'), rear: await image('rear'), cell: m.cell, bounds: m.bounds,
       skin: parseInt(m.skin.slice(1), 16),
     }
+    ;(resources.portraits as Record<string, HeroArt>)[id] = (resources.heroes as Record<string, HeroArt>)[id]!
   }
 })
 
@@ -111,7 +112,7 @@ describe('painted hero pilot shipping resources', () => {
   it('paints portraits from the shipping image, not the old parameter table', () => {
     for (const id of IDS) {
       const cv = createCanvas(432, 480), c = cv.getContext('2d')
-      drawKindPortrait(c as unknown as CanvasRenderingContext2D, id, 12, true, resources)
+      drawKindPortrait(c as unknown as CanvasRenderingContext2D, id, 12, resources)
       const expected = createCanvas(432, 480)
       ;(expected.getContext('2d') as unknown as CanvasRenderingContext2D).drawImage(resources.heroes[id]!.portrait, 0, 0)
       expect(cv.toBuffer('image/png').equals(expected.toBuffer('image/png'))).toBe(true)
