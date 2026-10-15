@@ -30,6 +30,15 @@
 // same holder transform. Before / offset-only / patch-at-recommended-sep /
 // patch-at-min-gap-pass-sep are rendered and measured per victim below.
 //
+// Articulated forearm prototype (third mode, `--arm-transform` only): for the
+// two victims where offsets+patch were REJECTED (soldier, archer), split the
+// refined grapple mask at an elbow pivot, erase the distal forearm+hand
+// segment from the holder, and search small rotations about the pivot plus
+// minor dx/dy for that segment ALONE at the traced core pin (NO whole-sprite
+// holder/victim offset, soles stay 0). Composite order is holder(minus
+// segment) -> victim -> transformed segment. Outputs go to
+// artifacts/motion/paired/arm-transform-diagnostic/. Diagnostic only.
+//
 // Restoration/transform helpers are reused from paired-contact-measure.mjs.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createCanvas } from '@napi-rs/canvas'
@@ -129,6 +138,41 @@ const PATCH_VERDICTS = {
   xuchu: {
     verdict: 'ACCEPT patch+victim-only sep=6 dy=2', sepU: 6,
     note: 'Zoom/sheet inspected: hand now visible on the upper chest at the collar (roiOv=12, patchOverCollar=23, survival 0->1, gap=0), hero planted, victim sole 6.3u inside its wide shadow. minSep=1.5 looks the same at the hand but merges the bodies (bodyOvD -331 vs -1553 at sep=6); keep sep=6.',
+  },
+}
+
+// --- Articulated forearm prototype (--arm-transform) -----------------------
+// Elbow pivot, identified by eye from the gridded misc:5/misc:6 inspection
+// renders (measure-input/zoom 6x crop x270-370/y70-150 + 3x upper-body):
+// the extended arm's bone axis runs from the shoulder pauldron centre
+// (~(235,120) cell px) through the wrist skin where it leaves the white cuff
+// (~(303,117) misc:6, ~(303,112) misc:5). At x=280 that axis sits at y~118,
+// inside the green sleeve (alpha spans roughly y108-140 there before the
+// hanging cuff panel drapes down-west). Pivot (280,122) puts the joint on
+// that axis inside the sleeve bulk, 8px east of the refined patch mask's
+// proximal cut (x>=272) so a proximal sleeve stub stays with the body.
+// Segment = refined patch-mask alpha with cell x >= pivot.x (forearm sleeve
+// + hanging cuff + wrist + hand distal to the elbow). Sensitivity pivots
+// bracket the plausible joint along/around the axis.
+const ARM_OUT_DIR = 'artifacts/motion/paired/arm-transform-diagnostic'
+const ARM_KINDS = ['soldier', 'archer']
+const ELBOW_PIVOT_PX = { x: 280, y: 122 }
+const ARM_PIVOT_SENSITIVITY = [{ x: 272, y: 122 }, { x: 290, y: 130 }]
+const ARM_SEARCH = { angleMaxDeg: 30, angleStepDeg: 5, dxMaxU: 8, dxStepU: 2, dyMaxU: 6, dyStepU: 2 }
+const FINGER_MIN_CELL_X = 325 // distal fingertips of the misc:6 hand ROI (x300-338)
+// Pre-registered metric gate for ACCEPT (visual inspection must also pass):
+// fingerGap<=2u, seamGap<=1.5u, seamMaxDisplacement<=4u, handSurvival>=0.95.
+const ARM_GATE = { fingerGapU: 2, seamGapU: 1.5, seamMaxDispU: 4, handSurvival: 0.95 }
+// Per-victim verdicts from personally inspecting the arm sheets/zooms
+// (filled after the first arm run). Shape: { verdict, note }.
+const ARM_VERDICTS = {
+  soldier: {
+    verdict: 'REJECT articulated forearm',
+    note: 'Sheets/zooms inspected both facings at the core pin: the scored best sits at the search boundary (-30deg, dx=-8u right-facing; mirrored left) and only raises the hand beside the far shoulder - fingers stay in open air EAST of the silhouette, neck untouched, cuff panel across the chest (fingerGap 27.654u vs 43u identity, roiOv=0, seam cut-edge max displacement 9.723u). Geometrically unreachable: the hand centroid must move 44.6u toward the holder and 7.8u up, but it rides a ~19u circle about the elbow whose closest approach to the collar centroid is 8.925u, and even that point needs a ~146deg fold. Sensitivity pivots (272,122)/(290,130) reach only fingerGap 27.142/26.339u. Needs a pose/redraw or pin change, not elbow articulation.',
+  },
+  archer: {
+    verdict: 'REJECT articulated forearm',
+    note: 'Sheets/zooms inspected both facings at the core pin: scored best (-30deg, dx=-8u right-facing; mirrored left) lifts the hand to far-shoulder height but the fingers remain in air beyond the chest/shoulder silhouette with the cuff pasted across the torso (fingerGap 18.55u vs 34.033u identity, roiOv=0, seam cut-edge max displacement 9.707u). The hand centroid must move 35.8u toward the holder and 10.4u up; its ~19u pivot circle passes 2.764u from the collar centroid only after a ~130deg fold, far outside a plausible elbow bend. Sensitivity pivots reach only fingerGap 18.134/17.34u. Needs a pose/redraw or pin change, not elbow articulation.',
   },
 }
 
@@ -536,6 +580,379 @@ function patchMaskSheet(ctx) {
   writeFileSync(`${OUT_DIR}/patch-mask.png`, cv.toBuffer('image/png'))
 }
 
+// ---------------------------------------------------------------------------
+// Articulated forearm mode (--arm-transform). All transforms are applied to
+// the forearm segment in WORLD space: rotate about the elbow pivot's world
+// position by angleDeg (positive = clockwise on screen, y-down), then
+// translate by (dxU, dyU). Holder and victim sprites never move, so sole
+// displacement is exactly 0 by construction.
+// ---------------------------------------------------------------------------
+
+const inSegment = (x, y, pivot) => patchMaskHas(x, y) && x >= pivot.x
+
+const segmentCanvasCache = new Map()
+function segmentCanvasOf(restored, pivot, keepSegment) {
+  const key = `${restored.kind}:${restored.frame}:${pivot.x},${pivot.y}:${keepSegment ? 'seg' : 'minus'}`
+  if (!segmentCanvasCache.has(key)) {
+    const cv = createCanvas(restored.srcW, restored.srcH)
+    const g = cv.getContext('2d')
+    const im = g.createImageData(restored.srcW, restored.srcH)
+    for (let y = 0; y < restored.srcH; y++) for (let x = 0; x < restored.srcW; x++) {
+      if (inSegment(x, y, pivot) !== keepSegment) continue
+      const i = (y * restored.srcW + x) * 4
+      im.data.set(restored.data.subarray(i, i + 4), i)
+    }
+    g.putImageData(im, 0, 0)
+    segmentCanvasCache.set(key, cv)
+  }
+  return segmentCanvasCache.get(key)
+}
+
+function buildArmContext(ctx, pivot) {
+  const r = ctx.holderCell
+  const segPx = alphaPoints(r).filter(([x, y]) => inSegment(x, y, pivot))
+  // Stub = holder alpha just west of the cut across the segment's row band
+  // (any retained sleeve/robe the cut edge must stay sewn to, mask or not).
+  const stubPx = alphaPoints(r).filter(([x, y]) => !inSegment(x, y, pivot) && x >= pivot.x - 12 && x < pivot.x && y >= 96 && y <= 176)
+  const segWorld = toWorld(segPx, ctx.hDisp, r.srcW)
+  const pivotWorld = toWorld([[pivot.x, pivot.y]], ctx.hDisp, r.srcW)[0]
+  const handSeg = ctx.handWorld.map((p) => inSegment(p[2], p[3], pivot))
+  const cutEdgeWorld = segWorld.filter((p) => p[2] < pivot.x + 4)
+  const minusWorld = toWorld(alphaPoints(r).filter(([x, y]) => !inSegment(x, y, pivot)), ctx.hDisp, r.srcW)
+  return {
+    pivot, pivotWorld: [pivotWorld[0], pivotWorld[1]],
+    segPx, segWorld, stubWorld: toWorld(stubPx, ctx.hDisp, r.srcW),
+    stubPxCount: stubPx.length,
+    handSeg, handInSegmentPx: handSeg.filter(Boolean).length,
+    fingerWorld: ctx.handWorld.filter((p) => p[2] >= FINGER_MIN_CELL_X),
+    cutEdgeWorld,
+    meanCutEdgeDistU: cutEdgeWorld.length
+      ? cutEdgeWorld.reduce((a, p) => a + Math.hypot(p[0] - pivotWorld[0], p[1] - pivotWorld[1]), 0) / cutEdgeWorld.length : 0,
+    minusSet: intSet(intPts(minusWorld)),
+    collarSet: intSet(ctx.collarInt),
+    handCentroid: centroid(ctx.handWorld), collarCentroid: centroid(ctx.collarWorld),
+    fingerCentroid: centroid(ctx.handWorld.filter((p) => p[2] >= FINGER_MIN_CELL_X)),
+  }
+}
+
+function rotPt(wx, wy, arm, cos, sin, dxU, dyU) {
+  const [px, py] = arm.pivotWorld
+  const ox = wx - px, oy = wy - py
+  return [px + ox * cos - oy * sin + dxU, py + ox * sin + oy * cos + dyU]
+}
+const transformHand = (ctx, arm, cos, sin, dxU, dyU) => ctx.handWorld.map((p, i) => {
+  if (!arm.handSeg[i]) return p
+  const [x, y] = rotPt(p[0], p[1], arm, cos, sin, dxU, dyU)
+  return [x, y, p[2], p[3]]
+})
+
+function bruteGap(a, b) {
+  let bestSq = Infinity
+  for (const p of a) for (const q of b) {
+    const dSq = (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2
+    if (dSq < bestSq) bestSq = dSq
+  }
+  return Math.sqrt(bestSq)
+}
+
+function armScore(c) {
+  // Fingers (not the wrist edge) must reach the collar; penalize seam travel
+  // past 2u, angle and translation so "best" stays a plausible elbow bend.
+  return c.fingerGapU * 2 + c.handGapU + c.centroidDistU * 0.4
+    + Math.max(0, c.seamDispApproxU - 2) * 2 + Math.abs(c.angleDeg) * 0.04 + Math.hypot(c.dxU, c.dyU) * 0.25
+}
+
+function armEvaluate(ctx, arm, angleDeg, dxU, dyU) {
+  const rad = angleDeg * Math.PI / 180, cos = Math.cos(rad), sin = Math.sin(rad)
+  // Stride-sampled hand for the search; exact metrics are recomputed later.
+  const handT = transformHand(ctx, arm, cos, sin, dxU, dyU).filter((_, i) => i % 2 === 0)
+  const fingerT = handT.filter((p) => p[2] >= FINGER_MIN_CELL_X)
+  const [hcx, hcy] = rotPt(arm.handCentroid[0], arm.handCentroid[1], arm, cos, sin, dxU, dyU)
+  const c = {
+    angleDeg: r3(angleDeg), dxU: r3(dxU), dyU: r3(dyU),
+    handGapU: r3(bruteGap(handT, ctx.collarWorld)),
+    fingerGapU: r3(bruteGap(fingerT, ctx.collarWorld)),
+    centroidDistU: r3(Math.hypot(hcx - arm.collarCentroid[0], hcy - arm.collarCentroid[1])),
+    seamDispApproxU: r3(Math.hypot(dxU, dyU) + Math.abs(rad) * arm.meanCutEdgeDistU),
+  }
+  c.score = r3(armScore(c))
+  return c
+}
+
+function armSearch(ctx, arm) {
+  const { angleMaxDeg, angleStepDeg, dxMaxU, dxStepU, dyMaxU, dyStepU } = ARM_SEARCH
+  let scoredBest = null, minGapBest = null, count = 0
+  const consider = (c) => {
+    count++
+    if (!scoredBest || c.score < scoredBest.score) scoredBest = c
+    if (!minGapBest || c.fingerGapU < minGapBest.fingerGapU
+      || (c.fingerGapU === minGapBest.fingerGapU && c.handGapU < minGapBest.handGapU)) minGapBest = c
+  }
+  for (let a = -angleMaxDeg; a <= angleMaxDeg; a += angleStepDeg)
+    for (let dx = -dxMaxU; dx <= dxMaxU; dx += dxStepU)
+      for (let dy = -dyMaxU; dy <= dyMaxU; dy += dyStepU) consider(armEvaluate(ctx, arm, a, dx, dy))
+  for (const seed of [scoredBest, minGapBest]) {
+    for (let a = Math.max(-angleMaxDeg, seed.angleDeg - 5); a <= Math.min(angleMaxDeg, seed.angleDeg + 5) + 1e-9; a += 1)
+      for (let dx = Math.max(-dxMaxU, seed.dxU - 2); dx <= Math.min(dxMaxU, seed.dxU + 2) + 1e-9; dx += 0.5)
+        for (let dy = Math.max(-dyMaxU, seed.dyU - 2); dy <= Math.min(dyMaxU, seed.dyU + 2) + 1e-9; dy += 0.5)
+          consider(armEvaluate(ctx, arm, r3(a), r3(dx), r3(dy)))
+  }
+  return { scoredBest, minGapBest, candidateCount: count }
+}
+
+/** Exact metrics for one candidate, composite holder(-seg) -> victim -> seg. */
+function armExactMetrics(ctx, arm, cand) {
+  const rad = cand.angleDeg * Math.PI / 180, cos = Math.cos(rad), sin = Math.sin(rad)
+  const tf = (pts) => pts.map((p) => { const [x, y] = rotPt(p[0], p[1], arm, cos, sin, cand.dxU, cand.dyU); return [x, y, p[2], p[3]] })
+  const handT = transformHand(ctx, arm, cos, sin, cand.dxU, cand.dyU)
+  const fingerT = handT.filter((p) => p[2] >= FINGER_MIN_CELL_X)
+  const segT = tf(arm.segWorld)
+  const segInt = intPts(segT)
+  const handIntSet = intSet(intPts(handT))
+  let roiOverlapPx = 0
+  for (let i = 0; i < ctx.collarInt.rx.length; i++) if (handIntSet.has(key2(ctx.collarInt.rx[i], ctx.collarInt.ry[i]))) roiOverlapPx++
+  const vBodySet = intSet(ctx.victimBodyInt)
+  let occluded = 0
+  handT.forEach((p, i) => {
+    if (arm.handSeg[i]) return // segment draws last: always survives
+    if (vBodySet.has(key2(Math.round(p[0] * 2), Math.round(p[1] * 2)))) occluded++
+  })
+  const holderUnion = new Set(arm.minusSet)
+  let segOverVictim = 0, segOverCollar = 0
+  for (let i = 0; i < segInt.rx.length; i++) {
+    const k = key2(segInt.rx[i], segInt.ry[i])
+    holderUnion.add(k)
+    if (vBodySet.has(k)) segOverVictim++
+    if (arm.collarSet.has(k)) segOverCollar++
+  }
+  let bodyOverlapPx = 0
+  for (let i = 0; i < ctx.victimBodyInt.rx.length; i++) if (holderUnion.has(key2(ctx.victimBodyInt.rx[i], ctx.victimBodyInt.ry[i]))) bodyOverlapPx++
+  const cutT = tf(arm.cutEdgeWorld)
+  const seamDisps = cutT.map((p, i) => Math.hypot(p[0] - arm.cutEdgeWorld[i][0], p[1] - arm.cutEdgeWorld[i][1]))
+  // Per-point nearest-stub distance: a set-to-set minimum stays ~0 near the
+  // pivot however wide the seam opens at the cuff end, so it cannot gate.
+  const stubDists = cutT.map((p) => arm.stubWorld.length ? Math.sqrt(Math.min(...arm.stubWorld.map((q) => (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2))) : null)
+  const m = {
+    transform: { angleDeg: cand.angleDeg, dxU: cand.dxU, dyU: cand.dyU },
+    handGapU: r3(minDistance(handT, ctx.collarWorld).distU),
+    fingerGapU: r3(minDistance(fingerT, ctx.collarWorld).distU),
+    roiOverlapPx,
+    handPx: handT.length, handInSegmentPx: arm.handInSegmentPx, fingerPx: fingerT.length,
+    handSurvival: handT.length ? r3((handT.length - occluded) / handT.length) : null,
+    segmentPx: arm.segPx.length, segmentCellsOverVictim: segOverVictim, segmentCellsOverCollarRoi: segOverCollar,
+    bodyOverlapPx, bodyOverlapDeltaPx: bodyOverlapPx - ctx.baselineBodyOverlap,
+    seam: {
+      pivotDisplacementU: r3(Math.hypot(cand.dxU, cand.dyU)),
+      cutEdgePx: cutT.length,
+      cutEdgeMeanDisplacementU: seamDisps.length ? r3(seamDisps.reduce((a, v) => a + v, 0) / seamDisps.length) : null,
+      cutEdgeMaxDisplacementU: seamDisps.length ? r3(Math.max(...seamDisps)) : null,
+      gapMeanToStubU: stubDists[0] === null || !stubDists.length ? null : r3(stubDists.reduce((a, v) => a + v, 0) / stubDists.length),
+      gapMaxToStubU: stubDists[0] === null || !stubDists.length ? null : r3(Math.max(...stubDists)),
+    },
+    holderSoleDisplacementU: 0, victimSoleDisplacementU: 0,
+    holderBootErrU: ctx.holderBoot?.groundErrU, victimBootErrU: ctx.victimBoot?.groundErrU,
+  }
+  m.metricGatePass = m.fingerGapU <= ARM_GATE.fingerGapU && m.seam.gapMeanToStubU <= ARM_GATE.seamGapU
+    && m.seam.cutEdgeMaxDisplacementU <= ARM_GATE.seamMaxDispU && m.handSurvival >= ARM_GATE.handSurvival
+  return m
+}
+
+function drawArmPanel(g, ctx, arm, { x: px, y: py, w, h, S, centerY, cand, tint }) {
+  const groundY = ctx.hDisp.y
+  const mapX = (wx) => px + w / 2 + (wx - 240) * S
+  const mapY = (wy) => py + (centerY === 'ground' ? h - 26 + (wy - groundY) * S : h / 2 + (wy - centerY) * S)
+  g.save()
+  g.beginPath(); g.rect(px, py, w, h); g.clip()
+  for (const disp of [ctx.hDisp, ctx.vDisp]) {
+    g.fillStyle = 'rgba(0,0,0,0.38)'
+    g.beginPath(); g.ellipse(mapX(disp.x), mapY(groundY), 11 * S, 2.5 * S, 0, 0, Math.PI * 2); g.fill()
+    g.strokeStyle = 'rgba(255,233,138,0.8)'; g.lineWidth = 1
+    g.beginPath(); g.moveTo(mapX(disp.x), mapY(groundY) - 6); g.lineTo(mapX(disp.x), mapY(groundY) + 6); g.stroke()
+  }
+  const drawActor = (restored, disp, canvasOverride = null) => {
+    const body = canvasOverride ?? cellCanvas(restored)
+    const dw = restored.srcW * disp.scaleX * S, dh = restored.srcH * disp.scaleY * S
+    const left = mapX(disp.x) - disp.displayOriginX * disp.scaleX * S
+    const top = mapY(disp.y) - disp.displayOriginY * disp.scaleY * S
+    g.save()
+    if (disp.flipX) { g.translate(left + dw, top); g.scale(-1, 1); g.drawImage(body, 0, 0, dw, dh) }
+    else g.drawImage(body, left, top, dw, dh)
+    g.restore()
+  }
+  // Fixed composite order: holder without segment -> victim -> forearm segment.
+  drawActor(ctx.holderCell, ctx.hDisp, segmentCanvasOf(ctx.holderCell, arm.pivot, false))
+  drawActor(ctx.victimCell, ctx.vDisp)
+  const rad = cand.angleDeg * Math.PI / 180, cos = Math.cos(rad), sin = Math.sin(rad)
+  const [pwx, pwy] = arm.pivotWorld
+  g.save()
+  g.translate(mapX(pwx + cand.dxU), mapY(pwy + cand.dyU)); g.rotate(rad); g.translate(-mapX(pwx), -mapY(pwy))
+  drawActor(ctx.holderCell, ctx.hDisp, segmentCanvasOf(ctx.holderCell, arm.pivot, true))
+  g.restore()
+  if (tint) {
+    g.fillStyle = 'rgba(255,60,60,0.85)'
+    for (const p of transformHand(ctx, arm, cos, sin, cand.dxU, cand.dyU)) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+    g.fillStyle = 'rgba(60,220,255,0.85)'
+    for (const p of ctx.collarWorld) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+    g.strokeStyle = '#ffe98a'; g.lineWidth = 1.5
+    const ex = mapX(pwx + cand.dxU), ey = mapY(pwy + cand.dyU)
+    g.beginPath(); g.moveTo(ex - 7, ey); g.lineTo(ex + 7, ey); g.moveTo(ex, ey - 7); g.lineTo(ex, ey + 7); g.stroke()
+  }
+  g.strokeStyle = 'rgba(255,255,255,0.28)'; g.lineWidth = 1
+  g.beginPath(); g.moveTo(px, mapY(groundY)); g.lineTo(px + w, mapY(groundY)); g.stroke()
+  g.restore()
+}
+
+function armSheets(kind, perKind) {
+  // Panels: [before(core pin, traced order), seg-front identity, scoredBest,
+  // minGapBest] x [right, left].
+  const label = (g, x, y, res, panel) => {
+    g.fillStyle = '#fff'; g.font = '13px sans-serif'
+    g.fillText(`${kind} ${res.facing} hold4 - ${panel.name}`, x + 6, y + 14)
+    g.font = '10px sans-serif'
+    const m = panel.metrics
+    g.fillText(m
+      ? `a=${m.transform.angleDeg} dx=${m.transform.dxU} dy=${m.transform.dyU} fGap=${m.fingerGapU}u gap=${m.handGapU}u roiOv=${m.roiOverlapPx} seam=${m.seam.gapMeanToStubU}/${m.seam.cutEdgeMaxDisplacementU}u surv=${m.handSurvival} sole=0`
+      : `gap=${res.baselineGapU}u (yellow ticks/shadows = unmoved entity ground points)`, x + 6, y + 28)
+  }
+  const render = (file, W, H, S, tint) => {
+    const LH = 34, cols = 4
+    const cv = createCanvas(cols * W, 2 * (H + LH)), g = cv.getContext('2d')
+    g.fillStyle = '#1d1924'; g.fillRect(0, 0, cv.width, cv.height)
+    perKind.forEach((res, row) => {
+      res.panels.forEach((panel, col) => {
+        const x = col * W, y = row * (H + LH)
+        label(g, x, y, res, panel)
+        if (!panel.metrics) {
+          const ZERO = { dxU: 0, dyU: 0 }
+          const hc = centroid(res.ctx.handWorld), cc = centroid(res.ctx.collarWorld)
+          drawPanel(g, res.ctx, { x, y: y + LH, w: W, h: H, S, centerY: tint ? (hc[1] + cc[1]) / 2 : 'ground', holderOff: ZERO, victimOff: ZERO, tint })
+        } else {
+          const t = panel.metrics.transform
+          const rad = t.angleDeg * Math.PI / 180
+          const hc = centroid(transformHand(res.ctx, res.arm, Math.cos(rad), Math.sin(rad), t.dxU, t.dyU))
+          const cc = centroid(res.ctx.collarWorld)
+          drawArmPanel(g, res.ctx, res.arm, { x, y: y + LH, w: W, h: H, S, centerY: tint ? (hc[1] + cc[1]) / 2 : 'ground', cand: t, tint })
+        }
+      })
+    })
+    writeFileSync(`${ARM_OUT_DIR}/${file}`, cv.toBuffer('image/png'))
+  }
+  render(`${kind}-arm-sheet.png`, 560, 300, 2, false)
+  render(`${kind}-arm-zoom.png`, 460, 320, 4, true)
+}
+
+/** Gridded pivot/segment inspection for misc:5 + misc:6 (cell px, 4x). */
+function elbowInspectionSheet() {
+  const crop = { x: 230, y: 80, w: 130, h: 110 }, S = 4, LH = 34, L = 30
+  const frames = ['misc:5', 'misc:6'].map((f) => restoreCell(HERO, f))
+  const cv = createCanvas(frames.length * (L + crop.w * S + 10), LH + crop.h * S + 8), g = cv.getContext('2d')
+  g.fillStyle = '#28222e'; g.fillRect(0, 0, cv.width, cv.height)
+  frames.forEach((r, i) => {
+    const px0 = i * (L + crop.w * S + 10)
+    const segN = alphaPoints(r).filter(([x, y]) => inSegment(x, y, ELBOW_PIVOT_PX)).length
+    g.fillStyle = '#fff'; g.font = '12px sans-serif'
+    g.fillText(`${r.kind}:${r.frame} seg=${segN}px yellow=cut red=pivot(${ELBOW_PIVOT_PX.x},${ELBOW_PIVOT_PX.y}) green=segment`, px0 + 4, 16)
+    g.font = '10px sans-serif'
+    g.drawImage(cellCanvas(r), crop.x, crop.y, crop.w, crop.h, px0 + L, LH, crop.w * S, crop.h * S)
+    g.fillStyle = 'rgba(0,255,120,0.38)'
+    for (const [x, y] of alphaPoints(r)) {
+      if (!inSegment(x, y, ELBOW_PIVOT_PX) || x < crop.x || y < crop.y || x >= crop.x + crop.w || y >= crop.y + crop.h) continue
+      g.fillRect(px0 + L + (x - crop.x) * S, LH + (y - crop.y) * S, S, S)
+    }
+    for (let gx = Math.ceil(crop.x / 10) * 10; gx <= crop.x + crop.w; gx += 10) {
+      g.strokeStyle = 'rgba(255,255,120,0.35)'
+      g.beginPath(); g.moveTo(px0 + L + (gx - crop.x) * S, LH); g.lineTo(px0 + L + (gx - crop.x) * S, LH + crop.h * S); g.stroke()
+      if (gx % 20 === 0) { g.fillStyle = '#ffe98a'; g.fillText(String(gx), px0 + L + (gx - crop.x) * S - 8, LH - 4) }
+    }
+    for (let gy = Math.ceil(crop.y / 10) * 10; gy <= crop.y + crop.h; gy += 10) {
+      g.strokeStyle = 'rgba(255,255,120,0.35)'
+      g.beginPath(); g.moveTo(px0 + L, LH + (gy - crop.y) * S); g.lineTo(px0 + L + crop.w * S, LH + (gy - crop.y) * S); g.stroke()
+      if (gy % 20 === 0) { g.fillStyle = '#ffe98a'; g.fillText(String(gy), px0 + 2, LH + (gy - crop.y) * S + 3) }
+    }
+    const cutX = px0 + L + (ELBOW_PIVOT_PX.x - crop.x) * S
+    g.strokeStyle = '#ffe98a'; g.lineWidth = 1.5
+    g.beginPath(); g.moveTo(cutX, LH); g.lineTo(cutX, LH + crop.h * S); g.stroke()
+    const ex = cutX, ey = LH + (ELBOW_PIVOT_PX.y - crop.y) * S
+    g.strokeStyle = '#ff4040'; g.lineWidth = 2
+    g.beginPath(); g.moveTo(ex - 9, ey); g.lineTo(ex + 9, ey); g.moveTo(ex, ey - 9); g.lineTo(ex, ey + 9); g.stroke()
+    g.lineWidth = 1
+  })
+  writeFileSync(`${ARM_OUT_DIR}/elbow-pivot-inspection.png`, cv.toBuffer('image/png'))
+}
+
+function armMain() {
+  const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
+  const trace = JSON.parse(readFileSync(TRACE_PATH, 'utf8'))
+  mkdirSync(ARM_OUT_DIR, { recursive: true })
+  const comboOut = []
+  for (const kind of ARM_KINDS) {
+    const perKind = []
+    for (const facing of ['right', 'left']) {
+      const sample = trace.core.find((c) => c.kind === kind && c.facing === facing && c.phase === 'hold4')
+      if (!sample) throw new Error(`no hold4 sample for ${kind} ${facing}`)
+      const ctx = buildContext(sample, landmarks)
+      const arm = buildArmContext(ctx, ELBOW_PIVOT_PX)
+      const { scoredBest, minGapBest, candidateCount } = armSearch(ctx, arm)
+      const panels = [
+        { name: 'before (core pin, no offset)', metrics: null },
+        { name: 'seg-front identity (ang=0)', metrics: armExactMetrics(ctx, arm, { angleDeg: 0, dxU: 0, dyU: 0 }) },
+        { name: 'BEST scored', metrics: armExactMetrics(ctx, arm, scoredBest) },
+        { name: 'min-finger-gap (range extreme)', metrics: armExactMetrics(ctx, arm, minGapBest) },
+      ]
+      const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1])
+      const res = { kind, facing, ctx, arm, panels, baselineGapU: r3(ctx.baselineGap.distU) }
+      perKind.push(res)
+      comboOut.push({
+        kind, facing, holderFrame: ctx.holderFrame, victimFrame: ctx.victimFrame, front: ctx.front,
+        baseline: {
+          handGapU: r3(ctx.baselineGap.distU), bodyOverlapPx: ctx.baselineBodyOverlap,
+          handCentroidWorld: arm.handCentroid.map(r3), collarCentroidWorld: arm.collarCentroid.map(r3),
+          fingerCentroidWorld: arm.fingerCentroid.map(r3), pivotWorld: arm.pivotWorld.map(r3),
+          neededHandCentroidShiftU: [r3(arm.collarCentroid[0] - arm.handCentroid[0]), r3(arm.collarCentroid[1] - arm.handCentroid[1])],
+          neededFingerCentroidShiftU: [r3(arm.collarCentroid[0] - arm.fingerCentroid[0]), r3(arm.collarCentroid[1] - arm.fingerCentroid[1])],
+          // Pure rotation moves the hand centroid on a circle around the pivot;
+          // this is its closest possible approach to the collar centroid.
+          rotationCircleMissU: r3(Math.abs(dist(arm.pivotWorld, arm.collarCentroid) - dist(arm.pivotWorld, arm.handCentroid))),
+          // Fold angle that would swing the hand centroid onto the collar
+          // centroid direction (vs the +-30deg plausible-elbow budget).
+          rotationFoldToCollarDeg: (() => {
+            const a = [arm.handCentroid[0] - arm.pivotWorld[0], arm.handCentroid[1] - arm.pivotWorld[1]]
+            const b = [arm.collarCentroid[0] - arm.pivotWorld[0], arm.collarCentroid[1] - arm.pivotWorld[1]]
+            const cosA = Math.min(1, Math.max(-1, (a[0] * b[0] + a[1] * b[1]) / (Math.hypot(...a) * Math.hypot(...b))))
+            return r3(Math.acos(cosA) * 180 / Math.PI)
+          })(),
+        },
+        search: { candidateCount, scoredBest, minGapBest },
+        modes: Object.fromEntries(panels.filter((p) => p.metrics).map((p) => [p.name, p.metrics])),
+        sensitivityPivots: ARM_PIVOT_SENSITIVITY.map((p) => {
+          const a2 = buildArmContext(ctx, p)
+          const s2 = armSearch(ctx, a2)
+          return { pivotPx: p, segmentPx: a2.segPx.length, minGapBest: s2.minGapBest, scoredBest: s2.scoredBest }
+        }),
+      })
+    }
+    armSheets(kind, perKind)
+  }
+  elbowInspectionSheet()
+  const out = {
+    hero: HERO, phase: 'hold4', kinds: ARM_KINDS, trace: TRACE_PATH, landmarks: LANDMARKS_PATH,
+    elbowPivotPx: ELBOW_PIVOT_PX, sensitivityPivotsPx: ARM_PIVOT_SENSITIVITY,
+    pivotIdentification: 'Eye-identified on the gridded misc:5/misc:6 inspection renders (measure-input/zoom 6x crop x270-370/y70-150 and 3x upper-body; see elbow-pivot-inspection.png): bone axis from shoulder pauldron centre ~(235,120) cell px to wrist skin at the cuff ~(303,117) misc:6 / ~(303,112) misc:5; at x=280 the axis is y~118 inside the green sleeve (alpha ~y108-140). Pivot (280,122) sits on that axis inside the sleeve bulk, 8px east of the refined patch mask proximal cut x>=272 so a sleeve stub remains. Segment = refined patch-mask alpha with cell x>=pivot.x (forearm sleeve + hanging cuff + wrist + hand).',
+    method: `At the traced core pin with NO whole-sprite offset (sole displacement 0 for both actors), the holder is drawn with segment alpha erased, then the victim, then the segment rotated about the pivot world point by angleDeg (positive=clockwise screen, y-down) and translated (dxU,dyU). Search: angle -${ARM_SEARCH.angleMaxDeg}..${ARM_SEARCH.angleMaxDeg} step ${ARM_SEARCH.angleStepDeg}, dx -${ARM_SEARCH.dxMaxU}..${ARM_SEARCH.dxMaxU} step ${ARM_SEARCH.dxStepU}, dy -${ARM_SEARCH.dyMaxU}..${ARM_SEARCH.dyMaxU} step ${ARM_SEARCH.dyStepU}, refined +-5deg/+-2u at 1deg/0.5u around the scored-best and min-finger-gap seeds. Search gaps use stride-2 hand samples (brute force vs collar alpha); every reported mode is recomputed exactly with minDistance on full alpha. fingerGap uses distal fingertips only (hand-ROI cell x>=${FINGER_MIN_CELL_X}). Score = fingerGap*2 + handGap + centroidDist*0.4 + max(0,seamDispApprox-2)*2 + |angle|*0.04 + |dx,dy|*0.25. Seam: cut edge = segment px with cell x<pivot.x+4; displacement = |T(p)-p| per cut-edge px; gapMean/gapMaxToStub = per-cut-edge-point nearest distance to the retained stub (non-segment holder alpha with pivot.x-12<=x<pivot.x, y96-176), averaged/maxed (a set-to-set minimum would stay ~0 near the pivot and hide the opening at the cuff end). Hand survival: segment px draw last and always survive; non-segment hand px occluded by victim body cells count as lost. Body overlap = victim alpha cells coincident with (holder-minus-segment union transformed segment) on the 0.5u grid, delta vs the traced baseline. Far-shoulder landing has no landmark ROI and is judged visually on the zooms; collar-ROI metrics are the numeric gate.`,
+    metricGate: ARM_GATE,
+    combos: comboOut,
+    verdicts: ARM_VERDICTS,
+  }
+  writeFileSync(`${ARM_OUT_DIR}/arm-transform.json`, `${JSON.stringify(out, null, 2)}\n`)
+  console.log(JSON.stringify({
+    outDir: ARM_OUT_DIR,
+    rows: comboOut.map((c) => {
+      const b = c.modes['BEST scored'], mg = c.modes['min-finger-gap (range extreme)']
+      return `${c.kind}-${c.facing}: baseGap=${c.baseline.handGapU}u needShift=${c.baseline.neededHandCentroidShiftU} circleMiss=${c.baseline.rotationCircleMissU}u BEST ang=${b.transform.angleDeg} dx=${b.transform.dxU} dy=${b.transform.dyU} fingerGap=${b.fingerGapU}u gap=${b.handGapU}u roiOv=${b.roiOverlapPx} seamGapMean/Max=${b.seam.gapMeanToStubU}/${b.seam.gapMaxToStubU}u seamMax=${b.seam.cutEdgeMaxDisplacementU}u surv=${b.handSurvival} bodyOvD=${b.bodyOverlapDeltaPx} gate=${b.metricGatePass} | minGap ang=${mg.transform.angleDeg} dx=${mg.transform.dxU} dy=${mg.transform.dyU} fingerGap=${mg.fingerGapU}u seamMax=${mg.seam.cutEdgeMaxDisplacementU}u | sensMinFinger=${c.sensitivityPivots.map((s) => s.minGapBest.fingerGapU).join('/')}`
+    }),
+  }, null, 2))
+}
+
 function main() {
   const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
   const trace = JSON.parse(readFileSync(TRACE_PATH, 'utf8'))
@@ -654,4 +1071,5 @@ function main() {
   }, null, 2))
 }
 
-main()
+if (process.argv.includes('--arm-transform')) armMain()
+else main()
