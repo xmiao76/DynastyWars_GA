@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "batch": "guanyu+zhangfei+zhaoyun+weiyan-grab-12combo (frames keyed by kind, so heroes share one file; victim collar rois are hero-independent)",
+  "batch": "guanyu+zhangfei+zhaoyun+weiyan+huangzhong-grab-12combo (frames keyed by kind, so heroes share one file; victim collar rois are hero-independent)",
   "units": "roi = {x, y, w, h} in restored full source-cell pixels (density-2 px; cell = prepared frame srcW x srcH), authored by eye from the gridded 6x inspection crops in artifacts/motion/paired/measure-input/zoom/. Alpha >= 128 inside the roi is the measured point set. Left-facing samples reuse these rois mirrored via the trace flipX transform; no mirrored roi is authored.",
-  "inspectionCrops": "artifacts/motion/paired/measure-input/ (full/ restored cells, grid/ 2x, zoom/ 3x and 6x targeted crops; regenerate with: node scripts/paired-contact-measure.mjs --render-input --crop guanyu:misc:5:270:70:100:80:6 --crop guanyu:misc:6:270:70:100:80:6 --crop soldier:hitstun-held:5:210:20:100:80:6 --crop spearman:hitstun-held:5:205:55:95:75:6 --crop archer:hitstun-held:5:205:25:100:70:6 --crop lidian:misc:2:190:50:110:80:6 --crop xiahoudun:misc:2:215:240:100:75:6 --crop xuchu:misc:2:190:45:110:80:6 ; zhangfei crops under measure-input/zhangfei/ via: node scripts/paired-contact-measure.mjs --hero=zhangfei --render-input --crop zhangfei:misc:2:300:90:110:70:6 --crop zhangfei:misc:3:180:80:120:95:6 ; zhaoyun crops under measure-input/zhaoyun/ via: node scripts/paired-contact-measure.mjs --hero=zhaoyun --render-input --crop zhaoyun:misc:2:380:90:110:70:6 --crop zhaoyun:misc:3:180:120:130:95:6 ; weiyan crops under measure-input/weiyan/ via: node scripts/paired-contact-measure.mjs --hero=weiyan --render-input --crop weiyan:misc:2:230:140:90:60:6 --crop weiyan:misc:3:220:120:90:60:6)",
+  "inspectionCrops": "artifacts/motion/paired/measure-input/ (full/ restored cells, grid/ 2x, zoom/ 3x and 6x targeted crops; regenerate with: node scripts/paired-contact-measure.mjs --render-input --crop guanyu:misc:5:270:70:100:80:6 --crop guanyu:misc:6:270:70:100:80:6 --crop soldier:hitstun-held:5:210:20:100:80:6 --crop spearman:hitstun-held:5:205:55:95:75:6 --crop archer:hitstun-held:5:205:25:100:70:6 --crop lidian:misc:2:190:50:110:80:6 --crop xiahoudun:misc:2:215:240:100:75:6 --crop xuchu:misc:2:190:45:110:80:6 ; zhangfei crops under measure-input/zhangfei/ via: node scripts/paired-contact-measure.mjs --hero=zhangfei --render-input --crop zhangfei:misc:2:300:90:110:70:6 --crop zhangfei:misc:3:180:80:120:95:6 ; zhaoyun crops under measure-input/zhaoyun/ via: node scripts/paired-contact-measure.mjs --hero=zhaoyun --render-input --crop zhaoyun:misc:2:380:90:110:70:6 --crop zhaoyun:misc:3:180:120:130:95:6 ; weiyan crops under measure-input/weiyan/ via: node scripts/paired-contact-measure.mjs --hero=weiyan --render-input --crop weiyan:misc:2:230:140:90:60:6 --crop weiyan:misc:3:220:120:90:60:6 ; huangzhong crops under measure-input/huangzhong/ via: node scripts/paired-contact-measure.mjs --hero=huangzhong --render-input --crop huangzhong:misc:2:300:120:110:70:6 --crop huangzhong:misc:3:300:130:110:70:6)",
   "frames": {
     "guanyu:misc:5": {
       "kind": "guanyu",
@@ -59,6 +59,20 @@
       "role": "holder-hand",
       "roi": { "x": 275, "y": 146, "w": 22, "h": 19 },
       "note": "Settled hold cell (hold4/hold8), lean-back pose, likewise no extended hand: the gripping hand is the front/east fist on the rising shaft, eye-checked on the 6x crop x220..310/y120..180: fist skin x275..296 y146..164 (shaft strip crossing at ~y150-160 inside the rect), cut from the forearm guard at the west edge; the rear shaft fist (~x185-215,y160-180) is outside. Because the fist sits against the sleeve/torso mass, this rect carries body alpha in several standing poses (misc:0 probed 400/418 px) - see controls.byHero.weiyan for the wrong-pose consequence."
+    },
+    "huangzhong:misc:2": {
+      "kind": "huangzhong",
+      "frame": "misc:2",
+      "role": "holder-hand",
+      "roi": { "x": 331, "y": 142, "w": 33, "h": 21 },
+      "note": "Hold0 cell has NO extended open hand (archer hero): both hands stay on/near the bow, so the gripping hand is the front/east fist clenched on the bow grip, eye-checked on the 6x crop x300..410/y120..190: fist skin x331..363 y142..162, knuckles over the dark bow-grip strip (x~347..360, inside the rect) with fingers curling east of it, cut from the grey inner-sleeve cuff at the west/bottom-west edge. The rear hand at the waist/belt (~x235..270,y140..165) is outside the roi."
+    },
+    "huangzhong:misc:3": {
+      "kind": "huangzhong",
+      "frame": "misc:3",
+      "role": "holder-hand",
+      "roi": { "x": 333, "y": 152, "w": 33, "h": 22 },
+      "note": "Settled hold cell (hold4/hold8), lean-in pose, likewise no extended hand: the gripping hand is the front/east fist on the bow grip, eye-checked on the 6x crop x300..410/y130..200: fist skin x333..365 y152..173 (bow-grip strip crossing at ~x350..362 inside the rect), cut from the grey sleeve cuff at the west edge. The bow-grip fist sits in nearly the same spot in every standing misc pose (misc:0 probed 664/726 px in this rect), so no standing pose discriminates it - see controls.byHero.huangzhong for the wrong-pose consequence."
     },
     "soldier:hitstun-held:5": {
       "kind": "soldier",
@@ -123,6 +137,10 @@
       "weiyan": {
         "wrongPoseHolderFrame": "getup:0",
         "wrongPoseNote": "Same shaft-fist limitation: weiyan's misc:3 fist roi sits against sleeve/torso mass and carries heavy alpha in standing poses (misc:0 probed 400/418 px, misc:1 204, misc:4 95), so no standing misc pose cleanly discriminates it. The control uses the prone getup:0 cell, where only a 113-px bottom strip (y156..164 of the rect) carries alpha, so the measured point set sits below the real fist and the gap must fail. Recorded limitation, not hidden: the +6u lane-shift control remains the discriminating negative control for weiyan."
+      },
+      "huangzhong": {
+        "wrongPoseHolderFrame": "getup:0",
+        "wrongPoseNote": "Same weapon-fist limitation: huangzhong's misc:3 bow-grip fist roi sits in nearly the same spot in every standing misc pose (misc:0 probed 664/726 px, misc:1 656, misc:4 450 in this rect), so no standing misc pose cleanly discriminates it. The control uses the prone getup:0 cell, where only 7 alpha px fall in the rect (probed), so the measured point set is essentially empty/far from the real fist and the gap must fail. Recorded limitation, not hidden: the +6u lane-shift control remains the discriminating negative control for huangzhong."
       }
     }
   }

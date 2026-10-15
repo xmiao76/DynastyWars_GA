@@ -39,6 +39,7 @@ const HERO_CONFIG = {
   zhangfei: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
   zhaoyun: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
   weiyan: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
+  huangzhong: { holderFrames: ['misc:2', 'misc:3'], miscStrip: [0, 1, 2, 3, 4] },
 }
 const heroArg = () => {
   const a = process.argv.slice(2)
