@@ -1,0 +1,45 @@
+{
+  "work": "cmr23-zhangfei-pilot-generate",
+  "task": "CMR-23 Zhang Fei settled-grab pilot (settled misc:3 ONLY, isolated single-pose edit; no pack/gates in this package)",
+  "status": "UNREVIEWED",
+  "provider": {
+    "requested": "gpt",
+    "serving": "UNCONFIRMED (subscription image_generate called with provider preference gpt; serving provider not independently confirmed)"
+  },
+  "candidate": {
+    "path": "art/motion/zhangfei/cmr23-repair/candidate-raw.png",
+    "sha256": "4c16459dc96bbc923e3570f7ee779b0481f7e9da2cbdf8e82402b4e346dd24c4",
+    "bytes": 988369,
+    "size": [1536, 1024],
+    "format": "png",
+    "generatedFile": "image-2026-10-15T02-20-44-081Z-3x5kx4-0.png (byte-copied unchanged to candidate-raw.png; sha256/bytes verified after copy)"
+  },
+  "prompt": {
+    "file": "art/motion/zhangfei/cmr23-repair/prompt.txt",
+    "sha256": "1978e223fcc990746830b4068d2b9e9229e42dac86efa5b79c1367fa32ad5082",
+    "construction": "isolated edit of the deterministic padded settled misc:3 cell (restored 520x288 placed 1:1 centred at (508,368) on 1536x1024 transparent canvas, soles/ground y=640): preserve body/head/legs/weapon hand/camera/scale/position exactly; redraw ONLY the lead arm into an extended open gripping hand (donor misc:2 claw form) ending with its centroid at canvas (805,480), fingers curling east around an unseen collar at that point, forearm continuous from the shoulder; no victim/collar drawn"
+  },
+  "targetMath": {
+    "worldTargetU": [248, 140],
+    "traceHolderTransform": "artifacts/motion/paired/zhangfei/canvas/trace.json hold4 right-facing (frame entity:zhangfei:motion:misc:3, uniform across all 6 victim kinds): display x229.3 y220 scaleX/Y 0.5 displayOrigin (260,272) flipX false; full record in padded-ref.json",
+    "formula": "cellX = 260 + (248-229.3)/0.5 = 297.4; cellY = 272 + (140-220)/0.5 = 112.0; canvas = padded offset (508,368) + cell = (805.4,480.0), briefed as (805,480); forward check returns world (248,140) exactly",
+    "cellPx": [297.4, 112],
+    "canvasPx": [805.4, 480],
+    "canvasPxBriefed": [805, 480],
+    "paddedGeometry": "padded-ref.json / build-padded-ref.mjs (deterministic, double-run identical): existing misc:3 shaft-fist centroid cell (223.5,123)=canvas (731.5,491); donor misc:2 claw centroid cell (331.81,126.18)=world (265.21,147.09), i.e. east of target, hence the briefed tuck to (805,480)"
+  },
+  "references": [
+    { "order": 1, "role": "EDIT TARGET - padded restored settled misc:3 cell (deterministic, this package)", "path": "art/motion/zhangfei/cmr23-repair/misc3-padded-ref.png", "sha256": "1426a0573608dca24fc807abb6f34b5a4ff9fc740ba983a900b4aee99e7150da", "size": [1536, 1024] },
+    { "order": 2, "role": "misc:2 donor cell (restored 520x288) - open gripping claw donor", "path": "art/motion/zhangfei/cmr23-repair/misc2-donor-cell.png", "sha256": "ee2da78739a1285a41380be68762eabec947360e13aa277a8760d987b9f67980", "size": [520, 288] },
+    { "order": 3, "role": "banked Zhang Fei walk guard (walk:0 restored 520x288, accepted walk pack / walk-candidate-2.png 981477d7...) - identity reference", "path": "art/motion/zhangfei/cmr23-repair/walk0-guard-cell.png", "sha256": "a806d80885e51415be5aff78784e8ffd52b89f5ab6e10a4fccb75d21a5e1851f", "size": [520, 288] }
+  ],
+  "referenceReadOrder": "each reference opened with read_image singly in order 1->2->3 after the reserve commit; same order passed as referenceImages with sha256:-prefixed attachmentIds",
+  "reserveCommit": "b1c019a",
+  "ledgerAfter": { "zhangfeiUsed": 13, "misc": 2, "globalSummed": 197, "zhangfeiCap": 16, "totalCap": 200, "sha256": "60872e911da6a963b19d46ecf57d8bab88823d08fe361d2d28311acaba5a8cb6" },
+  "size": "1536x1024 (requested and served native)",
+  "exactlyOneGeneration": true,
+  "textToImage": false,
+  "gatesRun": false,
+  "packChanges": false,
+  "banked": false
+}
