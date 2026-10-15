@@ -39,6 +39,13 @@
 // segment) -> victim -> transformed segment. Outputs go to
 // artifacts/motion/paired/arm-transform-diagnostic/. Diagnostic only.
 //
+// Arm-WARP prototype (fourth mode, `--arm-warp` only): piecewise warp of the
+// misc:6 grapple segment (3 sub-segments, shoulder/elbow/mid/wrist seeds) so
+// the hand centroid lands on per-cluster forensic targets for all 6 victims,
+// victim shifted by a +-3u cluster micro-dx, proximal sub-segment masked
+// behind the victim silhouette. See the WARP section below. Outputs go to
+// artifacts/motion/paired/arm-warp-diagnostic/. Diagnostic only.
+//
 // Restoration/transform helpers are reused from paired-contact-measure.mjs.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createCanvas } from '@napi-rs/canvas'
@@ -173,6 +180,51 @@ const ARM_VERDICTS = {
   archer: {
     verdict: 'REJECT articulated forearm',
     note: 'Sheets/zooms inspected both facings at the core pin: scored best (-30deg, dx=-8u right-facing; mirrored left) lifts the hand to far-shoulder height but the fingers remain in air beyond the chest/shoulder silhouette with the cuff pasted across the torso (fingerGap 18.55u vs 34.033u identity, roiOv=0, seam cut-edge max displacement 9.707u). The hand centroid must move 35.8u toward the holder and 10.4u up; its ~19u pivot circle passes 2.764u from the collar centroid only after a ~130deg fold, far outside a plausible elbow bend. Sensitivity pivots reach only fingerGap 18.134/17.34u. Needs a pose/redraw or pin change, not elbow articulation.',
+  },
+}
+
+// --- Arm-warp prototype (--arm-warp) ---------------------------------------
+// Forensic clusters: hand-centroid targets are WORLD coords for the RIGHT
+// facing (holder (229.4,220) victim (245.4,220)); left facings mirror about
+// world x=240 (holder/victim swap to 250.6/234.6). The +-3 per victim is a
+// presentation micro-dx applied to the VICTIM sprite along the pin axis
+// (victimOff.dxU = pinSign*microDxU, so it mirrors with facing; holder sole
+// stays 0, victim sole 3u). Segment = misc:6 alpha with x>=272, y108-135
+// (cuff + skin forearm + hand; the hanging drape below y140 stays with the
+// base), UNION the landmark hand ROI (x300-338,y101-123) so the fingertip
+// sliver at y102-107 (47px) is not orphaned in the base - same refinement
+// precedent as the patch mask's y96 top extension. Sub-segments by cell x:
+// proximal cuff x<290 (pivot elbow), mid forearm 290<=x<303 (pivot mid),
+// hand x>=303 (pivot wrist); the shoulder seed is the fixed anchor the
+// proximal base angle aligns shoulder->elbow against. Seeds (cell px, from
+// the misc:6 inspection renders): shoulder pauldron centre (235,120), elbow
+// on the bone axis inside the sleeve (280,122 - same point as ELBOW_PIVOT_PX),
+// mid forearm (292,120), wrist skin at the cuff exit (303,117).
+const WARP_OUT_DIR = 'artifacts/motion/paired/arm-warp-diagnostic'
+const WARP_CLUSTERS = [
+  { name: 'NH', targetRight: [238, 133], microDxU: { soldier: 3, archer: -3 } },
+  { name: 'ML', targetRight: [242, 151], microDxU: { spearman: 3, xiahoudun: -3 } },
+  { name: 'FH', targetRight: [264, 135], microDxU: { xuchu: 3, lidian: -3 } },
+]
+const WARP_KINDS = WARP_CLUSTERS.flatMap((c) => Object.keys(c.microDxU))
+const WARP_SEEDS_PX = { shoulder: { x: 235, y: 120 }, elbow: { x: 280, y: 122 }, mid: { x: 292, y: 120 }, wrist: { x: 303, y: 117 } }
+const WARP_SUBSEG_X = [290, 303] // proximal | mid | hand cut columns (cell px)
+// Pre-registered metric gate for ACCEPT (visual inspection must also pass):
+const WARP_GATE = { fingerGapU: 2, palmCentroidDistU: 6, distalCentroidToTargetU: 3.5, seamGapMeanU: 2, interSeamMaxU: 4, handSurvival: 0.95, fingerDirDeltaDeg: 15 }
+// Per-cluster verdicts from personally inspecting the warp sheets/zooms
+// (filled after the first warp run). Shape: { verdict, note }.
+const WARP_VERDICTS = {
+  NH: {
+    verdict: 'REJECT arm-warp (soldier+archer)',
+    note: 'Sheets/zooms inspected both facings: the solved hand does land on the neck (soldier fingerGap 0.819/0.339u palmC 0.118/0.389u, archer 0.016u/3.767-4.143u, survival 1, distal centroid exactly on (238,133)) and soldier in isolation reads as a throat grab, but the ~39u warp tears the chain: seam gapMean/gapMax to stub 10.914/16.869u (11.033/16.858 left), inter-subsegment sepMax 15.432u vs 4u gate, and on the clean sheets the cuff/forearm survives only as disjoint white/green shards across the victim chest with no forearm running back to the holder (archer hand lies flat pasted across the mouth/neck). Candidate sits at search boundaries (da0=da1=-10, f0=0.6), so the gap-vs-tear tradeoff is unresolved within this warp family. Metric contact without a readable arm: reject.',
+  },
+  ML: {
+    verdict: 'REJECT arm-warp (spearman+xiahoudun)',
+    note: 'Sheets/zooms inspected both facings at target (242,151): contact metrics are strong (fingerGap 0.117u everywhere, spearman palmC 0.723/1.006u roiOv 253-254, xiahoudun palmC 5.459/5.924u roiOv 274-279, survival 1) but visually only fingertips and a vertical cuff shard show at the spearman collar west edge, and the xiahoudun hand is buried in the beard/collar with a red wrist sliver + white cuff chunk floating west of the shoulder - no readable grip or forearm on either. Seam 7.142/12.174u (7.33/12.426 left) and inter-subsegment sepMax 13.553-13.635u fail the gate; the ~36u displacement is simply too large for 3 rigid sub-segments. Reject.',
+  },
+  FH: {
+    verdict: 'ACCEPT arm-warp as prototype candidate (xuchu+lidian)',
+    note: 'Sheets/zooms inspected both facings at target (264,135): the small (~14u) warp keeps the chain near-continuous - metric gate PASSES for both victims/facings (fingerGap 0.117u, survival 1, distal centroid on target, fingerDirDelta 0.7deg, seam gapMean 0.649-0.784u, inter-subsegment sepMax 3.793-3.981u). Xuchu hand sits visible on the collar/upper chest (palmC 0.304/0.633u, roiOv 258-269) with fingers along the facing and the cuff running back behind the victim; lidian hand lands at the throat between the two heads and reads as a grab (palmC 5.382/5.862u, near the 6u gate - weakest member). Caveats: xuchu palm rides slightly high over the beard/collar notch, and this is a still-frame diagnostic only - accept as the prototype direction for FH, not as ship-ready runtime layering.',
   },
 }
 
@@ -880,6 +932,460 @@ function elbowInspectionSheet() {
   writeFileSync(`${ARM_OUT_DIR}/elbow-pivot-inspection.png`, cv.toBuffer('image/png'))
 }
 
+// ---------------------------------------------------------------------------
+// Arm-warp mode (--arm-warp). Piecewise warp in WORLD space: each of the 3
+// sub-segments rotates about its seed pivot and translates by t_i. The hand
+// sub-segment translation is SOLVED so the distal-hand centroid (hand-ROI px
+// with cell x>=303) lands on the cluster target (+ searched tweak); proximal
+// /mid translations are fractions f0/f1 of it, and their base angles align
+// the displaced seed chain (shoulder->elbow', elbow'->mid') against the
+// original, so the chain bends toward the target instead of shearing rigidly.
+// Hand base angle is 0 = original orientation (fingers keep pointing along
+// the holder's facing). Angles/tx are stored right-facing-equivalent and
+// mirrored by pinSign for left facings. Composite order: holder base (segment
+// erased) -> proximal sub-segment -> victim (micro-dx) -> mid+hand
+// sub-segments, which is exactly "warped segment on top, proximal portion
+// masked behind the victim silhouette" (the elbow seam hides under the
+// victim where they overlap).
+// ---------------------------------------------------------------------------
+
+const warpSegHas = (x, y) => (x >= 272 && y >= 108 && y <= 135) || (x >= 300 && x < 339 && y >= 101 && y < 124)
+const warpSubsegOf = (x) => (x < WARP_SUBSEG_X[0] ? 0 : x < WARP_SUBSEG_X[1] ? 1 : 2)
+const warpClusterOf = (kind) => WARP_CLUSTERS.find((c) => kind in c.microDxU)
+
+const warpCanvasCache = new Map()
+function warpCanvasOf(restored, part) { // part: 'base' | subseg index 0/1/2
+  const key = `${restored.kind}:${restored.frame}:warp:${part}`
+  if (!warpCanvasCache.has(key)) {
+    const cv = createCanvas(restored.srcW, restored.srcH)
+    const g = cv.getContext('2d')
+    const im = g.createImageData(restored.srcW, restored.srcH)
+    for (let y = 0; y < restored.srcH; y++) for (let x = 0; x < restored.srcW; x++) {
+      const keep = part === 'base' ? !warpSegHas(x, y) : warpSegHas(x, y) && warpSubsegOf(x) === part
+      if (!keep) continue
+      const i = (y * restored.srcW + x) * 4
+      im.data.set(restored.data.subarray(i, i + 4), i)
+    }
+    g.putImageData(im, 0, 0)
+    warpCanvasCache.set(key, cv)
+  }
+  return warpCanvasCache.get(key)
+}
+
+function buildWarpContext(ctx) {
+  const r = ctx.holderCell
+  const cluster = warpClusterOf(ctx.kind)
+  const microDxU = cluster.microDxU[ctx.kind]
+  const victimOff = { dxU: ctx.pinSign * microDxU, dyU: 0 }
+  const targetWorld = ctx.pinSign > 0 ? [...cluster.targetRight] : [480 - cluster.targetRight[0], cluster.targetRight[1]]
+  const segPx = alphaPoints(r).filter(([x, y]) => warpSegHas(x, y))
+  const segWorld = toWorld(segPx, ctx.hDisp, r.srcW)
+  const segSub = segPx.map(([x]) => warpSubsegOf(x))
+  const byCell = new Map(segWorld.map((p, i) => [`${p[2]},${p[3]}`, i]))
+  const boundaryPairs = []
+  for (const cutX of WARP_SUBSEG_X) for (let y = 96; y <= 140; y++) {
+    const a = byCell.get(`${cutX - 1},${y}`), b = byCell.get(`${cutX},${y}`)
+    if (a !== undefined && b !== undefined) boundaryPairs.push([a, b])
+  }
+  const seedWorld = {}
+  for (const [name, s] of Object.entries(WARP_SEEDS_PX)) {
+    const wpt = toWorld([[s.x, s.y]], ctx.hDisp, r.srcW)[0]
+    seedWorld[name] = [wpt[0], wpt[1]]
+  }
+  const handSub = ctx.handWorld.map((p) => warpSubsegOf(p[2]))
+  const distalHand = ctx.handWorld.filter((p) => p[2] >= WARP_SUBSEG_X[1])
+  const stubPx = alphaPoints(r).filter(([x, y]) => !warpSegHas(x, y) && x >= 258 && x < 272 && y >= 100 && y <= 140)
+  const baseMinusWorld = toWorld(alphaPoints(r).filter(([x, y]) => !warpSegHas(x, y)), ctx.hDisp, r.srcW)
+  return {
+    cluster: cluster.name, microDxU, victimOff, targetWorld,
+    segPx, segWorld, segSub, boundaryPairs, seedWorld, handSub,
+    segBoxOnlyPx: alphaPoints(r).filter(([x, y]) => x >= 272 && y >= 108 && y <= 135).length,
+    subsegPx: [0, 1, 2].map((i) => segSub.filter((s) => s === i).length),
+    distalHandCentroid: centroid(distalHand),
+    palmOrig: ctx.handWorld.filter((p) => p[2] < FINGER_MIN_CELL_X),
+    fingerOrig: ctx.handWorld.filter((p) => p[2] >= FINGER_MIN_CELL_X),
+    stubWorld: toWorld(stubPx, ctx.hDisp, r.srcW), stubPxCount: stubPx.length,
+    cutEdgeIdx: segWorld.map((p, i) => (p[2] < 276 ? i : -1)).filter((i) => i >= 0),
+    baseMinusSet: intSet(intPts(baseMinusWorld)),
+    // Victim-side geometry with the cluster micro-dx applied.
+    collarW: shifted(ctx.collarWorld, victimOff),
+    collarCentroidW: centroid(shifted(ctx.collarWorld, victimOff)),
+    victimBodySetW: absSet(ctx.victimBodyInt, victimOff),
+    collarSetW: absSet(ctx.collarInt, victimOff),
+    handInSegPx: ctx.handWorld.filter((p) => warpSegHas(p[2], p[3])).length,
+  }
+}
+
+function warpTransforms(ctx, w, cand) {
+  const pivots = [w.seedWorld.elbow, w.seedWorld.mid, w.seedWorld.wrist]
+  if (cand.identity) return pivots.map((p) => ({ pivot: p, cos: 1, sin: 0, tx: 0, ty: 0, angleWorldDeg: 0 }))
+  const ps = ctx.pinSign
+  const handRad = ps * cand.handAngleDeg * Math.PI / 180
+  const hc = Math.cos(handRad), hs = Math.sin(handRad)
+  const [wx, wy] = w.seedWorld.wrist
+  const [cx, cy] = w.distalHandCentroid
+  const desired = [w.targetWorld[0] + ps * cand.txU, w.targetWorld[1] + cand.tyU]
+  const tHand = [desired[0] - (wx + (cx - wx) * hc - (cy - wy) * hs), desired[1] - (wy + (cx - wx) * hs + (cy - wy) * hc)]
+  const ts = [[cand.f0 * tHand[0], cand.f0 * tHand[1]], [cand.f1 * tHand[0], cand.f1 * tHand[1]], tHand]
+  const moved = pivots.map((p, i) => [p[0] + ts[i][0], p[1] + ts[i][1]])
+  const sub = (a, b) => [a[0] - b[0], a[1] - b[1]]
+  const ang = (v, u) => Math.atan2(v[0] * u[1] - v[1] * u[0], v[0] * u[0] + v[1] * u[1]) * 180 / Math.PI
+  const base0 = ang(sub(w.seedWorld.elbow, w.seedWorld.shoulder), sub(moved[0], w.seedWorld.shoulder))
+  const base1 = ang(sub(w.seedWorld.mid, w.seedWorld.elbow), sub(moved[1], moved[0]))
+  const anglesWorld = [base0 + ps * cand.da0Deg, base1 + ps * cand.da1Deg, ps * cand.handAngleDeg]
+  return pivots.map((p, i) => {
+    const rad = anglesWorld[i] * Math.PI / 180
+    return { pivot: p, cos: Math.cos(rad), sin: Math.sin(rad), tx: ts[i][0], ty: ts[i][1], angleWorldDeg: r3(anglesWorld[i]) }
+  })
+}
+const warpApply = (p, tr) => {
+  const ox = p[0] - tr.pivot[0], oy = p[1] - tr.pivot[1]
+  return [tr.pivot[0] + ox * tr.cos - oy * tr.sin + tr.tx, tr.pivot[1] + ox * tr.sin + oy * tr.cos + tr.ty, p[2], p[3]]
+}
+const warpHandPts = (ctx, w, trs) => ctx.handWorld.map((p, i) => warpApply(p, trs[w.handSub[i]]))
+const warpSegPts = (w, trs) => w.segWorld.map((p, i) => warpApply(p, trs[w.segSub[i]]))
+
+/** Sampled search metrics (stride samples; exact metrics recomputed later). */
+function warpSample(ctx, w, cand) {
+  const trs = warpTransforms(ctx, w, cand)
+  const handT = warpHandPts(ctx, w, trs)
+  const handS = handT.filter((_, i) => i % 2 === 0)
+  const fingerS = handS.filter((p) => p[2] >= FINGER_MIN_CELL_X)
+  const palmT = handT.filter((p) => p[2] < FINGER_MIN_CELL_X)
+  const palmC = centroid(palmT)
+  const distalC = centroid(handT.filter((p) => p[2] >= WARP_SUBSEG_X[1]))
+  const segT = warpSegPts(w, trs)
+  const cutDisp = w.cutEdgeIdx.map((i) => Math.hypot(segT[i][0] - w.segWorld[i][0], segT[i][1] - w.segWorld[i][1]))
+  const interSep = w.boundaryPairs.map(([a, b]) => Math.hypot(segT[a][0] - segT[b][0], segT[a][1] - segT[b][1]))
+  let segOverVictim = 0, segOverCollar = 0
+  segT.forEach((p, i) => {
+    if (i % 2) return
+    const k = key2(Math.round(p[0] * 2), Math.round(p[1] * 2))
+    if (w.victimBodySetW.has(k)) segOverVictim++
+    if (w.collarSetW.has(k)) segOverCollar++
+  })
+  const m = {
+    fingerGapU: bruteGap(fingerS, w.collarW), handGapU: bruteGap(handS, w.collarW),
+    palmCentroidDistU: Math.hypot(palmC[0] - w.collarCentroidW[0], palmC[1] - w.collarCentroidW[1]),
+    distalToTargetU: Math.hypot(distalC[0] - w.targetWorld[0], distalC[1] - w.targetWorld[1]),
+    cutDispMeanU: cutDisp.length ? cutDisp.reduce((a, v) => a + v, 0) / cutDisp.length : 0,
+    interSepMeanU: interSep.length ? interSep.reduce((a, v) => a + v, 0) / interSep.length : 0,
+    segOverVictimS: segOverVictim, segOverCollarS: segOverCollar,
+  }
+  // Finger-to-collar gap first, then palm-centroid proximity to the collar,
+  // fidelity to the forensic target, and seam travel (cut-edge displacement
+  // + boundary separation beyond the ~0.5u original column spacing).
+  m.score = m.fingerGapU * 2 + m.handGapU + m.palmCentroidDistU * 0.6 + m.distalToTargetU * 0.8
+    + m.cutDispMeanU * 0.5 + Math.max(0, m.interSepMeanU - 0.5) * 1.5 - m.segOverCollarS * 0.01
+    + Math.abs(cand.handAngleDeg ?? 0) * 0.08 // keep fingers pointing along the facing
+  return m
+}
+
+/** Per-cluster staged search on the 2 right-facing members (left mirrors). */
+function warpSearchCluster(members) {
+  // members: [{ctx, w}] right-facing only.
+  const sumScore = (cand) => members.reduce((a, m) => a + warpSample(m.ctx, m.w, cand).score, 0)
+  let count = 0, best = null
+  const consider = (cand) => { count++; const s = sumScore(cand); if (!best || s < best.score) best = { cand, score: s } }
+  for (const handAngleDeg of [-10, -5, 0, 5, 10])
+    for (const txU of [-4, -2, 0, 2, 4]) for (const tyU of [-3, -2, -1, 0, 1, 2, 3])
+      consider({ handAngleDeg, txU, tyU, da0Deg: 0, da1Deg: 0, f0: 0.3, f1: 0.65 })
+  const stageA = { ...best }
+  for (const f0 of [0, 0.15, 0.3, 0.45, 0.6]) for (const f1 of [0.5, 0.65, 0.8, 0.9]) {
+    if (f1 <= f0 + 0.15) continue
+    for (const da0Deg of [-10, -5, 0, 5, 10]) for (const da1Deg of [-10, -5, 0, 5, 10])
+      consider({ ...stageA.cand, f0, f1, da0Deg, da1Deg })
+  }
+  return { best: best.cand, clusterScore: r3(best.score), stageABest: stageA.cand, candidateCount: count }
+}
+
+/** Exact metrics for one warp candidate (full alpha, victim micro-dx on). */
+function warpExactMetrics(ctx, w, cand) {
+  const trs = warpTransforms(ctx, w, cand)
+  const handT = warpHandPts(ctx, w, trs)
+  const segT = warpSegPts(w, trs)
+  const fingerT = handT.filter((p) => p[2] >= FINGER_MIN_CELL_X)
+  const palmT = handT.filter((p) => p[2] < FINGER_MIN_CELL_X)
+  const palmC = centroid(palmT), fingerC = centroid(fingerT)
+  const distalC = centroid(handT.filter((p) => p[2] >= WARP_SUBSEG_X[1]))
+  const handC = centroid(handT)
+  const palmOrigC = centroid(w.palmOrig), fingerOrigC = centroid(w.fingerOrig)
+  const dirDelta = (() => {
+    const v = [fingerOrigC[0] - palmOrigC[0], fingerOrigC[1] - palmOrigC[1]]
+    const u = [fingerC[0] - palmC[0], fingerC[1] - palmC[1]]
+    return Math.abs(Math.atan2(v[0] * u[1] - v[1] * u[0], v[0] * u[0] + v[1] * u[1]) * 180 / Math.PI)
+  })()
+  const handSet = intSet(intPts(handT))
+  let roiOverlapPx = 0
+  for (const k of w.collarSetW) if (handSet.has(k)) roiOverlapPx++
+  // Survival: mid+hand sub-segments draw last; proximal (no hand px) would be
+  // occluded by the victim. Segment visibility likewise nets out proximal
+  // cells covered by the victim silhouette.
+  let handOccluded = 0
+  handT.forEach((p, i) => {
+    if (w.handSub[i] === 0 && w.victimBodySetW.has(key2(Math.round(p[0] * 2), Math.round(p[1] * 2)))) handOccluded++
+  })
+  const holderUnion = new Set(w.baseMinusSet)
+  let segOverVictim = 0, segOverCollar = 0, segVisibleCells = 0, proxMaskedCells = 0
+  const segKeys = new Set()
+  segT.forEach((p, i) => {
+    const k = key2(Math.round(p[0] * 2), Math.round(p[1] * 2))
+    holderUnion.add(k)
+    if (segKeys.has(k)) return
+    segKeys.add(k)
+    const overV = w.victimBodySetW.has(k)
+    if (overV) segOverVictim++
+    if (w.collarSetW.has(k)) segOverCollar++
+    if (w.segSub[i] === 0 && overV) proxMaskedCells++; else segVisibleCells++
+  })
+  let bodyOverlapPx = 0
+  for (const k of w.victimBodySetW) if (holderUnion.has(k)) bodyOverlapPx++
+  const cutT = w.cutEdgeIdx.map((i) => segT[i])
+  const stubDists = cutT.map((p) => Math.sqrt(Math.min(...w.stubWorld.map((q) => (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2))))
+  let cutOccluded = 0
+  cutT.forEach((p) => { if (w.victimBodySetW.has(key2(Math.round(p[0] * 2), Math.round(p[1] * 2)))) cutOccluded++ })
+  const interSep = w.boundaryPairs.map(([a, b]) => Math.hypot(segT[a][0] - segT[b][0], segT[a][1] - segT[b][1]))
+  const m = {
+    candidate: cand.identity ? { identity: true } : { handAngleDeg: cand.handAngleDeg, txU: cand.txU, tyU: cand.tyU, da0Deg: cand.da0Deg, da1Deg: cand.da1Deg, f0: cand.f0, f1: cand.f1 },
+    subsegAnglesWorldDeg: trs.map((t) => t.angleWorldDeg),
+    subsegTranslationsU: trs.map((t) => [r3(t.tx), r3(t.ty)]),
+    fingerGapU: r3(minDistance(fingerT, w.collarW).distU),
+    handGapU: r3(minDistance(handT, w.collarW).distU),
+    palmGapU: r3(minDistance(palmT, w.collarW).distU),
+    palmCentroidWorld: palmC.map(r3),
+    palmCentroidToCollarCentroidU: r3(Math.hypot(palmC[0] - w.collarCentroidW[0], palmC[1] - w.collarCentroidW[1])),
+    handCentroidWorld: handC.map(r3),
+    distalHandCentroidWorld: distalC.map(r3),
+    distalCentroidToTargetU: r3(Math.hypot(distalC[0] - w.targetWorld[0], distalC[1] - w.targetWorld[1])),
+    handCentroidToTargetU: r3(Math.hypot(handC[0] - w.targetWorld[0], handC[1] - w.targetWorld[1])),
+    fingerDirDeltaDeg: r3(dirDelta),
+    roiOverlapPx, handPx: handT.length, handInSegmentPx: w.handInSegPx, fingerPx: fingerT.length,
+    handSurvival: handT.length ? r3((handT.length - handOccluded) / handT.length) : null,
+    segmentPx: w.segPx.length, segmentCellsOverVictim: segOverVictim, segmentCellsOverCollarRoi: segOverCollar,
+    segmentVisibleCells: segVisibleCells, proximalMaskedCells: proxMaskedCells,
+    bodyOverlapPx, bodyOverlapDeltaPx: bodyOverlapPx - ctx.baselineBodyOverlap,
+    seam: {
+      cutEdgePx: cutT.length,
+      gapMeanToStubU: stubDists.length ? r3(stubDists.reduce((a, v) => a + v, 0) / stubDists.length) : null,
+      gapMaxToStubU: stubDists.length ? r3(Math.max(...stubDists)) : null,
+      cutEdgeOccludedByVictimFrac: cutT.length ? r3(cutOccluded / cutT.length) : null,
+      interSubsegPairs: interSep.length,
+      interSubsegSepMeanU: interSep.length ? r3(interSep.reduce((a, v) => a + v, 0) / interSep.length) : null,
+      interSubsegSepMaxU: interSep.length ? r3(Math.max(...interSep)) : null,
+    },
+    holderSoleDisplacementU: 0, victimSoleDisplacementU: Math.abs(w.microDxU),
+  }
+  m.metricGatePass = m.fingerGapU <= WARP_GATE.fingerGapU && m.palmCentroidToCollarCentroidU <= WARP_GATE.palmCentroidDistU
+    && m.distalCentroidToTargetU <= WARP_GATE.distalCentroidToTargetU && m.seam.gapMeanToStubU <= WARP_GATE.seamGapMeanU
+    && m.seam.interSubsegSepMaxU <= WARP_GATE.interSeamMaxU && m.handSurvival >= WARP_GATE.handSurvival
+    && m.fingerDirDeltaDeg <= WARP_GATE.fingerDirDeltaDeg
+  return m
+}
+
+function drawWarpPanel(g, ctx, w, { x: px, y: py, w: pw, h, S, centerY, cand, tint }) {
+  const groundY = ctx.hDisp.y
+  const mapX = (wx) => px + pw / 2 + (wx - 240) * S
+  const mapY = (wy) => py + (centerY === 'ground' ? h - 26 + (wy - groundY) * S : h / 2 + (wy - centerY) * S)
+  g.save()
+  g.beginPath(); g.rect(px, py, pw, h); g.clip()
+  for (const disp of [ctx.hDisp, ctx.vDisp]) {
+    g.fillStyle = 'rgba(0,0,0,0.38)'
+    g.beginPath(); g.ellipse(mapX(disp.x), mapY(groundY), 11 * S, 2.5 * S, 0, 0, Math.PI * 2); g.fill()
+    g.strokeStyle = 'rgba(255,233,138,0.8)'; g.lineWidth = 1
+    g.beginPath(); g.moveTo(mapX(disp.x), mapY(groundY) - 6); g.lineTo(mapX(disp.x), mapY(groundY) + 6); g.stroke()
+  }
+  const drawActor = (restored, disp, off, canvasOverride = null) => {
+    const body = canvasOverride ?? cellCanvas(restored)
+    const dw = restored.srcW * disp.scaleX * S, dh = restored.srcH * disp.scaleY * S
+    const left = mapX(disp.x + off.dxU) - disp.displayOriginX * disp.scaleX * S
+    const top = mapY(disp.y + off.dyU) - disp.displayOriginY * disp.scaleY * S
+    g.save()
+    if (disp.flipX) { g.translate(left + dw, top); g.scale(-1, 1); g.drawImage(body, 0, 0, dw, dh) }
+    else g.drawImage(body, left, top, dw, dh)
+    g.restore()
+  }
+  const ZERO = { dxU: 0, dyU: 0 }
+  const trs = warpTransforms(ctx, w, cand)
+  const drawSub = (i) => {
+    const tr = trs[i]
+    g.save()
+    g.translate(mapX(tr.pivot[0] + tr.tx), mapY(tr.pivot[1] + tr.ty))
+    g.rotate(Math.atan2(tr.sin, tr.cos))
+    g.translate(-mapX(tr.pivot[0]), -mapY(tr.pivot[1]))
+    drawActor(ctx.holderCell, ctx.hDisp, ZERO, warpCanvasOf(ctx.holderCell, i))
+    g.restore()
+  }
+  // Base (segment erased) -> proximal -> victim (micro-dx) -> mid+hand.
+  drawActor(ctx.holderCell, ctx.hDisp, ZERO, warpCanvasOf(ctx.holderCell, 'base'))
+  drawSub(0)
+  drawActor(ctx.victimCell, ctx.vDisp, w.victimOff)
+  drawSub(1); drawSub(2)
+  if (tint) {
+    g.fillStyle = 'rgba(255,60,60,0.85)'
+    for (const p of warpHandPts(ctx, w, trs)) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+    g.fillStyle = 'rgba(60,220,255,0.85)'
+    for (const p of w.collarW) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+    g.strokeStyle = '#ffe98a'; g.lineWidth = 1.5
+    const txp = mapX(w.targetWorld[0]), typ = mapY(w.targetWorld[1])
+    g.beginPath(); g.moveTo(txp - 8, typ); g.lineTo(txp + 8, typ); g.moveTo(txp, typ - 8); g.lineTo(txp, typ + 8); g.stroke()
+    g.strokeStyle = 'rgba(120,255,160,0.9)'; g.lineWidth = 1
+    for (const tr of trs) {
+      const ex = mapX(tr.pivot[0] + tr.tx), ey = mapY(tr.pivot[1] + tr.ty)
+      g.beginPath(); g.arc(ex, ey, 4, 0, Math.PI * 2); g.stroke()
+    }
+  }
+  g.strokeStyle = 'rgba(255,255,255,0.28)'; g.lineWidth = 1
+  g.beginPath(); g.moveTo(px, mapY(groundY)); g.lineTo(px + pw, mapY(groundY)); g.stroke()
+  g.restore()
+}
+
+function warpSheets(kind, perKind) {
+  // Panels: [before (traced), seg-front identity + micro-dx, BEST warp] x facings.
+  const label = (g, x, y, res, panel) => {
+    g.fillStyle = '#fff'; g.font = '13px sans-serif'
+    g.fillText(`${kind} ${res.facing} hold4 ${res.w.cluster} - ${panel.name}`, x + 6, y + 14)
+    g.font = '10px sans-serif'
+    const m = panel.metrics
+    g.fillText(m
+      ? `fGap=${m.fingerGapU}u gap=${m.handGapU}u palmC=${m.palmCentroidToCollarCentroidU}u roiOv=${m.roiOverlapPx} seam=${m.seam.gapMeanToStubU}/${m.seam.interSubsegSepMaxU}u surv=${m.handSurvival} tgt=${m.distalCentroidToTargetU}u`
+      : `gap=${res.baselineGapU}u (yellow ticks/shadows = unmoved entity ground points)`, x + 6, y + 28)
+  }
+  const render = (file, W, H, S, tint) => {
+    const LH = 34, cols = 3
+    const cv = createCanvas(cols * W, 2 * (H + LH)), g = cv.getContext('2d')
+    g.fillStyle = '#1d1924'; g.fillRect(0, 0, cv.width, cv.height)
+    perKind.forEach((res, row) => {
+      res.panels.forEach((panel, col) => {
+        const x = col * W, y = row * (H + LH)
+        label(g, x, y, res, panel)
+        if (!panel.metrics) {
+          const ZERO = { dxU: 0, dyU: 0 }
+          const hc = centroid(res.ctx.handWorld), cc = centroid(res.ctx.collarWorld)
+          drawPanel(g, res.ctx, { x, y: y + LH, w: W, h: H, S, centerY: tint ? (hc[1] + cc[1]) / 2 : 'ground', holderOff: ZERO, victimOff: ZERO, tint })
+        } else {
+          const hc = centroid(warpHandPts(res.ctx, res.w, warpTransforms(res.ctx, res.w, panel.cand)))
+          const cc = res.w.collarCentroidW
+          drawWarpPanel(g, res.ctx, res.w, { x, y: y + LH, w: W, h: H, S, centerY: tint ? (hc[1] + cc[1]) / 2 : 'ground', cand: panel.cand, tint })
+        }
+      })
+    })
+    writeFileSync(`${WARP_OUT_DIR}/${file}`, cv.toBuffer('image/png'))
+  }
+  render(`${kind}-warp-sheet.png`, 560, 300, 2, false)
+  render(`${kind}-warp-zoom.png`, 460, 320, 4, true)
+}
+
+/** Gridded seed/sub-segment inspection for misc:6 (cell px, 4x crop). */
+function warpSegmentInspectionSheet() {
+  const r = restoreCell(HERO, 'misc:6')
+  const crop = { x: 220, y: 80, w: 140, h: 80 }, S = 4, LH = 34, L = 30
+  const colors = ['rgba(255,90,90,0.45)', 'rgba(255,200,60,0.45)', 'rgba(0,255,120,0.45)']
+  const cv = createCanvas(L + crop.w * S + 8, LH + crop.h * S + 8), g = cv.getContext('2d')
+  g.fillStyle = '#28222e'; g.fillRect(0, 0, cv.width, cv.height)
+  const segN = [0, 1, 2].map((i) => alphaPoints(r).filter(([x, y]) => warpSegHas(x, y) && warpSubsegOf(x) === i).length)
+  g.fillStyle = '#fff'; g.font = '12px sans-serif'
+  g.fillText(`guanyu:misc:6 warp segment red=prox(${segN[0]}) amber=mid(${segN[1]}) green=hand(${segN[2]}) white+=seeds S/E/M/W`, 4, 16)
+  g.drawImage(cellCanvas(r), crop.x, crop.y, crop.w, crop.h, L, LH, crop.w * S, crop.h * S)
+  for (const [x, y] of alphaPoints(r)) {
+    if (!warpSegHas(x, y) || x < crop.x || y < crop.y || x >= crop.x + crop.w || y >= crop.y + crop.h) continue
+    g.fillStyle = colors[warpSubsegOf(x)]
+    g.fillRect(L + (x - crop.x) * S, LH + (y - crop.y) * S, S, S)
+  }
+  g.font = '10px sans-serif'
+  for (let gx = Math.ceil(crop.x / 10) * 10; gx <= crop.x + crop.w; gx += 10) {
+    g.strokeStyle = 'rgba(255,255,120,0.3)'
+    g.beginPath(); g.moveTo(L + (gx - crop.x) * S, LH); g.lineTo(L + (gx - crop.x) * S, LH + crop.h * S); g.stroke()
+    if (gx % 20 === 0) { g.fillStyle = '#ffe98a'; g.fillText(String(gx), L + (gx - crop.x) * S - 8, LH - 4) }
+  }
+  for (let gy = Math.ceil(crop.y / 10) * 10; gy <= crop.y + crop.h; gy += 10) {
+    g.strokeStyle = 'rgba(255,255,120,0.3)'
+    g.beginPath(); g.moveTo(L, LH + (gy - crop.y) * S); g.lineTo(L + crop.w * S, LH + (gy - crop.y) * S); g.stroke()
+    if (gy % 20 === 0) { g.fillStyle = '#ffe98a'; g.fillText(String(gy), 2, LH + (gy - crop.y) * S + 3) }
+  }
+  for (const cutX of [272, ...WARP_SUBSEG_X]) {
+    g.strokeStyle = '#ffe98a'; g.lineWidth = 1.5
+    g.beginPath(); g.moveTo(L + (cutX - crop.x) * S, LH); g.lineTo(L + (cutX - crop.x) * S, LH + crop.h * S); g.stroke()
+  }
+  g.lineWidth = 2; g.strokeStyle = '#fff'; g.fillStyle = '#fff'; g.font = '12px sans-serif'
+  for (const [name, s] of Object.entries(WARP_SEEDS_PX)) {
+    const ex = L + (s.x - crop.x) * S, ey = LH + (s.y - crop.y) * S
+    g.beginPath(); g.moveTo(ex - 7, ey); g.lineTo(ex + 7, ey); g.moveTo(ex, ey - 7); g.lineTo(ex, ey + 7); g.stroke()
+    g.fillText(name[0].toUpperCase(), ex + 8, ey - 6)
+  }
+  g.lineWidth = 1
+  writeFileSync(`${WARP_OUT_DIR}/warp-segment-inspection.png`, cv.toBuffer('image/png'))
+}
+
+function warpMain() {
+  const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
+  const trace = JSON.parse(readFileSync(TRACE_PATH, 'utf8'))
+  mkdirSync(WARP_OUT_DIR, { recursive: true })
+  const comboOf = (kind, facing) => {
+    const sample = trace.core.find((c) => c.kind === kind && c.facing === facing && c.phase === 'hold4')
+    if (!sample) throw new Error(`no hold4 sample for ${kind} ${facing}`)
+    const ctx = buildContext(sample, landmarks)
+    return { kind, facing, ctx, w: buildWarpContext(ctx), baselineGapU: r3(ctx.baselineGap.distU) }
+  }
+  const searches = {}
+  for (const cluster of WARP_CLUSTERS) {
+    const members = Object.keys(cluster.microDxU).map((kind) => comboOf(kind, 'right'))
+    searches[cluster.name] = warpSearchCluster(members)
+  }
+  const IDENTITY = { identity: true }
+  const comboOut = []
+  for (const kind of WARP_KINDS) {
+    const perKind = []
+    for (const facing of ['right', 'left']) {
+      const res = comboOf(kind, facing)
+      const best = searches[res.w.cluster].best
+      res.panels = [
+        { name: 'before (core pin, no offset)', cand: null, metrics: null },
+        { name: `seg-front identity + victim micro-dx ${res.w.microDxU}u`, cand: IDENTITY, metrics: warpExactMetrics(res.ctx, res.w, IDENTITY) },
+        { name: `BEST warp (${res.w.cluster} cluster candidate)`, cand: best, metrics: warpExactMetrics(res.ctx, res.w, best) },
+      ]
+      perKind.push(res)
+      comboOut.push({
+        kind, facing, cluster: res.w.cluster, holderFrame: res.ctx.holderFrame, victimFrame: res.ctx.victimFrame,
+        front: res.ctx.front, microDxU: res.w.microDxU, victimOffsetU: res.w.victimOff, targetWorld: res.w.targetWorld,
+        baseline: {
+          handGapU: r3(res.ctx.baselineGap.distU), bodyOverlapPx: res.ctx.baselineBodyOverlap,
+          handCentroidWorld: centroid(res.ctx.handWorld).map(r3),
+          distalHandCentroidWorld: res.w.distalHandCentroid.map(r3),
+          collarCentroidWorldMicro: res.w.collarCentroidW.map(r3),
+          neededDistalShiftU: [r3(res.w.targetWorld[0] - res.w.distalHandCentroid[0]), r3(res.w.targetWorld[1] - res.w.distalHandCentroid[1])],
+          seedWorld: Object.fromEntries(Object.entries(res.w.seedWorld).map(([k, v]) => [k, v.map(r3)])),
+        },
+        segment: {
+          px: res.w.segPx.length, boxOnlyPx: res.w.segBoxOnlyPx, subsegPx: res.w.subsegPx,
+          handRoiPx: res.ctx.handWorld.length, handRoiInSegmentPx: res.w.handInSegPx, stubPx: res.w.stubPxCount,
+        },
+        modes: Object.fromEntries(res.panels.filter((p) => p.metrics).map((p) => [p.name, p.metrics])),
+      })
+    }
+    warpSheets(kind, perKind)
+  }
+  warpSegmentInspectionSheet()
+  const out = {
+    hero: HERO, phase: 'hold4', kinds: WARP_KINDS, trace: TRACE_PATH, landmarks: LANDMARKS_PATH,
+    clusters: WARP_CLUSTERS.map((c) => ({ name: c.name, targetRightWorld: c.targetRight, targetLeftWorld: [480 - c.targetRight[0], c.targetRight[1]], microDxU: c.microDxU, search: searches[c.name] })),
+    seedsPx: WARP_SEEDS_PX, subsegCutXPx: WARP_SUBSEG_X,
+    segment: 'misc:6 alpha with x>=272,y108-135 (cuff+skin forearm+hand, drape y>140 excluded) UNION landmark hand ROI x300-338,y101-123 (recovers the 47px fingertip sliver at y102-107 that the box alone would orphan in the erased base). Sub-segments: proximal x<290 pivot elbow (280,122), mid 290<=x<303 pivot mid (292,120), hand x>=303 pivot wrist (303,117); shoulder (235,120) is the fixed anchor for the proximal base angle. See warp-segment-inspection.png.',
+    method: 'Holder base = restored misc:6 with segment alpha erased; victim sprite shifted by victimOff.dxU=pinSign*microDxU (holder sole 0, victim sole 3u, shadows/entity points unmoved). Warp: hand sub-segment translation solved so the distal-hand centroid (hand-ROI px cell x>=303) lands on target+(pinSign*txU,tyU) under handAngleDeg about the wrist (base angle 0 keeps fingers pointing along the holder facing); proximal/mid translations are f0/f1 fractions of it about elbow/mid, with base angles aligning shoulder->elbow\' and elbow\'->mid\' seed-chain vectors to the originals plus da0/da1 variations. Angles/tx stored right-facing-equivalent, mirrored by pinSign. Search per cluster on the 2 right-facing members, summed score: stage A handAngle -10..10x5, tx -4..4x2, ty -3..3x1 at f0=.3/f1=.65/da=0; stage B f0 {0,.15,.3,.45,.6} x f1 {.5,.65,.8,.9} (f1>f0+.15) x da0/da1 -10..10x5 around stage A. Sample score = fingerGap*2+handGap+palmCentroidDist*.6+distalToTarget*.8+cutDispMean*.5+max(0,interSepMean-.5)*1.5-segOverCollarS*.01+|handAngle|*.08 on stride-2 samples; reported modes recomputed exactly (minDistance full alpha vs micro-shifted collar). Composite: base -> proximal -> victim -> mid+hand, i.e. proximal masked behind the victim silhouette (proximalMaskedCells, cutEdgeOccludedByVictimFrac). Seam gap = per-cut-edge-point (segment cell x<276) nearest distance to the retained stub (non-segment alpha x258-271,y100-140); inter-subsegment separation = distance between originally adjacent column pairs across the x=290/303 cuts after warp (identity ~0.5u). Survival: hand px in mid/hand draw last and survive; proximal hand px (none in practice) occluded by victim cells would count lost. palm = hand-ROI px cell x<325, fingers x>=325; fingerDirDeltaDeg = angle between original and warped palm->finger centroid vectors.',
+    metricGate: WARP_GATE,
+    combos: comboOut,
+    verdicts: WARP_VERDICTS,
+  }
+  writeFileSync(`${WARP_OUT_DIR}/arm-warp.json`, `${JSON.stringify(out, null, 2)}\n`)
+  console.log(JSON.stringify({
+    outDir: WARP_OUT_DIR,
+    searches: Object.fromEntries(Object.entries(searches).map(([k, s]) => [k, { cand: s.best, score: s.clusterScore, n: s.candidateCount }])),
+    rows: comboOut.map((c) => {
+      const b = c.modes[Object.keys(c.modes)[1]]
+      return `${c.kind}-${c.facing}(${c.cluster},micro${c.microDxU}): baseGap=${c.baseline.handGapU}u BEST fGap=${b.fingerGapU}u gap=${b.handGapU}u palmC=${b.palmCentroidToCollarCentroidU}u roiOv=${b.roiOverlapPx} seam=${b.seam.gapMeanToStubU}/${b.seam.gapMaxToStubU}u interMax=${b.seam.interSubsegSepMaxU}u surv=${b.handSurvival} tgt=${b.distalCentroidToTargetU}u fDir=${b.fingerDirDeltaDeg}deg gate=${b.metricGatePass}`
+    }),
+  }, null, 2))
+}
+
 function armMain() {
   const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
   const trace = JSON.parse(readFileSync(TRACE_PATH, 'utf8'))
@@ -1071,5 +1577,6 @@ function main() {
   }, null, 2))
 }
 
-if (process.argv.includes('--arm-transform')) armMain()
+if (process.argv.includes('--arm-warp')) warpMain()
+else if (process.argv.includes('--arm-transform')) armMain()
 else main()
