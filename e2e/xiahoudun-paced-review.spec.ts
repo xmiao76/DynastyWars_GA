@@ -7,17 +7,28 @@ import { makeCombatant } from '../src/core/entities'
 import type { Sim } from '../src/core/sim'
 
 type Live = { sim: Sim; paused: boolean; syncSprites(): void; sprites: Map<number, { frame: { name: string }; texture: { key: string }; x: number; y: number; displayOriginX: number; displayOriginY: number; scaleX: number; scaleY: number }>; cameras: { main: { zoom: number; scrollX: number; scrollY: number } } }
-// Stage2 GU/default-ZF source bytes, derived from the six committed pages.
-const STAGE2_BYTES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png'].reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+// Staged stage2 GU/default-ZF derivation (matches prodbuild/xiahoudun.spec.ts
+// partitions): opening = heroes + wave-0 soldier; deferred = later waves +
+// boss, queued behind entry and NOT charged to the 12 MiB entry cap; the one
+// admitted future kind (stage3 boss xuchu) IS entry-charged.
+const bytesOf = (files: string[]): number => files.reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+const OPENING_FILES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'soldier-motion-sheet.png']
+const DEFERRED_FILES = ['spearman-motion-sheet.png', 'archer-motion-sheet.png', 'xiahoudun-motion-sheet.png']
+const FUTURE_FILES = ['xuchu-motion-sheet.png']
+const ENTRY_BYTES = bytesOf([...OPENING_FILES, ...FUTURE_FILES]) // opening + admitted future
+const EVENTUAL_BYTES = bytesOf([...OPENING_FILES, ...DEFERRED_FILES, ...FUTURE_FILES]) // full settle total (9 pages)
 for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['right', 'left'] as const) {
   test(`native real-clock Xiahou ${renderer}/${facing}`, async ({ page }, info) => {
     test.setTimeout(60000)
     const errors: string[] = []; page.on('pageerror', (e) => errors.push(String(e)))
     await page.setViewportSize({ width: 960, height: 540 })
     await page.goto(`/?renderer=${renderer}&motion=1`)
-    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
+    // Boot/entry under parallel workers can exceed the default 15s poll
+    // ceiling (observed 'boot' at 15s, canvas/left); ceiling only - the
+    // scene must still actually reach title, then game.
+    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 30_000 }).toBe('title')
     await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage2'))
-    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+    await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene), { timeout: 30_000 }).toBe('game')
     await page.keyboard.press('Enter')
     const boss = makeCombatant(901101, 'xiahoudun', 'enemy', 230, 232, ENEMIES.xiahoudun!.maxHp, ENEMIES.xiahoudun!.speed, facing)
     const result = await page.evaluate(async ({ boss, facing }) => {
@@ -70,7 +81,8 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['righ
       g.paused = true; recorder.stop(); await ended; stream.getTracks().forEach((track) => track.stop())
       const blob = new Blob(chunks, { type: mime })
       const base64 = await new Promise<string>((resolve) => { const reader = new FileReader(); reader.onload = () => resolve((reader.result as string).split(',')[1]!); reader.readAsDataURL(blob) })
-      return { base64, rows, segments, geometry: { width: game.canvas.width, height: game.canvas.height, renderer: game.renderer.type }, budget: motionRuntime().budget(), method: 'Native canvas.captureStream60 / Chromium VP8 MediaRecorder, no stepping/autopilot/manual frame selection, no source-art rescale. HUD hidden fixture; segment setups paused. Wall-relative recorder start labels approximate codec timestamps.' }
+      const scope = motionRuntime().stageScope(game.scene.getScene('game'))
+      return { base64, rows, segments, geometry: { width: game.canvas.width, height: game.canvas.height, renderer: game.renderer.type }, budget: motionRuntime().budget(), entryPlannedBytes: scope?.plannedBytes, deferredBytes: scope?.deferredBytes, method: 'Native canvas.captureStream60 / Chromium VP8 MediaRecorder, no stepping/autopilot/manual frame selection, no source-art rescale. HUD hidden fixture; segment setups paused. Wall-relative recorder start labels approximate codec timestamps.' }
     }, { boss, facing })
     const { base64, ...trace } = result
     const video = Buffer.from(base64, 'base64')
@@ -83,7 +95,13 @@ for (const renderer of ['canvas', 'webgl'] as const) for (const facing of ['righ
     expect(result.rows.some((r) => r.segment === 'heavy' && r.key.startsWith('heavy:'))).toBe(true)
     expect(result.rows.some((r) => r.segment === 'held-release' && r.key === 'misc:4')).toBe(true)
     expect(result.rows.some((r) => r.segment === 'held-release' && r.key.startsWith('walk:'))).toBe(true)
-    expect(result.budget.sourceBytes).toBe(STAGE2_BYTES); expect(result.budget.sourceBytes).toBeLessThanOrEqual(result.budget.caps.stageDownloads)
+    // Full settle publishes the eventual total; only the entry-charged part
+    // (opening + admitted future, as planned by the scope) is capped.
+    expect(result.budget.sourceBytes).toBe(EVENTUAL_BYTES)
+    expect(result.entryPlannedBytes).toBe(ENTRY_BYTES)
+    expect(result.deferredBytes).toBe(bytesOf(DEFERRED_FILES))
+    expect(ENTRY_BYTES).toBeLessThanOrEqual(result.budget.caps.stageDownloads)
+    expect(EVENTUAL_BYTES - ENTRY_BYTES).toBe(bytesOf(DEFERRED_FILES))
     expect(errors).toEqual([])
   })
 }

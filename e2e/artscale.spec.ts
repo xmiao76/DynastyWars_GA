@@ -46,33 +46,63 @@ const MAX_CHARACTER_RATIO = 1.7
  * you should be able to tell the boss from the mob at a glance. The comment on
  * MAX_CHARACTER_RATIO has stated this intent all along without asserting it.
  *
- * `GameScene.fitSprite` gives a boss 124 on-screen units against 92 for
- * everyone else, and the measured ratio is 1.34 on every one of the nine
- * stages. The floor sits where "visibly larger" stops being true rather than
- * just under that population, so shaving the difference down fails here before
+ * On the legacy path `GameScene.fitSprite` gives a boss 124 on-screen units
+ * against 92 for everyone else (measured 1.34), so the distinction is
+ * HEIGHT. Motion packs instead share one fixed art-unit scale and draw
+ * every kind at the same figure height (~114px: hero, mook and boss trims
+ * are all 224-231 source px tall) - there the authored distinction is
+ * MASS: the boss figure is roughly twice as wide as a mook's in upright
+ * frames. Each path is therefore asserted in its own terms below; floors
+ * sit where "visibly larger" stops being true rather than just under the
+ * measured population, so shaving the difference down fails here before
  * anyone has to notice it in play.
  */
 const MIN_BOSS_RATIO = 1.2
+/** Boss upright-frame figure area over a mook kind's (motion path). */
+const MIN_BOSS_AREA_RATIO = 1.35
 
 interface ArtItem {
   scene: string
   key: string
+  /** Full art-box height on screen (the wrong-size band measures this). */
   displayHeight: number
+  /**
+   * Drawn figure height on screen: the trimmed frame's cut height at the
+   * sprite's scale. Motion boxes share a fixed art-unit scale (extra
+   * margin never resizes the fighter), so size DISTINCTION between
+   * characters - boss vs mook - lives in the figure inside the box, and
+   * the ratio checks below measure this. Legacy frames are untrimmed, so
+   * figure == box there.
+   */
+  figureHeight: number
+  /** Drawn figure width on screen (trimmed frame cut width at scale). */
+  figureWidth: number
 }
 
 test('no character art is drawn at the wrong size', async ({ page }) => {
   const pageErrors: string[] = []
   page.on('pageerror', (err) => pageErrors.push(String(err)))
 
+  // Display identity is the shared-atlas FRAME name for motion art
+  // (`entity:<kind>:motion:<clip>:<idx>`; the texture key is just the sheet
+  // page), the texture key for legacy art (frame `__BASE`). Motion textures
+  // ARE posed character art and must be counted.
   const collect = (sceneKey: string): Promise<ArtItem[]> =>
     page.evaluate((key) => {
       const scene = window.__DW_GAME__?.scene.getScene(key)
       if (!scene) return []
       return scene.children.list
         .filter((c) => c.type === 'Sprite' || c.type === 'Image')
-        .map((c) => c as unknown as { texture?: { key: string }; displayHeight: number })
-        .filter((c) => (c.texture?.key ?? '').startsWith('entity:'))
-        .map((c) => ({ scene: key, key: c.texture?.key ?? '', displayHeight: Math.round(c.displayHeight) }))
+        .map((c) => c as unknown as { texture?: { key: string }; frame?: { name: string; cutHeight?: number; cutWidth?: number }; displayHeight: number; displayWidth: number; scaleX: number; scaleY: number })
+        .map((c) => ({ c, id: c.frame && c.frame.name !== '__BASE' ? c.frame.name : (c.texture?.key ?? '') }))
+        .filter(({ id }) => id.startsWith('entity:'))
+        .map(({ c, id }) => ({
+          scene: key,
+          key: id,
+          displayHeight: Math.round(c.displayHeight),
+          figureHeight: Math.round((c.frame?.cutHeight ?? 0) * Math.abs(c.scaleY)) || Math.round(c.displayHeight),
+          figureWidth: Math.round((c.frame?.cutWidth ?? 0) * Math.abs(c.scaleX)) || Math.round(c.displayWidth),
+        }))
     }, sceneKey)
 
   await page.goto('/?renderer=canvas&autopilot=1')
@@ -98,23 +128,82 @@ test('no character art is drawn at the wrong size', async ({ page }) => {
   await page.evaluate(() => window.__DW__?.startGame('zhaoyun', 42, 'stage3'))
   await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
   await page.evaluate(() => window.__DW__?.forceBoss())
-  await page.waitForTimeout(400)
-  const bossItems = await collect('game')
+  // The boss kind (stage3: xuchu) is a deferred motion pack: its spawn gate
+  // holds until the pack publishes, so wait for boss art to actually render
+  // instead of sampling an empty stage.
+  await expect
+    .poll(async () => (await collect('game')).some((i) => i.key.startsWith('entity:xuchu:')), { timeout: 20_000 })
+    .toBe(true)
+  // Sample repeatedly: size is per-kind, and one frozen instant can catch a
+  // kind only in an attack/down pose whose trim says nothing about it.
+  const bossItems: ArtItem[] = []
+  for (let s = 0; s < 6; s += 1) {
+    bossItems.push(...(await collect('game')))
+    if (s < 5) await page.waitForTimeout(250)
+  }
   expect(bossItems.length, 'no art on the boss screen').toBeGreaterThan(2)
   items.push(...bossItems)
 
   // The boss has to READ as a boss. Posed characters only - props carry their
-  // own sizes and would make this ratio meaningless.
-  const bossChars = bossItems.filter((i) => i.key.split(':').length === 3)
+  // own sizes and would make this ratio meaningless. Posed means a legacy
+  // `entity:<kind>:<pose>` key or a motion frame id
+  // (`entity:<kind>:motion:<clip>:<idx>`, five segments).
+  const posed = (i: ArtItem): boolean => i.key.split(':').length === 3 || i.key.includes(':motion:')
+  const bossChars = bossItems.filter(posed)
   expect(bossChars.length, 'no posed character art on the boss screen').toBeGreaterThan(2)
-  const bossHeights = bossChars.map((i) => i.displayHeight)
-  const bossRatio = Math.max(...bossHeights) / Math.max(1, Math.min(...bossHeights))
-  expect(
-    Math.round(bossRatio * 100) / 100,
-    `the boss is no bigger than the fighters around it (${bossChars
-      .map((i) => `${i.key} ${i.displayHeight}px`)
-      .join(', ')})`,
-  ).toBeGreaterThanOrEqual(MIN_BOSS_RATIO)
+  // Character SIZE is a per-kind property, not a per-pose one: a lying-down
+  // figure is legitimately short. Take each kind's tallest sampled figure
+  // (its standing height) before comparing kinds.
+  const kindHeights = (list: ArtItem[]): number[] => {
+    const byKind = new Map<string, number>()
+    for (const i of list) {
+      const kind = i.key.split(':')[1] ?? i.key
+      byKind.set(kind, Math.max(byKind.get(kind) ?? 0, i.figureHeight))
+    }
+    return [...byKind.values()]
+  }
+  const kindOf = (i: ArtItem): string => i.key.split(':')[1] ?? i.key
+  const describe = bossChars.map((i) => `${i.key} figure ${i.figureWidth}x${i.figureHeight}px/box ${i.displayHeight}px`).join(', ')
+  if (bossChars.some((i) => kindOf(i) === 'xuchu' && i.key.includes(':motion:'))) {
+    // Motion path: every kind shares the figure height, so the boss (stage3:
+    // xuchu, polled for above) must out-MASS the mooks around it. Compare
+    // upright (walk/locomotion) frames only - attack trims measure weapon
+    // reach, not bodies - by median figure area per kind, so a few wide
+    // swing frames cannot fake or hide bulk. Heroes are excluded from the
+    // mass comparison for the same weapon-reach reason (a hero spear trim
+    // is wider than the boss), but the boss may not be drawn SHORT either:
+    // its standing height must stay level with every fighter present.
+    const HERO_KINDS = new Set(['guanyu', 'zhaoyun', 'zhangfei', 'weiyan', 'huangzhong'])
+    const upright = bossChars.filter((i) => /:motion:(walk|locomotion):/.test(i.key))
+    const median = (xs: number[]): number => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)] ?? 0
+    const medianAreaByKind = new Map<string, number>()
+    for (const kind of new Set(upright.map(kindOf))) {
+      medianAreaByKind.set(kind, median(upright.filter((i) => kindOf(i) === kind).map((i) => i.figureWidth * i.figureHeight)))
+    }
+    const bossArea = medianAreaByKind.get('xuchu') ?? 0
+    const mookAreas = [...medianAreaByKind].filter(([k]) => k !== 'xuchu' && !HERO_KINDS.has(k)).map(([, a]) => a)
+    expect(bossArea, `no upright boss frame sampled (${describe})`).toBeGreaterThan(0)
+    expect(mookAreas.length, `no upright mook frame sampled (${describe})`).toBeGreaterThan(0)
+    const areaRatio = bossArea / Math.max(1, Math.max(...mookAreas))
+    expect(
+      Math.round(areaRatio * 100) / 100,
+      `the motion boss is no bulkier than the mooks around it (${describe})`,
+    ).toBeGreaterThanOrEqual(MIN_BOSS_AREA_RATIO)
+    const bossHeight = Math.max(...bossChars.filter((i) => kindOf(i) === 'xuchu').map((i) => i.figureHeight))
+    const tallestOther = Math.max(...kindHeights(bossChars.filter((i) => kindOf(i) !== 'xuchu')))
+    expect(
+      Math.round((bossHeight / Math.max(1, tallestOther)) * 100) / 100,
+      `the motion boss is drawn short (${describe})`,
+    ).toBeGreaterThanOrEqual(0.9)
+  } else {
+    // Legacy path: distinction is drawn height (boss 124 vs 92 units).
+    const bossHeights = kindHeights(bossChars)
+    const bossRatio = Math.max(...bossHeights) / Math.max(1, Math.min(...bossHeights))
+    expect(
+      Math.round(bossRatio * 100) / 100,
+      `the boss is no bigger than the fighters around it (${describe})`,
+    ).toBeGreaterThanOrEqual(MIN_BOSS_RATIO)
+  }
 
   // A gate that found nothing to measure would pass in silence, which is the
   // failure this repo keeps rediscovering. Every screen above draws figures.
@@ -131,18 +220,18 @@ test('no character art is drawn at the wrong size', async ({ page }) => {
   // so a global comparison measures that intent rather than a defect.
   //
   // Props are legitimately much smaller than fighters too, so this looks only
-  // at posed characters: keys with a pose segment.
-  const characters = items.filter((i) => i.key.split(':').length === 3)
+  // at posed characters: legacy pose keys and motion frame ids alike.
+  const characters = items.filter(posed)
   expect(characters.length, 'no posed character art found').toBeGreaterThan(4)
   const offenders: string[] = []
   for (const scene of [...new Set(characters.map((i) => i.scene))]) {
     const onScreen = characters.filter((i) => i.scene === scene)
-    const heights = onScreen.map((i) => i.displayHeight)
+    const heights = kindHeights(onScreen)
     const ratio = Math.max(...heights) / Math.max(1, Math.min(...heights))
     if (ratio > MAX_CHARACTER_RATIO) {
       offenders.push(
         `${scene}: tallest art is ${Math.round(ratio * 100) / 100}x the shortest (${onScreen
-          .map((i) => `${i.key} ${i.displayHeight}`)
+          .map((i) => `${i.key} ${i.figureHeight}`)
           .join(', ')})`,
       )
     }

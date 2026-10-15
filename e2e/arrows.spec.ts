@@ -34,26 +34,33 @@ interface FlightReading {
   arrowSprites: number
 }
 
-/** How high the arrow sprite rides relative to `who`'s sprite. */
+/** How high the arrow sprite rides relative to `who`'s sprite. Sprites are
+ * found by ENTITY identity (kind -> id -> the scene's entity->sprite map):
+ * with motion art the host's texture key is a shared atlas page
+ * (`motion-source:<kind>`), so the old legacy `entity:<kind>:*` texture-key
+ * search can no longer find it. */
 async function readFlight(page: import('@playwright/test').Page, who: string): Promise<FlightReading> {
   return page.evaluate((needle) => {
+    type Sprite = { texture: { key: string }; frame: { name: string }; y: number; displayHeight: number }
     const scene = window.__DW_GAME__?.scene.getScene('game') as unknown as
       | {
-          sim?: { entities: Array<{ kind: string; z: number }> }
+          sim?: { entities: Array<{ id: number; kind: string; z: number }> }
+          sprites?: Map<number, Sprite>
+          syncSprites?: () => void
           children: { list: unknown[] }
         }
       | undefined
     const sim = scene?.sim
-    const sprites = (scene?.children.list ?? []) as unknown as Array<{
-      type: string
-      texture: { key: string }
-      y: number
-      displayHeight: number
-    }>
-    const arrowSprites = sprites.filter((s) => s.type === 'Sprite' && s.texture.key === 'entity:arrow')
-    const arrow = sim?.entities.find((e) => e.kind === 'arrow') ?? null
+    scene?.syncSprites?.()
+    const spriteId = (s: Sprite): string => (s.frame.name === '__BASE' ? s.texture.key : s.frame.name)
+    const arrowEntities = sim?.entities.filter((e) => e.kind === 'arrow') ?? []
+    const arrow = arrowEntities[0] ?? null
+    const arrowSprites = arrowEntities
+      .map((e) => scene?.sprites?.get(e.id))
+      .filter((s): s is Sprite => !!s && spriteId(s).startsWith('entity:arrow'))
     const arrowSprite = arrowSprites[0]
-    const host = sprites.find((s) => s.type === 'Sprite' && s.texture.key.startsWith(`entity:${needle}`))
+    const hostEntity = sim?.entities.find((e) => e.kind === needle)
+    const host = hostEntity ? scene?.sprites?.get(hostEntity.id) : undefined
     let band: number | null = null
     if (arrowSprite && host) {
       const arrowCentre = arrowSprite.y - arrowSprite.displayHeight / 2

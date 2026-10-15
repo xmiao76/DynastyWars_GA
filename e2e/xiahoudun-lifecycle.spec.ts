@@ -7,8 +7,18 @@ import { makeCombatant } from '../src/core/entities'
 
 test.use({ video: 'on' })
 const OUT = 'artifacts/CMR-14B/default-stage2'
-// Stage2 GU/default-ZF source bytes, derived from the six committed pages.
-const STAGE2_BYTES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'xiahoudun-motion-sheet.png', 'soldier-motion-sheet.png'].reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+// Staged stage2 GU/default-ZF derivation (matches prodbuild/xiahoudun.spec.ts
+// partitions): opening = heroes + wave-0 soldier; deferred = later waves +
+// boss, queued behind entry and NOT charged to the 12 MiB entry cap; the one
+// admitted future kind (stage3 boss xuchu) IS entry-charged. After a full
+// settle the published cast is the eventual roster: opening+deferred+future.
+const bytesOf = (files: string[]): number => files.reduce((n, f) => n + statSync(`src/game/assets/motion/${f}`).size, 0)
+const OPENING_FILES = ['guanyu-motion-sheet.png', 'guanyu-actions-sheet.png', 'zhangfei-motion-sheet.png', 'zhangfei-actions-sheet.png', 'soldier-motion-sheet.png']
+const DEFERRED_FILES = ['spearman-motion-sheet.png', 'archer-motion-sheet.png', 'xiahoudun-motion-sheet.png']
+const FUTURE_FILES = ['xuchu-motion-sheet.png']
+const ENTRY_BYTES = bytesOf([...OPENING_FILES, ...FUTURE_FILES])
+const EVENTUAL_BYTES = bytesOf([...OPENING_FILES, ...DEFERRED_FILES, ...FUTURE_FILES])
+const EVENTUAL_ROSTER = ['archer', 'guanyu', 'soldier', 'spearman', 'xiahoudun', 'xuchu', 'zhangfei']
 const PNG_HASH = 'e1fdf7e8ea2b4128e6c0380e407e79ca8c985ceb63b09a056097da6dd85af34f'
 type Live = {
   sim: Sim; paused: boolean; syncSprites(): void
@@ -24,15 +34,41 @@ async function start(page: Page, renderer = 'canvas', seed = 42): Promise<void> 
   await page.evaluate((seed) => window.__DW__!.startGame('guanyu', seed, 'stage2'), seed)
   await expect.poll(() => page.evaluate(() => { const g = window.__DW_GAME__?.scene.getScene('game') as unknown as { sim?: Sim }; return window.__DW__?.getSnapshot().sim ? g?.sim?.seed : null }), { timeout: 30000 }).toBe(seed)
 }
+// Bounded waits (same pattern as motion-loader.spec.ts): never settle()/
+// runtime() inside an expect.poll predicate - poll the cheap published-only
+// roster, then call this bounded runtime once. The settle is bounded in-page
+// by a 20s Promise.race that throws live diagnostic state instead of hanging.
+const SETTLE_TIMEOUT_MS = 20_000
+const bounded = async <T>(p: Promise<T>, label: string, ms = 10_000): Promise<T> => {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  try {
+    return await Promise.race([p, new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(new Error(`${label}-timeout after ${ms}ms`)), ms) })])
+  } finally { if (timer !== undefined) clearTimeout(timer) }
+}
+const publishedKeys = (page: Page): Promise<string[]> =>
+  page.evaluate(() => Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort())
 async function runtime(page: Page) {
-  return page.evaluate(async () => {
+  return page.evaluate(async (timeoutMs) => {
     const path = '/src/game/adapters/motion-art.ts'
     const mod = await import(/* @vite-ignore */ path) as typeof import('../src/game/adapters/motion-art')
     const rt = mod.motionRuntime()
-    await rt.settle()
-    const g = window.__DW_GAME__!.scene.getScene('game') as unknown as Live
-    return { budget: rt.budget(), bossState: rt.state('xiahoudun'), published: Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort(), seed: g.sim.seed, partner: g.sim.player2Id }
-  })
+    const scene = window.__DW_GAME__!.scene.getScene('game')
+    const diagnostic = (): string => {
+      const published = Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort()
+      const scope = rt.stageScope(scene)
+      const kinds = [...new Set([...(scope?.immediate ?? []), ...(scope?.deferred ?? []), ...(scope?.prefetch ?? []), ...(scope?.schedule.map((s) => s.kind) ?? []), ...published])]
+      const states = Object.fromEntries(kinds.map((kind) => [kind, rt.state(kind)]))
+      const simTick = (scene as unknown as { sim?: { tick: number } }).sim?.tick ?? window.__DW__?.getSnapshot().tick ?? null
+      return JSON.stringify({ published, states, budget: rt.budget(), simTick })
+    }
+    let timer: ReturnType<typeof setTimeout> | undefined
+    try {
+      await Promise.race([rt.settle(), new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(new Error(`settle-timeout after ${timeoutMs}ms: ${diagnostic()}`)), timeoutMs) })])
+    } finally { if (timer !== undefined) clearTimeout(timer) }
+    const g = scene as unknown as Live
+    const scope = rt.stageScope(scene)
+    return { budget: rt.budget(), bossState: rt.state('xiahoudun'), published: Object.keys(window.__DW_GAME__!.registry.get('paintedHeroArt')?.motions ?? {}).sort(), seed: g.sim.seed, partner: g.sim.player2Id, scope: scope ? { immediate: scope.immediate, deferred: scope.deferred, prefetch: scope.prefetch, plannedBytes: scope.plannedBytes, deferredBytes: scope.deferredBytes } : null }
+  }, SETTLE_TIMEOUT_MS)
 }
 async function isolate(page: Page, ai = false): Promise<void> {
   const def = ENEMIES.xiahoudun!
@@ -63,26 +99,44 @@ for (const renderer of ['canvas', 'webgl']) {
     const errors: string[] = [], requests: string[] = [], downloads: Array<Promise<{ url: string; bytes: number; hash: string }>> = []
     page.on('pageerror', (error) => errors.push(String(error)))
     page.on('request', (r) => { if (r.resourceType() === 'fetch' && /-sheet\.png/.test(r.url())) requests.push(r.url()) })
-    page.on('response', (r) => { if (r.request().resourceType() === 'fetch' && /-sheet\.png/.test(r.url())) downloads.push(r.body().then((body) => ({ url: r.url(), bytes: body.length, hash: createHash('sha256').update(body).digest('hex') }))) })
+    // A body that becomes unavailable (cancelled/navigated-away response)
+    // records a sentinel instead of an unhandled rejection: the exact
+    // length/byte/hash assertions below still fail on it.
+    page.on('response', (r) => { if (r.request().resourceType() === 'fetch' && /-sheet\.png/.test(r.url())) downloads.push(r.body().then((body) => ({ url: r.url(), bytes: body.length, hash: createHash('sha256').update(body).digest('hex') })).catch((e: unknown) => ({ url: r.url(), bytes: -1, hash: `unavailable:${String(e)}` }))) })
     await page.setViewportSize({ width: 960, height: 540 })
     await start(page, renderer)
+    // Capture the intro card AT ENTRY: it auto-dismisses after a 3s wall-clock
+    // hold, so by the time the staged settle below returns it is legitimately
+    // gone - observing it only after settle races that dismissal.
+    await expect.poll(() => page.evaluate(() => window.__DW_GAME__!.scene.getScene('hud').children.list.some((o) => o.name === 'introCard')), { timeout: 15_000 }).toBe(true)
+    // settle() can resolve while the admitted-future prefetch is still
+    // queued behind the deferred set, so poll (exact equality, bounded)
+    // until the EVENTUAL roster is published before sampling budget/bytes.
+    await expect.poll(() => publishedKeys(page), { timeout: 30_000 }).toEqual(EVENTUAL_ROSTER)
     const entry = await runtime(page)
-    expect(entry.published).toEqual(['guanyu', 'soldier', 'xiahoudun', 'zhangfei'])
+    // runtime() awaits a full settle: published is the EVENTUAL roster
+    // (opening + deferred + admitted future), never a mid-queue snapshot.
+    expect(entry.scope).toEqual({ immediate: ['guanyu', 'zhangfei', 'soldier'], deferred: ['spearman', 'archer', 'xiahoudun'], prefetch: ['xuchu'], plannedBytes: ENTRY_BYTES, deferredBytes: bytesOf(DEFERRED_FILES) })
+    expect(entry.published).toEqual(EVENTUAL_ROSTER)
     expect(entry.partner, 'ordinary solo start does not silently carry P2').toBeNull()
-    expect(entry.budget.sourceBytes).toBe(STAGE2_BYTES)
-    expect(entry.budget.networkBytes).toBe(STAGE2_BYTES)
+    expect(entry.budget.sourceBytes).toBe(EVENTUAL_BYTES)
+    expect(entry.budget.networkBytes).toBe(EVENTUAL_BYTES)
     expect(entry.budget.caps.stageDownloads).toBe(12 * 1024 * 1024)
-    expect(entry.budget.sourceBytes).toBeLessThan(entry.budget.caps.stageDownloads)
+    // Only the entry-charged planned bytes sit under the cap; the eventual
+    // total exceeds it precisely by the deferred queue.
+    expect(ENTRY_BYTES).toBeLessThanOrEqual(entry.budget.caps.stageDownloads)
+    expect(EVENTUAL_BYTES - ENTRY_BYTES).toBe(bytesOf(DEFERRED_FILES))
     expect(entry.budget.perFighterDecoded.xiahoudun).toBe(12991664)
     expect(entry.budget.clonedCanvasBytes).toBe(0)
     expect(entry.budget.retainedBytes).toBeLessThanOrEqual(entry.budget.caps.retainedCache)
-    const observed = await Promise.all(downloads)
-    expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(STAGE2_BYTES)
+    const observed = await bounded(Promise.all(downloads), 'response.body')
+    expect(observed, 'every eventual page downloaded exactly once').toHaveLength(9)
+    expect(observed.reduce((n, r) => n + r.bytes, 0)).toBe(EVENTUAL_BYTES)
     expect(observed.find((r) => r.url.includes('xiahoudun'))?.hash).toBe(PNG_HASH)
     expect(createHash('sha256').update(readFileSync('src/game/assets/motion/xiahoudun-motion-sheet.png')).digest('hex')).toBe(PNG_HASH)
-    // Publication is observed while the untouched intro still prevents any sim tick.
+    // Publication is observed before any sim tick (the intro card itself was
+    // captured at entry above; its 3s auto-dismiss may already have run).
     expect(await page.evaluate(() => window.__DW__!.getSnapshot().tick)).toBe(0)
-    await expect.poll(() => page.evaluate(() => window.__DW_GAME__!.scene.getScene('hud').children.list.some((o) => o.name === 'introCard'))).toBe(true)
     await page.keyboard.press('Enter')
     await expect.poll(() => page.evaluate(() => window.__DW_GAME__!.scene.getScene('hud').children.list.some((o) => o.name === 'introCard'))).toBe(false)
     await isolate(page)
@@ -105,8 +159,9 @@ for (const renderer of ['canvas', 'webgl']) {
           const box = { x: Math.round((s.x - s.displayOriginX * Math.abs(s.scaleX) - cam.scrollX) * cam.zoom), y: Math.round((s.y - s.displayOriginY * Math.abs(s.scaleY) - cam.scrollY) * cam.zoom), w: Math.round(s.frame.realWidth * Math.abs(s.scaleX) * cam.zoom), h: Math.round(s.frame.realHeight * Math.abs(s.scaleY) * cam.zoom) }
           const key = s.frame.name
           // Phaser snapshots at postrender: actual stage pixels, never source PNG crops.
-          const url = await new Promise<string>((resolve) => engine.renderer.snapshot((snap) => resolve((snap as HTMLImageElement).src)))
-          const image = new Image(); image.src = url; await image.decode()
+          const bounded10 = <T>(p: Promise<T>, label: string): Promise<T> => Promise.race([p, new Promise<never>((_resolve, reject) => setTimeout(() => reject(new Error(`${label}-timeout after 10000ms`)), 10_000))])
+          const url = await bounded10(new Promise<string>((resolve) => engine.renderer.snapshot((snap) => resolve((snap as HTMLImageElement).src))), 'renderer.snapshot')
+          const image = new Image(); image.src = url; await bounded10(image.decode(), 'image.decode')
           const cv = document.createElement('canvas'); cv.width = box.w * 2; cv.height = box.h * 2
           cv.getContext('2d')!.drawImage(image, -box.x * 2, -box.y * 2, image.width * 2, image.height * 2)
           return { key, snapshotKey: s.frame.name, texture: s.texture.key, box, crop: cv.toDataURL('image/png'), origin: 'injected representative pose, not natural contact', facing: b.facing, tick: g.sim.tick }
@@ -144,14 +199,21 @@ for (const failure of ['missing', 'corrupt']) {
       return failure === 'missing' ? route.fulfill({ status: 404, body: '' }) : route.fulfill({ status: 200, contentType: 'image/png', body: Buffer.from('not-a-png') })
     })
     await start(page)
+    // Full settle: poll the exact eventual roster minus the rejected boss -
+    // every other deferred/future sibling still publishes (settle() alone
+    // can resolve before the queued prefetch lands).
+    await expect.poll(() => publishedKeys(page), { timeout: 30_000 }).toEqual(EVENTUAL_ROSTER.filter((k) => k !== 'xiahoudun'))
     const entry = await runtime(page)
-    expect(entry.published).toEqual(['guanyu', 'soldier', 'zhangfei'])
+    expect(entry.published).toEqual(EVENTUAL_ROSTER.filter((k) => k !== 'xiahoudun'))
     expect(entry.bossState).toBe('failed')
     await page.keyboard.press('Enter'); await isolate(page)
     const rows = []
     for (const state of ['idle', 'walk', 'hitstun', 'knockdown', 'getup', 'grabbed', 'thrown', 'dying'] as const) {
       await page.evaluate((state) => { const g = window.__DW_GAME__!.scene.getScene('game') as unknown as Live; Object.assign(g.sim.entities.find((e) => e.id === 900001)!, { state, stateTick: 4 }); g.syncSprites() }, state)
-      const row = await sprite(page); expect(row.key).not.toContain(':motion:'); expect(row.texture).not.toContain('motion-source:xiahoudun'); rows.push(row)
+      // Sole-motion whole-fighter rejection: an unpublished pack kind renders
+      // NOTHING in any state - never a partial motion frame or legacy pose.
+      const row = await page.evaluate(() => { const g = window.__DW_GAME__!.scene.getScene('game') as unknown as Live; g.syncSprites(); const s = g.sprites.get(900001); return s ? { key: s.frame.name, texture: s.texture.key } : null })
+      expect(row, `no xiahoudun sprite renders while ${state}`).toBeNull(); rows.push({ state, sprite: row })
     }
     const hero = await page.evaluate(() => (window.__DW_GAME__!.scene.getScene('game') as unknown as Live).sim.playerId)
     expect((await sprite(page, hero)).key).toContain('entity:guanyu:motion:')
@@ -177,13 +239,17 @@ test('held late boss request: real scene exit/restart cancels old epoch without 
     await page.evaluate(() => window.__DW_GAME__!.scene.getScene('game').scene.start('title'))
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
     release()
-    await page.evaluate(() => window.__DW__!.startGame('guanyu', 72, 'stage1'))
+    // Restart into stage3, whose staged scope contains xiahoudun NOWHERE (not
+    // a stage kind, no later stage to prefetch): stage1 would now legitimately
+    // prefetch him as admitted future, masking any stale publication. Any
+    // xiahoudun art after this restart can only be the stale epoch leaking.
+    await page.evaluate(() => window.__DW__!.startGame('guanyu', 72, 'stage3'))
     await expect.poll(() => page.evaluate(() => { const g = window.__DW_GAME__?.scene.getScene('game') as unknown as { sim?: Sim }; return window.__DW__?.getSnapshot().sim ? g?.sim?.seed : null }), { timeout: 30000 }).toBe(72)
     const restarted = await runtime(page)
     expect(restarted.published).not.toContain('xiahoudun')
     expect(await page.evaluate(() => window.__DW_GAME__!.textures.exists('motion-source:xiahoudun'))).toBe(false)
-    save('late-cancel', { restarted, held, setup: 'real stage2 fetch held by own test route; scene exits before release; ordinary stage1 restart', stalePublication: false })
-  } finally { release() }
+    save('late-cancel', { restarted, held, setup: 'real stage2 fetch held by own test route; scene exits before release; ordinary stage3 restart (xiahoudun outside its staged scope)', stalePublication: false })
+  } finally { release(); await page.unroute('**/*xiahoudun-motion-sheet.png*').catch(() => {}) }
 })
 
 test.describe('real-clock mobile (no autopilot or bridge steps)', () => {
@@ -199,6 +265,13 @@ test.describe('real-clock mobile (no autopilot or bridge steps)', () => {
     await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
     await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage2'))
     await expect.poll(() => page.evaluate(() => { const g = window.__DW_GAME__?.scene.getScene('game') as unknown as { sim?: Sim }; return window.__DW__?.getSnapshot().sim ? g?.sim?.seed : null }), { timeout: 30000 }).toBe(42)
+    // Xiahou Dun is a DEFERRED (boss) pack: under sole-motion his kind renders
+    // nothing until it publishes, so await the full settle (eventual roster)
+    // before injecting him - never sample mid-queue.
+    await expect.poll(() => publishedKeys(page), { timeout: 30_000 }).toEqual(EVENTUAL_ROSTER)
+    const settled = await runtime(page)
+    expect(settled.bossState).toBe('ready')
+    expect(settled.published).toEqual(EVENTUAL_ROSTER)
     const point = async (name: string) => page.evaluate((name) => {
       const z = window.__DW_GAME__!.scene.getScene('hud').children.list.find((o) => o.name === name) as unknown as { x: number; y: number } | undefined
       if (!z) throw new Error(`missing touch zone ${name}`)
@@ -215,10 +288,10 @@ test.describe('real-clock mobile (no autopilot or bridge steps)', () => {
     await expect.poll(() => page.evaluate(() => (window.__DW_GAME__!.scene.getScene('game') as unknown as Live).paused)).toBe(true)
     const frozen = await sprite(page)
     anchor('touch-pause-frozen')
-    await page.evaluate(() => new Promise<void>((resolve) => {
+    await bounded(page.evaluate(() => new Promise<void>((resolve) => {
       const start = performance.now(); let paints = 0
       const sample = () => { paints++; if (paints >= 15 && performance.now() - start >= 250) resolve(); else requestAnimationFrame(sample) }; requestAnimationFrame(sample)
-    }))
+    })), 'rAF-pause-paints')
     const still = await sprite(page)
     expect(still.tick).toBe(frozen.tick); expect(still.key).toBe(frozen.key); expect(still.entity).toEqual(frozen.entity)
     await page.screenshot({ path: `${OUT}/mobile-touch-paused.png` })
@@ -249,7 +322,7 @@ test.describe('real-clock mobile (no autopilot or bridge steps)', () => {
       g.sim.entities.push(boss); g.sim.freezeTicks = 0; g.syncSprites()
     }, makeCombatant(900001, 'xiahoudun', 'enemy', 250, 232, ENEMIES.xiahoudun!.maxHp, ENEMIES.xiahoudun!.speed, 'left'))
     anchor('continuous-real-AI-start')
-    const paced = await page.evaluate(() => new Promise<{ wallMs: number; simDelta: number; ratio: number; rows: unknown[] }>((resolve) => {
+    const paced = await bounded(page.evaluate(() => new Promise<{ wallMs: number; simDelta: number; ratio: number; rows: unknown[] }>((resolve) => {
       const g = window.__DW_GAME__!.scene.getScene('game') as unknown as Live, began = performance.now(), tick = g.sim.tick, rows: unknown[] = []
       const sample = () => {
         const b = g.sim.entities.find((e) => e.id === 900001)!, s = g.sprites.get(b.id)!
@@ -257,7 +330,7 @@ test.describe('real-clock mobile (no autopilot or bridge steps)', () => {
         const wallMs = performance.now() - began
         if (wallMs >= 5000) resolve({ wallMs, simDelta: g.sim.tick - tick, ratio: (g.sim.tick - tick) / 60 / (wallMs / 1000), rows }); else requestAnimationFrame(sample)
       }; requestAnimationFrame(sample)
-    }))
+    })), 'rAF-real-AI-5s')
     anchor('continuous-real-AI-end')
     expect(paced.wallMs).toBeGreaterThanOrEqual(5000); expect(paced.simDelta).toBeGreaterThan(0)
     const rows = paced.rows as Array<{ key: string; x: number; paused: boolean }>
