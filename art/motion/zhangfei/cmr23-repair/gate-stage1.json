@@ -1,0 +1,157 @@
+{
+  "work": "cmr23-zhangfei-pilot-gate",
+  "candidate": {
+    "path": "art/motion/zhangfei/cmr23-repair/candidate-raw.png",
+    "sha256": "4c16459dc96bbc923e3570f7ee779b0481f7e9da2cbdf8e82402b4e346dd24c4",
+    "size": [
+      1536,
+      1024
+    ]
+  },
+  "segmentation": {
+    "rule": "largest 8-connected alpha>=128 component + original-alpha fringe within 2px; all else RGBA=0 (black/glow-to-alpha: raw alpha-0 pixels carry glow RGB, zeroed; no RGB-based keying of solid pixels)",
+    "componentsAt128": [
+      126506
+    ],
+    "keptPx": 135034,
+    "alpha0GlowRgbPxZeroed": 279279
+  },
+  "candidateNative": {
+    "alphaPx": 126506,
+    "bbox": {
+      "x": [
+        438,
+        1150
+      ],
+      "y": [
+        377,
+        834
+      ]
+    },
+    "soleRow": 834,
+    "soleW": 33,
+    "topRowXs": [
+      703,
+      724
+    ]
+  },
+  "restoredMisc3": {
+    "alphaPx": 25955,
+    "bbox": {
+      "x": [
+        99,
+        419
+      ],
+      "y": [
+        32,
+        272
+      ]
+    },
+    "soleRow": 271,
+    "soleW": 22,
+    "topRowXs": [
+      175,
+      191
+    ]
+  },
+  "restoredMisc2Donor": {
+    "alphaPx": 26038,
+    "bbox": {
+      "x": [
+        101,
+        418
+      ],
+      "y": [
+        66,
+        271
+      ]
+    },
+    "soleRow": 271,
+    "soleW": 21,
+    "topRowXs": [
+      223,
+      241
+    ]
+  },
+  "naivePaddedCell": {
+    "offset": [
+      508,
+      368
+    ],
+    "alphaPx": 75430,
+    "bbox": {
+      "x": [
+        0,
+        519
+      ],
+      "y": [
+        9,
+        287
+      ]
+    },
+    "soleRow": 287,
+    "soleW": 295,
+    "topRowXs": [
+      195,
+      216
+    ],
+    "edgeAlphaPx": 353,
+    "note": "briefed 1:1 extraction; figure was generated ~1.9x and recentred, so this cell is a clipped centre crop"
+  },
+  "registration": {
+    "scale": 0.523,
+    "dx": -156.24,
+    "dy": -165.16,
+    "anchor": "uniform scale by soleRow-topY body span; bbox-centre-x and sole-row aligned to restored misc:3",
+    "nativeBodySpanPx": 457,
+    "restoredBodySpanPx": 239,
+    "registered": {
+      "alphaPx": 34542,
+      "bbox": {
+        "x": [
+          73,
+          445
+        ],
+        "y": [
+          32,
+          270
+        ]
+      },
+      "soleRow": 270,
+      "soleW": 27,
+      "topRowXs": [
+        207,
+        225
+      ]
+    },
+    "edgeAlphaPx": 0
+  },
+  "files": {
+    "segmented": {
+      "path": "art/motion/zhangfei/cmr23-repair/candidate-segmented.png",
+      "sha256": "5eede3ce32c03d13b3ac8b73e1d0c42d30fb19e46350ce7d9fe6595686658987",
+      "bytes": 311652
+    },
+    "naiveCell": {
+      "path": "art/motion/zhangfei/cmr23-repair/candidate-naive-cell.png",
+      "sha256": "8200d870e26764b370a4691f9b866cdbd4a71a5c40227b00b589f846a52e42a0",
+      "bytes": 171999
+    },
+    "registeredCell": {
+      "path": "art/motion/zhangfei/cmr23-repair/candidate-registered-cell.png",
+      "sha256": "bbbf7156e0620be133a50b0fbe3c4aff22b9843a4ec38a6b1073dbb007309e73",
+      "bytes": 97424
+    },
+    "handZoom": {
+      "path": "art/motion/zhangfei/cmr23-repair/hand-zoom.png",
+      "sha256": "9c1c634fcb64a36a7b5d52f2faec78be641d15c9e4c651e8dd44ac8a64380fb5",
+      "bytes": 368516
+    },
+    "fullGrid": {
+      "path": "art/motion/zhangfei/cmr23-repair/registered-grid.png",
+      "sha256": "a56a13713932a1b5bddde6c985eb0c68e09d70b2274ea5cfcf6d98567044ea58",
+      "bytes": 279831
+    }
+  },
+  "stage": "ROI authoring renders only"
+}
