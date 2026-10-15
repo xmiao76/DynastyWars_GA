@@ -46,6 +46,19 @@
 // behind the victim silhouette. See the WARP section below. Outputs go to
 // artifacts/motion/paired/arm-warp-diagnostic/. Diagnostic only.
 //
+// Zhang Fei arm-WARP prototype (fifth mode, `--zhangfei-arm-warp` only):
+// forensic rank1 says Zhang Fei's settled hold is misc:2 (extended bare claw
+// hand), NOT the misc:3 retracted fist the trace/dispatch currently shows at
+// hold4 (the dispatch change itself is a later runtime task, out of scope).
+// This mode restores misc:2 at the traced zhangfei hold4 pin, splits the bare
+// forearm+hand around elbow (285,128) via a skin/segment mask, erases the
+// segment from the base, piecewise-warps upper/forearm/hand to the same 3
+// cluster hand targets (NH 238,133 / ML 242,151 / FH 264,135, victim micro-dx
+// +-3u) with fingers retaining claw direction, and composites base ->
+// proximal -> victim(micro-dx) -> distal. Victim soles move only the 3u
+// micro-dx; holder soles 0. Outputs go to
+// artifacts/motion/paired/zhangfei-arm-warp-diagnostic/. Diagnostic only.
+//
 // Restoration/transform helpers are reused from paired-contact-measure.mjs.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createCanvas } from '@napi-rs/canvas'
@@ -225,6 +238,54 @@ const WARP_VERDICTS = {
   FH: {
     verdict: 'ACCEPT arm-warp as prototype candidate (xuchu+lidian)',
     note: 'Sheets/zooms inspected both facings at target (264,135): the small (~14u) warp keeps the chain near-continuous - metric gate PASSES for both victims/facings (fingerGap 0.117u, survival 1, distal centroid on target, fingerDirDelta 0.7deg, seam gapMean 0.649-0.784u, inter-subsegment sepMax 3.793-3.981u). Xuchu hand sits visible on the collar/upper chest (palmC 0.304/0.633u, roiOv 258-269) with fingers along the facing and the cuff running back behind the victim; lidian hand lands at the throat between the two heads and reads as a grab (palmC 5.382/5.862u, near the 6u gate - weakest member). Caveats: xuchu palm rides slightly high over the beard/collar notch, and this is a still-frame diagnostic only - accept as the prototype direction for FH, not as ship-ready runtime layering.',
+  },
+}
+
+// --- Zhang Fei arm-warp prototype (--zhangfei-arm-warp) --------------------
+// Holder = zhangfei misc:2 restored at the traced zhangfei hold4 sample
+// (holder (229.3,220) victim (245.3,220) right-facing; left mirrors about
+// world x=240). The trace shows misc:3 there; substituting misc:2's cell at
+// the identical display record is the forensic "restore misc:2" step (same
+// 520x288 pack geometry). Segment mask (cell px, eye-checked on
+// measure-input/zhangfei zoom/grid renders): alpha with x>=270, y100-158.
+// East of x270 the only alpha in that band is the extended bare arm (top edge
+// y~116 at x270, hand to x354/y103-142; the spear shaft stays at y>=163, the
+// head/beard west of ~x267); 89.7% of those px pass the lit-skin predicate
+// below, the rest are the arm's own dark outline/shadow, so the box IS the
+// skin segment. Sub-segments by cell x: upper x<292 (pivot elbow (285,128),
+// forensic), forearm 292<=x<312 (pivot mid (301,129)), hand x>=312 (pivot
+// wrist (313,128); 312 is the landmark hand-ROI west edge, so the distal
+// sub-segment is exactly the claw hand). Shoulder seed (255,130) = fixed
+// anchor where the upper arm exits the vest/beard, for the proximal base
+// angle. Clusters/targets/micro-dx are shared with the guanyu warp
+// (WARP_CLUSTERS). Fingers = hand-ROI px cell x>=336 (distal claw fingertips;
+// palm = the rest), claw direction = palm->finger centroid vector.
+const ZF_OUT_DIR = 'artifacts/motion/paired/zhangfei-arm-warp-diagnostic'
+const ZF_TRACE_PATH = 'artifacts/motion/paired/zhangfei/canvas/trace.json'
+const ZF_HERO = 'zhangfei'
+const ZF_FRAME = 'misc:2'
+const ZF_ELBOW_PX = { x: 285, y: 128 }
+const ZF_SEEDS_PX = { shoulder: { x: 255, y: 130 }, elbow: ZF_ELBOW_PX, mid: { x: 301, y: 129 }, wrist: { x: 313, y: 128 } }
+const ZF_SEG_BOX = { xMin: 270, yMin: 100, yMax: 158 }
+const ZF_SUBSEG_X = [292, 312] // upper | forearm | hand cut columns (cell px)
+const ZF_FINGER_MIN_CELL_X = 336
+// Pre-registered metric gate for ACCEPT (visual inspection must also pass):
+// same thresholds as the guanyu warp, plus a seam skin-match floor.
+const ZF_GATE = { ...WARP_GATE, seamSkinMatchFrac: 0.8 }
+// Per-cluster verdicts from personally inspecting the ZF warp sheets/zooms
+// (filled after the first ZF warp run). Shape: { verdict, note }.
+const ZF_VERDICTS = {
+  NH: {
+    verdict: 'REJECT ZF arm-warp (soldier+archer)',
+    note: 'Sheets/zooms personally inspected both facings: the ~31u warp (needed distal shift -27.2,-14.1u right-facing) lands the claw exactly on target (fingerGap 0.023-0.245u, palmGap 0.013-0.015u, palmC 0.193-4.093u, roiOv 327-343, survival 1, soleV 3u) but the arm does not survive it: inter-subsegment sepMax 16.372-16.572u vs 4u gate, seam skinMatch 0.399, and on the clean sheets the forearm is swallowed behind the victim (proximalMasked 623-747 cells, cut-edge occluded 0.695-1.0) so the claw hand simply sprouts from the soldier chest / archer face with no readable arm running back to Zhang Fei - on archer it reads as the victim\'s own raised hand. Metric contact without a readable arm: reject (same failure family as guanyu NH).',
+  },
+  ML: {
+    verdict: 'REJECT ZF arm-warp (spearman+xiahoudun)',
+    note: 'Sheets/zooms personally inspected both facings at target (242,151): contact metrics again land (fingerGap 0.013-0.161u, survival 1, spearman palmC 0.962-1.462u roiOv 323-325) but the ~24u warp drags the west seam off skin onto beard/vest (seam gapMean 6.2-6.265u, skinMatch 0.14-0.161, colorDelta ~110 vs 29 for FH, interMax 5.546-5.864u; xiahoudun palmC 5.949-6.437u). Visually the spearman claw is an open palm plastered across the victim face/chest with the forearm crossing Zhang Fei\'s own beard, and the xiahoudun hand floats in front of Zhang Fei\'s face while the hunched victim head sits untouched behind it. No readable grip on either member: reject.',
+  },
+  FH: {
+    verdict: 'CONDITIONAL ACCEPT ZF arm-warp as prototype candidate (xuchu+lidian) - visual pass, metric gate near-miss',
+    note: 'Sheets/zooms personally inspected both facings at target (264,135): the warp is almost pure vertical (needed shift only -1.2,-12.1u) and both members read as real grabs - xuchu claw closes over the chin/collar notch (palmC 0.398-0.889u, roiOv 320-322) and lidian gets a face/throat claw (palmC 5.651-6.144u, roiOv 254-256) - with a continuous raised bare forearm back to the shoulder, fingers keeping claw direction (fingerDirDelta 10deg), finger/palm gaps 0.013-0.026u, survival 1, distal centroid on target, bodyOvD negative, soleV 3u/soleH 0. HONEST GATE STATUS: metricGatePass=false - seam gapMeanToStub 3.165-3.319u vs the 2u gate (identity already 1.257u on this sloped cut) and lidian-left palmC 6.144u vs 6u by 0.144u; every other gate term passes, the seam stays on skin (skinMatch 0.916-0.923, colorDelta ~29) and no seam break is visible on the clean sheets at game scale. Accept the FH direction as the prototype candidate with those two near-misses recorded for manager weigh-in; still a still-frame diagnostic, not ship-ready runtime layering, and the misc:2 dispatch change remains a separate later task.',
   },
 }
 
@@ -1386,6 +1447,516 @@ function warpMain() {
   }, null, 2))
 }
 
+// ---------------------------------------------------------------------------
+// Zhang Fei arm-warp mode (--zhangfei-arm-warp). Same warp family/mechanics
+// as the guanyu --arm-warp mode (warpTransforms/warpApply/warpHandPts/
+// warpSegPts are hero-agnostic and reused): hand sub-segment translation is
+// solved so the hand-ROI centroid lands on the cluster target (+ searched
+// tweak) under a small hand angle about the wrist (base 0 = claw direction
+// preserved); upper/forearm translations are f0/f1 fractions with seed-chain
+// base angles. Composite: holder base (segment erased) -> upper -> victim
+// (micro-dx) -> forearm+hand, so the proximal seam hides behind the victim
+// where they overlap and the claw hand always draws last.
+// ---------------------------------------------------------------------------
+
+/** Lit-skin predicate on a restored cell (warm, R>G>B, reasonably bright). */
+function zfSkinAt(restored, x, y) {
+  const i = (y * restored.srcW + x) * 4
+  const R = restored.data[i], G = restored.data[i + 1], B = restored.data[i + 2], A = restored.data[i + 3]
+  return A >= 128 && R > 120 && R > G + 15 && G > B + 5
+}
+const zfSegHas = (x, y) => x >= ZF_SEG_BOX.xMin && y >= ZF_SEG_BOX.yMin && y <= ZF_SEG_BOX.yMax
+const zfSubsegOf = (x) => (x < ZF_SUBSEG_X[0] ? 0 : x < ZF_SUBSEG_X[1] ? 1 : 2)
+
+const zfCanvasCache = new Map()
+function zfCanvasOf(restored, part) { // part: 'base' | subseg index 0/1/2
+  const key = `${restored.kind}:${restored.frame}:zfwarp:${part}`
+  if (!zfCanvasCache.has(key)) {
+    const cv = createCanvas(restored.srcW, restored.srcH)
+    const g = cv.getContext('2d')
+    const im = g.createImageData(restored.srcW, restored.srcH)
+    for (let y = 0; y < restored.srcH; y++) for (let x = 0; x < restored.srcW; x++) {
+      const keep = part === 'base' ? !zfSegHas(x, y) : zfSegHas(x, y) && zfSubsegOf(x) === part
+      if (!keep) continue
+      const i = (y * restored.srcW + x) * 4
+      im.data.set(restored.data.subarray(i, i + 4), i)
+    }
+    g.putImageData(im, 0, 0)
+    zfCanvasCache.set(key, cv)
+  }
+  return zfCanvasCache.get(key)
+}
+
+function buildZfContext(sample, landmarks) {
+  const tracedFrame = frameNameOf(sample.holder.sprite.frame) // misc:3 at hold4
+  const victimFrame = frameNameOf(sample.victim.sprite.frame)
+  const handLm = landmarks.frames[`${ZF_HERO}:${ZF_FRAME}`]
+  const tracedHandLm = landmarks.frames[`${ZF_HERO}:${tracedFrame}`]
+  const collarLm = landmarks.frames[`${sample.kind}:${victimFrame}`]
+  if (!handLm || !collarLm) throw new Error(`missing landmark for ZF ${sample.kind} hold4`)
+  const holderCell = restoreCell(ZF_HERO, ZF_FRAME) // misc:2 restored (forensic settled hold)
+  const tracedCell = restoreCell(ZF_HERO, tracedFrame) // misc:3, status quo for the "before" panel
+  const victimCell = restoreCell(sample.kind, victimFrame)
+  const hDisp = sample.holder.sprite.display
+  const vDisp = sample.victim.sprite.display
+  const handWorld = toWorld(alphaPoints(holderCell, handLm.roi), hDisp, holderCell.srcW)
+  const tracedHandWorld = tracedHandLm ? toWorld(alphaPoints(tracedCell, tracedHandLm.roi), hDisp, tracedCell.srcW) : []
+  const collarWorld = toWorld(alphaPoints(victimCell, collarLm.roi), vDisp, victimCell.srcW)
+  const holderBody = toWorld(alphaPoints(holderCell), hDisp, holderCell.srcW)
+  const victimBody = toWorld(alphaPoints(victimCell), vDisp, victimCell.srcW)
+  const front = sample.holder.sprite.depth !== sample.victim.sprite.depth
+    ? (sample.holder.sprite.depth > sample.victim.sprite.depth ? 'holder' : 'victim')
+    : (sample.holder.sprite.index > sample.victim.sprite.index ? 'holder' : 'victim')
+  const ctx = {
+    sample, kind: sample.kind, facing: sample.facing, holderFrame: ZF_FRAME, tracedFrame, victimFrame,
+    handLm, tracedHandLm, collarLm, holderCell, tracedCell, victimCell, hDisp, vDisp,
+    handWorld, tracedHandWorld, collarWorld, holderBody, victimBody, front,
+    pinSign: Math.sign(sample.pin.dx || 1),
+    holderBoot: bootGround(holderCell, hDisp), victimBoot: bootGround(victimCell, vDisp),
+    collarInt: intPts(collarWorld), victimBodyInt: intPts(victimBody),
+  }
+  ctx.baselineGap = minDistance(handWorld, collarWorld)
+  ctx.baselineTracedGap = tracedHandWorld.length ? minDistance(tracedHandWorld, collarWorld) : { distU: null }
+  ctx.baselineBodyOverlap = overlapShifted(ctx.victimBodyInt, intSet(intPts(holderBody)), 0, 0)
+  return ctx
+}
+
+function buildZfWarpContext(ctx) {
+  const r = ctx.holderCell
+  const cluster = warpClusterOf(ctx.kind)
+  const microDxU = cluster.microDxU[ctx.kind]
+  const victimOff = { dxU: ctx.pinSign * microDxU, dyU: 0 }
+  const targetWorld = ctx.pinSign > 0 ? [...cluster.targetRight] : [480 - cluster.targetRight[0], cluster.targetRight[1]]
+  const segPx = alphaPoints(r).filter(([x, y]) => zfSegHas(x, y))
+  const segWorld = toWorld(segPx, ctx.hDisp, r.srcW)
+  const segSub = segPx.map(([x]) => zfSubsegOf(x))
+  const segSkin = segPx.map(([x, y]) => zfSkinAt(r, x, y))
+  const byCell = new Map(segWorld.map((p, i) => [`${p[2]},${p[3]}`, i]))
+  const boundaryPairs = []
+  for (const cutX of ZF_SUBSEG_X) for (let y = ZF_SEG_BOX.yMin; y <= ZF_SEG_BOX.yMax; y++) {
+    const a = byCell.get(`${cutX - 1},${y}`), b = byCell.get(`${cutX},${y}`)
+    if (a !== undefined && b !== undefined) boundaryPairs.push([a, b])
+  }
+  const seedWorld = {}
+  for (const [name, s] of Object.entries(ZF_SEEDS_PX)) {
+    const wpt = toWorld([[s.x, s.y]], ctx.hDisp, r.srcW)[0]
+    seedWorld[name] = [wpt[0], wpt[1]]
+  }
+  const handSub = ctx.handWorld.map((p) => zfSubsegOf(p[2]))
+  const distalHand = ctx.handWorld.filter((p) => p[2] >= ZF_SUBSEG_X[1])
+  // Stub = retained (non-segment) alpha just west of the cut in the arm band:
+  // upper-arm skin + vest/beard the west seam must stay sewn to.
+  const stubPx = alphaPoints(r).filter(([x, y]) => !zfSegHas(x, y) && x >= ZF_SEG_BOX.xMin - 14 && x < ZF_SEG_BOX.xMin && y >= ZF_SEG_BOX.yMin && y <= ZF_SEG_BOX.yMax)
+  const baseMinusWorld = toWorld(alphaPoints(r).filter(([x, y]) => !zfSegHas(x, y)), ctx.hDisp, r.srcW)
+  return {
+    cluster: cluster.name, microDxU, victimOff, targetWorld,
+    segPx, segWorld, segSub, segSkin, boundaryPairs, seedWorld, handSub,
+    segSkinPx: segSkin.filter(Boolean).length,
+    subsegPx: [0, 1, 2].map((i) => segSub.filter((s) => s === i).length),
+    distalHandCentroid: centroid(distalHand),
+    palmOrig: ctx.handWorld.filter((p) => p[2] < ZF_FINGER_MIN_CELL_X),
+    fingerOrig: ctx.handWorld.filter((p) => p[2] >= ZF_FINGER_MIN_CELL_X),
+    stubPx, stubWorld: toWorld(stubPx, ctx.hDisp, r.srcW), stubPxCount: stubPx.length,
+    stubSkin: stubPx.map(([x, y]) => zfSkinAt(r, x, y)),
+    cutEdgeIdx: segWorld.map((p, i) => (p[2] < ZF_SEG_BOX.xMin + 4 ? i : -1)).filter((i) => i >= 0),
+    baseMinusSet: intSet(intPts(baseMinusWorld)),
+    collarW: shifted(ctx.collarWorld, victimOff),
+    collarCentroidW: centroid(shifted(ctx.collarWorld, victimOff)),
+    victimBodySetW: absSet(ctx.victimBodyInt, victimOff),
+    collarSetW: absSet(ctx.collarInt, victimOff),
+    handInSegPx: ctx.handWorld.filter((p) => zfSegHas(p[2], p[3])).length,
+  }
+}
+
+/** Sampled ZF search metrics (stride samples; exact metrics recomputed later). */
+function zfWarpSample(ctx, w, cand) {
+  const trs = warpTransforms(ctx, w, cand)
+  const handT = warpHandPts(ctx, w, trs)
+  const handS = handT.filter((_, i) => i % 2 === 0)
+  const fingerS = handS.filter((p) => p[2] >= ZF_FINGER_MIN_CELL_X)
+  const palmT = handT.filter((p) => p[2] < ZF_FINGER_MIN_CELL_X)
+  const palmC = centroid(palmT)
+  const distalC = centroid(handT.filter((p) => p[2] >= ZF_SUBSEG_X[1]))
+  const segT = warpSegPts(w, trs)
+  const cutDisp = w.cutEdgeIdx.map((i) => Math.hypot(segT[i][0] - w.segWorld[i][0], segT[i][1] - w.segWorld[i][1]))
+  const interSep = w.boundaryPairs.map(([a, b]) => Math.hypot(segT[a][0] - segT[b][0], segT[a][1] - segT[b][1]))
+  let segOverVictim = 0, segOverCollar = 0
+  segT.forEach((p, i) => {
+    if (i % 2) return
+    const k = key2(Math.round(p[0] * 2), Math.round(p[1] * 2))
+    if (w.victimBodySetW.has(k)) segOverVictim++
+    if (w.collarSetW.has(k)) segOverCollar++
+  })
+  const m = {
+    fingerGapU: bruteGap(fingerS, w.collarW), handGapU: bruteGap(handS, w.collarW),
+    palmCentroidDistU: Math.hypot(palmC[0] - w.collarCentroidW[0], palmC[1] - w.collarCentroidW[1]),
+    distalToTargetU: Math.hypot(distalC[0] - w.targetWorld[0], distalC[1] - w.targetWorld[1]),
+    cutDispMeanU: cutDisp.length ? cutDisp.reduce((a, v) => a + v, 0) / cutDisp.length : 0,
+    interSepMeanU: interSep.length ? interSep.reduce((a, v) => a + v, 0) / interSep.length : 0,
+    segOverVictimS: segOverVictim, segOverCollarS: segOverCollar,
+  }
+  // Same score shape as the guanyu warp: finger/palm contact first, forensic
+  // target fidelity, seam travel, and a claw-direction (small hand angle) bias.
+  m.score = m.fingerGapU * 2 + m.handGapU + m.palmCentroidDistU * 0.6 + m.distalToTargetU * 0.8
+    + m.cutDispMeanU * 0.5 + Math.max(0, m.interSepMeanU - 0.5) * 1.5 - m.segOverCollarS * 0.01
+    + Math.abs(cand.handAngleDeg ?? 0) * 0.08
+  return m
+}
+
+/** Per-cluster staged search on the 2 right-facing members (left mirrors). */
+function zfWarpSearchCluster(members) {
+  const sumScore = (cand) => members.reduce((a, m) => a + zfWarpSample(m.ctx, m.w, cand).score, 0)
+  let count = 0, best = null
+  const consider = (cand) => { count++; const s = sumScore(cand); if (!best || s < best.score) best = { cand, score: s } }
+  for (const handAngleDeg of [-10, -5, 0, 5, 10])
+    for (const txU of [-4, -2, 0, 2, 4]) for (const tyU of [-3, -2, -1, 0, 1, 2, 3])
+      consider({ handAngleDeg, txU, tyU, da0Deg: 0, da1Deg: 0, f0: 0.3, f1: 0.65 })
+  const stageA = { ...best }
+  for (const f0 of [0, 0.15, 0.3, 0.45, 0.6]) for (const f1 of [0.5, 0.65, 0.8, 0.9]) {
+    if (f1 <= f0 + 0.15) continue
+    for (const da0Deg of [-10, -5, 0, 5, 10]) for (const da1Deg of [-10, -5, 0, 5, 10])
+      consider({ ...stageA.cand, f0, f1, da0Deg, da1Deg })
+  }
+  return { best: best.cand, clusterScore: r3(best.score), stageABest: stageA.cand, candidateCount: count }
+}
+
+/** Exact metrics for one ZF warp candidate (full alpha, victim micro-dx on). */
+function zfWarpExactMetrics(ctx, w, cand) {
+  const r = ctx.holderCell
+  const trs = warpTransforms(ctx, w, cand)
+  const handT = warpHandPts(ctx, w, trs)
+  const segT = warpSegPts(w, trs)
+  const fingerT = handT.filter((p) => p[2] >= ZF_FINGER_MIN_CELL_X)
+  const palmT = handT.filter((p) => p[2] < ZF_FINGER_MIN_CELL_X)
+  const palmC = centroid(palmT), fingerC = centroid(fingerT)
+  const distalC = centroid(handT.filter((p) => p[2] >= ZF_SUBSEG_X[1]))
+  const handC = centroid(handT)
+  const palmOrigC = centroid(w.palmOrig), fingerOrigC = centroid(w.fingerOrig)
+  const dirDelta = (() => {
+    const v = [fingerOrigC[0] - palmOrigC[0], fingerOrigC[1] - palmOrigC[1]]
+    const u = [fingerC[0] - palmC[0], fingerC[1] - palmC[1]]
+    return Math.abs(Math.atan2(v[0] * u[1] - v[1] * u[0], v[0] * u[0] + v[1] * u[1]) * 180 / Math.PI)
+  })()
+  const handSet = intSet(intPts(handT))
+  let roiOverlapPx = 0
+  for (const k of w.collarSetW) if (handSet.has(k)) roiOverlapPx++
+  // Survival: forearm+hand sub-segments draw last; upper (no hand px in
+  // practice) would be occluded by the victim. Segment visibility likewise.
+  let handOccluded = 0
+  handT.forEach((p, i) => {
+    if (w.handSub[i] === 0 && w.victimBodySetW.has(key2(Math.round(p[0] * 2), Math.round(p[1] * 2)))) handOccluded++
+  })
+  const holderUnion = new Set(w.baseMinusSet)
+  let segOverVictim = 0, segOverCollar = 0, segVisibleCells = 0, proxMaskedCells = 0
+  const segKeys = new Set()
+  segT.forEach((p, i) => {
+    const k = key2(Math.round(p[0] * 2), Math.round(p[1] * 2))
+    holderUnion.add(k)
+    if (segKeys.has(k)) return
+    segKeys.add(k)
+    const overV = w.victimBodySetW.has(k)
+    if (overV) segOverVictim++
+    if (w.collarSetW.has(k)) segOverCollar++
+    if (w.segSub[i] === 0 && overV) proxMaskedCells++; else segVisibleCells++
+  })
+  let bodyOverlapPx = 0
+  for (const k of w.victimBodySetW) if (holderUnion.has(k)) bodyOverlapPx++
+  // Seam + skin continuity: per cut-edge point (segment x<xMin+4), nearest
+  // retained-stub point by world distance; skin match = both px pass the
+  // lit-skin predicate; color delta = mean |dRGB| to that stub px.
+  const cutT = w.cutEdgeIdx.map((i) => segT[i])
+  const rgbOf = (x, y) => { const i = (y * r.srcW + x) * 4; return [r.data[i], r.data[i + 1], r.data[i + 2]] }
+  const stubDists = [], stubNearIdx = []
+  cutT.forEach((p) => {
+    let bi = -1, bd = Infinity
+    w.stubWorld.forEach((q, j) => { const d = (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2; if (d < bd) { bd = d; bi = j } })
+    stubDists.push(Math.sqrt(bd)); stubNearIdx.push(bi)
+  })
+  let skinCut = 0, skinMatch = 0, colorDeltaSum = 0, cutOccluded = 0
+  cutT.forEach((p, ci) => {
+    const si = stubNearIdx[ci]
+    const segIdx = w.cutEdgeIdx[ci]
+    if (w.segSkin[segIdx]) { skinCut++; if (si >= 0 && w.stubSkin[si]) skinMatch++ }
+    if (si >= 0) {
+      const a = rgbOf(w.segPx[segIdx][0], w.segPx[segIdx][1]), b = rgbOf(w.stubPx[si][0], w.stubPx[si][1])
+      colorDeltaSum += (Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2])) / 3
+    }
+    if (w.victimBodySetW.has(key2(Math.round(p[0] * 2), Math.round(p[1] * 2)))) cutOccluded++
+  })
+  const interSep = w.boundaryPairs.map(([a, b]) => Math.hypot(segT[a][0] - segT[b][0], segT[a][1] - segT[b][1]))
+  const m = {
+    candidate: cand.identity ? { identity: true } : { handAngleDeg: cand.handAngleDeg, txU: cand.txU, tyU: cand.tyU, da0Deg: cand.da0Deg, da1Deg: cand.da1Deg, f0: cand.f0, f1: cand.f1 },
+    subsegAnglesWorldDeg: trs.map((t) => t.angleWorldDeg),
+    subsegTranslationsU: trs.map((t) => [r3(t.tx), r3(t.ty)]),
+    fingerGapU: r3(minDistance(fingerT, w.collarW).distU),
+    handGapU: r3(minDistance(handT, w.collarW).distU),
+    palmGapU: r3(minDistance(palmT, w.collarW).distU),
+    palmCentroidWorld: palmC.map(r3),
+    palmCentroidToCollarCentroidU: r3(Math.hypot(palmC[0] - w.collarCentroidW[0], palmC[1] - w.collarCentroidW[1])),
+    handCentroidWorld: handC.map(r3),
+    distalHandCentroidWorld: distalC.map(r3),
+    distalCentroidToTargetU: r3(Math.hypot(distalC[0] - w.targetWorld[0], distalC[1] - w.targetWorld[1])),
+    handCentroidToTargetU: r3(Math.hypot(handC[0] - w.targetWorld[0], handC[1] - w.targetWorld[1])),
+    fingerDirDeltaDeg: r3(dirDelta),
+    roiOverlapPx, handPx: handT.length, handInSegmentPx: w.handInSegPx, fingerPx: fingerT.length, palmPx: palmT.length,
+    handSurvival: handT.length ? r3((handT.length - handOccluded) / handT.length) : null,
+    segmentPx: w.segPx.length, segmentSkinPx: w.segSkinPx,
+    segmentSkinFrac: w.segPx.length ? r3(w.segSkinPx / w.segPx.length) : null,
+    segmentCellsOverVictim: segOverVictim, segmentCellsOverCollarRoi: segOverCollar,
+    segmentVisibleCells: segVisibleCells, proximalMaskedCells: proxMaskedCells,
+    bodyOverlapPx, bodyOverlapDeltaPx: bodyOverlapPx - ctx.baselineBodyOverlap,
+    seam: {
+      cutEdgePx: cutT.length,
+      gapMeanToStubU: stubDists.length ? r3(stubDists.reduce((a, v) => a + v, 0) / stubDists.length) : null,
+      gapMaxToStubU: stubDists.length ? r3(Math.max(...stubDists)) : null,
+      skinMatchFrac: skinCut ? r3(skinMatch / skinCut) : null,
+      skinCutEdgePx: skinCut,
+      colorDeltaMeanToStub: cutT.length ? r3(colorDeltaSum / cutT.length) : null,
+      cutEdgeOccludedByVictimFrac: cutT.length ? r3(cutOccluded / cutT.length) : null,
+      interSubsegPairs: interSep.length,
+      interSubsegSepMeanU: interSep.length ? r3(interSep.reduce((a, v) => a + v, 0) / interSep.length) : null,
+      interSubsegSepMaxU: interSep.length ? r3(Math.max(...interSep)) : null,
+    },
+    holderSoleDisplacementU: 0, victimSoleDisplacementU: Math.abs(w.microDxU),
+    holderBootErrU: ctx.holderBoot?.groundErrU, victimBootErrU: ctx.victimBoot?.groundErrU,
+  }
+  m.metricGatePass = m.fingerGapU <= ZF_GATE.fingerGapU && m.palmCentroidToCollarCentroidU <= ZF_GATE.palmCentroidDistU
+    && m.distalCentroidToTargetU <= ZF_GATE.distalCentroidToTargetU && m.seam.gapMeanToStubU <= ZF_GATE.seamGapMeanU
+    && m.seam.interSubsegSepMaxU <= ZF_GATE.interSeamMaxU && m.handSurvival >= ZF_GATE.handSurvival
+    && m.fingerDirDeltaDeg <= ZF_GATE.fingerDirDeltaDeg && m.seam.skinMatchFrac >= ZF_GATE.seamSkinMatchFrac
+  return m
+}
+
+function drawZfPanel(g, ctx, w, { x: px, y: py, w: pw, h, S, centerY, cand, tint, before = false }) {
+  const groundY = ctx.hDisp.y
+  const mapX = (wx) => px + pw / 2 + (wx - 240) * S
+  const mapY = (wy) => py + (centerY === 'ground' ? h - 26 + (wy - groundY) * S : h / 2 + (wy - centerY) * S)
+  g.save()
+  g.beginPath(); g.rect(px, py, pw, h); g.clip()
+  for (const disp of [ctx.hDisp, ctx.vDisp]) {
+    g.fillStyle = 'rgba(0,0,0,0.38)'
+    g.beginPath(); g.ellipse(mapX(disp.x), mapY(groundY), 11 * S, 2.5 * S, 0, 0, Math.PI * 2); g.fill()
+    g.strokeStyle = 'rgba(255,233,138,0.8)'; g.lineWidth = 1
+    g.beginPath(); g.moveTo(mapX(disp.x), mapY(groundY) - 6); g.lineTo(mapX(disp.x), mapY(groundY) + 6); g.stroke()
+  }
+  const drawActor = (restored, disp, off, canvasOverride = null) => {
+    const body = canvasOverride ?? cellCanvas(restored)
+    const dw = restored.srcW * disp.scaleX * S, dh = restored.srcH * disp.scaleY * S
+    const left = mapX(disp.x + off.dxU) - disp.displayOriginX * disp.scaleX * S
+    const top = mapY(disp.y + off.dyU) - disp.displayOriginY * disp.scaleY * S
+    g.save()
+    if (disp.flipX) { g.translate(left + dw, top); g.scale(-1, 1); g.drawImage(body, 0, 0, dw, dh) }
+    else g.drawImage(body, left, top, dw, dh)
+    g.restore()
+  }
+  const ZERO = { dxU: 0, dyU: 0 }
+  if (before) {
+    // Status quo: traced misc:3 holder + victim at the traced pin/front order.
+    const actors = [
+      { restored: ctx.tracedCell, disp: ctx.hDisp },
+      { restored: ctx.victimCell, disp: ctx.vDisp },
+    ]
+    if (ctx.front === 'holder') actors.reverse()
+    for (const a of actors) drawActor(a.restored, a.disp, ZERO)
+    if (tint) {
+      g.fillStyle = 'rgba(255,60,60,0.85)'
+      for (const p of ctx.tracedHandWorld) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+      g.fillStyle = 'rgba(60,220,255,0.85)'
+      for (const p of ctx.collarWorld) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+    }
+  } else {
+    const trs = warpTransforms(ctx, w, cand)
+    const drawSub = (i) => {
+      const tr = trs[i]
+      g.save()
+      g.translate(mapX(tr.pivot[0] + tr.tx), mapY(tr.pivot[1] + tr.ty))
+      g.rotate(Math.atan2(tr.sin, tr.cos))
+      g.translate(-mapX(tr.pivot[0]), -mapY(tr.pivot[1]))
+      drawActor(ctx.holderCell, ctx.hDisp, ZERO, zfCanvasOf(ctx.holderCell, i))
+      g.restore()
+    }
+    // Base (segment erased) -> proximal/upper -> victim (micro-dx) -> distal.
+    drawActor(ctx.holderCell, ctx.hDisp, ZERO, zfCanvasOf(ctx.holderCell, 'base'))
+    drawSub(0)
+    drawActor(ctx.victimCell, ctx.vDisp, w.victimOff)
+    drawSub(1); drawSub(2)
+    if (tint) {
+      g.fillStyle = 'rgba(255,60,60,0.85)'
+      for (const p of warpHandPts(ctx, w, trs)) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+      g.fillStyle = 'rgba(60,220,255,0.85)'
+      for (const p of w.collarW) g.fillRect(mapX(p[0]), mapY(p[1]), Math.max(1.4, S * 0.45), Math.max(1.4, S * 0.45))
+      g.strokeStyle = '#ffe98a'; g.lineWidth = 1.5
+      const txp = mapX(w.targetWorld[0]), typ = mapY(w.targetWorld[1])
+      g.beginPath(); g.moveTo(txp - 8, typ); g.lineTo(txp + 8, typ); g.moveTo(txp, typ - 8); g.lineTo(txp, typ + 8); g.stroke()
+      g.strokeStyle = 'rgba(120,255,160,0.9)'; g.lineWidth = 1
+      for (const tr of trs) {
+        const ex = mapX(tr.pivot[0] + tr.tx), ey = mapY(tr.pivot[1] + tr.ty)
+        g.beginPath(); g.arc(ex, ey, 4, 0, Math.PI * 2); g.stroke()
+      }
+    }
+  }
+  g.strokeStyle = 'rgba(255,255,255,0.28)'; g.lineWidth = 1
+  g.beginPath(); g.moveTo(px, mapY(groundY)); g.lineTo(px + pw, mapY(groundY)); g.stroke()
+  g.restore()
+}
+
+function zfSheets(kind, perKind) {
+  // Panels: [before (traced misc:3), misc:2 identity + micro-dx, BEST warp] x facings.
+  const label = (g, x, y, res, panel) => {
+    g.fillStyle = '#fff'; g.font = '13px sans-serif'
+    g.fillText(`zhangfei vs ${kind} ${res.facing} hold4 ${res.w.cluster} - ${panel.name}`, x + 6, y + 14)
+    g.font = '10px sans-serif'
+    const m = panel.metrics
+    g.fillText(m
+      ? `fGap=${m.fingerGapU}u pGap=${m.palmGapU}u palmC=${m.palmCentroidToCollarCentroidU}u roiOv=${m.roiOverlapPx} seam=${m.seam.gapMeanToStubU}/${m.seam.interSubsegSepMaxU}u skin=${m.seam.skinMatchFrac} surv=${m.handSurvival} tgt=${m.distalCentroidToTargetU}u soleV=${m.victimSoleDisplacementU}u`
+      : `traced misc:3 fist gap=${res.baselineTracedGapU}u | misc:2 rest gap=${res.baselineGapU}u (yellow ticks = unmoved ground points)`, x + 6, y + 28)
+  }
+  const render = (file, W, H, S, tint) => {
+    const LH = 34, cols = 3
+    const cv = createCanvas(cols * W, 2 * (H + LH)), g = cv.getContext('2d')
+    g.fillStyle = '#1d1924'; g.fillRect(0, 0, cv.width, cv.height)
+    perKind.forEach((res, row) => {
+      res.panels.forEach((panel, col) => {
+        const x = col * W, y = row * (H + LH)
+        label(g, x, y, res, panel)
+        if (panel.before) {
+          const hc = res.ctx.tracedHandWorld.length ? centroid(res.ctx.tracedHandWorld) : centroid(res.ctx.handWorld)
+          const cc = centroid(res.ctx.collarWorld)
+          drawZfPanel(g, res.ctx, res.w, { x, y: y + LH, w: W, h: H, S, centerY: tint ? (hc[1] + cc[1]) / 2 : 'ground', cand: null, tint, before: true })
+        } else {
+          const hc = centroid(warpHandPts(res.ctx, res.w, warpTransforms(res.ctx, res.w, panel.cand)))
+          const cc = res.w.collarCentroidW
+          drawZfPanel(g, res.ctx, res.w, { x, y: y + LH, w: W, h: H, S, centerY: tint ? (hc[1] + cc[1]) / 2 : 'ground', cand: panel.cand, tint })
+        }
+      })
+    })
+    writeFileSync(`${ZF_OUT_DIR}/${file}`, cv.toBuffer('image/png'))
+  }
+  render(`${kind}-zfwarp-sheet.png`, 560, 300, 2, false)
+  render(`${kind}-zfwarp-zoom.png`, 460, 320, 4, true)
+}
+
+/** Gridded seed/sub-segment/skin inspection for zhangfei misc:2 (cell px, 4x). */
+function zfSegmentInspectionSheet() {
+  const r = restoreCell(ZF_HERO, ZF_FRAME)
+  const crop = { x: 230, y: 80, w: 150, h: 95 }, S = 4, LH = 34, L = 30
+  const colors = ['rgba(255,90,90,0.45)', 'rgba(255,200,60,0.45)', 'rgba(0,255,120,0.45)']
+  const cv = createCanvas(L + crop.w * S + 8, LH + crop.h * S + 8), g = cv.getContext('2d')
+  g.fillStyle = '#28222e'; g.fillRect(0, 0, cv.width, cv.height)
+  const segN = [0, 1, 2].map((i) => alphaPoints(r).filter(([x, y]) => zfSegHas(x, y) && zfSubsegOf(x) === i).length)
+  const skinN = alphaPoints(r).filter(([x, y]) => zfSegHas(x, y) && zfSkinAt(r, x, y)).length
+  g.fillStyle = '#fff'; g.font = '12px sans-serif'
+  g.fillText(`zhangfei:misc:2 segment red=upper(${segN[0]}) amber=forearm(${segN[1]}) green=hand(${segN[2]}) skin=${skinN} cross=elbow(285,128) +=seeds S/E/M/W`, 4, 16)
+  g.drawImage(cellCanvas(r), crop.x, crop.y, crop.w, crop.h, L, LH, crop.w * S, crop.h * S)
+  for (const [x, y] of alphaPoints(r)) {
+    if (!zfSegHas(x, y) || x < crop.x || y < crop.y || x >= crop.x + crop.w || y >= crop.y + crop.h) continue
+    g.fillStyle = colors[zfSubsegOf(x)]
+    g.fillRect(L + (x - crop.x) * S, LH + (y - crop.y) * S, S, S)
+  }
+  g.font = '10px sans-serif'
+  for (let gx = Math.ceil(crop.x / 10) * 10; gx <= crop.x + crop.w; gx += 10) {
+    g.strokeStyle = 'rgba(255,255,120,0.3)'
+    g.beginPath(); g.moveTo(L + (gx - crop.x) * S, LH); g.lineTo(L + (gx - crop.x) * S, LH + crop.h * S); g.stroke()
+    if (gx % 20 === 0) { g.fillStyle = '#ffe98a'; g.fillText(String(gx), L + (gx - crop.x) * S - 8, LH - 4) }
+  }
+  for (let gy = Math.ceil(crop.y / 10) * 10; gy <= crop.y + crop.h; gy += 10) {
+    g.strokeStyle = 'rgba(255,255,120,0.3)'
+    g.beginPath(); g.moveTo(L, LH + (gy - crop.y) * S); g.lineTo(L + crop.w * S, LH + (gy - crop.y) * S); g.stroke()
+    if (gy % 20 === 0) { g.fillStyle = '#ffe98a'; g.fillText(String(gy), 2, LH + (gy - crop.y) * S + 3) }
+  }
+  for (const cutX of [ZF_SEG_BOX.xMin, ...ZF_SUBSEG_X]) {
+    g.strokeStyle = '#ffe98a'; g.lineWidth = 1.5
+    g.beginPath(); g.moveTo(L + (cutX - crop.x) * S, LH); g.lineTo(L + (cutX - crop.x) * S, LH + crop.h * S); g.stroke()
+  }
+  g.lineWidth = 2; g.strokeStyle = '#ff4040'; g.fillStyle = '#fff'; g.font = '12px sans-serif'
+  const ex = L + (ZF_ELBOW_PX.x - crop.x) * S, ey = LH + (ZF_ELBOW_PX.y - crop.y) * S
+  g.beginPath(); g.moveTo(ex - 9, ey); g.lineTo(ex + 9, ey); g.moveTo(ex, ey - 9); g.lineTo(ex, ey + 9); g.stroke()
+  g.strokeStyle = '#fff'
+  for (const [name, s] of Object.entries(ZF_SEEDS_PX)) {
+    const sx = L + (s.x - crop.x) * S, sy = LH + (s.y - crop.y) * S
+    g.beginPath(); g.moveTo(sx - 6, sy); g.lineTo(sx + 6, sy); g.moveTo(sx, sy - 6); g.lineTo(sx, sy + 6); g.stroke()
+    g.fillText(name[0].toUpperCase(), sx + 8, sy - 6)
+  }
+  g.lineWidth = 1
+  writeFileSync(`${ZF_OUT_DIR}/zf-segment-inspection.png`, cv.toBuffer('image/png'))
+}
+
+function zfMain() {
+  const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
+  const trace = JSON.parse(readFileSync(ZF_TRACE_PATH, 'utf8'))
+  mkdirSync(ZF_OUT_DIR, { recursive: true })
+  const comboOf = (kind, facing) => {
+    const sample = trace.core.find((c) => c.kind === kind && c.facing === facing && c.phase === 'hold4')
+    if (!sample) throw new Error(`no zhangfei hold4 sample for ${kind} ${facing}`)
+    const ctx = buildZfContext(sample, landmarks)
+    return { kind, facing, ctx, w: buildZfWarpContext(ctx), baselineGapU: r3(ctx.baselineGap.distU), baselineTracedGapU: r3(ctx.baselineTracedGap.distU) }
+  }
+  const searches = {}
+  for (const cluster of WARP_CLUSTERS) {
+    const members = Object.keys(cluster.microDxU).map((kind) => comboOf(kind, 'right'))
+    searches[cluster.name] = zfWarpSearchCluster(members)
+  }
+  const IDENTITY = { identity: true }
+  const comboOut = []
+  for (const kind of WARP_KINDS) {
+    const perKind = []
+    for (const facing of ['right', 'left']) {
+      const res = comboOf(kind, facing)
+      const best = searches[res.w.cluster].best
+      res.panels = [
+        { name: `before (traced ${res.ctx.tracedFrame}, core pin)`, cand: null, metrics: null, before: true },
+        { name: `misc:2 seg-front identity + victim micro-dx ${res.w.microDxU}u`, cand: IDENTITY, metrics: zfWarpExactMetrics(res.ctx, res.w, IDENTITY) },
+        { name: `BEST warp (${res.w.cluster} cluster candidate)`, cand: best, metrics: zfWarpExactMetrics(res.ctx, res.w, best) },
+      ]
+      perKind.push(res)
+      comboOut.push({
+        kind, facing, cluster: res.w.cluster, holderFrame: ZF_FRAME, tracedHolderFrame: res.ctx.tracedFrame, victimFrame: res.ctx.victimFrame,
+        front: res.ctx.front, microDxU: res.w.microDxU, victimOffsetU: res.w.victimOff, targetWorld: res.w.targetWorld,
+        baseline: {
+          tracedMisc3HandGapU: r3(res.ctx.baselineTracedGap.distU),
+          misc2RestHandGapU: r3(res.ctx.baselineGap.distU), bodyOverlapPx: res.ctx.baselineBodyOverlap,
+          handCentroidWorld: centroid(res.ctx.handWorld).map(r3),
+          distalHandCentroidWorld: res.w.distalHandCentroid.map(r3),
+          collarCentroidWorldMicro: res.w.collarCentroidW.map(r3),
+          neededDistalShiftU: [r3(res.w.targetWorld[0] - res.w.distalHandCentroid[0]), r3(res.w.targetWorld[1] - res.w.distalHandCentroid[1])],
+          seedWorld: Object.fromEntries(Object.entries(res.w.seedWorld).map(([k, v]) => [k, v.map(r3)])),
+          holderSoleDisplacementU: 0, victimSoleDisplacementU: 0,
+          holderBootErrU: res.ctx.holderBoot?.groundErrU, victimBootErrU: res.ctx.victimBoot?.groundErrU,
+        },
+        segment: {
+          px: res.w.segPx.length, skinPx: res.w.segSkinPx,
+          skinFrac: res.w.segPx.length ? r3(res.w.segSkinPx / res.w.segPx.length) : null,
+          subsegPx: res.w.subsegPx, handRoiPx: res.ctx.handWorld.length,
+          handRoiInSegmentPx: res.w.handInSegPx, stubPx: res.w.stubPxCount,
+        },
+        modes: Object.fromEntries(res.panels.filter((p) => p.metrics).map((p) => [p.name, p.metrics])),
+      })
+    }
+    zfSheets(kind, perKind)
+  }
+  zfSegmentInspectionSheet()
+  const out = {
+    hero: ZF_HERO, holderFrame: ZF_FRAME, tracedHolderFrameAtHold4: 'misc:3', phase: 'hold4', kinds: WARP_KINDS,
+    trace: ZF_TRACE_PATH, landmarks: LANDMARKS_PATH,
+    clusters: WARP_CLUSTERS.map((c) => ({ name: c.name, targetRightWorld: c.targetRight, targetLeftWorld: [480 - c.targetRight[0], c.targetRight[1]], microDxU: c.microDxU, search: searches[c.name] })),
+    elbowPx: ZF_ELBOW_PX, seedsPx: ZF_SEEDS_PX, subsegCutXPx: ZF_SUBSEG_X, segmentBoxPx: ZF_SEG_BOX,
+    segment: 'zhangfei misc:2 alpha with x>=270,y100-158 (bare upper-arm exit + forearm + claw hand; east of the head/beard, north of the spear shaft at y>=163). 89.7% of segment px pass the lit-skin predicate (A>=128, R>120, R>G+15, G>B+5); the rest are the arm outline/shadow, so the box is the skin segment - see zf-segment-inspection.png. Sub-segments: upper x<292 pivot elbow (285,128), forearm 292<=x<312 pivot mid (301,129), hand x>=312 pivot wrist (313,128) (= the landmark claw-hand ROI x312-355,y102-142); shoulder (255,130) anchors the proximal base angle.',
+    method: 'Forensic premise: the traced zhangfei hold4 shows misc:3 (retracted fist on the shaft - the "before" panels), but the settled hold should be misc:2 (extended bare claw hand). This diagnostic restores misc:2 at the identical traced hold4 display/pin (holder (229.3,220), victim (245.3,220) right-facing; left mirrors about world x=240) WITHOUT touching runtime dispatch. Holder base = restored misc:2 with segment alpha erased; victim sprite shifted by victimOff.dxU=pinSign*microDxU (holder sole 0, victim sole |microDxU|=3u, shadows/entity points unmoved). Warp: hand sub-segment translation solved so the hand-ROI centroid lands on target+(pinSign*txU,tyU) under handAngleDeg about the wrist (base angle 0 keeps the claw palm->finger direction along the facing); upper/forearm translations are f0/f1 fractions about elbow/mid with base angles aligning shoulder->elbow\' and elbow\'->mid\' seed-chain vectors plus da0/da1. Angles/tx stored right-facing-equivalent, mirrored by pinSign. Search per cluster on the 2 right-facing members, summed score: stage A handAngle -10..10x5, tx -4..4x2, ty -3..3x1 at f0=.3/f1=.65/da=0; stage B f0 {0,.15,.3,.45,.6} x f1 {.5,.65,.8,.9} (f1>f0+.15) x da0/da1 -10..10x5. Sample score = fingerGap*2+handGap+palmCentroidDist*.6+distalToTarget*.8+cutDispMean*.5+max(0,interSepMean-.5)*1.5-segOverCollarS*.01+|handAngle|*.08 on stride-2 samples; reported modes recomputed exactly (minDistance full alpha vs micro-shifted collar). Composite: base -> upper -> victim -> forearm+hand (proximal masked behind victim: proximalMaskedCells, cutEdgeOccludedByVictimFrac). Metrics: fingerGap/palmGap = min distance from finger (hand-ROI cell x>=336) / palm (x<336) alpha to the micro-shifted collar ROI; handSurvival = hand px not painted over under that composite order; seam gap = per-cut-edge-point (segment cell x<274) nearest distance to the retained stub (non-segment alpha x256-269,y100-158), with skinMatchFrac = fraction of skin cut-edge px whose nearest stub px is also lit-skin and colorDeltaMeanToStub = mean |dRGB| to it (skin continuity across the west seam); inter-subsegment separation = distance between originally adjacent column pairs across x=292/312 after warp (identity ~0.5u); bodyOverlap = victim alpha cells coincident with (base-minus-segment union warped segment) on the 0.5u grid, delta vs the misc:2-rest no-micro baseline; sole displacement = sprite offset from the unmoved entity ground point (holder 0, victim |microDxU|<=3u). fingerDirDeltaDeg = angle between original and warped palm->finger centroid vectors (claw direction retention).',
+    metricGate: ZF_GATE,
+    combos: comboOut,
+    verdicts: ZF_VERDICTS,
+  }
+  writeFileSync(`${ZF_OUT_DIR}/zhangfei-arm-warp.json`, `${JSON.stringify(out, null, 2)}\n`)
+  console.log(JSON.stringify({
+    outDir: ZF_OUT_DIR,
+    searches: Object.fromEntries(Object.entries(searches).map(([k, s]) => [k, { cand: s.best, score: s.clusterScore, n: s.candidateCount }])),
+    rows: comboOut.map((c) => {
+      const b = c.modes[Object.keys(c.modes)[1]]
+      return `${c.kind}-${c.facing}(${c.cluster},micro${c.microDxU}): tracedMisc3Gap=${c.baseline.tracedMisc3HandGapU}u misc2RestGap=${c.baseline.misc2RestHandGapU}u BEST fGap=${b.fingerGapU}u pGap=${b.palmGapU}u palmC=${b.palmCentroidToCollarCentroidU}u roiOv=${b.roiOverlapPx} seam=${b.seam.gapMeanToStubU}/${b.seam.gapMaxToStubU}u skin=${b.seam.skinMatchFrac} interMax=${b.seam.interSubsegSepMaxU}u surv=${b.handSurvival} tgt=${b.distalCentroidToTargetU}u fDir=${b.fingerDirDeltaDeg}deg bodyOvD=${b.bodyOverlapDeltaPx} soleV=${b.victimSoleDisplacementU}u gate=${b.metricGatePass}`
+    }),
+  }, null, 2))
+}
+
 function armMain() {
   const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
   const trace = JSON.parse(readFileSync(TRACE_PATH, 'utf8'))
@@ -1577,6 +2148,7 @@ function main() {
   }, null, 2))
 }
 
-if (process.argv.includes('--arm-warp')) warpMain()
+if (process.argv.includes('--zhangfei-arm-warp')) zfMain()
+else if (process.argv.includes('--arm-warp')) warpMain()
 else if (process.argv.includes('--arm-transform')) armMain()
 else main()
