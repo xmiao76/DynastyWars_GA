@@ -1,6 +1,6 @@
 ### CMR-24 - Full-cast verification and owner presentation
 
-- Status: IN_PROGRESS (2026-10-14, owner-amended Phase 3 default flip only; historical TODO below retained)
+- Status: DONE (2026-10-15 closeout; see Closure at end. Earlier IN_PROGRESS lines below retained as history)
 - Dependency: CMR-23 DONE (earlier foundation dependencies apply transitively)
 - Specification: [CMR-24](docs/motion-tasks/CMR-24.md); read with [shared contract](docs/CAST_MOTION_ROLLOUT.md).
 - Acceptance: All 11 humanoids (solo + co-op) action coverage, full serial gates/independent review/resource report; indexed videos; opt-in until owner activation.
@@ -67,3 +67,11 @@ The historical legacy-negative-control/fixed-wait observation above is supersede
 
 **CMR-24 stays IN_PROGRESS**. All Part A group checkboxes and Part B remain unchecked: missing full11 traces/actions/paired mechanical coverage, complete menus/overlays/three-stage/solo-co-op/latejoin/KO/mobile matrix, full wave/network/decode/GPU/cache/performance evidence and all error variants, full serial repository units/e2e/signal, indexed native-paced review and fresh independent pre-delete acceptance. No legacy deletion yet; fallback/shared assets remain. CMR-23 terminal disposition **2/60 pass,58/60 strict FAIL-deferred**, global197/200 and all attempt/waiver history unchanged. **Zero image requests; no core/mechanics/pixels/default/budget/controls changes; no push/deploy.** Next: manager review, then separately scoped outstanding practical gates before any deletion.
 
+
+## Closure — 2026-10-15 (DONE)
+
+Work `cmr24-closeout`, docs-only at HEAD `376c21a`, independent **ACCEPT `call_01a14137`**. Part A/B boxes in [spec](../motion-tasks/CMR-24.md) checked on recorded evidence; [TASKS.md](../../TASKS.md) CMR-24 DONE with commit chain `da3cde9`→`2c3260a`→`2aaa2cc`/`361fbc3`/`3ab0929`/`0f32919`/`8f6136a`→`f46118c`→`527359e`→`ee8ab52`/`bcf8610`/`3fbee42`→`37e0a87`→`376c21a`. Post-delete gates: units 792, vision 5, prod 18, signal 13, e2e exact-once 52-file ledger ([CAST_MOTION_REVIEW](../CAST_MOTION_REVIEW.md)).
+
+Residual sweep (grep over live `src`/`test`/`e2e`/`scripts`, 2026-10-15): `motionEnabled`, `legacyFallback`, `hero-bodies/`, `assets/weapons/`, `bakedart` = **0 hits**; deleted-module imports (body-art/weapon-art/armik/body-parts/draw/faces/figures/hand-parts/interpolate/poses/rig/weapon-parts/weapons/frame-art, arm-chain/cast-art helpers, retired prep scripts) = **0 hits**. Classified non-live hits: [motion-clips.ts](../../src/game/art/motion-clips.ts) B4 historical comment naming `whole-frames.ts`; [wholeframe-retired.spec.ts](../../e2e/wholeframe-retired.spec.ts) retirement negative-control regex; "no legacy" comments in motion-art/GameScene/hero-art. Tracked `src/game/assets` = only shared material: `boss-faces`/`hero-faces`/`mook-faces` (11 portraits + 3 prepared.json), `motion` (27 files), `title` (keyart), `fonts` (4); FX textures are generated at runtime, no asset dir. `src/game/assets/whole-frames/` exists on disk as an **empty untracked directory** (0 files, not in git).
+
+Documentable residuals, none claimed as passes: 2 flaky (`arrows:73` passed PD1 3/3; `xiahoudun-paced-review` webgl passed PD3 4/4 `--workers=1`, FLAKY-UNDER-PARALLEL-LOAD); 8 env-gated files gated-skip (18 tests: 5×`GUANYU_ACTIONS`, motion-capture, motion-look, motion-review, ui-review — no enabled post-delete run); no native-speed video inspection (stills/chronological evidence only); transient cache behavior noted in post-delete evidence; arm-chain G6 **RETIRED-BY-DELETION, not fixed**; CMR-23 contact/occlusion debt **58/60 strict FAIL-deferred** (2/60 pass, ledger 197/200). No push/deploy; deployment stays owner-manual.

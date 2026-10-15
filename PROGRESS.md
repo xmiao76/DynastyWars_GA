@@ -4,6 +4,11 @@ Record concrete new work/change evidence at the top. Unchanged waits are quiet: 
 
 ## Entries
 
+### 2026-10-15 — CMR-24 DONE closeout (docs only + residual sweep)
+
+- Work `cmr24-closeout` at HEAD `376c21a`, independent ACCEPT `call_01a14137`. Checked Part A/B boxes in [CMR-24 spec](docs/motion-tasks/CMR-24.md) on recorded evidence; [TASKS](TASKS.md) CMR-24 **DONE** with commit chain (`da3cde9`→`2c3260a`→slices→`f46118c`→`527359e`→fixes→`37e0a87`→`376c21a`) and post-delete gates (units 792, vision 5, prod 18, signal 13, e2e 52-file ledger). [Closure record](docs/loop-task-records/CMR-24.md#closure--2026-10-15-done) appended.
+- Residual sweep (grep, live `src`/`test`/`e2e`/`scripts`): `motionEnabled`/`legacyFallback`/`hero-bodies/`/`assets/weapons/`/`bakedart`/deleted-module imports = **0**; only classified hits are B4 historical comment, wholeframe-retired negative-control regex, "no legacy" comments. Tracked `src/game/assets` = portraits (11+3 prepared), `motion` 27, `title` 1, `fonts` 4 only; `whole-frames/` is an empty untracked dir. Residuals documented, not passes: 2 flaky with solo passes, 8 gated-skip files (18 tests), no native video, transient cache note, arm-chain G6 retired-by-deletion, contact debt 58/60 FAIL-deferred. `git diff --check` clean; docs-only commit, no push/deploy.
+
 ### 2026-10-15 — CMR-24 post-delete e2e completion + exact-once ledger (docs only)
 
 - Work `cmr24-postdelete-e2e-ledger` at HEAD `37e0a87`. Partial final-b full-suite log ([e2e.log](artifacts/motion/post-delete/final-b/e2e.log), stopped after test #63, no native exit) reported 26/52 spec files. Ran ONLY the 26 unreported files in ONE invocation, `--workers=2`, `GUANYU_ACTIONS` unset: **54 passed / 2 failed / 16 skipped (5.9m), native exit 1** ([log](artifacts/motion/post-delete/final-c/e2e.log), [exit](artifacts/motion/post-delete/final-c/exit.txt)). No code fixes attempted.

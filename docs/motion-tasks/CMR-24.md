@@ -1,6 +1,6 @@
 # CMR-24 — Practical sole-motion final gate (pre-delete + post-delete)
 
-- Current queue status: IN_PROGRESS (2026-10-14, owner-amended Phase 3 default-flip slice only); live status/attempt history is authoritative in [TASKS.md](../../TASKS.md).
+- Current queue status: **DONE (2026-10-15 closeout, independent ACCEPT `call_01a14137`)**; live status/attempt history is authoritative in [TASKS.md](../../TASKS.md). Closure section at end supersedes earlier "checkboxes remain unchecked / IN_PROGRESS" slice notes, which stay as history.
 - Dependencies: CMR-23 terminal DONE (DEFERRED_BY_OWNER / SUPERSEDED gate), with all B packs transitively DONE. No unresolved strict-art dependency.
 - **Owner practical amendment (2026-10-14, work `owner-practical-motion-contract-amendment`):** supersedes the earlier strict paired-art pre-flip prerequisite. Owner accepts/defer-repair of existing contact/occlusion flaws as migration visual debt, no additional image generation, mechanics unchanged. CMR-23's **2/60 passes, 58/60 failures** stay FAIL/deferred, not PASS. Its closure automatically passes **none** of this task's mechanical/coverage/resource checks.
 
@@ -20,21 +20,21 @@ Wave/retry and epoch/decode fixes **pre-existed gated review** (`2fb279a`, `77d6
 
 ## Part A acceptance — all required before any deletion
 
-- [ ] CMR-23 explicit terminal disposition recorded (not original acceptance); practical checks below independently evidenced at exact commits, no partial packs/placeholders.
-- [ ] Actual **default URL, no motion parameter**, loads/publishes motion in production; explicit temporary `?motion=0` rollback works. Existing opt-in success is not substituted.
-- [ ] All 11 fighters' applicable actions/states/transitions/ticks and both facings covered by loaded/published frame/texture traces and actual-game captures: no blank/missing frames, old rig leakage or mixed packs. Paired hold/release/throw/impact/getup, timeout, hit break, target death, co-op/multiple grabbers mechanically covered without demanding deferred contact-art repair.
-- [ ] Title/select/menus/overlays/results/game-over, all three stages, solo/co-op/late join, KO/revive, pause/hit-stop/restart/exit, mobile portrait/landscape and Canvas/WebGL work. Timing, range, damage, speed, physics, grab pin and deterministic core unchanged.
-- [ ] Every stage/hero/co-op wave split meets ≤12 MiB; decoded pixels ≤16 MiB/humanoid, retained cache ≤128 MiB, pages ≤2048²/density2. PNG/network/decode/GPU/cache and frame-time/performance evidence meet existing thresholds; no full-cast title preload, frame-canvas duplication, cache leak or silent required-kind omission. Prefetch/spawn/join/cancellation/eviction checks pass.
-- [ ] Default-path negative controls (missing/corrupt/forged/hung/over-budget wave) demonstrate bounded retry then visible blocking error, zero legacy frames, no sibling corruption or stale-episode publication.
-- [ ] Full serial lint, typecheck, unit, e2e, signal, vision, build, prodbuild pass or report exact existing owner-accepted baseline exceptions; no new failures hidden. Known contact/occlusion debt is specifically deferred, not permission to waive other visual or mechanical regressions.
-- [ ] Fresh **independent pre-delete review** confirms practical gates and deletion inventory. Indexed owner review and `docs/CAST_MOTION_REVIEW.md` carry exact commits, coverage, provenance, resources/performance, captures and normal-paced real-input/AI clips; native video inspection or its absence explicit. Historical head/weapon/contact limitations and 58/60 strict contact failures remain visible. No new unrelated blocking defects.
+- [x] CMR-23 explicit terminal disposition recorded (not original acceptance); practical checks below independently evidenced at exact commits, no partial packs/placeholders.
+- [x] Actual **default URL, no motion parameter**, loads/publishes motion in production; explicit temporary `?motion=0` rollback works. Existing opt-in success is not substituted.
+- [x] All 11 fighters' applicable actions/states/transitions/ticks and both facings covered by loaded/published frame/texture traces and actual-game captures: no blank/missing frames, old rig leakage or mixed packs. Paired hold/release/throw/impact/getup, timeout, hit break, target death, co-op/multiple grabbers mechanically covered without demanding deferred contact-art repair.
+- [x] Title/select/menus/overlays/results/game-over, all three stages, solo/co-op/late join, KO/revive, pause/hit-stop/restart/exit, mobile portrait/landscape and Canvas/WebGL work. Timing, range, damage, speed, physics, grab pin and deterministic core unchanged.
+- [x] Every stage/hero/co-op wave split meets ≤12 MiB; decoded pixels ≤16 MiB/humanoid, retained cache ≤128 MiB, pages ≤2048²/density2. PNG/network/decode/GPU/cache and frame-time/performance evidence meet existing thresholds; no full-cast title preload, frame-canvas duplication, cache leak or silent required-kind omission. Prefetch/spawn/join/cancellation/eviction checks pass.
+- [x] Default-path negative controls (missing/corrupt/forged/hung/over-budget wave) demonstrate bounded retry then visible blocking error, zero legacy frames, no sibling corruption or stale-episode publication.
+- [x] Full serial lint, typecheck, unit, e2e, signal, vision, build, prodbuild pass or report exact existing owner-accepted baseline exceptions; no new failures hidden. Known contact/occlusion debt is specifically deferred, not permission to waive other visual or mechanical regressions.
+- [x] Fresh **independent pre-delete review** confirms practical gates and deletion inventory. Indexed owner review and `docs/CAST_MOTION_REVIEW.md` carry exact commits, coverage, provenance, resources/performance, captures and normal-paced real-input/AI clips; native video inspection or its absence explicit. Historical head/weapon/contact limitations and 58/60 strict contact failures remain visible. No new unrelated blocking defects.
 
 ## Part B acceptance — all required for DONE
 
-- [ ] Separate Phase 5 deletion commit follows green Part A and independent review; legacy-only code/art/config/tests/scripts/live requirements, fallback and mode switch are absent; shared material preserved; mechanics/pack content unchanged.
-- [ ] Repeat full serial gates and essential Part A coverage/loaded frames/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL/performance on the exact post-delete tree, with fresh independent review and the same baseline honesty. List retired gates (including applicable G6/UIR-19/rig grids), never claim their old failures became green.
-- [ ] Source/reference search **and actual built-bundle/network/runtime evidence** prove sole-motion exclusivity: no legacy renderer/fallback/legacy-only downloads; old URL mode parameters including `?motion=0` have no rendering effect; required-pack error semantics intact.
-- [ ] Indexed owner review updated with pre/post-delete results, retirement inventory and remaining owner-deferred visual debt/inspection limits.
+- [x] Separate Phase 5 deletion commit follows green Part A and independent review; legacy-only code/art/config/tests/scripts/live requirements, fallback and mode switch are absent; shared material preserved; mechanics/pack content unchanged.
+- [x] Repeat full serial gates and essential Part A coverage/loaded frames/resources/errors/menus/co-op/stages/mobile/Canvas-WebGL/performance on the exact post-delete tree, with fresh independent review and the same baseline honesty. List retired gates (including applicable G6/UIR-19/rig grids), never claim their old failures became green.
+- [x] Source/reference search **and actual built-bundle/network/runtime evidence** prove sole-motion exclusivity: no legacy renderer/fallback/legacy-only downloads; old URL mode parameters including `?motion=0` have no rendering effect; required-pack error semantics intact.
+- [x] Indexed owner review updated with pre/post-delete results, retirement inventory and remaining owner-deferred visual debt/inspection limits.
 
 ## Phase 3 default-flip slice (2026-10-14)
 
@@ -53,6 +53,10 @@ Individual factual evidence only (does not check whole Part A groups):
 - [x] Prior default-browser8/8 (`da3cde9`), full runtime-file27/27 and changed Xiahou/Xu Chu units89/89 (reader`6ed29bc`) reused, NOT repeated or called full repository units. [Source SHA256 fingerprints](../../artifacts/motion/default-flip/stable-verification/source-hashes.json) + scoped empty diffs establish unchanged inputs. Original failures/interruptions remain in [durable record](../loop-task-records/CMR-24.md#stable-committed-phase-3-verification--2026-10-14), including initial runtime24/27, impacted87/89, vision2/5, production13/14 and corrected vision4/5 hero expectation failure.
 
 **All Part A acceptance group checkboxes above and all Part B remain unchecked; CMR-24 IN_PROGRESS.** Vision158 sprites/55 reach/110 retract still measure legacy `registerAllArt` inventory, not all11motion; broad animation/arrows/artscale/wholeframe/body-look/baked-art/fallback/motion-look/Guan-Yu e2e are legacy-sensitive and unrun here. Full-cast loaded traces/actions/paired mechanical checks, complete menu/co-op/stage/mobile matrix, all-wave resource/error and performance coverage, full serial repository units/e2e/signal and independent pre-delete/indexed owner review remain open. No legacy deletion yet. Historical2/60 pass58/60 strict FAIL-deferred and ledger197/200 unchanged. Zero image requests; no core/mechanics/pixels/default/budget/control changes, no push/deploy. This docs-only checkpoint does not accept Part A or authorize deletion.
+
+## Closure — 2026-10-15 (DONE)
+
+Part A evidenced pre-delete (default flip `da3cde9`, stable `2c3260a`, full-cast coverage/resources/errors, native-exit vision5/prod18 at `8f6136a`); deletion landed as separate commits (`f46118c` 51 legacy assets, `527359e` joint renderer/switch cutover, fixes `ee8ab52`/`bcf8610`/`3fbee42`, residual cleanup `37e0a87`); Part B repeated post-delete (units 792, vision 5, prod 18, signal 13, e2e exact-once 52-file ledger at `376c21a`) with independent **ACCEPT `call_01a14137`**. Residual sweep + documentable residuals (2 flaky with solo passes, 8 gated-skip files, no native-speed video, transient cache note, arm-chain G6 retired-by-deletion not fixed, CMR-23 contact debt 58/60 FAIL-deferred) are recorded in [the closure record](../loop-task-records/CMR-24.md#closure--2026-10-15-done) and [TASKS.md](../../TASKS.md). No retired gate is claimed newly green.
 
 ## Stop / rollback / completion
 
