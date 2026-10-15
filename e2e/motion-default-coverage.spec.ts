@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { attackById } from '../src/core/attacks'
 import { CHARACTER_ORDER, characterById } from '../src/core/characters'
 import { DYING_TICKS } from '../src/core/constants'
@@ -11,7 +11,8 @@ import type { Sim } from '../src/core/sim'
  * motion is default-ON (only `motion=0` selects legacy), so this spec proves
  * the shipped default path for all 11 fighters. Clone of the deterministic
  * paused stepSim pattern (paired-grab-capture) + per-fighter attack tables
- * (motion-capture). WebGL/mobile are split into a later package.
+ * (motion-capture). WebGL reduced + mobile-viewport + `?motion=0`
+ * discrimination tests follow at the bottom (same per-row exact checks).
  *
  * Injected sweep: per kind x both facings, fresh-entity rows for every state
  * its dispatcher supports, at published-clip key ticks +/-1 and attack
@@ -604,4 +605,355 @@ test('default motion coverage: full cast (canvas, no motion param)', async ({ pa
 
   expect(errors).toEqual([])
   expect(failures, failures.slice(0, 80).join('\n')).toEqual([])
+})
+
+// ---------------------------------------------------------------------------
+// Reduced sweeps (WebGL + mobile viewport) + ?motion=0 discrimination. Same
+// fresh-entity injected pattern and the same per-row exact motion/rect
+// assertions as the Canvas full-cast test above, on a reduced state set.
+// ---------------------------------------------------------------------------
+interface ReducedResult {
+  rows: Row[]; plan: PlanRow[]; chains: ChainMeta[]
+  manifests: Record<string, Manifest>
+  alphaFrames: SweepResult['alphaFrames']; errors: string[]
+}
+interface ReducedOpts { kinds: string[]; states: string[]; full: string[]; chain: { holder: string; victim: string } | null }
+
+async function bootGame(page: Page, query: string, viewport: { width: number; height: number }): Promise<string[]> {
+  const errors: string[] = []
+  page.on('pageerror', (e) => errors.push(String(e)))
+  await page.setViewportSize(viewport)
+  await page.goto(query)
+  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('title')
+  await page.evaluate(() => window.__DW__!.startGame('guanyu', 42, 'stage1'))
+  await expect.poll(() => page.evaluate(() => window.__DW__?.getSnapshot().scene)).toBe('game')
+  const intro = (): Promise<boolean> => page.evaluate(() => !!window.__DW_GAME__?.scene.getScene('hud').children.list.some((o) => o.name === 'introCard'))
+  await expect.poll(intro).toBe(true)
+  await page.keyboard.press('Enter')
+  await expect.poll(intro).toBe(false)
+  return errors
+}
+
+async function runReducedSweep(page: Page, opts: ReducedOpts): Promise<ReducedResult> {
+  return page.evaluate(async ({ cfgs, opts: o }) => {
+    const simPath = '/src/core/sim.ts', attackPath = '/src/core/attacks.ts', entityPath = '/src/core/entities.ts', motionPath = '/src/game/adapters/motion-art.ts'
+    const { stepSim } = await import(/* @vite-ignore */ simPath) as typeof import('../src/core/sim')
+    const { attackById } = await import(/* @vite-ignore */ attackPath) as typeof import('../src/core/attacks')
+    const { makeCombatant } = await import(/* @vite-ignore */ entityPath) as typeof import('../src/core/entities')
+    const motion = await import(/* @vite-ignore */ motionPath) as typeof import('../src/game/adapters/motion-art')
+    const engine = window.__DW_GAME__!
+    const g = engine.scene.getScene('game') as unknown as Live
+    const runtime = motion.motionRuntime() as unknown as {
+      settle(): Promise<void>
+      prepareKinds(scene: unknown, kinds: string[]): Promise<Array<{ kind: string; outcome: { ok: boolean } }>>
+      kindReady(scene: unknown, kind: string): boolean
+    }
+    const rows: Row[] = [], plan: PlanRow[] = [], chains: ChainMeta[] = [], sweepErrors: string[] = []
+    const alphaFrames: SweepResult['alphaFrames'] = {}, manifests: Record<string, Manifest> = {}
+    await runtime.settle()
+    const needKinds = [...new Set([...o.kinds, ...(o.chain ? [o.chain.holder, o.chain.victim] : [])])]
+    await runtime.prepareKinds(g, needKinds)
+    const ensureReady = async (kind: string, where: string): Promise<boolean> => {
+      if (runtime.kindReady(g, kind)) return true
+      const res = await runtime.prepareKinds(g, [kind])
+      const ok = res[0]?.outcome.ok === true && runtime.kindReady(g, kind)
+      if (!ok) sweepErrors.push(`prepare failed kind=${kind} where=${where}`)
+      return ok
+    }
+    const snapshotManifest = (kind: string): void => {
+      if (manifests[kind]) return
+      const rec = g.registry.get('paintedHeroArt') as { motions?: Record<string, Manifest> } | undefined
+      const art = rec?.motions?.[kind]
+      if (!art) return
+      const keys = motion.motionTextureKeys(kind)
+      manifests[kind] = { density: art.density, box: art.box, frames: art.frames, clips: art.clips, attackBindings: art.attackBindings, collapseTail: art.collapseTail, sheetKey: keys.sheet, actionsKey: keys.actions }
+    }
+    g.paused = true
+    g.sim.cameraLocked = false
+    const hud = engine.scene.getScene('hud')
+    hud.scene.pause()
+    hud.children.list.forEach((obj) => { (obj as unknown as { visible: boolean }).visible = false })
+    const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
+    const neutral = { up: false, down: false, left: false, right: false, attackPressed: false, jumpPressed: false, specialPressed: false }
+    let nextId = 920000 + Math.floor(Math.random() * 1000) * 100000
+    const step = (input = neutral): void => { stepSim(g.sim, input, neutral); g.syncSprites() }
+    const resetPlayer = (x: number, facing: 'right' | 'left'): void => {
+      Object.assign(p, { x, y: 220, z: 0, state: 'idle', stateTick: 0, attackId: null, bufferedAttack: false, struck: [], hp: p.maxHp, invulnerableTicks: 0, facing, vx: 0, airTicks: 0, grabbedBy: null })
+      g.sim.freezeTicks = 0; g.sim.events.length = 0; g.sim.phase = 'fight'
+    }
+    const alphaCv = document.createElement('canvas')
+    const ensureAlpha = (s: SpriteLike): void => {
+      const id = s.frame.name
+      if (!id.includes(':motion:') || alphaFrames[id]) return
+      try {
+        const src = g.textures.get(s.texture.key).getSourceImage()
+        const { cutX, cutY, cutWidth: w, cutHeight: h } = s.frame
+        alphaCv.width = Math.max(1, w); alphaCv.height = Math.max(1, h)
+        const ctx = alphaCv.getContext('2d', { willReadFrequently: true })!
+        ctx.clearRect(0, 0, w, h); ctx.drawImage(src, cutX, cutY, w, h, 0, 0, w, h)
+        const data = ctx.getImageData(0, 0, w, h).data
+        let n = 0
+        for (let i = 3; i < data.length; i += 4) if (data[i]! > 0) n++
+        alphaFrames[id] = { texture: s.texture.key, alphaPixels: n, w, h }
+      } catch (err) { alphaFrames[id] = { texture: s.texture.key, alphaPixels: -1, w: s.frame.cutWidth, h: s.frame.cutHeight }; sweepErrors.push(`alpha read failed frame=${id}: ${String(err)}`) }
+    }
+    const sample = (meta: { origin: Row['origin']; chain: string; seq: number; variant: string }, actors: Array<{ e: typeof p; role: string }>): void => {
+      g.syncSprites()
+      for (const { e, role } of actors) {
+        const s = g.sprites.get(e.id)
+        if (s) ensureAlpha(s)
+        rows.push({
+          origin: meta.origin, chain: meta.chain, seq: meta.seq, role,
+          kind: e.kind, facing: e.facing, state: e.state, stateTick: e.stateTick, simTick: g.sim.tick,
+          attackId: e.attackId, variant: meta.variant,
+          thinkTick: typeof e.thinkTick === 'number' && Number.isFinite(e.thinkTick) ? e.thinkTick : null,
+          x: e.x, y: e.y, z: e.z, airTicks: e.airTicks, hp: e.hp,
+          lift: motion.motionVisualLift(g as never, e as never),
+          sprite: s ? {
+            frame: s.frame.name, texture: s.texture.key, visible: s.visible, alpha: s.alpha,
+            x: s.x, y: s.y, depth: s.depth, flipX: s.flipX, originX: s.originX, originY: s.originY, scaleX: s.scaleX, scaleY: s.scaleY,
+            cutX: s.frame.cutX, cutY: s.frame.cutY, cutWidth: s.frame.cutWidth, cutHeight: s.frame.cutHeight,
+            frameX: s.frame.x, frameY: s.frame.y, frameW: s.frame.width, frameH: s.frame.height,
+            realWidth: s.frame.realWidth, realHeight: s.frame.realHeight, trimmed: s.frame.trimmed,
+            sourceSize: s.frame.data?.sourceSize ?? { w: s.frame.cutWidth, h: s.frame.cutHeight },
+            spriteSourceSize: s.frame.data?.spriteSourceSize ?? { x: 0, y: 0, w: s.frame.cutWidth, h: s.frame.cutHeight },
+          } : null,
+        })
+      }
+    }
+    const edges = (clip: Clip | undefined, extra: number[] = []): number[] => {
+      const set = new Set<number>([0, 1])
+      if (clip) { for (const k of clip.keys) { set.add(k.tick - 1); set.add(k.tick); set.add(k.tick + 1) } set.add(clip.duration - 1); set.add(clip.duration); set.add(clip.duration + 1) }
+      for (const t of extra) set.add(t)
+      return [...set].filter((t) => t >= 0).sort((a, b) => a - b)
+    }
+    const attackEdges = (clip: Clip | undefined, attackId: string): number[] => {
+      const a = attackById(attackId), total = a.startup + a.active + a.recover
+      return edges(clip, [a.startup - 1, a.startup, a.startup + 1, a.startup + a.active - 1, a.startup + a.active, a.startup + a.active + 1, total - 1, total])
+    }
+    const boundClip = (art: Manifest, attackId: string): string | undefined => art.attackBindings?.[attackId] ?? (art.clips[attackId.slice(3)] ? attackId.slice(3) : undefined)
+
+    interface Spec { state: string; attackId: string | null; ticks: number[]; clip: string; variant: string; thinkTicks?: Map<number, number> }
+    const specsFor = (cfg: KindCfg, art: Manifest): Spec[] => {
+      const specs: Spec[] = [], isFull = o.full.includes(cfg.kind)
+      for (const st of o.states) {
+        if (st === 'idle') specs.push({ state: 'idle', attackId: null, ticks: edges(art.clips.idle), clip: 'idle', variant: '' })
+        else if (st === 'walk') specs.push({ state: 'walk', attackId: null, ticks: edges(art.clips.walk), clip: 'walk', variant: '' })
+        else if (st === 'attack') {
+          if (cfg.kind === 'archer' && art.clips.shoot) {
+            const fi = 90, phases = edges(art.clips.shoot).filter((t) => t < fi)
+            specs.push({ state: 'idle', attackId: null, ticks: phases, clip: 'shoot', variant: 'shoot', thinkTicks: new Map(phases.map((ph) => [ph, (fi - (ph % fi)) % fi])) })
+          } else for (const attackId of (isFull ? cfg.attacks : cfg.attacks.slice(0, 1))) {
+            const clipName = boundClip(art, attackId) ?? '(unbound)'
+            specs.push({ state: 'attack', attackId, ticks: attackEdges(art.clips[clipName], attackId), clip: clipName, variant: '' })
+          }
+        } else if (st === 'fall') specs.push({ state: 'knockdown', attackId: null, ticks: edges(art.clips.fall), clip: 'fall', variant: '' })
+        else if (st === 'dead') specs.push({ state: 'dead', attackId: null, ticks: [0, 1], clip: '(static)', variant: '' })
+        else if (st === 'thrown' && isFull) specs.push({ state: 'thrown', attackId: null, ticks: [0, 1, 3, 4, 5, 9, 10, 13, 14, 15], clip: '(static thresholds)', variant: '' })
+        else if (st === 'special' && isFull && cfg.hero) specs.push({ state: 'special', attackId: cfg.specialAttack, ticks: cfg.specialAttack ? attackEdges(art.clips.special, cfg.specialAttack) : edges(art.clips.special), clip: 'special', variant: '' })
+        else if (st === 'jumpattack' && isFull && cfg.hero) specs.push({ state: 'jumpattack', attackId: cfg.jumpAttack, ticks: [...new Set([...edges(art.clips.jumpattack), ...(cfg.jumpAttack ? attackEdges(art.clips.jumpattack, cfg.jumpAttack) : [])])].sort((a, b) => a - b), clip: 'jumpattack', variant: '' })
+      }
+      return specs
+    }
+    for (const cfg of cfgs.filter((c) => o.kinds.includes(c.kind))) {
+      try {
+        await ensureReady(cfg.kind, `injected:${cfg.kind}`)
+        snapshotManifest(cfg.kind)
+        const art = manifests[cfg.kind]
+        if (!art) { sweepErrors.push(`no published manifest kind=${cfg.kind}`); continue }
+        for (const spec of specsFor(cfg, art)) for (const tick of spec.ticks) {
+          plan.push({ kind: cfg.kind, facing: 'right', state: spec.state, stateTick: tick, attackId: spec.attackId, variant: spec.variant, clip: spec.clip })
+          g.sim.entities = [p]; resetPlayer(60, 'right'); g.syncSprites()
+          const e = makeCombatant(nextId++, cfg.kind, 'enemy', 240, 220, cfg.maxHp, cfg.speed, 'right')
+          const fields: Record<string, unknown> = { state: spec.state, stateTick: tick, attackId: spec.attackId, thinkTick: 999999, invulnerableTicks: 0 }
+          if (spec.state === 'idle' && !spec.variant) fields.thinkTick = undefined
+          if (spec.variant === 'shoot') fields.thinkTick = spec.thinkTicks?.get(tick)
+          if (spec.state === 'jumpattack') Object.assign(fields, { airTicks: tick, z: 40 })
+          if (spec.state === 'thrown') Object.assign(fields, { z: 10, vx: 3.5, airTicks: tick, thrownFromX: 240 - 3.5 * tick })
+          if (spec.state === 'dead') fields.hp = 0
+          Object.assign(e, fields)
+          g.sim.entities.push(e)
+          sample({ origin: 'injected', chain: 'injected', seq: tick, variant: spec.variant }, [{ e, role: 'subject' }])
+        }
+      } catch (err) { sweepErrors.push(`injected kind=${cfg.kind}: ${String(err)}`) }
+    }
+    // Natural thrown chain (fuller sweep): holder hero grabs+throws victim.
+    if (o.chain) {
+      const { holder, victim: victimKind } = o.chain
+      const vcfg = cfgs.find((c) => c.kind === victimKind)!
+      const meta: ChainMeta = { chain: 'grab-throw-getup', kind: victimKind, facing: 'right', steps: 0, statesSeen: [], terminal: '', ok: false, note: '' }
+      const saved = { kind: p.kind, charId: g.sim.charId, maxHp: p.maxHp, speed: p.speed }
+      try {
+        await ensureReady(holder, 'chain'); await ensureReady(victimKind, 'chain')
+        snapshotManifest(holder); snapshotManifest(victimKind)
+        const hcfg = cfgs.find((c) => c.kind === holder)!
+        Object.assign(p, { kind: holder, maxHp: hcfg.maxHp, speed: hcfg.speed }); g.sim.charId = holder
+        g.sim.entities = [p]; g.syncSprites()
+        const victim = makeCombatant(nextId++, victimKind, 'enemy', 240, 220, vcfg.maxHp, vcfg.speed, 'left')
+        victim.thinkTick = 999999
+        g.sim.entities.push(victim)
+        resetPlayer(228, 'right'); g.syncSprites()
+        step({ ...neutral, right: true })
+        if (p.state !== 'grab' || victim.state !== 'grabbed') throw new Error(`grab not acquired holder=${p.state} victim=${victim.state}`)
+        let seq = 0; const seen = new Set<string>()
+        const snapBoth = (): void => { sample({ origin: 'natural', chain: meta.chain, seq: seq++, variant: '' }, [{ e: p, role: 'holder' }, { e: victim, role: 'victim' }]); seen.add(victim.state) }
+        snapBoth()
+        for (let i = 0; i < 4; i++) { step(); snapBoth() }
+        step({ ...neutral, attackPressed: true }); snapBoth()
+        if ((victim.state as string) !== 'thrown') throw new Error(`throw did not start victim=${victim.state}`)
+        let guard = 0, sawGetup = false
+        const vState = (): string => victim.state
+        while (guard++ < 400) {
+          step(); snapBoth()
+          if (vState() === 'getup') sawGetup = true
+          if (!g.sim.entities.includes(victim)) { meta.terminal = 'removed'; break }
+          if (sawGetup && (vState() === 'idle' || vState() === 'walk')) { meta.terminal = vState(); break }
+          if (vState() === 'dying' || vState() === 'dead') { meta.terminal = vState(); break }
+        }
+        if (!meta.terminal) meta.terminal = `guard:${victim.state}`
+        meta.steps = seq; meta.statesSeen = [...seen]
+        meta.ok = seen.has('grabbed') && seen.has('thrown') && seen.has('knockdown') && sawGetup && (meta.terminal === 'idle' || meta.terminal === 'walk')
+        meta.note = `holder=${holder} victimStates=${meta.statesSeen.join('>')}`
+      } catch (err) { meta.note = String(err); sweepErrors.push(`chain grab-throw-getup: ${String(err)}`) }
+      Object.assign(p, { kind: saved.kind, maxHp: saved.maxHp, speed: saved.speed }); g.sim.charId = saved.charId
+      resetPlayer(240, 'right'); g.sim.entities = [p]; g.syncSprites()
+      chains.push(meta)
+    }
+    hud.scene.resume()
+    return { rows, plan, chains, manifests, alphaFrames, errors: sweepErrors }
+  }, { cfgs: CFGS, opts })
+}
+
+/** Same per-row exact checks as the Canvas full-cast test (shared by reduced sweeps). */
+function checkReducedRows(result: ReducedResult, failures: string[]): void {
+  const label = (r: Row): string => `kind=${r.kind} state=${r.state} tick=${r.stateTick} facing=${r.facing} origin=${r.origin}${r.origin === 'natural' ? ` chain=${r.chain} seq=${r.seq} role=${r.role}` : ''} attack=${r.attackId ?? '-'}${r.variant ? ` variant=${r.variant}` : ''}`
+  for (const r of result.rows) {
+    const at = label(r)
+    const man = result.manifests[r.kind]
+    if (!man) { failures.push(`FAIL ${at}: no published manifest`); continue }
+    const s = r.sprite
+    if (!s) { failures.push(`FAIL ${at}: missing sprite (blank)`); continue }
+    if (!s.visible) failures.push(`FAIL ${at}: sprite not visible`)
+    if (r.state === 'dead') { if (s.alpha !== 0) failures.push(`FAIL ${at}: dead alpha=${s.alpha} expected 0 (defeat-fade hold)`) }
+    else if (!(s.alpha > 0)) failures.push(`FAIL ${at}: alpha=${s.alpha} expected >0`)
+    if (r.state === 'dying' && Math.abs(s.alpha - Math.max(0, 1 - r.stateTick / DYING_TICKS)) > 1e-9) failures.push(`FAIL ${at}: dying alpha=${s.alpha} expected fade`)
+    const m = new RegExp(`^entity:${r.kind}:motion:(.+)$`).exec(s.frame)
+    if (!m) { failures.push(`FAIL ${at}: legacy/non-motion frame='${s.frame}' texture='${s.texture}'`); continue }
+    const frameName = m[1]!, cell = man.frames[frameName]
+    if (!cell) { failures.push(`FAIL ${at}: frame '${frameName}' not in pack manifest`); continue }
+    const expectedTex = cell.sheet === 'actions' ? man.actionsKey : man.sheetKey
+    if (s.texture !== expectedTex) failures.push(`FAIL ${at}: texture='${s.texture}' expected '${expectedTex}'`)
+    const srcW = cell.srcW ?? cell.w, srcH = cell.srcH ?? cell.h
+    const exact: Array<[string, number, number]> = [
+      ['cutX', s.cutX, cell.x], ['cutY', s.cutY, cell.y], ['cutWidth', s.cutWidth, cell.w], ['cutHeight', s.cutHeight, cell.h],
+      ['frameX(trimX)', s.frameX, cell.trimX ?? 0], ['frameY(trimY)', s.frameY, cell.trimY ?? 0],
+      ['frameW', s.frameW, cell.w], ['frameH', s.frameH, cell.h],
+      ['realWidth(full-cell)', s.realWidth, srcW], ['realHeight(full-cell)', s.realHeight, srcH],
+      ['sourceSize.w', s.sourceSize.w, srcW], ['sourceSize.h', s.sourceSize.h, srcH],
+      ['spriteSourceSize.x', s.spriteSourceSize.x, cell.trimX ?? 0], ['spriteSourceSize.y', s.spriteSourceSize.y, cell.trimY ?? 0],
+      ['spriteSourceSize.w', s.spriteSourceSize.w, cell.w], ['spriteSourceSize.h', s.spriteSourceSize.h, cell.h],
+      ['fullCellW=box*density', srcW, man.box.width * man.density], ['fullCellH=box*density', srcH, man.box.height * man.density],
+    ]
+    for (const [name, got, want] of exact) if (got !== want) failures.push(`FAIL ${at}: frame ${frameName} ${name}=${got} expected ${want}`)
+    if (s.trimmed !== (cell.srcW !== undefined || cell.srcH !== undefined)) failures.push(`FAIL ${at}: frame ${frameName} trimmed mismatch`)
+    if (s.x !== r.x) failures.push(`FAIL ${at}: sprite.x=${s.x} expected ${r.x}`)
+    if (Math.abs(s.y - (r.y - r.z - r.lift)) > 1e-9) failures.push(`FAIL ${at}: sprite.y=${s.y} expected ground ${r.y - r.z - r.lift}`)
+    if (Math.abs(s.originX - 0.5) > 1e-12 || Math.abs(s.originY - man.box.groundY / man.box.height) > 1e-12) failures.push(`FAIL ${at}: origin mismatch`)
+    if (Math.abs(Math.abs(s.scaleX) - 1 / man.density) > 1e-12 || Math.abs(Math.abs(s.scaleY) - 1 / man.density) > 1e-12) failures.push(`FAIL ${at}: scale mismatch`)
+    if (s.flipX !== (r.facing === 'left')) failures.push(`FAIL ${at}: flipX mismatch`)
+    if (s.depth !== r.y) failures.push(`FAIL ${at}: depth mismatch`)
+    const alpha = result.alphaFrames[s.frame]
+    if (!alpha) failures.push(`FAIL ${at}: no alpha evidence for ${s.frame}`)
+    else if (alpha.alphaPixels < 1) failures.push(`FAIL ${at}: frame ${s.frame} has ${alpha.alphaPixels} alpha pixels (blank)`)
+  }
+  const key = (k: string, st: string, t: number, a: string | null, v: string): string => `${k}|right|${st}|${t}|${a ?? '-'}|${v}`
+  const planned = new Map<string, number>(), seen = new Map<string, number>()
+  for (const p of result.plan) planned.set(key(p.kind, p.state, p.stateTick, p.attackId, p.variant), (planned.get(key(p.kind, p.state, p.stateTick, p.attackId, p.variant)) ?? 0) + 1)
+  for (const r of result.rows.filter((x) => x.origin === 'injected')) seen.set(key(r.kind, r.state, r.stateTick, r.attackId, r.variant), (seen.get(key(r.kind, r.state, r.stateTick, r.attackId, r.variant)) ?? 0) + 1)
+  for (const [k, n] of planned) if (seen.get(k) !== n) failures.push(`FAIL completeness planned ${k} x${n} seen x${seen.get(k) ?? 0}`)
+  for (const k of seen.keys()) if (!planned.has(k)) failures.push(`FAIL completeness unplanned injected ${k}`)
+  for (const c of result.chains) if (!c.ok) failures.push(`FAIL chain=${c.chain} kind=${c.kind}: terminal=${c.terminal} ${c.note}`)
+  for (const e of result.errors) failures.push(`FAIL sweep error: ${e}`)
+}
+
+const frameIdMap = (result: ReducedResult): Record<string, string> => {
+  const out: Record<string, string> = {}
+  for (const r of result.rows.filter((x) => x.origin === 'injected')) out[`${r.kind}|${r.state}|${r.stateTick}|${r.attackId ?? '-'}|${r.variant}`] = r.sprite?.frame ?? '(missing)'
+  return out
+}
+
+test('default motion coverage: WebGL reduced (per kind idle/one attack/fall/dead + hero & boss fuller sweep)', async ({ page }) => {
+  test.setTimeout(600_000)
+  const FULL = ['guanyu', 'lidian'] // one hero + one boss: full attack set + thrown
+  const errors = await bootGame(page, '/?renderer=webgl&autopilot=1', { width: 960, height: 540 })
+  expect(await page.evaluate(() => window.__DW_GAME__?.renderer.type)).toBe(2) // Phaser.WEBGL, no canvas fallback
+  const result = await runReducedSweep(page, {
+    kinds: ALL_KINDS, states: ['idle', 'attack', 'fall', 'dead', 'thrown', 'special', 'jumpattack'], full: FULL,
+    chain: { holder: 'guanyu', victim: 'lidian' },
+  })
+  const failures: string[] = []
+  checkReducedRows(result, failures)
+  for (const cfg of CFGS) {
+    for (const st of ['idle', 'knockdown', 'dead']) if (!result.plan.some((p) => p.kind === cfg.kind && p.state === st)) failures.push(`FAIL completeness kind=${cfg.kind}: ${st} not swept`)
+    const wantAttacks = FULL.includes(cfg.kind) ? cfg.attacks : cfg.attacks.slice(0, 1)
+    if (cfg.kind === 'archer') { if (!result.plan.some((p) => p.kind === 'archer' && p.variant === 'shoot')) failures.push('FAIL completeness archer shoot variant not swept') }
+    else for (const a of wantAttacks) if (!result.plan.some((p) => p.kind === cfg.kind && p.attackId === a)) failures.push(`FAIL completeness kind=${cfg.kind}: attack ${a} not swept`)
+  }
+  for (const k of FULL) if (!result.plan.some((p) => p.kind === k && p.state === 'thrown')) failures.push(`FAIL completeness full kind=${k}: thrown not swept`)
+  if (result.chains.length !== 1) failures.push(`FAIL chains count=${result.chains.length} expected 1`)
+  for (const e of errors) failures.push(`FAIL pageerror: ${e}`)
+  mkdirSync(OUT, { recursive: true })
+  writeFileSync(`${OUT}/webgl-trace.json`, `${JSON.stringify({ renderer: 'webgl (type 2)', url: '/?renderer=webgl&autopilot=1 (no motion param)', full: FULL, rows: result.rows.length, plan: result.plan.length, chains: result.chains, failures, failureCount: failures.length, rowsDetail: result.rows, planDetail: result.plan, alphaFrames: result.alphaFrames }, null, 2)}\n`)
+  writeFileSync(`${OUT}/webgl-report.json`, `${JSON.stringify({ renderer: 'webgl', rows: result.rows.length, injectedPlanRows: result.plan.length, chains: result.chains, failures, failureCount: failures.length }, null, 2)}\n`)
+  expect(errors).toEqual([])
+  expect(failures, failures.slice(0, 80).join('\n')).toEqual([])
+})
+
+test('default motion coverage: mobile landscape viewport smoke (frame ids identical to desktop Canvas)', async ({ page }) => {
+  test.setTimeout(600_000)
+  const vp = process.env.MOTION_VIEWPORT?.match(/^(\d+)x(\d+)$/)
+  const mobile = vp ? { width: Number(vp[1]), height: Number(vp[2]) } : { width: 844, height: 390 }
+  const errors = await bootGame(page, '/?renderer=canvas&autopilot=1', { width: 960, height: 540 })
+  const opts: ReducedOpts = { kinds: ['guanyu', 'soldier'], states: ['idle', 'walk', 'attack'], full: [], chain: null }
+  const desktop = await runReducedSweep(page, opts)
+  await page.setViewportSize(mobile)
+  const mobileRes = await runReducedSweep(page, opts)
+  const failures: string[] = []
+  checkReducedRows(desktop, failures)
+  checkReducedRows(mobileRes, failures)
+  for (const k of ['guanyu', 'soldier']) for (const st of ['idle', 'walk', 'attack']) {
+    if (!mobileRes.plan.some((p) => p.kind === k && p.state === st)) failures.push(`FAIL completeness mobile kind=${k}: ${st} not swept`)
+  }
+  const deskFrames = frameIdMap(desktop), mobFrames = frameIdMap(mobileRes)
+  const allKeys = [...new Set([...Object.keys(deskFrames), ...Object.keys(mobFrames)])].sort()
+  const frameMismatches = allKeys.filter((k) => deskFrames[k] !== mobFrames[k]).map((k) => `${k}: desktop=${deskFrames[k]} mobile=${mobFrames[k]}`)
+  for (const mm of frameMismatches) failures.push(`FAIL frame-id mismatch ${mm}`)
+  for (const e of errors) failures.push(`FAIL pageerror: ${e}`)
+  mkdirSync(OUT, { recursive: true })
+  writeFileSync(`${OUT}/mobile-report.json`, `${JSON.stringify({ viewport: mobile, desktopRows: desktop.rows.length, mobileRows: mobileRes.rows.length, comparedFrameKeys: allKeys.length, frameMismatches, failures, failureCount: failures.length, deskFrames, mobFrames }, null, 2)}\n`)
+  expect(errors).toEqual([])
+  expect(frameMismatches).toEqual([])
+  expect(failures, failures.slice(0, 80).join('\n')).toEqual([])
+})
+
+test('default motion coverage: ?motion=0 discrimination sample expects legacy frame', async ({ page }) => {
+  test.setTimeout(120_000)
+  const errors = await bootGame(page, '/?renderer=canvas&autopilot=1&motion=0', { width: 960, height: 540 })
+  const sampleRec = await page.evaluate(() => {
+    const g = window.__DW_GAME__!.scene.getScene('game') as unknown as Live
+    g.paused = true
+    const p = g.sim.entities.find((e) => e.id === g.sim.playerId)!
+    Object.assign(p, { state: 'idle', stateTick: 0, attackId: null })
+    g.syncSprites()
+    const s = g.sprites.get(p.id)
+    return s ? { kind: p.kind, state: p.state, frame: s.frame.name, texture: s.texture.key, visible: s.visible, alpha: s.alpha } : null
+  })
+  mkdirSync(OUT, { recursive: true })
+  writeFileSync(`${OUT}/motion0-sample.json`, `${JSON.stringify({ url: '/?renderer=canvas&autopilot=1&motion=0', sample: sampleRec }, null, 2)}\n`)
+  expect(errors).toEqual([])
+  expect(sampleRec).not.toBeNull()
+  expect(sampleRec!.visible).toBe(true)
+  expect(sampleRec!.alpha).toBeGreaterThan(0)
+  expect(sampleRec!.frame).toBeTruthy()
+  expect(sampleRec!.frame).not.toContain(':motion:') // legacy path, discriminates from default-ON motion
 })
