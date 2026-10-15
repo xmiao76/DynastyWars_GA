@@ -54,6 +54,56 @@ const KINDS = ['soldier', 'spearman', 'archer', 'lidian', 'xiahoudun', 'xuchu']
 const PIN_BASE = 16, PIN_MIN = 8, PIN_MAX = 56
 const GAP_PASS_U = 2
 
+// --- Combined pin+patch mode (`node scripts/paired-pin-diagnostic.mjs
+// --pin-patch`): victim ENTITY+sprite+shadow shift by the pin delta (sole
+// displacement vs the shifted shadow is 0 by construction, and is verified
+// numerically), then the holder's grapple sleeve/hand (refined mask copied
+// from paired-offset-diagnostic) is redrawn FOREGROUND at the holder's
+// unmoved position. Sweep is centred on the pin-only mechanical bests below
+// (centre-14..centre+6, so a best sitting on the old pin56 cap is re-tested
+// past the boundary). Verdicts are filled only after personal inspection.
+const PINPATCH_OUT_DIR = 'artifacts/motion/paired/pin-patch-diagnostic'
+const PINPATCH_CENTRES = { soldier: 56, spearman: 55, archer: 51 }
+const PINPATCH_VERDICTS = {
+  soldier: {
+    verdict: 'REJECT pin+patch (both facings)', chosenPin: null,
+    note: 'Sheets/zooms inspected both facings. Patch rescues every hand px (survival 0->1, 427/427) and pin62 (sweep boundary; centroid-closest is pin61) reaches gap=0/roiOv=37, but the hand centroid stays 7.8u BELOW the collar centroid at every pin (a core pin is x-only, so the vertical miss is pin-invariant). Zoom: an open, splayed palm lies flat on the upper chest below/past the neck, fingers not curled around collar or shoulder, and the big white cuff panel pastes across the torso. Sheet footSpan grows 80.5->118u: a stretched-arm shove between two planted duelists, not a held grab. Centre pin56 is worse (gap=1.118u, patchOverCollar=0, hand further past the neck).',
+  },
+  spearman: {
+    verdict: 'REJECT pin+patch (both facings)', chosenPin: null,
+    note: 'Sheets/zooms inspected both facings. No swept pin gap-passes (best gap=2.5u at pin55, roiOv=0 throughout) and the hand centroid sits 10u ABOVE the collar centroid (pin-invariant vertical miss, opposite sign to soldier/archer). Zoom at pin55: the foreground hand lands on top of the helmet/forehead like a head-pat while the collar ROI is down at the chin/neck; patchOverCollar=78 cells is the hanging sleeve crossing the neck, not the hand. Survival 0.311->1 only exposes the wrong contact, and footSpan 75->114u reads as a detached stance.',
+  },
+  archer: {
+    verdict: 'REJECT pin+patch (both facings)', chosenPin: null,
+    note: 'Sheets/zooms inspected both facings. Pin51 reaches gap=0.5u but roiOv=0 and patchOverCollar=0 at EVERY swept pin; the hand centroid stays 10.4u below the collar centroid (pin-invariant). Zoom: splayed fingers float across the chest/bow arm, neck visibly untouched, white cuff panel pasted over the torso; the gap pass is only the wrist edge approaching collar alpha. Survival 0->1 exposes a non-grip, and footSpan 86.5->121.5u reads as a detached duel, not a held grab.',
+  },
+}
+// Refined grapple-arm patch mask (holder source-cell px, guanyu misc:6),
+// identical to paired-offset-diagnostic.mjs patchMaskHas.
+function patchMaskHas(x, y) {
+  if (y >= 96 && y <= 115) return x >= 295
+  if (y >= 116 && y <= 159) return x >= 272
+  if (y >= 160 && y <= 172) return x >= 280
+  return false
+}
+const patchCanvasCache = new Map()
+function patchCanvas(restored) {
+  const key = `${restored.kind}:${restored.frame}`
+  if (!patchCanvasCache.has(key)) {
+    const cv = createCanvas(restored.srcW, restored.srcH)
+    const g = cv.getContext('2d')
+    const im = g.createImageData(restored.srcW, restored.srcH)
+    for (let y = 0; y < restored.srcH; y++) for (let x = 0; x < restored.srcW; x++) {
+      if (!patchMaskHas(x, y)) continue
+      const i = (y * restored.srcW + x) * 4
+      im.data.set(restored.data.subarray(i, i + 4), i)
+    }
+    g.putImageData(im, 0, 0)
+    patchCanvasCache.set(key, cv)
+  }
+  return patchCanvasCache.get(key)
+}
+
 // Per-hero verdicts from personally inspecting the rendered before/best
 // sheets + tinted zooms (filled after the first run; PENDING until then).
 // Shape: { verdict, note, candidatePins: { kind: pin|null } }.
@@ -159,6 +209,11 @@ function buildContext(hero, sample, landmarks) {
     victimFoot: footRange(victimCell, vDisp, sample.victim.x),
   }
   ctx.baselineBodyOverlap = overlapShifted(ctx.victimBodyInt, ctx.holderBodySet, 0)
+  // Grapple-arm patch geometry (Guan Yu holder only; empty for others).
+  ctx.patchPx = hero === 'guanyu' ? alphaPoints(holderCell).filter(([x, y]) => patchMaskHas(x, y)) : []
+  ctx.patchInt = intPts(toWorld(ctx.patchPx, hDisp, holderCell.srcW))
+  ctx.collarInt = intPts(collarWorld)
+  ctx.handInPatchPx = alphaPoints(holderCell, handLm.roi).filter(([x, y]) => patchMaskHas(x, y)).length
   return ctx
 }
 
@@ -198,6 +253,52 @@ function evaluatePin(ctx, pin) {
   }
 }
 
+/** Pin-only row + composite patch metrics at the same pin. The patch is
+ * drawn last, so a hand px occluded by the victim survives iff it lies in the
+ * refined mask; soles are reported relative to the SHIFTED shadow (entity x),
+ * which must be invariant (displacement vs pin16 = 0) for a core-pin move. */
+function evaluatePinPatch(ctx, pin, baseline) {
+  const row = evaluatePin(ctx, pin)
+  const dx = ctx.pinSign * (pin - PIN_BASE)
+  const sx2 = Math.round(dx * 2)
+  const collarSet = new Set()
+  for (let i = 0; i < ctx.collarInt.rx.length; i++) collarSet.add(key2(ctx.collarInt.rx[i] + sx2, ctx.collarInt.ry[i]))
+  let occluded = 0, rescued = 0
+  ctx.handWorld.forEach((p, i) => {
+    if (ctx.victimBodySet.has(key2(ctx.handInt.rx[i] - sx2, ctx.handInt.ry[i]))) {
+      occluded++; if (patchMaskHas(p[2], p[3])) rescued++
+    }
+  })
+  const handTotal = ctx.handWorld.length
+  let patchOverVictim = 0, patchOverCollar = 0
+  const victimShiftedSet = new Set()
+  for (let i = 0; i < ctx.victimBodyInt.rx.length; i++) victimShiftedSet.add(key2(ctx.victimBodyInt.rx[i] + sx2, ctx.victimBodyInt.ry[i]))
+  const patchKeys = new Set()
+  for (let i = 0; i < ctx.patchInt.rx.length; i++) patchKeys.add(key2(ctx.patchInt.rx[i], ctx.patchInt.ry[i]))
+  for (const k of patchKeys) {
+    if (victimShiftedSet.has(k)) patchOverVictim++
+    if (collarSet.has(k)) patchOverCollar++
+  }
+  const vf = ctx.victimFoot, entityX = ctx.holderX + ctx.pinSign * pin
+  const soleRelShadow = vf ? [r3(vf.min + dx - entityX), r3(vf.max + dx - entityX)] : null
+  const soleDisp = baseline?.soleRelShadowU && soleRelShadow
+    ? r3(Math.max(Math.abs(soleRelShadow[0] - baseline.soleRelShadowU[0]), Math.abs(soleRelShadow[1] - baseline.soleRelShadowU[1]))) : 0
+  const out = {
+    ...row,
+    pinOnlyHandSurvival: row.handSurvival,
+    handPx: handTotal, handOccludedPx: occluded, handRescuedByPatchPx: rescued,
+    handSurvival: handTotal ? r3((handTotal - occluded + rescued) / handTotal) : null,
+    handInPatchPx: ctx.handInPatchPx, patchPx: ctx.patchPx.length,
+    patchCellsOverVictim: patchOverVictim, patchCellsOverCollarRoi: patchOverCollar,
+    holderSoleDisplacementU: 0, victimSoleDisplacementVsShadowU: soleDisp,
+    victimSoleRelShadowU: soleRelShadow, shadowEntityX: r3(entityX),
+  }
+  // Same mechanical score as pin-only; a visible grasp also needs the patch
+  // to actually cover collar alpha, so zero coverage is penalised.
+  out.combinedScore = r3(score(row) + (patchOverCollar === 0 ? 5 : 0))
+  return out
+}
+
 function score(row) {
   if (row.gapU === null) return Infinity
   return row.gapU * 2 + Math.abs(row.roiOverlapPx - 40) * 0.04
@@ -210,7 +311,7 @@ function score(row) {
 // semantics). Holder entity fixed; victim entity at holderX + sign*pin.
 // ---------------------------------------------------------------------------
 
-function drawPanel(g, ctx, { x: px, y: py, w, h, S, centerY, pin, tint }) {
+function drawPanel(g, ctx, { x: px, y: py, w, h, S, centerY, pin, tint, patch = false }) {
   const dx = ctx.pinSign * (pin - PIN_BASE)
   const victimEntityX = ctx.holderX + ctx.pinSign * pin
   const vDisp = { ...ctx.vDisp, x: ctx.vDisp.x + dx }
@@ -226,8 +327,8 @@ function drawPanel(g, ctx, { x: px, y: py, w, h, S, centerY, pin, tint }) {
     g.strokeStyle = 'rgba(255,233,138,0.8)'; g.lineWidth = 1
     g.beginPath(); g.moveTo(mapX(ex), mapY(ctx.groundY) - 6); g.lineTo(mapX(ex), mapY(ctx.groundY) + 6); g.stroke()
   }
-  const drawActor = (restored, disp, roi, color) => {
-    const body = cellCanvas(restored)
+  const drawActor = (restored, disp, roi, color, canvasOverride = null) => {
+    const body = canvasOverride ?? cellCanvas(restored)
     const dw = restored.srcW * disp.scaleX * S, dh = restored.srcH * disp.scaleY * S
     const left = mapX(disp.x) - disp.displayOriginX * disp.scaleX * S
     const top = mapY(disp.y) - disp.displayOriginY * disp.scaleY * S
@@ -248,8 +349,11 @@ function drawPanel(g, ctx, { x: px, y: py, w, h, S, centerY, pin, tint }) {
     { restored: ctx.holderCell, disp: ctx.hDisp, roi: ctx.handLm.roi, color: 'rgba(255,60,60,0.85)' },
     { restored: ctx.victimCell, disp: vDisp, roi: ctx.collarLm.roi, color: 'rgba(60,220,255,0.85)' },
   ]
-  if (ctx.front === 'holder') actors.reverse()
+  // Patch mode fixes holder -> victim -> foreground grapple arm at the
+  // holder's unmoved transform; other modes keep the traced front order.
+  if (!patch && ctx.front === 'holder') actors.reverse()
   for (const a of actors) drawActor(a.restored, a.disp, a.roi, a.color)
+  if (patch) drawActor(ctx.holderCell, ctx.hDisp, null, null, patchCanvas(ctx.holderCell))
   g.strokeStyle = 'rgba(255,255,255,0.28)'; g.lineWidth = 1
   g.beginPath(); g.moveTo(px, mapY(ctx.groundY)); g.lineTo(px + w, mapY(ctx.groundY)); g.stroke()
   g.restore()
@@ -374,4 +478,107 @@ function main() {
   console.log(consoleLines.join('\n'))
 }
 
-main()
+// ---------------------------------------------------------------------------
+// Combined pin+patch mode.
+// ---------------------------------------------------------------------------
+
+function pinPatchSheets(res) {
+  const panelsOf = (c) => {
+    const panels = [
+      { name: `before pin=${PIN_BASE}`, row: c.baseline, patch: false },
+      { name: `pin-only BEST pin=${c.best.pinU}`, row: c.best, patch: false },
+      { name: `pin+patch BEST pin=${c.best.pinU}`, row: c.best, patch: true },
+    ]
+    if (c.centre && c.centre.pinU !== c.best.pinU) panels.push({ name: `pin+patch centre pin=${c.centre.pinU}`, row: c.centre, patch: true })
+    return panels
+  }
+  const label = (g, x, y, c, panel) => {
+    const m = panel.row
+    const surv = panel.patch ? m.handSurvival : m.pinOnlyHandSurvival
+    g.fillStyle = '#fff'; g.font = '13px sans-serif'
+    g.fillText(`guanyu vs ${c.kind} ${c.facing} hold4 - ${panel.name}`, x + 6, y + 14)
+    g.font = '10px sans-serif'
+    g.fillText(`gap=${m.gapU}u roiOv=${m.roiOverlapPx} bodyOvD=${m.bodyOverlapDeltaPx} centD=${m.centroidDistU}u surv=${surv} footSpan=${m.footSpanU}u soleDisp=${m.victimSoleDisplacementVsShadowU}u`
+      + (panel.patch ? ` pVictim=${m.patchCellsOverVictim} pCollar=${m.patchCellsOverCollarRoi}` : ''), x + 6, y + 28)
+  }
+  const render = (file, W, H, S, tint) => {
+    const LH = 34, cols = 4
+    const cv = createCanvas(cols * W, res.length * (H + LH)), g = cv.getContext('2d')
+    g.fillStyle = '#1d1924'; g.fillRect(0, 0, cv.width, cv.height)
+    res.forEach((c, rowIdx) => {
+      panelsOf(c).forEach((panel, col) => {
+        const x = col * W, y = rowIdx * (H + LH)
+        label(g, x, y, c, panel)
+        const cy = (c.ctx.handCentroid[1] + c.ctx.collarCentroid[1]) / 2
+        drawPanel(g, c.ctx, { x, y: y + LH, w: W, h: H, S, centerY: tint ? cy : 'ground', pin: panel.row.pinU, tint, patch: panel.patch })
+      })
+    })
+    writeFileSync(`${PINPATCH_OUT_DIR}/${file}`, cv.toBuffer('image/png'))
+  }
+  render(`guanyu-${res[0].kind}-sheet.png`, 560, 300, 2, false)
+  render(`guanyu-${res[0].kind}-zoom.png`, 460, 320, 4, true)
+}
+
+function pinPatchMain() {
+  const landmarks = JSON.parse(readFileSync(LANDMARKS_PATH, 'utf8'))
+  mkdirSync(PINPATCH_OUT_DIR, { recursive: true })
+  const trace = JSON.parse(readFileSync('artifacts/motion/paired/guanyu/canvas/trace.json', 'utf8'))
+  const combos = [], lines = []
+  for (const kind of Object.keys(PINPATCH_CENTRES)) {
+    const centre = PINPATCH_CENTRES[kind]
+    const pinMin = Math.max(PIN_BASE, centre - 14), pinMax = centre + 6
+    const perKind = []
+    for (const facing of ['right', 'left']) {
+      const sample = trace.core.find((c) => c.kind === kind && c.facing === facing && c.phase === 'hold4')
+      if (!sample) throw new Error(`no hold4 sample for guanyu ${kind} ${facing}`)
+      const ctx = buildContext('guanyu', sample, landmarks)
+      const baseline = evaluatePinPatch(ctx, PIN_BASE, null)
+      const sweep = []
+      for (let pin = pinMin; pin <= pinMax; pin++) sweep.push(evaluatePinPatch(ctx, pin, baseline))
+      const best = sweep.reduce((a, c) => (c.combinedScore < a.combinedScore ? c : a), sweep[0])
+      const pass = sweep.filter((r) => r.gapPass)
+      const nearestGapPass = pass.length
+        ? pass.reduce((a, c) => (Math.abs(c.pinU - PIN_BASE) < Math.abs(a.pinU - PIN_BASE) ? c : a), pass[0]) : null
+      const centreRow = sweep.find((r) => r.pinU === centre) ?? null
+      const v = PINPATCH_VERDICTS[kind]
+      const out = {
+        hero: 'guanyu', kind, facing, holderFrame: ctx.holderFrame, victimFrame: ctx.victimFrame, front: ctx.front,
+        pinSweepU: [pinMin, pinMax], mechanicalCentrePin: centre,
+        baselinePin16: baseline, combinedBest: best, centreRow, nearestGapPass,
+        gapPassPinRange: pass.length ? [Math.min(...pass.map((r) => r.pinU)), Math.max(...pass.map((r) => r.pinU))] : null,
+        maxSoleDisplacementVsShadowU: Math.max(...sweep.map((r) => r.victimSoleDisplacementVsShadowU ?? 0)),
+        verdict: v.verdict, chosenPin: v.chosenPin, sweep,
+      }
+      combos.push(out)
+      perKind.push({ ctx, kind, facing, baseline, best, centre: centreRow })
+      lines.push(`guanyu/${kind}-${facing}: pin16 gap=${baseline.gapU} surv=${baseline.pinOnlyHandSurvival}->patch=${baseline.handSurvival} | BEST pin=${best.pinU} gap=${best.gapU} roiOv=${best.roiOverlapPx} centD=${best.centroidDistU} bodyOvD=${best.bodyOverlapDeltaPx} surv=${best.pinOnlyHandSurvival}->patch=${best.handSurvival} pCollar=${best.patchCellsOverCollarRoi} pVictim=${best.patchCellsOverVictim} footSpan=${best.footSpanU} inFootGap=${best.innerFootGapU} soleDispMax=${out.maxSoleDisplacementVsShadowU} | centre pin=${centre} gap=${centreRow?.gapU} pCollar=${centreRow?.patchCellsOverCollarRoi} | nearestPass=${nearestGapPass?.pinU ?? 'none'}`)
+    }
+    pinPatchSheets(perKind)
+  }
+  const doc = {
+    diagnostic: 'combined core-pin + foreground grapple-arm patch (victim entity+sprite+shadow shift by pin-16; refined patch redrawn last at holder position)',
+    phase: 'hold4', hero: 'guanyu', pinBaseU: PIN_BASE, gapPassU: GAP_PASS_U,
+    sweepCentres: PINPATCH_CENTRES, sweepRule: 'centre-14..centre+6 in 1u steps (clamped at pin16 below)',
+    patchMask: 'y96-115 x>=295; y116-159 x>=272; y160-172 x>=280 (holder cell px, as paired-offset-diagnostic)',
+    method: 'gap/roi/body overlap and centroid are the pin-diagnostic geometry (patch changes layering, not geometry). handSurvival (patch) = hand-ROI px either not covered by the front victim or redrawn inside the mask; pinOnlyHandSurvival is the same pin without the patch. patchCellsOverVictim/CollarRoi count 0.5u cells of the foreground patch landing on victim body / collar-ROI alpha at that pin. victimSoleDisplacementVsShadowU compares the boot-range position relative to the shifted entity/shadow x against the pin16 value; 0 at every pin proves sprite, soles and shadow translated together. combinedScore = pin score + 5 if the patch covers no collar cell. Verdicts require the sheet/zoom inspection recorded in PINPATCH_VERDICTS.',
+    verdicts: PINPATCH_VERDICTS, combos,
+  }
+  writeFileSync(`${PINPATCH_OUT_DIR}/pin-patch-diagnostic.json`, `${JSON.stringify(doc, null, 2)}\n`)
+  const md = ['# Combined pin+patch diagnostic (Guan Yu hold4)', '']
+  for (const kind of Object.keys(PINPATCH_CENTRES)) {
+    const v = PINPATCH_VERDICTS[kind]
+    md.push(`## ${kind} — ${v.verdict}${v.chosenPin ? ` (pin=${v.chosenPin})` : ''}`, '', v.note, '')
+    md.push('| facing | pin16 gap/surv->patch | best pin gap/roiOv/centD/bodyOvD/surv->patch/pCollar/footSpan | centre pin gap/pCollar | nearest gap-pass | max sole disp vs shadow |')
+    md.push('|---|---|---|---|---|---|')
+    for (const c of combos.filter((x) => x.kind === kind)) {
+      const b = c.combinedBest, base = c.baselinePin16
+      md.push(`| ${c.facing} | ${base.gapU}u/${base.pinOnlyHandSurvival}->${base.handSurvival} | ${b.pinU} ${b.gapU}u/${b.roiOverlapPx}/${b.centroidDistU}u/${b.bodyOverlapDeltaPx}/${b.pinOnlyHandSurvival}->${b.handSurvival}/${b.patchCellsOverCollarRoi}/${b.footSpanU}u | ${c.mechanicalCentrePin} ${c.centreRow?.gapU}u/${c.centreRow?.patchCellsOverCollarRoi} | ${c.nearestGapPass?.pinU ?? 'none'} | ${c.maxSoleDisplacementVsShadowU}u |`)
+    }
+    md.push('')
+  }
+  writeFileSync(`${PINPATCH_OUT_DIR}/REPORT.md`, `${md.join('\n')}\n`)
+  console.log(lines.join('\n'))
+}
+
+if (process.argv.includes('--pin-patch')) pinPatchMain()
+else main()
