@@ -4,6 +4,40 @@ Status: **partial portrait isolation + B12 select/result/ending migration + inde
 Slice 3 whole-frame pilot and Slice 4 baked-art removal implemented; NOT Slice 1
 or Slice 2 full DONE.**
 
+**2026-10-15 published-frame hardening (`cmr24-harden-published-frame-errors`),
+same-package deadline recovery:** [motion-art](../src/game/adapters/motion-art.ts)
+now authorizes legacy frames only for explicit rollback or shared props, never
+for published/uncatalogued humanoids. Missing/corrupt published manifest or
+atlas frames report a blocking runtime error; [GameScene](../src/game/scenes/GameScene.ts)
+removes the affected sprite, freezes stepping and preserves warm siblings. The
+message distinguishes zero runtime pack retries from a genuinely exhausted
+load retry. Uncatalogued humanoids visibly fail rather than silently disappear.
+No renderer/head/assets/tests were deleted; `motion=0` and prop rendering remain.
+
+Recovered earlier logs show 169/169 focused units and 13/13 browser passes, but
+three runtime/unit file timestamps are later than those logs, so they are NOT
+represented as a final-source 169-test pass. Recovery final-source checks ran
+lint/typecheck (exit0), the two changed runtime unit cases (2 passed, 26
+deselected), and the same 13 browser cases (exit0): removed atlas/manifest frame,
+uncatalogued humanoid, rollback+props, normal Canvas/WebGL, retry/deferred/cancel
+controls, and ordinary Canvas all-11 coverage (8,650 rows/464 distinct frames,
+zero failures/blank frames). Exact evidence is in
+[PROGRESS](../PROGRESS.md) and local ignored
+`artifacts/motion/frame-error-hardening/`. Negative controls damage successfully
+published art, then assert no legacy generation, visible accurate failure,
+600-step + render-loop freeze, and sibling resource/texture/sprite identity.
+The baseline diff explicitly allowed published fallback; no pre-fix browser
+execution was performed. This is equivalent regression proof, not a claimed
+before/after run.
+
+Full units, full e2e, vision, signal, build/prodbuild and WebGL full-cast sweep
+were NOT rerun in this bounded recovery. Known legacy accounting remains:
+registry/sprites fighter renderer, rig/poses/draw/head resources/layers/full face
+metadata and their dependent tests/scripts remain live for rollback; shared
+props/portraits/HUD/FX remain keep. Final joint renderer + switch **Slice 6**
+still owes its own deletion gates, essential Part B repeat checks and bundle
+exclusivity; no full Slice 1/2, migration or CMR-24 completion is claimed.
+
 **2026-10-15 independent Slice 4 (`cmr24-retire-baked-art-path`):** removed the
 obsolete manifest delivery ingress, not the main legacy renderer. BootScene now
 enters title directly after bounded display-font loading; its hero portrait/head,

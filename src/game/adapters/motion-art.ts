@@ -453,6 +453,8 @@ export interface MotionFailureState {
   /** Load attempts made so far (required loads stop at 2: try + one retry). */
   attempts: number
   final: boolean
+  /** Runtime frame validation detail; attempts is 0 when no pack retry ran. */
+  detail?: string
 }
 
 /** Decision a spawn gate makes for the kinds due by a schedule tick. */
@@ -470,18 +472,11 @@ export function isMotionPackKind(kind: string): boolean {
   return MOTION_PACKS[kind] !== undefined
 }
 
-/**
- * Sole-motion render rule, consulted only when no motion frame resolved:
- * while motion is enabled, an UNPUBLISHED motion kind must NEVER fall back
- * to a legacy/placeholder frame (it renders nothing instead). Legacy poses
- * remain allowed with motion off, for non-motion kinds, and as the
- * per-frame fallback for a PUBLISHED pack whose current frame is missing
- * (`ensureMotionFrame`'s documented contract).
+/** Only explicit rollback and shared props may use legacy textures.
+ * Publication/catalog membership never authorizes a humanoid fallback.
  */
-export function canRenderLegacyFrame(motionOn: boolean, kind: string, kindPublished: boolean): boolean {
-  if (!motionOn) return true
-  if (!isMotionPackKind(kind)) return true
-  return kindPublished
+export function canRenderLegacyFrame(motionOn: boolean, prop: boolean): boolean {
+  return !motionOn || prop
 }
 
 export class MotionRuntime {
@@ -1052,9 +1047,10 @@ export function motionVisualLift(scene: Phaser.Scene, entity: Entity): number {
 /**
  * Resolve the entity's current motion frame as a shared atlas frame reference.
  * The frame's trim/pivot restores the old per-cell clone placement exactly;
- * when anything is missing the caller falls back to legacy art.
+ * Unpublished art waits for the load gate. Invalid published art is reported
+ * to the caller for a blocking error, NEVER authorization for legacy art.
  */
-export function ensureMotionFrame(scene: Phaser.Scene, entity: Entity): MotionFrameRef | undefined {
+export function ensureMotionFrame(scene: Phaser.Scene, entity: Entity, onInvalid?: (detail: string) => void): MotionFrameRef | undefined {
   const art = heroArtResources(scene)?.motions?.[entity.kind]
   if (!art) return undefined
   let state = playback.get(scene)
@@ -1078,14 +1074,28 @@ export function ensureMotionFrame(scene: Phaser.Scene, entity: Entity): MotionFr
   const releasePrev = OBSERVED_THROWN_KINDS.has(entity.kind) && prev?.state === 'grabbed'
     && (entity.state === 'idle' || entity.state === 'walk') && entity.grabbedBy === null
     && entity.z === 0 ? { ...prev, state: 'grab' as const } : prev
-  const sample = advanceMotion(art, observed, tick, releasePrev)
-  state.set(entity.id, { ...sample.playback, ...(thrownAge !== undefined ? { thrownX: entity.x, thrownAge } : {}) })
-  const cell = art.frames[sample.frame]
-  if (!cell) return undefined
-  const keys = motionTextureKeys(entity.kind)
-  const texture = cell.sheet === 'actions' ? keys.actions : keys.sheet
-  const frame = motionFrameId(entity.kind, sample.frame)
-  const tex = scene.textures.exists(texture) ? scene.textures.get(texture) : undefined
-  if (!tex || !tex.has(frame)) return undefined
-  return { texture, frame }
+  const invalid = (detail: string): undefined => { onInvalid?.(detail); return undefined }
+  try {
+    const sample = advanceMotion(art, observed, tick, releasePrev)
+    state.set(entity.id, { ...sample.playback, ...(thrownAge !== undefined ? { thrownX: entity.x, thrownAge } : {}) })
+    const cell = art.frames[sample.frame]
+    if (!cell) return invalid(`missing manifest frame ${sample.frame}`)
+    const page = cell.sheet === 'actions' ? art.actionSheet : art.sheet
+    const size = page as { width: number; height: number }
+    if (![cell.x, cell.y, cell.w, cell.h].every(Number.isInteger) || cell.x < 0 || cell.y < 0 || cell.w <= 0 || cell.h <= 0
+      || cell.x + cell.w > size.width || cell.y + cell.h > size.height) return invalid(`invalid manifest frame ${sample.frame}`)
+    const keys = motionTextureKeys(entity.kind)
+    const texture = cell.sheet === 'actions' ? keys.actions : keys.sheet
+    const frame = motionFrameId(entity.kind, sample.frame)
+    const tex = scene.textures.exists(texture) ? scene.textures.get(texture) : undefined
+    if (!tex) return invalid(`missing texture ${texture} for ${sample.frame}`)
+    if (!tex.has(frame)) return invalid(`missing texture frame ${frame}`)
+    const atlasFrame = tex.get(frame)
+    if (atlasFrame.cutX !== cell.x || atlasFrame.cutY !== cell.y || atlasFrame.cutWidth !== cell.w || atlasFrame.cutHeight !== cell.h) {
+      return invalid(`corrupt texture frame ${frame}`)
+    }
+    return { texture, frame }
+  } catch {
+    return invalid(`invalid published frame data (${entity.state}:${entity.stateTick})`)
+  }
 }

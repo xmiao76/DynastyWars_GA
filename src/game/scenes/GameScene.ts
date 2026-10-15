@@ -423,7 +423,7 @@ export class GameScene extends Phaser.Scene {
     // while motion is on, so an unpublished kind cannot render legacy.
     ensureEntityTextures(
       this,
-      stageArtKinds(this.sim).filter((kind) => !(this.motionOn && isMotionPackKind(kind))),
+      stageArtKinds(this.sim).filter((kind) => !this.motionOn || isPropKind(kind)),
     )
 
     this.keyboardAdapter = new KeyboardAdapter(this)
@@ -740,17 +740,26 @@ export class GameScene extends Phaser.Scene {
       const renderEntity = defeat ? { ...entity, stateTick: defeat.tick } : entity
       if (entity.state !== 'dying') this.motionDefeat.delete(entity.id)
       seen.add(entity.id)
-      const motionFrame = isPropKind(entity.kind) ? undefined : ensureMotionFrame(this, renderEntity)
-      // Sole-motion: an unpublished motion kind renders NOTHING - never a
-      // legacy pose or placeholder frame - until its pack publishes. A
-      // published pack with a missing frame keeps the legacy pose fallback.
-      if (!motionFrame && !canRenderLegacyFrame(this.motionOn, entity.kind, motionKindReady(this, entity.kind))) {
+      const prop = isPropKind(entity.kind)
+      let invalidFrame: string | undefined
+      const motionFrame = !this.motionOn || prop || !isMotionPackKind(entity.kind) ? undefined : ensureMotionFrame(this, renderEntity, (detail) => { invalidFrame = detail })
+      // No humanoid can substitute legacy art in motion mode, even if its
+      // catalog entry is absent or a formerly valid published frame is lost.
+      if (!motionFrame && !canRenderLegacyFrame(this.motionOn, prop)) {
         this.sprites.get(entity.id)?.destroy()
         this.sprites.delete(entity.id)
         this.shadows.get(entity.id)?.destroy()
         this.shadows.delete(entity.id)
         this.blendQ.delete(entity.id)
         this.lastPose.delete(entity.id)
+        if (!isMotionPackKind(entity.kind)) {
+          this.showMotionError({ kind: entity.kind, failure: 'unsupported', attempts: 0, final: true, detail: 'no motion pack catalog entry' })
+        } else if (motionKindReady(this, entity.kind)) {
+          this.showMotionError({ kind: entity.kind, failure: 'corrupt', attempts: 0, final: true, detail: invalidFrame ?? 'invalid published frame' })
+        } else {
+          // Unpublished kinds wait behind a required load gate, not blank play.
+          this.startMotionGate([entity.kind])
+        }
         continue
       }
       let sprite = this.sprites.get(entity.id)
@@ -784,8 +793,7 @@ export class GameScene extends Phaser.Scene {
           }
         } else {
           const key = textureKeyForPose(entity.kind, pose)
-          // Motion kinds no longer pre-generate legacy textures at stage
-          // build; the published-pack frame fallback generates them lazily.
+          // Explicit rollback only; motion-mode humanoids cannot reach here.
           if (!this.textures.exists(key)) ensureEntityTextures(this, [entity.kind])
           const q = this.blendQ.get(entity.id)
           if (q && q.to !== pose) this.blendQ.delete(entity.id) // re-target mid-blend
@@ -1062,8 +1070,9 @@ export class GameScene extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(10001)
     title.setName('motionErrorTitle')
+    const attemptDetail = failure.attempts === 2 ? 'after one retry' : failure.attempts === 0 ? 'no pack retry attempted' : `${failure.attempts} load attempt${failure.attempts === 1 ? '' : 's'}`
     const detail = this.add
-      .text(cx, 122, `${failure.kind}: ${failure.failure} (after one retry)\nReload to try again.`, {
+      .text(cx, 122, `${failure.kind}: ${failure.failure} (${attemptDetail})\n${failure.detail ? `${failure.detail}\n` : ''}Reload to try again.`, {
         fontFamily: 'Arial, sans-serif',
         fontSize: '12px',
         color: '#ffffff',

@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { createCanvas, loadImage } from '@napi-rs/canvas'
 import { describe, expect, it, vi } from 'vitest'
 import type Phaser from 'phaser'
+import type { Entity } from '../../src/core/types'
 import { STAGES } from '../../src/core/stage'
 import { CONTRACT_CAPS, type BudgetCaps } from '../../src/game/adapters/motion-catalog'
 import type { MotionArt } from '../../src/game/art/motion-clips'
@@ -10,6 +11,7 @@ import {
   MotionRuntime,
   MOTION_PACKS,
   canRenderLegacyFrame,
+  ensureMotionFrame,
   isMotionPackKind,
   motionFrameId,
   motionPackManifest,
@@ -71,6 +73,10 @@ function makeScene(): FakeScene {
       get: (key: string) => ({
         getSourceImage: () => textures.get(key)!.image,
         has: (name: string) => textures.get(key)!.frames.has(name),
+        get: (name: string) => {
+          const cut = textures.get(key)!.frames.get(name)!.cut
+          return { cutX: cut[0], cutY: cut[1], cutWidth: cut[2], cutHeight: cut[3] }
+        },
         add: (name: string, _sourceIndex: number, x: number, y: number, w: number, h: number) => {
           const frame: FakeFrame = { cut: [x, y, w, h], trimArgs: null }
           textures.get(key)!.frames.set(name, frame)
@@ -570,13 +576,48 @@ describe('sole-motion retry-once failure semantics', () => {
     })
   }
 
-  it('no legacy frame rule: motion on + unpublished motion kind renders nothing', () => {
+  it('legacy authorization depends only on explicit rollback or shared props, never publication/catalog', () => {
     expect(isMotionPackKind('guanyu')).toBe(true)
     expect(isMotionPackKind('crate')).toBe(false)
-    expect(canRenderLegacyFrame(true, 'guanyu', false), 'sole-motion: never legacy for an UNPUBLISHED motion kind').toBe(false)
-    expect(canRenderLegacyFrame(true, 'guanyu', true), 'a published pack keeps the per-frame legacy fallback').toBe(true)
-    expect(canRenderLegacyFrame(true, 'crate', false), 'non-motion props keep their art').toBe(true)
-    expect(canRenderLegacyFrame(false, 'guanyu', false), 'legacy mode (motion off) is unchanged').toBe(true)
+    expect(canRenderLegacyFrame(true, false), 'all humanoids: unpublished, corrupt published or uncatalogued').toBe(false)
+    expect(canRenderLegacyFrame(true, true), 'shared props keep their art').toBe(true)
+    expect(canRenderLegacyFrame(false, false), 'explicit rollback is unchanged').toBe(true)
+  })
+
+  it('published frame loss/corruption reports the exact failure, keeps warm sibling and never refetches', async () => {
+    const fake = makeScene(), io = makeIo(okPages), rt = new MotionRuntime(io)
+    expect(await rt.loadKind(fake.scene, 'guanyu')).toEqual({ ok: true })
+    const art = fake.motions()['guanyu'] as MotionArt
+    const sibling = { id: 'zhangfei', revision: 'warm' }
+    fake.seedMotions({ guanyu: art, zhangfei: sibling })
+    const entity = { id: 1, kind: 'guanyu', state: 'idle', stateTick: 0, attackId: null } as Entity
+    const invalid = vi.fn()
+    const ref = ensureMotionFrame(fake.scene, entity, invalid)!
+    expect(ref.frame).toBe('entity:guanyu:motion:walk:0')
+    const calls = io.calls.length
+    const texture = fake.textures.get(ref.texture)!, frame = texture.frames.get(ref.frame)!
+    texture.frames.delete(ref.frame)
+    expect(ensureMotionFrame(fake.scene, entity, invalid)).toBeUndefined()
+    expect(invalid).toHaveBeenLastCalledWith(`missing texture frame ${ref.frame}`)
+    texture.frames.set(ref.frame, { ...frame, cut: [0, 0, 0, 0] })
+    expect(ensureMotionFrame(fake.scene, entity, invalid)).toBeUndefined()
+    expect(invalid).toHaveBeenLastCalledWith(`corrupt texture frame ${ref.frame}`)
+    texture.frames.set(ref.frame, frame)
+    const cell = art.frames['walk:0']!
+    delete art.frames['walk:0']
+    expect(ensureMotionFrame(fake.scene, entity, invalid)).toBeUndefined()
+    expect(invalid).toHaveBeenLastCalledWith('missing manifest frame walk:0')
+    art.frames['walk:0'] = { ...cell, w: -1 }
+    expect(ensureMotionFrame(fake.scene, entity, invalid)).toBeUndefined()
+    expect(invalid).toHaveBeenLastCalledWith('invalid manifest frame walk:0')
+    art.frames['walk:0'] = cell
+    fake.textures.delete(ref.texture)
+    expect(ensureMotionFrame(fake.scene, entity, invalid)).toBeUndefined()
+    expect(invalid).toHaveBeenLastCalledWith(`missing texture ${ref.texture} for walk:0`)
+    expect(fake.motions()['zhangfei']).toBe(sibling)
+    expect(io.calls).toHaveLength(calls)
+    expect(rt.failureState('guanyu')).toBeUndefined()
+    expect(canRenderLegacyFrame(true, false)).toBe(false)
   })
 
   it('deferred due gating: a prefetch failure is non-fatal until due, then the retry can publish', async () => {
