@@ -6,7 +6,7 @@ import { attackById, totalFrames } from '../../src/core/attacks'
 import { imageSignature, signatureMatches } from '../../src/game/art/image-signature'
 import { motionLandmarkFailures } from '../../src/game/art/motion-quality'
 import { guanyuClips, motionFrameForEntity, validMotionPack, type MotionArt } from '../../src/game/art/motion-clips'
-import { ACTION_SOURCE_KEY, MOTION_SOURCE_KEY, motionEnabled, motionPreparedRecord, publishMotionArtRecord } from '../../src/game/adapters/motion-art'
+import { ACTION_SOURCE_KEY, COLLAPSE_TAIL_BY_KIND, MOTION_PACKS, MOTION_SOURCE_KEY, motionEnabled, motionPreparedRecord, publishMotionArtRecord } from '../../src/game/adapters/motion-art'
 import type Phaser from 'phaser'
 import prepared from '../../src/game/assets/motion/prepared.json'
 
@@ -136,6 +136,21 @@ describe('Guan Yu motion pilot technical gates (not aesthetic acceptance)', () =
     expect(publishMotionArtRecord(scene, meta, ctx)).toBeUndefined()
     expect((records as { motions: Record<string, unknown> }).motions).toEqual(siblingOnly)
   }, 40_000) // Two atlases and both corruption controls decode/scan ~11MP repeatedly.
+
+  it('every kind collapseTail exists in its pack manifest and ends its fall clip (mook regression)', () => {
+    const kinds = Object.keys(MOTION_PACKS)
+    expect(kinds).toHaveLength(11)
+    expect(Object.keys(COLLAPSE_TAIL_BY_KIND).sort()).toEqual([...kinds].sort())
+    for (const kind of kinds) {
+      const def = MOTION_PACKS[kind]!
+      const frames = def.meta().frames
+      const tail = COLLAPSE_TAIL_BY_KIND[kind]!
+      const fallKeys = def.clips().fall!.keys
+      expect(tail, `${kind} tail = fall clip's last two frames`).toEqual(fallKeys.slice(-2).map((k) => k.frame))
+      for (const frame of tail) expect(frames[frame], `${kind} collapseTail frame ${frame} in pack`).toBeDefined()
+    }
+    for (const kind of ['soldier', 'spearman', 'archer']) expect(COLLAPSE_TAIL_BY_KIND[kind]).toEqual(['fall-thrown:2', 'fall-thrown:3'])
+  })
 
   it('does NOT declare the diagnostic candidates quality-accepted', () => {
     // Two manually inspected full-resolution rigid-weapon landmarks already

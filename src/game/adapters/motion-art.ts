@@ -55,6 +55,23 @@ import xiahoudunSheetUrl from '../assets/motion/xiahoudun-motion-sheet.png'
 import xuchuPreparedJson from '../assets/motion/xuchu-prepared.json'
 import xuchuSheetUrl from '../assets/motion/xuchu-motion-sheet.png'
 
+/** Mooks share the fall-thrown sequence; their fall clips end on these frames. */
+export const MOOK_COLLAPSE_TAIL: [string, string] = ['fall-thrown:2', 'fall-thrown:3']
+/** Per-kind collapse tail published on MotionArt (each pack's own fall-clip ending). */
+export const COLLAPSE_TAIL_BY_KIND: Record<string, [string, string]> = {
+  guanyu: ['fall:5', 'fall:6'],
+  soldier: MOOK_COLLAPSE_TAIL,
+  spearman: MOOK_COLLAPSE_TAIL,
+  archer: MOOK_COLLAPSE_TAIL,
+  zhangfei: ZHANGFEI_COLLAPSE_TAIL,
+  zhaoyun: ZHAOYUN_COLLAPSE_TAIL,
+  weiyan: WEIYAN_COLLAPSE_TAIL,
+  huangzhong: HUANGZHONG_COLLAPSE_TAIL,
+  lidian: LIDIAN_COLLAPSE_TAIL,
+  xiahoudun: XIAHOUDUN_COLLAPSE_TAIL,
+  xuchu: XUCHU_COLLAPSE_TAIL,
+}
+
 export interface MotionPrepared extends MotionPackGeometry {
   signatures: { sheet: string; actions: string }
   /** Single-atlas packs (enemies) carry no separate action page. */
@@ -998,7 +1015,7 @@ export function publishMotionArtRecord(
     } catch { return reject() }
     images.push(src)
   }
-  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : meta.id === 'zhaoyun' ? motionFrameForZhaoyun : meta.id === 'weiyan' ? motionFrameForWeiyan : meta.id === 'huangzhong' ? motionFrameForHuangzhong : meta.id === 'lidian' ? motionFrameForLidian : meta.id === 'xiahoudun' ? motionFrameForXiahoudun : meta.id === 'xuchu' ? motionFrameForXuchu : undefined, ...(meta.id === 'zhangfei' ? { collapseTail: ZHANGFEI_COLLAPSE_TAIL } : {}), ...(meta.id === 'zhaoyun' ? { collapseTail: ZHAOYUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'weiyan' ? { collapseTail: WEIYAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'huangzhong' ? { collapseTail: HUANGZHONG_COLLAPSE_TAIL } : {}), ...(meta.id === 'lidian' ? { collapseTail: LIDIAN_COLLAPSE_TAIL } : {}), ...(meta.id === 'xiahoudun' ? { collapseTail: XIAHOUDUN_COLLAPSE_TAIL } : {}), ...(meta.id === 'xuchu' ? { collapseTail: XUCHU_COLLAPSE_TAIL } : {}) }
+  const art: MotionArt = { ...meta, sheet: images[0]!, actionSheet: images[1] ?? images[0]!, clips: clipTable, frameDispatch: meta.id === 'soldier' ? motionFrameForSoldier : meta.id === 'spearman' ? motionFrameForSpearman : meta.id === 'archer' ? motionFrameForArcher : meta.id === 'zhangfei' ? motionFrameForZhangfei : meta.id === 'zhaoyun' ? motionFrameForZhaoyun : meta.id === 'weiyan' ? motionFrameForWeiyan : meta.id === 'huangzhong' ? motionFrameForHuangzhong : meta.id === 'lidian' ? motionFrameForLidian : meta.id === 'xiahoudun' ? motionFrameForXiahoudun : meta.id === 'xuchu' ? motionFrameForXuchu : undefined, ...(COLLAPSE_TAIL_BY_KIND[meta.id] ? { collapseTail: COLLAPSE_TAIL_BY_KIND[meta.id] } : {}) }
   scene.registry.set(ART_RESOURCE_KEY, { ...prev, motions: { ...prev.motions, [meta.id]: art } } satisfies ArtResources)
   return art
 }
