@@ -173,16 +173,31 @@ test('a second controller drives player two', async ({ page }) => {
   await expect
     .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.char2Id), { timeout: 6_000 })
     .not.toBeNull()
+  // The join lands asynchronously (an uncached hero's pack is prepared first)
+  // and the triggering press stays buffered until a stepped tick reads it;
+  // under motion the spawn gate can also halt stepping while kinds load.
+  // Wait for a tick past the observed join before timing any movement -
+  // mirroring pressFToJoinAndSettle in coop.spec.ts.
+  const joinedTick = (await page.evaluate(() => window.__DW__?.getSnapshot().tick)) ?? 0
+  await expect
+    .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().tick ?? 0), { timeout: 5_000 })
+    .toBeGreaterThan(joinedTick)
 
-  // And pad two's stick moves player two, not player one.
+  // And pad two's stick moves player two, not player one. Poll the movement
+  // itself while holding the stick rather than assuming a fixed hold moved them.
   const before = await page.evaluate(() => window.__DW__?.getSnapshot().sim)
   await page.evaluate(() => {
     ;(window as unknown as { __PAD2__: { axes: number[] } }).__PAD2__.axes[0] = 1
   })
-  await page.waitForTimeout(700)
-  await page.evaluate(() => {
-    ;(window as unknown as { __PAD2__: { axes: number[] } }).__PAD2__.axes[0] = 0
-  })
+  try {
+    await expect
+      .poll(() => page.evaluate(() => window.__DW__?.getSnapshot().sim?.player2?.x ?? 0), { timeout: 5_000 })
+      .toBeGreaterThan(before?.player2?.x ?? 0)
+  } finally {
+    await page.evaluate(() => {
+      ;(window as unknown as { __PAD2__: { axes: number[] } }).__PAD2__.axes[0] = 0
+    })
+  }
   const after = await page.evaluate(() => window.__DW__?.getSnapshot().sim)
   expect(after?.player2?.x ?? 0).toBeGreaterThan(before?.player2?.x ?? 0)
   expect(after?.player.x).toBe(before?.player.x)
